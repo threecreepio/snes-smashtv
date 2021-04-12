@@ -11,4 +11,4 @@ And then from a bash terminal, write:
 Then in the root folder of the project, write:
 `make`
 
-And you should get an 'entry.sfc' file that will start the japanese release of Smash TV!
+And you should get an sfc file that will start the japanese release of Smash TV!
