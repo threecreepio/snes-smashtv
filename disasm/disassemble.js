@@ -98,9 +98,9 @@ const OpMode = [
 
 const OpName = [
 	"BRK", "ORA", "COP", "ORA", "TSB", "ORA", "ASL", "ORA", "PHP", "ORA", "ASL", "PHD", "TSB", "ORA", "ASL", "ORA",
-	"BPL", "ORA", "ORA", "ORA", "TRB", "ORA", "ASL", "ORA", "CLC", "ORA", "INC", "TCS", "TRB", "ORA", "ASL", "ORA",
+	"BPL", "ORA", "ORA", "ORA", "TRB", "ORA", "ASL", "ORA", "CLC", "ORA", "?INC", "TCS", "TRB", "ORA", "ASL", "ORA",
 	"JSR", "AND", "JSL", "AND", "BIT", "AND", "ROL", "AND", "PLP", "AND", "ROL", "PLD", "BIT", "AND", "ROL", "AND",
-	"BMI", "AND", "AND", "AND", "BIT", "AND", "ROL", "AND", "SEC", "AND", "DEC", "TSC", "BIT", "AND", "ROL", "AND",
+	"BMI", "AND", "AND", "AND", "BIT", "AND", "ROL", "AND", "SEC", "AND", "?DEC", "TSC", "BIT", "AND", "ROL", "AND",
 	"RTI", "EOR", "WDM", "EOR", "MVP", "EOR", "LSR", "EOR", "PHA", "EOR", "LSR", "PHK", "JMP", "EOR", "LSR", "EOR",
 	"BVC", "EOR", "EOR", "EOR", "MVN", "EOR", "LSR", "EOR", "CLI", "EOR", "PHY", "TCD", "JMP", "EOR", "LSR", "EOR",
 	"RTS", "ADC", "PER", "ADC", "STZ", "ADC", "ROR", "ADC", "PLA", "ADC", "ROR", "RTL", "JMP", "ADC", "ROR", "ADC",
@@ -130,12 +130,14 @@ let labels = fs
     })
     .reduce((ht, a) => { ht[a[0]] = a[1]; return ht; }, {});
 
-let prevOrg = 0;
+let prevOrg = 0, bi = 0;
 let currentData = null;
 for (let i=0; i<romData.byteLength;) {
     const cdl = cdlData[i];
-    const org = 0x8000 * (1 + (i >> 15));
+    const org = 0x8000 + (0x10000 * (i >> 15));
+    const bank = org & 0xFFF0000;
     if (org !== prevOrg) {
+        bi = 0;
         codes.push({ type: 'bank', bank: (0 + (i >> 15)) });
     }
     prevOrg = org;
@@ -146,11 +148,12 @@ for (let i=0; i<romData.byteLength;) {
     }
     if (!(cdl & CdlCode)) {
         if (!currentData) {
-            currentData = { type: 'data', org: org, offset: i, length: 0 };
+            currentData = { type: 'data', org: org, offset: bi, romOffset: i, length: 0 };
             codes.push(currentData);
         }
         currentData.length += 1;
         i += 1;
+        bi += 1;
         continue;
     } else if (currentData) {
         currentData = null;
@@ -169,14 +172,16 @@ for (let i=0; i<romData.byteLength;) {
 
         if (OpName[data] === 'JSL') {
             const dest = operand.readUIntLE(0, 3);
-            if (!labels[org + dest])
+            if (!labels[dest]) {
                 labels[dest] = ('L_' + (dest).toString(16)).toUpperCase();
+            }
         }
 
         if (OpName[data] === 'JSR') {
             const dest = operand.readUIntLE(0, 2);
-            if (!labels[org + dest])
-                labels[dest] = ('L_' + (dest).toString(16)).toUpperCase();
+            if (!labels[bank + dest]) {
+                labels[bank + dest] = ('L_' + (bank + dest).toString(16)).toUpperCase();
+            }
         }
 
         if (
@@ -187,25 +192,31 @@ for (let i=0; i<romData.byteLength;) {
             addrMode == AddrMode.Abs
         ) {
             const dest = operand.readUIntLE(0, operand.byteLength);
-            if (!labels[dest] && dest > 0x8000 && dest < 0x100000)
-                labels[dest] = ('D_' + (dest).toString(16)).toUpperCase();
+            if (operand.byteLength === 3) {
+                if (!labels[dest] && dest >= 0x8000)
+                    labels[dest] = ('D_' + (dest).toString(16)).toUpperCase();
+            } else {
+                if (!labels[bank + dest] && dest > 0x8000)
+                    labels[bank + dest] = ('D_' + (bank + dest).toString(16)).toUpperCase();
+            }
         }
 
         if ((addrMode == AddrMode.Rel)) {
-            const dest = (2 + i + operand.readInt8(0));
+            const dest = (2 + bi + operand.readInt8(0));
             if (!labels[org + dest])
                 labels[org + dest] = ('B_' + (org + dest).toString(16)).toUpperCase();
         }
 
         if ((addrMode == AddrMode.RelLng)) {
-            const dest = (2 + i + operand.readInt16LE(0));
+            const dest = (2 + bi + operand.readInt16LE(0));
             if (!labels[org + dest])
                 labels[org + dest] = ('B_' + (org + dest).toString(16)).toUpperCase();
         }
 
         codes.push({
             type: 'op',
-            offset: i,
+            offset: bi,
+            romOffset: i,
             org: org,
             id: romData[i],
             operand: romData.slice(i + 1, i + opSize),
@@ -214,67 +225,82 @@ for (let i=0; i<romData.byteLength;) {
             memoryMode: RequiredMemoryMode(addrMode, memoryMode8),
         });
         i += opSize;
+        bi += opSize;
         continue;
     }
 
     throw new Error("unhandled cdl data: ", cdl.toString(16));
 }
 
-const PrintOp = (opCode, operand, offset, org) => {
+const PrintOp = (opCode, operand, offset, bank) => {
 	const addrMode = OpMode[opCode];
-    const out = OpName[opCode];
-    
-    const operandHexValue = '$' + (
+    let op = OpName[opCode];
+
+    switch (operand.byteLength) {
+        case 1: op = op + '.B'; break;
+        case 2: if (op !== 'MVN') op = op + '.W'; break;
+        case 3: if (op !== 'JSL') op = op + '.L'; break;
+    }
+
+    let operandHexValue = '$' + (
         (operand.toString('hex')
         .padStart(operand.byteLength * 2, '0')
         .match(/../g) || []
     ).reverse().join('').toUpperCase());
         
     let operandValue = operandHexValue;
-    const foundLabel = operand.byteLength ? labels[operand.readUIntLE(0, operand.byteLength)] : null;
+    let value = operand.byteLength ? operand.readUIntLE(0, operand.byteLength) : 0;
+    let foundLabel = null;
+    // FAR address found
+    if (operand.byteLength === 3) {
+        foundLabel = labels[operand.readUIntLE(0, operand.byteLength)];
+    } else if (operand.byteLength && value >= 0x8000) {
+        // absolute address
+        foundLabel = labels[bank + operand.readUIntLE(0, operand.byteLength)];
+    }
+    else foundLabel = labels[value];
     if (foundLabel) operandValue = foundLabel;
-    
+
     switch (addrMode) {
-		case AddrMode.Abs: return `${out} ${operandValue}`;
-		case AddrMode.AbsJmp: return `${out} ${operandValue}`;
-		case AddrMode.AbsIdxXInd: return `${out} (${operandValue},X)`;
-		case AddrMode.AbsIdxX: return `${out} ${operandValue},X`;
-		case AddrMode.AbsIdxY: return `${out} ${operandValue},Y`;
-		case AddrMode.AbsInd:  return `${out} (${operandValue})`;
-		case AddrMode.AbsIndLng:  return `${out} [${operandValue}]`;
-		case AddrMode.AbsLngIdxX: return `${out} f:${operandValue},X`;
-		case AddrMode.AbsLng: return `${out} f:${operandValue}`;
-		case AddrMode.AbsLngJmp: return `${out} ${operandValue}`;
-		case AddrMode.Acc: return out;
-		case AddrMode.BlkMov: return `${out} $${operand.slice(0,1).toString('hex')},$${operand.slice(1,2).toString('hex')}`;
-		case AddrMode.DirIdxIndX: return `${out} (${operandValue},X)`;
-		case AddrMode.DirIdxX: return `${out} ${operandValue},X`;
-		case AddrMode.DirIdxY: return `${out} ${operandValue},Y`;
-		case AddrMode.DirIndIdxY: return `${out} (${operandValue}),Y`;
-		case AddrMode.DirIndLngIdxY: return `${out} [${operandValue}],Y`;
-		case AddrMode.DirIndLng: return `${out} [${operandValue}]`;
-		case AddrMode.DirInd: return `${out} (${operandValue})`;
-		case AddrMode.Dir: return `${out} ${operandValue}`; break;
+		case AddrMode.Abs: return `${op} ${operandValue}`;
+		case AddrMode.AbsJmp: return `${op} ${operandValue}`;
+		case AddrMode.AbsIdxXInd: return `${op} (${operandValue},X)`;
+		case AddrMode.AbsIdxX: return `${op} ${operandValue},X`;
+		case AddrMode.AbsIdxY: return `${op} ${operandValue},Y`;
+		case AddrMode.AbsInd:  return `${op} (${operandValue})`;
+		case AddrMode.AbsIndLng:  return `${op} [${operandValue}]`;
+		case AddrMode.AbsLngIdxX: return `${op} ${operandValue},X`;
+		case AddrMode.AbsLng: return `${op} ${operandValue}`;
+		case AddrMode.AbsLngJmp: return `${op} ${operandValue}`;
+		case AddrMode.Acc: return op;
+		case AddrMode.BlkMov: return `${op} $${operand.slice(0,1).toString('hex')},$${operand.slice(1,2).toString('hex')}`;
+		case AddrMode.DirIdxIndX: return `${op} (${operandValue},X)`;
+		case AddrMode.DirIdxX: return `${op} ${operandValue},X`;
+		case AddrMode.DirIdxY: return `${op} ${operandValue},Y`;
+		case AddrMode.DirIndIdxY: return `${op} (${operandValue}),Y`;
+		case AddrMode.DirIndLngIdxY: return `${op} [${operandValue}],Y`;
+		case AddrMode.DirIndLng: return `${op} [${operandValue}]`;
+		case AddrMode.DirInd: return `${op} (${operandValue})`;
+		case AddrMode.Dir: return `${op} ${operandValue}`; break;
 
         case AddrMode.ImmM:
         case AddrMode.ImmX:
-            return `${out} #${operandHexValue}`;
+            return `${op} #${operandHexValue}`;
     
 		case AddrMode.Imm8:
         case AddrMode.Imm16:
-            return `${out} #${operandHexValue}`;
+            return `${op} #${operandHexValue}`;
         
-		case AddrMode.Sig8: return `${out} #${operandHexValue}`;
-		case AddrMode.Imp: return out;
-		case AddrMode.Stk: return out;
-		case AddrMode.StkRel: return `${out} ${operandValue},X`;
-		case AddrMode.StkRelIndIdxY: return `${out} (${operandValue},S),Y`;
+		case AddrMode.Sig8: return `${op} #${operandHexValue}`;
+		case AddrMode.Imp: return op;
+		case AddrMode.Stk: return op;
+		case AddrMode.StkRel: return `${op} ${operandValue},X`;
+		case AddrMode.StkRelIndIdxY: return `${op} (${operandValue},S),Y`;
 
         case AddrMode.RelLng:
-            return `${out} ${operandValue}`;
-
 		case AddrMode.Rel:
-            return `${out} ${labels[org + operand.readInt8(0) + offset + 2] || ('#' + operandHexValue)}`;
+            const dest = 0x8000 + bank + operand.readIntLE(0, operand.byteLength) + offset + 2;
+            return `${op} ${labels[dest] || 'LABEL_MISSING'}`;
 		
 		default: throw new Error("invalid address mode");
     }
@@ -282,10 +308,24 @@ const PrintOp = (opCode, operand, offset, org) => {
 
 const binaryData = data => `.byte ${data.map(c => '$' + c.toString(16).padStart(2, '0').toUpperCase()).join(',')}`
 
+const printByteData = (bfr, loc, comment) => {
+    const str = bfr
+        .map(b => String.fromCharCode(b))
+        .join('')
+        .replace(/[^\x20-\x7E]/ig, '?');
+
+    return (
+        binaryData(bfr).padEnd(50) + '; ' +
+        loc.toString(16).padStart(6, '0').toUpperCase() + ' ' +
+        (comment ? comment + ' ' : '') + str
+    );
+}
+
 let output = [];
 const banks = [];
 let im = 16, mm = 16;
 for (let code of codes) {
+    const bank = code.org & 0xFFF0000;
     switch (code.type) {
         case 'bank':
             output = [];
@@ -295,26 +335,25 @@ for (let code of codes) {
 
         case 'op':
             if (labels[code.org + code.offset]) {
-                if (labels[code.org + code.offset][0] === 'L') output.push('');
+                if (labels[code.org + code.offset][0] === 'L') {
+                    output.push('');
+                }
                 placedLabels[code.org + code.offset] = true;
                 output.push(labels[code.org + code.offset] + ':');
             }
+            // WLA-DX has issues with some opcodes, so we're just writing them out as bytes..
             if (/^\?/.test(OpName[code.id])) {
-                output.push('.byte $' + code.id.toString(16).padStart(2, '0').toUpperCase());
+                output.push(printByteData(
+                    Array.from(romData.slice(code.romOffset, code.romOffset + code.operand.byteLength + 1)),
+                    code.org + code.offset,
+                    '(unrecognized opcode ' + OpName[code.id] + ')'
+                ));
             } else {
-                if (code.indexMode && code.indexMode !== im) {
-                    output.push('.i' + code.indexMode);
-                    im = code.indexMode;
-                }
-                if (code.memoryMode && code.memoryMode !== mm) {
-                    output.push('.a' + code.memoryMode);
-                    mm = code.memoryMode;
-                }
-                const op = PrintOp(code.id, code.operand, code.offset, code.org);
+                const op = PrintOp(code.id, code.operand, code.offset, bank);
                     output.push('  ' +
                         op.padEnd(48, ' ') + '; ' +
                         (code.org + code.offset).toString(16).padStart(6, '0').toUpperCase() + ' ' +
-                        Array.from(romData.slice(code.offset, code.offset + code.operand.byteLength + 1)).map(x => x.toString(16).padStart(2, '0').toUpperCase()).join(' ') + ' '
+                        Array.from(romData.slice(code.romOffset, code.romOffset + code.operand.byteLength + 1)).map(x => x.toString(16).padStart(2, '0').toUpperCase()).join(' ') + ' '
                 );
             }
             if (OpName[code.id] == 'RTS') output.push('');
@@ -323,38 +362,29 @@ for (let code of codes) {
         case 'data':
             output.push('');
             let bfr = [];
+            let mapped = [];
             let i = 0;
-
-            const report = (bfr, loc) => {
-                const str = bfr
-                    .map(b => String.fromCharCode(b))
-                    .join('')
-                    .replace(/[^\x20-\x7E]/ig, '?');
-
-                return (
-                    binaryData(bfr).padEnd(50) + '; ' +
-                    loc.toString(16).padStart(6, '0').toUpperCase() + ' ' +
-                    str
-                );
-            }
 
             for (i=0; i<code.length; ++i) {
                 if (labels[code.org + code.offset + i]) {
                     if (bfr.length) {
-                        output.push(report(bfr, (i - bfr.length + 1) + code.org + code.offset));
+                        output.push(printByteData(bfr, (i - bfr.length + 1) + code.org + code.offset, mapped.join('').padEnd(8)));
                         bfr = [];
+                        mapped = [];
                     }
                     placedLabels[code.org + code.offset + i] = true;
                     output.push(labels[code.org + code.offset + i] + ':');
                 }
-                bfr.push(romData.readUInt8(code.offset + i));
+                bfr.push(romData.readUInt8(code.romOffset + i));
+                mapped.push(cdlData[code.romOffset + i] & CdlData ? "D" : ".");
                 if (bfr.length >= 8) {
-                    output.push(report(bfr, (i - bfr.length + 1) + code.org + code.offset));
+                    output.push(printByteData(bfr, (i - bfr.length + 1) + code.org + code.offset, mapped.join('').padEnd(8)));
                     bfr = [];
+                    mapped = [];
                 }
             }
             if (bfr.length) {
-                output.push(report(bfr, (i - bfr.length + 1) + code.org + code.offset));
+                output.push(printByteData(bfr, (i - bfr.length + 1) + code.org + code.offset, mapped.join('').padEnd(8)));
             }
             output.push('');
             break;
@@ -362,7 +392,7 @@ for (let code of codes) {
 }
 
 // print results
-const entry = ['.include "../ca65.inc"'];
+const entry = ['.include "../wla.inc"'];
 const extraLabels = [];
 for (const label of Object.keys(labels)) {
     if (placedLabels[label]) continue;
@@ -378,10 +408,9 @@ for (let i=0; i<banks.length; ++i) {
     entry.push('.include "' + name + '"');
     entry.push('');
     banks[i].unshift(...[
-        '.SETCPU "65816"',
-        '.i16',
-        '.a16',
-        '.ORG $' + (0x8000 + (i * 0x10000)).toString(16).padStart(6, '0').toUpperCase()
+        `.BANK ${i}`,
+        `.ORG 0`,
+        ''
     ]);
     fs.writeFileSync(__dirname + '/source/' + name, banks[i].join('\n'));
 }

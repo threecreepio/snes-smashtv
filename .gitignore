@@ -1,4 +1,4 @@
-/*.o
-/*.o.dep
+*.o
+*.o.dep
 /*.dbg
 /*.sfc

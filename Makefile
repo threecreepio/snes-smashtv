@@ -1,14 +1,11 @@
-AS = ca65
-LD = ld65
-IPS = flips
-
 %.o: source/%.s
-	$(AS) -g --create-dep "$@.dep" --debug-info $< -o $@
+	(cd source && ../bin/wla-65816 -o $@ ../$<)
+	(cd source && ../bin/wla-65816 -M ../$< > $@.dep)
 
-main.sfc: layout entry.o
-	$(LD) --dbgfile $@.dbg -C $^ -o $@
+main.sfc: wla.link entry.o
+	./bin/wlalink wla.link $@
 
 integritycheck: main.sfc
 	radiff2 -x main.sfc "original.sfc" | head -n 100
 
-include $(wildcard *.dep)
+include $(wildcard *.dep source/*.dep)

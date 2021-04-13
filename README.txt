@@ -1,12 +1,12 @@
 Smash TV
 ========
 
-To build a new rom, you'll need to have CC65 installed.
-On linux you should be able to get that from a package manager, on windows you'll want to install Windows Subsystem for Linux:
-https://docs.microsoft.com/en-us/windows/wsl/install-win10
+Using WLA-DX for now.
 
-And then from a bash terminal, write:
-`sudo apt install cc65 make`
+Make sure you're running in a sh prompt, with make installed..
+
+If you're on windows, install WSL (https://docs.microsoft.com/en-us/windows/wsl/install-win10) and from a bash prompt write:
+`sudo apt install make`
 
 Then in the root folder of the project, write:
 `make`
