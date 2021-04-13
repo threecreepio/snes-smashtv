@@ -130,12 +130,14 @@ let labels = fs
     })
     .reduce((ht, a) => { ht[a[0]] = a[1]; return ht; }, {});
 
-let prevOrg = 0;
+let prevOrg = 0, bi = 0;
 let currentData = null;
 for (let i=0; i<romData.byteLength;) {
     const cdl = cdlData[i];
-    const org = 0x8000 * (1 + (i >> 15));
+    const org = 0x8000 + (0x10000 * (i >> 15));
+    const bank = org & 0xFFF0000;
     if (org !== prevOrg) {
+        bi = 0;
         codes.push({ type: 'bank', bank: (0 + (i >> 15)) });
     }
     prevOrg = org;
@@ -146,11 +148,12 @@ for (let i=0; i<romData.byteLength;) {
     }
     if (!(cdl & CdlCode)) {
         if (!currentData) {
-            currentData = { type: 'data', org: org, offset: i, length: 0 };
+            currentData = { type: 'data', org: org, offset: bi, romOffset: i, length: 0 };
             codes.push(currentData);
         }
         currentData.length += 1;
         i += 1;
+        bi += 1;
         continue;
     } else if (currentData) {
         currentData = null;
@@ -169,14 +172,16 @@ for (let i=0; i<romData.byteLength;) {
 
         if (OpName[data] === 'JSL') {
             const dest = operand.readUIntLE(0, 3);
-            if (!labels[org + dest])
+            if (!labels[dest]) {
                 labels[dest] = ('L_' + (dest).toString(16)).toUpperCase();
+            }
         }
 
         if (OpName[data] === 'JSR') {
             const dest = operand.readUIntLE(0, 2);
-            if (!labels[org + dest])
-                labels[dest] = ('L_' + (dest).toString(16)).toUpperCase();
+            if (!labels[bank + dest]) {
+                labels[bank + dest] = ('L_' + (bank + dest).toString(16)).toUpperCase();
+            }
         }
 
         if (
@@ -187,25 +192,31 @@ for (let i=0; i<romData.byteLength;) {
             addrMode == AddrMode.Abs
         ) {
             const dest = operand.readUIntLE(0, operand.byteLength);
-            if (!labels[dest] && dest > 0x8000 && dest < 0x100000)
-                labels[dest] = ('D_' + (dest).toString(16)).toUpperCase();
+            if (operand.byteLength === 3) {
+                if (!labels[dest] && dest >= 0x8000)
+                    labels[dest] = ('D_' + (dest).toString(16)).toUpperCase();
+            } else {
+                if (!labels[bank + dest] && dest > 0x8000)
+                    labels[bank + dest] = ('D_' + (bank + dest).toString(16)).toUpperCase();
+            }
         }
 
         if ((addrMode == AddrMode.Rel)) {
-            const dest = (2 + i + operand.readInt8(0));
+            const dest = (2 + bi + operand.readInt8(0));
             if (!labels[org + dest])
                 labels[org + dest] = ('B_' + (org + dest).toString(16)).toUpperCase();
         }
 
         if ((addrMode == AddrMode.RelLng)) {
-            const dest = (2 + i + operand.readInt16LE(0));
+            const dest = (2 + bi + operand.readInt16LE(0));
             if (!labels[org + dest])
                 labels[org + dest] = ('B_' + (org + dest).toString(16)).toUpperCase();
         }
 
         codes.push({
             type: 'op',
-            offset: i,
+            offset: bi,
+            romOffset: i,
             org: org,
             id: romData[i],
             operand: romData.slice(i + 1, i + opSize),
@@ -214,13 +225,14 @@ for (let i=0; i<romData.byteLength;) {
             memoryMode: RequiredMemoryMode(addrMode, memoryMode8),
         });
         i += opSize;
+        bi += opSize;
         continue;
     }
 
     throw new Error("unhandled cdl data: ", cdl.toString(16));
 }
 
-const PrintOp = (opCode, operand, offset, org) => {
+const PrintOp = (opCode, operand, offset, bank) => {
 	const addrMode = OpMode[opCode];
     const out = OpName[opCode];
     
@@ -231,7 +243,11 @@ const PrintOp = (opCode, operand, offset, org) => {
     ).reverse().join('').toUpperCase());
         
     let operandValue = operandHexValue;
-    const foundLabel = operand.byteLength ? labels[operand.readUIntLE(0, operand.byteLength)] : null;
+    let value = operand.byteLength ? operand.readUIntLE(0, operand.byteLength) : 0;
+    let foundLabel = null;
+    if (operand.byteLength === 3) foundLabel = labels[operand.readUIntLE(0, operand.byteLength)];
+    else if (operand.byteLength && value >= 0x8000) foundLabel = labels[bank + operand.readUIntLE(0, operand.byteLength)];
+    else foundLabel = labels[value];
     if (foundLabel) operandValue = foundLabel;
     
     switch (addrMode) {
@@ -271,10 +287,9 @@ const PrintOp = (opCode, operand, offset, org) => {
 		case AddrMode.StkRelIndIdxY: return `${out} (${operandValue},S),Y`;
 
         case AddrMode.RelLng:
-            return `${out} ${operandValue}`;
-
 		case AddrMode.Rel:
-            return `${out} ${labels[org + operand.readInt8(0) + offset + 2] || ('#' + operandHexValue)}`;
+            const dest = 0x8000 + bank + operand.readIntLE(0, operand.byteLength) + offset + 2;
+            return `${out} ${labels[dest] || 'FAIL'}`;
 		
 		default: throw new Error("invalid address mode");
     }
@@ -286,6 +301,7 @@ let output = [];
 const banks = [];
 let im = 16, mm = 16;
 for (let code of codes) {
+    const bank = code.org & 0xFFF0000;
     switch (code.type) {
         case 'bank':
             output = [];
@@ -295,7 +311,9 @@ for (let code of codes) {
 
         case 'op':
             if (labels[code.org + code.offset]) {
-                if (labels[code.org + code.offset][0] === 'L') output.push('');
+                if (labels[code.org + code.offset][0] === 'L') {
+                    output.push('');
+                }
                 placedLabels[code.org + code.offset] = true;
                 output.push(labels[code.org + code.offset] + ':');
             }
@@ -310,11 +328,11 @@ for (let code of codes) {
                     output.push('.a' + code.memoryMode);
                     mm = code.memoryMode;
                 }
-                const op = PrintOp(code.id, code.operand, code.offset, code.org);
+                const op = PrintOp(code.id, code.operand, code.offset, bank);
                     output.push('  ' +
                         op.padEnd(48, ' ') + '; ' +
                         (code.org + code.offset).toString(16).padStart(6, '0').toUpperCase() + ' ' +
-                        Array.from(romData.slice(code.offset, code.offset + code.operand.byteLength + 1)).map(x => x.toString(16).padStart(2, '0').toUpperCase()).join(' ') + ' '
+                        Array.from(romData.slice(code.romOffset, code.romOffset + code.operand.byteLength + 1)).map(x => x.toString(16).padStart(2, '0').toUpperCase()).join(' ') + ' '
                 );
             }
             if (OpName[code.id] == 'RTS') output.push('');
@@ -347,7 +365,7 @@ for (let code of codes) {
                     placedLabels[code.org + code.offset + i] = true;
                     output.push(labels[code.org + code.offset + i] + ':');
                 }
-                bfr.push(romData.readUInt8(code.offset + i));
+                bfr.push(romData.readUInt8(code.romOffset + i));
                 if (bfr.length >= 8) {
                     output.push(report(bfr, (i - bfr.length + 1) + code.org + code.offset));
                     bfr = [];

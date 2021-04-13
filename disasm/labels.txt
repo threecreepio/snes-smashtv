@@ -1,5 +1,9 @@
 ; Smash
 
+CF      FrameCounter
+
+
+
 27      XexzyItemLocationMaybe
 43      XexzyDropIndicator
 28      XexzyItemXPickupMaybe
