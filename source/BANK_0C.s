@@ -1,7 +1,5 @@
-.SETCPU "65816"
-.i16
-.a16
-.ORG $0C8000
+.BANK 12
+
 
 .byte $80,$21,$8E,$08,$00,$00,$00,$FF             ; 0C8000 ?!??????
 .byte $FF,$00,$38,$00,$38,$C7,$38,$C7             ; 0C8008 ??8?8?8?
@@ -3984,10 +3982,10 @@ L_CFB81:
   STZ $069B                                       ; 0CFBA1 9C 9B 06 
   INC $069C                                       ; 0CFBA4 EE 9C 06 
   LDA $069C                                       ; 0CFBA7 AD 9C 06 
-  DEC                                             ; 0CFBAA 3A 
+.byte $3A
   ASL                                             ; 0CFBAB 0A 
   TAX                                             ; 0CFBAC AA 
-  JSR (L_FBD2,X)                                  ; 0CFBAD FC D2 FB 
+  JSR ((L_CFBD2 & $FFFF),X)                       ; 0CFBAD FC D2 FB 
 B_CFBB0:
   PLX                                             ; 0CFBB0 FA 
   RTL                                             ; 0CFBB1 6B 
@@ -3998,18 +3996,18 @@ D_CFBB3:
 .byte $01,$90,$01,$90,$01,$90,$01,$90             ; 0CFBB3 ????????
 .byte $01,$50,$01,$00,$02,$FF,$FF,$00             ; 0CFBBB ?P??????
 .byte $02,$20,$02,$20,$02,$20,$02,$20             ; 0CFBC3 ? ? ? ? 
-.byte $02,$A0,$01,$80,$02,$FF,$FF,$DE             ; 0CFBCB ????????
-.byte $FB,$E2,$FB,$E6,$FB,$15,$FC,$5A             ; 0CFBD3 ???????Z
-.byte $FC,$89,$FC                                 ; 0CFBDC ???
+.byte $02,$A0,$01,$80,$02,$FF,$FF                 ; 0CFBCC ???????
+L_CFBD2:
+.byte $DE,$FB,$E2,$FB,$E6,$FB,$15,$FC             ; 0CFBD2 ????????
+.byte $5A,$FC,$89,$FC                             ; 0CFBDB Z???
 
-  JSR L_FCDA                                      ; 0CFBDE 20 DA FC 
+  JSR (L_CFCDA & $FFFF)                           ; 0CFBDE 20 DA FC 
   RTS                                             ; 0CFBE1 60 
 
-  JSR L_FCDA                                      ; 0CFBE2 20 DA FC 
+  JSR (L_CFCDA & $FFFF)                           ; 0CFBE2 20 DA FC 
   RTS                                             ; 0CFBE5 60 
 
   LDX $068B                                       ; 0CFBE6 AE 8B 06 
-.a8
   LDA #$7C                                        ; 0CFBE9 A9 7C 
   STA $0744,X                                     ; 0CFBEB 9D 44 07 
   LDA #$8C                                        ; 0CFBEE A9 8C 
@@ -4024,7 +4022,7 @@ D_CFBB3:
   LDX $068D                                       ; 0CFC08 AE 8D 06 
   LDA #$20                                        ; 0CFC0B A9 20 
   JSL f:L_3823C                                   ; 0CFC0D 22 3C 82 03 
-  JSR L_FCDA                                      ; 0CFC11 20 DA FC 
+  JSR (L_CFCDA & $FFFF)                           ; 0CFC11 20 DA FC 
   RTS                                             ; 0CFC14 60 
 
   LDX $068B                                       ; 0CFC15 AE 8B 06 
@@ -4056,7 +4054,7 @@ B_CFC4A:
 B_CFC4F:
   LDY $14A0,X                                     ; 0CFC4F BC A0 14 
   JSL f:L_AEF1                                    ; 0CFC52 22 F1 AE 00 
-  JSR L_FCDA                                      ; 0CFC56 20 DA FC 
+  JSR (L_CFCDA & $FFFF)                           ; 0CFC56 20 DA FC 
   RTS                                             ; 0CFC59 60 
 
 
@@ -4077,8 +4075,9 @@ B_CFC4F:
 .byte $03,$BC,$A0,$14,$22,$F1,$AE,$00             ; 0CFCCA ????"???
 .byte $20,$FF,$FC,$22,$3E,$FD,$0C,$60             ; 0CFCD2  ??">??`
 
+
+L_CFCDA:
   PHX                                             ; 0CFCDA DA 
-.i8
   LDX #$01                                        ; 0CFCDB A2 01 
 B_CFCDD:
   LDA $18A3,X                                     ; 0CFCDD BD A3 18 
@@ -4116,7 +4115,6 @@ L_CFD26:
   BCS B_CFD3D                                     ; 0CFD2C B0 0F 
   PHX                                             ; 0CFD2E DA 
   REP #$10                                        ; 0CFD2F C2 10 
-.i16
   LDX #$FF2B                                      ; 0CFD31 A2 2B FF 
   LDA #$07                                        ; 0CFD34 A9 07 
   JSL f:L_F830F                                   ; 0CFD36 22 0F 83 0F 
@@ -4182,7 +4180,6 @@ B_CFE03:
   LDA $0696                                       ; 0CFE03 AD 96 06 
   BNE B_CFE24                                     ; 0CFE06 D0 1C 
   PHX                                             ; 0CFE08 DA 
-.i8
   LDX #$01                                        ; 0CFE09 A2 01 
 B_CFE0B:
   LDA #$01                                        ; 0CFE0B A9 01 

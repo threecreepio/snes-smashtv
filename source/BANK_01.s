@@ -1,7 +1,5 @@
-.SETCPU "65816"
-.i16
-.a16
-.ORG $018000
+.BANK 1
+
 
 L_18000:
   JSL f:L_18110                                   ; 018000 22 10 81 01 
@@ -17,6 +15,7 @@ L_18000:
   ADC $1AEB                                       ; 018016 6D EB 1A 
   STA $1AEB                                       ; 018019 8D EB 1A 
   SEP #$20                                        ; 01801C E2 20 
+D_1801E:
   LDA $1AEE                                       ; 01801E AD EE 1A 
   BEQ B_18033                                     ; 018021 F0 10 
   REP #$20                                        ; 018023 C2 20 
@@ -24,7 +23,7 @@ L_18000:
   LSR $1AEB                                       ; 018028 4E EB 1A 
   LSR $1AED                                       ; 01802B 4E ED 1A 
   SEP #$20                                        ; 01802E E2 20 
-  JMP D_801E                                      ; 018030 4C 1E 80 
+  JMP (D_1801E & $FFFF)                           ; 018030 4C 1E 80 
 B_18033:
   STZ WRDIVL                                      ; 018033 9C 04 42 
   LDA $1AE9                                       ; 018036 AD E9 1A 
@@ -78,7 +77,6 @@ B_1808B:
   LDA $1AEF                                       ; 01808B AD EF 1A 
   BEQ B_180A1                                     ; 01808E F0 11 
   SEC                                             ; 018090 38 
-.a8
   LDA #$00                                        ; 018091 A9 00 
   SBC $1AE5                                       ; 018093 ED E5 1A 
   STA $1AE5                                       ; 018096 8D E5 1A 

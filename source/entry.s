@@ -1,4 +1,4 @@
-.include "../ca65.inc"
+.include "../wla.inc"
 .include "inc.s"
 
 .include "BANK_00.s"

@@ -1,0 +1,24 @@
+.ROMBANKSIZE $8000
+.ROMBANKS 8
+
+.MEMORYMAP
+  SLOTSIZE $8000
+  DEFAULTSLOT 0
+  SLOT 0 $8000
+.ENDME
+
+.BANK 0 SLOT 0
+.ORG 0
+.byte $FF
+
+Test:
+    JMP (Test & $ffff)
+
+.BANK 1 SLOT 0
+.ORG 0
+.byte $FF
+JML Test
+
+Test2:
+    JML Test2
+.byte $FF

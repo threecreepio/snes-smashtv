@@ -1,7 +1,5 @@
-.SETCPU "65816"
-.i16
-.a16
-.ORG $008000
+.BANK 0
+
   SEI                                             ; 008000 78 
   STZ NMITIMEN                                    ; 008001 9C 00 42 
   STZ HDMAEN                                      ; 008004 9C 0C 42 
@@ -13,15 +11,13 @@
   CLC                                             ; 008016 18 
   XCE                                             ; 008017 FB 
   CLD                                             ; 008018 D8 
-.a8
   LDA #$00                                        ; 008019 A9 00 
   PHA                                             ; 00801B 48 
   PLB                                             ; 00801C AB 
   REP #$30                                        ; 00801D C2 30 
-.a16
-  LDA #$0080                                      ; 00801F A9 80 00 
+  LDA.W #$0080                                    ; 00801F A9 80 00 
   STA INIDISP                                     ; 008022 8D 00 21 
-  LDA #$0000                                      ; 008025 A9 00 00 
+  LDA.W #$0000                                    ; 008025 A9 00 00 
   TCD                                             ; 008028 5B 
   LDA #$01FF                                      ; 008029 A9 FF 01 
   TCS                                             ; 00802C 1B 
@@ -29,14 +25,13 @@
   SEP #$30                                        ; 008030 E2 30 
   STZ $02CB                                       ; 008032 9C CB 02 
   STZ $052C                                       ; 008035 9C 2C 05 
-  JSR L_8232                                      ; 008038 20 32 82 
+  JSR (L_8232 & $FFFF)                            ; 008038 20 32 82 
   JSL f:L_EDAFF                                   ; 00803B 22 FF DA 0E 
   LDA $020A                                       ; 00803F AD 0A 02 
   BNE B_806B                                      ; 008042 D0 27 
   STZ $020E                                       ; 008044 9C 0E 02 
   STZ $020F                                       ; 008047 9C 0F 02 
   STZ $052F                                       ; 00804A 9C 2F 05 
-.a8
   LDA #$02                                        ; 00804D A9 02 
   STA $0206                                       ; 00804F 8D 06 02 
   STZ $0207                                       ; 008052 9C 07 02 
@@ -54,16 +49,14 @@ B_806B:
 B_8074:
   REP #$30                                        ; 008074 C2 30 
   JSL f:L_F835A                                   ; 008076 22 5A 83 0F 
-.a16
-  LDA #$0000                                      ; 00807A A9 00 00 
+  LDA.W #$0000                                    ; 00807A A9 00 00 
   JSL f:L_F836D                                   ; 00807D 22 6D 83 0F 
 D_8081:
   SEP #$20                                        ; 008081 E2 20 
   STZ $02CB                                       ; 008083 9C CB 02 
   STZ $052C                                       ; 008086 9C 2C 05 
-.a8
   LDA #$08                                        ; 008089 A9 08 
-  LDX #$0000                                      ; 00808B A2 00 00 
+  LDX.W #$0000                                    ; 00808B A2 00 00 
   JSL f:L_F830F                                   ; 00808E 22 0F 83 0F 
   LDA #$03                                        ; 008092 A9 03 
   LDX #$0606                                      ; 008094 A2 06 06 
@@ -72,8 +65,6 @@ D_8081:
   LDX #$7070                                      ; 00809D A2 70 70 
   JSL f:L_F830F                                   ; 0080A0 22 0F 83 0F 
   LDA #$0D                                        ; 0080A4 A9 0D 
-
-L_80A6:
   LDX #$1212                                      ; 0080A6 A2 12 12 
   JSL f:L_F830F                                   ; 0080A9 22 0F 83 0F 
   JSL f:L_ECA6A                                   ; 0080AD 22 6A CA 0E 
@@ -84,7 +75,7 @@ L_80A6:
 .byte $22,$C3,$F2,$0E                             ; 0080B9 "???
 
 B_80BC:
-  PEA $0000                                       ; 0080BC F4 00 00 
+  PEA.W $0000                                     ; 0080BC F4 00 00 
   PLB                                             ; 0080BF AB 
   PLB                                             ; 0080C0 AB 
   JSL f:L_ECBAF                                   ; 0080C1 22 AF CB 0E 
@@ -101,7 +92,7 @@ B_80BC:
   JSL f:L_F830F                                   ; 0080E0 22 0F 83 0F 
   SEP #$10                                        ; 0080E4 E2 10 
 D_80E6:
-  PEA $0000                                       ; 0080E6 F4 00 00 
+  PEA.W $0000                                     ; 0080E6 F4 00 00 
   PLB                                             ; 0080E9 AB 
   PLB                                             ; 0080EA AB 
   SEP #$30                                        ; 0080EB E2 30 
@@ -129,7 +120,6 @@ D_8135:
   STZ $05AC                                       ; 008138 9C AC 05 
   JSL f:L_E454                                    ; 00813B 22 54 E4 00 
   SEP #$20                                        ; 00813F E2 20 
-D_8141:
   STZ $02CB                                       ; 008141 9C CB 02 
   STZ $052C                                       ; 008144 9C 2C 05 
   JSL f:L_ED730                                   ; 008147 22 30 D7 0E 
@@ -140,37 +130,34 @@ D_8141:
 .byte $4C                                         ; 008159 L
 
 B_8159:
-  PEA $0000                                       ; 008159 F4 00 00 
+  PEA.W $0000                                     ; 008159 F4 00 00 
   PLB                                             ; 00815C AB 
   PLB                                             ; 00815D AB 
   SEP #$30                                        ; 00815E E2 30 
-  JSR L_81D0                                      ; 008160 20 D0 81 
+  JSR (L_81D0 & $FFFF)                            ; 008160 20 D0 81 
   LDX $05AB                                       ; 008163 AE AB 05 
   STX $05AB                                       ; 008166 8E AB 05 
-.a16
   LDA f:D_81CD,X                                  ; 008169 BF CD 81 00 
   JSL f:L_F84EC                                   ; 00816D 22 EC 84 0F 
-  JSR L_84D7                                      ; 008171 20 D7 84 
+  JSR (L_84D7 & $FFFF)                            ; 008171 20 D7 84 
   LDA $05AB                                       ; 008174 AD AB 05 
   BMI B_81C2                                      ; 008177 30 49 
 
 .byte $9C,$AC,$05,$22,$14,$DE,$0E,$AD             ; 008179 ???"????
 .byte $08,$02,$D0,$18,$22,$7F,$DA,$0E             ; 008181 ????"???
 .byte $22,$E6,$E3,$0E,$22,$57,$E2,$0E             ; 008189 "???"W??
-.byte $A9,$02,$8D,$08                             ; 008192 ????
-L_8195:
-.byte $02,$22,$F3,$DA,$0E,$4C,$E6,$80             ; 008195 ?"???L??
-.byte $AE,$AB,$05,$E8,$E0,$03,$D0,$C1             ; 00819D ????????
-.byte $AD,$2F,$05,$D0,$15,$AD,$2E,$05             ; 0081A5 ?/????.?
-.byte $F0,$05,$A9,$02,$8D,$30,$05,$22             ; 0081AD ?????0?"
-.byte $49,$E1,$0E,$AD,$30,$05,$C9,$02             ; 0081B5 I???0???
-.byte $F0,$03,$4C,$E6,$80                         ; 0081BE ??L??
+.byte $A9,$02,$8D,$08,$02,$22,$F3,$DA             ; 008191 ?????"??
+.byte $0E,$4C,$E6,$80,$AE,$AB,$05,$E8             ; 008199 ?L??????
+.byte $E0,$03,$D0,$C1,$AD,$2F,$05,$D0             ; 0081A1 ?????/??
+.byte $15,$AD,$2E,$05,$F0,$05,$A9,$02             ; 0081A9 ??.?????
+.byte $8D,$30,$05,$22,$49,$E1,$0E,$AD             ; 0081B1 ?0?"I???
+.byte $30,$05,$C9,$02,$F0,$03,$4C,$E6             ; 0081B9 0?????L?
+.byte $80                                         ; 0081C2 ?
 
 B_81C2:
   JSL f:L_EE3E6                                   ; 0081C2 22 E6 E3 0E 
   JSL f:L_EE257                                   ; 0081C6 22 57 E2 0E 
-D_81CA:
-  JMP D_80E6                                      ; 0081CA 4C E6 80 
+  JMP (D_80E6 & $FFFF)                            ; 0081CA 4C E6 80 
 
 D_81CD:
 .byte $01,$03,$04                                 ; 0081CE ???
@@ -179,7 +166,6 @@ D_81CD:
 L_81D0:
   LDA $0204                                       ; 0081D0 AD 04 02 
   CLC                                             ; 0081D3 18 
-.a8
   ADC #$04                                        ; 0081D4 69 04 
   STA $0533                                       ; 0081D6 8D 33 05 
   CLC                                             ; 0081D9 18 
@@ -187,7 +173,6 @@ L_81D0:
   ADC #$03                                        ; 0081DD 69 03 
   STA XexzyLivesCount                             ; 0081DF 8D 31 05 
   STA $0532                                       ; 0081E2 8D 32 05 
-.i8
   LDX #$01                                        ; 0081E5 A2 01 
 B_81E7:
   STZ $1897,X                                     ; 0081E7 9E 97 18 
@@ -204,8 +189,6 @@ B_81E7:
   LDA $0208                                       ; 008204 AD 08 02 
   LSR                                             ; 008207 4A 
   TAX                                             ; 008208 AA 
-.i16
-.a16
   LDA f:D_8226,X                                  ; 008209 BF 26 82 00 
   STA $189F                                       ; 00820D 8D 9F 18 
   LDA f:D_8229,X                                  ; 008210 BF 29 82 00 
@@ -232,7 +215,7 @@ L_8232:
   REP #$30                                        ; 008233 C2 30 
   LDX #$8000                                      ; 008235 A2 00 80 
   LDA #$8000                                      ; 008238 A9 00 80 
-  LDY #$0007                                      ; 00823B A0 07 00 
+  LDY.W #$0007                                    ; 00823B A0 07 00 
   JSL f:L_58000                                   ; 00823E 22 00 80 05 
   PLP                                             ; 008242 28 
   RTS                                             ; 008243 60 
@@ -243,9 +226,8 @@ L_8232:
   PHY                                             ; 008248 5A 
   PHB                                             ; 008249 8B 
   PHP                                             ; 00824A 08 
-  INC $CF                                         ; 00824B E6 CF 
+  INC FrameCounter                                ; 00824B E6 CF 
   SEP #$20                                        ; 00824D E2 20 
-.a8
   LDA #$00                                        ; 00824F A9 00 
   PHA                                             ; 008251 48 
   PLB                                             ; 008252 AB 
@@ -262,7 +244,7 @@ L_8232:
   RTI                                             ; 008266 40 
 
 L_8267:
-  JML [$00C7]                                     ; 008267 DC C7 00 
+  JML.W [$00C7]                                   ; 008267 DC C7 00 
   REP #$30                                        ; 00826A C2 30 
   PHA                                             ; 00826C 48 
   PHX                                             ; 00826D DA 
@@ -284,7 +266,7 @@ L_8267:
   RTI                                             ; 008285 40 
 
 L_8286:
-  JML [$00CB]                                     ; 008286 DC CB 00 
+  JML.W [$00CB]                                   ; 008286 DC CB 00 
 
 .byte $40                                         ; 00828A @
 
@@ -302,9 +284,9 @@ L_828A:
   STZ $05B3                                       ; 0082A3 9C B3 05 
   STZ $05D3                                       ; 0082A6 9C D3 05 
   STZ $1873                                       ; 0082A9 9C 73 18 
-  JSR L_C17B                                      ; 0082AC 20 7B C1 
-  JSR L_97D3                                      ; 0082AF 20 D3 97 
-  JSR L_A8D5                                      ; 0082B2 20 D5 A8 
+  JSR (L_C17B & $FFFF)                            ; 0082AC 20 7B C1 
+  JSR (L_97D3 & $FFFF)                            ; 0082AF 20 D3 97 
+  JSR (L_A8D5 & $FFFF)                            ; 0082B2 20 D5 A8 
   LDA $05AB                                       ; 0082B5 AD AB 05 
   CMP #$01                                        ; 0082B8 C9 01 
   BNE B_82C5                                      ; 0082BA D0 09 
@@ -326,10 +308,9 @@ L_82D9:
   SEP #$30                                        ; 0082DA E2 30 
   LDA #$80                                        ; 0082DC A9 80 
   STA INIDISP                                     ; 0082DE 8D 00 21 
-  JSR L_A45F                                      ; 0082E1 20 5F A4 
+  JSR (L_A45F & $FFFF)                            ; 0082E1 20 5F A4 
   LDA #$02                                        ; 0082E4 A9 02 
   JSL f:L_ECAAD                                   ; 0082E6 22 AD CA 0E 
-.i8
   LDX #$07                                        ; 0082EA A2 07 
 B_82EC:
   STZ $05B4,X                                     ; 0082EC 9E B4 05 
@@ -341,8 +322,6 @@ B_82EC:
   STZ $05D8                                       ; 0082FA 9C D8 05 
   STZ $188E                                       ; 0082FD 9C 8E 18 
   LDA #$FF                                        ; 008300 A9 FF 
-
-L_8302:
   STA $05CC                                       ; 008302 8D CC 05 
   STA $05CD                                       ; 008305 8D CD 05 
   LDX #$03                                        ; 008308 A2 03 
@@ -353,12 +332,12 @@ B_830A:
   STZ $18CD,X                                     ; 008313 9E CD 18 
   DEX                                             ; 008316 CA 
   BPL B_830A                                      ; 008317 10 F1 
-  JSR L_9961                                      ; 008319 20 61 99 
-  JSR L_B032                                      ; 00831C 20 32 B0 
+  JSR (L_9961 & $FFFF)                            ; 008319 20 61 99 
+  JSR (L_B032 & $FFFF)                            ; 00831C 20 32 B0 
   SEP #$30                                        ; 00831F E2 30 
   LDA $05AC                                       ; 008321 AD AC 05 
   BNE B_8329                                      ; 008324 D0 03 
-  JSR L_83CA                                      ; 008326 20 CA 83 
+  JSR (L_83CA & $FFFF)                            ; 008326 20 CA 83 
 B_8329:
   LDA #$FF                                        ; 008329 A9 FF 
   STA $05CE                                       ; 00832B 8D CE 05 
@@ -390,7 +369,7 @@ B_8329:
   STZ $05A5                                       ; 008376 9C A5 05 
   STZ $05D6                                       ; 008379 9C D6 05 
   STZ $05D7                                       ; 00837C 9C D7 05 
-  JSR L_94A2                                      ; 00837F 20 A2 94 
+  JSR (L_94A2 & $FFFF)                            ; 00837F 20 A2 94 
   LDX #$01                                        ; 008382 A2 01 
   JSL f:L_ACE4                                    ; 008384 22 E4 AC 00 
   JSL f:L_F414                                    ; 008388 22 14 F4 00 
@@ -399,31 +378,26 @@ B_8329:
   STA $19D4                                       ; 008391 8D D4 19 
   STA $19D5                                       ; 008394 8D D5 19 
   STA $19D6                                       ; 008397 8D D6 19 
-  JSR L_99AE                                      ; 00839A 20 AE 99 
+  JSR (L_99AE & $FFFF)                            ; 00839A 20 AE 99 
   JSL f:L_EF822                                   ; 00839D 22 22 F8 0E 
-  JSR L_BF4E                                      ; 0083A1 20 4E BF 
+  JSR (L_BF4E & $FFFF)                            ; 0083A1 20 4E BF 
   JSL f:L_AF0E                                    ; 0083A4 22 0E AF 00 
   LDA $05AB                                       ; 0083A8 AD AB 05 
   ASL                                             ; 0083AB 0A 
   TAX                                             ; 0083AC AA 
   REP #$20                                        ; 0083AD C2 20 
-.i16
-.a16
   LDA f:D_83C4,X                                  ; 0083AF BF C4 83 00 
   STA $05A6                                       ; 0083B3 8D A6 05 
-.i8
   LDX #$00                                        ; 0083B6 A2 00 
   JSL f:L_EF072                                   ; 0083B8 22 72 F0 0E 
-  LDA #$0007                                      ; 0083BC A9 07 00 
+  LDA.W #$0007                                    ; 0083BC A9 07 00 
   STA $02C2                                       ; 0083BF 8D C2 02 
   PLP                                             ; 0083C2 28 
   RTS                                             ; 0083C3 60 
 
 
 D_83C4:
-.byte $15,$CE                                     ; 0083C5 ??
-L_83C6:
-.byte $B5,$D6,$B5,$DF                             ; 0083C7 ????
+.byte $15,$CE,$B5,$D6,$B5,$DF                     ; 0083C5 ??????
 
 
 L_83CA:
@@ -433,7 +407,6 @@ L_83CA:
   JSL f:L_F8401                                   ; 0083D0 22 01 84 0F 
   SEP #$30                                        ; 0083D4 E2 30 
   JSL f:L_380F3                                   ; 0083D6 22 F3 80 03 
-.a8
   LDA #$0D                                        ; 0083DA A9 0D 
   JSL f:L_38064                                   ; 0083DC 22 64 80 03 
   STY $18D2                                       ; 0083E0 8C D2 18 
@@ -443,8 +416,6 @@ L_83CA:
   LDA #$0C                                        ; 0083EC A9 0C 
   STA $0744,X                                     ; 0083EE 9D 44 07 
   LDA #$00                                        ; 0083F1 A9 00 
-
-L_83F3:
   STA $0828,X                                     ; 0083F3 9D 28 08 
   LDA #$C4                                        ; 0083F6 A9 C4 
   STA $13BC,X                                     ; 0083F8 9D BC 13 
@@ -466,8 +437,6 @@ L_83F3:
   STA $142E,X                                     ; 008420 9D 2E 14 
   JSL f:L_AEBC                                    ; 008423 22 BC AE 00 
   TYA                                             ; 008427 98 
-
-L_8428:
   STA $14A0,X                                     ; 008428 9D A0 14 
   LDA #$01                                        ; 00842B A9 01 
   STA $175E,Y                                     ; 00842D 99 5E 17 
@@ -477,21 +446,21 @@ L_8428:
   LDA #$10                                        ; 008438 A9 10 
   STA $1D                                         ; 00843A 85 1D 
   JSL f:L_AFC2                                    ; 00843C 22 C2 AF 00 
-  JSR L_84CC                                      ; 008440 20 CC 84 
+  JSR (L_84CC & $FFFF)                            ; 008440 20 CC 84 
   LDA #$72                                        ; 008443 A9 72 
   STA $04                                         ; 008445 85 04 
   LDA #$C8                                        ; 008447 A9 C8 
   STA $05                                         ; 008449 85 05 
   LDA #$01                                        ; 00844B A9 01 
   STA $06                                         ; 00844D 85 06 
-  JSR L_8463                                      ; 00844F 20 63 84 
+  JSR (L_8463 & $FFFF)                            ; 00844F 20 63 84 
   LDA #$8D                                        ; 008452 A9 8D 
   STA $04                                         ; 008454 85 04 
   LDA #$CC                                        ; 008456 A9 CC 
   STA $05                                         ; 008458 85 05 
   LDA #$02                                        ; 00845A A9 02 
   STA $06                                         ; 00845C 85 06 
-  JSR L_8463                                      ; 00845E 20 63 84 
+  JSR (L_8463 & $FFFF)                            ; 00845E 20 63 84 
   PLP                                             ; 008461 28 
   RTS                                             ; 008462 60 
 
@@ -519,8 +488,6 @@ L_8463:
   STA XexzyCharX,X                                ; 008497 9D 46 0B 
   LDA #$22                                        ; 00849A A9 22 
   STA $0C9C,X                                     ; 00849C 9D 9C 0C 
-
-L_849F:
   LDA $18D2                                       ; 00849F AD D2 18 
   ASL                                             ; 0084A2 0A 
   ORA #$29                                        ; 0084A3 09 29 
@@ -537,7 +504,7 @@ L_849F:
   LDA #$10                                        ; 0084C0 A9 10 
   STA $1D                                         ; 0084C2 85 1D 
   JSL f:L_AFC2                                    ; 0084C4 22 C2 AF 00 
-  JSR L_84CC                                      ; 0084C8 20 CC 84 
+  JSR (L_84CC & $FFFF)                            ; 0084C8 20 CC 84 
   RTS                                             ; 0084CB 60 
 
 
@@ -554,7 +521,7 @@ L_84CC:
 L_84D7:
   PHP                                             ; 0084D7 08 
   SEP #$30                                        ; 0084D8 E2 30 
-  JSR L_82D9                                      ; 0084DA 20 D9 82 
+  JSR (L_82D9 & $FFFF)                            ; 0084DA 20 D9 82 
   LDA #$81                                        ; 0084DD A9 81 
   STA NMITIMEN                                    ; 0084DF 8D 00 42 
   JSL f:L_ECA1E                                   ; 0084E2 22 1E CA 0E 
@@ -564,15 +531,15 @@ L_84D7:
 B_84F0:
   JSL f:L_ECA13                                   ; 0084F0 22 13 CA 0E 
   JSL f:L_ECA6A                                   ; 0084F4 22 6A CA 0E 
-  JSR L_E5ED                                      ; 0084F8 20 ED E5 
-  JSR L_99AE                                      ; 0084FB 20 AE 99 
-  JSR L_BF4E                                      ; 0084FE 20 4E BF 
+  JSR (L_E5ED & $FFFF)                            ; 0084F8 20 ED E5 
+  JSR (L_99AE & $FFFF)                            ; 0084FB 20 AE 99 
+  JSR (L_BF4E & $FFFF)                            ; 0084FE 20 4E BF 
   JSL f:L_9CB2                                    ; 008501 22 B2 9C 00 
   JSL f:L_3811E                                   ; 008505 22 1E 81 03 
   LDA $0744                                       ; 008509 AD 44 07 
   ORA $0745                                       ; 00850C 0D 45 07 
   BNE B_84F0                                      ; 00850F D0 DF 
-  JSR L_914E                                      ; 008511 20 4E 91 
+  JSR (L_914E & $FFFF)                            ; 008511 20 4E 91 
   LDA #$01                                        ; 008514 A9 01 
   STA $05D9                                       ; 008516 8D D9 05 
   LDA #$01                                        ; 008519 A9 01 
@@ -583,7 +550,7 @@ B_851E:
   INC $052D                                       ; 008523 EE 2D 05 
   INC $D2                                         ; 008526 E6 D2 
   JSL f:L_ECA6A                                   ; 008528 22 6A CA 0E 
-  JSR L_B0F9                                      ; 00852C 20 F9 B0 
+  JSR (L_B0F9 & $FFFF)                            ; 00852C 20 F9 B0 
   LDA $D2                                         ; 00852F A5 D2 
   AND $052E                                       ; 008531 2D 2E 05 
   BEQ B_8539                                      ; 008534 F0 03 
@@ -591,9 +558,9 @@ B_851E:
 .byte $20,$F9,$B0                                 ; 008537  ??
 
 B_8539:
-  JSR L_E5ED                                      ; 008539 20 ED E5 
-  JSR L_99AE                                      ; 00853C 20 AE 99 
-  JSR L_BF4E                                      ; 00853F 20 4E BF 
+  JSR (L_E5ED & $FFFF)                            ; 008539 20 ED E5 
+  JSR (L_99AE & $FFFF)                            ; 00853C 20 AE 99 
+  JSR (L_BF4E & $FFFF)                            ; 00853F 20 4E BF 
   JSL f:L_9CB2                                    ; 008542 22 B2 9C 00 
   JSL f:L_3811E                                   ; 008546 22 1E 81 03 
   LDA $D2                                         ; 00854A A5 D2 
@@ -606,7 +573,7 @@ B_8555:
   JSL f:L_58267                                   ; 008555 22 67 82 05 
   LDA $05D3                                       ; 008559 AD D3 05 
   BNE B_856B                                      ; 00855C D0 0D 
-  JSR L_C2B5                                      ; 00855E 20 B5 C2 
+  JSR (L_C2B5 & $FFFF)                            ; 00855E 20 B5 C2 
   LDA $D2                                         ; 008561 A5 D2 
   AND $052E                                       ; 008563 2D 2E 05 
   BEQ B_856B                                      ; 008566 F0 03 
@@ -615,19 +582,18 @@ B_8555:
 
 B_856B:
   LDA $18A5                                       ; 00856B AD A5 18 
-D_856E:
   BEQ B_857A                                      ; 00856E F0 0A 
   LDA $187C                                       ; 008570 AD 7C 18 
   BEQ B_857A                                      ; 008573 F0 05 
   LDX #$00                                        ; 008575 A2 00 
-  JSR L_9856                                      ; 008577 20 56 98 
+  JSR (L_9856 & $FFFF)                            ; 008577 20 56 98 
 B_857A:
   LDA $18A6                                       ; 00857A AD A6 18 
   BEQ B_8589                                      ; 00857D F0 0A 
   LDA $187D                                       ; 00857F AD 7D 18 
   BEQ B_8589                                      ; 008582 F0 05 
   LDX #$01                                        ; 008584 A2 01 
-  JSR L_9856                                      ; 008586 20 56 98 
+  JSR (L_9856 & $FFFF)                            ; 008586 20 56 98 
 B_8589:
   LDA #$00                                        ; 008589 A9 00 
   LDX $18A3                                       ; 00858B AE A3 18 
@@ -644,12 +610,10 @@ B_859B:
   PHA                                             ; 0085A2 48 
   JSL f:L_ED641                                   ; 0085A3 22 41 D6 0E 
   PLA                                             ; 0085A7 68 
-D_85A8:
   BEQ B_85B5                                      ; 0085A8 F0 0B 
 
-.byte $A2,$26,$22,$72                             ; 0085AB ?&"r
-L_85AE:
-.byte $F0,$0E,$A9,$92,$8D,$C2,$02                 ; 0085AF ???????
+.byte $A2,$26,$22,$72,$F0,$0E,$A9,$92             ; 0085AA ?&"r????
+.byte $8D,$C2,$02                                 ; 0085B3 ???
 
 B_85B5:
   LDA $1900                                       ; 0085B5 AD 00 19 
@@ -657,7 +621,7 @@ B_85B5:
   BNE B_85DB                                      ; 0085BB D0 1E 
   LDA $05D3                                       ; 0085BD AD D3 05 
   BNE B_85C7                                      ; 0085C0 D0 05 
-  JSR L_95F3                                      ; 0085C2 20 F3 95 
+  JSR (L_95F3 & $FFFF)                            ; 0085C2 20 F3 95 
   BRA B_85DB                                      ; 0085C5 80 14 
 B_85C7:
   LDA $05D4                                       ; 0085C7 AD D4 05 
@@ -684,26 +648,26 @@ B_85ED:
   LDA $18A6                                       ; 0085F2 AD A6 18 
   BNE B_8645                                      ; 0085F5 D0 4E 
 B_85F7:
-  JSR L_959E                                      ; 0085F7 20 9E 95 
+  JSR (L_959E & $FFFF)                            ; 0085F7 20 9E 95 
   LDA $04                                         ; 0085FA A5 04 
   CMP #$02                                        ; 0085FC C9 02 
   BNE B_8610                                      ; 0085FE D0 10 
   LDA $05E1                                       ; 008600 AD E1 05 
   CMP #$03                                        ; 008603 C9 03 
   BNE B_8610                                      ; 008605 D0 09 
-  JSR L_8B8A                                      ; 008607 20 8A 8B 
-  JSR L_9061                                      ; 00860A 20 61 90 
-  JMP B_851E                                      ; 00860D 4C 1E 85 
+  JSR (L_8B8A & $FFFF)                            ; 008607 20 8A 8B 
+  JSR (L_9061 & $FFFF)                            ; 00860A 20 61 90 
+  JMP (B_851E & $FFFF)                            ; 00860D 4C 1E 85 
 B_8610:
-  JSR L_959E                                      ; 008610 20 9E 95 
+  JSR (L_959E & $FFFF)                            ; 008610 20 9E 95 
   LDA $05                                         ; 008613 A5 05 
   CMP #$02                                        ; 008615 C9 02 
   BNE B_8633                                      ; 008617 D0 1A 
-  JSR L_8B8A                                      ; 008619 20 8A 8B 
-  JSR L_914E                                      ; 00861C 20 4E 91 
+  JSR (L_8B8A & $FFFF)                            ; 008619 20 8A 8B 
+  JSR (L_914E & $FFFF)                            ; 00861C 20 4E 91 
   LDA $05AC                                       ; 00861F AD AC 05 
   BMI B_8627                                      ; 008622 30 03 
-  JMP B_851E                                      ; 008624 4C 1E 85 
+  JMP (B_851E & $FFFF)                            ; 008624 4C 1E 85 
 B_8627:
   STZ $02CB                                       ; 008627 9C CB 02 
   STZ $02C2                                       ; 00862A 9C C2 02 
@@ -712,29 +676,29 @@ B_8627:
   RTS                                             ; 008632 60 
 
 B_8633:
-  JSR L_959E                                      ; 008633 20 9E 95 
+  JSR (L_959E & $FFFF)                            ; 008633 20 9E 95 
   LDA $06                                         ; 008636 A5 06 
   CMP #$02                                        ; 008638 C9 02 
   BNE B_8645                                      ; 00863A D0 09 
-  JSR L_8B8A                                      ; 00863C 20 8A 8B 
-  JSR L_93A4                                      ; 00863F 20 A4 93 
-  JMP B_851E                                      ; 008642 4C 1E 85 
+  JSR (L_8B8A & $FFFF)                            ; 00863C 20 8A 8B 
+  JSR (L_93A4 & $FFFF)                            ; 00863F 20 A4 93 
+  JMP (B_851E & $FFFF)                            ; 008642 4C 1E 85 
 B_8645:
-  JSR L_8A07                                      ; 008645 20 07 8A 
+  JSR (L_8A07 & $FFFF)                            ; 008645 20 07 8A 
   JSL f:L_F8177                                   ; 008648 22 77 81 0F 
-  JSR L_9804                                      ; 00864C 20 04 98 
+  JSR (L_9804 & $FFFF)                            ; 00864C 20 04 98 
   LDX #$00                                        ; 00864F A2 00 
   JSL f:L_ACE4                                    ; 008651 22 E4 AC 00 
-  JSR L_A2A8                                      ; 008655 20 A8 A2 
-  JSR L_A3AB                                      ; 008658 20 AB A3 
+  JSR (L_A2A8 & $FFFF)                            ; 008655 20 A8 A2 
+  JSR (L_A3AB & $FFFF)                            ; 008658 20 AB A3 
   LDA $05AB                                       ; 00865B AD AB 05 
   BMI B_8627                                      ; 00865E 30 C7 
-  JMP B_851E                                      ; 008660 4C 1E 85 
+  JMP (B_851E & $FFFF)                            ; 008660 4C 1E 85 
 
 L_8663:
   PHP                                             ; 008663 08 
   SEP #$30                                        ; 008664 E2 30 
-  JSR L_8B8A                                      ; 008666 20 8A 8B 
+  JSR (L_8B8A & $FFFF)                            ; 008666 20 8A 8B 
   JSL f:L_ECA13                                   ; 008669 22 13 CA 0E 
   LDA $05AB                                       ; 00866D AD AB 05 
   ASL                                             ; 008670 0A 
@@ -743,13 +707,10 @@ L_8663:
   STZ $1A7D                                       ; 008675 9C 7D 1A 
   LDA #$22                                        ; 008678 A9 22 
   STA $1A7E                                       ; 00867A 8D 7E 1A 
-.i16
-.a16
   LDA f:D_882D,X                                  ; 00867D BF 2D 88 00 
   STA $1A7F                                       ; 008681 8D 7F 1A 
   LDA f:D_882E,X                                  ; 008684 BF 2E 88 00 
   STA $1A80                                       ; 008688 8D 80 1A 
-.a8
   LDA #$0D                                        ; 00868B A9 0D 
   STA $1A81                                       ; 00868D 8D 81 1A 
   LDA #$80                                        ; 008690 A9 80 
@@ -757,17 +718,16 @@ L_8663:
   LDA #$01                                        ; 008695 A9 01 
   STA $1A83                                       ; 008697 8D 83 1A 
   JSL f:L_ECA13                                   ; 00869A 22 13 CA 0E 
-  JSR L_9013                                      ; 00869E 20 13 90 
-  JSR L_8F93                                      ; 0086A1 20 93 8F 
+  JSR (L_9013 & $FFFF)                            ; 00869E 20 13 90 
+  JSR (L_8F93 & $FFFF)                            ; 0086A1 20 93 8F 
   LDA $05AB                                       ; 0086A4 AD AB 05 
   ASL                                             ; 0086A7 0A 
   TAX                                             ; 0086A8 AA 
   REP #$20                                        ; 0086A9 C2 20 
-.a16
   LDA f:D_8827,X                                  ; 0086AB BF 27 88 00 
   REP #$10                                        ; 0086AF C2 10 
   LDX #$3BAE                                      ; 0086B1 A2 AE 3B 
-  LDY #$000D                                      ; 0086B4 A0 0D 00 
+  LDY.W #$000D                                    ; 0086B4 A0 0D 00 
   JSL f:L_58000                                   ; 0086B7 22 00 80 05 
   SEP #$20                                        ; 0086BB E2 20 
   LDX #$4800                                      ; 0086BD A2 00 48 
@@ -776,7 +736,6 @@ L_8663:
   STX $1A92                                       ; 0086C6 8E 92 1A 
   LDX #$3BAE                                      ; 0086C9 A2 AE 3B 
   STX $1A94                                       ; 0086CC 8E 94 1A 
-.a8
   LDA #$7E                                        ; 0086CF A9 7E 
   STA $1A96                                       ; 0086D1 8D 96 1A 
   LDX #$0800                                      ; 0086D4 A2 00 08 
@@ -784,21 +743,19 @@ L_8663:
   LDA #$01                                        ; 0086DA A9 01 
   STA $1A91                                       ; 0086DC 8D 91 1A 
   JSL f:L_ECA13                                   ; 0086DF 22 13 CA 0E 
-  JSR L_8F93                                      ; 0086E3 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 0086E3 20 93 8F 
   REP #$30                                        ; 0086E6 C2 30 
   LDX #$3BAE                                      ; 0086E8 A2 AE 3B 
-.a16
   LDA #$A32A                                      ; 0086EB A9 2A A3 
-  LDY #$000D                                      ; 0086EE A0 0D 00 
+  LDY.W #$000D                                    ; 0086EE A0 0D 00 
   JSL f:L_58000                                   ; 0086F1 22 00 80 05 
   SEP #$20                                        ; 0086F5 E2 20 
-  LDX #$0000                                      ; 0086F7 A2 00 00 
+  LDX.W #$0000                                    ; 0086F7 A2 00 00 
   STX $1A99                                       ; 0086FA 8E 99 1A 
   LDX #$1801                                      ; 0086FD A2 01 18 
   STX $1A92                                       ; 008700 8E 92 1A 
   LDX #$3BAE                                      ; 008703 A2 AE 3B 
   STX $1A94                                       ; 008706 8E 94 1A 
-.a8
   LDA #$7E                                        ; 008709 A9 7E 
   STA $1A96                                       ; 00870B 8D 96 1A 
   LDX #$1000                                      ; 00870E A2 00 10 
@@ -806,7 +763,7 @@ L_8663:
   LDA #$01                                        ; 008714 A9 01 
   STA $1A91                                       ; 008716 8D 91 1A 
   JSL f:L_ECA13                                   ; 008719 22 13 CA 0E 
-  JSR L_8F93                                      ; 00871D 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 00871D 20 93 8F 
   LDX #$0800                                      ; 008720 A2 00 08 
   STX $1A99                                       ; 008723 8E 99 1A 
   LDX #$1801                                      ; 008726 A2 01 18 
@@ -820,7 +777,7 @@ L_8663:
   LDA #$01                                        ; 00873D A9 01 
   STA $1A91                                       ; 00873F 8D 91 1A 
   JSL f:L_ECA13                                   ; 008742 22 13 CA 0E 
-  JSR L_8F93                                      ; 008746 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 008746 20 93 8F 
   LDX #$1000                                      ; 008749 A2 00 10 
   STX $1A99                                       ; 00874C 8E 99 1A 
   LDX #$1801                                      ; 00874F A2 01 18 
@@ -834,7 +791,7 @@ L_8663:
   LDA #$01                                        ; 008766 A9 01 
   STA $1A91                                       ; 008768 8D 91 1A 
   JSL f:L_ECA13                                   ; 00876B 22 13 CA 0E 
-  JSR L_8F93                                      ; 00876F 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 00876F 20 93 8F 
   LDX #$1800                                      ; 008772 A2 00 18 
   STX $1A99                                       ; 008775 8E 99 1A 
   LDX #$1801                                      ; 008778 A2 01 18 
@@ -848,7 +805,6 @@ L_8663:
   LDA #$01                                        ; 00878F A9 01 
   STA $1A91                                       ; 008791 8D 91 1A 
   SEP #$10                                        ; 008794 E2 10 
-.i8
   LDX #$22                                        ; 008796 A2 22 
   JSL f:L_EF072                                   ; 008798 22 72 F0 0E 
   LDA #$29                                        ; 00879C A9 29 
@@ -861,7 +817,7 @@ L_8663:
   STZ $06D0                                       ; 0087AE 9C D0 06 
   STZ $06D1                                       ; 0087B1 9C D1 06 
   JSL f:L_ECA13                                   ; 0087B4 22 13 CA 0E 
-  JSR L_8F93                                      ; 0087B8 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 0087B8 20 93 8F 
   LDA #$49                                        ; 0087BB A9 49 
   STA BG1SC                                       ; 0087BD 8D 07 21 
   LDA #$17                                        ; 0087C0 A9 17 
@@ -872,7 +828,7 @@ L_8663:
 B_87CC:
   PHX                                             ; 0087CC DA 
   JSL f:L_ECA13                                   ; 0087CD 22 13 CA 0E 
-  JSR L_8F93                                      ; 0087D1 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 0087D1 20 93 8F 
   SEC                                             ; 0087D4 38 
   LDA $06CD                                       ; 0087D5 AD CD 06 
   SBC #$02                                        ; 0087D8 E9 02 
@@ -884,7 +840,7 @@ B_87CC:
 B_87E3:
   PHX                                             ; 0087E3 DA 
   JSL f:L_ECA13                                   ; 0087E4 22 13 CA 0E 
-  JSR L_8F93                                      ; 0087E8 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 0087E8 20 93 8F 
   PLX                                             ; 0087EB FA 
   DEX                                             ; 0087EC CA 
   BNE B_87E3                                      ; 0087ED D0 F4 
@@ -894,7 +850,7 @@ B_87E3:
 B_87F6:
   PHX                                             ; 0087F6 DA 
   JSL f:L_ECA13                                   ; 0087F7 22 13 CA 0E 
-  JSR L_8F93                                      ; 0087FB 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 0087FB 20 93 8F 
   SEC                                             ; 0087FE 38 
   LDA $06D0                                       ; 0087FF AD D0 06 
   SBC #$01                                        ; 008802 E9 01 
@@ -907,7 +863,7 @@ B_87F6:
   BNE B_87F6                                      ; 008811 D0 E3 
   LDA #$16                                        ; 008813 A9 16 
   STA TM                                          ; 008815 8D 2C 21 
-  JSR L_8B65                                      ; 008818 20 65 8B 
+  JSR (L_8B65 & $FFFF)                            ; 008818 20 65 8B 
   JSL f:L_ECA13                                   ; 00881B 22 13 CA 0E 
   STZ $02C2                                       ; 00881F 9C C2 02 
   STZ $18AF                                       ; 008822 9C AF 18 
@@ -927,17 +883,15 @@ L_8833:
   PHP                                             ; 008833 08 
   SEP #$30                                        ; 008834 E2 30 
   PHB                                             ; 008836 8B 
-  PEA $0000                                       ; 008837 F4 00 00 
+  PEA.W $0000                                     ; 008837 F4 00 00 
   PLB                                             ; 00883A AB 
   PLB                                             ; 00883B AB 
   LDA $05AB                                       ; 00883C AD AB 05 
   ASL                                             ; 00883F 0A 
   TAY                                             ; 008840 A8 
-  LDA D_88E3,Y                                    ; 008841 B9 E3 88 
-
-L_8844:
+  LDA (D_88E3 & $FFFF),Y                          ; 008841 B9 E3 88 
   STA $04                                         ; 008844 85 04 
-  LDA D_88E4,Y                                    ; 008846 B9 E4 88 
+  LDA (D_88E4 & $FFFF),Y                          ; 008846 B9 E4 88 
   STA $05                                         ; 008849 85 05 
   LDY $05AC                                       ; 00884B AC AC 05 
   LDA ($04),Y                                     ; 00884E B1 04 
@@ -948,7 +902,7 @@ L_8844:
 
 B_8855:
   PHA                                             ; 008855 48 
-  JSR L_8920                                      ; 008856 20 20 89 
+  JSR (L_8920 & $FFFF)                            ; 008856 20 20 89 
   SEP #$10                                        ; 008859 E2 10 
   LDA #$01                                        ; 00885B A9 01 
   STA $18AF                                       ; 00885D 8D AF 18 
@@ -982,14 +936,12 @@ B_8889:
   LDA #$4A                                        ; 0088A0 A9 4A 
   STA BG1SC                                       ; 0088A2 8D 07 21 
   LDA #$04                                        ; 0088A5 A9 04 
-D_88A7:
   JSL f:L_ED0B9                                   ; 0088A7 22 B9 D0 0E 
   LDX #$74                                        ; 0088AB A2 74 
-
-L_88AD:
+B_88AD:
   PHX                                             ; 0088AD DA 
   JSL f:L_ECA13                                   ; 0088AE 22 13 CA 0E 
-  JSR L_8F93                                      ; 0088B2 20 93 8F 
+  JSR (L_8F93 & $FFFF)                            ; 0088B2 20 93 8F 
   JSL f:L_ED117                                   ; 0088B5 22 17 D1 0E 
   SEC                                             ; 0088B9 38 
   LDA $06D0                                       ; 0088BA AD D0 06 
@@ -1000,12 +952,12 @@ L_88AD:
   STA $06D1                                       ; 0088C7 8D D1 06 
   PLX                                             ; 0088CA FA 
   DEX                                             ; 0088CB CA 
-  BNE L_88AD                                      ; 0088CC D0 DF 
+  BNE B_88AD                                      ; 0088CC D0 DF 
   LDA #$16                                        ; 0088CE A9 16 
   STA TM                                          ; 0088D0 8D 2C 21 
   STZ $02C2                                       ; 0088D3 9C C2 02 
   STZ $18AF                                       ; 0088D6 9C AF 18 
-  JSR L_8B65                                      ; 0088D9 20 65 8B 
+  JSR (L_8B65 & $FFFF)                            ; 0088D9 20 65 8B 
   JSL f:L_ECA13                                   ; 0088DC 22 13 CA 0E 
   PLB                                             ; 0088E0 AB 
   PLP                                             ; 0088E1 28 
@@ -1045,21 +997,17 @@ L_8920:
   STA $1A83                                       ; 008948 8D 83 1A 
   JSL f:L_ECA13                                   ; 00894B 22 13 CA 0E 
   REP #$30                                        ; 00894F C2 30 
-.i16
   LDX #$3BAE                                      ; 008951 A2 AE 3B 
-.a16
   LDA #$9663                                      ; 008954 A9 63 96 
-  LDY #$000D                                      ; 008957 A0 0D 00 
+  LDY.W #$000D                                    ; 008957 A0 0D 00 
   JSL f:L_58000                                   ; 00895A 22 00 80 05 
   SEP #$20                                        ; 00895E E2 20 
-  LDX #$0000                                      ; 008960 A2 00 00 
+  LDX.W #$0000                                    ; 008960 A2 00 00 
   STX $1A99                                       ; 008963 8E 99 1A 
-D_8966:
   LDX #$1801                                      ; 008966 A2 01 18 
   STX $1A92                                       ; 008969 8E 92 1A 
   LDX #$3BAE                                      ; 00896C A2 AE 3B 
   STX $1A94                                       ; 00896F 8E 94 1A 
-.a8
   LDA #$7E                                        ; 008972 A9 7E 
   STA $1A96                                       ; 008974 8D 96 1A 
   LDX #$1000                                      ; 008977 A2 00 10 
@@ -1067,7 +1015,6 @@ D_8966:
   LDA #$01                                        ; 00897D A9 01 
   STA $1A91                                       ; 00897F 8D 91 1A 
   JSL f:L_ECA13                                   ; 008982 22 13 CA 0E 
-D_8986:
   LDX #$0800                                      ; 008986 A2 00 08 
   STX $1A99                                       ; 008989 8E 99 1A 
   LDX #$1801                                      ; 00898C A2 01 18 
@@ -1082,8 +1029,6 @@ D_8986:
   STA $1A91                                       ; 0089A5 8D 91 1A 
   JSL f:L_ECA13                                   ; 0089A8 22 13 CA 0E 
   LDX #$1000                                      ; 0089AC A2 00 10 
-
-L_89AF:
   STX $1A99                                       ; 0089AF 8E 99 1A 
   LDX #$1801                                      ; 0089B2 A2 01 18 
   STX $1A92                                       ; 0089B5 8E 92 1A 
@@ -1097,9 +1042,8 @@ L_89AF:
   STA $1A91                                       ; 0089CB 8D 91 1A 
   JSL f:L_ECA13                                   ; 0089CE 22 13 CA 0E 
   REP #$30                                        ; 0089D2 C2 30 
-.a16
   LDA #$BE0B                                      ; 0089D4 A9 0B BE 
-  LDY #$000D                                      ; 0089D7 A0 0D 00 
+  LDY.W #$000D                                    ; 0089D7 A0 0D 00 
   LDX #$20AE                                      ; 0089DA A2 AE 20 
   JSL f:L_58000                                   ; 0089DD 22 00 80 05 
   SEP #$20                                        ; 0089E1 E2 20 
@@ -1109,7 +1053,6 @@ L_89AF:
   STX $1A92                                       ; 0089EC 8E 92 1A 
   LDX #$20AE                                      ; 0089EF A2 AE 20 
   STX $1A94                                       ; 0089F2 8E 94 1A 
-.a8
   LDA #$7E                                        ; 0089F5 A9 7E 
   STA $1A96                                       ; 0089F7 8D 96 1A 
   LDX #$0800                                      ; 0089FA A2 00 08 
@@ -1117,7 +1060,6 @@ L_89AF:
   LDA #$01                                        ; 008A00 A9 01 
   STA $1A91                                       ; 008A02 8D 91 1A 
   PLP                                             ; 008A05 28 
-D_8A06:
   RTS                                             ; 008A06 60 
 
 
@@ -1129,9 +1071,6 @@ L_8A07:
   DEY                                             ; 008A0F 88 
   STY $05B2                                       ; 008A10 8C B2 05 
   BNE B_8A21                                      ; 008A13 D0 0C 
-
-L_8A15:
-.i8
   LDX #$00                                        ; 008A15 A2 00 
   JSL f:L_AB23                                    ; 008A17 22 23 AB 00 
   LDX #$00                                        ; 008A1B A2 00 
@@ -1159,7 +1098,6 @@ L_8A3A:
   SEP #$20                                        ; 008A42 E2 20 
   LDA #$80                                        ; 008A44 A9 80 
   STA VMAIN                                       ; 008A46 8D 15 21 
-.i16
   LDX #$5000                                      ; 008A49 A2 00 50 
   STX VMADDL                                      ; 008A4C 8E 16 21 
   LDX #$1801                                      ; 008A4F A2 01 18 
@@ -1186,7 +1124,6 @@ L_8A3A:
   BNE B_8A8F                                      ; 008A83 D0 0A 
 B_8A85:
   LDA #$06                                        ; 008A85 A9 06 
-.i8
   LDX #$D6                                        ; 008A87 A2 D6 
   LDY #$DE                                        ; 008A89 A0 DE 
   JSL f:L_EF164                                   ; 008A8B 22 64 F1 0E 
@@ -1199,8 +1136,6 @@ B_8A8F:
   LDY #$20                                        ; 008A9D A0 20 
   LDX #$00                                        ; 008A9F A2 00 
 B_8AA1:
-.i16
-.a16
   LDA f:D_A7D5,X                                  ; 008AA1 BF D5 A7 00 
   STA CGDATA                                      ; 008AA5 8D 22 21 
   INX                                             ; 008AA8 E8 
@@ -1209,13 +1144,11 @@ B_8AA1:
   INX                                             ; 008AB0 E8 
   DEY                                             ; 008AB1 88 
   BNE B_8AA1                                      ; 008AB2 D0 ED 
-.a8
   LDA #$00                                        ; 008AB4 A9 00 
   STA $1A8F                                       ; 008AB6 8D 8F 1A 
   LDA #$20                                        ; 008AB9 A9 20 
   STA $1A90                                       ; 008ABB 8D 90 1A 
   JSL f:L_ECA13                                   ; 008ABE 22 13 CA 0E 
-.i8
   LDX #$03                                        ; 008AC2 A2 03 
 B_8AC4:
   PHX                                             ; 008AC4 DA 
@@ -1233,21 +1166,18 @@ B_8AC4:
   PLX                                             ; 008AE0 FA 
   DEX                                             ; 008AE1 CA 
   BPL B_8AC4                                      ; 008AE2 10 E0 
-D_8AE4:
   STZ $06C8                                       ; 008AE4 9C C8 06 
   STZ $06C9                                       ; 008AE7 9C C9 06 
   STZ $06CA                                       ; 008AEA 9C CA 06 
-D_8AED:
   STZ $06CB                                       ; 008AED 9C CB 06 
   JSL f:L_ECA13                                   ; 008AF0 22 13 CA 0E 
-  JSR L_8833                                      ; 008AF4 20 33 88 
+  JSR (L_8833 & $FFFF)                            ; 008AF4 20 33 88 
   JSL f:L_ECA13                                   ; 008AF7 22 13 CA 0E 
   JSL f:L_EC619                                   ; 008AFB 22 19 C6 0E 
   SEP #$30                                        ; 008AFF E2 30 
   LDX $05AB                                       ; 008B01 AE AB 05 
   BEQ B_8B1B                                      ; 008B04 F0 15 
 
-D_8B06:
 .byte $CA,$F0,$09,$AD,$AC,$05,$C9,$15             ; 008B06 ????????
 .byte $F0,$4B,$80,$10,$AD,$AC,$05,$C9             ; 008B0E ?K??????
 .byte $07,$F0,$42,$80,$07                         ; 008B17 ??B??
@@ -1256,9 +1186,8 @@ B_8B1B:
   LDA $05AC                                       ; 008B1B AD AC 05 
   CMP #$0A                                        ; 008B1E C9 0A 
   BEQ B_8B5B                                      ; 008B20 F0 39 
-  JSR L_8B65                                      ; 008B22 20 65 8B 
+  JSR (L_8B65 & $FFFF)                            ; 008B22 20 65 8B 
   REP #$10                                        ; 008B25 C2 10 
-.i16
   LDX #$1800                                      ; 008B27 A2 00 18 
   STX $1A99                                       ; 008B2A 8E 99 1A 
   LDX #$1801                                      ; 008B2D A2 01 18 
@@ -1273,7 +1202,6 @@ B_8B1B:
   STA $1A91                                       ; 008B46 8D 91 1A 
   SEP #$10                                        ; 008B49 E2 10 
   JSL f:L_ECA13                                   ; 008B4B 22 13 CA 0E 
-.i8
   LDX #$00                                        ; 008B4F A2 00 
   JSL f:L_AB23                                    ; 008B51 22 23 AB 00 
   LDX #$01                                        ; 008B55 A2 01 
@@ -1281,7 +1209,6 @@ B_8B1B:
 B_8B5B:
   JSL f:L_AC95                                    ; 008B5B 22 95 AC 00 
   JSL f:L_ECA13                                   ; 008B5F 22 13 CA 0E 
-D_8B63:
   PLP                                             ; 008B63 28 
   RTS                                             ; 008B64 60 
 
@@ -1291,7 +1218,6 @@ L_8B65:
   STZ $1A7D                                       ; 008B68 9C 7D 1A 
   LDA #$22                                        ; 008B6B A9 22 
   STA $1A7E                                       ; 008B6D 8D 7E 1A 
-D_8B70:
   LDA #$83                                        ; 008B70 A9 83 
   STA $1A7F                                       ; 008B72 8D 7F 1A 
   LDA #$AA                                        ; 008B75 A9 AA 
@@ -1312,16 +1238,12 @@ L_8B8A:
   SEP #$20                                        ; 008B91 E2 20 
   LDA #$80                                        ; 008B93 A9 80 
   STA VMAIN                                       ; 008B95 8D 15 21 
-.i16
   LDX #$5000                                      ; 008B98 A2 00 50 
   STX VMADDL                                      ; 008B9B 8E 16 21 
   LDX #$1801                                      ; 008B9E A2 01 18 
   STX DMAP1                                       ; 008BA1 8E 10 43 
-D_8BA4:
   LDX #$33AE                                      ; 008BA4 A2 AE 33 
   STX A1T1L                                       ; 008BA7 8E 12 43 
-
-L_8BAA:
   LDA #$7E                                        ; 008BAA A9 7E 
   STA A1B1                                        ; 008BAC 8D 14 43 
   LDX #$0800                                      ; 008BAF A2 00 08 
@@ -1329,7 +1251,6 @@ L_8BAA:
   LDA #$02                                        ; 008BB5 A9 02 
   STA MDMAEN                                      ; 008BB7 8D 0B 42 
   PLP                                             ; 008BBA 28 
-D_8BBB:
   RTS                                             ; 008BBB 60 
 
 
@@ -1340,20 +1261,18 @@ L_8BBC:
   LDA #$00                                        ; 008BC0 A9 00 
   PHA                                             ; 008BC2 48 
   PLB                                             ; 008BC3 AB 
-
-L_8BC4:
   LDX $05AB                                       ; 008BC4 AE AB 05 
-  LDA D_8DF2,X                                    ; 008BC7 BD F2 8D 
+  LDA (D_8DF2 & $FFFF),X                          ; 008BC7 BD F2 8D 
   STA $04                                         ; 008BCA 85 04 
-  LDA D_8DF5,X                                    ; 008BCC BD F5 8D 
+  LDA (D_8DF5 & $FFFF),X                          ; 008BCC BD F5 8D 
   STA $05                                         ; 008BCF 85 05 
   LDY $05AC                                       ; 008BD1 AC AC 05 
   LDA ($04),Y                                     ; 008BD4 B1 04 
   STA $05AD                                       ; 008BD6 8D AD 05 
   TAX                                             ; 008BD9 AA 
-  LDA D_8DD0,X                                    ; 008BDA BD D0 8D 
+  LDA (D_8DD0 & $FFFF),X                          ; 008BDA BD D0 8D 
   STA $05E2                                       ; 008BDD 8D E2 05 
-  JSR L_A338                                      ; 008BE0 20 38 A3 
+  JSR (L_A338 & $FFFF)                            ; 008BE0 20 38 A3 
   LDA $05AD                                       ; 008BE3 AD AD 05 
   CMP #$05                                        ; 008BE6 C9 05 
   BEQ B_8BEE                                      ; 008BE8 F0 04 
@@ -1361,7 +1280,6 @@ L_8BC4:
   BNE B_8BF8                                      ; 008BEC D0 0A 
 B_8BEE:
   LDA #$06                                        ; 008BEE A9 06 
-.i8
   LDX #$56                                        ; 008BF0 A2 56 
   LDY #$5E                                        ; 008BF2 A0 5E 
   JSL f:L_EF164                                   ; 008BF4 22 64 F1 0E 
@@ -1370,12 +1288,11 @@ B_8BF8:
   ASL                                             ; 008BFB 0A 
   TAX                                             ; 008BFC AA 
   REP #$20                                        ; 008BFD C2 20 
-  LDA D_8E2F,X                                    ; 008BFF BD 2F 8E 
+  LDA (D_8E2F & $FFFF),X                          ; 008BFF BD 2F 8E 
   STA $04                                         ; 008C02 85 04 
-  LDA D_8E73,X                                    ; 008C04 BD 73 8E 
+  LDA (D_8E73 & $FFFF),X                          ; 008C04 BD 73 8E 
   STA $06                                         ; 008C07 85 06 
   REP #$10                                        ; 008C09 C2 10 
-.i16
   LDX #$3BAE                                      ; 008C0B A2 AE 3B 
   LDA $04                                         ; 008C0E A5 04 
   LDY $06                                         ; 008C10 A4 06 
@@ -1394,11 +1311,9 @@ B_8BF8:
 B_8C2C:
   REP #$20                                        ; 008C2C C2 20 
   SEP #$10                                        ; 008C2E E2 10 
-.i8
   LDY #$0E                                        ; 008C30 A0 0E 
 B_8C32:
   LDA $3BC6,Y                                     ; 008C32 B9 C6 3B 
-.a16
   ORA #$2000                                      ; 008C35 09 00 20 
   STA $3BC6,Y                                     ; 008C38 99 C6 3B 
   LDA $3C06,Y                                     ; 008C3B B9 06 3C 
@@ -1423,7 +1338,6 @@ B_8C32:
   DEY                                             ; 008C72 88 
   BPL B_8C32                                      ; 008C73 10 BD 
   REP #$30                                        ; 008C75 C2 30 
-.i16
   LDY #$07FE                                      ; 008C77 A0 FE 07 
 B_8C7A:
   LDA $3BAE,Y                                     ; 008C7A B9 AE 3B 
@@ -1432,7 +1346,7 @@ B_8C7A:
   DEY                                             ; 008C83 88 
   DEY                                             ; 008C84 88 
   BPL B_8C7A                                      ; 008C85 10 F3 
-  LDY #$000A                                      ; 008C87 A0 0A 00 
+  LDY.W #$000A                                    ; 008C87 A0 0A 00 
 B_8C8A:
   LDA $3448,Y                                     ; 008C8A B9 48 34 
   STA $060E,Y                                     ; 008C8D 99 0E 06 
@@ -1445,16 +1359,14 @@ B_8C8A:
   BPL B_8C8A                                      ; 008C9E 10 EA 
   SEP #$20                                        ; 008CA0 E2 20 
   LDA $05E2                                       ; 008CA2 AD E2 05 
-  BMI L_8CED                                      ; 008CA5 30 46 
+  BMI B_8CED                                      ; 008CA5 30 46 
   LDA $06C7                                       ; 008CA7 AD C7 06 
-.a8
   CMP #$02                                        ; 008CAA C9 02 
   BEQ B_8CD2                                      ; 008CAC F0 24 
-  LDY #$000A                                      ; 008CAE A0 0A 00 
+  LDY.W #$000A                                    ; 008CAE A0 0A 00 
 B_8CB1:
   REP #$20                                        ; 008CB1 C2 20 
   LDA $05EA,Y                                     ; 008CB3 B9 EA 05 
-.a16
   AND #$EDFF                                      ; 008CB6 29 FF ED 
   STA $3C48,Y                                     ; 008CB9 99 48 3C 
   LDA $05F6,Y                                     ; 008CBC B9 F6 05 
@@ -1465,12 +1377,10 @@ B_8CB1:
   STA $3CC8,Y                                     ; 008CCB 99 C8 3C 
   DEY                                             ; 008CCE 88 
   DEY                                             ; 008CCF 88 
-
-L_8CD0:
   BPL B_8CB1                                      ; 008CD0 10 DF 
 B_8CD2:
   REP #$20                                        ; 008CD2 C2 20 
-  LDY #$000A                                      ; 008CD4 A0 0A 00 
+  LDY.W #$000A                                    ; 008CD4 A0 0A 00 
 B_8CD7:
   LDA $05EA,Y                                     ; 008CD7 B9 EA 05 
   STA $3448,Y                                     ; 008CDA 99 48 34 
@@ -1479,17 +1389,14 @@ B_8CD7:
   LDA $0602,Y                                     ; 008CE3 B9 02 06 
   STA $34C8,Y                                     ; 008CE6 99 C8 34 
   DEY                                             ; 008CE9 88 
-D_8CEA:
   DEY                                             ; 008CEA 88 
   BPL B_8CD7                                      ; 008CEB 10 EA 
-
-L_8CED:
+B_8CED:
   PLB                                             ; 008CED AB 
   SEP #$30                                        ; 008CEE E2 30 
   JSL f:L_ECA13                                   ; 008CF0 22 13 CA 0E 
   REP #$10                                        ; 008CF4 C2 10 
   SEP #$20                                        ; 008CF6 E2 20 
-.a8
   LDA #$80                                        ; 008CF8 A9 80 
   STA VMAIN                                       ; 008CFA 8D 15 21 
   LDX #$5400                                      ; 008CFD A2 00 54 
@@ -1510,13 +1417,13 @@ L_8CED:
   STZ $1A7D                                       ; 008D27 9C 7D 1A 
   LDA #$22                                        ; 008D2A A9 22 
   STA $1A7E                                       ; 008D2C 8D 7E 1A 
-  LDA D_8EB7,X                                    ; 008D2F BD B7 8E 
+  LDA (D_8EB7 & $FFFF),X                          ; 008D2F BD B7 8E 
   STA $04                                         ; 008D32 85 04 
   STA $1A7F                                       ; 008D34 8D 7F 1A 
-  LDA D_8ED9,X                                    ; 008D37 BD D9 8E 
+  LDA (D_8ED9 & $FFFF),X                          ; 008D37 BD D9 8E 
   STA $05                                         ; 008D3A 85 05 
   STA $1A80                                       ; 008D3C 8D 80 1A 
-  LDA D_8EFB,X                                    ; 008D3F BD FB 8E 
+  LDA (D_8EFB & $FFFF),X                          ; 008D3F BD FB 8E 
   STA $1A81                                       ; 008D42 8D 81 1A 
   LDA #$80                                        ; 008D45 A9 80 
   STA $1A82                                       ; 008D47 8D 82 1A 
@@ -1529,10 +1436,9 @@ L_8CED:
   BNE B_8D6E                                      ; 008D58 D0 14 
 B_8D5A:
   PHB                                             ; 008D5A 8B 
-  LDA D_8EFB,X                                    ; 008D5B BD FB 8E 
+  LDA (D_8EFB & $FFFF),X                          ; 008D5B BD FB 8E 
   PHA                                             ; 008D5E 48 
   PLB                                             ; 008D5F AB 
-.i8
   LDY #$7F                                        ; 008D60 A0 7F 
 B_8D62:
   LDA ($04),Y                                     ; 008D62 B1 04 
@@ -1542,11 +1448,11 @@ B_8D62:
   BPL B_8D62                                      ; 008D6B 10 F5 
   PLB                                             ; 008D6D AB 
 B_8D6E:
-  LDA D_8F1D,X                                    ; 008D6E BD 1D 8F 
+  LDA (D_8F1D & $FFFF),X                          ; 008D6E BD 1D 8F 
   STA $04                                         ; 008D71 85 04 
-  LDA D_8F3F,X                                    ; 008D73 BD 3F 8F 
+  LDA (D_8F3F & $FFFF),X                          ; 008D73 BD 3F 8F 
   STA $05                                         ; 008D76 85 05 
-  LDA D_8F61,X                                    ; 008D78 BD 61 8F 
+  LDA (D_8F61 & $FFFF),X                          ; 008D78 BD 61 8F 
   STA $06                                         ; 008D7B 85 06 
   LDA #$00                                        ; 008D7D A9 00 
   STA $1A8F                                       ; 008D7F 8D 8F 1A 
@@ -1599,32 +1505,22 @@ D_8DF2:
 D_8DF5:
 .byte $8D,$8E,$8E,$00,$00,$02,$00,$01             ; 008DF5 ????????
 .byte $05,$00,$00,$01,$01,$03,$05,$00             ; 008DFD ????????
-.byte $0B,$0D,$10,$12                             ; 008E06 ????
-D_8E09:
-.byte $0A                                         ; 008E0A ?
-D_8E0A:
-.byte $0C,$11,$0F,$10,$05,$13,$05,$0F             ; 008E0A ????????
-.byte $05,$10,$0A,$0E,$10,$00,$14                 ; 008E13 ???????
-D_8E19:
-.byte $15                                         ; 008E1A ?
-D_8E1A:
-.byte $17,$16,$20,$1E,$21,$15,$14,$05             ; 008E1A ?? ?!???
-.byte $1F,$05,$15,$05,$14,$1F,$14                 ; 008E23 ???????
-L_8E29:
-.byte $16,$05,$05,$06,$05,$05                     ; 008E2A ??????
+.byte $0B,$0D,$10,$12,$0A,$0C,$11,$0F             ; 008E05 ????????
+.byte $10,$05,$13,$05,$0F,$05,$10,$0A             ; 008E0D ????????
+.byte $0E,$10,$00,$14,$15,$17,$16,$20             ; 008E15 ??????? 
+.byte $1E,$21,$15,$14,$05,$1F,$05,$15             ; 008E1D ?!??????
+.byte $05,$14,$1F,$14,$16,$05,$05,$06             ; 008E25 ????????
+.byte $05,$05                                     ; 008E2E ??
 D_8E2F:
 .byte $9C,$81,$18,$87,$9F,$8C,$1A,$92             ; 008E2F ????????
-.byte $00,$00,$75,$EC,$65,$F0,$00                 ; 008E38 ??u?e??
-L_8E3E:
-.byte $00,$00,$00,$00,$00,$64,$99,$91             ; 008E3E ?????d??
-.byte $9D,$A7,$A1,$AB,$A5,$C7,$A9,$AE             ; 008E46 ????????
-.byte $AD,$5B,$B1,$06,$B5                         ; 008E4F ?[???
-D_8E53:
-.byte $AE,$AD,$BE,$B9,$A3,$C2,$7F,$C7             ; 008E53 ????????
-D_8E5B:
-.byte $57,$CC,$9E,$D1,$00,$00,$00,$00             ; 008E5B W???????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 008E63 ????????
-.byte $80,$D8,$FF,$DC,$6F,$E1,$E6,$E5             ; 008E6B ????o???
+.byte $00,$00,$75,$EC,$65,$F0,$00,$00             ; 008E37 ??u?e???
+.byte $00,$00,$00,$00,$64,$99,$91,$9D             ; 008E3F ????d???
+.byte $A7,$A1,$AB,$A5,$C7,$A9,$AE,$AD             ; 008E47 ????????
+.byte $5B,$B1,$06,$B5,$AE,$AD,$BE,$B9             ; 008E4F [???????
+.byte $A3,$C2,$7F,$C7,$57,$CC,$9E,$D1             ; 008E57 ????W???
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 008E5F ????????
+.byte $00,$00,$00,$00,$80,$D8,$FF,$DC             ; 008E67 ????????
+.byte $6F,$E1,$E6,$E5                             ; 008E70 o???
 D_8E73:
 .byte $01,$00,$01,$00,$01,$00,$01,$00             ; 008E73 ????????
 .byte $00,$00,$01,$00,$01,$00,$00,$00             ; 008E7B ????????
@@ -1648,12 +1544,11 @@ D_8ED9:
 .byte $00,$00,$00,$00,$00,$00,$EA,$EA             ; 008EF1 ????????
 .byte $EB,$EB                                     ; 008EFA ??
 D_8EFB:
-.byte $01,$01                                     ; 008EFC ??
-D_8EFD:
-.byte $01,$01,$00,$01,$01,$00,$00,$00             ; 008EFD ????????
-.byte $01,$01,$01,$01,$01,$01,$01,$01             ; 008F05 ????????
-.byte $01,$01,$01,$01,$01,$01,$00,$00             ; 008F0D ????????
-.byte $00,$00,$00,$00,$01,$01,$01,$01             ; 008F15 ????????
+.byte $01,$01,$01,$01,$00,$01,$01,$00             ; 008EFB ????????
+.byte $00,$00,$01,$01,$01,$01,$01,$01             ; 008F03 ????????
+.byte $01,$01,$01,$01,$01,$01,$01,$01             ; 008F0B ????????
+.byte $00,$00,$00,$00,$00,$00,$01,$01             ; 008F13 ????????
+.byte $01,$01                                     ; 008F1C ??
 D_8F1D:
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 008F1D ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 008F25 ????????
@@ -1669,35 +1564,32 @@ D_8F3F:
 D_8F61:
 .byte $7F,$7F,$7F,$7F,$00,$7F,$7F,$00             ; 008F61 ????????
 .byte $00,$00,$7F,$7F,$7F,$7F,$7F,$7F             ; 008F69 ????????
-D_8F71:
-.byte $7F                                         ; 008F72 ?
-D_8F72:
-.byte $7F,$7F,$7F,$7F,$7F,$7F,$7F,$00             ; 008F72 ????????
-.byte $00,$00,$00,$00,$00,$7F,$7F,$7F             ; 008F7A ????????
-.byte $7F                                         ; 008F83 ?
+.byte $7F,$7F,$7F,$7F,$7F,$7F,$7F,$7F             ; 008F71 ????????
+.byte $00,$00,$00,$00,$00,$00,$7F,$7F             ; 008F79 ????????
+.byte $7F,$7F                                     ; 008F82 ??
 
 
 L_8F83:
   INC $D2                                         ; 008F83 E6 D2 
-  JSR L_E5ED                                      ; 008F85 20 ED E5 
-  JSR L_99AE                                      ; 008F88 20 AE 99 
+  JSR (L_E5ED & $FFFF)                            ; 008F85 20 ED E5 
+  JSR (L_99AE & $FFFF)                            ; 008F88 20 AE 99 
   JSL f:L_3811E                                   ; 008F8B 22 1E 81 03 
-  JSR L_BF4E                                      ; 008F8F 20 4E BF 
+  JSR (L_BF4E & $FFFF)                            ; 008F8F 20 4E BF 
   RTS                                             ; 008F92 60 
 
 
 L_8F93:
   INC $D2                                         ; 008F93 E6 D2 
-  JSR L_E5ED                                      ; 008F95 20 ED E5 
-  JSR L_99AE                                      ; 008F98 20 AE 99 
+  JSR (L_E5ED & $FFFF)                            ; 008F95 20 ED E5 
+  JSR (L_99AE & $FFFF)                            ; 008F98 20 AE 99 
   JSL f:L_3811E                                   ; 008F9B 22 1E 81 03 
-  JSR L_BF4E                                      ; 008F9F 20 4E BF 
+  JSR (L_BF4E & $FFFF)                            ; 008F9F 20 4E BF 
   RTS                                             ; 008FA2 60 
 
 
 L_8FA3:
   STX $0A                                         ; 008FA3 86 0A 
-  LDA D_9010,X                                    ; 008FA5 BD 10 90 
+  LDA (D_9010 & $FFFF),X                          ; 008FA5 BD 10 90 
   STA $1893                                       ; 008FA8 8D 93 18 
   STA $1894                                       ; 008FAB 8D 94 18 
   STA $1895                                       ; 008FAE 8D 95 18 
@@ -1709,13 +1601,13 @@ L_8FA3:
   STZ $188A,X                                     ; 008FBE 9E 8A 18 
   STZ $1888,X                                     ; 008FC1 9E 88 18 
   LDY $0A                                         ; 008FC4 A4 0A 
-  LDA D_900D,Y                                    ; 008FC6 B9 0D 90 
+  LDA (D_900D & $FFFF),Y                          ; 008FC6 B9 0D 90 
   JSL f:L_E5C0                                    ; 008FC9 22 C0 E5 00 
   LDX #$01                                        ; 008FCD A2 01 
   STZ $188A,X                                     ; 008FCF 9E 8A 18 
   STZ $1888,X                                     ; 008FD2 9E 88 18 
   LDY $0A                                         ; 008FD5 A4 0A 
-  LDA D_900D,Y                                    ; 008FD7 B9 0D 90 
+  LDA (D_900D & $FFFF),Y                          ; 008FD7 B9 0D 90 
   JSL f:L_E5C0                                    ; 008FDA 22 C0 E5 00 
   LDA $1897                                       ; 008FDE AD 97 18 
   ASL                                             ; 008FE1 0A 
@@ -1724,11 +1616,8 @@ L_8FA3:
   CLC                                             ; 008FE4 18 
   ADC $1893                                       ; 008FE5 6D 93 18 
   TAX                                             ; 008FE8 AA 
-.i16
-.a16
   LDA f:D_B457,X                                  ; 008FE9 BF 57 B4 00 
   STA $1884                                       ; 008FED 8D 84 18 
-.a8
   LDA #$01                                        ; 008FF0 A9 01 
   STA $19D3                                       ; 008FF2 8D D3 19 
   LDA $1898                                       ; 008FF5 AD 98 18 
@@ -1738,10 +1627,8 @@ L_8FA3:
   CLC                                             ; 008FFB 18 
   ADC $1894                                       ; 008FFC 6D 94 18 
   TAX                                             ; 008FFF AA 
-.a16
   LDA f:D_B457,X                                  ; 009000 BF 57 B4 00 
   STA $1885                                       ; 009004 8D 85 18 
-.a8
   LDA #$01                                        ; 009007 A9 01 
   STA $19D4                                       ; 009009 8D D4 19 
   RTS                                             ; 00900C 60 
@@ -1754,7 +1641,6 @@ D_9010:
 
 
 L_9013:
-.i8
   LDX #$01                                        ; 009013 A2 01 
 B_9015:
   STZ $18B4,X                                     ; 009015 9E B4 18 
@@ -1764,7 +1650,7 @@ B_9015:
   DEX                                             ; 009021 CA 
   BPL B_9015                                      ; 009022 10 F1 
   LDX $1893                                       ; 009024 AE 93 18 
-  LDA D_9059,X                                    ; 009027 BD 59 90 
+  LDA (D_9059 & $FFFF),X                          ; 009027 BD 59 90 
   STA XexzyWalkAnimation                          ; 00902A 8D 86 18 
   LDA #$01                                        ; 00902D A9 01 
   STA $19D5                                       ; 00902F 8D D5 19 
@@ -1773,7 +1659,7 @@ B_9015:
   STZ $1876                                       ; 009038 9C 76 18 
   STZ $187E                                       ; 00903B 9C 7E 18 
   LDX $1894                                       ; 00903E AE 94 18 
-  LDA D_9059,X                                    ; 009041 BD 59 90 
+  LDA (D_9059 & $FFFF),X                          ; 009041 BD 59 90 
   STA $1887                                       ; 009044 8D 87 18 
   LDA #$01                                        ; 009047 A9 01 
   STA $19D6                                       ; 009049 8D D6 19 
@@ -1809,32 +1695,30 @@ B_907D:
   DEX                                             ; 00908E CA 
   BPL B_907D                                      ; 00908F 10 EC 
   LDX #$00                                        ; 009091 A2 00 
-  JSR L_8FA3                                      ; 009093 20 A3 8F 
+  JSR (L_8FA3 & $FFFF)                            ; 009093 20 A3 8F 
   LDA #$52                                        ; 009096 A9 52 
   STA BG2SC                                       ; 009098 8D 08 21 
   LDA #$5A                                        ; 00909B A9 5A 
   STA BG3SC                                       ; 00909D 8D 09 21 
-  JSR L_9568                                      ; 0090A0 20 68 95 
+  JSR (L_9568 & $FFFF)                            ; 0090A0 20 68 95 
   JSL f:L_AC62                                    ; 0090A3 22 62 AC 00 
-  JSR L_94E2                                      ; 0090A7 20 E2 94 
-  JSR L_97B7                                      ; 0090AA 20 B7 97 
+  JSR (L_94E2 & $FFFF)                            ; 0090A7 20 E2 94 
+  JSR (L_97B7 & $FFFF)                            ; 0090AA 20 B7 97 
   LDA ($04),Y                                     ; 0090AD B1 04 
   STA $05AC                                       ; 0090AF 8D AC 05 
-  JSR L_828A                                      ; 0090B2 20 8A 82 
-  JSR L_8BBC                                      ; 0090B5 20 BC 8B 
+  JSR (L_828A & $FFFF)                            ; 0090B2 20 8A 82 
+  JSR (L_8BBC & $FFFF)                            ; 0090B5 20 BC 8B 
   JSL f:L_ECA13                                   ; 0090B8 22 13 CA 0E 
-  JSR L_E883                                      ; 0090BC 20 83 E8 
+  JSR (L_E883 & $FFFF)                            ; 0090BC 20 83 E8 
   LDX #$01                                        ; 0090BF A2 01 
   JSL f:L_ACE4                                    ; 0090C1 22 E4 AC 00 
 B_90C5:
-  JSR L_8F83                                      ; 0090C5 20 83 8F 
+  JSR (L_8F83 & $FFFF)                            ; 0090C5 20 83 8F 
   JSL f:L_ECA13                                   ; 0090C8 22 13 CA 0E 
   SEC                                             ; 0090CC 38 
   LDA $06CA                                       ; 0090CD AD CA 06 
   SBC #$02                                        ; 0090D0 E9 02 
   STA $06CA                                       ; 0090D2 8D CA 06 
-
-L_90D5:
   LDA $06CB                                       ; 0090D5 AD CB 06 
   SBC #$00                                        ; 0090D8 E9 00 
   STA $06CB                                       ; 0090DA 8D CB 06 
@@ -1842,9 +1726,7 @@ L_90D5:
   BNE B_90C5                                      ; 0090E0 D0 E3 
   STZ $05DE                                       ; 0090E2 9C DE 05 
   STZ $05DF                                       ; 0090E5 9C DF 05 
-  JSR L_8F83                                      ; 0090E8 20 83 8F 
-
-L_90EB:
+  JSR (L_8F83 & $FFFF)                            ; 0090E8 20 83 8F 
   JSL f:L_ECA13                                   ; 0090EB 22 13 CA 0E 
   LDX #$01                                        ; 0090EF A2 01 
   LDA #$FF                                        ; 0090F1 A9 FF 
@@ -1857,7 +1739,7 @@ B_90F3:
 B_90FE:
   PHX                                             ; 0090FE DA 
   JSL f:L_ECA13                                   ; 0090FF 22 13 CA 0E 
-  JSR L_8F83                                      ; 009103 20 83 8F 
+  JSR (L_8F83 & $FFFF)                            ; 009103 20 83 8F 
   PLX                                             ; 009106 FA 
   DEX                                             ; 009107 CA 
   BPL B_90FE                                      ; 009108 10 F4 
@@ -1868,17 +1750,15 @@ B_910C:
   DEX                                             ; 009112 CA 
   BPL B_910C                                      ; 009113 10 F7 
   JSL f:L_ECA13                                   ; 009115 22 13 CA 0E 
-  JSR L_9013                                      ; 009119 20 13 90 
-
-L_911C:
-  JSR L_8F83                                      ; 00911C 20 83 8F 
+  JSR (L_9013 & $FFFF)                            ; 009119 20 13 90 
+  JSR (L_8F83 & $FFFF)                            ; 00911C 20 83 8F 
   LDX #$3C                                        ; 00911F A2 3C 
   JSL f:L_EC972                                   ; 009121 22 72 C9 0E 
-  JSR L_94AB                                      ; 009125 20 AB 94 
-  JSR L_E933                                      ; 009128 20 33 E9 
+  JSR (L_94AB & $FFFF)                            ; 009125 20 AB 94 
+  JSR (L_E933 & $FFFF)                            ; 009128 20 33 E9 
   LDX #$01                                        ; 00912B A2 01 
   JSL f:L_ACE4                                    ; 00912D 22 E4 AC 00 
-  JSR L_8A3A                                      ; 009131 20 3A 8A 
+  JSR (L_8A3A & $FFFF)                            ; 009131 20 3A 8A 
   STZ $0A62                                       ; 009134 9C 62 0A 
   STZ $0A63                                       ; 009137 9C 63 0A 
   JSL f:L_ECA13                                   ; 00913A 22 13 CA 0E 
@@ -1911,15 +1791,15 @@ B_9167:
   DEX                                             ; 009178 CA 
   BPL B_9167                                      ; 009179 10 EC 
   LDX #$01                                        ; 00917B A2 01 
-  JSR L_8FA3                                      ; 00917D 20 A3 8F 
+  JSR (L_8FA3 & $FFFF)                            ; 00917D 20 A3 8F 
   LDA #$51                                        ; 009180 A9 51 
   STA BG2SC                                       ; 009182 8D 08 21 
   LDA #$59                                        ; 009185 A9 59 
   STA BG3SC                                       ; 009187 8D 09 21 
-  JSR L_9568                                      ; 00918A 20 68 95 
+  JSR (L_9568 & $FFFF)                            ; 00918A 20 68 95 
   JSL f:L_AC62                                    ; 00918D 22 62 AC 00 
-  JSR L_94E2                                      ; 009191 20 E2 94 
-  JSR L_97B7                                      ; 009194 20 B7 97 
+  JSR (L_94E2 & $FFFF)                            ; 009191 20 E2 94 
+  JSR (L_97B7 & $FFFF)                            ; 009194 20 B7 97 
   INY                                             ; 009197 C8 
   LDA ($04),Y                                     ; 009198 B1 04 
   STA $05AC                                       ; 00919A 8D AC 05 
@@ -1952,18 +1832,18 @@ B_91C7:
   STA $05DD                                       ; 0091D8 8D DD 05 
   LDA #$80                                        ; 0091DB A9 80 
   STA $05D9                                       ; 0091DD 8D D9 05 
-  JSR L_828A                                      ; 0091E0 20 8A 82 
-  JSR L_8BBC                                      ; 0091E3 20 BC 8B 
+  JSR (L_828A & $FFFF)                            ; 0091E0 20 8A 82 
+  JSR (L_8BBC & $FFFF)                            ; 0091E3 20 BC 8B 
   JSL f:L_ECA13                                   ; 0091E6 22 13 CA 0E 
   JSL f:L_ECA6A                                   ; 0091EA 22 6A CA 0E 
-  JSR L_E883                                      ; 0091EE 20 83 E8 
+  JSR (L_E883 & $FFFF)                            ; 0091EE 20 83 E8 
   LDX #$01                                        ; 0091F1 A2 01 
   JSL f:L_ACE4                                    ; 0091F3 22 E4 AC 00 
 B_91F7:
-  JSR L_8F83                                      ; 0091F7 20 83 8F 
+  JSR (L_8F83 & $FFFF)                            ; 0091F7 20 83 8F 
   JSL f:L_ECA13                                   ; 0091FA 22 13 CA 0E 
   JSL f:L_ECA6A                                   ; 0091FE 22 6A CA 0E 
-  JSR L_9374                                      ; 009202 20 74 93 
+  JSR (L_9374 & $FFFF)                            ; 009202 20 74 93 
   LDA $1BF1                                       ; 009205 AD F1 1B 
   BNE B_9211                                      ; 009208 D0 07 
   LDA $05AC                                       ; 00920A AD AC 05 
@@ -1988,7 +1868,7 @@ B_9222:
   BEQ B_91F7                                      ; 009233 F0 C2 
   STZ $05DE                                       ; 009235 9C DE 05 
   STZ $05DF                                       ; 009238 9C DF 05 
-  JSR L_8F83                                      ; 00923B 20 83 8F 
+  JSR (L_8F83 & $FFFF)                            ; 00923B 20 83 8F 
   JSL f:L_ECA13                                   ; 00923E 22 13 CA 0E 
   JSL f:L_ECA6A                                   ; 009242 22 6A CA 0E 
   LDA $05AC                                       ; 009246 AD AC 05 
@@ -2009,7 +1889,7 @@ B_925D:
   PHX                                             ; 00925D DA 
   JSL f:L_ECA13                                   ; 00925E 22 13 CA 0E 
   JSL f:L_ECA6A                                   ; 009262 22 6A CA 0E 
-  JSR L_8F83                                      ; 009266 20 83 8F 
+  JSR (L_8F83 & $FFFF)                            ; 009266 20 83 8F 
   LDA $05AC                                       ; 009269 AD AC 05 
   CMP #$01                                        ; 00926C C9 01 
   BNE B_927E                                      ; 00926E D0 0E 
@@ -2031,8 +1911,8 @@ B_9284:
   BPL B_9284                                      ; 00928B 10 F7 
   JSL f:L_ECA13                                   ; 00928D 22 13 CA 0E 
   JSL f:L_ECA6A                                   ; 009291 22 6A CA 0E 
-  JSR L_9013                                      ; 009295 20 13 90 
-  JSR L_8F83                                      ; 009298 20 83 8F 
+  JSR (L_9013 & $FFFF)                            ; 009295 20 13 90 
+  JSR (L_8F83 & $FFFF)                            ; 009298 20 83 8F 
   LDA $1BF1                                       ; 00929B AD F1 1B 
   BNE B_92A7                                      ; 00929E D0 07 
   LDA $05AC                                       ; 0092A0 AD AC 05 
@@ -2060,13 +1940,13 @@ B_92D3:
   LDX #$3C                                        ; 0092D3 A2 3C 
   JSL f:L_EC972                                   ; 0092D5 22 72 C9 0E 
 B_92D9:
-  JSR L_94AB                                      ; 0092D9 20 AB 94 
-  JSR L_E933                                      ; 0092DC 20 33 E9 
+  JSR (L_94AB & $FFFF)                            ; 0092D9 20 AB 94 
+  JSR (L_E933 & $FFFF)                            ; 0092DC 20 33 E9 
   LDX #$00                                        ; 0092DF A2 00 
   JSL f:L_ACE4                                    ; 0092E1 22 E4 AC 00 
   LDA #$01                                        ; 0092E5 A9 01 
   STA $05D9                                       ; 0092E7 8D D9 05 
-  JSR L_8A3A                                      ; 0092EA 20 3A 8A 
+  JSR (L_8A3A & $FFFF)                            ; 0092EA 20 3A 8A 
   LDA $05AB                                       ; 0092ED AD AB 05 
   CMP #$02                                        ; 0092F0 C9 02 
   BNE B_92FE                                      ; 0092F2 D0 0A 
@@ -2087,11 +1967,9 @@ B_92FE:
 L_9311:
   PHP                                             ; 009311 08 
   REP #$30                                        ; 009312 C2 30 
-.i16
   LDX #$3BAE                                      ; 009314 A2 AE 3B 
-.a16
   LDA #$E067                                      ; 009317 A9 67 E0 
-  LDY #$000D                                      ; 00931A A0 0D 00 
+  LDY.W #$000D                                    ; 00931A A0 0D 00 
   JSL f:L_58000                                   ; 00931D 22 00 80 05 
   SEP #$20                                        ; 009321 E2 20 
   LDX #$7800                                      ; 009323 A2 00 78 
@@ -2100,7 +1978,6 @@ L_9311:
   STX $1A92                                       ; 00932C 8E 92 1A 
   LDX #$3BAE                                      ; 00932F A2 AE 3B 
   STX $1A94                                       ; 009332 8E 94 1A 
-.a8
   LDA #$7E                                        ; 009335 A9 7E 
   STA $1A96                                       ; 009337 8D 96 1A 
   LDX #$1000                                      ; 00933A A2 00 10 
@@ -2158,7 +2035,6 @@ L_93A4:
   STZ $06C9                                       ; 0093B7 9C C9 06 
   STZ $06CA                                       ; 0093BA 9C CA 06 
   STZ $06CB                                       ; 0093BD 9C CB 06 
-.i8
   LDX #$01                                        ; 0093C0 A2 01 
 B_93C2:
   STZ $18B4,X                                     ; 0093C2 9E B4 18 
@@ -2170,27 +2046,27 @@ B_93C2:
   DEX                                             ; 0093D3 CA 
   BPL B_93C2                                      ; 0093D4 10 EC 
   LDX #$02                                        ; 0093D6 A2 02 
-  JSR L_8FA3                                      ; 0093D8 20 A3 8F 
+  JSR (L_8FA3 & $FFFF)                            ; 0093D8 20 A3 8F 
   LDA #$52                                        ; 0093DB A9 52 
   STA BG2SC                                       ; 0093DD 8D 08 21 
   LDA #$5A                                        ; 0093E0 A9 5A 
   STA BG3SC                                       ; 0093E2 8D 09 21 
-  JSR L_9568                                      ; 0093E5 20 68 95 
+  JSR (L_9568 & $FFFF)                            ; 0093E5 20 68 95 
   JSL f:L_AC62                                    ; 0093E8 22 62 AC 00 
-  JSR L_94E2                                      ; 0093EC 20 E2 94 
-  JSR L_97B7                                      ; 0093EF 20 B7 97 
+  JSR (L_94E2 & $FFFF)                            ; 0093EC 20 E2 94 
+  JSR (L_97B7 & $FFFF)                            ; 0093EF 20 B7 97 
   INY                                             ; 0093F2 C8 
   INY                                             ; 0093F3 C8 
   LDA ($04),Y                                     ; 0093F4 B1 04 
   STA $05AC                                       ; 0093F6 8D AC 05 
-  JSR L_828A                                      ; 0093F9 20 8A 82 
-  JSR L_8BBC                                      ; 0093FC 20 BC 8B 
+  JSR (L_828A & $FFFF)                            ; 0093F9 20 8A 82 
+  JSR (L_8BBC & $FFFF)                            ; 0093FC 20 BC 8B 
   LDA #$03                                        ; 0093FF A9 03 
   STA $05E1                                       ; 009401 8D E1 05 
   LDA #$64                                        ; 009404 A9 64 
   STA $05E3                                       ; 009406 8D E3 05 
   JSL f:L_ECA13                                   ; 009409 22 13 CA 0E 
-  JSR L_E883                                      ; 00940D 20 83 E8 
+  JSR (L_E883 & $FFFF)                            ; 00940D 20 83 E8 
   LDX #$00                                        ; 009410 A2 00 
   LDA $06C9                                       ; 009412 AD C9 06 
   ORA $06CB                                       ; 009415 0D CB 06 
@@ -2199,8 +2075,8 @@ B_93C2:
 B_941B:
   JSL f:L_ACE4                                    ; 00941B 22 E4 AC 00 
 B_941F:
-  JSR L_8F83                                      ; 00941F 20 83 8F 
-  JSR L_A250                                      ; 009422 20 50 A2 
+  JSR (L_8F83 & $FFFF)                            ; 00941F 20 83 8F 
+  JSR (L_A250 & $FFFF)                            ; 009422 20 50 A2 
   JSL f:L_ECA13                                   ; 009425 22 13 CA 0E 
   CLC                                             ; 009429 18 
   LDA $06CA                                       ; 00942A AD CA 06 
@@ -2210,10 +2086,9 @@ B_941F:
   ADC #$00                                        ; 009435 69 00 
   STA $06CB                                       ; 009437 8D CB 06 
   BEQ B_941F                                      ; 00943A F0 E3 
-D_943C:
   STZ $05DE                                       ; 00943C 9C DE 05 
   STZ $05DF                                       ; 00943F 9C DF 05 
-  JSR L_8F83                                      ; 009442 20 83 8F 
+  JSR (L_8F83 & $FFFF)                            ; 009442 20 83 8F 
   JSL f:L_ECA13                                   ; 009445 22 13 CA 0E 
   LDX #$01                                        ; 009449 A2 01 
   LDA #$01                                        ; 00944B A9 01 
@@ -2221,17 +2096,15 @@ B_944D:
   STA $0A62,X                                     ; 00944D 9D 62 0A 
   STA $18BA,X                                     ; 009450 9D BA 18 
   DEX                                             ; 009453 CA 
-D_9454:
   BPL B_944D                                      ; 009454 10 F7 
   LDX #$24                                        ; 009456 A2 24 
 B_9458:
   PHX                                             ; 009458 DA 
   JSL f:L_ECA13                                   ; 009459 22 13 CA 0E 
-  JSR L_8F83                                      ; 00945D 20 83 8F 
+  JSR (L_8F83 & $FFFF)                            ; 00945D 20 83 8F 
   PLX                                             ; 009460 FA 
   DEX                                             ; 009461 CA 
   BPL B_9458                                      ; 009462 10 F4 
-D_9464:
   LDX #$01                                        ; 009464 A2 01 
 B_9466:
   STZ $0A62,X                                     ; 009466 9E 62 0A 
@@ -2239,15 +2112,15 @@ B_9466:
   DEX                                             ; 00946C CA 
   BPL B_9466                                      ; 00946D 10 F7 
   JSL f:L_ECA13                                   ; 00946F 22 13 CA 0E 
-  JSR L_9013                                      ; 009473 20 13 90 
-  JSR L_8F83                                      ; 009476 20 83 8F 
+  JSR (L_9013 & $FFFF)                            ; 009473 20 13 90 
+  JSR (L_8F83 & $FFFF)                            ; 009476 20 83 8F 
   LDX #$3C                                        ; 009479 A2 3C 
   JSL f:L_EC972                                   ; 00947B 22 72 C9 0E 
-  JSR L_94AB                                      ; 00947F 20 AB 94 
-  JSR L_E933                                      ; 009482 20 33 E9 
+  JSR (L_94AB & $FFFF)                            ; 00947F 20 AB 94 
+  JSR (L_E933 & $FFFF)                            ; 009482 20 33 E9 
   LDX #$00                                        ; 009485 A2 00 
   JSL f:L_ACE4                                    ; 009487 22 E4 AC 00 
-  JSR L_8A3A                                      ; 00948B 20 3A 8A 
+  JSR (L_8A3A & $FFFF)                            ; 00948B 20 3A 8A 
   JSL f:L_ECA13                                   ; 00948E 22 13 CA 0E 
   LDA #$50                                        ; 009492 A9 50 
   STA BG2SC                                       ; 009494 8D 08 21 
@@ -2268,7 +2141,7 @@ B_94A4:
 
 
 L_94AB:
-  JSR L_94A2                                      ; 0094AB 20 A2 94 
+  JSR (L_94A2 & $FFFF)                            ; 0094AB 20 A2 94 
   STZ $04                                         ; 0094AE 64 04 
   LDX #$02                                        ; 0094B0 A2 02 
 B_94B2:
@@ -2318,12 +2191,10 @@ B_94E4:
   STA XexzyCharX,X                                ; 009513 9D 46 0B 
   LDA $196B,Y                                     ; 009516 B9 6B 19 
   STA $0C9C,X                                     ; 009519 9D 9C 0C 
-D_951C:
   STZ $0BB8,X                                     ; 00951C 9E B8 0B 
   STZ $0D0E,X                                     ; 00951F 9E 0E 0D 
   PHY                                             ; 009522 5A 
   PHX                                             ; 009523 DA 
-D_9524:
   LDY $14A0,X                                     ; 009524 BC A0 14 
   JSL f:L_AEF1                                    ; 009527 22 F1 AE 00 
   LDA $14A0,X                                     ; 00952B BD A0 14 
@@ -2346,10 +2217,9 @@ B_9541:
   TYA                                             ; 009546 98 
   STA $14A0,X                                     ; 009547 9D A0 14 
   LDA #$01                                        ; 00954A A9 01 
-D_954C:
   STA $175E,Y                                     ; 00954C 99 5E 17 
   JSL f:L_AEF1                                    ; 00954F 22 F1 AE 00 
-  JSR L_955B                                      ; 009553 20 5B 95 
+  JSR (L_955B & $FFFF)                            ; 009553 20 5B 95 
   PLY                                             ; 009556 7A 
 B_9557:
   DEY                                             ; 009557 88 
@@ -2412,27 +2282,26 @@ L_959E:
 B_95AA:
   LDY #$02                                        ; 0095AA A0 02 
 B_95AC:
-  LDA D_95E4,Y                                    ; 0095AC B9 E4 95 
+  LDA (D_95E4 & $FFFF),Y                          ; 0095AC B9 E4 95 
   AND $05D5                                       ; 0095AF 2D D5 05 
   BNE B_95E0                                      ; 0095B2 D0 2C 
   LDX #$01                                        ; 0095B4 A2 01 
 B_95B6:
-  LDA D_95E7,Y                                    ; 0095B6 B9 E7 95 
+  LDA (D_95E7 & $FFFF),Y                          ; 0095B6 B9 E7 95 
   CMP XexzyCharX,X                                ; 0095B9 DD 46 0B 
   BCS B_95DD                                      ; 0095BC B0 1F 
-  LDA D_95EA,Y                                    ; 0095BE B9 EA 95 
+  LDA (D_95EA & $FFFF),Y                          ; 0095BE B9 EA 95 
   CMP XexzyCharX,X                                ; 0095C1 DD 46 0B 
   BCC B_95DD                                      ; 0095C4 90 17 
-  LDA D_95ED,Y                                    ; 0095C6 B9 ED 95 
+  LDA (D_95ED & $FFFF),Y                          ; 0095C6 B9 ED 95 
   CMP $0C9C,X                                     ; 0095C9 DD 9C 0C 
   BCS B_95DD                                      ; 0095CC B0 0F 
-  LDA D_95F0,Y                                    ; 0095CE B9 F0 95 
-D_95D1:
+  LDA (D_95F0 & $FFFF),Y                          ; 0095CE B9 F0 95 
   CMP $0C9C,X                                     ; 0095D1 DD 9C 0C 
   BCC B_95DD                                      ; 0095D4 90 07 
-  LDA $0004,Y                                     ; 0095D6 B9 04 00 
-  INC                                             ; 0095D9 1A 
-  STA $0004,Y                                     ; 0095DA 99 04 00 
+  LDA.W $0004,Y                                   ; 0095D6 B9 04 00 
+.byte $1A
+  STA.W $0004,Y                                   ; 0095DA 99 04 00 
 B_95DD:
   DEX                                             ; 0095DD CA 
   BPL B_95B6                                      ; 0095DE 10 D6 
@@ -2457,7 +2326,7 @@ D_95F0:
 L_95F3:
   DEC $05D4                                       ; 0095F3 CE D4 05 
   BEQ B_95FB                                      ; 0095F6 F0 03 
-  JMP D_969B                                      ; 0095F8 4C 9B 96 
+  JMP (D_969B & $FFFF)                            ; 0095F8 4C 9B 96 
 B_95FB:
   LDA #$FF                                        ; 0095FB A9 FF 
   STA $05D4                                       ; 0095FD 8D D4 05 
@@ -2466,13 +2335,13 @@ B_95FB:
   LDA $05AC                                       ; 009607 AD AC 05 
   CMP #$01                                        ; 00960A C9 01 
   BNE B_9611                                      ; 00960C D0 03 
-  JSR L_8663                                      ; 00960E 20 63 86 
+  JSR (L_8663 & $FFFF)                            ; 00960E 20 63 86 
 B_9611:
   LDA $05D5                                       ; 009611 AD D5 05 
   AND #$01                                        ; 009614 29 01 
   BNE B_9625                                      ; 009616 D0 0D 
   LDY #$00                                        ; 009618 A0 00 
-  JSR L_96B9                                      ; 00961A 20 B9 96 
+  JSR (L_96B9 & $FFFF)                            ; 00961A 20 B9 96 
   LDA #$01                                        ; 00961D A9 01 
   STA $05E4                                       ; 00961F 8D E4 05 
   STA $05E3                                       ; 009622 8D E3 05 
@@ -2490,17 +2359,16 @@ B_963A:
   CMP #$07                                        ; 00963A C9 07 
   BEQ B_9643                                      ; 00963C F0 05 
   LDY #$01                                        ; 00963E A0 01 
-  JSR L_96B9                                      ; 009640 20 B9 96 
+  JSR (L_96B9 & $FFFF)                            ; 009640 20 B9 96 
 B_9643:
   LDA $05D5                                       ; 009643 AD D5 05 
   AND #$04                                        ; 009646 29 04 
   BNE B_964F                                      ; 009648 D0 05 
   LDY #$02                                        ; 00964A A0 02 
-  JSR L_96B9                                      ; 00964C 20 B9 96 
+  JSR (L_96B9 & $FFFF)                            ; 00964C 20 B9 96 
 B_964F:
   REP #$10                                        ; 00964F C2 10 
   SEP #$20                                        ; 009651 E2 20 
-.i16
   LDX #$6600                                      ; 009653 A2 00 66 
   STX $1A99                                       ; 009656 8E 99 1A 
   LDX #$1801                                      ; 009659 A2 01 18 
@@ -2515,16 +2383,13 @@ B_964F:
   STA $1A91                                       ; 009672 8D 91 1A 
   JSL f:L_ECA13                                   ; 009675 22 13 CA 0E 
   REP #$20                                        ; 009679 C2 20 
-.a16
   LDA #$8017                                      ; 00967B A9 17 80 
   JSL f:L_F8401                                   ; 00967E 22 01 84 0F 
   SEP #$20                                        ; 009682 E2 20 
-.a8
   LDA #$07                                        ; 009684 A9 07 
   LDX #$FF17                                      ; 009686 A2 17 FF 
   JSL f:L_F830F                                   ; 009689 22 0F 83 0F 
   SEP #$30                                        ; 00968D E2 30 
-.i8
   LDX #$26                                        ; 00968F A2 26 
   JSL f:L_EF072                                   ; 009691 22 72 F0 0E 
   LDA #$92                                        ; 009695 A9 92 
@@ -2558,17 +2423,14 @@ L_96B9:
   STA $0828,X                                     ; 0096CA 9D 28 08 
   LDA #$03                                        ; 0096CD A9 03 
   STA $0744,X                                     ; 0096CF 9D 44 07 
-D_96D2:
   LDY $04                                         ; 0096D2 A4 04 
-  LDA D_97AB,Y                                    ; 0096D4 B9 AB 97 
+  LDA (D_97AB & $FFFF),Y                          ; 0096D4 B9 AB 97 
   STA $13BC,X                                     ; 0096D7 9D BC 13 
-D_96DA:
-  LDA D_97AE,Y                                    ; 0096DA B9 AE 97 
+  LDA (D_97AE & $FFFF),Y                          ; 0096DA B9 AE 97 
   STA $142E,X                                     ; 0096DD 9D 2E 14 
-  LDA D_97A5,Y                                    ; 0096E0 B9 A5 97 
-D_96E3:
+  LDA (D_97A5 & $FFFF),Y                          ; 0096E0 B9 A5 97 
   STA XexzyCharX,X                                ; 0096E3 9D 46 0B 
-  LDA D_97A8,Y                                    ; 0096E6 B9 A8 97 
+  LDA (D_97A8 & $FFFF),Y                          ; 0096E6 B9 A8 97 
   STA $0C9C,X                                     ; 0096E9 9D 9C 0C 
   JSL f:L_AEAF                                    ; 0096EC 22 AF AE 00 
   TYA                                             ; 0096F0 98 
@@ -2594,10 +2456,9 @@ D_96E3:
   STA $13BC,X                                     ; 009724 9D BC 13 
   LDA #$22                                        ; 009727 A9 22 
   STA $142E,X                                     ; 009729 9D 2E 14 
-  LDA D_97B1,Y                                    ; 00972C B9 B1 97 
+  LDA (D_97B1 & $FFFF),Y                          ; 00972C B9 B1 97 
   STA XexzyCharX,X                                ; 00972F 9D 46 0B 
-D_9732:
-  LDA D_97B4,Y                                    ; 009732 B9 B4 97 
+  LDA (D_97B4 & $FFFF),Y                          ; 009732 B9 B4 97 
   STA $0C9C,X                                     ; 009735 9D 9C 0C 
   JSL f:L_AEAF                                    ; 009738 22 AF AE 00 
   TYA                                             ; 00973C 98 
@@ -2624,10 +2485,10 @@ D_9732:
   LDA #$22                                        ; 009773 A9 22 
   STA $142E,X                                     ; 009775 9D 2E 14 
   CLC                                             ; 009778 18 
-  LDA D_97B1,Y                                    ; 009779 B9 B1 97 
+  LDA (D_97B1 & $FFFF),Y                          ; 009779 B9 B1 97 
   ADC #$10                                        ; 00977C 69 10 
   STA XexzyCharX,X                                ; 00977E 9D 46 0B 
-  LDA D_97B4,Y                                    ; 009781 B9 B4 97 
+  LDA (D_97B4 & $FFFF),Y                          ; 009781 B9 B4 97 
   STA $0C9C,X                                     ; 009784 9D 9C 0C 
   JSL f:L_AEAF                                    ; 009787 22 AF AE 00 
   TYA                                             ; 00978B 98 
@@ -2668,9 +2529,9 @@ L_97B7:
   ADC $04                                         ; 0097C2 65 04 
   TAY                                             ; 0097C4 A8 
   LDX $05AB                                       ; 0097C5 AE AB 05 
-  LDA D_AA78,X                                    ; 0097C8 BD 78 AA 
+  LDA (D_AA78 & $FFFF),X                          ; 0097C8 BD 78 AA 
   STA $04                                         ; 0097CB 85 04 
-  LDA D_AA7B,X                                    ; 0097CD BD 7B AA 
+  LDA (D_AA7B & $FFFF),X                          ; 0097CD BD 7B AA 
   STA $05                                         ; 0097D0 85 05 
   RTS                                             ; 0097D2 60 
 
@@ -2679,10 +2540,9 @@ L_97D3:
   PHB                                             ; 0097D3 8B 
   LDA #$00                                        ; 0097D4 A9 00 
   STA $05D5                                       ; 0097D6 8D D5 05 
-  JSR L_97B7                                      ; 0097D9 20 B7 97 
+  JSR (L_97B7 & $FFFF)                            ; 0097D9 20 B7 97 
   LDA ($04),Y                                     ; 0097DC B1 04 
   BNE B_97E8                                      ; 0097DE D0 08 
-D_97E0:
   LDA #$01                                        ; 0097E0 A9 01 
   ORA $05D5                                       ; 0097E2 0D D5 05 
   STA $05D5                                       ; 0097E5 8D D5 05 
@@ -2726,15 +2586,9 @@ B_9830:
   BEQ B_9854                                      ; 009835 F0 1D 
 
 .byte $AD,$A4,$18,$D0,$18,$A2,$01,$18             ; 009837 ????????
-.byte $AD,$06                                     ; 009840 ??
-D_9841:
-.byte $02,$69,$03,$9D                             ; 009842 ?i??
-D_9845:
-.byte $31,$05,$20,$AA,$98,$CE                     ; 009846 1? ???
-D_984B:
-.byte $33,$05                                     ; 00984C 3?
-D_984D:
-.byte $A2,$07,$74,$9F,$CA,$10,$FB                 ; 00984E ??t????
+.byte $AD,$06,$02,$69,$03,$9D,$31,$05             ; 00983F ???i??1?
+.byte $20,$AA,$98,$CE,$33,$05,$A2,$07             ; 009847  ???3???
+.byte $74,$9F,$CA,$10,$FB                         ; 009850 t????
 
 B_9854:
   PLP                                             ; 009854 28 
@@ -2764,13 +2618,12 @@ B_9876:
   LDA $0206                                       ; 00987D AD 06 02 
   ADC #$03                                        ; 009880 69 03 
   STA XexzyLivesCount,X                           ; 009882 9D 31 05 
-  JSR L_98AA                                      ; 009885 20 AA 98 
+  JSR (L_98AA & $FFFF)                            ; 009885 20 AA 98 
   RTS                                             ; 009888 60 
 
 B_9889:
   STZ $18A3,X                                     ; 009889 9E A3 18 
   STZ $18A5,X                                     ; 00988C 9E A5 18 
-D_988F:
   LDA $18A3                                       ; 00988F AD A3 18 
   ORA $18A4                                       ; 009892 0D A4 18 
   BNE B_98A2                                      ; 009895 D0 0B 
@@ -2784,7 +2637,7 @@ B_98A2:
 
 B_98A3:
   DEC XexzyLivesCount,X                           ; 0098A3 DE 31 05 
-  JSR L_98AA                                      ; 0098A6 20 AA 98 
+  JSR (L_98AA & $FFFF)                            ; 0098A6 20 AA 98 
   RTS                                             ; 0098A9 60 
 
 
@@ -2792,23 +2645,20 @@ L_98AA:
   PHX                                             ; 0098AA DA 
   JSL f:L_ACB0                                    ; 0098AB 22 B0 AC 00 
   PLX                                             ; 0098AF FA 
-D_98B0:
   LDA #$01                                        ; 0098B0 A9 01 
   STA $18A3,X                                     ; 0098B2 9D A3 18 
   STZ $18A5,X                                     ; 0098B5 9E A5 18 
   LDA #$7C                                        ; 0098B8 A9 7C 
   STA $0C9C,X                                     ; 0098BA 9D 9C 0C 
-  LDA D_995B,X                                    ; 0098BD BD 5B 99 
+  LDA (D_995B & $FFFF),X                          ; 0098BD BD 5B 99 
   STA XexzyCharX,X                                ; 0098C0 9D 46 0B 
   LDA #$28                                        ; 0098C3 A9 28 
   STA $18AB,X                                     ; 0098C5 9D AB 18 
   STZ $18AD,X                                     ; 0098C8 9E AD 18 
   STZ $1897,X                                     ; 0098CB 9E 97 18 
   STZ $18B2,X                                     ; 0098CE 9E B2 18 
-D_98D1:
   STZ $1899,X                                     ; 0098D1 9E 99 18 
   STZ $189B,X                                     ; 0098D4 9E 9B 18 
-D_98D7:
   LDA #$09                                        ; 0098D7 A9 09 
   STA $18B0,X                                     ; 0098D9 9D B0 18 
   LDA #$01                                        ; 0098DC A9 01 
@@ -2817,10 +2667,10 @@ D_98D7:
   STA $1884,X                                     ; 0098E3 9D 84 18 
   LDA #$01                                        ; 0098E6 A9 01 
   STA $19D3,X                                     ; 0098E8 9D D3 19 
-  LDA D_995D,X                                    ; 0098EB BD 5D 99 
+  LDA (D_995D & $FFFF),X                          ; 0098EB BD 5D 99 
   STA $1893,X                                     ; 0098EE 9D 93 18 
   STA $1895,X                                     ; 0098F1 9D 95 18 
-  LDA D_995F,X                                    ; 0098F4 BD 5F 99 
+  LDA (D_995F & $FFFF),X                          ; 0098F4 BD 5F 99 
   STA $188A,X                                     ; 0098F7 9D 8A 18 
   STA $1888,X                                     ; 0098FA 9D 88 18 
   LDA #$03                                        ; 0098FD A9 03 
@@ -2917,14 +2767,14 @@ L_99AE:
   LDA #$04                                        ; 0099BD A9 04 
   STA $04                                         ; 0099BF 85 04 
   LDX $1884                                       ; 0099C1 AE 84 18 
-  LDA D_9BDF,X                                    ; 0099C4 BD DF 9B 
+  LDA (D_9BDF & $FFFF),X                          ; 0099C4 BD DF 9B 
   STA $05                                         ; 0099C7 85 05 
   LDA $1884                                       ; 0099C9 AD 84 18 
   ASL                                             ; 0099CC 0A 
   TAX                                             ; 0099CD AA 
-  LDA D_9AFD,X                                    ; 0099CE BD FD 9A 
+  LDA (D_9AFD & $FFFF),X                          ; 0099CE BD FD 9A 
   STA $06                                         ; 0099D1 85 06 
-  LDA D_9AFE,X                                    ; 0099D3 BD FE 9A 
+  LDA (D_9AFE & $FFFF),X                          ; 0099D3 BD FE 9A 
   STA $07                                         ; 0099D6 85 07 
   LDY #$00                                        ; 0099D8 A0 00 
 B_99DA:
@@ -2958,14 +2808,14 @@ B_9A0B:
   LDA #$04                                        ; 009A12 A9 04 
   STA $04                                         ; 009A14 85 04 
   LDX $1885                                       ; 009A16 AE 85 18 
-  LDA D_9BDF,X                                    ; 009A19 BD DF 9B 
+  LDA (D_9BDF & $FFFF),X                          ; 009A19 BD DF 9B 
   STA $05                                         ; 009A1C 85 05 
   LDA $1885                                       ; 009A1E AD 85 18 
   ASL                                             ; 009A21 0A 
   TAX                                             ; 009A22 AA 
-  LDA D_9AFD,X                                    ; 009A23 BD FD 9A 
+  LDA (D_9AFD & $FFFF),X                          ; 009A23 BD FD 9A 
   STA $06                                         ; 009A26 85 06 
-  LDA D_9AFE,X                                    ; 009A28 BD FE 9A 
+  LDA (D_9AFE & $FFFF),X                          ; 009A28 BD FE 9A 
   STA $07                                         ; 009A2B 85 07 
   LDY #$00                                        ; 009A2D A0 00 
 B_9A2F:
@@ -3001,9 +2851,9 @@ B_9A60:
   LDA XexzyWalkAnimation                          ; 009A6B AD 86 18 
   ASL                                             ; 009A6E 0A 
   TAX                                             ; 009A6F AA 
-  LDA D_9C50,X                                    ; 009A70 BD 50 9C 
+  LDA (D_9C50 & $FFFF),X                          ; 009A70 BD 50 9C 
   STA $06                                         ; 009A73 85 06 
-  LDA D_9C51,X                                    ; 009A75 BD 51 9C 
+  LDA (D_9C51 & $FFFF),X                          ; 009A75 BD 51 9C 
   STA $07                                         ; 009A78 85 07 
   LDY #$18                                        ; 009A7A A0 18 
 B_9A7C:
@@ -3039,9 +2889,9 @@ B_9AAD:
   LDA $1887                                       ; 009AB8 AD 87 18 
   ASL                                             ; 009ABB 0A 
   TAX                                             ; 009ABC AA 
-  LDA D_9C50,X                                    ; 009ABD BD 50 9C 
+  LDA (D_9C50 & $FFFF),X                          ; 009ABD BD 50 9C 
   STA $06                                         ; 009AC0 85 06 
-  LDA D_9C51,X                                    ; 009AC2 BD 51 9C 
+  LDA (D_9C51 & $FFFF),X                          ; 009AC2 BD 51 9C 
   STA $07                                         ; 009AC5 85 07 
   LDY #$18                                        ; 009AC7 A0 18 
 B_9AC9:
@@ -3119,10 +2969,9 @@ D_9BDF:
 .byte $08,$08,$08,$08,$08,$08,$08,$08             ; 009C27 ????????
 .byte $08,$08,$08,$08,$08,$08,$08,$08             ; 009C2F ????????
 .byte $08,$08,$08,$08,$08,$08,$08,$08             ; 009C37 ????????
-.byte $08,$08,$08,$08                             ; 009C40 ????
-L_9C43:
-.byte $08,$08,$08,$08,$08,$08,$08,$08             ; 009C43 ????????
-.byte $08,$08,$08,$08,$08                         ; 009C4C ?????
+.byte $08,$08,$08,$08,$08,$08,$08,$08             ; 009C3F ????????
+.byte $08,$08,$08,$08,$08,$08,$08,$08             ; 009C47 ????????
+.byte $08                                         ; 009C50 ?
 D_9C50:
 .byte $00                                         ; 009C51 ?
 D_9C51:
@@ -3135,11 +2984,10 @@ D_9C51:
 .byte $00,$00,$82,$40,$82,$80,$82,$C0             ; 009C81 ???@????
 .byte $82,$00,$83,$40,$83,$00,$00,$00             ; 009C89 ???@????
 .byte $00,$00,$80,$40,$80,$80,$80,$C0             ; 009C91 ???@????
-.byte $80,$00,$81,$40                             ; 009C9A ???@
-L_9C9D:
-.byte $81,$80,$81,$C0,$81,$00,$92,$40             ; 009C9D ???????@
-.byte $92,$80,$92,$C0,$92,$00,$93,$00             ; 009CA5 ????????
-.byte $00,$00,$00,$00,$00                         ; 009CAE ?????
+.byte $80,$00,$81,$40,$81,$80,$81,$C0             ; 009C99 ???@????
+.byte $81,$00,$92,$40,$92,$80,$92,$C0             ; 009CA1 ???@????
+.byte $92,$00,$93,$00,$00,$00,$00,$00             ; 009CA9 ????????
+.byte $00                                         ; 009CB2 ?
 
 
 L_9CB2:
@@ -3157,7 +3005,7 @@ L_9CB2:
   LDA #$02                                        ; 009CC7 A9 02 
   STA $1868                                       ; 009CC9 8D 68 18 
   LDA $185E                                       ; 009CCC AD 5E 18 
-  INC                                             ; 009CCF 1A 
+.byte $1A
   CMP #$05                                        ; 009CD0 C9 05 
   BCC B_9CD6                                      ; 009CD2 90 02 
   LDA #$00                                        ; 009CD4 A9 00 
@@ -3168,9 +3016,9 @@ B_9CD6:
   LDA $185E                                       ; 009CDD AD 5E 18 
   ASL                                             ; 009CE0 0A 
   TAX                                             ; 009CE1 AA 
-  LDA D_A15A,X                                    ; 009CE2 BD 5A A1 
+  LDA (D_A15A & $FFFF),X                          ; 009CE2 BD 5A A1 
   STA $06                                         ; 009CE5 85 06 
-  LDA D_A15B,X                                    ; 009CE7 BD 5B A1 
+  LDA (D_A15B & $FFFF),X                          ; 009CE7 BD 5B A1 
   STA $07                                         ; 009CEA 85 07 
   LDY #$00                                        ; 009CEC A0 00 
 B_9CEE:
@@ -3205,7 +3053,7 @@ B_9D1F:
   LDA #$03                                        ; 009D29 A9 03 
   STA $1869                                       ; 009D2B 8D 69 18 
   LDA $185F                                       ; 009D2E AD 5F 18 
-  INC                                             ; 009D31 1A 
+.byte $1A
   CMP #$05                                        ; 009D32 C9 05 
   BCC B_9D38                                      ; 009D34 90 02 
   LDA #$00                                        ; 009D36 A9 00 
@@ -3216,9 +3064,9 @@ B_9D38:
   LDA $185F                                       ; 009D3F AD 5F 18 
   ASL                                             ; 009D42 0A 
   TAX                                             ; 009D43 AA 
-  LDA D_A164,X                                    ; 009D44 BD 64 A1 
+  LDA (D_A164 & $FFFF),X                          ; 009D44 BD 64 A1 
   STA $06                                         ; 009D47 85 06 
-  LDA D_A165,X                                    ; 009D49 BD 65 A1 
+  LDA (D_A165 & $FFFF),X                          ; 009D49 BD 65 A1 
   STA $07                                         ; 009D4C 85 07 
   LDY #$00                                        ; 009D4E A0 00 
 B_9D50:
@@ -3253,7 +3101,7 @@ B_9D81:
   LDA #$02                                        ; 009D8B A9 02 
   STA $186A                                       ; 009D8D 8D 6A 18 
   LDA $1860                                       ; 009D90 AD 60 18 
-  INC                                             ; 009D93 1A 
+.byte $1A
   CMP #$03                                        ; 009D94 C9 03 
   BCC B_9D9A                                      ; 009D96 90 02 
   LDA #$00                                        ; 009D98 A9 00 
@@ -3264,9 +3112,9 @@ B_9D9A:
   LDA $1860                                       ; 009DA1 AD 60 18 
   ASL                                             ; 009DA4 0A 
   TAX                                             ; 009DA5 AA 
-  LDA D_A16E,X                                    ; 009DA6 BD 6E A1 
+  LDA (D_A16E & $FFFF),X                          ; 009DA6 BD 6E A1 
   STA $06                                         ; 009DA9 85 06 
-  LDA D_A16F,X                                    ; 009DAB BD 6F A1 
+  LDA (D_A16F & $FFFF),X                          ; 009DAB BD 6F A1 
   STA $07                                         ; 009DAE 85 07 
   LDY #$00                                        ; 009DB0 A0 00 
 B_9DB2:
@@ -3301,7 +3149,7 @@ B_9DE3:
   LDA #$03                                        ; 009DED A9 03 
   STA $186B                                       ; 009DEF 8D 6B 18 
   LDA $1861                                       ; 009DF2 AD 61 18 
-  INC                                             ; 009DF5 1A 
+.byte $1A
   CMP #$03                                        ; 009DF6 C9 03 
   BCC B_9DFC                                      ; 009DF8 90 02 
   LDA #$00                                        ; 009DFA A9 00 
@@ -3312,9 +3160,9 @@ B_9DFC:
   LDA $1861                                       ; 009E03 AD 61 18 
   ASL                                             ; 009E06 0A 
   TAX                                             ; 009E07 AA 
-  LDA D_A176,X                                    ; 009E08 BD 76 A1 
+  LDA (D_A176 & $FFFF),X                          ; 009E08 BD 76 A1 
   STA $06                                         ; 009E0B 85 06 
-  LDA D_A177,X                                    ; 009E0D BD 77 A1 
+  LDA (D_A177 & $FFFF),X                          ; 009E0D BD 77 A1 
   STA $07                                         ; 009E10 85 07 
   LDY #$00                                        ; 009E12 A0 00 
 B_9E14:
@@ -3349,7 +3197,7 @@ B_9E45:
   LDA #$06                                        ; 009E4F A9 06 
   STA $186C                                       ; 009E51 8D 6C 18 
   LDA $1862                                       ; 009E54 AD 62 18 
-  INC                                             ; 009E57 1A 
+.byte $1A
   CMP #$08                                        ; 009E58 C9 08 
   BCC B_9E5E                                      ; 009E5A 90 02 
   LDA #$00                                        ; 009E5C A9 00 
@@ -3360,9 +3208,9 @@ B_9E5E:
   LDA $1862                                       ; 009E65 AD 62 18 
   ASL                                             ; 009E68 0A 
   TAX                                             ; 009E69 AA 
-  LDA D_A14A,X                                    ; 009E6A BD 4A A1 
+  LDA (D_A14A & $FFFF),X                          ; 009E6A BD 4A A1 
   STA $06                                         ; 009E6D 85 06 
-  LDA D_A14B,X                                    ; 009E6F BD 4B A1 
+  LDA (D_A14B & $FFFF),X                          ; 009E6F BD 4B A1 
   STA $07                                         ; 009E72 85 07 
   LDY #$00                                        ; 009E74 A0 00 
 B_9E76:
@@ -3397,7 +3245,7 @@ B_9EA7:
   LDA #$07                                        ; 009EB1 A9 07 
   STA $186D                                       ; 009EB3 8D 6D 18 
   LDA $1863                                       ; 009EB6 AD 63 18 
-  INC                                             ; 009EB9 1A 
+.byte $1A
   CMP #$07                                        ; 009EBA C9 07 
   BCC B_9EC0                                      ; 009EBC 90 02 
   LDA #$00                                        ; 009EBE A9 00 
@@ -3408,9 +3256,9 @@ B_9EC0:
   LDA $1863                                       ; 009EC7 AD 63 18 
   ASL                                             ; 009ECA 0A 
   TAX                                             ; 009ECB AA 
-  LDA D_A13C,X                                    ; 009ECC BD 3C A1 
+  LDA (D_A13C & $FFFF),X                          ; 009ECC BD 3C A1 
   STA $06                                         ; 009ECF 85 06 
-  LDA D_A13D,X                                    ; 009ED1 BD 3D A1 
+  LDA (D_A13D & $FFFF),X                          ; 009ED1 BD 3D A1 
   STA $07                                         ; 009ED4 85 07 
   LDY #$00                                        ; 009ED6 A0 00 
 B_9ED8:
@@ -3443,7 +3291,7 @@ B_9F04:
   LDA #$08                                        ; 009F0E A9 08 
   STA $186D                                       ; 009F10 8D 6D 18 
   LDA $1863                                       ; 009F13 AD 63 18 
-  INC                                             ; 009F16 1A 
+.byte $1A
   CMP #$07                                        ; 009F17 C9 07 
   BCC B_9F1D                                      ; 009F19 90 02 
   LDA #$00                                        ; 009F1B A9 00 
@@ -3454,9 +3302,9 @@ B_9F1D:
   LDA $1863                                       ; 009F24 AD 63 18 
   ASL                                             ; 009F27 0A 
   TAX                                             ; 009F28 AA 
-  LDA D_A12E,X                                    ; 009F29 BD 2E A1 
+  LDA (D_A12E & $FFFF),X                          ; 009F29 BD 2E A1 
   STA $06                                         ; 009F2C 85 06 
-  LDA D_A12F,X                                    ; 009F2E BD 2F A1 
+  LDA (D_A12F & $FFFF),X                          ; 009F2E BD 2F A1 
   STA $07                                         ; 009F31 85 07 
   LDY #$00                                        ; 009F33 A0 00 
 B_9F35:
@@ -3489,7 +3337,7 @@ B_9F61:
   LDA #$08                                        ; 009F6B A9 08 
   STA $186E                                       ; 009F6D 8D 6E 18 
   LDA $1864                                       ; 009F70 AD 64 18 
-  INC                                             ; 009F73 1A 
+.byte $1A
   CMP #$08                                        ; 009F74 C9 08 
   BCC B_9F7A                                      ; 009F76 90 02 
   LDA #$00                                        ; 009F78 A9 00 
@@ -3500,9 +3348,9 @@ B_9F7A:
   LDA $1864                                       ; 009F81 AD 64 18 
   ASL                                             ; 009F84 0A 
   TAX                                             ; 009F85 AA 
-  LDA D_A11E,X                                    ; 009F86 BD 1E A1 
+  LDA (D_A11E & $FFFF),X                          ; 009F86 BD 1E A1 
   STA $06                                         ; 009F89 85 06 
-  LDA D_A11F,X                                    ; 009F8B BD 1F A1 
+  LDA (D_A11F & $FFFF),X                          ; 009F8B BD 1F A1 
   STA $07                                         ; 009F8E 85 07 
   LDY #$00                                        ; 009F90 A0 00 
 B_9F92:
@@ -3535,7 +3383,7 @@ B_9FBE:
   LDA #$05                                        ; 009FC8 A9 05 
   STA $186F                                       ; 009FCA 8D 6F 18 
   LDA $1865                                       ; 009FCD AD 65 18 
-  INC                                             ; 009FD0 1A 
+.byte $1A
   CMP #$09                                        ; 009FD1 C9 09 
   BCC B_9FD7                                      ; 009FD3 90 02 
   LDA #$00                                        ; 009FD5 A9 00 
@@ -3546,9 +3394,9 @@ B_9FD7:
   LDA $1865                                       ; 009FDE AD 65 18 
   ASL                                             ; 009FE1 0A 
   TAX                                             ; 009FE2 AA 
-  LDA D_A10C,X                                    ; 009FE3 BD 0C A1 
+  LDA (D_A10C & $FFFF),X                          ; 009FE3 BD 0C A1 
   STA $06                                         ; 009FE6 85 06 
-  LDA D_A10D,X                                    ; 009FE8 BD 0D A1 
+  LDA (D_A10D & $FFFF),X                          ; 009FE8 BD 0D A1 
   STA $07                                         ; 009FEB 85 07 
   LDY #$00                                        ; 009FED A0 00 
 B_9FEF:
@@ -3588,7 +3436,7 @@ B_A020:
 B_A033:
   STY $1870                                       ; 00A033 8C 70 18 
   LDA $1866                                       ; 00A036 AD 66 18 
-  INC                                             ; 00A039 1A 
+.byte $1A
   CMP #$05                                        ; 00A03A C9 05 
   BCC B_A040                                      ; 00A03C 90 02 
   LDA #$00                                        ; 00A03E A9 00 
@@ -3599,9 +3447,9 @@ B_A040:
   LDA $1866                                       ; 00A047 AD 66 18 
   ASL                                             ; 00A04A 0A 
   TAX                                             ; 00A04B AA 
-  LDA D_A102,X                                    ; 00A04C BD 02 A1 
+  LDA (D_A102 & $FFFF),X                          ; 00A04C BD 02 A1 
   STA $06                                         ; 00A04F 85 06 
-  LDA D_A103,X                                    ; 00A051 BD 03 A1 
+  LDA (D_A103 & $FFFF),X                          ; 00A051 BD 03 A1 
   STA $07                                         ; 00A054 85 07 
   LDY #$00                                        ; 00A056 A0 00 
 B_A058:
@@ -3634,7 +3482,7 @@ B_A089:
   LDA #$04                                        ; 00A08E A9 04 
   STA $1871                                       ; 00A090 8D 71 18 
   LDA $1867                                       ; 00A093 AD 67 18 
-  INC                                             ; 00A096 1A 
+.byte $1A
   CMP #$0A                                        ; 00A097 C9 0A 
   BCC B_A09D                                      ; 00A099 90 02 
   LDA #$00                                        ; 00A09B A9 00 
@@ -3645,15 +3493,13 @@ B_A09D:
   LDA $1867                                       ; 00A0A4 AD 67 18 
   ASL                                             ; 00A0A7 0A 
   TAX                                             ; 00A0A8 AA 
-  LDA D_A0EC,X                                    ; 00A0A9 BD EC A0 
+  LDA (D_A0EC & $FFFF),X                          ; 00A0A9 BD EC A0 
   STA $06                                         ; 00A0AC 85 06 
-  LDA D_A0ED,X                                    ; 00A0AE BD ED A0 
-D_A0B1:
+  LDA (D_A0ED & $FFFF),X                          ; 00A0AE BD ED A0 
   STA $07                                         ; 00A0B1 85 07 
   LDY #$00                                        ; 00A0B3 A0 00 
 B_A0B5:
   LDA #$01                                        ; 00A0B5 A9 01 
-D_A0B7:
   STA $1A69,Y                                     ; 00A0B7 99 69 1A 
   LDA #$18                                        ; 00A0BA A9 18 
   STA $1A6A,Y                                     ; 00A0BC 99 6A 1A 
@@ -3677,7 +3523,7 @@ D_A0B7:
   LDA #$FF                                        ; 00A0E1 A9 FF 
   STA $1A75                                       ; 00A0E3 8D 75 1A 
 B_A0E6:
-  JSR L_A17C                                      ; 00A0E6 20 7C A1 
+  JSR (L_A17C & $FFFF)                            ; 00A0E6 20 7C A1 
   PLB                                             ; 00A0E9 AB 
   PLP                                             ; 00A0EA 28 
   RTL                                             ; 00A0EB 6B 
@@ -3691,9 +3537,8 @@ D_A0ED:
 D_A102:
 .byte $40                                         ; 00A103 @
 D_A103:
-.byte $C1,$80,$C1,$C0,$C1,$00,$C2                 ; 00A104 ???????
-D_A10A:
-.byte $40,$C2                                     ; 00A10B @?
+.byte $C1,$80,$C1,$C0,$C1,$00,$C2,$40             ; 00A103 ???????@
+.byte $C2                                         ; 00A10C ?
 D_A10C:
 .byte $00                                         ; 00A10D ?
 D_A10D:
@@ -3703,10 +3548,8 @@ D_A10D:
 D_A11E:
 .byte $80                                         ; 00A11F ?
 D_A11F:
-.byte $AA                                         ; 00A120 ?
-D_A120:
-.byte $40,$AB,$80,$C2,$40,$C3,$40,$CB             ; 00A120 @???@?@?
-.byte $40,$C3,$80,$C2,$40,$AB                     ; 00A129 @???@?
+.byte $AA,$40,$AB,$80,$C2,$40,$C3,$40             ; 00A11F ?@???@?@
+.byte $CB,$40,$C3,$80,$C2,$40,$AB                 ; 00A128 ?@???@?
 D_A12E:
 .byte $00                                         ; 00A12F ?
 D_A12F:
@@ -3715,9 +3558,8 @@ D_A12F:
 D_A13C:
 .byte $00                                         ; 00A13D ?
 D_A13D:
-.byte $98,$40,$99,$80,$9A                         ; 00A13E ?@???
-D_A142:
-.byte $00,$A0,$40,$A1,$80,$A2,$00,$A8             ; 00A142 ??@?????
+.byte $98,$40,$99,$80,$9A,$00,$A0,$40             ; 00A13D ?@?????@
+.byte $A1,$80,$A2,$00,$A8                         ; 00A146 ?????
 D_A14A:
 .byte $C0                                         ; 00A14B ?
 D_A14B:
@@ -3745,37 +3587,37 @@ D_A177:
 
 L_A17C:
   LDY $1863                                       ; 00A17C AC 63 18 
-  LDA D_A1E0,Y                                    ; 00A17F B9 E0 A1 
+  LDA (D_A1E0 & $FFFF),Y                          ; 00A17F B9 E0 A1 
   STA $1A25                                       ; 00A182 8D 25 1A 
-  LDA D_A218,Y                                    ; 00A185 B9 18 A2 
+  LDA (D_A218 & $FFFF),Y                          ; 00A185 B9 18 A2 
   STA $1A2D                                       ; 00A188 8D 2D 1A 
-  LDA D_A1E7,Y                                    ; 00A18B B9 E7 A1 
+  LDA (D_A1E7 & $FFFF),Y                          ; 00A18B B9 E7 A1 
   STA $1A26                                       ; 00A18E 8D 26 1A 
-  LDA D_A21F,Y                                    ; 00A191 B9 1F A2 
+  LDA (D_A21F & $FFFF),Y                          ; 00A191 B9 1F A2 
   STA $1A2E                                       ; 00A194 8D 2E 1A 
-  LDA D_A211,Y                                    ; 00A197 B9 11 A2 
+  LDA (D_A211 & $FFFF),Y                          ; 00A197 B9 11 A2 
   STA $1A2C                                       ; 00A19A 8D 2C 1A 
-  LDA D_A249,Y                                    ; 00A19D B9 49 A2 
+  LDA (D_A249 & $FFFF),Y                          ; 00A19D B9 49 A2 
   STA $1A34                                       ; 00A1A0 8D 34 1A 
-  LDA D_A1EE,Y                                    ; 00A1A3 B9 EE A1 
+  LDA (D_A1EE & $FFFF),Y                          ; 00A1A3 B9 EE A1 
   STA $1A27                                       ; 00A1A6 8D 27 1A 
-  LDA D_A226,Y                                    ; 00A1A9 B9 26 A2 
+  LDA (D_A226 & $FFFF),Y                          ; 00A1A9 B9 26 A2 
   STA $1A2F                                       ; 00A1AC 8D 2F 1A 
-  LDA D_A20A,Y                                    ; 00A1AF B9 0A A2 
+  LDA (D_A20A & $FFFF),Y                          ; 00A1AF B9 0A A2 
   STA $1A2B                                       ; 00A1B2 8D 2B 1A 
-  LDA D_A242,Y                                    ; 00A1B5 B9 42 A2 
+  LDA (D_A242 & $FFFF),Y                          ; 00A1B5 B9 42 A2 
   STA $1A33                                       ; 00A1B8 8D 33 1A 
-  LDA D_A1F5,Y                                    ; 00A1BB B9 F5 A1 
+  LDA (D_A1F5 & $FFFF),Y                          ; 00A1BB B9 F5 A1 
   STA $1A28                                       ; 00A1BE 8D 28 1A 
-  LDA D_A22D,Y                                    ; 00A1C1 B9 2D A2 
+  LDA (D_A22D & $FFFF),Y                          ; 00A1C1 B9 2D A2 
   STA $1A30                                       ; 00A1C4 8D 30 1A 
-  LDA D_A203,Y                                    ; 00A1C7 B9 03 A2 
+  LDA (D_A203 & $FFFF),Y                          ; 00A1C7 B9 03 A2 
   STA $1A2A                                       ; 00A1CA 8D 2A 1A 
-  LDA D_A23B,Y                                    ; 00A1CD B9 3B A2 
+  LDA (D_A23B & $FFFF),Y                          ; 00A1CD B9 3B A2 
   STA $1A32                                       ; 00A1D0 8D 32 1A 
-  LDA D_A1FC,Y                                    ; 00A1D3 B9 FC A1 
+  LDA (D_A1FC & $FFFF),Y                          ; 00A1D3 B9 FC A1 
   STA $1A29                                       ; 00A1D6 8D 29 1A 
-  LDA D_A234,Y                                    ; 00A1D9 B9 34 A2 
+  LDA (D_A234 & $FFFF),Y                          ; 00A1D9 B9 34 A2 
   STA $1A31                                       ; 00A1DC 8D 31 1A 
   RTS                                             ; 00A1DF 60 
 
@@ -3836,12 +3678,11 @@ B_A264:
   STZ $05E3                                       ; 00A26F 9C E3 05 
 B_A272:
   STX $05E1                                       ; 00A272 8E E1 05 
-  JSR L_A338                                      ; 00A275 20 38 A3 
+  JSR (L_A338 & $FFFF)                            ; 00A275 20 38 A3 
   REP #$20                                        ; 00A278 C2 20 
   LDY #$0A                                        ; 00A27A A0 0A 
 B_A27C:
   LDA $05EA,Y                                     ; 00A27C B9 EA 05 
-.a16
   AND #$EDFF                                      ; 00A27F 29 FF ED 
   STA $05EA,Y                                     ; 00A282 99 EA 05 
   LDA $05F6,Y                                     ; 00A285 B9 F6 05 
@@ -3875,7 +3716,6 @@ B_A2BA:
   RTS                                             ; 00A2BB 60 
 
 B_A2BC:
-.a8
   LDA #$03                                        ; 00A2BC A9 03 
   STA $05E3                                       ; 00A2BE 8D E3 05 
   LDA $05E4                                       ; 00A2C1 AD E4 05 
@@ -3893,7 +3733,7 @@ B_A2BC:
   STA $05E3                                       ; 00A2DC 8D E3 05 
 B_A2DF:
   STX $05E1                                       ; 00A2DF 8E E1 05 
-  JMP D_A301                                      ; 00A2E2 4C 01 A3 
+  JMP (D_A301 & $FFFF)                            ; 00A2E2 4C 01 A3 
 B_A2E5:
   LDA $05D3                                       ; 00A2E5 AD D3 05 
   BNE B_A2F2                                      ; 00A2E8 D0 08 
@@ -3901,7 +3741,7 @@ B_A2E5:
   LDA #$96                                        ; 00A2ED A9 96 
   STA $05E3                                       ; 00A2EF 8D E3 05 
 B_A2F2:
-  JMP D_A301                                      ; 00A2F2 4C 01 A3 
+  JMP (D_A301 & $FFFF)                            ; 00A2F2 4C 01 A3 
 B_A2F5:
   LDX $05E1                                       ; 00A2F5 AE E1 05 
   DEX                                             ; 00A2F8 CA 
@@ -3910,7 +3750,7 @@ B_A2F5:
 B_A2FE:
   STX $05E1                                       ; 00A2FE 8E E1 05 
 D_A301:
-  JSR L_A338                                      ; 00A301 20 38 A3 
+  JSR (L_A338 & $FFFF)                            ; 00A301 20 38 A3 
   LDA $05D3                                       ; 00A304 AD D3 05 
   BEQ B_A329                                      ; 00A307 F0 20 
   PHB                                             ; 00A309 8B 
@@ -3932,7 +3772,6 @@ B_A312:
   PLB                                             ; 00A328 AB 
 B_A329:
   REP #$20                                        ; 00A329 C2 20 
-.a16
   LDA #$504D                                      ; 00A32B A9 4D 50 
   STA $05E8                                       ; 00A32E 8D E8 05 
   SEP #$20                                        ; 00A331 E2 20 
@@ -3947,7 +3786,6 @@ L_A338:
   LDA $05E2                                       ; 00A33A AD E2 05 
   ASL                                             ; 00A33D 0A 
   TAX                                             ; 00A33E AA 
-.i16
   LDA f:D_A3A5,X                                  ; 00A33F BF A5 A3 00 
   STA $05E6                                       ; 00A343 8D E6 05 
   LDA f:D_A3A6,X                                  ; 00A346 BF A6 A3 00 
@@ -3961,11 +3799,9 @@ L_A338:
   ADC $05E6                                       ; 00A35A 6D E6 05 
   STA $04                                         ; 00A35D 85 04 
   LDA $05E7                                       ; 00A35F AD E7 05 
-.a8
   ADC #$00                                        ; 00A362 69 00 
   STA $05                                         ; 00A364 85 05 
   REP #$20                                        ; 00A366 C2 20 
-.i8
   LDY #$22                                        ; 00A368 A0 22 
 B_A36A:
   LDA $060E,Y                                     ; 00A36A B9 0E 06 
@@ -3975,16 +3811,15 @@ B_A36A:
   BPL B_A36A                                      ; 00A372 10 F6 
   CLC                                             ; 00A374 18 
   LDA $04                                         ; 00A375 A5 04 
-.a16
-  ADC #$0040                                      ; 00A377 69 40 00 
+  ADC.W #$0040                                    ; 00A377 69 40 00 
   STA $06                                         ; 00A37A 85 06 
   CLC                                             ; 00A37C 18 
-  ADC #$0040                                      ; 00A37D 69 40 00 
+  ADC.W #$0040                                    ; 00A37D 69 40 00 
   STA $08                                         ; 00A380 85 08 
   LDY #$0A                                        ; 00A382 A0 0A 
 B_A384:
   LDA ($04),Y                                     ; 00A384 B1 04 
-  AND #$00FF                                      ; 00A386 29 FF 00 
+  AND.W #$00FF                                    ; 00A386 29 FF 00 
   BEQ B_A39A                                      ; 00A389 F0 0F 
   LDA ($04),Y                                     ; 00A38B B1 04 
   STA $05EA,Y                                     ; 00A38D 99 EA 05 
@@ -4040,11 +3875,10 @@ B_A402:
 .byte $69,$40,$00,$85,$08,$69,$40,$00             ; 00A41F i@???i@?
 .byte $85,$0A,$BF,$53,$A4,$00,$85,$0C             ; 00A427 ???S????
 .byte $A0,$08,$B1,$04,$99,$60,$06,$B1             ; 00A42F ?????`??
-.byte $06,$05,$0C,$99                             ; 00A438 ????
-L_A43B:
-.byte $6A,$06,$B1,$08,$99,$74,$06,$B1             ; 00A43B j????t??
-.byte $0A,$99,$7E,$06,$88,$88,$10,$E6             ; 00A443 ??~?????
-.byte $E2,$20,$EE,$33,$06                         ; 00A44C ? ?3?
+.byte $06,$05,$0C,$99,$6A,$06,$B1,$08             ; 00A437 ????j???
+.byte $99,$74,$06,$B1,$0A,$99,$7E,$06             ; 00A43F ?t????~?
+.byte $88,$88,$10,$E6,$E2,$20,$EE,$33             ; 00A447 ????? ?3
+.byte $06                                         ; 00A450 ?
 
 B_A450:
   PLB                                             ; 00A450 AB 
@@ -4062,7 +3896,6 @@ L_A45F:
   JSL f:L_EC97A                                   ; 00A464 22 7A C9 0E 
   REP #$10                                        ; 00A468 C2 10 
   SEP #$20                                        ; 00A46A E2 20 
-.a8
   LDA #$09                                        ; 00A46C A9 09 
   STA BGMODE                                      ; 00A46E 8D 05 21 
   LDA #$49                                        ; 00A471 A9 49 
@@ -4089,15 +3922,12 @@ L_A45F:
   LDA #$80                                        ; 00A4AC A9 80 
   STA VMAIN                                       ; 00A4AE 8D 15 21 
   REP #$30                                        ; 00A4B1 C2 30 
-.i16
   LDX #$3BAE                                      ; 00A4B3 A2 AE 3B 
-.a16
   LDA #$CFAD                                      ; 00A4B6 A9 AD CF 
-  LDY #$000F                                      ; 00A4B9 A0 0F 00 
+  LDY.W #$000F                                    ; 00A4B9 A0 0F 00 
   JSL f:L_58000                                   ; 00A4BC 22 00 80 05 
   SEP #$20                                        ; 00A4C0 E2 20 
   PHB                                             ; 00A4C2 8B 
-.a8
   LDA #$7E                                        ; 00A4C3 A9 7E 
   PHA                                             ; 00A4C5 48 
   PLB                                             ; 00A4C6 AB 
@@ -4150,13 +3980,11 @@ B_A4CA:
   STA MDMAEN                                      ; 00A53B 8D 0B 42 
   REP #$30                                        ; 00A53E C2 30 
   LDX #$3BAE                                      ; 00A540 A2 AE 3B 
-.a16
   LDA #$D55B                                      ; 00A543 A9 5B D5 
-  LDY #$000F                                      ; 00A546 A0 0F 00 
+  LDY.W #$000F                                    ; 00A546 A0 0F 00 
   JSL f:L_58000                                   ; 00A549 22 00 80 05 
   SEP #$20                                        ; 00A54D E2 20 
   PHB                                             ; 00A54F 8B 
-.a8
   LDA #$7E                                        ; 00A550 A9 7E 
   PHA                                             ; 00A552 48 
   PLB                                             ; 00A553 AB 
@@ -4185,12 +4013,10 @@ B_A557:
   STA MDMAEN                                      ; 00A588 8D 0B 42 
   REP #$30                                        ; 00A58B C2 30 
   LDX #$3BAE                                      ; 00A58D A2 AE 3B 
-.a16
   LDA #$D6D5                                      ; 00A590 A9 D5 D6 
-  LDY #$000F                                      ; 00A593 A0 0F 00 
+  LDY.W #$000F                                    ; 00A593 A0 0F 00 
   JSL f:L_58000                                   ; 00A596 22 00 80 05 
   SEP #$20                                        ; 00A59A E2 20 
-.a8
   LDA #$80                                        ; 00A59C A9 80 
   STA VMAIN                                       ; 00A59E 8D 15 21 
   LDX #$2000                                      ; 00A5A1 A2 00 20 
@@ -4208,12 +4034,10 @@ B_A557:
   SEP #$20                                        ; 00A5C3 E2 20 
   REP #$30                                        ; 00A5C5 C2 30 
   LDX #$3BAE                                      ; 00A5C7 A2 AE 3B 
-.a16
   LDA #$8000                                      ; 00A5CA A9 00 80 
-  LDY #$0002                                      ; 00A5CD A0 02 00 
+  LDY.W #$0002                                    ; 00A5CD A0 02 00 
   JSL f:L_58000                                   ; 00A5D0 22 00 80 05 
   SEP #$20                                        ; 00A5D4 E2 20 
-.a8
   LDA #$80                                        ; 00A5D6 A9 80 
   STA VMAIN                                       ; 00A5D8 8D 15 21 
   LDX #$4000                                      ; 00A5DB A2 00 40 
@@ -4230,12 +4054,10 @@ B_A557:
   STA MDMAEN                                      ; 00A5FA 8D 0B 42 
   REP #$30                                        ; 00A5FD C2 30 
   LDX #$3BAE                                      ; 00A5FF A2 AE 3B 
-.a16
   LDA #$8EEA                                      ; 00A602 A9 EA 8E 
-  LDY #$0002                                      ; 00A605 A0 02 00 
+  LDY.W #$0002                                    ; 00A605 A0 02 00 
   JSL f:L_58000                                   ; 00A608 22 00 80 05 
   SEP #$20                                        ; 00A60C E2 20 
-.a8
   LDA #$80                                        ; 00A60E A9 80 
   STA VMAIN                                       ; 00A610 8D 15 21 
   LDX #$6000                                      ; 00A613 A2 00 60 
@@ -4251,15 +4073,13 @@ B_A557:
   LDA #$02                                        ; 00A630 A9 02 
   STA MDMAEN                                      ; 00A632 8D 0B 42 
   REP #$30                                        ; 00A635 C2 30 
-  JSR L_9311                                      ; 00A637 20 11 93 
+  JSR (L_9311 & $FFFF)                            ; 00A637 20 11 93 
   REP #$30                                        ; 00A63A C2 30 
   LDX #$3BAE                                      ; 00A63C A2 AE 3B 
-.a16
   LDA #$E067                                      ; 00A63F A9 67 E0 
-  LDY #$000D                                      ; 00A642 A0 0D 00 
+  LDY.W #$000D                                    ; 00A642 A0 0D 00 
   JSL f:L_58000                                   ; 00A645 22 00 80 05 
   SEP #$20                                        ; 00A649 E2 20 
-.a8
   LDA #$80                                        ; 00A64B A9 80 
   STA VMAIN                                       ; 00A64D 8D 15 21 
   LDX #$7800                                      ; 00A650 A2 00 78 
@@ -4276,27 +4096,24 @@ B_A557:
   STA MDMAEN                                      ; 00A66F 8D 0B 42 
   REP #$30                                        ; 00A672 C2 30 
   LDX #$20AE                                      ; 00A674 A2 AE 20 
-.a16
   LDA #$DD9D                                      ; 00A677 A9 9D DD 
-  LDY #$000D                                      ; 00A67A A0 0D 00 
+  LDY.W #$000D                                    ; 00A67A A0 0D 00 
   JSL f:L_58000                                   ; 00A67D 22 00 80 05 
   SEP #$30                                        ; 00A681 E2 30 
   STZ CGADD                                       ; 00A683 9C 21 21 
-  LDA D_A755                                      ; 00A686 AD 55 A7 
+  LDA (D_A755 & $FFFF)                            ; 00A686 AD 55 A7 
   STA CGDATA                                      ; 00A689 8D 22 21 
-  LDA D_A756                                      ; 00A68C AD 56 A7 
+  LDA (D_A756 & $FFFF)                            ; 00A68C AD 56 A7 
   STA CGDATA                                      ; 00A68F 8D 22 21 
-.a8
   LDA #$40                                        ; 00A692 A9 40 
   STA CGADD                                       ; 00A694 8D 21 21 
-.i8
   LDY #$40                                        ; 00A697 A0 40 
   LDX #$00                                        ; 00A699 A2 00 
 B_A69B:
-  LDA D_A755,X                                    ; 00A69B BD 55 A7 
+  LDA (D_A755 & $FFFF),X                          ; 00A69B BD 55 A7 
   STA CGDATA                                      ; 00A69E 8D 22 21 
   INX                                             ; 00A6A1 E8 
-  LDA D_A755,X                                    ; 00A6A2 BD 55 A7 
+  LDA (D_A755 & $FFFF),X                          ; 00A6A2 BD 55 A7 
   STA CGDATA                                      ; 00A6A5 8D 22 21 
   INX                                             ; 00A6A8 E8 
   DEY                                             ; 00A6A9 88 
@@ -4306,24 +4123,23 @@ B_A69B:
   LDY #$80                                        ; 00A6B1 A0 80 
   LDX #$00                                        ; 00A6B3 A2 00 
 B_A6B5:
-  LDA D_A7D5,X                                    ; 00A6B5 BD D5 A7 
+  LDA (D_A7D5 & $FFFF),X                          ; 00A6B5 BD D5 A7 
   STA CGDATA                                      ; 00A6B8 8D 22 21 
   INX                                             ; 00A6BB E8 
-  LDA D_A7D5,X                                    ; 00A6BC BD D5 A7 
+  LDA (D_A7D5 & $FFFF),X                          ; 00A6BC BD D5 A7 
   STA CGDATA                                      ; 00A6BF 8D 22 21 
   INX                                             ; 00A6C2 E8 
   DEY                                             ; 00A6C3 88 
   BNE B_A6B5                                      ; 00A6C4 D0 EF 
   REP #$10                                        ; 00A6C6 C2 10 
-.i16
   LDX #$01FF                                      ; 00A6C8 A2 FF 01 
   LDA #$F0                                        ; 00A6CB A9 F0 
 B_A6CD:
   STA $0308,X                                     ; 00A6CD 9D 08 03 
   DEX                                             ; 00A6D0 CA 
   BPL B_A6CD                                      ; 00A6D1 10 FA 
-  LDY #$0000                                      ; 00A6D3 A0 00 00 
-  LDX #$0000                                      ; 00A6D6 A2 00 00 
+  LDY.W #$0000                                    ; 00A6D3 A0 00 00 
+  LDX.W #$0000                                    ; 00A6D6 A2 00 00 
 B_A6D9:
   LDA #$F0                                        ; 00A6D9 A9 F0 
   TXA                                             ; 00A6DB 8A 
@@ -4342,15 +4158,14 @@ B_A6D9:
   INY                                             ; 00A6F3 C8 
   CPY #$0200                                      ; 00A6F4 C0 00 02 
   BNE B_A6D9                                      ; 00A6F7 D0 E0 
-  LDY #$0000                                      ; 00A6F9 A0 00 00 
+  LDY.W #$0000                                    ; 00A6F9 A0 00 00 
   LDA #$00                                        ; 00A6FC A9 00 
 B_A6FE:
   STA $0508,Y                                     ; 00A6FE 99 08 05 
   STA $0509,Y                                     ; 00A701 99 09 05 
   INY                                             ; 00A704 C8 
   INY                                             ; 00A705 C8 
-  CPY #$0020                                      ; 00A706 C0 20 00 
-D_A709:
+  CPY.W #$0020                                    ; 00A706 C0 20 00 
   BNE B_A6FE                                      ; 00A709 D0 F3 
   JSL f:L_AE6F                                    ; 00A70B 22 6F AE 00 
   JSL f:L_38000                                   ; 00A70F 22 00 80 03 
@@ -4445,17 +4260,17 @@ L_A8D5:
   LDA $05AB                                       ; 00A8D8 AD AB 05 
   ASL                                             ; 00A8DB 0A 
   TAY                                             ; 00A8DC A8 
-  LDA D_AA3B,Y                                    ; 00A8DD B9 3B AA 
+  LDA (D_AA3B & $FFFF),Y                          ; 00A8DD B9 3B AA 
   STA $04                                         ; 00A8E0 85 04 
-  LDA D_AA3C,Y                                    ; 00A8E2 B9 3C AA 
+  LDA (D_AA3C & $FFFF),Y                          ; 00A8E2 B9 3C AA 
   STA $05                                         ; 00A8E5 85 05 
   LDY $05AC                                       ; 00A8E7 AC AC 05 
   LDA ($04),Y                                     ; 00A8EA B1 04 
   ASL                                             ; 00A8EC 0A 
   TAY                                             ; 00A8ED A8 
-  LDA D_A90B,Y                                    ; 00A8EE B9 0B A9 
+  LDA (D_A90B & $FFFF),Y                          ; 00A8EE B9 0B A9 
   STA A1T7L                                       ; 00A8F1 8D 72 43 
-  LDA D_A90C,Y                                    ; 00A8F4 B9 0C A9 
+  LDA (D_A90C & $FFFF),Y                          ; 00A8F4 B9 0C A9 
   STA A1T7H                                       ; 00A8F7 8D 73 43 
   LDA #$04                                        ; 00A8FA A9 04 
   STA DMAP7                                       ; 00A8FC 8D 70 43 
@@ -4556,7 +4371,6 @@ L_AB23:
   LDA $04                                         ; 00AB2D A5 04 
   ASL                                             ; 00AB2F 0A 
   TAX                                             ; 00AB30 AA 
-.a16
   LDA f:D_AB61,X                                  ; 00AB31 BF 61 AB 00 
   STA $06                                         ; 00AB35 85 06 
   LDA f:D_AB62,X                                  ; 00AB37 BF 62 AB 00 
@@ -4565,7 +4379,6 @@ L_AB23:
   LDA f:D_AB5F,X                                  ; 00AB3F BF 5F AB 00 
   TAX                                             ; 00AB43 AA 
   REP #$20                                        ; 00AB44 C2 20 
-.i8
   LDY #$00                                        ; 00AB46 A0 00 
 B_AB48:
   LDA ($06),Y                                     ; 00AB48 B1 06 
@@ -4597,13 +4410,10 @@ L_AB65:
   SEP #$30                                        ; 00AB67 E2 30 
   STA $04                                         ; 00AB69 85 04 
   STX $05                                         ; 00AB6B 86 05 
-.a8
   LDA #$00                                        ; 00AB6D A9 00 
   PHA                                             ; 00AB6F 48 
   PLB                                             ; 00AB70 AB 
   LDX $05                                         ; 00AB71 A6 05 
-.i16
-.a16
   LDA f:D_ABFE,X                                  ; 00AB73 BF FE AB 00 
   STA $08                                         ; 00AB77 85 08 
   LDA $05AB                                       ; 00AB79 AD AB 05 
@@ -4618,7 +4428,6 @@ L_AB65:
   LDA f:D_AC02,X                                  ; 00AB86 BF 02 AC 00 
   STA $06                                         ; 00AB8A 85 06 
   LDX $08                                         ; 00AB8C A6 08 
-.i8
   LDY #$0E                                        ; 00AB8E A0 0E 
 B_AB90:
   LDA ($06),Y                                     ; 00AB90 B1 06 
@@ -4630,7 +4439,7 @@ B_AB90:
   BPL B_AB90                                      ; 00AB99 10 F5 
   CLC                                             ; 00AB9B 18 
   LDA $06                                         ; 00AB9C A5 06 
-  ADC #$0040                                      ; 00AB9E 69 40 00 
+  ADC.W #$0040                                    ; 00AB9E 69 40 00 
   STA $06                                         ; 00ABA1 85 06 
   LDX $08                                         ; 00ABA3 A6 08 
   LDY #$0E                                        ; 00ABA5 A0 0E 
@@ -4647,7 +4456,6 @@ B_ABA7:
   INC $B4,X                                       ; 00ABB6 F6 B4 
   LDA $18A3,X                                     ; 00ABB8 BD A3 18 
   BEQ B_ABFB                                      ; 00ABBB F0 3E 
-.a8
   LDA #$09                                        ; 00ABBD A9 09 
   PHA                                             ; 00ABBF 48 
   PLB                                             ; 00ABC0 AB 
@@ -4659,8 +4467,6 @@ B_ABA7:
   ASL                                             ; 00ABC9 0A 
   ASL                                             ; 00ABCA 0A 
   TAX                                             ; 00ABCB AA 
-.i16
-.a16
   LDA f:D_AC32,X                                  ; 00ABCC BF 32 AC 00 
   STA $06                                         ; 00ABD0 85 06 
   LDA f:D_AC33,X                                  ; 00ABD2 BF 33 AC 00 
@@ -4669,7 +4475,6 @@ B_ABA7:
   LDA f:D_AC00,X                                  ; 00ABDA BF 00 AC 00 
   TAX                                             ; 00ABDE AA 
   REP #$20                                        ; 00ABDF C2 20 
-.i8
   LDY #$00                                        ; 00ABE1 A0 00 
 B_ABE3:
   LDA ($06),Y                                     ; 00ABE3 B1 06 
@@ -4730,11 +4535,11 @@ L_AC73:
   ASL                                             ; 00AC79 0A 
   TAY                                             ; 00AC7A A8 
   REP #$20                                        ; 00AC7B C2 20 
-  LDA #$0004                                      ; 00AC7D A9 04 00 
+  LDA.W #$0004                                    ; 00AC7D A9 04 00 
   STA $04                                         ; 00AC80 85 04 
-  LDA #$0000                                      ; 00AC82 A9 00 00 
+  LDA.W #$0000                                    ; 00AC82 A9 00 00 
 B_AC85:
-  STA $0087,Y                                     ; 00AC85 99 87 00 
+  STA.W $0087,Y                                   ; 00AC85 99 87 00 
   INY                                             ; 00AC88 C8 
   INY                                             ; 00AC89 C8 
   DEC $04                                         ; 00AC8A C6 04 
@@ -4764,7 +4569,6 @@ L_ACB0:
   PHP                                             ; 00ACB0 08 
   PHB                                             ; 00ACB1 8B 
   SEP #$30                                        ; 00ACB2 E2 30 
-.a8
   LDA #$00                                        ; 00ACB4 A9 00 
   PHA                                             ; 00ACB6 48 
   PLB                                             ; 00ACB7 AB 
@@ -4780,13 +4584,11 @@ L_ACB0:
   PHX                                             ; 00ACC3 DA 
   TAX                                             ; 00ACC4 AA 
   REP #$20                                        ; 00ACC5 C2 20 
-.a16
-  LDA #$0004                                      ; 00ACC7 A9 04 00 
+  LDA.W #$0004                                    ; 00ACC7 A9 04 00 
   STA $04                                         ; 00ACCA 85 04 
 B_ACCC:
-.i16
   LDA f:D_F7EF,X                                  ; 00ACCC BF EF F7 00 
-  STA $0087,Y                                     ; 00ACD0 99 87 00 
+  STA.W $0087,Y                                   ; 00ACD0 99 87 00 
   INX                                             ; 00ACD3 E8 
   INX                                             ; 00ACD4 E8 
   INY                                             ; 00ACD5 C8 
@@ -4804,13 +4606,12 @@ L_ACE4:
   PHP                                             ; 00ACE4 08 
   SEP #$30                                        ; 00ACE5 E2 30 
   PHB                                             ; 00ACE7 8B 
-.a8
   LDA #$00                                        ; 00ACE8 A9 00 
   PHA                                             ; 00ACEA 48 
   PLB                                             ; 00ACEB AB 
-  LDA D_AE4A,X                                    ; 00ACEC BD 4A AE 
+  LDA (D_AE4A & $FFFF),X                          ; 00ACEC BD 4A AE 
   STA $04                                         ; 00ACEF 85 04 
-  LDA D_AE4C,X                                    ; 00ACF1 BD 4C AE 
+  LDA (D_AE4C & $FFFF),X                          ; 00ACF1 BD 4C AE 
   STA $05                                         ; 00ACF4 85 05 
   CLC                                             ; 00ACF6 18 
   LDA $04                                         ; 00ACF7 A5 04 
@@ -4859,10 +4660,9 @@ B_AD61:
   LDA $05B2                                       ; 00AD61 AD B2 05 
   BNE B_AD8B                                      ; 00AD64 D0 25 
   STZ $B4                                         ; 00AD66 64 B4 
-.i8
   LDY #$07                                        ; 00AD68 A0 07 
 B_AD6A:
-  LDA XexzyScore,Y                                ; 00AD6A B9 97 00 
+  LDA.W XexzyScore,Y                              ; 00AD6A B9 97 00 
   ASL                                             ; 00AD6D 0A 
   TAX                                             ; 00AD6E AA 
   PHY                                             ; 00AD6F 5A 
@@ -4870,8 +4670,6 @@ B_AD6A:
   ASL                                             ; 00AD71 0A 
   TAY                                             ; 00AD72 A8 
   REP #$20                                        ; 00AD73 C2 20 
-.i16
-.a16
   LDA f:D_F8EF,X                                  ; 00AD75 BF EF F8 00 
   STA $0534,Y                                     ; 00AD79 99 34 05 
   LDA f:D_F92F,X                                  ; 00AD7C BF 2F F9 00 
@@ -4885,17 +4683,15 @@ B_AD8B:
   LDA $18A4                                       ; 00AD8B AD A4 18 
   BNE B_AD96                                      ; 00AD8E D0 06 
   LDA $D2                                         ; 00AD90 A5 D2 
-.a8
   AND #$80                                        ; 00AD92 29 80 
   BNE B_ADC0                                      ; 00AD94 D0 2A 
 B_AD96:
   LDA $05B3                                       ; 00AD96 AD B3 05 
   BNE B_ADC0                                      ; 00AD99 D0 25 
   STZ $B5                                         ; 00AD9B 64 B5 
-.i8
   LDY #$07                                        ; 00AD9D A0 07 
 B_AD9F:
-  LDA $009F,Y                                     ; 00AD9F B9 9F 00 
+  LDA.W $009F,Y                                   ; 00AD9F B9 9F 00 
   ASL                                             ; 00ADA2 0A 
   TAX                                             ; 00ADA3 AA 
   PHY                                             ; 00ADA4 5A 
@@ -4903,8 +4699,6 @@ B_AD9F:
   ASL                                             ; 00ADA6 0A 
   TAY                                             ; 00ADA7 A8 
   REP #$20                                        ; 00ADA8 C2 20 
-.i16
-.a16
   LDA f:D_F8EF,X                                  ; 00ADAA BF EF F8 00 
   STA $0554,Y                                     ; 00ADAE 99 54 05 
   LDA f:D_F92F,X                                  ; 00ADB1 BF 2F F9 00 
@@ -4915,15 +4709,13 @@ B_AD9F:
   BPL B_AD9F                                      ; 00ADBC 10 E1 
   INC $B5                                         ; 00ADBE E6 B5 
 B_ADC0:
-  LDA $CF                                         ; 00ADC0 A5 CF 
-.a8
+  LDA FrameCounter                                ; 00ADC0 A5 CF 
   AND #$03                                        ; 00ADC2 29 03 
   BNE B_ADD6                                      ; 00ADC4 D0 10 
-.i8
   LDX #$01                                        ; 00ADC6 A2 01 
 B_ADC8:
   LDA $189B,X                                     ; 00ADC8 BD 9B 18 
-  INC                                             ; 00ADCB 1A 
+.byte $1A
   CMP #$07                                        ; 00ADCC C9 07 
   BCS B_ADD3                                      ; 00ADCE B0 03 
   STA $189B,X                                     ; 00ADD0 9D 9B 18 
@@ -4952,7 +4744,7 @@ B_ADEE:
   BEQ B_AE05                                      ; 00ADF8 F0 0B 
   LDA f:D_F86F                                    ; 00ADFA AF 6F F8 00 
 B_ADFE:
-  STA $00B6,Y                                     ; 00ADFE 99 B6 00 
+  STA.W $00B6,Y                                   ; 00ADFE 99 B6 00 
   INY                                             ; 00AE01 C8 
   DEX                                             ; 00AE02 CA 
   BNE B_ADFE                                      ; 00AE03 D0 F9 
@@ -4962,7 +4754,7 @@ B_AE05:
   BEQ B_AE17                                      ; 00AE0A F0 0B 
   LDA f:D_F86F                                    ; 00AE0C AF 6F F8 00 
 B_AE10:
-  STA $00BC,Y                                     ; 00AE10 99 BC 00 
+  STA.W $00BC,Y                                   ; 00AE10 99 BC 00 
   INY                                             ; 00AE13 C8 
   DEX                                             ; 00AE14 CA 
   BNE B_AE10                                      ; 00AE15 D0 F9 
@@ -5010,9 +4802,7 @@ D_AE4C:
 L_AE4E:
   PHP                                             ; 00AE4E 08 
   REP #$30                                        ; 00AE4F C2 30 
-.i16
-  LDX #$0000                                      ; 00AE51 A2 00 00 
-.a16
+  LDX.W #$0000                                    ; 00AE51 A2 00 00 
   LDA #$F0FF                                      ; 00AE54 A9 FF F0 
 B_AE57:
   STA $0308,X                                     ; 00AE57 9D 08 03 
@@ -5034,7 +4824,6 @@ B_AE63:
 L_AE6F:
   PHP                                             ; 00AE6F 08 
   SEP #$30                                        ; 00AE70 E2 30 
-.i8
   LDX #$7F                                        ; 00AE72 A2 7F 
 B_AE74:
   STZ $175E,X                                     ; 00AE74 9E 5E 17 
@@ -5120,19 +4909,13 @@ B_AED7:
 L_AED8:
   PHX                                             ; 00AED8 DA 
   TYA                                             ; 00AED9 98 
-D_AEDA:
-.a8
   AND #$03                                        ; 00AEDA 29 03 
-D_AEDC:
   TAX                                             ; 00AEDC AA 
   TYA                                             ; 00AEDD 98 
-D_AEDE:
   LSR                                             ; 00AEDE 4A 
   LSR                                             ; 00AEDF 4A 
   TAY                                             ; 00AEE0 A8 
   LDA $0508,Y                                     ; 00AEE1 B9 08 05 
-.i16
-.a16
   AND f:D_AF06,X                                  ; 00AEE4 3F 06 AF 00 
   ORA f:D_AF0A,X                                  ; 00AEE8 1F 0A AF 00 
   STA $0508,Y                                     ; 00AEEC 99 08 05 
@@ -5142,7 +4925,6 @@ D_AEDE:
 L_AEF1:
   PHX                                             ; 00AEF1 DA 
   TYA                                             ; 00AEF2 98 
-.a8
   AND #$03                                        ; 00AEF3 29 03 
   TAX                                             ; 00AEF5 AA 
   TYA                                             ; 00AEF6 98 
@@ -5150,7 +4932,6 @@ L_AEF1:
   LSR                                             ; 00AEF8 4A 
   TAY                                             ; 00AEF9 A8 
   LDA $0508,Y                                     ; 00AEFA B9 08 05 
-.a16
   AND f:D_AF06,X                                  ; 00AEFD 3F 06 AF 00 
   STA $0508,Y                                     ; 00AF01 99 08 05 
   PLX                                             ; 00AF04 FA 
@@ -5174,7 +4955,6 @@ L_AF0E:
   SEP #$20                                        ; 00AF23 E2 20 
   STZ OAMADDL                                     ; 00AF25 9C 02 21 
   STZ OAMADDH                                     ; 00AF28 9C 03 21 
-.a8
   LDA #$7E                                        ; 00AF2B A9 7E 
   STA A1B0                                        ; 00AF2D 8D 04 43 
   LDA #$01                                        ; 00AF30 A9 01 
@@ -5198,11 +4978,10 @@ L_AF42:
   STA $05                                         ; 00AF54 85 05 
   BEQ B_AF63                                      ; 00AF56 F0 0B 
   LDA #$F0                                        ; 00AF58 A9 F0 
-D_AF5A:
   STA $06                                         ; 00AF5A 85 06 
   LDA #$FF                                        ; 00AF5C A9 FF 
   STA $04                                         ; 00AF5E 85 04 
-  JMP B_AF8C                                      ; 00AF60 4C 8C AF 
+  JMP (B_AF8C & $FFFF)                            ; 00AF60 4C 8C AF 
 B_AF63:
   SEC                                             ; 00AF63 38 
   LDA $06                                         ; 00AF64 A5 06 
@@ -5268,19 +5047,15 @@ L_AFC2:
   STA $0409,Y                                     ; 00AFD9 99 09 04 
   LDA $13BC,X                                     ; 00AFDC BD BC 13 
   STA $040A,Y                                     ; 00AFDF 99 0A 04 
-D_AFE2:
   LDA $142E,X                                     ; 00AFE2 BD 2E 14 
   STA $040B,Y                                     ; 00AFE5 99 0B 04 
   RTL                                             ; 00AFE8 6B 
 B_AFE9:
   SEC                                             ; 00AFE9 38 
-D_AFEA:
   LDA XexzyCharX,X                                ; 00AFEA BD 46 0B 
   SBC $1C                                         ; 00AFED E5 1C 
   STA $0308,Y                                     ; 00AFEF 99 08 03 
-D_AFF2:
   SEC                                             ; 00AFF2 38 
-D_AFF3:
   LDA $0C9C,X                                     ; 00AFF3 BD 9C 0C 
   SBC $1D                                         ; 00AFF6 E5 1D 
   STA XexzyTorsoY,Y                               ; 00AFF8 99 09 03 
@@ -5292,8 +5067,6 @@ D_AFF3:
 
 L_B008:
   PHP                                             ; 00B008 08 
-
-L_B009:
   SEP #$30                                        ; 00B009 E2 30 
   LDX $18B2                                       ; 00B00B AE B2 18 
   BEQ B_B014                                      ; 00B00E F0 04 
@@ -5308,7 +5081,6 @@ B_B01D:
   LDA $D2                                         ; 00B01D A5 D2 
   AND #$07                                        ; 00B01F 29 07 
   BNE B_B030                                      ; 00B021 D0 0D 
-.i8
   LDX #$01                                        ; 00B023 A2 01 
 B_B025:
   LDA $18AD,X                                     ; 00B025 BD AD 18 
@@ -5329,17 +5101,17 @@ L_B032:
 D_B037:
   LDA #$45                                        ; 00B037 A9 45 
   STA $0C9C,X                                     ; 00B039 9D 9C 0C 
-  LDA D_B0F1,X                                    ; 00B03C BD F1 B0 
+  LDA (D_B0F1 & $FFFF),X                          ; 00B03C BD F1 B0 
   STA XexzyCharX,X                                ; 00B03F 9D 46 0B 
   LDA #$01                                        ; 00B042 A9 01 
   STA $06D2,X                                     ; 00B044 9D D2 06 
   STA $0744,X                                     ; 00B047 9D 44 07 
   STA $0D80,X                                     ; 00B04A 9D 80 0D 
-  LDA D_B0EA,X                                    ; 00B04D BD EA B0 
+  LDA (D_B0EA & $FFFF),X                          ; 00B04D BD EA B0 
   STA $0FBA,X                                     ; 00B050 9D BA 0F 
   LDA #$01                                        ; 00B053 A9 01 
   STA $0828,X                                     ; 00B055 9D 28 08 
-  LDA D_B0F7,X                                    ; 00B058 BD F7 B0 
+  LDA (D_B0F7 & $FFFF),X                          ; 00B058 BD F7 B0 
   STA $14A0,X                                     ; 00B05B 9D A0 14 
   TAY                                             ; 00B05E A8 
   LDA #$01                                        ; 00B05F A9 01 
@@ -5372,16 +5144,16 @@ B_B078:
 B_B09B:
   LDA $1897,X                                     ; 00B09B BD 97 18 
   TAY                                             ; 00B09E A8 
-  LDA D_B0EC,Y                                    ; 00B09F B9 EC B0 
+  LDA (D_B0EC & $FFFF),Y                          ; 00B09F B9 EC B0 
   STA $1884,X                                     ; 00B0A2 9D 84 18 
   LDA #$01                                        ; 00B0A5 A9 01 
   STA $1874,X                                     ; 00B0A7 9D 74 18 
   STA $19D5,X                                     ; 00B0AA 9D D5 19 
   STA $187C,X                                     ; 00B0AD 9D 7C 18 
   STA $19D3,X                                     ; 00B0B0 9D D3 19 
-  LDA D_B0F5,X                                    ; 00B0B3 BD F5 B0 
+  LDA (D_B0F5 & $FFFF),X                          ; 00B0B3 BD F5 B0 
   STA $13BC,X                                     ; 00B0B6 9D BC 13 
-  LDA D_B0F3,X                                    ; 00B0B9 BD F3 B0 
+  LDA (D_B0F3 & $FFFF),X                          ; 00B0B9 BD F3 B0 
   STA $142E,X                                     ; 00B0BC 9D 2E 14 
   STZ $18B2,X                                     ; 00B0BF 9E B2 18 
   LDA #$09                                        ; 00B0C2 A9 09 
@@ -5396,7 +5168,7 @@ B_B09B:
   STZ $18A5,X                                     ; 00B0DC 9E A5 18 
   DEX                                             ; 00B0DF CA 
   BMI B_B0E5                                      ; 00B0E0 30 03 
-  JMP D_B037                                      ; 00B0E2 4C 37 B0 
+  JMP (D_B037 & $FFFF)                            ; 00B0E2 4C 37 B0 
 B_B0E5:
   STZ $18AF                                       ; 00B0E5 9C AF 18 
   PLP                                             ; 00B0E8 28 
@@ -5422,12 +5194,11 @@ L_B0F9:
   PHB                                             ; 00B0FA 8B 
   REP #$10                                        ; 00B0FB C2 10 
   SEP #$20                                        ; 00B0FD E2 20 
-.i16
-  LDX #$0001                                      ; 00B0FF A2 01 00 
+  LDX.W #$0001                                    ; 00B0FF A2 01 00 
   LDA #$0F                                        ; 00B102 A9 0F 
   JSL f:L_F830F                                   ; 00B104 22 0F 83 0F 
   SEP #$10                                        ; 00B108 E2 10 
-  JSR L_B008                                      ; 00B10A 20 08 B0 
+  JSR (L_B008 & $FFFF)                            ; 00B10A 20 08 B0 
   LDA $18A3                                       ; 00B10D AD A3 18 
   BNE B_B115                                      ; 00B110 D0 03 
 
@@ -5436,7 +5207,7 @@ L_B0F9:
 B_B115:
   LDA $18A5                                       ; 00B115 AD A5 18 
   BEQ B_B11D                                      ; 00B118 F0 03 
-  JMP D_B20F                                      ; 00B11A 4C 0F B2 
+  JMP (D_B20F & $FFFF)                            ; 00B11A 4C 0F B2 
 B_B11D:
   LDA $18AB                                       ; 00B11D AD AB 18 
   BEQ B_B13F                                      ; 00B120 F0 1D 
@@ -5450,7 +5221,7 @@ B_B11D:
   ADC XexzyCharX                                  ; 00B133 6D 46 0B 
   STA XexzyCharX                                  ; 00B136 8D 46 0B 
   DEC $18AB                                       ; 00B139 CE AB 18 
-  JMP D_B20F                                      ; 00B13C 4C 0F B2 
+  JMP (D_B20F & $FFFF)                            ; 00B13C 4C 0F B2 
 B_B13F:
   LDA $0AD4                                       ; 00B13F AD D4 0A 
   STA $18BC                                       ; 00B142 8D BC 18 
@@ -5465,13 +5236,12 @@ B_B13F:
   ASL                                             ; 00B15C 0A 
   TAX                                             ; 00B15D AA 
   STZ $18C0                                       ; 00B15E 9C C0 18 
-.i8
   LDY #$00                                        ; 00B161 A0 00 
   LDA $18AD                                       ; 00B163 AD AD 18 
   BEQ B_B16A                                      ; 00B166 F0 02 
   LDY #$02                                        ; 00B168 A0 02 
 B_B16A:
-  JSR (L_B42F,X)                                  ; 00B16A FC 2F B4 
+  JSR ((L_B42F & $FFFF),X)                        ; 00B16A FC 2F B4 
   STZ $04                                         ; 00B16D 64 04 
   LDA $02F0                                       ; 00B16F AD F0 02 
   AND #$80                                        ; 00B172 29 80 
@@ -5506,17 +5276,17 @@ B_B1A1:
   TAX                                             ; 00B1A6 AA 
   LDA $18B2                                       ; 00B1A7 AD B2 18 
   BNE B_B1D6                                      ; 00B1AA D0 2A 
-  JSR (L_B675,X)                                  ; 00B1AC FC 75 B6 
+  JSR ((L_B675 & $FFFF),X)                        ; 00B1AC FC 75 B6 
   LDA $1895                                       ; 00B1AF AD 95 18 
   LDX #$00                                        ; 00B1B2 A2 00 
-  JSR L_B7F1                                      ; 00B1B4 20 F1 B7 
+  JSR (L_B7F1 & $FFFF)                            ; 00B1B4 20 F1 B7 
   LDA $1874                                       ; 00B1B7 AD 74 18 
   BEQ B_B1D6                                      ; 00B1BA F0 1A 
   LDY $1895                                       ; 00B1BC AC 95 18 
   STY $1893                                       ; 00B1BF 8C 93 18 
-  LDA D_B44F,Y                                    ; 00B1C2 B9 4F B4 
+  LDA (D_B44F & $FFFF),Y                          ; 00B1C2 B9 4F B4 
   STA $1888                                       ; 00B1C5 8D 88 18 
-  LDA D_B49E,Y                                    ; 00B1C8 B9 9E B4 
+  LDA (D_B49E & $FFFF),Y                          ; 00B1C8 B9 9E B4 
   CMP XexzyWalkAnimation                          ; 00B1CB CD 86 18 
   STA XexzyWalkAnimation                          ; 00B1CE 8D 86 18 
   LDA #$01                                        ; 00B1D1 A9 01 
@@ -5530,11 +5300,10 @@ B_B1D8:
   TAX                                             ; 00B1DE AA 
   LDA $187C                                       ; 00B1DF AD 7C 18 
   BEQ B_B20A                                      ; 00B1E2 F0 26 
-  JSR (L_B675,X)                                  ; 00B1E4 FC 75 B6 
+  JSR ((L_B675 & $FFFF),X)                        ; 00B1E4 FC 75 B6 
   LDA #$01                                        ; 00B1E7 A9 01 
   STA $187C                                       ; 00B1E9 8D 7C 18 
   STZ $187E                                       ; 00B1EC 9C 7E 18 
-D_B1EF:
   LDA $1897                                       ; 00B1EF AD 97 18 
   ASL                                             ; 00B1F2 0A 
   ASL                                             ; 00B1F3 0A 
@@ -5542,7 +5311,7 @@ D_B1EF:
   CLC                                             ; 00B1F5 18 
   ADC $1893                                       ; 00B1F6 6D 93 18 
   TAY                                             ; 00B1F9 A8 
-  LDA D_B457,Y                                    ; 00B1FA B9 57 B4 
+  LDA (D_B457 & $FFFF),Y                          ; 00B1FA B9 57 B4 
   CMP $1884                                       ; 00B1FD CD 84 18 
   BEQ B_B20A                                      ; 00B200 F0 08 
   STA $1884                                       ; 00B202 8D 84 18 
@@ -5550,7 +5319,7 @@ D_B1EF:
   STA $19D3                                       ; 00B207 8D D3 19 
 B_B20A:
   LDX #$00                                        ; 00B20A A2 00 
-  JSR L_B6FC                                      ; 00B20C 20 FC B6 
+  JSR (L_B6FC & $FFFF)                            ; 00B20C 20 FC B6 
 D_B20F:
   LDA $18A9                                       ; 00B20F AD A9 18 
   BEQ B_B24C                                      ; 00B212 F0 38 
@@ -5631,11 +5400,11 @@ B_B27F:
 B_B282:
   LDA $18A4                                       ; 00B282 AD A4 18 
   BNE B_B28A                                      ; 00B285 D0 03 
-  JMP D_B3FB                                      ; 00B287 4C FB B3 
+  JMP (D_B3FB & $FFFF)                            ; 00B287 4C FB B3 
 B_B28A:
   LDA $18A6                                       ; 00B28A AD A6 18 
   BEQ B_B292                                      ; 00B28D F0 03 
-  JMP D_B388                                      ; 00B28F 4C 88 B3 
+  JMP (D_B388 & $FFFF)                            ; 00B28F 4C 88 B3 
 B_B292:
   LDA $18AC                                       ; 00B292 AD AC 18 
   BEQ B_B2B4                                      ; 00B295 F0 1D 
@@ -5649,8 +5418,7 @@ B_B292:
   ADC $0B47                                       ; 00B2A8 6D 47 0B 
   STA $0B47                                       ; 00B2AB 8D 47 0B 
   DEC $18AC                                       ; 00B2AE CE AC 18 
-D_B2B1:
-  JMP D_B388                                      ; 00B2B1 4C 88 B3 
+  JMP (D_B388 & $FFFF)                            ; 00B2B1 4C 88 B3 
 B_B2B4:
   LDA $0AD5                                       ; 00B2B4 AD D5 0A 
   STA $18BC                                       ; 00B2B7 8D BC 18 
@@ -5673,7 +5441,7 @@ B_B2B4:
 .byte $A0,$02                                     ; 00B2E0 ??
 
 B_B2E1:
-  JSR (L_B42F,X)                                  ; 00B2E1 FC 2F B4 
+  JSR ((L_B42F & $FFFF),X)                        ; 00B2E1 FC 2F B4 
   STZ $04                                         ; 00B2E4 64 04 
   LDA $02F2                                       ; 00B2E6 AD F2 02 
   AND #$80                                        ; 00B2E9 29 80 
@@ -5708,17 +5476,17 @@ B_B318:
   TAX                                             ; 00B31D AA 
   LDA $18B3                                       ; 00B31E AD B3 18 
   BNE B_B34F                                      ; 00B321 D0 2C 
-  JSR (L_B675,X)                                  ; 00B323 FC 75 B6 
+  JSR ((L_B675 & $FFFF),X)                        ; 00B323 FC 75 B6 
   LDA $1896                                       ; 00B326 AD 96 18 
   LDX #$01                                        ; 00B329 A2 01 
-  JSR L_B7F1                                      ; 00B32B 20 F1 B7 
+  JSR (L_B7F1 & $FFFF)                            ; 00B32B 20 F1 B7 
   LDA $1875                                       ; 00B32E AD 75 18 
   BEQ B_B34F                                      ; 00B331 F0 1C 
   LDY $1896                                       ; 00B333 AC 96 18 
   STY $1894                                       ; 00B336 8C 94 18 
-  LDA D_B44F,Y                                    ; 00B339 B9 4F B4 
+  LDA (D_B44F & $FFFF),Y                          ; 00B339 B9 4F B4 
   STA $1889                                       ; 00B33C 8D 89 18 
-  LDA D_B49E,Y                                    ; 00B33F B9 9E B4 
+  LDA (D_B49E & $FFFF),Y                          ; 00B33F B9 9E B4 
   CMP $1887                                       ; 00B342 CD 87 18 
   BEQ B_B34F                                      ; 00B345 F0 08 
   STA $1887                                       ; 00B347 8D 87 18 
@@ -5733,7 +5501,7 @@ B_B351:
   TAX                                             ; 00B357 AA 
   LDA $187D                                       ; 00B358 AD 7D 18 
   BEQ B_B383                                      ; 00B35B F0 26 
-  JSR (L_B675,X)                                  ; 00B35D FC 75 B6 
+  JSR ((L_B675 & $FFFF),X)                        ; 00B35D FC 75 B6 
   LDA #$01                                        ; 00B360 A9 01 
   STA $187D                                       ; 00B362 8D 7D 18 
   STZ $187F                                       ; 00B365 9C 7F 18 
@@ -5744,7 +5512,7 @@ B_B351:
   CLC                                             ; 00B36E 18 
   ADC $1894                                       ; 00B36F 6D 94 18 
   TAY                                             ; 00B372 A8 
-  LDA D_B457,Y                                    ; 00B373 B9 57 B4 
+  LDA (D_B457 & $FFFF),Y                          ; 00B373 B9 57 B4 
   CMP $1885                                       ; 00B376 CD 85 18 
   BEQ B_B383                                      ; 00B379 F0 08 
   STA $1885                                       ; 00B37B 8D 85 18 
@@ -5752,7 +5520,7 @@ B_B351:
   STA $19D4                                       ; 00B380 8D D4 19 
 B_B383:
   LDX #$01                                        ; 00B383 A2 01 
-  JSR L_B6FC                                      ; 00B385 20 FC B6 
+  JSR (L_B6FC & $FFFF)                            ; 00B385 20 FC B6 
 D_B388:
   LDA $18AA                                       ; 00B388 AD AA 18 
   BEQ B_B3C5                                      ; 00B38B F0 38 
@@ -5837,7 +5605,6 @@ D_B3FB:
   JSL f:L_F830F                                   ; 00B402 22 0F 83 0F 
   SEP #$30                                        ; 00B406 E2 30 
   LDA $18A3                                       ; 00B408 AD A3 18 
-D_B40B:
   BEQ B_B420                                      ; 00B40B F0 13 
   LDA $18A4                                       ; 00B40D AD A4 18 
   BNE B_B42C                                      ; 00B410 D0 1A 
@@ -5876,7 +5643,7 @@ D_B457:
   STA $1874,X                                     ; 00B484 9D 74 18 
   STZ $1876,X                                     ; 00B487 9E 76 18 
   LDY $1893,X                                     ; 00B48A BC 93 18 
-  LDA D_B49E,Y                                    ; 00B48D B9 9E B4 
+  LDA (D_B49E & $FFFF),Y                          ; 00B48D B9 9E B4 
   CMP XexzyWalkAnimation,X                        ; 00B490 DD 86 18 
   BEQ B_B49D                                      ; 00B493 F0 08 
   STA XexzyWalkAnimation,X                        ; 00B495 9D 86 18 
@@ -5887,140 +5654,138 @@ B_B49D:
 
 
 D_B49E:
-.byte $2D,$2C,$2B,$2A,$29                         ; 00B49F -,+*)
-D_B4A3:
-.byte $2A,$2B,$2C                                 ; 00B4A4 *+,
+.byte $2D,$2C,$2B,$2A,$29,$2A,$2B,$2C             ; 00B49E -,+*)*+,
 
   LDX $18C0                                       ; 00B4A6 AE C0 18 
   CLC                                             ; 00B4A9 18 
   LDA $0AD4,X                                     ; 00B4AA BD D4 0A 
-  ADC D_B66D,Y                                    ; 00B4AD 79 6D B6 
+  ADC (D_B66D & $FFFF),Y                          ; 00B4AD 79 6D B6 
   STA $18BC                                       ; 00B4B0 8D BC 18 
   LDA XexzyCharX,X                                ; 00B4B3 BD 46 0B 
-  ADC D_B66E,Y                                    ; 00B4B6 79 6E B6 
+  ADC (D_B66E & $FFFF),Y                          ; 00B4B6 79 6E B6 
   STA $18BD                                       ; 00B4B9 8D BD 18 
   LDA #$02                                        ; 00B4BC A9 02 
   STA $1893,X                                     ; 00B4BE 9D 93 18 
-  JSR L_B5EA                                      ; 00B4C1 20 EA B5 
+  JSR (L_B5EA & $FFFF)                            ; 00B4C1 20 EA B5 
   RTS                                             ; 00B4C4 60 
 
   LDX $18C0                                       ; 00B4C5 AE C0 18 
   SEC                                             ; 00B4C8 38 
   LDA $0AD4,X                                     ; 00B4C9 BD D4 0A 
-  SBC D_B66D,Y                                    ; 00B4CC F9 6D B6 
+  SBC (D_B66D & $FFFF),Y                          ; 00B4CC F9 6D B6 
   STA $18BC                                       ; 00B4CF 8D BC 18 
   LDA XexzyCharX,X                                ; 00B4D2 BD 46 0B 
-  SBC D_B66E,Y                                    ; 00B4D5 F9 6E B6 
+  SBC (D_B66E & $FFFF),Y                          ; 00B4D5 F9 6E B6 
   STA $18BD                                       ; 00B4D8 8D BD 18 
   LDA #$06                                        ; 00B4DB A9 06 
   STA $1893,X                                     ; 00B4DD 9D 93 18 
-  JSR L_B5EA                                      ; 00B4E0 20 EA B5 
+  JSR (L_B5EA & $FFFF)                            ; 00B4E0 20 EA B5 
   RTS                                             ; 00B4E3 60 
 
   LDX $18C0                                       ; 00B4E4 AE C0 18 
   CLC                                             ; 00B4E7 18 
   LDA $0C2A,X                                     ; 00B4E8 BD 2A 0C 
-  ADC D_B66D,Y                                    ; 00B4EB 79 6D B6 
+  ADC (D_B66D & $FFFF),Y                          ; 00B4EB 79 6D B6 
   STA $18BE                                       ; 00B4EE 8D BE 18 
   LDA $0C9C,X                                     ; 00B4F1 BD 9C 0C 
-  ADC D_B66E,Y                                    ; 00B4F4 79 6E B6 
+  ADC (D_B66E & $FFFF),Y                          ; 00B4F4 79 6E B6 
   STA $18BF                                       ; 00B4F7 8D BF 18 
   LDA #$00                                        ; 00B4FA A9 00 
   STA $1893,X                                     ; 00B4FC 9D 93 18 
-  JSR L_B5EA                                      ; 00B4FF 20 EA B5 
+  JSR (L_B5EA & $FFFF)                            ; 00B4FF 20 EA B5 
   RTS                                             ; 00B502 60 
 
   LDX $18C0                                       ; 00B503 AE C0 18 
   CLC                                             ; 00B506 18 
   LDA $0C2A,X                                     ; 00B507 BD 2A 0C 
-  ADC D_B671,Y                                    ; 00B50A 79 71 B6 
+  ADC (D_B671 & $FFFF),Y                          ; 00B50A 79 71 B6 
   STA $18BE                                       ; 00B50D 8D BE 18 
   LDA $0C9C,X                                     ; 00B510 BD 9C 0C 
-  ADC D_B672,Y                                    ; 00B513 79 72 B6 
+  ADC (D_B672 & $FFFF),Y                          ; 00B513 79 72 B6 
   STA $18BF                                       ; 00B516 8D BF 18 
   CLC                                             ; 00B519 18 
   LDA $0AD4,X                                     ; 00B51A BD D4 0A 
-  ADC D_B671,Y                                    ; 00B51D 79 71 B6 
+  ADC (D_B671 & $FFFF),Y                          ; 00B51D 79 71 B6 
   STA $18BC                                       ; 00B520 8D BC 18 
   LDA XexzyCharX,X                                ; 00B523 BD 46 0B 
-  ADC D_B672,Y                                    ; 00B526 79 72 B6 
+  ADC (D_B672 & $FFFF),Y                          ; 00B526 79 72 B6 
   STA $18BD                                       ; 00B529 8D BD 18 
   LDA #$01                                        ; 00B52C A9 01 
   STA $1893,X                                     ; 00B52E 9D 93 18 
-  JSR L_B5EA                                      ; 00B531 20 EA B5 
+  JSR (L_B5EA & $FFFF)                            ; 00B531 20 EA B5 
   RTS                                             ; 00B534 60 
 
   LDX $18C0                                       ; 00B535 AE C0 18 
   CLC                                             ; 00B538 18 
   LDA $0C2A,X                                     ; 00B539 BD 2A 0C 
-  ADC D_B671,Y                                    ; 00B53C 79 71 B6 
+  ADC (D_B671 & $FFFF),Y                          ; 00B53C 79 71 B6 
   STA $18BE                                       ; 00B53F 8D BE 18 
   LDA $0C9C,X                                     ; 00B542 BD 9C 0C 
-  ADC D_B672,Y                                    ; 00B545 79 72 B6 
+  ADC (D_B672 & $FFFF),Y                          ; 00B545 79 72 B6 
   STA $18BF                                       ; 00B548 8D BF 18 
   SEC                                             ; 00B54B 38 
   LDA $0AD4,X                                     ; 00B54C BD D4 0A 
-  SBC D_B671,Y                                    ; 00B54F F9 71 B6 
+  SBC (D_B671 & $FFFF),Y                          ; 00B54F F9 71 B6 
   STA $18BC                                       ; 00B552 8D BC 18 
   LDA XexzyCharX,X                                ; 00B555 BD 46 0B 
-  SBC D_B672,Y                                    ; 00B558 F9 72 B6 
+  SBC (D_B672 & $FFFF),Y                          ; 00B558 F9 72 B6 
   STA $18BD                                       ; 00B55B 8D BD 18 
   LDA #$07                                        ; 00B55E A9 07 
   STA $1893,X                                     ; 00B560 9D 93 18 
-  JSR L_B5EA                                      ; 00B563 20 EA B5 
+  JSR (L_B5EA & $FFFF)                            ; 00B563 20 EA B5 
   RTS                                             ; 00B566 60 
 
   LDX $18C0                                       ; 00B567 AE C0 18 
   SEC                                             ; 00B56A 38 
   LDA $0C2A,X                                     ; 00B56B BD 2A 0C 
-  SBC D_B66D,Y                                    ; 00B56E F9 6D B6 
+  SBC (D_B66D & $FFFF),Y                          ; 00B56E F9 6D B6 
   STA $18BE                                       ; 00B571 8D BE 18 
   LDA $0C9C,X                                     ; 00B574 BD 9C 0C 
-  SBC D_B66E,Y                                    ; 00B577 F9 6E B6 
+  SBC (D_B66E & $FFFF),Y                          ; 00B577 F9 6E B6 
   STA $18BF                                       ; 00B57A 8D BF 18 
   LDA #$04                                        ; 00B57D A9 04 
   STA $1893,X                                     ; 00B57F 9D 93 18 
-  JSR L_B5EA                                      ; 00B582 20 EA B5 
+  JSR (L_B5EA & $FFFF)                            ; 00B582 20 EA B5 
   RTS                                             ; 00B585 60 
 
   LDX $18C0                                       ; 00B586 AE C0 18 
   SEC                                             ; 00B589 38 
   LDA $0C2A,X                                     ; 00B58A BD 2A 0C 
-  SBC D_B671,Y                                    ; 00B58D F9 71 B6 
+  SBC (D_B671 & $FFFF),Y                          ; 00B58D F9 71 B6 
   STA $18BE                                       ; 00B590 8D BE 18 
   LDA $0C9C,X                                     ; 00B593 BD 9C 0C 
-  SBC D_B672,Y                                    ; 00B596 F9 72 B6 
+  SBC (D_B672 & $FFFF),Y                          ; 00B596 F9 72 B6 
   STA $18BF                                       ; 00B599 8D BF 18 
   CLC                                             ; 00B59C 18 
   LDA $0AD4,X                                     ; 00B59D BD D4 0A 
-  ADC D_B671,Y                                    ; 00B5A0 79 71 B6 
+  ADC (D_B671 & $FFFF),Y                          ; 00B5A0 79 71 B6 
   STA $18BC                                       ; 00B5A3 8D BC 18 
   LDA XexzyCharX,X                                ; 00B5A6 BD 46 0B 
-  ADC D_B672,Y                                    ; 00B5A9 79 72 B6 
+  ADC (D_B672 & $FFFF),Y                          ; 00B5A9 79 72 B6 
   STA $18BD                                       ; 00B5AC 8D BD 18 
   LDA #$03                                        ; 00B5AF A9 03 
   STA $1893,X                                     ; 00B5B1 9D 93 18 
-  JSR L_B5EA                                      ; 00B5B4 20 EA B5 
+  JSR (L_B5EA & $FFFF)                            ; 00B5B4 20 EA B5 
   RTS                                             ; 00B5B7 60 
 
   LDX $18C0                                       ; 00B5B8 AE C0 18 
   SEC                                             ; 00B5BB 38 
   LDA $0C2A,X                                     ; 00B5BC BD 2A 0C 
-  SBC D_B671,Y                                    ; 00B5BF F9 71 B6 
+  SBC (D_B671 & $FFFF),Y                          ; 00B5BF F9 71 B6 
   STA $18BE                                       ; 00B5C2 8D BE 18 
   LDA $0C9C,X                                     ; 00B5C5 BD 9C 0C 
-  SBC D_B672,Y                                    ; 00B5C8 F9 72 B6 
+  SBC (D_B672 & $FFFF),Y                          ; 00B5C8 F9 72 B6 
   STA $18BF                                       ; 00B5CB 8D BF 18 
   SEC                                             ; 00B5CE 38 
   LDA $0AD4,X                                     ; 00B5CF BD D4 0A 
-  SBC D_B671,Y                                    ; 00B5D2 F9 71 B6 
+  SBC (D_B671 & $FFFF),Y                          ; 00B5D2 F9 71 B6 
   STA $18BC                                       ; 00B5D5 8D BC 18 
   LDA XexzyCharX,X                                ; 00B5D8 BD 46 0B 
-  SBC D_B672,Y                                    ; 00B5DB F9 72 B6 
+  SBC (D_B672 & $FFFF),Y                          ; 00B5DB F9 72 B6 
   STA $18BD                                       ; 00B5DE 8D BD 18 
   LDA #$05                                        ; 00B5E1 A9 05 
   STA $1893,X                                     ; 00B5E3 9D 93 18 
-  JSR L_B5EA                                      ; 00B5E6 20 EA B5 
+  JSR (L_B5EA & $FFFF)                            ; 00B5E6 20 EA B5 
   RTS                                             ; 00B5E9 60 
 
 
@@ -6034,7 +5799,7 @@ D_B5F0:
 D_B5F1:
   ADC $1895,X                                     ; 00B5F1 7D 95 18 
   TAY                                             ; 00B5F4 A8 
-  LDA D_B62D,Y                                    ; 00B5F5 B9 2D B6 
+  LDA (D_B62D & $FFFF),Y                          ; 00B5F5 B9 2D B6 
   BEQ B_B605                                      ; 00B5F8 F0 0B 
   CLC                                             ; 00B5FA 18 
   LDA $1893,X                                     ; 00B5FB BD 93 18 
@@ -6045,13 +5810,13 @@ D_B5F1:
 B_B605:
   LDY $1893,X                                     ; 00B605 BC 93 18 
 B_B608:
-  LDA D_B625,Y                                    ; 00B608 B9 25 B6 
+  LDA (D_B625 & $FFFF),Y                          ; 00B608 B9 25 B6 
   CMP $1876,X                                     ; 00B60B DD 76 18 
   BEQ B_B61C                                      ; 00B60E F0 0C 
   PHY                                             ; 00B610 5A 
   JSL f:L_E5C0                                    ; 00B611 22 C0 E5 00 
   PLY                                             ; 00B615 7A 
-  LDA D_B61D,Y                                    ; 00B616 B9 1D B6 
+  LDA (D_B61D & $FFFF),Y                          ; 00B616 B9 1D B6 
   STA $1888,X                                     ; 00B619 9D 88 18 
 B_B61C:
   RTS                                             ; 00B61C 60 
@@ -6063,15 +5828,13 @@ D_B625:
 .byte $01,$02,$03,$04,$05,$06,$07,$08             ; 00B625 ????????
 D_B62D:
 .byte $00,$00,$00,$01,$01,$01,$00,$00             ; 00B62D ????????
-.byte $00,$00,$00,$00,$01                         ; 00B636 ?????
-D_B63A:
-.byte $01,$01,$00,$00,$00,$00,$00,$00             ; 00B63A ????????
-.byte $01,$01,$01,$01,$00,$00,$00,$00             ; 00B642 ????????
-.byte $00,$01,$01,$01,$01,$00,$00,$00             ; 00B64A ????????
-.byte $00,$00,$01,$01,$01,$01,$00,$00             ; 00B652 ????????
-.byte $00,$00,$00,$00,$01,$01,$01,$00             ; 00B65A ????????
-.byte $00,$00,$00,$00,$00,$01,$01,$01             ; 00B662 ????????
-.byte $00,$00,$00                                 ; 00B66B ???
+.byte $00,$00,$00,$00,$01,$01,$01,$00             ; 00B635 ????????
+.byte $00,$00,$00,$00,$00,$01,$01,$01             ; 00B63D ????????
+.byte $01,$00,$00,$00,$00,$00,$01,$01             ; 00B645 ????????
+.byte $01,$01,$00,$00,$00,$00,$00,$01             ; 00B64D ????????
+.byte $01,$01,$01,$00,$00,$00,$00,$00             ; 00B655 ????????
+.byte $00,$01,$01,$01,$00,$00,$00,$00             ; 00B65D ????????
+.byte $00,$00,$01,$01,$01,$00,$00,$00             ; 00B665 ????????
 D_B66D:
 .byte $20                                         ; 00B66E  
 D_B66E:
@@ -6151,19 +5914,19 @@ L_B6FC:
 B_B70A:
   SEC                                             ; 00B70A 38 
   LDA #$EE                                        ; 00B70B A9 EE 
-  SBC D_B7D7,Y                                    ; 00B70D F9 D7 B7 
+  SBC (D_B7D7 & $FFFF),Y                          ; 00B70D F9 D7 B7 
   STA $1890                                       ; 00B710 8D 90 18 
   CLC                                             ; 00B713 18 
   LDA #$12                                        ; 00B714 A9 12 
-  ADC D_B7D9,Y                                    ; 00B716 79 D9 B7 
+  ADC (D_B7D9 & $FFFF),Y                          ; 00B716 79 D9 B7 
   STA $188F                                       ; 00B719 8D 8F 18 
   CLC                                             ; 00B71C 18 
   LDA #$20                                        ; 00B71D A9 20 
-  ADC D_B7DB,Y                                    ; 00B71F 79 DB B7 
+  ADC (D_B7DB & $FFFF),Y                          ; 00B71F 79 DB B7 
   STA $1891                                       ; 00B722 8D 91 18 
   SEC                                             ; 00B725 38 
   LDA #$DC                                        ; 00B726 A9 DC 
-  SBC D_B7DD,Y                                    ; 00B728 F9 DD B7 
+  SBC (D_B7DD & $FFFF),Y                          ; 00B728 F9 DD B7 
   STA $1892                                       ; 00B72B 8D 92 18 
   LDY $188E                                       ; 00B72E AC 8E 18 
   BEQ B_B76C                                      ; 00B731 F0 39 
@@ -6174,9 +5937,8 @@ B_B70A:
 .byte $08,$B9,$EE,$B7,$8D,$92,$18,$80             ; 00B74B ????????
 .byte $18,$BD,$9C,$0C,$D9,$EB,$B7,$90             ; 00B753 ????????
 .byte $10,$B9,$E2,$B7,$F0,$03,$8D,$8F             ; 00B75B ????????
-.byte $18,$B9,$E8,$B7,$F0,$03                     ; 00B764 ??????
-D_B769:
-.byte $8D,$90,$18                                 ; 00B76A ???
+.byte $18,$B9,$E8,$B7,$F0,$03,$8D,$90             ; 00B763 ????????
+.byte $18                                         ; 00B76C ?
 
 B_B76C:
   LDA $1890                                       ; 00B76C AD 90 18 
@@ -6255,7 +6017,7 @@ L_B7F1:
   ASL                                             ; 00B816 0A 
   TAX                                             ; 00B817 AA 
   PHX                                             ; 00B818 DA 
-  JSR (L_B840,X)                                  ; 00B819 FC 40 B8 
+  JSR ((L_B840 & $FFFF),X)                        ; 00B819 FC 40 B8 
   PLX                                             ; 00B81C FA 
   LDA $05CE                                       ; 00B81D AD CE 05 
   CMP $09                                         ; 00B820 C5 09 
@@ -6270,7 +6032,7 @@ L_B7F1:
   LDA $0C9C,Y                                     ; 00B835 B9 9C 0C 
   STA $0B                                         ; 00B838 85 0B 
   STZ $0C                                         ; 00B83A 64 0C 
-  JSR (L_B840,X)                                  ; 00B83C FC 40 B8 
+  JSR ((L_B840 & $FFFF),X)                        ; 00B83C FC 40 B8 
 B_B83F:
   RTS                                             ; 00B83F 60 
 
@@ -6300,13 +6062,13 @@ B_B853:
   BEQ B_B887                                      ; 00B870 F0 15 
   CLC                                             ; 00B872 18 
   LDA $0A                                         ; 00B873 A5 0A 
-  ADC D_B93F,Y                                    ; 00B875 79 3F B9 
+  ADC (D_B93F & $FFFF),Y                          ; 00B875 79 3F B9 
   STA XexzyCharX,X                                ; 00B878 9D 46 0B 
   CLC                                             ; 00B87B 18 
   LDA $0B                                         ; 00B87C A5 0B 
-  ADC D_B947,Y                                    ; 00B87E 79 47 B9 
+  ADC (D_B947 & $FFFF),Y                          ; 00B87E 79 47 B9 
   STA $0C9C,X                                     ; 00B881 9D 9C 0C 
-  JMP D_B891                                      ; 00B884 4C 91 B8 
+  JMP (D_B891 & $FFFF)                            ; 00B884 4C 91 B8 
 B_B887:
   LDA $0A                                         ; 00B887 A5 0A 
   STA XexzyCharX,X                                ; 00B889 9D 46 0B 
@@ -6353,23 +6115,23 @@ B_B8C2:
   AND #$07                                        ; 00B8C7 29 07 
   ASL                                             ; 00B8C9 0A 
   TAY                                             ; 00B8CA A8 
-  LDA D_B94F,Y                                    ; 00B8CB B9 4F B9 
+  LDA (D_B94F & $FFFF),Y                          ; 00B8CB B9 4F B9 
   STA $090C,X                                     ; 00B8CE 9D 0C 09 
-  LDA D_B950,Y                                    ; 00B8D1 B9 50 B9 
+  LDA (D_B950 & $FFFF),Y                          ; 00B8D1 B9 50 B9 
   STA $097E,X                                     ; 00B8D4 9D 7E 09 
-  LDA D_B95F,Y                                    ; 00B8D7 B9 5F B9 
+  LDA (D_B95F & $FFFF),Y                          ; 00B8D7 B9 5F B9 
   STA $09F0,X                                     ; 00B8DA 9D F0 09 
-  LDA D_B960,Y                                    ; 00B8DD B9 60 B9 
+  LDA (D_B960 & $FFFF),Y                          ; 00B8DD B9 60 B9 
   STA $0A62,X                                     ; 00B8E0 9D 62 0A 
   LDA #$01                                        ; 00B8E3 A9 01 
   STA $06D2,X                                     ; 00B8E5 9D D2 06 
   LDA $08                                         ; 00B8E8 A5 08 
   AND #$07                                        ; 00B8EA 29 07 
   TAY                                             ; 00B8EC A8 
-  LDA D_B92F,Y                                    ; 00B8ED B9 2F B9 
+  LDA (D_B92F & $FFFF),Y                          ; 00B8ED B9 2F B9 
   STA $13BC,X                                     ; 00B8F0 9D BC 13 
   LDA #$32                                        ; 00B8F3 A9 32 
-  ORA D_B937,Y                                    ; 00B8F5 19 37 B9 
+  ORA (D_B937 & $FFFF),Y                          ; 00B8F5 19 37 B9 
   STA $142E,X                                     ; 00B8F8 9D 2E 14 
   JSL f:L_AECB                                    ; 00B8FB 22 CB AE 00 
   TYA                                             ; 00B8FF 98 
@@ -6380,14 +6142,13 @@ B_B8C2:
   PHX                                             ; 00B90C DA 
   REP #$10                                        ; 00B90D C2 10 
   LDA #$07                                        ; 00B90F A9 07 
-.i16
   LDX #$FF01                                      ; 00B911 A2 01 FF 
   JSL f:L_F830F                                   ; 00B914 22 0F 83 0F 
   SEP #$30                                        ; 00B918 E2 30 
   PLX                                             ; 00B91A FA 
   LDX $09                                         ; 00B91B A6 09 
   LDY $08                                         ; 00B91D A4 08 
-  LDA D_B927,Y                                    ; 00B91F B9 27 B9 
+  LDA (D_B927 & $FFFF),Y                          ; 00B91F B9 27 B9 
   JSL f:L_E593                                    ; 00B922 22 93 E5 00 
   RTS                                             ; 00B926 60 
 
@@ -6416,18 +6177,18 @@ D_B960:
   LDA $08                                         ; 00B96F A5 08 
   ASL                                             ; 00B971 0A 
   STA $04                                         ; 00B972 85 04 
-  JSR L_B9AB                                      ; 00B974 20 AB B9 
+  JSR (L_B9AB & $FFFF)                            ; 00B974 20 AB B9 
   LDA $04                                         ; 00B977 A5 04 
-  DEC                                             ; 00B979 3A 
+.byte $3A
   AND #$0F                                        ; 00B97A 29 0F 
   STA $04                                         ; 00B97C 85 04 
-  JSR L_B9AB                                      ; 00B97E 20 AB B9 
+  JSR (L_B9AB & $FFFF)                            ; 00B97E 20 AB B9 
   CLC                                             ; 00B981 18 
   LDA $04                                         ; 00B982 A5 04 
   ADC #$02                                        ; 00B984 69 02 
   AND #$0F                                        ; 00B986 29 0F 
   STA $04                                         ; 00B988 85 04 
-  JSR L_B9AB                                      ; 00B98A 20 AB B9 
+  JSR (L_B9AB & $FFFF)                            ; 00B98A 20 AB B9 
   PHX                                             ; 00B98D DA 
   REP #$10                                        ; 00B98E C2 10 
   LDA #$07                                        ; 00B990 A9 07 
@@ -6435,10 +6196,10 @@ D_B960:
   JSL f:L_F830F                                   ; 00B995 22 0F 83 0F 
   SEP #$30                                        ; 00B999 E2 30 
   PLX                                             ; 00B99B FA 
-  JSR L_BEE9                                      ; 00B99C 20 E9 BE 
+  JSR (L_BEE9 & $FFFF)                            ; 00B99C 20 E9 BE 
   LDX $09                                         ; 00B99F A6 09 
   LDY $08                                         ; 00B9A1 A4 08 
-  LDA D_BA63,Y                                    ; 00B9A3 B9 63 BA 
+  LDA (D_BA63 & $FFFF),Y                          ; 00B9A3 B9 63 BA 
   JSL f:L_E593                                    ; 00B9A6 22 93 E5 00 
   RTS                                             ; 00B9AA 60 
 
@@ -6465,13 +6226,13 @@ B_B9B4:
   BEQ B_B9E8                                      ; 00B9D1 F0 15 
   CLC                                             ; 00B9D3 18 
   LDA $0A                                         ; 00B9D4 A5 0A 
-  ADC D_BA6B,Y                                    ; 00B9D6 79 6B BA 
+  ADC (D_BA6B & $FFFF),Y                          ; 00B9D6 79 6B BA 
   STA XexzyCharX,X                                ; 00B9D9 9D 46 0B 
   CLC                                             ; 00B9DC 18 
   LDA $0B                                         ; 00B9DD A5 0B 
-  ADC D_BA73,Y                                    ; 00B9DF 79 73 BA 
+  ADC (D_BA73 & $FFFF),Y                          ; 00B9DF 79 73 BA 
   STA $0C9C,X                                     ; 00B9E2 9D 9C 0C 
-  JMP D_B9F2                                      ; 00B9E5 4C F2 B9 
+  JMP (D_B9F2 & $FFFF)                            ; 00B9E5 4C F2 B9 
 B_B9E8:
   LDA $0A                                         ; 00B9E8 A5 0A 
   STA XexzyCharX,X                                ; 00B9EA 9D 46 0B 
@@ -6517,13 +6278,13 @@ B_BA23:
   LDA $04                                         ; 00BA26 A5 04 
   ASL                                             ; 00BA28 0A 
   TAY                                             ; 00BA29 A8 
-  LDA D_BA7B,Y                                    ; 00BA2A B9 7B BA 
+  LDA (D_BA7B & $FFFF),Y                          ; 00BA2A B9 7B BA 
   STA $090C,X                                     ; 00BA2D 9D 0C 09 
-  LDA D_BA7C,Y                                    ; 00BA30 B9 7C BA 
+  LDA (D_BA7C & $FFFF),Y                          ; 00BA30 B9 7C BA 
   STA $097E,X                                     ; 00BA33 9D 7E 09 
-  LDA D_BA9B,Y                                    ; 00BA36 B9 9B BA 
+  LDA (D_BA9B & $FFFF),Y                          ; 00BA36 B9 9B BA 
   STA $09F0,X                                     ; 00BA39 9D F0 09 
-  LDA D_BA9C,Y                                    ; 00BA3C B9 9C BA 
+  LDA (D_BA9C & $FFFF),Y                          ; 00BA3C B9 9C BA 
   STA $0A62,X                                     ; 00BA3F 9D 62 0A 
   LDA #$01                                        ; 00BA42 A9 01 
   STA $06D2,X                                     ; 00BA44 9D D2 06 
@@ -6582,13 +6343,13 @@ B_BAC4:
   BEQ B_BAF8                                      ; 00BAE1 F0 15 
   CLC                                             ; 00BAE3 18 
   LDA $0A                                         ; 00BAE4 A5 0A 
-  ADC D_BBB3,Y                                    ; 00BAE6 79 B3 BB 
+  ADC (D_BBB3 & $FFFF),Y                          ; 00BAE6 79 B3 BB 
   STA XexzyCharX,X                                ; 00BAE9 9D 46 0B 
   CLC                                             ; 00BAEC 18 
   LDA $0B                                         ; 00BAED A5 0B 
-  ADC D_BBBB,Y                                    ; 00BAEF 79 BB BB 
+  ADC (D_BBBB & $FFFF),Y                          ; 00BAEF 79 BB BB 
   STA $0C9C,X                                     ; 00BAF2 9D 9C 0C 
-  JMP D_BB02                                      ; 00BAF5 4C 02 BB 
+  JMP (D_BB02 & $FFFF)                            ; 00BAF5 4C 02 BB 
 B_BAF8:
   LDA $0A                                         ; 00BAF8 A5 0A 
   STA XexzyCharX,X                                ; 00BAFA 9D 46 0B 
@@ -6635,23 +6396,23 @@ B_BB33:
   AND #$07                                        ; 00BB38 29 07 
   ASL                                             ; 00BB3A 0A 
   TAY                                             ; 00BB3B A8 
-  LDA D_BBC3,Y                                    ; 00BB3C B9 C3 BB 
+  LDA (D_BBC3 & $FFFF),Y                          ; 00BB3C B9 C3 BB 
   STA $090C,X                                     ; 00BB3F 9D 0C 09 
-  LDA D_BBC4,Y                                    ; 00BB42 B9 C4 BB 
+  LDA (D_BBC4 & $FFFF),Y                          ; 00BB42 B9 C4 BB 
   STA $097E,X                                     ; 00BB45 9D 7E 09 
-  LDA D_BBD3,Y                                    ; 00BB48 B9 D3 BB 
+  LDA (D_BBD3 & $FFFF),Y                          ; 00BB48 B9 D3 BB 
   STA $09F0,X                                     ; 00BB4B 9D F0 09 
-  LDA D_BBD4,Y                                    ; 00BB4E B9 D4 BB 
+  LDA (D_BBD4 & $FFFF),Y                          ; 00BB4E B9 D4 BB 
   STA $0A62,X                                     ; 00BB51 9D 62 0A 
   LDA #$01                                        ; 00BB54 A9 01 
   STA $06D2,X                                     ; 00BB56 9D D2 06 
   LDA $08                                         ; 00BB59 A5 08 
   AND #$07                                        ; 00BB5B 29 07 
   TAY                                             ; 00BB5D A8 
-  LDA D_BBA3,Y                                    ; 00BB5E B9 A3 BB 
+  LDA (D_BBA3 & $FFFF),Y                          ; 00BB5E B9 A3 BB 
   STA $13BC,X                                     ; 00BB61 9D BC 13 
   LDA #$34                                        ; 00BB64 A9 34 
-  ORA D_BBAB,Y                                    ; 00BB66 19 AB BB 
+  ORA (D_BBAB & $FFFF),Y                          ; 00BB66 19 AB BB 
   STA $142E,X                                     ; 00BB69 9D 2E 14 
   JSL f:L_AECB                                    ; 00BB6C 22 CB AE 00 
   TYA                                             ; 00BB70 98 
@@ -6666,10 +6427,10 @@ B_BB33:
   JSL f:L_F830F                                   ; 00BB85 22 0F 83 0F 
   SEP #$30                                        ; 00BB89 E2 30 
   PLX                                             ; 00BB8B FA 
-  JSR L_BEE9                                      ; 00BB8C 20 E9 BE 
+  JSR (L_BEE9 & $FFFF)                            ; 00BB8C 20 E9 BE 
   LDX $09                                         ; 00BB8F A6 09 
   LDY $08                                         ; 00BB91 A4 08 
-  LDA D_BB9B,Y                                    ; 00BB93 B9 9B BB 
+  LDA (D_BB9B & $FFFF),Y                          ; 00BB93 B9 9B BB 
   JSL f:L_E593                                    ; 00BB96 22 93 E5 00 
   RTS                                             ; 00BB9A 60 
 
@@ -6716,13 +6477,13 @@ B_BBEC:
   BEQ B_BC20                                      ; 00BC09 F0 15 
   CLC                                             ; 00BC0B 18 
   LDA $0A                                         ; 00BC0C A5 0A 
-  ADC D_BCEA,Y                                    ; 00BC0E 79 EA BC 
+  ADC (D_BCEA & $FFFF),Y                          ; 00BC0E 79 EA BC 
   STA XexzyCharX,X                                ; 00BC11 9D 46 0B 
   CLC                                             ; 00BC14 18 
   LDA $0B                                         ; 00BC15 A5 0B 
-  ADC D_BCF2,Y                                    ; 00BC17 79 F2 BC 
+  ADC (D_BCF2 & $FFFF),Y                          ; 00BC17 79 F2 BC 
   STA $0C9C,X                                     ; 00BC1A 9D 9C 0C 
-  JMP D_BC2A                                      ; 00BC1D 4C 2A BC 
+  JMP (D_BC2A & $FFFF)                            ; 00BC1D 4C 2A BC 
 B_BC20:
   LDA $0A                                         ; 00BC20 A5 0A 
   STA XexzyCharX,X                                ; 00BC22 9D 46 0B 
@@ -6772,17 +6533,17 @@ B_BC5B:
   ASL                                             ; 00BC67 0A 
   ASL                                             ; 00BC68 0A 
   CLC                                             ; 00BC69 18 
-  ADC D_BCDA,Y                                    ; 00BC6A 79 DA BC 
+  ADC (D_BCDA & $FFFF),Y                          ; 00BC6A 79 DA BC 
   AND #$1F                                        ; 00BC6D 29 1F 
   ASL                                             ; 00BC6F 0A 
   TAY                                             ; 00BC70 A8 
-  LDA D_BCFA,Y                                    ; 00BC71 B9 FA BC 
+  LDA (D_BCFA & $FFFF),Y                          ; 00BC71 B9 FA BC 
   STA $090C,X                                     ; 00BC74 9D 0C 09 
-  LDA D_BCFB,Y                                    ; 00BC77 B9 FB BC 
+  LDA (D_BCFB & $FFFF),Y                          ; 00BC77 B9 FB BC 
   STA $097E,X                                     ; 00BC7A 9D 7E 09 
-  LDA D_BD3A,Y                                    ; 00BC7D B9 3A BD 
+  LDA (D_BD3A & $FFFF),Y                          ; 00BC7D B9 3A BD 
   STA $09F0,X                                     ; 00BC80 9D F0 09 
-  LDA D_BD3B,Y                                    ; 00BC83 B9 3B BD 
+  LDA (D_BD3B & $FFFF),Y                          ; 00BC83 B9 3B BD 
   STA $0A62,X                                     ; 00BC86 9D 62 0A 
   LDA #$01                                        ; 00BC89 A9 01 
   STA $06D2,X                                     ; 00BC8B 9D D2 06 
@@ -6807,10 +6568,10 @@ B_BC5B:
   LDA #$01                                        ; 00BCBA A9 01 
   STA $175E,Y                                     ; 00BCBC 99 5E 17 
   JSL f:L_AEF1                                    ; 00BCBF 22 F1 AE 00 
-  JSR L_BEE9                                      ; 00BCC3 20 E9 BE 
+  JSR (L_BEE9 & $FFFF)                            ; 00BCC3 20 E9 BE 
   LDX $09                                         ; 00BCC6 A6 09 
   LDY $08                                         ; 00BCC8 A4 08 
-  LDA D_BCD2,Y                                    ; 00BCCA B9 D2 BC 
+  LDA (D_BCD2 & $FFFF),Y                          ; 00BCCA B9 D2 BC 
   JSL f:L_E593                                    ; 00BCCD 22 93 E5 00 
   RTS                                             ; 00BCD1 60 
 
@@ -6844,10 +6605,8 @@ D_BD3B:
 .byte $FE,$57,$FE,$27,$FE,$0A,$FE,$00             ; 00BD53 ?W?'????
 .byte $FE,$0A,$FE,$27,$FE,$57,$FE,$96             ; 00BD5B ???'?W??
 .byte $FE,$E4,$FE,$3D,$FF,$9D,$FF,$00             ; 00BD63 ???=????
-.byte $00,$63,$00,$C3,$00                         ; 00BD6C ?c???
-D_BD70:
-.byte $1C,$01,$6A,$01,$A9,$01,$D9,$01             ; 00BD70 ??j?????
-.byte $F6,$01                                     ; 00BD79 ??
+.byte $00,$63,$00,$C3,$00,$1C,$01,$6A             ; 00BD6B ?c?????j
+.byte $01,$A9,$01,$D9,$01,$F6,$01                 ; 00BD74 ???????
 
   JSL f:L_380E4                                   ; 00BD7A 22 E4 80 03 
   BEQ B_BD83                                      ; 00BD7E F0 03 
@@ -6886,13 +6645,13 @@ B_BD98:
   BEQ B_BDDD                                      ; 00BDC6 F0 15 
   CLC                                             ; 00BDC8 18 
   LDA $0A                                         ; 00BDC9 A5 0A 
-  ADC D_BEB9,Y                                    ; 00BDCB 79 B9 BE 
+  ADC (D_BEB9 & $FFFF),Y                          ; 00BDCB 79 B9 BE 
   STA XexzyCharX,X                                ; 00BDCE 9D 46 0B 
   CLC                                             ; 00BDD1 18 
   LDA $0B                                         ; 00BDD2 A5 0B 
-  ADC D_BEC1,Y                                    ; 00BDD4 79 C1 BE 
+  ADC (D_BEC1 & $FFFF),Y                          ; 00BDD4 79 C1 BE 
   STA $0C9C,X                                     ; 00BDD7 9D 9C 0C 
-  JMP D_BDE7                                      ; 00BDDA 4C E7 BD 
+  JMP (D_BDE7 & $FFFF)                            ; 00BDDA 4C E7 BD 
 
 B_BDDD:
 .byte $A5,$0A,$9D,$46,$0B,$A5,$0B,$9D             ; 00BDDD ???F????
@@ -6939,13 +6698,13 @@ B_BE18:
   AND #$07                                        ; 00BE1D 29 07 
   ASL                                             ; 00BE1F 0A 
   TAY                                             ; 00BE20 A8 
-  LDA D_BEC9,Y                                    ; 00BE21 B9 C9 BE 
+  LDA (D_BEC9 & $FFFF),Y                          ; 00BE21 B9 C9 BE 
   STA $090C,X                                     ; 00BE24 9D 0C 09 
-  LDA D_BECA,Y                                    ; 00BE27 B9 CA BE 
+  LDA (D_BECA & $FFFF),Y                          ; 00BE27 B9 CA BE 
   STA $097E,X                                     ; 00BE2A 9D 7E 09 
-  LDA D_BED9,Y                                    ; 00BE2D B9 D9 BE 
+  LDA (D_BED9 & $FFFF),Y                          ; 00BE2D B9 D9 BE 
   STA $09F0,X                                     ; 00BE30 9D F0 09 
-  LDA D_BEDA,Y                                    ; 00BE33 B9 DA BE 
+  LDA (D_BEDA & $FFFF),Y                          ; 00BE33 B9 DA BE 
   STA $0A62,X                                     ; 00BE36 9D 62 0A 
   LDA #$6A                                        ; 00BE39 A9 6A 
   STA $13BC,X                                     ; 00BE3B 9D BC 13 
@@ -6972,7 +6731,6 @@ D_BE69:
   STA $109E,X                                     ; 00BE70 9D 9E 10 
   LDA #$28                                        ; 00BE73 A9 28 
   STA $0D80,X                                     ; 00BE75 9D 80 0D 
-D_BE78:
   LDA #$60                                        ; 00BE78 A9 60 
   STA $13BC,X                                     ; 00BE7A 9D BC 13 
   LDA #$32                                        ; 00BE7D A9 32 
@@ -6990,10 +6748,10 @@ D_BE78:
   JSL f:L_F830F                                   ; 00BE9B 22 0F 83 0F 
   SEP #$30                                        ; 00BE9F E2 30 
   PLX                                             ; 00BEA1 FA 
-  JSR L_BEE9                                      ; 00BEA2 20 E9 BE 
+  JSR (L_BEE9 & $FFFF)                            ; 00BEA2 20 E9 BE 
   LDX $09                                         ; 00BEA5 A6 09 
   LDY $08                                         ; 00BEA7 A4 08 
-  LDA D_BEB1,Y                                    ; 00BEA9 B9 B1 BE 
+  LDA (D_BEB1 & $FFFF),Y                          ; 00BEA9 B9 B1 BE 
   JSL f:L_E593                                    ; 00BEAC 22 93 E5 00 
   RTS                                             ; 00BEB0 60 
 
@@ -7052,13 +6810,13 @@ B_BF23:
   PHX                                             ; 00BF2A DA 
   REP #$10                                        ; 00BF2B C2 10 
   SEP #$20                                        ; 00BF2D E2 20 
-  LDX #$0004                                      ; 00BF2F A2 04 00 
+  LDX.W #$0004                                    ; 00BF2F A2 04 00 
   LDA #$0F                                        ; 00BF32 A9 0F 
   JSL f:L_F830F                                   ; 00BF34 22 0F 83 0F 
   LDA #$07                                        ; 00BF38 A9 07 
   LDX #$FF13                                      ; 00BF3A A2 13 FF 
   JSL f:L_F830F                                   ; 00BF3D 22 0F 83 0F 
-  LDX #$0001                                      ; 00BF41 A2 01 00 
+  LDX.W #$0001                                    ; 00BF41 A2 01 00 
   LDA #$0F                                        ; 00BF44 A9 0F 
   JSL f:L_F830F                                   ; 00BF46 22 0F 83 0F 
   SEP #$30                                        ; 00BF4A E2 30 
@@ -7078,7 +6836,6 @@ L_BF4E:
   LDA #$F0                                        ; 00BF5D A9 F0 
   STA XexzyTorsoY                                 ; 00BF5F 8D 09 03 
   STA XexzyLegY                                   ; 00BF62 8D 0D 03 
-.i8
   LDY #$00                                        ; 00BF65 A0 00 
   JSL f:L_AEF1                                    ; 00BF67 22 F1 AE 00 
   BRA B_BF93                                      ; 00BF6B 80 26 
@@ -7166,7 +6923,7 @@ B_C00A:
   STA XexzyTorsoY,Y                               ; 00C00C 99 09 03 
 B_C00F:
   LDA $08,X                                       ; 00C00F B5 08 
-  INC                                             ; 00C011 1A 
+.byte $1A
   ASL                                             ; 00C012 0A 
   ASL                                             ; 00C013 0A 
   TAY                                             ; 00C014 A8 
@@ -7178,7 +6935,7 @@ B_C01E:
   LDA #$F0                                        ; 00C01E A9 F0 
   STA XexzyTorsoY,Y                               ; 00C020 99 09 03 
 B_C023:
-  JMP D_C0FC                                      ; 00C023 4C FC C0 
+  JMP (D_C0FC & $FFFF)                            ; 00C023 4C FC C0 
 B_C026:
   SEC                                             ; 00C026 38 
   LDA XexzyCharX,X                                ; 00C027 BD 46 0B 
@@ -7189,7 +6946,7 @@ B_C026:
   LDY $1884,X                                     ; 00C033 BC 84 18 
   SEC                                             ; 00C036 38 
   LDA $04                                         ; 00C037 A5 04 
-  SBC D_C10A,Y                                    ; 00C039 F9 0A C1 
+  SBC (D_C10A & $FFFF),Y                          ; 00C039 F9 0A C1 
   STA $04                                         ; 00C03C 85 04 
 B_C03E:
   SEC                                             ; 00C03E 38 
@@ -7198,7 +6955,7 @@ B_C03E:
   STA $05                                         ; 00C044 85 05 
   LDA $13BC,X                                     ; 00C046 BD BC 13 
   STA $06                                         ; 00C049 85 06 
-  LDA D_C108,X                                    ; 00C04B BD 08 C1 
+  LDA (D_C108 & $FFFF),X                          ; 00C04B BD 08 C1 
   ORA $18A7                                       ; 00C04E 0D A7 18 
   ORA $188A,X                                     ; 00C051 1D 8A 18 
   STA $142E,X                                     ; 00C054 9D 2E 14 
@@ -7253,14 +7010,14 @@ B_C0A3:
   LDA #$F0                                        ; 00C0B6 A9 F0 
   STA $0B                                         ; 00C0B8 85 0B 
 B_C0BA:
-  LDA D_C106,X                                    ; 00C0BA BD 06 C1 
+  LDA (D_C106 & $FFFF),X                          ; 00C0BA BD 06 C1 
   STA $06                                         ; 00C0BD 85 06 
-  LDA D_C108,X                                    ; 00C0BF BD 08 C1 
+  LDA (D_C108 & $FFFF),X                          ; 00C0BF BD 08 C1 
   ORA $18A7                                       ; 00C0C2 0D A7 18 
   ORA $1888,X                                     ; 00C0C5 1D 88 18 
   STA $07                                         ; 00C0C8 85 07 
   LDA $08,X                                       ; 00C0CA B5 08 
-  INC                                             ; 00C0CC 1A 
+.byte $1A
   ASL                                             ; 00C0CD 0A 
   ASL                                             ; 00C0CE 0A 
   TAY                                             ; 00C0CF A8 
@@ -7287,7 +7044,7 @@ D_C0FC:
   INX                                             ; 00C0FC E8 
   CPX #$02                                        ; 00C0FD E0 02 
   BEQ B_C104                                      ; 00C0FF F0 03 
-  JMP D_BFF1                                      ; 00C101 4C F1 BF 
+  JMP (D_BFF1 & $FFFF)                            ; 00C101 4C F1 BF 
 B_C104:
   PLP                                             ; 00C104 28 
   RTS                                             ; 00C105 60 
@@ -7322,7 +7079,6 @@ L_C17B:
   LDA #$FF                                        ; 00C17F A9 FF 
   STA $05AA                                       ; 00C181 8D AA 05 
   STZ $05D2                                       ; 00C184 9C D2 05 
-D_C187:
   STZ $05D1                                       ; 00C187 9C D1 05 
   STZ $18E4                                       ; 00C18A 9C E4 18 
   STZ $18E5                                       ; 00C18D 9C E5 18 
@@ -7364,9 +7120,9 @@ B_C1E0:
   LDA $05AB                                       ; 00C1E4 AD AB 05 
   ASL                                             ; 00C1E7 0A 
   TAX                                             ; 00C1E8 AA 
-  LDA D_B5F0,X                                    ; 00C1E9 BD F0 B5 
+  LDA (D_B5F0 & $FFFF),X                          ; 00C1E9 BD F0 B5 
   STA $04                                         ; 00C1EC 85 04 
-  LDA D_B5F1,X                                    ; 00C1EE BD F1 B5 
+  LDA (D_B5F1 & $FFFF),X                          ; 00C1EE BD F1 B5 
   STA $05                                         ; 00C1F1 85 05 
   LDA $05AC                                       ; 00C1F3 AD AC 05 
   ASL                                             ; 00C1F6 0A 
@@ -7413,7 +7169,7 @@ B_C207:
   LDA ($12),Y                                     ; 00C243 B1 12 
   STA $1941,X                                     ; 00C245 9D 41 19 
   STY $11                                         ; 00C248 84 11 
-  JSR L_C367                                      ; 00C24A 20 67 C3 
+  JSR (L_C367 & $FFFF)                            ; 00C24A 20 67 C3 
   LDY $11                                         ; 00C24D A4 11 
   DEC $10                                         ; 00C24F C6 10 
   BPL B_C207                                      ; 00C251 10 B4 
@@ -7431,7 +7187,7 @@ B_C25E:
   LDA $1902,Y                                     ; 00C25E B9 02 19 
   BEQ B_C268                                      ; 00C261 F0 05 
   PHY                                             ; 00C263 5A 
-  JSR L_C26C                                      ; 00C264 20 6C C2 
+  JSR (L_C26C & $FFFF)                            ; 00C264 20 6C C2 
   PLY                                             ; 00C267 7A 
 B_C268:
   DEY                                             ; 00C268 88 
@@ -7444,7 +7200,7 @@ L_C26C:
   LDA $1902,X                                     ; 00C26D BD 02 19 
   ASL                                             ; 00C270 0A 
   TAX                                             ; 00C271 AA 
-  JMP ($C275,X)                                   ; 00C272 7C 75 C2 
+  JMP ((undefined & $FFFF),X)                     ; 00C272 7C 75 C2 
 
 .byte $B4,$C2,$B4,$C2,$B4,$C2,$A3,$C2             ; 00C275 ????????
 .byte $B4,$C2,$A3,$C2,$B4,$C2,$B4,$C2             ; 00C27D ????????
@@ -7480,11 +7236,11 @@ L_C2B5:
   RTS                                             ; 00C2C3 60 
 
 B_C2C4:
-  JSR L_C25C                                      ; 00C2C4 20 5C C2 
+  JSR (L_C25C & $FFFF)                            ; 00C2C4 20 5C C2 
   LDA $1900                                       ; 00C2C7 AD 00 19 
   BEQ B_C2D2                                      ; 00C2CA F0 06 
-  JSR L_DB76                                      ; 00C2CC 20 76 DB 
-  JSR L_DA43                                      ; 00C2CF 20 43 DA 
+  JSR (L_DB76 & $FFFF)                            ; 00C2CC 20 76 DB 
+  JSR (L_DA43 & $FFFF)                            ; 00C2CF 20 43 DA 
 B_C2D2:
   LDA #$00                                        ; 00C2D2 A9 00 
   PHA                                             ; 00C2D4 48 
@@ -7508,7 +7264,7 @@ B_C2D8:
   LDA $192C,Y                                     ; 00C2FC B9 2C 19 
   STA $1941,Y                                     ; 00C2FF 99 41 19 
   STY $10                                         ; 00C302 84 10 
-  JSR L_C331                                      ; 00C304 20 31 C3 
+  JSR (L_C331 & $FFFF)                            ; 00C304 20 31 C3 
   STA $04                                         ; 00C307 85 04 
   LDY $10                                         ; 00C309 A4 10 
   SEC                                             ; 00C30B 38 
@@ -7527,7 +7283,6 @@ B_C323:
   DEC $1900                                       ; 00C328 CE 00 19 
 B_C32B:
   DEY                                             ; 00C32B 88 
-D_C32C:
   BPL B_C2D8                                      ; 00C32C 10 AA 
   PLB                                             ; 00C32E AB 
   PLP                                             ; 00C32F 28 
@@ -7538,24 +7293,21 @@ L_C331:
   LDA $1902,Y                                     ; 00C331 B9 02 19 
   ASL                                             ; 00C334 0A 
   TAX                                             ; 00C335 AA 
-  JMP ($C339,X)                                   ; 00C336 7C 39 C3 
+  JMP ((undefined & $FFFF),X)                     ; 00C336 7C 39 C3 
 
 .byte $D8,$C3,$DA,$C3,$82,$C4,$62,$C5             ; 00C339 ??????b?
 .byte $92,$C6,$26,$C7,$37,$C8,$DF,$C8             ; 00C341 ??&?7???
 .byte $F3,$C9,$42,$CB,$B8,$CC,$A3,$CD             ; 00C349 ??B?????
-.byte $55,$CE,$07,$CF,$EB                         ; 00C352 U????
-D_C356:
-.byte $CF,$1B,$D1,$A5,$D1,$5D,$D3,$A0             ; 00C356 ?????]??
-.byte $D5,$BD,$D8,$BF,$D8,$37,$D9                 ; 00C35F ?????7?
-D_C365:
-.byte $D8,$D9                                     ; 00C366 ??
+.byte $55,$CE,$07,$CF,$EB,$CF,$1B,$D1             ; 00C351 U???????
+.byte $A5,$D1,$5D,$D3,$A0,$D5,$BD,$D8             ; 00C359 ??]?????
+.byte $BF,$D8,$37,$D9,$D8,$D9                     ; 00C362 ??7???
 
 
 L_C367:
   LDA $1902,X                                     ; 00C367 BD 02 19 
   ASL                                             ; 00C36A 0A 
   TAX                                             ; 00C36B AA 
-  JMP ($C36F,X)                                   ; 00C36C 7C 6F C3 
+  JMP ((undefined & $FFFF),X)                     ; 00C36C 7C 6F C3 
 
 .byte $D9,$C3,$38,$C4,$83,$C4,$89,$C6             ; 00C36F ??8?????
 .byte $F9,$C6,$2E,$C8,$95,$C8,$A9,$C9             ; 00C377 ??.?????
@@ -7569,26 +7321,24 @@ L_C39D:
   JSL f:L_ECA95                                   ; 00C39D 22 95 CA 0E 
   AND #$0F                                        ; 00C3A1 29 0F 
   TAY                                             ; 00C3A3 A8 
-  LDA D_C3C0,Y                                    ; 00C3A4 B9 C0 C3 
+  LDA (D_C3C0 & $FFFF),Y                          ; 00C3A4 B9 C0 C3 
   CMP $05AA                                       ; 00C3A7 CD AA 05 
   BNE B_C3AF                                      ; 00C3AA D0 03 
-  INC                                             ; 00C3AC 1A 
+.byte $1A
   AND #$03                                        ; 00C3AD 29 03 
 B_C3AF:
   STA $05AA                                       ; 00C3AF 8D AA 05 
   TAY                                             ; 00C3B2 A8 
-  LDA D_C3D0,Y                                    ; 00C3B3 B9 D0 C3 
+  LDA (D_C3D0 & $FFFF),Y                          ; 00C3B3 B9 D0 C3 
   STA XexzyCharX,X                                ; 00C3B6 9D 46 0B 
-  LDA D_C3D4,Y                                    ; 00C3B9 B9 D4 C3 
+  LDA (D_C3D4 & $FFFF),Y                          ; 00C3B9 B9 D4 C3 
   STA $0C9C,X                                     ; 00C3BC 9D 9C 0C 
   RTS                                             ; 00C3BF 60 
 
 
 D_C3C0:
 .byte $00,$00,$01,$01,$02,$02,$00,$03             ; 00C3C0 ????????
-.byte $00,$00,$02,$01,$02,$02                     ; 00C3C9 ??????
-D_C3CE:
-.byte $03,$03                                     ; 00C3CF ??
+.byte $00,$00,$02,$01,$02,$02,$03,$03             ; 00C3C8 ????????
 D_C3D0:
 .byte $80,$FA,$80,$04                             ; 00C3D1 ????
 D_C3D4:
@@ -7607,7 +7357,7 @@ D_C3D4:
   JSL f:L_38094                                   ; 00C3F4 22 94 80 03 
   LDA #$01                                        ; 00C3F8 A9 01 
   STA $06D2,X                                     ; 00C3FA 9D D2 06 
-  JSR L_C39D                                      ; 00C3FD 20 9D C3 
+  JSR (L_C39D & $FFFF)                            ; 00C3FD 20 9D C3 
   TYA                                             ; 00C400 98 
   STA $102C,X                                     ; 00C401 9D 2C 10 
   BNE B_C40E                                      ; 00C404 D0 08 
@@ -7641,7 +7391,6 @@ B_C435:
   LDA $1917,X                                     ; 00C43A BD 17 19 
   STA $18F2                                       ; 00C43D 8D F2 18 
   REP #$20                                        ; 00C440 C2 20 
-.a16
   LDA #$B000                                      ; 00C442 A9 00 B0 
   STA $1ACA                                       ; 00C445 8D CA 1A 
   LDA #$0200                                      ; 00C448 A9 00 02 
@@ -7659,12 +7408,11 @@ B_C435:
   LDA #$0180                                      ; 00C46C A9 80 01 
   STA $1AD8                                       ; 00C46F 8D D8 1A 
   SEP #$20                                        ; 00C472 E2 20 
-.a8
   LDA #$01                                        ; 00C474 A9 01 
   STA $1ADA                                       ; 00C476 8D DA 1A 
   LDA #$01                                        ; 00C479 A9 01 
   STA $1ADB                                       ; 00C47B 8D DB 1A 
-  JSR L_E10F                                      ; 00C47E 20 0F E1 
+  JSR (L_E10F & $FFFF)                            ; 00C47E 20 0F E1 
   RTS                                             ; 00C481 60 
 
 
@@ -7682,11 +7430,11 @@ B_C435:
   BEQ B_C49E                                      ; 00C495 F0 07 
   LDA #$B4                                        ; 00C497 A9 B4 
   STA $06                                         ; 00C499 85 06 
-  JSR L_C4A7                                      ; 00C49B 20 A7 C4 
+  JSR (L_C4A7 & $FFFF)                            ; 00C49B 20 A7 C4 
 B_C49E:
   LDA #$4C                                        ; 00C49E A9 4C 
   STA $06                                         ; 00C4A0 85 06 
-  JSR L_C4A7                                      ; 00C4A2 20 A7 C4 
+  JSR (L_C4A7 & $FFFF)                            ; 00C4A2 20 A7 C4 
   PLB                                             ; 00C4A5 AB 
   RTS                                             ; 00C4A6 60 
 
@@ -7718,9 +7466,9 @@ B_C4AE:
   LDA #$1D                                        ; 00C4D9 A9 1D 
   STA $0C9C,X                                     ; 00C4DB 9D 9C 0C 
   LDY $06C7                                       ; 00C4DE AC C7 06 
-  LDA D_C559,Y                                    ; 00C4E1 B9 59 C5 
+  LDA (D_C559 & $FFFF),Y                          ; 00C4E1 B9 59 C5 
   STA $0BB8,X                                     ; 00C4E4 9D B8 0B 
-  LDA D_C55C,Y                                    ; 00C4E7 B9 5C C5 
+  LDA (D_C55C & $FFFF),Y                          ; 00C4E7 B9 5C C5 
   STA $0D0E,X                                     ; 00C4EA 9D 0E 0D 
   JSL f:L_ECA95                                   ; 00C4ED 22 95 CA 0E 
   AND #$07                                        ; 00C4F1 29 07 
@@ -7729,7 +7477,7 @@ B_C4AE:
   JSL f:L_38059                                   ; 00C4F8 22 59 80 03 
   LDA #$01                                        ; 00C4FC A9 01 
   STA $1AAF,Y                                     ; 00C4FE 99 AF 1A 
-  LDA D_C55F,Y                                    ; 00C501 B9 5F C5 
+  LDA (D_C55F & $FFFF),Y                          ; 00C501 B9 5F C5 
   STA $13BC,X                                     ; 00C504 9D BC 13 
   TYA                                             ; 00C507 98 
   STA $1110,X                                     ; 00C508 9D 10 11 
@@ -7806,127 +7554,122 @@ D_C55F:
 .byte $0D,$A5,$08,$9D,$BA,$0F,$A9,$FF             ; 00C63F ????????
 .byte $9D,$2C,$10,$8A,$A4,$08,$99,$2C             ; 00C647 ?,?????,
 .byte $10,$86,$08,$A9,$03,$9D,$4A,$13             ; 00C64F ??????J?
-.byte $9E                                         ; 00C658 ?
-D_C658:
-.byte $D8,$12,$22,$BC,$AE,$00,$98,$9D             ; 00C658 ??"?????
-.byte $A0,$14,$A9,$01,$99,$5E,$17,$22             ; 00C660 ?????^?"
-.byte $F1,$AE,$00,$A6,$04,$CA,$D0,$97             ; 00C668 ????????
-.byte $EE,$E5,$18,$EE,$C6,$06,$A9,$01             ; 00C670 ????????
-.byte $60,$00,$00,$80,$FF,$00,$00,$80             ; 00C678 `???????
-.byte $00,$80,$00,$00,$00,$80,$FF,$00             ; 00C680 ????????
-.byte $00,$A6,$10,$BD,$17,$19,$8D,$F3             ; 00C688 ????????
-.byte $18,$60,$AD,$E6,$18,$CD,$F4,$18             ; 00C690 ?`??????
-.byte $B0,$5C,$22,$F3,$80,$03,$D0,$56             ; 00C698 ?\"????V
-.byte $A9,$02,$22,$64,$80,$03,$30,$4E             ; 00C6A0 ??"d??0N
-.byte $8C,$D5,$18,$98,$0A,$09,$38,$85             ; 00C6A8 ??????8?
-.byte $04,$EE,$C6,$06,$EE,$E6,$18,$22             ; 00C6B0 ???????"
-.byte $94,$80,$03,$A9,$01,$9D,$D2,$06             ; 00C6B8 ????????
-.byte $A9,$00,$9D,$28,$08,$20,$9D,$C3             ; 00C6C0 ???(? ??
-.byte $98,$9D,$2C,$10,$D0,$08,$A9,$01             ; 00C6C8 ??,?????
-.byte $8D,$E4,$05,$8D,$E3,$05,$A5,$04             ; 00C6D0 ????????
-.byte $9D,$B6,$07,$A4,$10,$B9,$1E,$19             ; 00C6D8 ????????
-.byte $4A,$9D,$10,$11,$A9,$18,$9D,$44             ; 00C6E0 J??????D
-.byte $07,$22,$95,$CA,$0E,$29,$07,$18             ; 00C6E8 ?"???)??
-.byte $69,$04,$9D,$BA,$0F                         ; 00C6F1 i????
-L_C6F5:
-.byte $60,$A9,$00,$60,$A6,$10,$BD,$17             ; 00C6F5 `??`????
-.byte $19,$8D,$F4,$18,$C2,$20,$A9,$00             ; 00C6FD ????? ??
-.byte $C0,$8D,$CA,$1A,$A9,$40,$01,$8D             ; 00C705 ?????@??
-.byte $CC,$1A,$A9,$00,$C4,$8D,$CE,$1A             ; 00C70D ????????
-.byte $A9,$40,$01,$8D,$D0,$1A,$E2,$20             ; 00C715 ?@????? 
-.byte $9C,$DA,$1A,$A9,$01,$8D,$DB,$1A             ; 00C71D ????????
-.byte $60,$AD,$E7,$18,$CD,$F5,$18,$B0             ; 00C725 `???????
-.byte $0E,$22,$F3,$80,$03,$D0,$08,$A9             ; 00C72D ?"??????
-.byte $01,$22,$64,$80,$03,$10,$03,$A9             ; 00C735 ?"d?????
-.byte $00,$60,$8C,$DE,$18,$EE,$C6,$06             ; 00C73D ?`??????
-.byte $18,$AD,$E7,$18,$69,$0A,$8D,$E7             ; 00C745 ????i???
-.byte $18,$22,$94,$80,$03,$A9,$01,$9D             ; 00C74D ?"??????
-.byte $D2,$06,$A9,$50,$9D,$44,$07,$A9             ; 00C755 ???P?D??
-.byte $0C,$9D,$28,$08,$A9,$EE,$9D,$BC             ; 00C75D ??(?????
-L_C765:
-.byte $13,$AD,$DE,$18,$0A,$09,$38,$9D             ; 00C765 ??????8?
-.byte $B6,$07,$9D,$2E,$14,$A4,$10,$B9             ; 00C76D ???.????
-.byte $1E,$19,$0A,$0A,$0A,$0A,$85,$04             ; 00C775 ????????
-.byte $22,$95,$CA,$0E,$29,$0F,$18,$65             ; 00C77D "???)??e
-.byte $04,$A8,$B9,$DE,$C7,$9D,$BA,$0F             ; 00C785 ????????
-.byte $A8,$B9,$D8,$C7,$9D,$46,$0B,$B9             ; 00C78D ?????F??
-.byte $DB,$C7,$9D,$9C,$0C,$BD,$BA,$0F             ; 00C795 ????????
-.byte $D0,$10,$A9,$01,$8D,$E4,$05,$8D             ; 00C79D ????????
-.byte $E3,$05,$A9,$14,$9D,$80,$0D,$4C             ; 00C7A5 ???????L
-.byte $C0,$C7,$A8,$88,$A9,$01,$99,$36             ; 00C7AD ???????6
-.byte $06,$A9,$01,$99,$34,$06,$A9,$10             ; 00C7B5 ????4???
-.byte $9D,$80,$0D,$22,$95,$CA,$0E,$29             ; 00C7BD ???"???)
-.byte $07,$85,$04,$22,$95,$CA,$0E,$29             ; 00C7C5 ???"???)
-.byte $07,$18,$65,$04,$69,$08,$9D,$F2             ; 00C7CD ??e?i???
-.byte $0D,$1A,$60,$80,$53,$AC,$14,$20             ; 00C7D5 ??`?S?? 
-.byte $20,$00,$01,$02,$00,$01,$02,$00             ; 00C7DD  ???????
-.byte $01,$02,$00,$01,$02,$00,$01,$02             ; 00C7E5 ????????
-.byte $00,$00,$01,$00,$01,$00,$01,$00             ; 00C7ED ????????
-.byte $01,$00,$01,$00,$01,$00,$01,$00             ; 00C7F5 ????????
-.byte $01,$00,$02,$00,$02,$00,$02,$00             ; 00C7FD ????????
-.byte $02,$00,$02,$00,$02,$00,$02,$00             ; 00C805 ????????
-.byte $02,$00,$00,$00,$00,$00,$00,$00             ; 00C80D ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00C815 ????????
-.byte $00,$02,$02,$02,$02,$02,$02,$02             ; 00C81D ????????
-.byte $02,$02,$02,$02,$02,$02,$02,$02             ; 00C825 ????????
-.byte $02,$A6,$10,$BD,$17,$19,$8D,$F5             ; 00C82D ????????
-.byte $18,$60,$AD,$E8,$18,$CD,$F6,$18             ; 00C835 ?`??????
-.byte $B0,$53,$22,$F3,$80,$03,$D0,$4D             ; 00C83D ?S"????M
-.byte $EE,$C6,$06,$18,$AD,$E8,$18,$69             ; 00C845 ???????i
-.byte $06,$8D,$E8,$18,$22,$94,$80,$03             ; 00C84D ????"???
-.byte $A9,$01,$9D,$D2,$06,$20,$9D,$C3             ; 00C855 ????? ??
-.byte $98,$9D,$2C,$10,$D0,$08,$A9,$01             ; 00C85D ??,?????
-.byte $8D,$E4,$05,$8D,$E3,$05,$A9,$5A             ; 00C865 ???????Z
-.byte $9D,$44,$07,$A9,$00,$9D,$28,$08             ; 00C86D ?D????(?
-.byte $A4,$10,$B9,$1E,$19,$9D,$9E,$10             ; 00C875 ????????
-.byte $22,$95,$CA,$0E,$29,$03,$D0,$09             ; 00C87D "???)???
-.byte $22,$95,$CA,$0E,$29,$07,$18,$69             ; 00C885 "???)??i
-.byte $04,$9D,$BA,$0F,$60,$A9,$00,$60             ; 00C88D ????`??`
-.byte $A6,$10,$BD,$17,$19,$8D,$F6,$18             ; 00C895 ????????
-.byte $C2,$20,$A9,$00,$B0,$8D,$CA,$1A             ; 00C89D ? ??????
-.byte $A9,$00,$02,$8D,$CC,$1A,$A9,$00             ; 00C8A5 ????????
-.byte $B4,$8D,$CE,$1A,$A9,$00,$02,$8D             ; 00C8AD ????????
-.byte $D0,$1A,$A9,$40,$F9,$8D,$D2,$1A             ; 00C8B5 ???@????
-.byte $A9,$80,$01,$8D,$D4,$1A,$A9,$40             ; 00C8BD ???????@
-.byte $FD,$8D,$D6,$1A,$A9,$80,$01,$8D             ; 00C8C5 ????????
-.byte $D8,$1A,$E2,$20,$A9,$01,$8D,$DA             ; 00C8CD ??? ????
-.byte $1A,$A9,$01,$8D,$DB,$1A,$20,$0B             ; 00C8D5 ?????? ?
-.byte $E3,$60,$AD,$E9,$18,$CD,$F7,$18             ; 00C8DD ?`??????
-.byte $B0,$0E,$22,$F3,$80,$03,$D0,$08             ; 00C8E5 ??"?????
-.byte $A9,$01,$22,$64,$80,$03,$10,$03             ; 00C8ED ??"d????
-.byte $A9,$00,$60,$8C,$DA,$18,$EE,$C6             ; 00C8F5 ??`?????
-.byte $06,$EE,$E9,$18,$22,$94,$80,$03             ; 00C8FD ????"???
-.byte $A9,$01,$9D,$D2,$06,$A9,$22,$9D             ; 00C905 ??????"?
-.byte $44,$07,$A9,$0C,$9D,$28,$08,$A9             ; 00C90D D????(??
-.byte $66,$9D,$BC,$13,$AD,$DA,$18,$0A             ; 00C915 f???????
-.byte $09,$38,$9D,$B6,$07,$9D,$2E,$14             ; 00C91D ?8????.?
-.byte $20,$9D,$C3,$98,$D0,$08,$A9,$01             ; 00C925  ???????
-.byte $8D,$E4,$05,$8D,$E3,$05,$98,$0A             ; 00C92D ????????
-.byte $A8,$B9,$99,$C9,$9D,$0C,$09,$B9             ; 00C935 ????????
-.byte $9A,$C9,$9D,$7E,$09,$B9,$A1,$C9             ; 00C93D ???~????
-L_C945:
-.byte $9D,$F0,$09,$B9,$A2,$C9,$9D,$62             ; 00C945 ???????b
-.byte $0A,$22,$95,$CA,$0E,$29,$07,$09             ; 00C94D ?"???)??
-.byte $80,$9D,$BA,$0F,$22,$95,$CA,$0E             ; 00C955 ????"???
-.byte $29,$07,$1A,$9D,$2C,$10,$22,$95             ; 00C95D )???,?"?
-.byte $CA,$0E,$29,$1F,$18,$69,$20,$9D             ; 00C965 ??)??i ?
-.byte $80,$0D,$22,$95,$CA,$0E,$29,$07             ; 00C96D ??"???)?
-.byte $9D,$9E,$10,$A9,$03,$9D,$10,$11             ; 00C975 ????????
-.byte $A9,$03,$9D,$4A,$13,$9E,$D8,$12             ; 00C97D ???J????
-.byte $22,$BC,$AE,$00,$98,$9D,$A0,$14             ; 00C985 "???????
-.byte $A9,$01,$99,$5E,$17,$22,$F1,$AE             ; 00C98D ???^?"??
-.byte $00,$A9,$01,$60,$00,$00,$80,$FF             ; 00C995 ???`????
-.byte $00,$00,$80,$00,$80,$00,$00,$00             ; 00C99D ????????
-.byte $80,$FF,$00,$00,$A6,$10,$BD,$17             ; 00C9A5 ????????
-.byte $19,$8D,$F7,$18,$C2,$20,$A9,$00             ; 00C9AD ????? ??
-.byte $D2,$8D,$CA,$1A,$A9,$80,$01,$8D             ; 00C9B5 ????????
-.byte $CC,$1A,$A9,$00,$D6,$8D,$CE,$1A             ; 00C9BD ????????
-.byte $A9,$80,$01,$8D,$D0,$1A,$A9,$00             ; 00C9C5 ????????
-.byte $D0,$8D,$D2,$1A,$A9,$00,$02,$8D             ; 00C9CD ????????
-.byte $D4,$1A,$A9,$00,$D4,$8D,$D6,$1A             ; 00C9D5 ????????
-.byte $A9,$00,$02,$8D,$D8,$1A,$E2,$20             ; 00C9DD ??????? 
-.byte $A9,$01,$8D,$DA,$1A,$A9,$01,$8D             ; 00C9E5 ????????
-.byte $DB,$1A,$20,$93,$DE,$60                     ; 00C9EE ?? ??`
+.byte $9E,$D8,$12,$22,$BC,$AE,$00,$98             ; 00C657 ???"????
+.byte $9D,$A0,$14,$A9,$01,$99,$5E,$17             ; 00C65F ??????^?
+.byte $22,$F1,$AE,$00,$A6,$04,$CA,$D0             ; 00C667 "???????
+.byte $97,$EE,$E5,$18,$EE,$C6,$06,$A9             ; 00C66F ????????
+.byte $01,$60,$00,$00,$80,$FF,$00,$00             ; 00C677 ?`??????
+.byte $80,$00,$80,$00,$00,$00,$80,$FF             ; 00C67F ????????
+.byte $00,$00,$A6,$10,$BD,$17,$19,$8D             ; 00C687 ????????
+.byte $F3,$18,$60,$AD,$E6,$18,$CD,$F4             ; 00C68F ??`?????
+.byte $18,$B0,$5C,$22,$F3,$80,$03,$D0             ; 00C697 ??\"????
+.byte $56,$A9,$02,$22,$64,$80,$03,$30             ; 00C69F V??"d??0
+.byte $4E,$8C,$D5,$18,$98,$0A,$09,$38             ; 00C6A7 N??????8
+.byte $85,$04,$EE,$C6,$06,$EE,$E6,$18             ; 00C6AF ????????
+.byte $22,$94,$80,$03,$A9,$01,$9D,$D2             ; 00C6B7 "???????
+.byte $06,$A9,$00,$9D,$28,$08,$20,$9D             ; 00C6BF ????(? ?
+.byte $C3,$98,$9D,$2C,$10,$D0,$08,$A9             ; 00C6C7 ???,????
+.byte $01,$8D,$E4,$05,$8D,$E3,$05,$A5             ; 00C6CF ????????
+.byte $04,$9D,$B6,$07,$A4,$10,$B9,$1E             ; 00C6D7 ????????
+.byte $19,$4A,$9D,$10,$11,$A9,$18,$9D             ; 00C6DF ?J??????
+.byte $44,$07,$22,$95,$CA,$0E,$29,$07             ; 00C6E7 D?"???)?
+.byte $18,$69,$04,$9D,$BA,$0F,$60,$A9             ; 00C6EF ?i????`?
+.byte $00,$60,$A6,$10,$BD,$17,$19,$8D             ; 00C6F7 ?`??????
+.byte $F4,$18,$C2,$20,$A9,$00,$C0,$8D             ; 00C6FF ??? ????
+.byte $CA,$1A,$A9,$40,$01,$8D,$CC,$1A             ; 00C707 ???@????
+.byte $A9,$00,$C4,$8D,$CE,$1A,$A9,$40             ; 00C70F ???????@
+.byte $01,$8D,$D0,$1A,$E2,$20,$9C,$DA             ; 00C717 ????? ??
+.byte $1A,$A9,$01,$8D,$DB,$1A,$60,$AD             ; 00C71F ??????`?
+.byte $E7,$18,$CD,$F5,$18,$B0,$0E,$22             ; 00C727 ???????"
+.byte $F3,$80,$03,$D0,$08,$A9,$01,$22             ; 00C72F ???????"
+.byte $64,$80,$03,$10,$03,$A9,$00,$60             ; 00C737 d??????`
+.byte $8C,$DE,$18,$EE,$C6,$06,$18,$AD             ; 00C73F ????????
+.byte $E7,$18,$69,$0A,$8D,$E7,$18,$22             ; 00C747 ??i????"
+.byte $94,$80,$03,$A9,$01,$9D,$D2,$06             ; 00C74F ????????
+.byte $A9,$50,$9D,$44,$07,$A9,$0C,$9D             ; 00C757 ?P?D????
+.byte $28,$08,$A9,$EE,$9D,$BC,$13,$AD             ; 00C75F (???????
+.byte $DE,$18,$0A,$09,$38,$9D,$B6,$07             ; 00C767 ????8???
+.byte $9D,$2E,$14,$A4,$10,$B9,$1E,$19             ; 00C76F ?.??????
+.byte $0A,$0A,$0A,$0A,$85,$04,$22,$95             ; 00C777 ??????"?
+.byte $CA,$0E,$29,$0F,$18,$65,$04,$A8             ; 00C77F ??)??e??
+.byte $B9,$DE,$C7,$9D,$BA,$0F,$A8,$B9             ; 00C787 ????????
+.byte $D8,$C7,$9D,$46,$0B,$B9,$DB,$C7             ; 00C78F ???F????
+.byte $9D,$9C,$0C,$BD,$BA,$0F,$D0,$10             ; 00C797 ????????
+.byte $A9,$01,$8D,$E4,$05,$8D,$E3,$05             ; 00C79F ????????
+.byte $A9,$14,$9D,$80,$0D,$4C,$C0,$C7             ; 00C7A7 ?????L??
+.byte $A8,$88,$A9,$01,$99,$36,$06,$A9             ; 00C7AF ?????6??
+.byte $01,$99,$34,$06,$A9,$10,$9D,$80             ; 00C7B7 ??4?????
+.byte $0D,$22,$95,$CA,$0E,$29,$07,$85             ; 00C7BF ?"???)??
+.byte $04,$22,$95,$CA,$0E,$29,$07,$18             ; 00C7C7 ?"???)??
+.byte $65,$04,$69,$08,$9D,$F2,$0D,$1A             ; 00C7CF e?i?????
+.byte $60,$80,$53,$AC,$14,$20,$20,$00             ; 00C7D7 `?S??  ?
+.byte $01,$02,$00,$01,$02,$00,$01,$02             ; 00C7DF ????????
+.byte $00,$01,$02,$00,$01,$02,$00,$00             ; 00C7E7 ????????
+.byte $01,$00,$01,$00,$01,$00,$01,$00             ; 00C7EF ????????
+.byte $01,$00,$01,$00,$01,$00,$01,$00             ; 00C7F7 ????????
+.byte $02,$00,$02,$00,$02,$00,$02,$00             ; 00C7FF ????????
+.byte $02,$00,$02,$00,$02,$00,$02,$00             ; 00C807 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00C80F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$02             ; 00C817 ????????
+.byte $02,$02,$02,$02,$02,$02,$02,$02             ; 00C81F ????????
+.byte $02,$02,$02,$02,$02,$02,$02,$A6             ; 00C827 ????????
+.byte $10,$BD,$17,$19,$8D,$F5,$18,$60             ; 00C82F ???????`
+.byte $AD,$E8,$18,$CD,$F6,$18,$B0,$53             ; 00C837 ???????S
+.byte $22,$F3,$80,$03,$D0,$4D,$EE,$C6             ; 00C83F "????M??
+.byte $06,$18,$AD,$E8,$18,$69,$06,$8D             ; 00C847 ?????i??
+.byte $E8,$18,$22,$94,$80,$03,$A9,$01             ; 00C84F ??"?????
+.byte $9D,$D2,$06,$20,$9D,$C3,$98,$9D             ; 00C857 ??? ????
+.byte $2C,$10,$D0,$08,$A9,$01,$8D,$E4             ; 00C85F ,???????
+.byte $05,$8D,$E3,$05,$A9,$5A,$9D,$44             ; 00C867 ?????Z?D
+.byte $07,$A9,$00,$9D,$28,$08,$A4,$10             ; 00C86F ????(???
+.byte $B9,$1E,$19,$9D,$9E,$10,$22,$95             ; 00C877 ??????"?
+.byte $CA,$0E,$29,$03,$D0,$09,$22,$95             ; 00C87F ??)???"?
+.byte $CA,$0E,$29,$07,$18,$69,$04,$9D             ; 00C887 ??)??i??
+.byte $BA,$0F,$60,$A9,$00,$60,$A6,$10             ; 00C88F ??`??`??
+.byte $BD,$17,$19,$8D,$F6,$18,$C2,$20             ; 00C897 ??????? 
+.byte $A9,$00,$B0,$8D,$CA,$1A,$A9,$00             ; 00C89F ????????
+.byte $02,$8D,$CC,$1A,$A9,$00,$B4,$8D             ; 00C8A7 ????????
+.byte $CE,$1A,$A9,$00,$02,$8D,$D0,$1A             ; 00C8AF ????????
+.byte $A9,$40,$F9,$8D,$D2,$1A,$A9,$80             ; 00C8B7 ?@??????
+.byte $01,$8D,$D4,$1A,$A9,$40,$FD,$8D             ; 00C8BF ?????@??
+.byte $D6,$1A,$A9,$80,$01,$8D,$D8,$1A             ; 00C8C7 ????????
+.byte $E2,$20,$A9,$01,$8D,$DA,$1A,$A9             ; 00C8CF ? ??????
+.byte $01,$8D,$DB,$1A,$20,$0B,$E3,$60             ; 00C8D7 ???? ??`
+.byte $AD,$E9,$18,$CD,$F7,$18,$B0,$0E             ; 00C8DF ????????
+.byte $22,$F3,$80,$03,$D0,$08,$A9,$01             ; 00C8E7 "???????
+.byte $22,$64,$80,$03,$10,$03,$A9,$00             ; 00C8EF "d??????
+.byte $60,$8C,$DA,$18,$EE,$C6,$06,$EE             ; 00C8F7 `???????
+.byte $E9,$18,$22,$94,$80,$03,$A9,$01             ; 00C8FF ??"?????
+.byte $9D,$D2,$06,$A9,$22,$9D,$44,$07             ; 00C907 ????"?D?
+.byte $A9,$0C,$9D,$28,$08,$A9,$66,$9D             ; 00C90F ???(??f?
+.byte $BC,$13,$AD,$DA,$18,$0A,$09,$38             ; 00C917 ???????8
+.byte $9D,$B6,$07,$9D,$2E,$14,$20,$9D             ; 00C91F ????.? ?
+.byte $C3,$98,$D0,$08,$A9,$01,$8D,$E4             ; 00C927 ????????
+.byte $05,$8D,$E3,$05,$98,$0A,$A8,$B9             ; 00C92F ????????
+.byte $99,$C9,$9D,$0C,$09,$B9,$9A,$C9             ; 00C937 ????????
+.byte $9D,$7E,$09,$B9,$A1,$C9,$9D,$F0             ; 00C93F ?~??????
+.byte $09,$B9,$A2,$C9,$9D,$62,$0A,$22             ; 00C947 ?????b?"
+.byte $95,$CA,$0E,$29,$07,$09,$80,$9D             ; 00C94F ???)????
+.byte $BA,$0F,$22,$95,$CA,$0E,$29,$07             ; 00C957 ??"???)?
+.byte $1A,$9D,$2C,$10,$22,$95,$CA,$0E             ; 00C95F ??,?"???
+.byte $29,$1F,$18,$69,$20,$9D,$80,$0D             ; 00C967 )??i ???
+.byte $22,$95,$CA,$0E,$29,$07,$9D,$9E             ; 00C96F "???)???
+.byte $10,$A9,$03,$9D,$10,$11,$A9,$03             ; 00C977 ????????
+.byte $9D,$4A,$13,$9E,$D8,$12,$22,$BC             ; 00C97F ?J????"?
+.byte $AE,$00,$98,$9D,$A0,$14,$A9,$01             ; 00C987 ????????
+.byte $99,$5E,$17,$22,$F1,$AE,$00,$A9             ; 00C98F ?^?"????
+.byte $01,$60,$00,$00,$80,$FF,$00,$00             ; 00C997 ?`??????
+.byte $80,$00,$80,$00,$00,$00,$80,$FF             ; 00C99F ????????
+.byte $00,$00,$A6,$10,$BD,$17,$19,$8D             ; 00C9A7 ????????
+.byte $F7,$18,$C2,$20,$A9,$00,$D2,$8D             ; 00C9AF ??? ????
+.byte $CA,$1A,$A9,$80,$01,$8D,$CC,$1A             ; 00C9B7 ????????
+.byte $A9,$00,$D6,$8D,$CE,$1A,$A9,$80             ; 00C9BF ????????
+.byte $01,$8D,$D0,$1A,$A9,$00,$D0,$8D             ; 00C9C7 ????????
+.byte $D2,$1A,$A9,$00,$02,$8D,$D4,$1A             ; 00C9CF ????????
+.byte $A9,$00,$D4,$8D,$D6,$1A,$A9,$00             ; 00C9D7 ????????
+.byte $02,$8D,$D8,$1A,$E2,$20,$A9,$01             ; 00C9DF ????? ??
+.byte $8D,$DA,$1A,$A9,$01,$8D,$DB,$1A             ; 00C9E7 ????????
+.byte $20,$93,$DE,$60                             ; 00C9F0  ??`
 
   LDA $18EA                                       ; 00C9F3 AD EA 18 
   CMP $18F8                                       ; 00C9F6 CD F8 18 
@@ -7971,7 +7714,7 @@ B_CA1C:
   STA $0D80,X                                     ; 00CA53 9D 80 0D 
   LDA #$FF                                        ; 00CA56 A9 FF 
   STA $0FBA,X                                     ; 00CA58 9D BA 0F 
-  JSR L_C39D                                      ; 00CA5B 20 9D C3 
+  JSR (L_C39D & $FFFF)                            ; 00CA5B 20 9D C3 
   STY $08                                         ; 00CA5E 84 08 
   TYA                                             ; 00CA60 98 
   BNE B_CA6B                                      ; 00CA61 D0 08 
@@ -7979,18 +7722,18 @@ B_CA1C:
   STA $05E4                                       ; 00CA65 8D E4 05 
   STA $05E3                                       ; 00CA68 8D E3 05 
 B_CA6B:
-  LDA D_CB25,Y                                    ; 00CA6B B9 25 CB 
+  LDA (D_CB25 & $FFFF),Y                          ; 00CA6B B9 25 CB 
   STA $11F4,X                                     ; 00CA6E 9D F4 11 
   TYA                                             ; 00CA71 98 
   ASL                                             ; 00CA72 0A 
   TAY                                             ; 00CA73 A8 
-  LDA D_CB29,Y                                    ; 00CA74 B9 29 CB 
+  LDA (D_CB29 & $FFFF),Y                          ; 00CA74 B9 29 CB 
   STA $090C,X                                     ; 00CA77 9D 0C 09 
-  LDA D_CB2A,Y                                    ; 00CA7A B9 2A CB 
+  LDA (D_CB2A & $FFFF),Y                          ; 00CA7A B9 2A CB 
   STA $097E,X                                     ; 00CA7D 9D 7E 09 
-  LDA D_CB31,Y                                    ; 00CA80 B9 31 CB 
+  LDA (D_CB31 & $FFFF),Y                          ; 00CA80 B9 31 CB 
   STA $09F0,X                                     ; 00CA83 9D F0 09 
-  LDA D_CB32,Y                                    ; 00CA86 B9 32 CB 
+  LDA (D_CB32 & $FFFF),Y                          ; 00CA86 B9 32 CB 
   STA $0A62,X                                     ; 00CA89 9D 62 0A 
   LDY $07                                         ; 00CA8C A4 07 
   TYA                                             ; 00CA8E 98 
@@ -8025,9 +7768,7 @@ B_CAA4:
   JSL f:L_38059                                   ; 00CAD2 22 59 80 03 
   LDA #$01                                        ; 00CAD6 A9 01 
   STA $1AAF,Y                                     ; 00CAD8 99 AF 1A 
-D_CADB:
-  LDA D_CB22,Y                                    ; 00CADB B9 22 CB 
-D_CADE:
+  LDA (D_CB22 & $FFFF),Y                          ; 00CADB B9 22 CB 
   STA $13BC,X                                     ; 00CADE 9D BC 13 
   TYA                                             ; 00CAE1 98 
   STA $1110,X                                     ; 00CAE2 9D 10 11 
@@ -8043,7 +7784,7 @@ D_CADE:
   STA $175E,Y                                     ; 00CAF9 99 5E 17 
   JSL f:L_AED8                                    ; 00CAFC 22 D8 AE 00 
   LDY $08                                         ; 00CB00 A4 08 
-  LDA D_CB1E,Y                                    ; 00CB02 B9 1E CB 
+  LDA (D_CB1E & $FFFF),Y                          ; 00CB02 B9 1E CB 
   STA $11F4,X                                     ; 00CB05 9D F4 11 
   PHB                                             ; 00CB08 8B 
   LDA #$03                                        ; 00CB09 A9 03 
@@ -8113,7 +7854,7 @@ B_CB5B:
   JSL f:L_ECA95                                   ; 00CB89 22 95 CA 0E 
   AND #$01                                        ; 00CB8D 29 01 
   STA $0FBA,X                                     ; 00CB8F 9D BA 0F 
-  JSR L_C39D                                      ; 00CB92 20 9D C3 
+  JSR (L_C39D & $FFFF)                            ; 00CB92 20 9D C3 
   TYA                                             ; 00CB95 98 
   BNE B_CBA0                                      ; 00CB96 D0 08 
   LDA #$01                                        ; 00CB98 A9 01 
@@ -8123,13 +7864,13 @@ B_CBA0:
   TYA                                             ; 00CBA0 98 
   ASL                                             ; 00CBA1 0A 
   TAY                                             ; 00CBA2 A8 
-  LDA D_CC5F,Y                                    ; 00CBA3 B9 5F CC 
+  LDA (D_CC5F & $FFFF),Y                          ; 00CBA3 B9 5F CC 
   STA $090C,X                                     ; 00CBA6 9D 0C 09 
-  LDA D_CC60,Y                                    ; 00CBA9 B9 60 CC 
+  LDA (D_CC60 & $FFFF),Y                          ; 00CBA9 B9 60 CC 
   STA $097E,X                                     ; 00CBAC 9D 7E 09 
-  LDA D_CC67,Y                                    ; 00CBAF B9 67 CC 
+  LDA (D_CC67 & $FFFF),Y                          ; 00CBAF B9 67 CC 
   STA $09F0,X                                     ; 00CBB2 9D F0 09 
-  LDA D_CC68,Y                                    ; 00CBB5 B9 68 CC 
+  LDA (D_CC68 & $FFFF),Y                          ; 00CBB5 B9 68 CC 
   STA $0A62,X                                     ; 00CBB8 9D 62 0A 
   LDA XexzyCharX,X                                ; 00CBBB BD 46 0B 
   STA $04                                         ; 00CBBE 85 04 
@@ -8180,13 +7921,13 @@ B_CBE5:
   AND #$0F                                        ; 00CC27 29 0F 
   ASL                                             ; 00CC29 0A 
   TAY                                             ; 00CC2A A8 
-  LDA D_CC6F,Y                                    ; 00CC2B B9 6F CC 
+  LDA (D_CC6F & $FFFF),Y                          ; 00CC2B B9 6F CC 
   STA $090C,X                                     ; 00CC2E 9D 0C 09 
-  LDA D_CC70,Y                                    ; 00CC31 B9 70 CC 
+  LDA (D_CC70 & $FFFF),Y                          ; 00CC31 B9 70 CC 
   STA $097E,X                                     ; 00CC34 9D 7E 09 
-  LDA D_CC8F,Y                                    ; 00CC37 B9 8F CC 
+  LDA (D_CC8F & $FFFF),Y                          ; 00CC37 B9 8F CC 
   STA $09F0,X                                     ; 00CC3A 9D F0 09 
-  LDA D_CC90,Y                                    ; 00CC3D B9 90 CC 
+  LDA (D_CC90 & $FFFF),Y                          ; 00CC3D B9 90 CC 
   STA $0A62,X                                     ; 00CC40 9D 62 0A 
   JSL f:L_AEBC                                    ; 00CC43 22 BC AE 00 
   TYA                                             ; 00CC47 98 
@@ -8268,7 +8009,7 @@ B_CCF3:
 .byte $9C,$0C,$A0,$00,$80,$03                     ; 00CD06 ??????
 
 B_CD0B:
-  JSR L_C39D                                      ; 00CD0B 20 9D C3 
+  JSR (L_C39D & $FFFF)                            ; 00CD0B 20 9D C3 
   TYA                                             ; 00CD0E 98 
   BNE B_CD19                                      ; 00CD0F D0 08 
   LDA #$01                                        ; 00CD11 A9 01 
@@ -8282,25 +8023,25 @@ B_CD19:
 
 B_CD23:
   CLC                                             ; 00CD23 18 
-  ADC D_CD93,Y                                    ; 00CD24 79 93 CD 
+  ADC (D_CD93 & $FFFF),Y                          ; 00CD24 79 93 CD 
   STA $0D80,X                                     ; 00CD27 9D 80 0D 
-  LDA D_CD7B,Y                                    ; 00CD2A B9 7B CD 
+  LDA (D_CD7B & $FFFF),Y                          ; 00CD2A B9 7B CD 
   STA $13BC,X                                     ; 00CD2D 9D BC 13 
   LDA #$26                                        ; 00CD30 A9 26 
   STA $07B6,X                                     ; 00CD32 9D B6 07 
-  ORA D_CD7F,Y                                    ; 00CD35 19 7F CD 
+  ORA (D_CD7F & $FFFF),Y                          ; 00CD35 19 7F CD 
   STA $142E,X                                     ; 00CD38 9D 2E 14 
   TYA                                             ; 00CD3B 98 
   STA $0FBA,X                                     ; 00CD3C 9D BA 0F 
   ASL                                             ; 00CD3F 0A 
   TAY                                             ; 00CD40 A8 
-  LDA D_CD83,Y                                    ; 00CD41 B9 83 CD 
+  LDA (D_CD83 & $FFFF),Y                          ; 00CD41 B9 83 CD 
   STA $090C,X                                     ; 00CD44 9D 0C 09 
-  LDA D_CD84,Y                                    ; 00CD47 B9 84 CD 
+  LDA (D_CD84 & $FFFF),Y                          ; 00CD47 B9 84 CD 
   STA $097E,X                                     ; 00CD4A 9D 7E 09 
-  LDA D_CD8B,Y                                    ; 00CD4D B9 8B CD 
+  LDA (D_CD8B & $FFFF),Y                          ; 00CD4D B9 8B CD 
   STA $09F0,X                                     ; 00CD50 9D F0 09 
-  LDA D_CD8C,Y                                    ; 00CD53 B9 8C CD 
+  LDA (D_CD8C & $FFFF),Y                          ; 00CD53 B9 8C CD 
   STA $0A62,X                                     ; 00CD56 9D 62 0A 
   LDA $1514                                       ; 00CD59 AD 14 15 
   ORA $1515                                       ; 00CD5C 0D 15 15 
@@ -8337,7 +8078,7 @@ D_CD93:
   LDX $10                                         ; 00CD97 A6 10 
   LDA $1917,X                                     ; 00CD99 BD 17 19 
   STA $18FA                                       ; 00CD9C 8D FA 18 
-  JSR L_DFA7                                      ; 00CD9F 20 A7 DF 
+  JSR (L_DFA7 & $FFFF)                            ; 00CD9F 20 A7 DF 
   RTS                                             ; 00CDA2 60 
 
 
@@ -8351,118 +8092,116 @@ D_CD93:
 .byte $BC,$13,$AD,$D9,$18,$0A,$09,$38             ; 00CDDB ???????8
 .byte $9D,$B6,$07,$9D,$2E,$14,$20,$9D             ; 00CDE3 ????.? ?
 .byte $C3,$98,$D0,$08,$A9,$01,$8D,$E4             ; 00CDEB ????????
-.byte $05,$8D,$E3,$05,$98                         ; 00CDF4 ?????
-L_CDF8:
-.byte $0A,$A8,$B9,$3C,$CE,$9D,$0C,$09             ; 00CDF8 ???<????
-.byte $B9,$3D,$CE,$9D,$7E,$09,$B9,$44             ; 00CE00 ?=??~??D
-.byte $CE,$9D,$F0,$09,$B9,$45,$CE,$9D             ; 00CE08 ?????E??
-.byte $62,$0A,$A9,$01,$9D,$80,$0D,$22             ; 00CE10 b??????"
-.byte $95,$CA,$0E,$29,$01,$9D,$BA,$0F             ; 00CE18 ???)????
-.byte $A9,$03,$9D,$4A,$13,$9E,$D8,$12             ; 00CE20 ???J????
-.byte $22,$BC,$AE,$00,$98,$9D,$A0,$14             ; 00CE28 "???????
-.byte $A9,$01,$99,$5E,$17,$22,$F1,$AE             ; 00CE30 ???^?"??
-.byte $00,$A9,$01,$60,$00,$00,$80,$FF             ; 00CE38 ???`????
-.byte $00,$00,$80,$00,$80,$00,$00,$00             ; 00CE40 ????????
-.byte $80,$FF,$00,$00,$A6,$10,$BD,$17             ; 00CE48 ????????
-.byte $19,$8D,$FB,$18,$60,$AD,$EE,$18             ; 00CE50 ????`???
-.byte $CD,$FC,$18,$B0,$06,$22,$F3,$80             ; 00CE58 ?????"??
-.byte $03,$F0,$03,$A9,$00,$60,$A9,$02             ; 00CE60 ?????`??
-.byte $22,$64,$80,$03,$30,$F5,$8C,$DC             ; 00CE68 "d??0???
-.byte $18,$EE,$C6,$06,$EE,$EE,$18,$22             ; 00CE70 ???????"
-.byte $94,$80,$03,$A9,$01,$9D,$D2,$06             ; 00CE78 ????????
-.byte $A9,$28,$9D,$44,$07,$A9,$0C,$9D             ; 00CE80 ?(?D????
-.byte $28,$08,$A9,$E2,$9D,$BC,$13,$AD             ; 00CE88 (???????
-.byte $DC,$18,$0A,$09,$38,$9D,$B6,$07             ; 00CE90 ????8???
-.byte $9D,$2E,$14,$20,$9D,$C3,$98,$D0             ; 00CE98 ?.? ????
-.byte $08,$A9,$01,$8D,$E4,$05,$8D,$E3             ; 00CEA0 ????????
-.byte $05,$98,$0A,$A8,$B9,$EE,$CE,$9D             ; 00CEA8 ????????
-.byte $0C,$09,$B9,$EF,$CE,$9D,$7E,$09             ; 00CEB0 ??????~?
-.byte $B9,$F6,$CE,$9D,$F0,$09,$B9,$F7             ; 00CEB8 ????????
-.byte $CE,$9D,$62,$0A,$A9,$01,$9D,$80             ; 00CEC0 ??b?????
-.byte $0D,$22,$95,$CA,$0E,$29,$01,$9D             ; 00CEC8 ?"???)??
-.byte $BA,$0F,$A9,$03,$9D,$4A,$13,$9E             ; 00CED0 ?????J??
-.byte $D8,$12,$22,$BC,$AE,$00,$98,$9D             ; 00CED8 ??"?????
-.byte $A0,$14,$A9,$01,$99,$5E,$17,$22             ; 00CEE0 ?????^?"
-.byte $F1,$AE,$00,$A9,$01,$60,$00,$00             ; 00CEE8 ?????`??
-.byte $80,$FF,$00,$00,$80,$00,$80,$00             ; 00CEF0 ????????
-.byte $00,$00,$80,$FF,$00,$00,$A6,$10             ; 00CEF8 ????????
-.byte $BD,$17,$19,$8D,$FC,$18,$60,$AD             ; 00CF00 ??????`?
-.byte $EF,$18,$CD,$FD,$18,$B0,$7C,$22             ; 00CF08 ??????|"
-.byte $F3,$80,$03,$D0,$76,$22,$95,$CA             ; 00CF10 ????v"??
-.byte $0E,$29,$03,$D0,$09,$A9,$FF,$85             ; 00CF18 ?)??????
-.byte $05,$A9,$32,$4C,$3F,$CF,$A8,$B9             ; 00CF20 ??2L????
-.byte $8E,$CF,$85,$05,$A8,$B9,$9E,$CF             ; 00CF28 ????????
-.byte $22,$64,$80,$03,$30,$55,$98,$A4             ; 00CF30 "d??0U??
-.byte $05,$99,$D6,$18,$0A,$09,$38,$85             ; 00CF38 ??????8?
-.byte $04,$EE,$C6,$06,$EE,$EF,$18,$22             ; 00CF40 ???????"
-.byte $94,$80,$03,$A9,$01,$9D,$D2,$06             ; 00CF48 ????????
-.byte $A9,$00,$9D,$28,$08,$A5,$05,$9D             ; 00CF50 ???(????
-.byte $9E,$10,$20,$9D,$C3,$98,$9D,$2C             ; 00CF58 ?? ????,
-.byte $10,$D0,$08,$A9,$01,$8D,$E4,$05             ; 00CF60 ????????
-.byte $8D,$E3,$05,$A5,$04,$9D,$B6,$07             ; 00CF68 ????????
-.byte $A4,$10,$B9,$1E,$19,$4A,$9D,$10             ; 00CF70 ?????J??
-.byte $11,$A9,$1A,$9D,$44,$07,$22,$95             ; 00CF78 ????D?"?
-.byte $CA,$0E,$29,$07,$18,$69,$04,$9D             ; 00CF80 ??)??i??
-.byte $BA,$0F,$60,$A9,$00,$60,$00,$01             ; 00CF88 ??`??`??
-.byte $02,$00,$01,$02,$00,$01,$02,$00             ; 00CF90 ????????
-.byte $01,$02,$00,$01,$02,$00,$02,$03             ; 00CF98 ????????
-.byte $04,$A6,$10,$BD,$17,$19,$8D,$FD             ; 00CFA0 ????????
-.byte $18,$C2,$20,$A9,$00,$CA,$8D,$CA             ; 00CFA8 ?? ?????
-.byte $1A,$A9,$40,$01,$8D,$CC,$1A,$A9             ; 00CFB0 ??@?????
-.byte $00,$CE,$8D,$CE,$1A,$A9,$40,$01             ; 00CFB8 ??????@?
-.byte $8D,$D0,$1A,$A9,$00,$C8,$8D,$D2             ; 00CFC0 ????????
-.byte $1A,$A9,$00,$02,$8D,$D4,$1A,$A9             ; 00CFC8 ????????
-.byte $00,$CC,$8D,$D6,$1A,$A9,$00,$02             ; 00CFD0 ????????
-.byte $8D,$D8,$1A,$E2,$20,$A9,$01,$8D             ; 00CFD8 ???? ???
-.byte $DA,$1A,$A9,$01,$8D,$DB,$1A,$20             ; 00CFE0 ??????? 
-.byte $5C,$DD,$60,$AD,$F0,$18,$CD,$FE             ; 00CFE8 \?`?????
-.byte $18,$B0,$06,$22,$F3,$80,$03,$F0             ; 00CFF0 ???"????
-.byte $03,$A9,$00,$60,$A9,$0F,$22,$64             ; 00CFF8 ???`??"d
-.byte $80,$03,$30,$F5,$8C,$DD,$18,$98             ; 00D000 ??0?????
-.byte $0A,$09,$38,$85,$09,$86,$08,$22             ; 00D008 ??8????"
-.byte $94,$80,$03,$A9,$01,$9D,$D2,$06             ; 00D010 ????????
-.byte $A9,$29,$9D,$44,$07,$A9,$0C,$9D             ; 00D018 ?)?D????
-.byte $28,$08,$A9,$CE,$9D,$BC,$13,$A5             ; 00D020 (???????
-.byte $09,$9D,$B6,$07,$9D,$2E,$14,$20             ; 00D028 ?????.? 
-.byte $9D,$C3,$98,$D0,$08,$A9,$01,$8D             ; 00D030 ????????
-.byte $E4,$05,$8D,$E3,$05,$98,$0A,$A8             ; 00D038 ????????
-.byte $B9,$02,$D1,$9D,$0C,$09,$B9,$03             ; 00D040 ????????
-.byte $D1,$9D,$7E,$09,$B9,$0A,$D1,$9D             ; 00D048 ??~?????
-.byte $F0,$09,$B9,$0B,$D1,$9D,$62,$0A             ; 00D050 ??????b?
-.byte $BD,$46,$0B,$85,$06,$BD,$9C,$0C             ; 00D058 ?F??????
-.byte $85,$07,$A9,$01,$9D,$80,$0D,$22             ; 00D060 ???????"
-.byte $95,$CA,$0E,$29,$01,$9D,$BA,$0F             ; 00D068 ???)????
-.byte $A9,$FF,$9D,$2C,$10,$A9,$03,$9D             ; 00D070 ???,????
-.byte $4A,$13,$9E,$D8,$12,$22,$BC,$AE             ; 00D078 J????"??
-.byte $00,$98,$9D,$A0,$14,$A9,$01,$99             ; 00D080 ????????
-.byte $5E,$17,$22,$F1,$AE,$00,$A2,$03             ; 00D088 ^?"?????
-.byte $86,$04,$22,$F3,$80,$03,$D0,$61             ; 00D090 ??"????a
-.byte $22,$94,$80,$03,$A9,$01,$9D,$D2             ; 00D098 "???????
-.byte $06,$A9,$0C,$9D,$28,$08,$A9,$2A             ; 00D0A0 ????(??*
-.byte $9D,$44,$07,$A9,$CE,$9D,$BC,$13             ; 00D0A8 ?D??????
-.byte $A5,$09,$9D,$B6,$07,$9D,$2E,$14             ; 00D0B0 ??????.?
-.byte $A5,$06,$9D,$46,$0B,$A5,$07,$9D             ; 00D0B8 ???F????
-.byte $9C,$0C,$8A,$29,$07,$1A,$9D,$80             ; 00D0C0 ???)????
-.byte $0D,$A5,$08,$9D,$BA,$0F,$A9,$FF             ; 00D0C8 ????????
-.byte $9D,$2C,$10,$8A,$A4,$08,$99,$2C             ; 00D0D0 ?,?????,
-.byte $10,$86,$08,$A9,$03,$9D,$4A,$13             ; 00D0D8 ??????J?
-.byte $9E,$D8,$12,$22,$BC,$AE,$00,$98             ; 00D0E0 ???"????
-.byte $9D,$A0,$14,$A9,$01,$99,$5E,$17             ; 00D0E8 ??????^?
-.byte $22,$F1,$AE,$00,$A6,$04,$CA,$D0             ; 00D0F0 "???????
-.byte $97,$EE,$F0,$18,$EE,$C6,$06,$A9             ; 00D0F8 ????????
-.byte $01,$60,$00,$00,$80,$FF,$00,$00             ; 00D100 ?`??????
-.byte $80,$00,$80,$00,$00,$00,$80,$FF             ; 00D108 ????????
-.byte $00,$00,$A6,$10,$BD,$17,$19,$8D             ; 00D110 ????????
-.byte $FE,$18,$60                                 ; 00D119 ??`
+.byte $05,$8D,$E3,$05,$98,$0A,$A8,$B9             ; 00CDF3 ????????
+.byte $3C,$CE,$9D,$0C,$09,$B9,$3D,$CE             ; 00CDFB <?????=?
+.byte $9D,$7E,$09,$B9,$44,$CE,$9D,$F0             ; 00CE03 ?~??D???
+.byte $09,$B9,$45,$CE,$9D,$62,$0A,$A9             ; 00CE0B ??E??b??
+.byte $01,$9D,$80,$0D,$22,$95,$CA,$0E             ; 00CE13 ????"???
+.byte $29,$01,$9D,$BA,$0F,$A9,$03,$9D             ; 00CE1B )???????
+.byte $4A,$13,$9E,$D8,$12,$22,$BC,$AE             ; 00CE23 J????"??
+.byte $00,$98,$9D,$A0,$14,$A9,$01,$99             ; 00CE2B ????????
+.byte $5E,$17,$22,$F1,$AE,$00,$A9,$01             ; 00CE33 ^?"?????
+.byte $60,$00,$00,$80,$FF,$00,$00,$80             ; 00CE3B `???????
+.byte $00,$80,$00,$00,$00,$80,$FF,$00             ; 00CE43 ????????
+.byte $00,$A6,$10,$BD,$17,$19,$8D,$FB             ; 00CE4B ????????
+.byte $18,$60,$AD,$EE,$18,$CD,$FC,$18             ; 00CE53 ?`??????
+.byte $B0,$06,$22,$F3,$80,$03,$F0,$03             ; 00CE5B ??"?????
+.byte $A9,$00,$60,$A9,$02,$22,$64,$80             ; 00CE63 ??`??"d?
+.byte $03,$30,$F5,$8C,$DC,$18,$EE,$C6             ; 00CE6B ?0??????
+.byte $06,$EE,$EE,$18,$22,$94,$80,$03             ; 00CE73 ????"???
+.byte $A9,$01,$9D,$D2,$06,$A9,$28,$9D             ; 00CE7B ??????(?
+.byte $44,$07,$A9,$0C,$9D,$28,$08,$A9             ; 00CE83 D????(??
+.byte $E2,$9D,$BC,$13,$AD,$DC,$18,$0A             ; 00CE8B ????????
+.byte $09,$38,$9D,$B6,$07,$9D,$2E,$14             ; 00CE93 ?8????.?
+.byte $20,$9D,$C3,$98,$D0,$08,$A9,$01             ; 00CE9B  ???????
+.byte $8D,$E4,$05,$8D,$E3,$05,$98,$0A             ; 00CEA3 ????????
+.byte $A8,$B9,$EE,$CE,$9D,$0C,$09,$B9             ; 00CEAB ????????
+.byte $EF,$CE,$9D,$7E,$09,$B9,$F6,$CE             ; 00CEB3 ???~????
+.byte $9D,$F0,$09,$B9,$F7,$CE,$9D,$62             ; 00CEBB ???????b
+.byte $0A,$A9,$01,$9D,$80,$0D,$22,$95             ; 00CEC3 ??????"?
+.byte $CA,$0E,$29,$01,$9D,$BA,$0F,$A9             ; 00CECB ??)?????
+.byte $03,$9D,$4A,$13,$9E,$D8,$12,$22             ; 00CED3 ??J????"
+.byte $BC,$AE,$00,$98,$9D,$A0,$14,$A9             ; 00CEDB ????????
+.byte $01,$99,$5E,$17,$22,$F1,$AE,$00             ; 00CEE3 ??^?"???
+.byte $A9,$01,$60,$00,$00,$80,$FF,$00             ; 00CEEB ??`?????
+.byte $00,$80,$00,$80,$00,$00,$00,$80             ; 00CEF3 ????????
+.byte $FF,$00,$00,$A6,$10,$BD,$17,$19             ; 00CEFB ????????
+.byte $8D,$FC,$18,$60,$AD,$EF,$18,$CD             ; 00CF03 ???`????
+.byte $FD,$18,$B0,$7C,$22,$F3,$80,$03             ; 00CF0B ???|"???
+.byte $D0,$76,$22,$95,$CA,$0E,$29,$03             ; 00CF13 ?v"???)?
+.byte $D0,$09,$A9,$FF,$85,$05,$A9,$32             ; 00CF1B ???????2
+.byte $4C,$3F,$CF,$A8,$B9,$8E,$CF,$85             ; 00CF23 L???????
+.byte $05,$A8,$B9,$9E,$CF,$22,$64,$80             ; 00CF2B ?????"d?
+.byte $03,$30,$55,$98,$A4,$05,$99,$D6             ; 00CF33 ?0U?????
+.byte $18,$0A,$09,$38,$85,$04,$EE,$C6             ; 00CF3B ???8????
+.byte $06,$EE,$EF,$18,$22,$94,$80,$03             ; 00CF43 ????"???
+.byte $A9,$01,$9D,$D2,$06,$A9,$00,$9D             ; 00CF4B ????????
+.byte $28,$08,$A5,$05,$9D,$9E,$10,$20             ; 00CF53 (?????? 
+.byte $9D,$C3,$98,$9D,$2C,$10,$D0,$08             ; 00CF5B ????,???
+.byte $A9,$01,$8D,$E4,$05,$8D,$E3,$05             ; 00CF63 ????????
+.byte $A5,$04,$9D,$B6,$07,$A4,$10,$B9             ; 00CF6B ????????
+.byte $1E,$19,$4A,$9D,$10,$11,$A9,$1A             ; 00CF73 ??J?????
+.byte $9D,$44,$07,$22,$95,$CA,$0E,$29             ; 00CF7B ?D?"???)
+.byte $07,$18,$69,$04,$9D,$BA,$0F,$60             ; 00CF83 ??i????`
+.byte $A9,$00,$60,$00,$01,$02,$00,$01             ; 00CF8B ??`?????
+.byte $02,$00,$01,$02,$00,$01,$02,$00             ; 00CF93 ????????
+.byte $01,$02,$00,$02,$03,$04,$A6,$10             ; 00CF9B ????????
+.byte $BD,$17,$19,$8D,$FD,$18,$C2,$20             ; 00CFA3 ??????? 
+.byte $A9,$00,$CA,$8D,$CA,$1A,$A9,$40             ; 00CFAB ???????@
+.byte $01,$8D,$CC,$1A,$A9,$00,$CE,$8D             ; 00CFB3 ????????
+.byte $CE,$1A,$A9,$40,$01,$8D,$D0,$1A             ; 00CFBB ???@????
+.byte $A9,$00,$C8,$8D,$D2,$1A,$A9,$00             ; 00CFC3 ????????
+.byte $02,$8D,$D4,$1A,$A9,$00,$CC,$8D             ; 00CFCB ????????
+.byte $D6,$1A,$A9,$00,$02,$8D,$D8,$1A             ; 00CFD3 ????????
+.byte $E2,$20,$A9,$01,$8D,$DA,$1A,$A9             ; 00CFDB ? ??????
+.byte $01,$8D,$DB,$1A,$20,$5C,$DD,$60             ; 00CFE3 ???? \?`
+.byte $AD,$F0,$18,$CD,$FE,$18,$B0,$06             ; 00CFEB ????????
+.byte $22,$F3,$80,$03,$F0,$03,$A9,$00             ; 00CFF3 "???????
+.byte $60,$A9,$0F,$22,$64,$80,$03,$30             ; 00CFFB `??"d??0
+.byte $F5,$8C,$DD,$18,$98,$0A,$09,$38             ; 00D003 ???????8
+.byte $85,$09,$86,$08,$22,$94,$80,$03             ; 00D00B ????"???
+.byte $A9,$01,$9D,$D2,$06,$A9,$29,$9D             ; 00D013 ??????)?
+.byte $44,$07,$A9,$0C,$9D,$28,$08,$A9             ; 00D01B D????(??
+.byte $CE,$9D,$BC,$13,$A5,$09,$9D,$B6             ; 00D023 ????????
+.byte $07,$9D,$2E,$14,$20,$9D,$C3,$98             ; 00D02B ??.? ???
+.byte $D0,$08,$A9,$01,$8D,$E4,$05,$8D             ; 00D033 ????????
+.byte $E3,$05,$98,$0A,$A8,$B9,$02,$D1             ; 00D03B ????????
+.byte $9D,$0C,$09,$B9,$03,$D1,$9D,$7E             ; 00D043 ???????~
+.byte $09,$B9,$0A,$D1,$9D,$F0,$09,$B9             ; 00D04B ????????
+.byte $0B,$D1,$9D,$62,$0A,$BD,$46,$0B             ; 00D053 ???b??F?
+.byte $85,$06,$BD,$9C,$0C,$85,$07,$A9             ; 00D05B ????????
+.byte $01,$9D,$80,$0D,$22,$95,$CA,$0E             ; 00D063 ????"???
+.byte $29,$01,$9D,$BA,$0F,$A9,$FF,$9D             ; 00D06B )???????
+.byte $2C,$10,$A9,$03,$9D,$4A,$13,$9E             ; 00D073 ,????J??
+.byte $D8,$12,$22,$BC,$AE,$00,$98,$9D             ; 00D07B ??"?????
+.byte $A0,$14,$A9,$01,$99,$5E,$17,$22             ; 00D083 ?????^?"
+.byte $F1,$AE,$00,$A2,$03,$86,$04,$22             ; 00D08B ???????"
+.byte $F3,$80,$03,$D0,$61,$22,$94,$80             ; 00D093 ????a"??
+.byte $03,$A9,$01,$9D,$D2,$06,$A9,$0C             ; 00D09B ????????
+.byte $9D,$28,$08,$A9,$2A,$9D,$44,$07             ; 00D0A3 ?(??*?D?
+.byte $A9,$CE,$9D,$BC,$13,$A5,$09,$9D             ; 00D0AB ????????
+.byte $B6,$07,$9D,$2E,$14,$A5,$06,$9D             ; 00D0B3 ???.????
+.byte $46,$0B,$A5,$07,$9D,$9C,$0C,$8A             ; 00D0BB F???????
+.byte $29,$07,$1A,$9D,$80,$0D,$A5,$08             ; 00D0C3 )???????
+.byte $9D,$BA,$0F,$A9,$FF,$9D,$2C,$10             ; 00D0CB ??????,?
+.byte $8A,$A4,$08,$99,$2C,$10,$86,$08             ; 00D0D3 ????,???
+.byte $A9,$03,$9D,$4A,$13,$9E,$D8,$12             ; 00D0DB ???J????
+.byte $22,$BC,$AE,$00,$98,$9D,$A0,$14             ; 00D0E3 "???????
+.byte $A9,$01,$99,$5E,$17,$22,$F1,$AE             ; 00D0EB ???^?"??
+.byte $00,$A6,$04,$CA,$D0,$97,$EE,$F0             ; 00D0F3 ????????
+.byte $18,$EE,$C6,$06,$A9,$01,$60,$00             ; 00D0FB ??????`?
+.byte $00,$80,$FF,$00,$00,$80,$00,$80             ; 00D103 ????????
+.byte $00,$00,$00,$80,$FF,$00,$00,$A6             ; 00D10B ????????
+.byte $10,$BD,$17,$19,$8D,$FE,$18,$60             ; 00D113 ???????`
 
   RTS                                             ; 00D11B 60 
 
   LDA $05AB                                       ; 00D11C AD AB 05 
   ASL                                             ; 00D11F 0A 
   TAX                                             ; 00D120 AA 
-  LDA D_C29C,X                                    ; 00D121 BD 9C C2 
+  LDA (D_C29C & $FFFF),X                          ; 00D121 BD 9C C2 
   STA $04                                         ; 00D124 85 04 
-  LDA D_C29D,X                                    ; 00D126 BD 9D C2 
+  LDA (D_C29D & $FFFF),X                          ; 00D126 BD 9D C2 
   STA $05                                         ; 00D129 85 05 
   LDA $05AC                                       ; 00D12B AD AC 05 
   ASL                                             ; 00D12E 0A 
@@ -8503,15 +8242,12 @@ B_D142:
   STA $0C9C,X                                     ; 00D17E 9D 9C 0C 
   TXY                                             ; 00D181 9B 
   LDX $06C7                                       ; 00D182 AE C7 06 
-.i16
-.a16
   LDA f:D_C559,X                                  ; 00D185 BF 59 C5 00 
   STA $0BB8,Y                                     ; 00D189 99 B8 0B 
   LDA f:D_C55C,X                                  ; 00D18C BF 5C C5 00 
   STA $0D0E,Y                                     ; 00D190 99 0E 0D 
   CLC                                             ; 00D193 18 
   LDA $06                                         ; 00D194 A5 06 
-.a8
   ADC #$02                                        ; 00D196 69 02 
   STA $06                                         ; 00D198 85 06 
   BCC B_D19E                                      ; 00D19A 90 02 
@@ -8537,55 +8273,52 @@ B_D19E:
 .byte $20,$21,$D3,$18,$AD,$C6,$06,$69             ; 00D1ED  !?????i
 .byte $02,$8D,$C6,$06,$EE,$00,$19,$EE             ; 00D1F5 ????????
 .byte $00,$19,$60,$22,$F3,$80,$03,$A9             ; 00D1FD ??`"????
-.byte $0C,$22,$64                                 ; 00D206 ?"d
-D_D208:
-.byte $80,$03,$8C,$E0,$18,$98,$0A,$09             ; 00D208 ????????
-.byte $28,$85,$06,$22,$94,$80,$03,$A9             ; 00D210 (??"????
-.byte $41,$9D,$D2,$06,$A9,$64,$9D,$44             ; 00D218 A????d?D
-.byte $07,$A9,$0C,$9D,$28,$08,$A5,$06             ; 00D220 ????(???
-.byte $9D,$B6,$07,$A9,$00,$9D,$F4,$11             ; 00D228 ????????
-.byte $A9,$1E,$9D,$4A,$13,$A5,$08,$9D             ; 00D230 ???J????
-.byte $46,$0B,$A5,$09,$9D,$9C,$0C,$A9             ; 00D238 F???????
-.byte $82,$9D,$80,$0D,$22,$95,$CA,$0E             ; 00D240 ????"???
-.byte $29,$3F,$69,$82,$9D,$F2,$0D,$A5             ; 00D248 )?i?????
-.byte $0A,$9D,$82,$11,$86,$07,$22,$A0             ; 00D250 ??????"?
-.byte $AE,$00,$98,$85,$04,$9D,$A0,$14             ; 00D258 ????????
-.byte $A9,$01,$99,$5E,$17,$22,$F1,$AE             ; 00D260 ???^?"??
-.byte $00,$22,$A0,$AE,$00,$98,$A6,$04             ; 00D268 ?"??????
-.byte $85,$04,$9D,$DE,$17,$A9,$01,$99             ; 00D270 ????????
-.byte $5E,$17,$22,$F1,$AE,$00,$22,$A0             ; 00D278 ^?"???"?
-.byte $AE,$00,$98,$A6,$04,$85,$04,$9D             ; 00D280 ????????
-.byte $DE,$17,$A9,$01,$99,$5E,$17,$22             ; 00D288 ?????^?"
-.byte $F1,$AE,$00,$22,$A0,$AE,$00,$98             ; 00D290 ???"????
-.byte $A6,$04,$85,$04,$9D,$DE,$17,$A9             ; 00D298 ????????
-.byte $01,$99,$5E,$17,$22,$F1,$AE,$00             ; 00D2A0 ??^?"???
-.byte $A0,$11,$5A,$22,$F3,$80,$03,$A9             ; 00D2A8 ??Z"????
-.byte $0B,$22,$64,$80,$03,$8C,$E1,$18             ; 00D2B0 ?"d?????
-.byte $98,$0A,$09,$28,$85,$06,$22,$94             ; 00D2B8 ???(??"?
-.byte $80,$03,$A9,$01,$9D,$D2,$06,$A9             ; 00D2C0 ????????
-.byte $65,$9D,$44,$07,$A9,$04,$9D,$28             ; 00D2C8 e?D????(
-.byte $08,$A9,$6C,$9D,$BC,$13,$A5,$06             ; 00D2D0 ??l?????
-.byte $09,$01,$9D,$B6,$07,$9D,$2E,$14             ; 00D2D8 ??????.?
-.byte $A5,$08,$9D,$46,$0B,$18,$A5,$09             ; 00D2E0 ???F????
-.byte $69,$03,$85,$09,$9D,$9C,$0C,$A9             ; 00D2E8 i???????
-.byte $FF,$9D,$2C,$10,$A5,$07,$9D,$BA             ; 00D2F0 ??,?????
-.byte $0F,$A8,$8A,$99,$2C,$10,$86,$07             ; 00D2F8 ????,???
-.byte $22,$A0,$AE,$00,$98,$9D,$A0,$14             ; 00D300 "???????
-.byte $A9,$01,$99,$5E,$17,$22,$F1,$AE             ; 00D308 ???^?"??
-.byte $00,$7A,$88,$D0,$95,$A9,$08,$9D             ; 00D310 ?z??????
-.byte $28,$08,$8A,$A4,$0A,$99,$BC,$06             ; 00D318 (???????
-.byte $60,$08,$C2,$30,$A2,$AE,$3B,$A9             ; 00D320 `??0??;?
-.byte $2D,$D0,$A0,$0D,$00,$22,$00,$80             ; 00D328 -????"??
-.byte $05,$C2,$10,$E2,$20,$A2,$00,$78             ; 00D330 ???? ??x
-.byte $8E,$99,$1A,$A2,$01,$18,$8E,$92             ; 00D338 ????????
-.byte $1A,$A2,$AE,$3B,$8E,$94,$1A,$A9             ; 00D340 ???;????
-.byte $7E,$8D,$96,$1A,$A2,$00,$10,$8E             ; 00D348 ~???????
-.byte $97,$1A,$A9,$01,$8D,$91,$1A,$22             ; 00D350 ???????"
-.byte $13,$CA,$0E,$28,$60                         ; 00D359 ???(`
+.byte $0C,$22,$64,$80,$03,$8C,$E0,$18             ; 00D205 ?"d?????
+.byte $98,$0A,$09,$28,$85,$06,$22,$94             ; 00D20D ???(??"?
+.byte $80,$03,$A9,$41,$9D,$D2,$06,$A9             ; 00D215 ???A????
+.byte $64,$9D,$44,$07,$A9,$0C,$9D,$28             ; 00D21D d?D????(
+.byte $08,$A5,$06,$9D,$B6,$07,$A9,$00             ; 00D225 ????????
+.byte $9D,$F4,$11,$A9,$1E,$9D,$4A,$13             ; 00D22D ??????J?
+.byte $A5,$08,$9D,$46,$0B,$A5,$09,$9D             ; 00D235 ???F????
+.byte $9C,$0C,$A9,$82,$9D,$80,$0D,$22             ; 00D23D ???????"
+.byte $95,$CA,$0E,$29,$3F,$69,$82,$9D             ; 00D245 ???)?i??
+.byte $F2,$0D,$A5,$0A,$9D,$82,$11,$86             ; 00D24D ????????
+.byte $07,$22,$A0,$AE,$00,$98,$85,$04             ; 00D255 ?"??????
+.byte $9D,$A0,$14,$A9,$01,$99,$5E,$17             ; 00D25D ??????^?
+.byte $22,$F1,$AE,$00,$22,$A0,$AE,$00             ; 00D265 "???"???
+.byte $98,$A6,$04,$85,$04,$9D,$DE,$17             ; 00D26D ????????
+.byte $A9,$01,$99,$5E,$17,$22,$F1,$AE             ; 00D275 ???^?"??
+.byte $00,$22,$A0,$AE,$00,$98,$A6,$04             ; 00D27D ?"??????
+.byte $85,$04,$9D,$DE,$17,$A9,$01,$99             ; 00D285 ????????
+.byte $5E,$17,$22,$F1,$AE,$00,$22,$A0             ; 00D28D ^?"???"?
+.byte $AE,$00,$98,$A6,$04,$85,$04,$9D             ; 00D295 ????????
+.byte $DE,$17,$A9,$01,$99,$5E,$17,$22             ; 00D29D ?????^?"
+.byte $F1,$AE,$00,$A0,$11,$5A,$22,$F3             ; 00D2A5 ?????Z"?
+.byte $80,$03,$A9,$0B,$22,$64,$80,$03             ; 00D2AD ????"d??
+.byte $8C,$E1,$18,$98,$0A,$09,$28,$85             ; 00D2B5 ??????(?
+.byte $06,$22,$94,$80,$03,$A9,$01,$9D             ; 00D2BD ?"??????
+.byte $D2,$06,$A9,$65,$9D,$44,$07,$A9             ; 00D2C5 ???e?D??
+.byte $04,$9D,$28,$08,$A9,$6C,$9D,$BC             ; 00D2CD ??(??l??
+.byte $13,$A5,$06,$09,$01,$9D,$B6,$07             ; 00D2D5 ????????
+.byte $9D,$2E,$14,$A5,$08,$9D,$46,$0B             ; 00D2DD ?.????F?
+.byte $18,$A5,$09,$69,$03,$85,$09,$9D             ; 00D2E5 ???i????
+.byte $9C,$0C,$A9,$FF,$9D,$2C,$10,$A5             ; 00D2ED ?????,??
+.byte $07,$9D,$BA,$0F,$A8,$8A,$99,$2C             ; 00D2F5 ???????,
+.byte $10,$86,$07,$22,$A0,$AE,$00,$98             ; 00D2FD ???"????
+.byte $9D,$A0,$14,$A9,$01,$99,$5E,$17             ; 00D305 ??????^?
+.byte $22,$F1,$AE,$00,$7A,$88,$D0,$95             ; 00D30D "???z???
+.byte $A9,$08,$9D,$28,$08,$8A,$A4,$0A             ; 00D315 ???(????
+.byte $99,$BC,$06,$60,$08,$C2,$30,$A2             ; 00D31D ???`??0?
+.byte $AE,$3B,$A9,$2D,$D0,$A0,$0D,$00             ; 00D325 ?;?-????
+.byte $22,$00,$80,$05,$C2,$10,$E2,$20             ; 00D32D "?????? 
+.byte $A2,$00,$78,$8E,$99,$1A,$A2,$01             ; 00D335 ??x?????
+.byte $18,$8E,$92,$1A,$A2,$AE,$3B,$8E             ; 00D33D ??????;?
+.byte $94,$1A,$A9,$7E,$8D,$96,$1A,$A2             ; 00D345 ???~????
+.byte $00,$10,$8E,$97,$1A,$A9,$01,$8D             ; 00D34D ????????
+.byte $91,$1A,$22,$13,$CA,$0E,$28,$60             ; 00D355 ??"???(`
 
   INC $1900                                       ; 00D35D EE 00 19 
   LDA #$01                                        ; 00D360 A9 01 
-.i8
   LDY #$70                                        ; 00D362 A0 70 
   STY $1512                                       ; 00D364 8C 12 15 
   STA $175E,Y                                     ; 00D367 99 5E 17 
@@ -8679,9 +8412,9 @@ B_D3FF:
   STA $1D                                         ; 00D445 85 1D 
   JSL f:L_AFC2                                    ; 00D447 22 C2 AF 00 
   LDX $069F                                       ; 00D44B AE 9F 06 
-  JSR L_D4FE                                      ; 00D44E 20 FE D4 
+  JSR (L_D4FE & $FFFF)                            ; 00D44E 20 FE D4 
   LDX $06A0                                       ; 00D451 AE A0 06 
-  JSR L_D4FE                                      ; 00D454 20 FE D4 
+  JSR (L_D4FE & $FFFF)                            ; 00D454 20 FE D4 
   LDX $068B                                       ; 00D457 AE 8B 06 
   JSL f:L_38094                                   ; 00D45A 22 94 80 03 
   LDA #$11                                        ; 00D45E A9 11 
@@ -8691,8 +8424,6 @@ B_D3FF:
   ORA #$08                                        ; 00D466 09 08 
   STA $07B6,X                                     ; 00D468 9D B6 07 
   STA $0697                                       ; 00D46B 8D 97 06 
-
-L_D46E:
   STA $0698                                       ; 00D46E 8D 98 06 
   LDA #$78                                        ; 00D471 A9 78 
   STA $0744,X                                     ; 00D473 9D 44 07 
@@ -8779,7 +8510,7 @@ L_D4FE:
   JSL f:L_38059                                   ; 00D53B 22 59 80 03 
   LDA #$01                                        ; 00D53F A9 01 
   STA $1AAF,Y                                     ; 00D541 99 AF 1A 
-  LDA D_D59C,Y                                    ; 00D544 B9 9C D5 
+  LDA (D_D59C & $FFFF),Y                          ; 00D544 B9 9C D5 
   STA $13BC,X                                     ; 00D547 9D BC 13 
   TYA                                             ; 00D54A 98 
   STA $1110,X                                     ; 00D54B 9D 10 11 
@@ -8859,7 +8590,6 @@ D_D59C:
 .byte $D6,$9D,$7E,$09,$B9,$D7,$D6,$9D             ; 00D690 ??~?????
 .byte $F0,$09,$B9,$D8,$D6,$9D,$62,$0A             ; 00D698 ??????b?
 .byte $A9,$0C,$9D,$28,$08,$22,$CB,$AE             ; 00D6A0 ???(?"??
-L_D6A8:
 .byte $00,$98,$9D,$A0,$14,$A9,$01,$99             ; 00D6A8 ????????
 .byte $5E,$17,$22,$F1,$AE,$00,$60,$84             ; 00D6B0 ^?"???`?
 .byte $FF,$9D,$FE,$EC,$FD,$8D,$FD,$8D             ; 00D6B8 ????????
@@ -8869,70 +8599,64 @@ L_D6A8:
 .byte $FD,$EC,$FD,$9D,$FE,$84,$FF,$7C             ; 00D6D8 ???????|
 .byte $00,$63,$01,$14,$02,$73,$02,$8D             ; 00D6E0 ?c???s??
 .byte $FD,$EC,$FD,$9D,$FE,$84,$FF,$7C             ; 00D6E8 ???????|
-.byte $00,$63,$01,$14                             ; 00D6F1 ?c??
-D_D6F4:
-.byte $02,$73,$02,$80,$82,$84,$86,$88             ; 00D6F4 ?s??????
-.byte $8A,$8C,$8E,$01,$01,$01,$01,$01             ; 00D6FC ????????
-D_D704:
-.byte $01,$01,$01,$60,$08,$22,$13,$CA             ; 00D704 ???`?"??
-D_D70C:
-.byte $0E,$C2,$30,$A9,$E0,$C8,$A0,$0F             ; 00D70C ??0?????
-.byte $00,$A2,$AE,$20,$22,$00,$80,$05             ; 00D714 ??? "???
-.byte $E2,$20,$A9,$00,$8D,$89,$06,$A9             ; 00D71C ? ??????
-.byte $08,$8D,$8A,$06,$A9,$01,$8D,$88             ; 00D724 ????????
-.byte $06,$28,$60,$A2,$00,$00,$8E,$99             ; 00D72C ?(`?????
-.byte $1A,$A2,$01,$18,$8E,$92,$1A,$A2             ; 00D734 ????????
-.byte $AE,$3B,$8E,$94,$1A,$A9,$7E,$8D             ; 00D73C ?;????~?
-.byte $96,$1A,$A2,$00,$10,$8E,$97,$1A             ; 00D744 ????????
-.byte $A9,$01,$8D,$91,$1A,$22,$13,$CA             ; 00D74C ?????"??
-.byte $0E,$60,$A2,$07,$07,$BF,$AE,$3B             ; 00D754 ?`?????;
-.byte $7E,$9F,$AE,$63,$7E,$A9,$00,$9F             ; 00D75C ~??c~???
-.byte $AE,$3B,$7E,$CA,$10,$EF,$20,$2F             ; 00D764 ?;~??? /
-.byte $D7,$A9,$17,$8D,$2C,$21,$A9,$5A             ; 00D76C ????,!?Z
-.byte $85,$06,$A0,$00,$00,$98,$EB,$84             ; 00D774 ????????
-.byte $04,$F4,$00,$00,$AB,$AB,$5A,$A2             ; 00D77C ??????Z?
-.byte $07,$07,$8A,$65,$06,$29,$07,$89             ; 00D784 ???e?)??
-.byte $04,$F0,$07,$48,$A5,$06,$0A,$26             ; 00D78C ???H???&
-.byte $06,$68,$18,$65,$04,$A8,$B9,$B3             ; 00D794 ?h?e????
-.byte $D7,$3F,$AE,$63,$7E,$9F,$AE,$3B             ; 00D79C ???c~??;
-.byte $7E,$CA,$10,$DE,$7A,$20                     ; 00D7A5 ~???z 
-D_D7AA:
-.byte $2F,$D7,$C8,$C0,$25,$00,$D0,$C9             ; 00D7AA /???%???
-.byte $60,$00,$00,$00,$00,$00,$00,$00             ; 00D7B2 `???????
-.byte $00,$80,$20,$08,$02,$48,$12,$88             ; 00D7BA ?? ??H??
-.byte $11,$A2,$49,$52,$2A,$56,$9A                 ; 00D7C3 ??IR*V?
-D_D7C9:
-.byte $6C,$65,$67,$D9,$76,$BA,$77,$EB             ; 00D7C9 leg?v?w?
-.byte $ED,$BB,$EF,$BF,$F7,$FD,$FF,$FF             ; 00D7D1 ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$08,$C2             ; 00D7D9 ????????
-.byte $10,$E2,$20,$A2,$00,$78,$8E,$99             ; 00D7E1 ?? ??x??
-.byte $1A,$A2,$01,$18,$8E,$92,$1A,$A2             ; 00D7E9 ????????
-.byte $00,$F0,$8E,$94,$1A,$A9,$7E,$8D             ; 00D7F1 ??????~?
-.byte $96,$1A,$A2,$00,$10,$8E,$97,$1A             ; 00D7F9 ????????
-.byte $A9,$01,$8D,$91,$1A,$22,$13,$CA             ; 00D801 ?????"??
-.byte $0E,$C2,$30,$A9,$0D,$B0,$A0,$0F             ; 00D809 ??0?????
-.byte $00,$A2,$AE,$3B,$22,$00,$80,$05             ; 00D811 ???;"???
-.byte $E2,$20,$A2,$00,$08,$8E,$99,$1A             ; 00D819 ? ??????
-.byte $A2,$01,$18,$8E,$92,$1A,$A2,$AE             ; 00D821 ????????
-.byte $4B,$8E,$94,$1A,$A9,$7E,$8D,$96             ; 00D829 K????~??
-.byte $1A,$A2,$00,$10,$8E,$97,$1A,$A9             ; 00D831 ????????
-.byte $01,$8D,$91,$1A,$22,$13,$CA,$0E             ; 00D839 ????"???
-.byte $A2,$00,$10,$8E,$99,$1A,$A2,$01             ; 00D841 ????????
-.byte $18,$8E,$92,$1A,$A2,$AE,$5B,$8E             ; 00D849 ??????[?
-.byte $94,$1A,$A9,$7E,$8D,$96,$1A,$A2             ; 00D851 ???~????
-.byte $00,$10,$8E,$97,$1A,$A9,$01,$8D             ; 00D859 ????????
-.byte $91,$1A,$22,$13,$CA,$0E,$C2,$30             ; 00D861 ??"????0
-.byte $A9,$BD,$C7,$A0,$0F,$00,$A2,$AE             ; 00D869 ????????
-.byte $20,$22,$00,$80,$05,$E2,$20,$A9             ; 00D871  "???? ?
-.byte $00,$8D,$89,$06,$A9,$08,$8D,$8A             ; 00D879 ????????
-.byte $06,$A9,$01,$8D,$88,$06,$9C,$86             ; 00D881 ????????
-.byte $1A,$9C,$7D,$1A,$A9,$22,$8D,$7E             ; 00D889 ??}??"?~
-.byte $1A,$A9,$AD,$8D,$7F,$1A,$A9,$CE             ; 00D891 ????????
-.byte $8D,$80,$1A,$A9,$0F,$8D,$81,$1A             ; 00D899 ????????
-.byte $A9,$80,$8D,$82,$1A,$A9,$01,$8D             ; 00D8A1 ????????
-.byte $83,$1A,$22,$13,$CA,$0E,$E2,$30             ; 00D8A9 ??"????0
-.byte $A9,$48,$8D,$07,$21,$C2,$10,$20             ; 00D8B1 ?H??!?? 
-.byte $56,$D7,$28,$60,$60,$60                     ; 00D8BA V?(```
+.byte $00,$63,$01,$14,$02,$73,$02,$80             ; 00D6F0 ?c???s??
+.byte $82,$84,$86,$88,$8A,$8C,$8E,$01             ; 00D6F8 ????????
+.byte $01,$01,$01,$01,$01,$01,$01,$60             ; 00D700 ???????`
+.byte $08,$22,$13,$CA,$0E,$C2,$30,$A9             ; 00D708 ?"????0?
+.byte $E0,$C8,$A0,$0F,$00,$A2,$AE,$20             ; 00D710 ??????? 
+.byte $22,$00,$80,$05,$E2,$20,$A9,$00             ; 00D718 "???? ??
+.byte $8D,$89,$06,$A9,$08,$8D,$8A,$06             ; 00D720 ????????
+.byte $A9,$01,$8D,$88,$06,$28,$60,$A2             ; 00D728 ?????(`?
+.byte $00,$00,$8E,$99,$1A,$A2,$01,$18             ; 00D730 ????????
+.byte $8E,$92,$1A,$A2,$AE,$3B,$8E,$94             ; 00D738 ?????;??
+.byte $1A,$A9,$7E,$8D,$96,$1A,$A2,$00             ; 00D740 ??~?????
+.byte $10,$8E,$97,$1A,$A9,$01,$8D,$91             ; 00D748 ????????
+.byte $1A,$22,$13,$CA,$0E,$60,$A2,$07             ; 00D750 ?"???`??
+.byte $07,$BF,$AE,$3B,$7E,$9F,$AE,$63             ; 00D758 ???;~??c
+.byte $7E,$A9,$00,$9F,$AE,$3B,$7E,$CA             ; 00D760 ~????;~?
+.byte $10,$EF,$20,$2F,$D7,$A9,$17,$8D             ; 00D768 ?? /????
+.byte $2C,$21,$A9,$5A,$85,$06,$A0,$00             ; 00D770 ,!?Z????
+.byte $00,$98,$EB,$84,$04,$F4,$00,$00             ; 00D778 ????????
+.byte $AB,$AB,$5A,$A2,$07,$07,$8A,$65             ; 00D780 ??Z????e
+.byte $06,$29,$07,$89,$04,$F0,$07,$48             ; 00D788 ?)?????H
+.byte $A5,$06,$0A,$26,$06,$68,$18,$65             ; 00D790 ???&?h?e
+.byte $04,$A8,$B9,$B3,$D7,$3F,$AE,$63             ; 00D798 ???????c
+.byte $7E,$9F,$AE,$3B,$7E,$CA,$10,$DE             ; 00D7A0 ~??;~???
+.byte $7A,$20,$2F,$D7,$C8,$C0,$25,$00             ; 00D7A8 z /???%?
+.byte $D0,$C9,$60,$00,$00,$00,$00,$00             ; 00D7B0 ??`?????
+.byte $00,$00,$00,$80,$20,$08,$02,$48             ; 00D7B8 ???? ??H
+.byte $12,$88,$11,$A2,$49,$52,$2A,$56             ; 00D7C0 ????IR*V
+.byte $9A,$6C,$65,$67,$D9,$76,$BA,$77             ; 00D7C8 ?leg?v?w
+.byte $EB,$ED,$BB,$EF,$BF,$F7,$FD,$FF             ; 00D7D0 ????????
+.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$08             ; 00D7D8 ????????
+.byte $C2,$10,$E2,$20,$A2,$00,$78,$8E             ; 00D7E0 ??? ??x?
+.byte $99,$1A,$A2,$01,$18,$8E,$92,$1A             ; 00D7E8 ????????
+.byte $A2,$00,$F0,$8E,$94,$1A,$A9,$7E             ; 00D7F0 ???????~
+.byte $8D,$96,$1A,$A2,$00,$10,$8E,$97             ; 00D7F8 ????????
+.byte $1A,$A9,$01,$8D,$91,$1A,$22,$13             ; 00D800 ??????"?
+.byte $CA,$0E,$C2,$30,$A9,$0D,$B0,$A0             ; 00D808 ???0????
+.byte $0F,$00,$A2,$AE,$3B,$22,$00,$80             ; 00D810 ????;"??
+.byte $05,$E2,$20,$A2,$00,$08,$8E,$99             ; 00D818 ?? ?????
+.byte $1A,$A2,$01,$18,$8E,$92,$1A,$A2             ; 00D820 ????????
+.byte $AE,$4B,$8E,$94,$1A,$A9,$7E,$8D             ; 00D828 ?K????~?
+.byte $96,$1A,$A2,$00,$10,$8E,$97,$1A             ; 00D830 ????????
+.byte $A9,$01,$8D,$91,$1A,$22,$13,$CA             ; 00D838 ?????"??
+.byte $0E,$A2,$00,$10,$8E,$99,$1A,$A2             ; 00D840 ????????
+.byte $01,$18,$8E,$92,$1A,$A2,$AE,$5B             ; 00D848 ???????[
+.byte $8E,$94,$1A,$A9,$7E,$8D,$96,$1A             ; 00D850 ????~???
+.byte $A2,$00,$10,$8E,$97,$1A,$A9,$01             ; 00D858 ????????
+.byte $8D,$91,$1A,$22,$13,$CA,$0E,$C2             ; 00D860 ???"????
+.byte $30,$A9,$BD,$C7,$A0,$0F,$00,$A2             ; 00D868 0???????
+.byte $AE,$20,$22,$00,$80,$05,$E2,$20             ; 00D870 ? "???? 
+.byte $A9,$00,$8D,$89,$06,$A9,$08,$8D             ; 00D878 ????????
+.byte $8A,$06,$A9,$01,$8D,$88,$06,$9C             ; 00D880 ????????
+.byte $86,$1A,$9C,$7D,$1A,$A9,$22,$8D             ; 00D888 ???}??"?
+.byte $7E,$1A,$A9,$AD,$8D,$7F,$1A,$A9             ; 00D890 ~???????
+.byte $CE,$8D,$80,$1A,$A9,$0F,$8D,$81             ; 00D898 ????????
+.byte $1A,$A9,$80,$8D,$82,$1A,$A9,$01             ; 00D8A0 ????????
+.byte $8D,$83,$1A,$22,$13,$CA,$0E,$E2             ; 00D8A8 ???"????
+.byte $30,$A9,$48,$8D,$07,$21,$C2,$10             ; 00D8B0 0?H??!??
+.byte $20,$56,$D7,$28,$60,$60,$60                 ; 00D8B9  V?(```
 
   JSL f:L_380F3                                   ; 00D8BF 22 F3 80 03 
   BEQ B_D8C8                                      ; 00D8C3 F0 03 
@@ -8944,7 +8668,7 @@ B_D8C8:
   STA $06                                         ; 00D8CA 85 06 
   LDA #$1E                                        ; 00D8CC A9 1E 
   STA $07                                         ; 00D8CE 85 07 
-  JSR L_D8D6                                      ; 00D8D0 20 D6 D8 
+  JSR (L_D8D6 & $FFFF)                            ; 00D8D0 20 D6 D8 
   LDA #$01                                        ; 00D8D3 A9 01 
   RTS                                             ; 00D8D5 60 
 
@@ -8961,7 +8685,7 @@ L_D8D6:
   STA $0D80,X                                     ; 00D8EB 9D 80 0D 
   LDA $06                                         ; 00D8EE A5 06 
   STA $0FBA,X                                     ; 00D8F0 9D BA 0F 
-  JSR L_DA82                                      ; 00D8F3 20 82 DA 
+  JSR (L_DA82 & $FFFF)                            ; 00D8F3 20 82 DA 
   LDA $04                                         ; 00D8F6 A5 04 
   STA XexzyCharX,X                                ; 00D8F8 9D 46 0B 
   LDA $05                                         ; 00D8FB A5 05 
@@ -8972,9 +8696,9 @@ L_D8D6:
   BCC B_D90A                                      ; 00D906 90 02 
   LDY #$02                                        ; 00D908 A0 02 
 B_D90A:
-  LDA D_D92D,Y                                    ; 00D90A B9 2D D9 
+  LDA (D_D92D & $FFFF),Y                          ; 00D90A B9 2D D9 
   STA $090C,X                                     ; 00D90D 9D 0C 09 
-  LDA D_D92E,Y                                    ; 00D910 B9 2E D9 
+  LDA (D_D92E & $FFFF),Y                          ; 00D910 B9 2E D9 
   STA $097E,X                                     ; 00D913 9D 7E 09 
   LDY #$00                                        ; 00D916 A0 00 
   LDA $05                                         ; 00D918 A5 05 
@@ -8982,9 +8706,9 @@ B_D90A:
   BCC B_D920                                      ; 00D91C 90 02 
   LDY #$02                                        ; 00D91E A0 02 
 B_D920:
-  LDA D_D92D,Y                                    ; 00D920 B9 2D D9 
+  LDA (D_D92D & $FFFF),Y                          ; 00D920 B9 2D D9 
   STA $09F0,X                                     ; 00D923 9D F0 09 
-  LDA D_D92E,Y                                    ; 00D926 B9 2E D9 
+  LDA (D_D92E & $FFFF),Y                          ; 00D926 B9 2E D9 
   STA $0A62,X                                     ; 00D929 9D 62 0A 
   RTS                                             ; 00D92C 60 
 
@@ -9057,7 +8781,6 @@ B_D996:
   JSL f:L_AEAF                                    ; 00D9A1 22 AF AE 00 
   TYA                                             ; 00D9A5 98 
   STA $14A0,X                                     ; 00D9A6 9D A0 14 
-D_D9A9:
   LDA #$01                                        ; 00D9A9 A9 01 
   STA $175E,Y                                     ; 00D9AB 99 5E 17 
   JSL f:L_AEF1                                    ; 00D9AE 22 F1 AE 00 
@@ -9072,7 +8795,6 @@ D_D9A9:
   STA $0FBA,X                                     ; 00D9C4 9D BA 0F 
   REP #$10                                        ; 00D9C7 C2 10 
   LDA #$07                                        ; 00D9C9 A9 07 
-.i16
   LDX #$FF0E                                      ; 00D9CB A2 0E FF 
   JSL f:L_F830F                                   ; 00D9CE 22 0F 83 0F 
   SEP #$10                                        ; 00D9D2 E2 10 
@@ -9090,13 +8812,12 @@ D_D9A9:
 .byte $A9,$1E,$9D,$80,$0D,$20,$82,$DA             ; 00DA00 ????? ??
 .byte $A5,$04,$9D,$46,$0B,$A5,$05,$9D             ; 00DA08 ???F????
 .byte $9C,$0C,$A0,$00,$A5,$04,$C9,$80             ; 00DA10 ????????
-.byte $90,$02,$A0,$02,$B9,$3F                     ; 00DA19 ??????
-L_DA1E:
-.byte $DA,$9D,$0C,$09,$B9,$40,$DA,$9D             ; 00DA1E ?????@??
-.byte $7E,$09,$A0,$00,$A5,$05,$C9,$80             ; 00DA26 ~???????
-.byte $90,$02,$A0,$02,$B9,$3F,$DA,$9D             ; 00DA2E ????????
-.byte $F0,$09,$B9,$40,$DA,$9D,$62,$0A             ; 00DA36 ???@??b?
-.byte $60,$80,$01,$80,$FE                         ; 00DA3F `????
+.byte $90,$02,$A0,$02,$B9,$3F,$DA,$9D             ; 00DA18 ????????
+.byte $0C,$09,$B9,$40,$DA,$9D,$7E,$09             ; 00DA20 ???@??~?
+.byte $A0,$00,$A5,$05,$C9,$80,$90,$02             ; 00DA28 ????????
+.byte $A0,$02,$B9,$3F,$DA,$9D,$F0,$09             ; 00DA30 ????????
+.byte $B9,$40,$DA,$9D,$62,$0A,$60,$80             ; 00DA38 ?@??b?`?
+.byte $01,$80,$FE                                 ; 00DA41 ???
 
 
 L_DA43:
@@ -9114,7 +8835,7 @@ B_DA54:
 B_DA55:
   JSL f:L_380F3                                   ; 00DA55 22 F3 80 03 
   BNE B_DA81                                      ; 00DA59 D0 26 
-  JSR L_DA82                                      ; 00DA5B 20 82 DA 
+  JSR (L_DA82 & $FFFF)                            ; 00DA5B 20 82 DA 
   JSL f:L_ECA95                                   ; 00DA5E 22 95 CA 0E 
   AND #$07                                        ; 00DA62 29 07 
   STA $06                                         ; 00DA64 85 06 
@@ -9127,7 +8848,7 @@ B_DA55:
   CLC                                             ; 00DA74 18 
   ADC #$03                                        ; 00DA75 69 03 
   STA $07                                         ; 00DA77 85 07 
-  JSR L_D8D6                                      ; 00DA79 20 D6 D8 
+  JSR (L_D8D6 & $FFFF)                            ; 00DA79 20 D6 D8 
   RTS                                             ; 00DA7C 60 
 
 B_DA7D:
@@ -9144,12 +8865,12 @@ L_DA82:
   JSL f:L_ECA95                                   ; 00DA87 22 95 CA 0E 
   AND #$1F                                        ; 00DA8B 29 1F 
   TAY                                             ; 00DA8D A8 
-  LDA D_DD1C,Y                                    ; 00DA8E B9 1C DD 
+  LDA (D_DD1C & $FFFF),Y                          ; 00DA8E B9 1C DD 
   STA $04                                         ; 00DA91 85 04 
   JSL f:L_ECA95                                   ; 00DA93 22 95 CA 0E 
   AND #$1F                                        ; 00DA97 29 1F 
   TAY                                             ; 00DA99 A8 
-  LDA D_DD3C,Y                                    ; 00DA9A B9 3C DD 
+  LDA (D_DD3C & $FFFF),Y                          ; 00DA9A B9 3C DD 
   STA $05                                         ; 00DA9D 85 05 
   PLB                                             ; 00DA9F AB 
   RTS                                             ; 00DAA0 60 
@@ -9166,13 +8887,12 @@ L_DAA1:
   PHA                                             ; 00DAB2 48 
   PLB                                             ; 00DAB3 AB 
   LDY $06                                         ; 00DAB4 A4 06 
-  LDA D_DB5E,Y                                    ; 00DAB6 B9 5E DB 
+  LDA (D_DB5E & $FFFF),Y                          ; 00DAB6 B9 5E DB 
   STA $102C,X                                     ; 00DAB9 9D 2C 10 
-D_DABC:
   STA $1110,X                                     ; 00DABC 9D 10 11 
-  LDA D_DB66,Y                                    ; 00DABF B9 66 DB 
+  LDA (D_DB66 & $FFFF),Y                          ; 00DABF B9 66 DB 
   STA $13BC,X                                     ; 00DAC2 9D BC 13 
-  LDA D_DB6E,Y                                    ; 00DAC5 B9 6E DB 
+  LDA (D_DB6E & $FFFF),Y                          ; 00DAC5 B9 6E DB 
   STA $142E,X                                     ; 00DAC8 9D 2E 14 
   JSL f:L_ECA95                                   ; 00DACB 22 95 CA 0E 
   AND #$01                                        ; 00DACF 29 01 
@@ -9255,13 +8975,9 @@ B_DB26:
 D_DB5E:
 .byte $01,$01,$01,$01,$00,$00,$00,$00             ; 00DB5E ????????
 D_DB66:
-.byte $60,$62                                     ; 00DB67 `b
-D_DB68:
-.byte $64,$60,$66,$68,$6A,$40                     ; 00DB69 d`fhj@
+.byte $60,$62,$64,$60,$66,$68,$6A,$40             ; 00DB66 `bd`fhj@
 D_DB6E:
-.byte $27                                         ; 00DB6F '
-D_DB6F:
-.byte $23,$25,$27,$25,$23,$23,$23                 ; 00DB70 #%'%###
+.byte $27,$23,$25,$27,$25,$23,$23,$23             ; 00DB6E '#%'%###
 
 
 L_DB76:
@@ -9269,7 +8985,6 @@ L_DB76:
   AND #$01                                        ; 00DB78 29 01 
   BNE B_DB87                                      ; 00DB7A D0 0B 
   LDX XexzyDropCountDownTimer                     ; 00DB7C AE AE 05 
-D_DB7F:
   BEQ B_DB88                                      ; 00DB7F F0 07 
   BMI B_DB87                                      ; 00DB81 30 04 
   DEX                                             ; 00DB83 CA 
@@ -9283,12 +8998,11 @@ B_DB88:
   PHA                                             ; 00DB8B 48 
   PLB                                             ; 00DB8C AB 
   LDA $05AB                                       ; 00DB8D AD AB 05 
-D_DB90:
   ASL                                             ; 00DB90 0A 
   TAX                                             ; 00DB91 AA 
-  LDA D_BE68,X                                    ; 00DB92 BD 68 BE 
+  LDA (D_BE68 & $FFFF),X                          ; 00DB92 BD 68 BE 
   STA $04                                         ; 00DB95 85 04 
-  LDA D_BE69,X                                    ; 00DB97 BD 69 BE 
+  LDA (D_BE69 & $FFFF),X                          ; 00DB97 BD 69 BE 
   STA $05                                         ; 00DB9A 85 05 
   LDA $05AC                                       ; 00DB9C AD AC 05 
   ASL                                             ; 00DB9F 0A 
@@ -9334,9 +9048,9 @@ B_DBDE:
 B_DBDF:
   JSL f:L_38094                                   ; 00DBDF 22 94 80 03 
   LDY $07                                         ; 00DBE3 A4 07 
-  LDA D_DCEC,Y                                    ; 00DBE5 B9 EC DC 
+  LDA (D_DCEC & $FFFF),Y                          ; 00DBE5 B9 EC DC 
   STA $0744,X                                     ; 00DBE8 9D 44 07 
-  LDA D_DCF8,Y                                    ; 00DBEB B9 F8 DC 
+  LDA (D_DCF8 & $FFFF),Y                          ; 00DBEB B9 F8 DC 
   BNE B_DBFF                                      ; 00DBEE D0 0F 
   LDA #$07                                        ; 00DBF0 A9 07 
   JSL f:L_38064                                   ; 00DBF2 22 64 80 03 
@@ -9357,12 +9071,12 @@ B_DBFF:
   JSL f:L_ECA95                                   ; 00DC14 22 95 CA 0E 
   AND #$1F                                        ; 00DC18 29 1F 
   TAY                                             ; 00DC1A A8 
-  LDA D_DD1C,Y                                    ; 00DC1B B9 1C DD 
+  LDA (D_DD1C & $FFFF),Y                          ; 00DC1B B9 1C DD 
   STA XexzyCharX,X                                ; 00DC1E 9D 46 0B 
   JSL f:L_ECA95                                   ; 00DC21 22 95 CA 0E 
   AND #$1F                                        ; 00DC25 29 1F 
   TAY                                             ; 00DC27 A8 
-  LDA D_DD3C,Y                                    ; 00DC28 B9 3C DD 
+  LDA (D_DD3C & $FFFF),Y                          ; 00DC28 B9 3C DD 
   LDY $188E                                       ; 00DC2B AC 8E 18 
   BEQ B_DC36                                      ; 00DC2E F0 06 
 
@@ -9370,8 +9084,6 @@ B_DBFF:
 
 B_DC36:
   STA $0C9C,X                                     ; 00DC36 9D 9C 0C 
-
-L_DC39:
   SEC                                             ; 00DC39 38 
   LDA XexzyCharX,X                                ; 00DC3A BD 46 0B 
   SBC #$06                                        ; 00DC3D E9 06 
@@ -9437,11 +9149,10 @@ B_DC6A:
   LDA $07                                         ; 00DCA9 A5 07 
   ASL                                             ; 00DCAB 0A 
   TAX                                             ; 00DCAC AA 
-  LDA D_DD04,X                                    ; 00DCAD BD 04 DD 
+  LDA (D_DD04 & $FFFF),X                          ; 00DCAD BD 04 DD 
   STA $06                                         ; 00DCB0 85 06 
-  LDA D_DD05,X                                    ; 00DCB2 BD 05 DD 
+  LDA (D_DD05 & $FFFF),X                          ; 00DCB2 BD 05 DD 
   STA $07                                         ; 00DCB5 85 07 
-.i8
   LDY #$00                                        ; 00DCB7 A0 00 
 B_DCB9:
   LDA #$01                                        ; 00DCB9 A9 01 
@@ -9487,9 +9198,7 @@ D_DD1C:
 .byte $64,$6C,$74,$7C,$84,$2C,$34,$3C             ; 00DD1C dlt|?,4<
 .byte $44,$4C,$54,$5C,$64,$6C,$74,$7C             ; 00DD24 DLT\dlt|
 .byte $84,$8C,$94,$9C,$A4,$AC,$B4,$BC             ; 00DD2C ????????
-.byte $C4,$CC,$D4                                 ; 00DD35 ???
-D_DD37:
-.byte $84,$7C,$84,$8C,$94                         ; 00DD38 ?|???
+.byte $C4,$CC,$D4,$84,$7C,$84,$8C,$94             ; 00DD34 ????|???
 D_DD3C:
 .byte $54,$5C,$64,$6C,$74,$7C,$84,$3C             ; 00DD3C T\dlt|?<
 .byte $44,$4C,$54,$5C,$64,$6C,$74,$7C             ; 00DD44 DLT\dlt|
@@ -9513,56 +9222,53 @@ D_DD3C:
 .byte $EF,$18,$22,$94,$80,$03,$A9,$01             ; 00DDD4 ??"?????
 .byte $9D,$D2,$06,$A9,$4B,$9D,$44,$07             ; 00DDDC ????K?D?
 .byte $A5,$0A,$9D,$B6,$07,$A9,$0C,$9D             ; 00DDE4 ????????
-.byte $28,$08,$22,$95,$CA,$0E                     ; 00DDED (?"???
-D_DDF2:
-.byte $29,$01,$9D,$BA,$0F,$A5,$0B,$9D             ; 00DDF2 )???????
-.byte $2C,$10,$22,$95,$CA,$0E,$29,$1F             ; 00DDFA ,?"???)?
-.byte $9D,$80,$0D,$A9,$C8,$9D,$F2,$0D             ; 00DE02 ????????
-.byte $A4,$07,$B1,$08,$9D,$46,$0B,$C8             ; 00DE0A ?????F??
-.byte $B1,$08,$9D,$9C,$0C,$C8,$B1,$08             ; 00DE12 ????????
-.byte $9D,$9E,$10,$BC,$9E,$10,$B9,$62             ; 00DE1A ???????b
-.byte $DE,$9D,$BC,$13,$BD,$B6,$07,$29             ; 00DE22 ???????)
-.byte $3F,$19,$6D,$DE,$9D,$2E,$14,$AC             ; 00DE2A ??m??.??
-.byte $C7,$06,$B9,$59,$C5,$9D,$B8,$0B             ; 00DE32 ???Y????
-.byte $B9,$5C,$C5,$9D,$0E,$0D,$22,$BC             ; 00DE3A ?\????"?
-.byte $AE,$00,$98,$9D,$A0,$14,$A9,$01             ; 00DE42 ????????
-.byte $99,$5E,$17,$22,$F1,$AE,$00,$60             ; 00DE4A ?^?"???`
-.byte $00,$01,$02,$00,$01,$02,$00,$01             ; 00DE52 ????????
-.byte $02,$00,$01,$02,$00,$01,$02,$00             ; 00DE5A ????????
-.byte $00,$60,$68,$00,$64,$62,$66,$00             ; 00DE62 ?`h?dbf?
-.byte $64,$62,$66,$00,$00,$00,$00,$00             ; 00DE6A dbf?????
-.byte $00,$00,$00,$40,$40,$40,$7E,$DE             ; 00DE72 ???@@@~?
-.byte $80,$DE,$88,$DE,$00,$00,$00,$00             ; 00DE7A ????????
-.byte $00,$00,$00,$00,$8A,$DE,$00,$00             ; 00DE82 ????????
-.byte $49,$49,$06,$93,$58,$0A,$BF,$B0             ; 00DE8A II??X???
-.byte $08,$A6,$10,$BD,$33,$19,$D0,$01             ; 00DE92 ????3???
-.byte $60,$85,$06,$8B,$A9,$00,$48,$AB             ; 00DE9A `?????H?
-.byte $AD,$AB,$05,$0A,$A8,$B9,$4F,$DF             ; 00DEA2 ??????O?
-.byte $85,$04,$B9,$50,$DF,$85,$05,$AD             ; 00DEAA ???P????
-.byte $AC,$05,$0A,$A8,$B1,$04,$85,$08             ; 00DEB2 ????????
-.byte $C8,$B1,$04,$85,$09,$64,$07,$A6             ; 00DEBA ?????d??
-.byte $06,$DA,$20,$D4,$DE,$18,$A5,$07             ; 00DEC2 ?? ?????
-.byte $69,$02,$85,$07,$FA,$CA,$D0,$F1             ; 00DECA i???????
-.byte $AB,$60,$22,$F3,$80,$03,$D0,$74             ; 00DED2 ?`"????t
-.byte $A9,$01,$22,$64,$80,$03,$30,$6C             ; 00DEDA ??"d??0l
-.byte $8C,$DA,$18,$EE,$C6,$06,$EE,$E9             ; 00DEE2 ????????
-.byte $18,$22,$94,$80,$03,$A9,$01,$9D             ; 00DEEA ?"??????
-.byte $D2,$06,$A9,$4F,$9D,$44,$07,$A9             ; 00DEF2 ???O?D??
-.byte $0C,$9D,$28,$08,$A9,$66,$9D,$BC             ; 00DEFA ??(??f??
-.byte $13,$AD,$DA,$18,$0A,$09,$28,$9D             ; 00DF02 ??????(?
-.byte $B6,$07,$9D,$2E,$14,$A4,$07,$B1             ; 00DF0A ???.????
-.byte $08,$9D,$46,$0B,$C8,$B1,$08,$9D             ; 00DF12 ??F?????
-.byte $9C,$0C,$AC,$C7,$06,$B9,$59,$C5             ; 00DF1A ??????Y?
-.byte $9D,$B8,$0B,$B9,$5C,$C5,$9D,$0E             ; 00DF22 ????\???
-.byte $0D,$A9,$03,$9D,$10,$11,$A9,$C8             ; 00DF2A ????????
-.byte $9D,$80,$0D,$A9,$03,$9D,$4A,$13             ; 00DF32 ??????J?
-.byte $9E,$D8,$12,$22,$BC,$AE,$00,$98             ; 00DF3A ???"????
-.byte $9D,$A0,$14,$A9,$01,$99,$5E,$17             ; 00DF42 ??????^?
-.byte $22,$F1,$AE,$00,$60,$55,$DF,$57             ; 00DF4A "???`U?W
-.byte $DF,$77,$DF,$00,$00,$00,$00,$9F             ; 00DF52 ?w??????
-.byte $DF,$00,$00,$00,$00,$00,$00,$00             ; 00DF5A ????????
-.byte $00,$A1                                     ; 00DF63 ??
-L_DF64:
+.byte $28,$08,$22,$95,$CA,$0E,$29,$01             ; 00DDEC (?"???)?
+.byte $9D,$BA,$0F,$A5,$0B,$9D,$2C,$10             ; 00DDF4 ??????,?
+.byte $22,$95,$CA,$0E,$29,$1F,$9D,$80             ; 00DDFC "???)???
+.byte $0D,$A9,$C8,$9D,$F2,$0D,$A4,$07             ; 00DE04 ????????
+.byte $B1,$08,$9D,$46,$0B,$C8,$B1,$08             ; 00DE0C ???F????
+.byte $9D,$9C,$0C,$C8,$B1,$08,$9D,$9E             ; 00DE14 ????????
+.byte $10,$BC,$9E,$10,$B9,$62,$DE,$9D             ; 00DE1C ?????b??
+.byte $BC,$13,$BD,$B6,$07,$29,$3F,$19             ; 00DE24 ?????)??
+.byte $6D,$DE,$9D,$2E,$14,$AC,$C7,$06             ; 00DE2C m??.????
+.byte $B9,$59,$C5,$9D,$B8,$0B,$B9,$5C             ; 00DE34 ?Y?????\
+.byte $C5,$9D,$0E,$0D,$22,$BC,$AE,$00             ; 00DE3C ????"???
+.byte $98,$9D,$A0,$14,$A9,$01,$99,$5E             ; 00DE44 ???????^
+.byte $17,$22,$F1,$AE,$00,$60,$00,$01             ; 00DE4C ?"???`??
+.byte $02,$00,$01,$02,$00,$01,$02,$00             ; 00DE54 ????????
+.byte $01,$02,$00,$01,$02,$00,$00,$60             ; 00DE5C ???????`
+.byte $68,$00,$64,$62,$66,$00,$64,$62             ; 00DE64 h?dbf?db
+.byte $66,$00,$00,$00,$00,$00,$00,$00             ; 00DE6C f???????
+.byte $00,$40,$40,$40,$7E,$DE,$80,$DE             ; 00DE74 ?@@@~???
+.byte $88,$DE,$00,$00,$00,$00,$00,$00             ; 00DE7C ????????
+.byte $00,$00,$8A,$DE,$00,$00,$49,$49             ; 00DE84 ??????II
+.byte $06,$93,$58,$0A,$BF,$B0,$08,$A6             ; 00DE8C ??X?????
+.byte $10,$BD,$33,$19,$D0,$01,$60,$85             ; 00DE94 ??3???`?
+.byte $06,$8B,$A9,$00,$48,$AB,$AD,$AB             ; 00DE9C ????H???
+.byte $05,$0A,$A8,$B9,$4F,$DF,$85,$04             ; 00DEA4 ????O???
+.byte $B9,$50,$DF,$85,$05,$AD,$AC,$05             ; 00DEAC ?P??????
+.byte $0A,$A8,$B1,$04,$85,$08,$C8,$B1             ; 00DEB4 ????????
+.byte $04,$85,$09,$64,$07,$A6,$06,$DA             ; 00DEBC ???d????
+.byte $20,$D4,$DE,$18,$A5,$07,$69,$02             ; 00DEC4  ?????i?
+.byte $85,$07,$FA,$CA,$D0,$F1,$AB,$60             ; 00DECC ???????`
+.byte $22,$F3,$80,$03,$D0,$74,$A9,$01             ; 00DED4 "????t??
+.byte $22,$64,$80,$03,$30,$6C,$8C,$DA             ; 00DEDC "d??0l??
+.byte $18,$EE,$C6,$06,$EE,$E9,$18,$22             ; 00DEE4 ???????"
+.byte $94,$80,$03,$A9,$01,$9D,$D2,$06             ; 00DEEC ????????
+.byte $A9,$4F,$9D,$44,$07,$A9,$0C,$9D             ; 00DEF4 ?O?D????
+.byte $28,$08,$A9,$66,$9D,$BC,$13,$AD             ; 00DEFC (??f????
+.byte $DA,$18,$0A,$09,$28,$9D,$B6,$07             ; 00DF04 ????(???
+.byte $9D,$2E,$14,$A4,$07,$B1,$08,$9D             ; 00DF0C ?.??????
+.byte $46,$0B,$C8,$B1,$08,$9D,$9C,$0C             ; 00DF14 F???????
+.byte $AC,$C7,$06,$B9,$59,$C5,$9D,$B8             ; 00DF1C ????Y???
+.byte $0B,$B9,$5C,$C5,$9D,$0E,$0D,$A9             ; 00DF24 ??\?????
+.byte $03,$9D,$10,$11,$A9,$C8,$9D,$80             ; 00DF2C ????????
+.byte $0D,$A9,$03,$9D,$4A,$13,$9E,$D8             ; 00DF34 ????J???
+.byte $12,$22,$BC,$AE,$00,$98,$9D,$A0             ; 00DF3C ?"??????
+.byte $14,$A9,$01,$99,$5E,$17,$22,$F1             ; 00DF44 ????^?"?
+.byte $AE,$00,$60,$55,$DF,$57,$DF,$77             ; 00DF4C ??`U?W?w
+.byte $DF,$00,$00,$00,$00,$9F,$DF,$00             ; 00DF54 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$A1             ; 00DF5C ????????
 .byte $DF,$00,$00,$00,$00,$00,$00,$00             ; 00DF64 ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00DF6C ????????
 .byte $00,$A3,$DF,$00,$00,$00,$00,$00             ; 00DF74 ????????
@@ -9589,9 +9295,9 @@ B_DFAF:
   LDA $05AB                                       ; 00DFB6 AD AB 05 
   ASL                                             ; 00DFB9 0A 
   TAY                                             ; 00DFBA A8 
-  LDA D_E070,Y                                    ; 00DFBB B9 70 E0 
+  LDA (D_E070 & $FFFF),Y                          ; 00DFBB B9 70 E0 
   STA $04                                         ; 00DFBE 85 04 
-  LDA D_E071,Y                                    ; 00DFC0 B9 71 E0 
+  LDA (D_E071 & $FFFF),Y                          ; 00DFC0 B9 71 E0 
   STA $05                                         ; 00DFC3 85 05 
   LDA $05AC                                       ; 00DFC5 AD AC 05 
   ASL                                             ; 00DFC8 0A 
@@ -9605,7 +9311,7 @@ B_DFAF:
   LDX $06                                         ; 00DFD5 A6 06 
 B_DFD7:
   PHX                                             ; 00DFD7 DA 
-  JSR L_DFF6                                      ; 00DFD8 20 F6 DF 
+  JSR (L_DFF6 & $FFFF)                            ; 00DFD8 20 F6 DF 
   CLC                                             ; 00DFDB 18 
   LDA $07                                         ; 00DFDC A5 07 
   ADC #$03                                        ; 00DFDE 69 03 
@@ -9649,16 +9355,16 @@ L_DFF6:
   LDA ($08),Y                                     ; 00E030 B1 08 
   STA $0FBA,X                                     ; 00E032 9D BA 0F 
   TAY                                             ; 00E035 A8 
-  LDA D_E068,Y                                    ; 00E036 B9 68 E0 
+  LDA (D_E068 & $FFFF),Y                          ; 00E036 B9 68 E0 
   STA $13BC,X                                     ; 00E039 9D BC 13 
   LDA #$26                                        ; 00E03C A9 26 
   STA $07B6,X                                     ; 00E03E 9D B6 07 
-  ORA D_E06C,Y                                    ; 00E041 19 6C E0 
+  ORA (D_E06C & $FFFF),Y                          ; 00E041 19 6C E0 
   STA $142E,X                                     ; 00E044 9D 2E 14 
   LDY $06C7                                       ; 00E047 AC C7 06 
-  LDA D_C559,Y                                    ; 00E04A B9 59 C5 
+  LDA (D_C559 & $FFFF),Y                          ; 00E04A B9 59 C5 
   STA $0BB8,X                                     ; 00E04D 9D B8 0B 
-  LDA D_C55C,Y                                    ; 00E050 B9 5C C5 
+  LDA (D_C55C & $FFFF),Y                          ; 00E050 B9 5C C5 
   STA $0D0E,X                                     ; 00E053 9D 0E 0D 
   JSL f:L_AEBC                                    ; 00E056 22 BC AE 00 
   TYA                                             ; 00E05A 98 
@@ -9685,26 +9391,18 @@ D_E071:
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E099 ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E0A1 ????????
 .byte $00,$00,$E1,$00,$00,$00,$00,$00             ; 00E0A9 ????????
-.byte $00,$DC,$E0,$03,$E1                         ; 00E0B2 ?????
-L_E0B6:
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E0B6 ????????
-.byte $03,$E1,$00,$00,$00,$00,$00,$00             ; 00E0BE ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E0C6 ????????
-.byte $00,$00,$03,$E1,$00,$00,$03,$E1             ; 00E0CE ????????
-.byte $00,$00,$00,$00,$03,$E1,$31,$33             ; 00E0D6 ??????13
-.byte $03,$E2,$3A,$00                             ; 00E0DF ??:?
-D_E0E2:
-.byte $31,$33,$03,$E2,$3A,$00,$3C,$46             ; 00E0E2 13??:?<F
-.byte $03,$BE,$50,$02,$48,$96,$02,$19             ; 00E0EA ??P?H???
-.byte $D0,$02,$E6,$D0                             ; 00E0F3 ????
-D_E0F6:
-.byte $02,$31,$33,$03,$E2,$3A,$00,$19             ; 00E0F6 ?13??:??
-.byte $D0,$02,$31,$33,$03,$31,$33,$03             ; 00E0FE ??13?13?
-.byte $E2,$3A,$00,$19                             ; 00E107 ?:??
-D_E10A:
-.byte $D0                                         ; 00E10B ?
-D_E10B:
-.byte $02,$E6,$D0,$02                             ; 00E10C ????
+.byte $00,$DC,$E0,$03,$E1,$00,$00,$00             ; 00E0B1 ????????
+.byte $00,$00,$00,$00,$00,$03,$E1,$00             ; 00E0B9 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E0C1 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$03             ; 00E0C9 ????????
+.byte $E1,$00,$00,$03,$E1,$00,$00,$00             ; 00E0D1 ????????
+.byte $00,$03,$E1,$31,$33,$03,$E2,$3A             ; 00E0D9 ???13??:
+.byte $00,$31,$33,$03,$E2,$3A,$00,$3C             ; 00E0E1 ?13??:?<
+.byte $46,$03,$BE,$50,$02,$48,$96,$02             ; 00E0E9 F??P?H??
+.byte $19,$D0,$02,$E6,$D0,$02,$31,$33             ; 00E0F1 ??????13
+.byte $03,$E2,$3A,$00,$19,$D0,$02,$31             ; 00E0F9 ??:????1
+.byte $33,$03,$31,$33,$03,$E2,$3A,$00             ; 00E101 3?13??:?
+.byte $19,$D0,$02,$E6,$D0,$02                     ; 00E10A ??????
 
 
 L_E10F:
@@ -9722,15 +9420,13 @@ B_E117:
   LDA $05AB                                       ; 00E11E AD AB 05 
   ASL                                             ; 00E121 0A 
   TAY                                             ; 00E122 A8 
-  LDA D_E1E8,Y                                    ; 00E123 B9 E8 E1 
+  LDA (D_E1E8 & $FFFF),Y                          ; 00E123 B9 E8 E1 
   STA $04                                         ; 00E126 85 04 
-  LDA D_E1E9,Y                                    ; 00E128 B9 E9 E1 
+  LDA (D_E1E9 & $FFFF),Y                          ; 00E128 B9 E9 E1 
   STA $05                                         ; 00E12B 85 05 
   LDA $05AC                                       ; 00E12D AD AC 05 
   ASL                                             ; 00E130 0A 
   TAY                                             ; 00E131 A8 
-
-L_E132:
   LDA ($04),Y                                     ; 00E132 B1 04 
   STA $08                                         ; 00E134 85 08 
   INY                                             ; 00E136 C8 
@@ -9740,7 +9436,7 @@ L_E132:
   LDX $06                                         ; 00E13D A6 06 
 B_E13F:
   PHX                                             ; 00E13F DA 
-  JSR L_E15E                                      ; 00E140 20 5E E1 
+  JSR (L_E15E & $FFFF)                            ; 00E140 20 5E E1 
   CLC                                             ; 00E143 18 
   LDA $05                                         ; 00E144 A5 05 
   ADC #$03                                        ; 00E146 69 03 
@@ -9790,23 +9486,21 @@ L_E15E:
   INY                                             ; 00E1A5 C8 
   LDA ($08),Y                                     ; 00E1A6 B1 08 
   TAY                                             ; 00E1A8 A8 
-  LDA D_E1D8,Y                                    ; 00E1A9 B9 D8 E1 
+  LDA (D_E1D8 & $FFFF),Y                          ; 00E1A9 B9 D8 E1 
   STA $13BC,X                                     ; 00E1AC 9D BC 13 
   LDA $04                                         ; 00E1AF A5 04 
-  ORA D_E1E0,Y                                    ; 00E1B1 19 E0 E1 
+  ORA (D_E1E0 & $FFFF),Y                          ; 00E1B1 19 E0 E1 
   STA $142E,X                                     ; 00E1B4 9D 2E 14 
   LDY $06C7                                       ; 00E1B7 AC C7 06 
-  LDA D_C559,Y                                    ; 00E1BA B9 59 C5 
+  LDA (D_C559 & $FFFF),Y                          ; 00E1BA B9 59 C5 
   STA $0BB8,X                                     ; 00E1BD 9D B8 0B 
-  LDA D_C55C,Y                                    ; 00E1C0 B9 5C C5 
+  LDA (D_C55C & $FFFF),Y                          ; 00E1C0 B9 5C C5 
   STA $0D0E,X                                     ; 00E1C3 9D 0E 0D 
   JSL f:L_AEBC                                    ; 00E1C6 22 BC AE 00 
   TYA                                             ; 00E1CA 98 
   STA $14A0,X                                     ; 00E1CB 9D A0 14 
   LDA #$01                                        ; 00E1CE A9 01 
   STA $175E,Y                                     ; 00E1D0 99 5E 17 
-
-L_E1D3:
   JSL f:L_AEF1                                    ; 00E1D3 22 F1 AE 00 
 B_E1D7:
   RTS                                             ; 00E1D7 60 
@@ -9821,103 +9515,82 @@ D_E1E8:
 D_E1E9:
 .byte $E1,$FE,$E1,$00,$E2,$00,$00,$30             ; 00E1E9 ???????0
 .byte $E2,$3C,$E2,$00,$00,$00,$00,$00             ; 00E1F1 ?<??????
-.byte $00,$6C,$E2                                 ; 00E1FA ?l?
-D_E1FC:
-.byte $9C,$E2,$00,$00,$00,$00,$00,$00             ; 00E1FC ????????
-.byte $00,$00,$CC,$E2,$00,$00,$00,$00             ; 00E204 ????????
-D_E20C:
-.byte $EA,$E2,$00,$00,$CC,$E2,$00,$00             ; 00E20C ????????
-.byte $00,$00,$DB,$E2,$00,$00,$00,$00             ; 00E214 ????????
-L_E21C:
-.byte $00,$00,$00,$00,$00,$00,$FC,$E2             ; 00E21C ????????
-.byte $FF,$E2,$00,$00,$ED,$E2,$00,$00             ; 00E224 ????????
-.byte $00,$00,$ED,$E2,$6A,$BF,$00,$D6             ; 00E22C ????j???
-.byte $AE,$07,$BA,$87,$06,$D6,$68,$06             ; 00E234 ??????h?
-.byte $68,$CE,$02,$68,$BD,$02,$68,$A9             ; 00E23C h??h??h?
-.byte $02,$5C,$97,$01,$56,$82,$02,$59             ; 00E244 ?\??V??Y
-.byte $6F,$02,$65,$5F,$03,$73,$53,$04             ; 00E24C o?e_?sS?
-.byte $8D,$53,$04,$9B,$5F,$05,$A7,$6F             ; 00E254 ?S??_??o
-.byte $06,$AA,$82,$06,$A3,$97,$07,$98             ; 00E25C ????????
-.byte $A9,$06,$98,$BD,$06,$98,$CE,$06             ; 00E264 ????????
-.byte $68,$32,$02,$68,$43,$02,$68,$57             ; 00E26C h2?hC?hW
-.byte $02,$5B,$69,$03,$56,$7E,$02,$59             ; 00E274 ?[i?V~?Y
-.byte $91,$02,$65,$A1,$01,$72                     ; 00E27D ??e??r
-L_E282:
-.byte $AE,$00,$8E,$AE,$00,$9B,$A1,$07             ; 00E282 ????????
-.byte $A7,$91,$06,$AA,$7E,$06,$A5,$69             ; 00E28A ????~??i
-.byte $05,$98,$57,$06,$98,$43,$06,$98             ; 00E292 ??W??C??
-.byte $32,$06,$19,$64,$04,$2B,$64,$04             ; 00E29A 2??d?+d?
-.byte $3C,$64,$04,$51,$64,$04,$68,$5D             ; 00E2A2 <d?Qd?h]
-.byte $03,$80,$57,$04,$97,$5E,$05,$A7             ; 00E2AA ??W??^??
-.byte $72,$06,$19,$96,$00,$2B,$96,$00             ; 00E2B2 r????+??
-.byte $3C,$96,$00,$51,$96,$00,$68,$9E             ; 00E2BA <??Q??h?
-.byte $01,$80,$A5,$00,$99,$9E,$07,$A7             ; 00E2C2 ????????
-.byte $8C,$06,$90,$58,$05,$9D,$64,$05             ; 00E2CA ???X??d?
-.byte $A3,$72,$06,$A3,$84,$06,$9C,$92             ; 00E2D2 ?r??????
-.byte $07,$3C,$61,$02,$4F,$82,$02,$41             ; 00E2DA ?<a?O??A
-D_E2E2:
-.byte $9A,$02,$C5,$6E,$06,$B7,$A2,$07             ; 00E2E2 ???n????
-D_E2EA:
-.byte $8E                                         ; 00E2EB ?
-D_E2EB:
-.byte $B7,$07,$6A,$30,$04,$57,$4B,$03             ; 00E2EB ??j0?WK?
-.byte $A2,$46,$05,$B3,$5D,$06,$9C,$68             ; 00E2F3 ?F??]??h
-.byte $06,$9F,$A2,$07,$81,$33,$04,$64             ; 00E2FB ?????3?d
-.byte $3F,$03,$69,$5A,$03,$A2,$9A,$07             ; 00E303 ??iZ????
-.byte $A6,$10,$BD,$33,$19                         ; 00E30C ???3?
-D_E310:
-.byte $D0,$01,$60,$85,$06,$8B,$A9,$00             ; 00E310 ??`?????
-.byte $48,$AB,$AD,$AB,$05,$0A,$A8,$B9             ; 00E318 H???????
-.byte $E4,$E3,$85,$04,$B9,$E5,$E3,$85             ; 00E320 ????????
-.byte $05,$AD,$AC,$05,$0A,$A8,$B1,$04             ; 00E328 ????????
-.byte $85,$08,$C8,$B1,$04,$85,$09,$64             ; 00E330 ???????d
-.byte $05,$A6,$06,$DA,$20,$5A,$E3,$18             ; 00E338 ???? Z??
-.byte $A5,$05,$69,$03,$85,$05,$FA,$CA             ; 00E340 ??i?????
-.byte $D0,$F1                                     ; 00E349 ??
-L_E34A:
-.byte $AB,$A9,$01,$8D,$6D,$18,$22,$B2             ; 00E34A ????m?"?
-.byte $9C,$00,$A9,$64,$8D,$6D,$18,$60             ; 00E352 ???d?m?`
-.byte $22,$F3,$80,$03,$D0,$73,$A9,$09             ; 00E35A "????s??
-.byte $22,$64,$80,$03,$30,$6B,$8C,$D3             ; 00E362 "d??0k??
-.byte $18,$98,$0A,$09,$28,$85,$04,$EE             ; 00E36A ????(???
-.byte $C6,$06,$EE,$E8,$18,$22,$94,$80             ; 00E372 ?????"??
-.byte $03,$A9,$01,$9D,$D2,$06,$A5,$04             ; 00E37A ????????
-.byte $9D,$B6,$07,$A9,$5F,$9D,$44,$07             ; 00E382 ????_?D?
-.byte $A9,$FA,$9D,$80,$0D,$A9,$0C,$9D             ; 00E38A ????????
-.byte $28,$08,$A4,$05,$B1,$08,$9D,$46             ; 00E392 (??????F
-.byte $0B,$C8,$B1,$08,$9D,$9C,$0C,$C8             ; 00E39A ????????
-.byte $B1,$08,$A8,$B9,$D4,$E3,$9D,$BC             ; 00E3A2 ????????
-.byte $13,$A5,$04,$19,$DC,$E3,$9D,$2E             ; 00E3AA ???????.
-.byte $14,$AC,$C7,$06,$B9,$59,$C5,$9D             ; 00E3B2 ?????Y??
-.byte $B8,$0B,$B9,$5C,$C5,$9D,$0E,$0D             ; 00E3BA ???\????
-.byte $22,$BC,$AE,$00,$98,$9D,$A0,$14             ; 00E3C2 "???????
-.byte $A9,$01,$99,$5E,$17,$22,$F1,$AE             ; 00E3CA ???^?"??
-.byte $00,$60,$C4,$C6,$C8,$CA,$CC,$CA             ; 00E3D2 ?`??????
-.byte $C8,$C6,$00,$00,$00,$00,$00,$40             ; 00E3DA ???????@
-.byte $40,$40,$EA,$E3,$EA,$E3,$EA,$E3             ; 00E3E2 @@??????
-.byte $00,$00,$06,$E4,$1E,$E4,$00,$00             ; 00E3EA ????????
-.byte $27,$E4,$00,$00,$00,$00,$00,$00             ; 00E3F2 '???????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E3FA ????????
-.byte $00,$00,$36,$E4                             ; 00E403 ??6?
-D_E406:
-.byte $54,$46                                     ; 00E407 TF
-D_E408:
-.byte $04                                         ; 00E409 ?
-D_E409:
+.byte $00,$6C,$E2,$9C,$E2,$00,$00,$00             ; 00E1F9 ?l??????
+.byte $00,$00,$00,$00,$00,$CC,$E2,$00             ; 00E201 ????????
+.byte $00,$00,$00,$EA,$E2,$00,$00,$CC             ; 00E209 ????????
+.byte $E2,$00,$00,$00,$00,$DB,$E2,$00             ; 00E211 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E219 ????????
+.byte $00,$FC,$E2,$FF,$E2,$00,$00,$ED             ; 00E221 ????????
+.byte $E2,$00,$00,$00,$00,$ED,$E2,$6A             ; 00E229 ???????j
+.byte $BF,$00,$D6,$AE,$07,$BA,$87,$06             ; 00E231 ????????
+.byte $D6,$68,$06,$68,$CE,$02,$68,$BD             ; 00E239 ?h?h??h?
+.byte $02,$68,$A9,$02,$5C,$97,$01,$56             ; 00E241 ?h??\??V
+.byte $82,$02,$59,$6F,$02,$65,$5F,$03             ; 00E249 ??Yo?e_?
+.byte $73,$53,$04,$8D,$53,$04,$9B,$5F             ; 00E251 sS??S??_
+.byte $05,$A7,$6F,$06,$AA,$82,$06,$A3             ; 00E259 ??o?????
+.byte $97,$07,$98,$A9,$06,$98,$BD,$06             ; 00E261 ????????
+.byte $98,$CE,$06,$68,$32,$02,$68,$43             ; 00E269 ???h2?hC
+.byte $02,$68,$57,$02,$5B,$69,$03,$56             ; 00E271 ?hW?[i?V
+.byte $7E,$02,$59,$91,$02,$65,$A1,$01             ; 00E279 ~?Y??e??
+.byte $72,$AE,$00,$8E,$AE,$00,$9B,$A1             ; 00E281 r???????
+.byte $07,$A7,$91,$06,$AA,$7E,$06,$A5             ; 00E289 ?????~??
+.byte $69,$05,$98,$57,$06,$98,$43,$06             ; 00E291 i??W??C?
+.byte $98,$32,$06,$19,$64,$04,$2B,$64             ; 00E299 ?2??d?+d
+.byte $04,$3C,$64,$04,$51,$64,$04,$68             ; 00E2A1 ?<d?Qd?h
+.byte $5D,$03,$80,$57,$04,$97,$5E,$05             ; 00E2A9 ]??W??^?
+.byte $A7,$72,$06,$19,$96,$00,$2B,$96             ; 00E2B1 ?r????+?
+.byte $00,$3C,$96,$00,$51,$96,$00,$68             ; 00E2B9 ?<??Q??h
+.byte $9E,$01,$80,$A5,$00,$99,$9E,$07             ; 00E2C1 ????????
+.byte $A7,$8C,$06,$90,$58,$05,$9D,$64             ; 00E2C9 ????X??d
+.byte $05,$A3,$72,$06,$A3,$84,$06,$9C             ; 00E2D1 ??r?????
+.byte $92,$07,$3C,$61,$02,$4F,$82,$02             ; 00E2D9 ??<a?O??
+.byte $41,$9A,$02,$C5,$6E,$06,$B7,$A2             ; 00E2E1 A???n???
+.byte $07,$8E,$B7,$07,$6A,$30,$04,$57             ; 00E2E9 ????j0?W
+.byte $4B,$03,$A2,$46,$05,$B3,$5D,$06             ; 00E2F1 K??F??]?
+.byte $9C,$68,$06,$9F,$A2,$07,$81,$33             ; 00E2F9 ?h?????3
+.byte $04,$64,$3F,$03,$69,$5A,$03,$A2             ; 00E301 ?d??iZ??
+.byte $9A,$07,$A6,$10,$BD,$33,$19,$D0             ; 00E309 ?????3??
+.byte $01,$60,$85,$06,$8B,$A9,$00,$48             ; 00E311 ?`?????H
+.byte $AB,$AD,$AB,$05,$0A,$A8,$B9,$E4             ; 00E319 ????????
+.byte $E3,$85,$04,$B9,$E5,$E3,$85,$05             ; 00E321 ????????
+.byte $AD,$AC,$05,$0A,$A8,$B1,$04,$85             ; 00E329 ????????
+.byte $08,$C8,$B1,$04,$85,$09,$64,$05             ; 00E331 ??????d?
+.byte $A6,$06,$DA,$20,$5A,$E3,$18,$A5             ; 00E339 ??? Z???
+.byte $05,$69,$03,$85,$05,$FA,$CA,$D0             ; 00E341 ?i??????
+.byte $F1,$AB,$A9,$01,$8D,$6D,$18,$22             ; 00E349 ?????m?"
+.byte $B2,$9C,$00,$A9,$64,$8D,$6D,$18             ; 00E351 ????d?m?
+.byte $60,$22,$F3,$80,$03,$D0,$73,$A9             ; 00E359 `"????s?
+.byte $09,$22,$64,$80,$03,$30,$6B,$8C             ; 00E361 ?"d??0k?
+.byte $D3,$18,$98,$0A,$09,$28,$85,$04             ; 00E369 ?????(??
+.byte $EE,$C6,$06,$EE,$E8,$18,$22,$94             ; 00E371 ??????"?
+.byte $80,$03,$A9,$01,$9D,$D2,$06,$A5             ; 00E379 ????????
+.byte $04,$9D,$B6,$07,$A9,$5F,$9D,$44             ; 00E381 ?????_?D
+.byte $07,$A9,$FA,$9D,$80,$0D,$A9,$0C             ; 00E389 ????????
+.byte $9D,$28,$08,$A4,$05,$B1,$08,$9D             ; 00E391 ?(??????
+.byte $46,$0B,$C8,$B1,$08,$9D,$9C,$0C             ; 00E399 F???????
+.byte $C8,$B1,$08,$A8,$B9,$D4,$E3,$9D             ; 00E3A1 ????????
+.byte $BC,$13,$A5,$04,$19,$DC,$E3,$9D             ; 00E3A9 ????????
+.byte $2E,$14,$AC,$C7,$06,$B9,$59,$C5             ; 00E3B1 .?????Y?
+.byte $9D,$B8,$0B,$B9,$5C,$C5,$9D,$0E             ; 00E3B9 ????\???
+.byte $0D,$22,$BC,$AE,$00,$98,$9D,$A0             ; 00E3C1 ?"??????
+.byte $14,$A9,$01,$99,$5E,$17,$22,$F1             ; 00E3C9 ????^?"?
+.byte $AE,$00,$60,$C4,$C6,$C8,$CA,$CC             ; 00E3D1 ??`?????
+.byte $CA,$C8,$C6,$00,$00,$00,$00,$00             ; 00E3D9 ????????
+.byte $40,$40,$40,$EA,$E3,$EA,$E3,$EA             ; 00E3E1 @@@?????
+.byte $E3,$00,$00,$06,$E4,$1E,$E4,$00             ; 00E3E9 ????????
+.byte $00,$27,$E4,$00,$00,$00,$00,$00             ; 00E3F1 ?'??????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E3F9 ????????
+.byte $00,$00,$00,$36,$E4,$54,$46,$04             ; 00E401 ???6?TF?
 .byte $70,$54,$05,$99,$3A,$05,$AA,$45             ; 00E409 pT??:??E
 .byte $06,$D9,$52,$06,$B1,$85,$06,$A0             ; 00E411 ??R?????
 .byte $BA,$07,$63,$C2,$00,$7C,$30,$04             ; 00E419 ??c??|0?
-.byte $D3,$79,$06,$B7,$B6,$07,$94                 ; 00E422 ?y?????
-D_E428:
-.byte $40,$04                                     ; 00E429 @?
-D_E42A:
-.byte $6C,$45,$05,$27,$6D,$02,$51,$88             ; 00E42A lE?'m?Q?
-D_E432:
-.byte $02,$24,$8C,$01,$4F,$49,$04,$AF             ; 00E432 ?$??OI??
-.byte $42,$05,$D9,$44,$05,$B9,$53,$06             ; 00E43A B??D??S?
-.byte $D4,$6C,$06,$55,$8F,$02,$3B,$A3             ; 00E442 ?l?U??;?
-.byte $02,$5C,$AD,$01,$AD,$C3,$07,$C5             ; 00E44A ?\??????
-.byte $CA,$07                                     ; 00E453 ??
+.byte $D3,$79,$06,$B7,$B6,$07,$94,$40             ; 00E421 ?y?????@
+.byte $04,$6C,$45,$05,$27,$6D,$02,$51             ; 00E429 ?lE?'m?Q
+.byte $88,$02,$24,$8C,$01,$4F,$49,$04             ; 00E431 ??$??OI?
+.byte $AF,$42,$05,$D9,$44,$05,$B9,$53             ; 00E439 ?B??D??S
+.byte $06,$D4,$6C,$06,$55,$8F,$02,$3B             ; 00E441 ??l?U??;
+.byte $A3,$02,$5C,$AD,$01,$AD,$C3,$07             ; 00E449 ??\?????
+.byte $C5,$CA,$07                                 ; 00E452 ???
 
 
 L_E454:
@@ -10051,9 +9724,8 @@ B_E4FB:
 .byte $02,$E9,$0A,$9D,$C1,$05,$BD,$C2             ; 00E56F ????????
 .byte $05,$69,$00,$C9,$0A,$90,$02,$E9             ; 00E577 ?i??????
 .byte $0A,$9D,$C2,$05,$BD,$C3,$05,$69             ; 00E57F ???????i
-.byte $00,$C9,$0A,$90                             ; 00E588 ????
-L_E58B:
-.byte $02,$E9,$0A,$9D,$C3,$05,$FA,$6B             ; 00E58B ???????k
+.byte $00,$C9,$0A,$90,$02,$E9,$0A,$9D             ; 00E587 ????????
+.byte $C3,$05,$FA,$6B                             ; 00E590 ???k
 
 
 L_E593:
@@ -10063,9 +9735,9 @@ L_E593:
   LDA #$00                                        ; 00E598 A9 00 
   PHA                                             ; 00E59A 48 
   PLB                                             ; 00E59B AB 
-  LDA D_E6AB,Y                                    ; 00E59C B9 AB E6 
+  LDA (D_E6AB & $FFFF),Y                          ; 00E59C B9 AB E6 
   STA $04                                         ; 00E59F 85 04 
-  LDA D_E6E0,Y                                    ; 00E5A1 B9 E0 E6 
+  LDA (D_E6E0 & $FFFF),Y                          ; 00E5A1 B9 E0 E6 
   STA $05                                         ; 00E5A4 85 05 
   STZ $1880,X                                     ; 00E5A6 9E 80 18 
   LDY #$00                                        ; 00E5A9 A0 00 
@@ -10087,9 +9759,9 @@ L_E5C0:
   LDA #$00                                        ; 00E5C5 A9 00 
   PHA                                             ; 00E5C7 48 
   PLB                                             ; 00E5C8 AB 
-  LDA D_E6AB,Y                                    ; 00E5C9 B9 AB E6 
+  LDA (D_E6AB & $FFFF),Y                          ; 00E5C9 B9 AB E6 
   STA $04                                         ; 00E5CC 85 04 
-  LDA D_E6E0,Y                                    ; 00E5CE B9 E0 E6 
+  LDA (D_E6E0 & $FFFF),Y                          ; 00E5CE B9 E0 E6 
   STA $05                                         ; 00E5D1 85 05 
   STZ $1878,X                                     ; 00E5D3 9E 78 18 
   LDY #$00                                        ; 00E5D6 A0 00 
@@ -10118,9 +9790,9 @@ B_E5F7:
   DEC $187A,X                                     ; 00E5FC DE 7A 18 
   BNE B_E63D                                      ; 00E5FF D0 3C 
   LDY $1876,X                                     ; 00E601 BC 76 18 
-  LDA D_E6AB,Y                                    ; 00E604 B9 AB E6 
+  LDA (D_E6AB & $FFFF),Y                          ; 00E604 B9 AB E6 
   STA $04                                         ; 00E607 85 04 
-  LDA D_E6E0,Y                                    ; 00E609 B9 E0 E6 
+  LDA (D_E6E0 & $FFFF),Y                          ; 00E609 B9 E0 E6 
   STA $05                                         ; 00E60C 85 05 
   INC $1878,X                                     ; 00E60E FE 78 18 
   LDA $1878,X                                     ; 00E611 BD 78 18 
@@ -10155,9 +9827,9 @@ B_E642:
   DEC $1882,X                                     ; 00E647 DE 82 18 
   BNE B_E6A5                                      ; 00E64A D0 59 
   LDY $187E,X                                     ; 00E64C BC 7E 18 
-  LDA D_E6AB,Y                                    ; 00E64F B9 AB E6 
+  LDA (D_E6AB & $FFFF),Y                          ; 00E64F B9 AB E6 
   STA $04                                         ; 00E652 85 04 
-  LDA D_E6E0,Y                                    ; 00E654 B9 E0 E6 
+  LDA (D_E6E0 & $FFFF),Y                          ; 00E654 B9 E0 E6 
   STA $05                                         ; 00E657 85 05 
   INC $1880,X                                     ; 00E659 FE 80 18 
   LDA $1880,X                                     ; 00E65C BD 80 18 
@@ -10169,9 +9841,8 @@ B_E642:
   LDA ($04),Y                                     ; 00E666 B1 04 
   BEQ B_E673                                      ; 00E668 F0 09 
 
-.byte $BD,$7E,$18,$22,$93                         ; 00E66B ?~?"?
-L_E66F:
-.byte $E5,$00,$80,$32                             ; 00E670 ???2
+.byte $BD,$7E,$18,$22,$93,$E5,$00,$80             ; 00E66A ?~?"????
+.byte $32                                         ; 00E673 2
 
 B_E673:
   LDA #$01                                        ; 00E673 A9 01 
@@ -10193,7 +9864,6 @@ B_E67A:
   PHX                                             ; 00E696 DA 
   REP #$10                                        ; 00E697 C2 10 
   LDA #$07                                        ; 00E699 A9 07 
-.i16
   LDX #$FF0B                                      ; 00E69B A2 0B FF 
   JSL f:L_F830F                                   ; 00E69E 22 0F 83 0F 
   SEP #$10                                        ; 00E6A2 E2 10 
@@ -10210,11 +9880,10 @@ D_E6AB:
 .byte $15,$15,$23,$33,$43,$51,$43,$33             ; 00E6AB ??#3CQC3
 .byte $23,$63,$63,$69,$6F,$75,$7B,$75             ; 00E6B3 #cciou{u
 .byte $6F,$69,$81,$87,$8D,$93,$99,$93             ; 00E6BB oi??????
-.byte $8D,$87,$9F,$A3,$A7,$AB,$AF                 ; 00E6C4 ???????
-L_E6CA:
-.byte $AB,$A7,$A3,$B3,$B7,$BB,$BF,$C3             ; 00E6CA ????????
-.byte $BF,$BB,$B7,$C9,$07,$2F,$65,$6B             ; 00E6D2 ?????/ek
-.byte $71,$77,$7D,$77,$71,$6B                     ; 00E6DB qw}wqk
+.byte $8D,$87,$9F,$A3,$A7,$AB,$AF,$AB             ; 00E6C3 ????????
+.byte $A7,$A3,$B3,$B7,$BB,$BF,$C3,$BF             ; 00E6CB ????????
+.byte $BB,$B7,$C9,$07,$2F,$65,$6B,$71             ; 00E6D3 ????/ekq
+.byte $77,$7D,$77,$71,$6B                         ; 00E6DC w}wqk
 D_E6E0:
 .byte $E7,$E7,$E7,$E7,$E7,$E7,$E7,$E7             ; 00E6E0 ????????
 .byte $E7,$E7,$E7,$E7,$E7,$E7,$E7,$E7             ; 00E6E8 ????????
@@ -10226,76 +9895,49 @@ D_E6E0:
 .byte $02,$05,$03,$05,$04,$05,$05,$05             ; 00E718 ????????
 .byte $06,$00,$01,$04,$09,$04,$0A,$04             ; 00E720 ????????
 .byte $0B,$04,$0C,$04,$0D,$04,$0E,$04             ; 00E728 ????????
-.byte $0F,$00,$01,$04                             ; 00E731 ????
-L_E734:
-.byte $11,$04,$12,$04,$13,$04,$14,$04             ; 00E734 ????????
-.byte $15,$04,$16,$04,$17,$00,$01,$04             ; 00E73C ????????
-.byte $19,$04,$1A,$04,$1B,$04,$1C,$04             ; 00E744 ????????
-.byte $1D,$04,$1E,$00,$01,$04,$21,$04             ; 00E74C ??????!?
-.byte $22,$04,$23,$04,$24,$04,$25,$04             ; 00E754 "?#?$?%?
-L_E75C:
-.byte $26,$04,$27,$04,$28,$00,$01,$05             ; 00E75C &?'?(???
-.byte $0B,$0F,$06,$00,$00,$05,$0C,$0F             ; 00E764 ????????
-.byte $07,$00,$00,$05,$0D,$0F,$08,$00             ; 00E76C ????????
-.byte $00,$05,$0E,$0F,$09,$00,$00,$05             ; 00E774 ????????
-.byte $0F                                         ; 00E77D ?
-D_E77D:
-.byte $0F,$0A                                     ; 00E77E ??
-D_E77F:
-.byte $00,$00                                     ; 00E780 ??
-D_E781:
-.byte $05,$10                                     ; 00E782 ??
-D_E783:
-.byte $0F                                         ; 00E784 ?
-D_E784:
-.byte $15,$00,$00,$05,$11,$0F,$16,$00             ; 00E784 ????????
-.byte $00,$05,$12,$0F,$17,$00,$00                 ; 00E78D ???????
-L_E793:
-.byte $05,$13,$0F,$18,$00,$00,$05,$14             ; 00E793 ????????
-.byte $0F,$19,$00,$00,$14,$1A,$00,$00             ; 00E79B ????????
-.byte $14,$1B,$00                                 ; 00E7A4 ???
-L_E7A6:
-.byte $00,$14,$1C,$00,$00,$14,$1D,$00             ; 00E7A6 ????????
-.byte $00,$14,$1E,$00,$00,$14,$1F,$00             ; 00E7AE ????????
-.byte $00,$14,$20,$00,$00,$14,$21,$00             ; 00E7B6 ?? ???!?
-.byte $00,$14,$22,$00,$00,$14,$23,$00             ; 00E7BE ??"???#?
-.byte $00,$00,$01,$04,$38,$04,$39,$04             ; 00E7C6 ????8?9?
-.byte $3A,$04,$3B,$04,$3C,$04,$3D,$04             ; 00E7CE :?;?<?=?
-.byte $3E,$04,$3F,$04,$40,$04,$41,$04             ; 00E7D6 >???@?A?
-.byte $42,$04,$43,$04,$44,$04,$45,$04             ; 00E7DE B?C?D?E?
-.byte $46,$04,$47,$04,$48,$04,$49,$04             ; 00E7E6 F?G?H?I?
-.byte $4A,$04,$4B,$04,$4C,$04,$4D,$04             ; 00E7EE J?K?L?M?
-.byte $4E,$04,$4F,$04,$50,$08,$51,$08             ; 00E7F6 N?O?P?Q?
-.byte $52,$08,$53,$09,$54,$1E,$55,$00             ; 00E7FE R?S?T?U?
-.byte $00,$05                                     ; 00E807 ??
-L_E808:
+.byte $0F,$00,$01,$04,$11,$04,$12,$04             ; 00E730 ????????
+.byte $13,$04,$14,$04,$15,$04,$16,$04             ; 00E738 ????????
+.byte $17,$00,$01,$04,$19,$04,$1A,$04             ; 00E740 ????????
+.byte $1B,$04,$1C,$04,$1D,$04,$1E,$00             ; 00E748 ????????
+.byte $01,$04,$21,$04,$22,$04,$23,$04             ; 00E750 ??!?"?#?
+.byte $24,$04,$25,$04,$26,$04,$27,$04             ; 00E758 $?%?&?'?
+.byte $28,$00,$01,$05,$0B,$0F,$06,$00             ; 00E760 (???????
+.byte $00,$05,$0C,$0F,$07,$00,$00,$05             ; 00E768 ????????
+.byte $0D,$0F,$08,$00,$00,$05,$0E,$0F             ; 00E770 ????????
+.byte $09,$00,$00,$05,$0F,$0F,$0A,$00             ; 00E778 ????????
+.byte $00,$05,$10,$0F,$15,$00,$00,$05             ; 00E780 ????????
+.byte $11,$0F,$16,$00,$00,$05,$12,$0F             ; 00E788 ????????
+.byte $17,$00,$00,$05,$13,$0F,$18,$00             ; 00E790 ????????
+.byte $00,$05,$14,$0F,$19,$00,$00,$14             ; 00E798 ????????
+.byte $1A,$00,$00,$14,$1B,$00,$00,$14             ; 00E7A0 ????????
+.byte $1C,$00,$00,$14,$1D,$00,$00,$14             ; 00E7A8 ????????
+.byte $1E,$00,$00,$14,$1F,$00,$00,$14             ; 00E7B0 ????????
+.byte $20,$00,$00,$14,$21,$00,$00,$14             ; 00E7B8  ???!???
+.byte $22,$00,$00,$14,$23,$00,$00,$00             ; 00E7C0 "???#???
+.byte $01,$04,$38,$04,$39,$04,$3A,$04             ; 00E7C8 ??8?9?:?
+.byte $3B,$04,$3C,$04,$3D,$04,$3E,$04             ; 00E7D0 ;?<?=?>?
+.byte $3F,$04,$40,$04,$41,$04,$42,$04             ; 00E7D8 ??@?A?B?
+.byte $43,$04,$44,$04,$45,$04,$46,$04             ; 00E7E0 C?D?E?F?
+.byte $47,$04,$48,$04,$49,$04,$4A,$04             ; 00E7E8 G?H?I?J?
+.byte $4B,$04,$4C,$04,$4D,$04,$4E,$04             ; 00E7F0 K?L?M?N?
+.byte $4F,$04,$50,$08,$51,$08,$52,$08             ; 00E7F8 O?P?Q?R?
+.byte $53,$09,$54,$1E,$55,$00,$00,$05             ; 00E800 S?T?U???
 .byte $56,$05,$57,$05,$56,$05,$57,$07             ; 00E808 V?W?V?W?
 .byte $56,$07,$57,$05,$56,$05,$57,$07             ; 00E810 V?W?V?W?
 .byte $56,$07,$57,$07,$56,$07,$57,$07             ; 00E818 V?W?V?W?
 .byte $56,$07,$57,$05,$56,$05,$57,$07             ; 00E820 V?W?V?W?
 .byte $56,$07,$57,$1E,$55,$00,$00,$04             ; 00E828 V?W?U???
 .byte $58,$04,$59,$04,$5A,$04,$5B,$04             ; 00E830 X?Y?Z?[?
-.byte $5C,$04                                     ; 00E839 \?
-L_E83A:
-.byte $5D,$04,$5E,$04,$5F,$04,$60,$04             ; 00E83A ]?^?_?`?
-.byte $61,$04,$62,$04,$63,$04,$64,$04             ; 00E842 a?b?c?d?
-.byte $65,$04,$66,$04,$67                         ; 00E84B e?f?g
-D_E84F:
-.byte $04,$68                                     ; 00E850 ?h
-D_E851:
-.byte $04                                         ; 00E852 ?
-D_E852:
-.byte $69,$04,$6A,$04,$6B,$04,$6C,$04             ; 00E852 i?j?k?l?
-.byte $6D,$04,$6E,$04,$6F,$04,$70,$1E             ; 00E85A m?n?o?p?
-.byte $55,$00,$00,$05,$24,$0F,$29,$00             ; 00E862 U???$?)?
-.byte $00,$05,$25,$0F,$2A,$00,$00                 ; 00E86B ??%?*??
-D_E871:
-.byte $05,$26                                     ; 00E872 ?&
-D_E873:
-.byte $0F,$2B,$00,$00,$05,$27,$0F,$2C             ; 00E873 ?+???'?,
-.byte $00,$00,$05,$28                             ; 00E87C ???(
-L_E87F:
-.byte $0F,$2D,$00,$00                             ; 00E880 ?-??
+.byte $5C,$04,$5D,$04,$5E,$04,$5F,$04             ; 00E838 \?]?^?_?
+.byte $60,$04,$61,$04,$62,$04,$63,$04             ; 00E840 `?a?b?c?
+.byte $64,$04,$65,$04,$66,$04,$67,$04             ; 00E848 d?e?f?g?
+.byte $68,$04,$69,$04,$6A,$04,$6B,$04             ; 00E850 h?i?j?k?
+.byte $6C,$04,$6D,$04,$6E,$04,$6F,$04             ; 00E858 l?m?n?o?
+.byte $70,$1E,$55,$00,$00,$05,$24,$0F             ; 00E860 p?U???$?
+.byte $29,$00,$00,$05,$25,$0F,$2A,$00             ; 00E868 )???%?*?
+.byte $00,$05,$26,$0F,$2B,$00,$00,$05             ; 00E870 ??&?+???
+.byte $27,$0F,$2C,$00,$00,$05,$28,$0F             ; 00E878 '?,???(?
+.byte $2D,$00,$00                                 ; 00E881 -??
 
 
 L_E883:
@@ -10314,12 +9956,12 @@ B_E88D:
   LDA $05AB                                       ; 00E892 AD AB 05 
   ASL                                             ; 00E895 0A 
   TAX                                             ; 00E896 AA 
-  LDA D_E989,X                                    ; 00E897 BD 89 E9 
+  LDA (D_E989 & $FFFF),X                          ; 00E897 BD 89 E9 
   STA $04                                         ; 00E89A 85 04 
-  LDA D_E98A,X                                    ; 00E89C BD 8A E9 
+  LDA (D_E98A & $FFFF),X                          ; 00E89C BD 8A E9 
   STA $05                                         ; 00E89F 85 05 
   LDA $05AC                                       ; 00E8A1 AD AC 05 
-  DEC                                             ; 00E8A4 3A 
+.byte $3A
   STA WRMPYA                                      ; 00E8A5 8D 02 42 
   LDA #$1A                                        ; 00E8A8 A9 1A 
   STA WRMPYB                                      ; 00E8AA 8D 03 42 
@@ -10344,24 +9986,19 @@ B_E88D:
   STA VMADDL                                      ; 00E8CF 8D 16 21 
   LDA $07                                         ; 00E8D2 A5 07 
   STA VMADDH                                      ; 00E8D4 8D 17 21 
-.i8
   LDY #$00                                        ; 00E8D7 A0 00 
 B_E8D9:
   LDA ($04),Y                                     ; 00E8D9 B1 04 
   TAX                                             ; 00E8DB AA 
-  LDA D_EED7,X                                    ; 00E8DC BD D7 EE 
+  LDA (D_EED7 & $FFFF),X                          ; 00E8DC BD D7 EE 
   ASL                                             ; 00E8DF 0A 
   TAX                                             ; 00E8E0 AA 
-.i16
-.a16
   LDA f:D_F6EF,X                                  ; 00E8E1 BF EF F6 00 
   STA VMDATAL                                     ; 00E8E5 8D 18 21 
   LDA f:D_F6F0,X                                  ; 00E8E8 BF F0 F6 00 
-.a8
   ORA #$20                                        ; 00E8EC 09 20 
   STA VMDATAH                                     ; 00E8EE 8D 19 21 
   INY                                             ; 00E8F1 C8 
-.i8
   CPY #$1A                                        ; 00E8F2 C0 1A 
   BNE B_E8D9                                      ; 00E8F4 D0 E3 
   CLC                                             ; 00E8F6 18 
@@ -10376,19 +10013,15 @@ B_E907:
   LDA ($04),Y                                     ; 00E907 B1 04 
   TAX                                             ; 00E909 AA 
   CLC                                             ; 00E90A 18 
-  LDA D_EED7,X                                    ; 00E90B BD D7 EE 
+  LDA (D_EED7 & $FFFF),X                          ; 00E90B BD D7 EE 
   ASL                                             ; 00E90E 0A 
   TAX                                             ; 00E90F AA 
-.i16
-.a16
   LDA f:D_F72F,X                                  ; 00E910 BF 2F F7 00 
   STA VMDATAL                                     ; 00E914 8D 18 21 
   LDA f:D_F730,X                                  ; 00E917 BF 30 F7 00 
-.a8
   ORA #$20                                        ; 00E91B 09 20 
   STA VMDATAH                                     ; 00E91D 8D 19 21 
   INY                                             ; 00E920 C8 
-.i8
   CPY #$1A                                        ; 00E921 C0 1A 
   BNE B_E907                                      ; 00E923 D0 E2 
   LDX #$00                                        ; 00E925 A2 00 
@@ -10470,192 +10103,155 @@ D_E98A:
 .byte $20,$4D,$59,$20,$53,$48,$52,$41             ; 00EA1A  MY SHRA
 .byte $50,$4E,$45,$4C,$20,$20,$20,$20             ; 00EA22 PNEL    
 .byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EA2A         
-.byte $54,$4F,$54,$41                             ; 00EA33 TOTA
-L_EA36:
-.byte $4C,$20,$43                                 ; 00EA37 L C
-D_EA39:
-.byte $41,$52,$4E,$41,$47,$45,$20,$20             ; 00EA39 ARNAGE  
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EA41         
-.byte $20,$20,$20,$43,$52,$4F,$57,$44             ; 00EA49    CROWD
-.byte $20,$43,$4F,$4E,$54,$52,$4F,$4C             ; 00EA51  CONTROL
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EA59         
-.byte $20,$20,$20,$20,$20,$54,$41,$4E             ; 00EA61      TAN
-.byte $4B,$20,$54,$52,$4F,$55,$42,$4C             ; 00EA69 K TROUBL
-.byte $45,$20                                     ; 00EA72 E 
-D_EA73:
-.byte $20,$20,$20,$20                             ; 00EA74     
-D_EA77:
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EA77         
-.byte $20,$20,$4D,$55,$54,$4F,$49,$44             ; 00EA7F   MUTOID
-.byte $20,$4D,$41,$4E,$21,$20,$20,$20             ; 00EA87  MAN!   
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EA8F         
-.byte $20,$53,$45,$43,$52,$45,$54,$20             ; 00EA97  SECRET 
-.byte $52                                         ; 00EAA0 R
-L_EAA0:
-.byte $4F,$4F,$4D,$20,$23,$31,$21,$20             ; 00EAA0 OOM #1! 
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EAA8         
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EAB0         
-.byte $4F,$52,$42,$53,$21,$20,$20,$20             ; 00EAB8 ORBS!   
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EAC0         
-.byte $20,$20,$20,$20,$20,$20,$4D,$45             ; 00EAC8       ME
-.byte $45,$54,$20,$4D,$59,$20,$54,$57             ; 00EAD0 ET MY TW
-.byte $49,$4E,$20,$20,$20,$20,$20,$20             ; 00EAD8 IN      
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EAE0         
-.byte $20,$53,$4D,$41,$53                         ; 00EAE9  SMAS
-D_EAED:
-.byte $48,$20,$27,$45,$4D,$20,$20,$20             ; 00EAED H 'EM   
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EAF5         
-.byte $20,$46                                     ; 00EAFE  F
-D_EAFF:
-.byte $49,$52                                     ; 00EB00 IR
-D_EB01:
-.byte $45,$20                                     ; 00EB02 E 
-L_EB03:
-.byte $50,$4F,$57,$45,$52,$20,$49,$53             ; 00EB03 POWER IS
-.byte $20,$4E,$45,$45,$44,$45,$44,$21             ; 00EB0B  NEEDED!
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EB13         
-.byte $53,$4C,$41,$55,$47,$48,$54,$45             ; 00EB1B SLAUGHTE
-.byte $52,$20,$27,$45,$4D,$20,$20,$20             ; 00EB23 R 'EM   
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EB2B         
-.byte $20,$4C,$41,$5A,$45,$52,$20,$44             ; 00EB33  LAZER D
-.byte $45,$41,$54,$48,$20,$5A,$4F,$4E             ; 00EB3B EATH ZON
-.byte $45,$20,$20,$20,$20,$20,$20,$20             ; 00EB43 E       
-.byte $20,$20,$20,$20,$4D,$45,$45,$54             ; 00EB4B     MEET
-.byte $20,$53,$43,$41,$52,$46,$41,$43             ; 00EB53  SCARFAC
-.byte $45,$21,$20,$20,$20,$20,$20,$20             ; 00EB5B E!      
-.byte $20,$20,$20,$20,$20,$20,$20,$52             ; 00EB63        R
-.byte $4F,$57,$44,$59,$20,$44,$52,$4F             ; 00EB6B OWDY DRO
-.byte $49,$44,$53,$20,$20,$20,$20,$20             ; 00EB73 IDS     
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EB7B         
-.byte $20,$56,$41,$43,$55,$55,$4D,$20             ; 00EB83  VACUUM 
-.byte $43,$4C,$45,$41,$4E,$20,$20,$20             ; 00EB8B CLEAN   
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EB93         
-.byte $20,$20,$53,$45,$43,$52,$45,$54             ; 00EB9B   SECRET
-.byte $20,$52,$4F,$4F,$4D,$20,$23,$32             ; 00EBA3  ROOM #2
-.byte $21,$20,$20,$20                             ; 00EBAC !   
-L_EBAF:
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EBAF         
-.byte $20,$20,$4D,$45,$54,$41,$4C,$20             ; 00EBB7   METAL 
-.byte $44,$45,$41,$54,$48,$20,$20,$20             ; 00EBBF DEATH   
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EBC7         
-.byte $20,$20,$57,$41,$54,$43,$48,$20             ; 00EBCF   WATCH 
-.byte $59,$4F,$55,$52,$20,$53,$54,$45             ; 00EBD7 YOUR STE
-.byte $50,$20,$20,$20,$20,$20,$20,$20             ; 00EBDF P       
-.byte $20,$20,$20,$20,$20,$20,$46                 ; 00EBE8       F
-D_EBEE:
-.byte $49,$4C,$4D,$20,$41,$54,$20,$31             ; 00EBEE ILM AT 1
-.byte $31,$20,$20,$20,$20,$20,$20,$20             ; 00EBF6 1       
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EBFE         
-.byte $20,$20,$44,$45,$46,$45,$4E,$44             ; 00EC06   DEFEND
-.byte $20,$4D,$45,$20,$20,$20,$20,$20             ; 00EC0E  ME     
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC16         
-.byte $20,$54,$55,$52,$54,$4C,$45,$53             ; 00EC1E  TURTLES
-.byte $20,$4E,$45,$41,$52,$42,$59,$20             ; 00EC26  NEARBY 
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC2E         
-.byte $20,$20,$20,$43,$48,$55,$4E,$4B             ; 00EC36    CHUNK
-.byte $53,$20,$47,$41,$4C,$4F,$52,$45             ; 00EC3E S GALORE
-.byte $21,$20,$20,$20,$20,$20,$20,$20             ; 00EC46 !       
-.byte $20,$20,$20,$20,$54,$48,$45,$53             ; 00EC4E     THES
-.byte $45,$20,$41,$52,$45,$20,$46,$41             ; 00EC56 E ARE FA
-.byte $53,$54,$21,$20,$20,$20,$20,$20             ; 00EC5E ST!     
-D_EC66:
-.byte $20,$20,$20,$20,$42,$55,$46,$46             ; 00EC66     BUFF
-.byte $41,$4C,$4F,$20,$48,$45,$52,$44             ; 00EC6E ALO HERD
-.byte $20,$4E,$45,$41,$52,$42,$59,$21             ; 00EC76  NEARBY!
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC7E         
-.byte $20,$20,$20,$20,$20,$4E,$4F,$20             ; 00EC86      NO 
-.byte $44,$49,$43,$45,$20,$20,$20,$20             ; 00EC8E DICE    
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC96         
-.byte $20,$20,$20,$20,$54,$45,$4D,$50             ; 00EC9E     TEMP
-L_ECA6:
-.byte $4C,$45,$20,$41,$4C,$45,$52,$54             ; 00ECA6 LE ALERT
-.byte $20,$20,$20,$20,$20,$20                     ; 00ECAF       
-D_ECB4:
-.byte $20,$20,$20,$20,$20,$20,$20,$53             ; 00ECB4        S
-.byte $43,$4F,$52,$50,$49,$4F,$4E,$20             ; 00ECBC CORPION 
-.byte $46,$45,$56,$45,$52,$20,$20,$20             ; 00ECC4 FEVER   
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ECCC         
-.byte $43,$4F,$42,$52,$41,$20,$4A,$55             ; 00ECD4 COBRA JU
-.byte $53,$54,$20,$41,$48,$45,$41,$44             ; 00ECDC ST AHEAD
-.byte $21,$20,$20,$20,$20,$20,$20,$20             ; 00ECE4 !       
-.byte $20,$20,$20,$20,$57,$41,$4C,$4C             ; 00ECEC     WALL
-.byte $53,$20,$4F,$46,$20,$50,$41,$49             ; 00ECF4 S OF PAI
-.byte $4E,$20,$20,$20,$20,$20,$20,$20             ; 00ECFC N       
-.byte $20,$20,$20,$20,$20,$20,$20,$4C             ; 00ED04        L
-.byte $41,$53,$54,$20,$41,$52,$45,$4E             ; 00ED0C AST AREN
-.byte $41,$3F,$20,$20,$20,$20,$20,$20             ; 00ED14 A?      
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ED1C         
-.byte $43,$4F,$42,$52,$41,$20,$44,$45             ; 00ED24 COBRA DE
-.byte $41,$54,$48,$21,$20,$20,$20,$20             ; 00ED2C ATH!    
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ED34         
-.byte $20,$54,$55,$52,$54,$4C                     ; 00ED3D  TURTL
-D_ED42:
-.byte $45,$53                                     ; 00ED43 ES
-D_ED44:
-.byte $20                                         ; 00ED45  
-D_ED45:
-.byte $42,$45,$57,$41,$52,$45,$21,$20             ; 00ED45 BEWARE! 
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ED4D         
-.byte $45,$58,$54,$52,$41,$20,$53,$41             ; 00ED55 EXTRA SA
-.byte $55,$43,$45,$20,$41,$43,$54,$49             ; 00ED5D UCE ACTI
-.byte $4F,$4E,$21,$20,$20,$20,$20,$20             ; 00ED65 ON!     
-.byte $20,$20,$20,$20,$53,$45,$43,$52             ; 00ED6D     SECR
-.byte $45,$54,$20,$52,$4F,$4F,$4D,$20             ; 00ED75 ET ROOM 
-.byte $23,$33,$21,$20,$20,$20,$20,$20             ; 00ED7D #3!     
-.byte $20,$20,$20,$53,$45,$43,$52,$45             ; 00ED85    SECRE
-.byte $54,$20,$52,$4F,$4F,$4D,$53,$20             ; 00ED8D T ROOMS 
-.byte $4E,$45,$41,$52,$42,$59,$21,$20             ; 00ED95 NEARBY! 
-.byte $20,$20,$20,$20,$20,$20                     ; 00ED9E       
-L_EDA3:
-.byte $20,$45,$4E,$4A,$4F,$59,$20,$4D             ; 00EDA3  ENJOY M
-.byte $59,$20,$57,$45,$41,$4C,$54,$48             ; 00EDAB Y WEALTH
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EDB3         
-.byte $20,$4E,$4F,$20,$54,$55,$52,$54             ; 00EDBB  NO TURT
-.byte $4C,$45,$53,$20,$41,$4C,$4C,$4F             ; 00EDC3 LES ALLO
-.byte $57,$45,$44,$21,$20,$20,$20,$20             ; 00EDCB WED!    
-.byte $20,$20,$20,$54,$55,$52,$54,$4C             ; 00EDD3    TURTL
-.byte $45,$20,$43,$48,$55,$4E,$4B,$53             ; 00EDDB E CHUNKS
-.byte $20,$4E,$45,$45,$44,$45,$44,$20             ; 00EDE3  NEEDED 
-.byte $20,$20,$20,$20,$20,$44,$59,$4E             ; 00EDEB      DYN
-.byte $41,$4D,$49,$54,$45,$20,$43,$4F             ; 00EDF3 AMITE CO
-.byte $42,$52,$41,$20,$42,$4F,$53,$53             ; 00EDFB BRA BOSS
-.byte $20,$20,$20,$20,$20,$20                     ; 00EE04       
-D_EE09:
-.byte $20                                         ; 00EE0A  
-D_EE0A:
+.byte $54,$4F,$54,$41,$4C,$20,$43,$41             ; 00EA32 TOTAL CA
+.byte $52,$4E,$41,$47,$45,$20,$20,$20             ; 00EA3A RNAGE   
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EA42         
+.byte $20,$20,$43,$52,$4F,$57,$44,$20             ; 00EA4A   CROWD 
+.byte $43,$4F,$4E,$54,$52,$4F,$4C,$20             ; 00EA52 CONTROL 
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EA5A         
+.byte $20,$20,$20,$20,$54,$41,$4E,$4B             ; 00EA62     TANK
+.byte $20,$54,$52,$4F,$55,$42,$4C,$45             ; 00EA6A  TROUBLE
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EA72         
+.byte $20,$20,$20,$20,$20,$20,$20,$4D             ; 00EA7A        M
+.byte $55,$54,$4F,$49,$44,$20,$4D,$41             ; 00EA82 UTOID MA
+.byte $4E,$21,$20,$20,$20,$20,$20,$20             ; 00EA8A N!      
+.byte $20,$20,$20,$20,$20,$20,$53,$45             ; 00EA92       SE
+.byte $43,$52,$45,$54,$20,$52,$4F,$4F             ; 00EA9A CRET ROO
+.byte $4D,$20,$23,$31,$21,$20,$20,$20             ; 00EAA2 M #1!   
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EAAA         
+.byte $20,$20,$20,$20,$20,$20,$4F,$52             ; 00EAB2       OR
+.byte $42,$53,$21,$20,$20,$20,$20,$20             ; 00EABA BS!     
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EAC2         
+.byte $20,$20,$20,$20,$4D,$45,$45,$54             ; 00EACA     MEET
+.byte $20,$4D,$59,$20,$54,$57,$49,$4E             ; 00EAD2  MY TWIN
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EADA         
+.byte $20,$20,$20,$20,$20,$20,$20,$53             ; 00EAE2        S
+.byte $4D,$41,$53,$48,$20,$27,$45,$4D             ; 00EAEA MASH 'EM
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EAF2         
+.byte $20,$20,$20,$20,$46,$49,$52,$45             ; 00EAFA     FIRE
+.byte $20,$50,$4F,$57,$45,$52,$20,$49             ; 00EB02  POWER I
+.byte $53,$20,$4E,$45,$45,$44,$45,$44             ; 00EB0A S NEEDED
+.byte $21,$20,$20,$20,$20,$20,$20,$20             ; 00EB12 !       
+.byte $20,$53,$4C,$41,$55,$47,$48,$54             ; 00EB1A  SLAUGHT
+.byte $45,$52,$20,$27,$45,$4D,$20,$20             ; 00EB22 ER 'EM  
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EB2A         
+.byte $20,$20,$4C,$41,$5A,$45,$52,$20             ; 00EB32   LAZER 
+.byte $44,$45,$41,$54,$48,$20,$5A,$4F             ; 00EB3A DEATH ZO
+.byte $4E,$45,$20,$20,$20,$20,$20,$20             ; 00EB42 NE      
+.byte $20,$20,$20,$20,$20,$4D,$45,$45             ; 00EB4A      MEE
+.byte $54,$20,$53,$43,$41,$52,$46,$41             ; 00EB52 T SCARFA
+.byte $43,$45,$21,$20,$20,$20,$20,$20             ; 00EB5A CE!     
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EB62         
+.byte $52,$4F,$57,$44,$59,$20,$44,$52             ; 00EB6A ROWDY DR
+.byte $4F,$49,$44,$53,$20,$20,$20,$20             ; 00EB72 OIDS    
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EB7A         
+.byte $20,$20,$56,$41,$43,$55,$55,$4D             ; 00EB82   VACUUM
+.byte $20,$43,$4C,$45,$41,$4E,$20,$20             ; 00EB8A  CLEAN  
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EB92         
+.byte $20,$20,$20,$53,$45,$43,$52,$45             ; 00EB9A    SECRE
+.byte $54,$20,$52,$4F,$4F,$4D,$20,$23             ; 00EBA2 T ROOM #
+.byte $32,$21,$20,$20,$20,$20,$20,$20             ; 00EBAA 2!      
+.byte $20,$20,$20,$20,$20,$20,$20,$4D             ; 00EBB2        M
+.byte $45,$54,$41,$4C,$20,$44,$45,$41             ; 00EBBA ETAL DEA
+.byte $54,$48,$20,$20,$20,$20,$20,$20             ; 00EBC2 TH      
+.byte $20,$20,$20,$20,$20,$20,$20,$57             ; 00EBCA        W
+.byte $41,$54,$43,$48,$20,$59,$4F,$55             ; 00EBD2 ATCH YOU
+.byte $52,$20,$53,$54,$45,$50,$20,$20             ; 00EBDA R STEP  
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EBE2         
+.byte $20,$20,$20,$46,$49,$4C,$4D,$20             ; 00EBEA    FILM 
+.byte $41,$54,$20,$31,$31,$20,$20,$20             ; 00EBF2 AT 11   
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EBFA         
+.byte $20,$20,$20,$20,$20,$20,$44,$45             ; 00EC02       DE
+.byte $46,$45,$4E,$44,$20,$4D,$45,$20             ; 00EC0A FEND ME 
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC12         
+.byte $20,$20,$20,$20,$20,$54,$55,$52             ; 00EC1A      TUR
+.byte $54,$4C,$45,$53,$20,$4E,$45,$41             ; 00EC22 TLES NEA
+.byte $52,$42,$59,$20,$20,$20,$20,$20             ; 00EC2A RBY     
+.byte $20,$20,$20,$20,$20,$20,$20,$43             ; 00EC32        C
+.byte $48,$55,$4E,$4B,$53,$20,$47,$41             ; 00EC3A HUNKS GA
+.byte $4C,$4F,$52,$45,$21,$20,$20,$20             ; 00EC42 LORE!   
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC4A         
+.byte $54,$48,$45,$53,$45,$20,$41,$52             ; 00EC52 THESE AR
+.byte $45,$20,$46,$41,$53,$54,$21,$20             ; 00EC5A E FAST! 
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC62         
+.byte $42,$55,$46,$46,$41,$4C,$4F,$20             ; 00EC6A BUFFALO 
+.byte $48,$45,$52,$44,$20,$4E,$45,$41             ; 00EC72 HERD NEA
+.byte $52,$42,$59,$21,$20,$20,$20,$20             ; 00EC7A RBY!    
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC82         
+.byte $20,$4E,$4F,$20,$44,$49,$43,$45             ; 00EC8A  NO DICE
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC92         
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EC9A         
+.byte $54,$45,$4D,$50,$4C,$45,$20,$41             ; 00ECA2 TEMPLE A
+.byte $4C,$45,$52,$54,$20,$20,$20,$20             ; 00ECAA LERT    
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ECB2         
+.byte $20,$53,$43,$4F,$52,$50,$49,$4F             ; 00ECBA  SCORPIO
+.byte $4E,$20,$46,$45,$56,$45,$52,$20             ; 00ECC2 N FEVER 
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ECCA         
+.byte $20,$20,$43,$4F,$42,$52,$41,$20             ; 00ECD2   COBRA 
+.byte $4A,$55,$53,$54,$20,$41,$48,$45             ; 00ECDA JUST AHE
+.byte $41,$44,$21,$20,$20,$20,$20,$20             ; 00ECE2 AD!     
+.byte $20,$20,$20,$20,$20,$20,$57,$41             ; 00ECEA       WA
+.byte $4C,$4C,$53,$20,$4F,$46,$20,$50             ; 00ECF2 LLS OF P
+.byte $41,$49,$4E,$20,$20,$20,$20,$20             ; 00ECFA AIN     
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ED02         
+.byte $20,$4C,$41,$53,$54,$20,$41,$52             ; 00ED0A  LAST AR
+.byte $45,$4E,$41,$3F,$20,$20,$20,$20             ; 00ED12 ENA?    
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ED1A         
+.byte $20,$20,$43,$4F,$42,$52,$41,$20             ; 00ED22   COBRA 
+.byte $44,$45,$41,$54,$48,$21,$20,$20             ; 00ED2A DEATH!  
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00ED32         
+.byte $20,$20,$20,$54,$55,$52,$54,$4C             ; 00ED3A    TURTL
+.byte $45,$53,$20,$42,$45,$57,$41,$52             ; 00ED42 ES BEWAR
+.byte $45,$21,$20,$20,$20,$20,$20,$20             ; 00ED4A E!      
+.byte $20,$20,$20,$45,$58,$54,$52,$41             ; 00ED52    EXTRA
+.byte $20,$53,$41,$55,$43,$45,$20,$41             ; 00ED5A  SAUCE A
+.byte $43,$54,$49,$4F,$4E,$21,$20,$20             ; 00ED62 CTION!  
+.byte $20,$20,$20,$20,$20,$20,$20,$53             ; 00ED6A        S
+.byte $45,$43,$52,$45,$54,$20,$52,$4F             ; 00ED72 ECRET RO
+.byte $4F,$4D,$20,$23,$33,$21,$20,$20             ; 00ED7A OM #3!  
+.byte $20,$20,$20,$20,$20,$20,$53,$45             ; 00ED82       SE
+.byte $43,$52,$45,$54,$20,$52,$4F,$4F             ; 00ED8A CRET ROO
+.byte $4D,$53,$20,$4E,$45,$41,$52,$42             ; 00ED92 MS NEARB
+.byte $59,$21,$20,$20,$20,$20,$20,$20             ; 00ED9A Y!      
+.byte $20,$20,$45,$4E,$4A,$4F,$59,$20             ; 00EDA2   ENJOY 
+.byte $4D,$59,$20,$57,$45,$41,$4C,$54             ; 00EDAA MY WEALT
+.byte $48,$20,$20,$20,$20,$20,$20,$20             ; 00EDB2 H       
+.byte $20,$20,$4E,$4F,$20,$54,$55,$52             ; 00EDBA   NO TUR
+.byte $54,$4C,$45,$53,$20,$41,$4C,$4C             ; 00EDC2 TLES ALL
+.byte $4F,$57,$45,$44,$21,$20,$20,$20             ; 00EDCA OWED!   
+.byte $20,$20,$20,$20,$54,$55,$52,$54             ; 00EDD2     TURT
+.byte $4C,$45,$20,$43,$48,$55,$4E,$4B             ; 00EDDA LE CHUNK
+.byte $53,$20,$4E,$45,$45,$44,$45,$44             ; 00EDE2 S NEEDED
+.byte $20,$20,$20,$20,$20,$20,$44,$59             ; 00EDEA       DY
+.byte $4E,$41,$4D,$49,$54,$45,$20,$43             ; 00EDF2 NAMITE C
+.byte $4F,$42,$52,$41,$20,$42,$4F,$53             ; 00EDFA OBRA BOS
+.byte $53,$20,$20,$20,$20,$20,$20,$20             ; 00EE02 S       
 .byte $55,$53,$45,$20,$54,$48,$45,$20             ; 00EE0A USE THE 
 .byte $42,$55,$46,$46,$41,$4C,$4F,$20             ; 00EE12 BUFFALO 
 .byte $47,$55,$4E,$20,$20,$20,$20,$20             ; 00EE1A GUN     
-.byte $20,$57,$49,$54,$4E,$45,$53                 ; 00EE23  WITNES
-D_EE29:
-.byte $53                                         ; 00EE2A S
-D_EE2A:
+.byte $20,$57,$49,$54,$4E,$45,$53,$53             ; 00EE22  WITNESS
 .byte $20,$54,$4F,$54,$41,$4C,$20,$43             ; 00EE2A  TOTAL C
 .byte $41,$52,$4E,$41,$47,$45,$20,$20             ; 00EE32 ARNAGE  
 .byte $20,$20,$20,$20,$53,$45,$43,$52             ; 00EE3A     SECR
-.byte $45,$54,$20,$52,$4F,$4F,$4D                 ; 00EE43 ET ROOM
-L_EE49:
-.byte $53,$20,$4E,$45,$41,$52,$42,$59             ; 00EE49 S NEARBY
-.byte $21,$20,$20,$20,$20,$20,$20,$20             ; 00EE51 !       
-.byte $41,$4C,$4D,$4F,$53,$54,$20,$45             ; 00EE59 ALMOST E
-.byte $4E,$4F,$55,$47,$48,$20,$4B,$45             ; 00EE61 NOUGH KE
-.byte $59,$53,$20,$20,$20,$20,$20,$20             ; 00EE69 YS      
-.byte $59,$4F,$55,$20,$48,$41,$56,$45             ; 00EE71 YOU HAVE
-.byte $20,$45,$4E,$4F,$55,$47,$48,$20             ; 00EE79  ENOUGH 
-.byte $4B,$45,$59,$53,$21,$20,$20,$20             ; 00EE81 KEYS!   
-.byte $20,$20,$20,$20,$20,$45,$41,$54             ; 00EE89      EAT
-.byte $20,$4D,$59,$20,$45,$59,$45,$42             ; 00EE91  MY EYEB
-.byte $41,$4C,$4C                                 ; 00EE9A ALL
-L_EE9C:
-.byte $53,$21,$20,$20,$20,$20,$20,$20             ; 00EE9C S!      
-.byte $20,$20,$20,$20,$20,$50,$4C,$45             ; 00EEA4      PLE
-.byte $41,$53,$55,$52,$45,$20,$44,$4F             ; 00EEAC ASURE DO
-.byte $4D,$45,$21,$20,$20,$20,$20,$20             ; 00EEB4 ME!     
-.byte $20,$20,$20,$20,$20,$20,$4E,$4F             ; 00EEBC       NO
-.byte $54,$20,$45,$4E,$4F,$55,$47                 ; 00EEC5 T ENOUG
-D_EECB:
-.byte $48,$20,$4B,$45,$59,$53,$21,$20             ; 00EECB H KEYS! 
-.byte $20,$20,$20,$20                             ; 00EED4     
+.byte $45,$54,$20,$52,$4F,$4F,$4D,$53             ; 00EE42 ET ROOMS
+.byte $20,$4E,$45,$41,$52,$42,$59,$21             ; 00EE4A  NEARBY!
+.byte $20,$20,$20,$20,$20,$20,$20,$41             ; 00EE52        A
+.byte $4C,$4D,$4F,$53,$54,$20,$45,$4E             ; 00EE5A LMOST EN
+.byte $4F,$55,$47,$48,$20,$4B,$45,$59             ; 00EE62 OUGH KEY
+.byte $53,$20,$20,$20,$20,$20,$20,$59             ; 00EE6A S      Y
+.byte $4F,$55,$20,$48,$41,$56,$45,$20             ; 00EE72 OU HAVE 
+.byte $45,$4E,$4F,$55,$47,$48,$20,$4B             ; 00EE7A ENOUGH K
+.byte $45,$59,$53,$21,$20,$20,$20,$20             ; 00EE82 EYS!    
+.byte $20,$20,$20,$20,$45,$41,$54,$20             ; 00EE8A     EAT 
+.byte $4D,$59,$20,$45,$59,$45,$42,$41             ; 00EE92 MY EYEBA
+.byte $4C,$4C,$53,$21,$20,$20,$20,$20             ; 00EE9A LLS!    
+.byte $20,$20,$20,$20,$20,$20,$20,$50             ; 00EEA2        P
+.byte $4C,$45,$41,$53,$55,$52,$45,$20             ; 00EEAA LEASURE 
+.byte $44,$4F,$4D,$45,$21,$20,$20,$20             ; 00EEB2 DOME!   
+.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00EEBA         
+.byte $4E,$4F,$54,$20,$45,$4E,$4F,$55             ; 00EEC2 NOT ENOU
+.byte $47,$48,$20,$4B,$45,$59,$53,$21             ; 00EECA GH KEYS!
+.byte $20,$20,$20,$20,$20                         ; 00EED3      
 D_EED7:
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00EED7 ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00EEDF ????????
@@ -10663,14 +10259,9 @@ D_EED7:
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00EEEF ????????
 .byte $00,$1B,$45,$40,$41,$42,$00,$1F             ; 00EEF7 ??E@AB??
 .byte $00,$00,$00,$00,$1E,$41,$1D,$00             ; 00EEFF ?????A??
-.byte $46,$47,$48,$49                             ; 00EF08 FGHI
-L_EF0B:
-.byte $4A,$4B,$4C,$4D,$4E,$4F,$43,$44             ; 00EF0B JKLMNOCD
-.byte $00,$00,$00,$1C,$00,$01,$02,$03             ; 00EF13 ????????
-.byte $04,$05                                     ; 00EF1C ??
-D_EF1D:
-.byte $06,$07                                     ; 00EF1E ??
-L_EF1F:
+.byte $46,$47,$48,$49,$4A,$4B,$4C,$4D             ; 00EF07 FGHIJKLM
+.byte $4E,$4F,$43,$44,$00,$00,$00,$1C             ; 00EF0F NOCD????
+.byte $00,$01,$02,$03,$04,$05,$06,$07             ; 00EF17 ????????
 .byte $08,$09,$0A,$0B,$0C,$0D,$0E,$0F             ; 00EF1F ????????
 .byte $10,$11,$12,$13,$14,$15,$16,$17             ; 00EF27 ????????
 .byte $18,$19,$1A,$00,$00,$00,$00,$00             ; 00EF2F ????????
@@ -10683,12 +10274,11 @@ L_EF1F:
 L_EF57:
   PHP                                             ; 00EF57 08 
   PHB                                             ; 00EF58 8B 
-  PEA $0000                                       ; 00EF59 F4 00 00 
+  PEA.W $0000                                     ; 00EF59 F4 00 00 
   PLB                                             ; 00EF5C AB 
   PLB                                             ; 00EF5D AB 
   REP #$30                                        ; 00EF5E C2 30 
-.a16
-  AND #$00FF                                      ; 00EF60 29 FF 00 
+  AND.W #$00FF                                    ; 00EF60 29 FF 00 
   STA $0210                                       ; 00EF63 8D 10 02 
   STZ $0212                                       ; 00EF66 9C 12 02 
   JSL f:L_ED0B9                                   ; 00EF69 22 B9 D0 0E 
@@ -10696,7 +10286,7 @@ D_EF6D:
   LDA $0210                                       ; 00EF6D AD 10 02 
   ASL                                             ; 00EF70 0A 
   TAY                                             ; 00EF71 A8 
-  LDA D_EFB6,Y                                    ; 00EF72 B9 B6 EF 
+  LDA (D_EFB6 & $FFFF),Y                          ; 00EF72 B9 B6 EF 
   STA $04                                         ; 00EF75 85 04 
   LDY $0212                                       ; 00EF77 AC 12 02 
   LDA ($04),Y                                     ; 00EF7A B1 04 
@@ -10710,14 +10300,13 @@ D_EF6D:
   STY $0212                                       ; 00EF87 8C 12 02 
   ASL                                             ; 00EF8A 0A 
   TAX                                             ; 00EF8B AA 
-  LDA D_EFEE,X                                    ; 00EF8C BD EE EF 
+  LDA (D_EFEE & $FFFF),X                          ; 00EF8C BD EE EF 
   PHA                                             ; 00EF8F 48 
   JSL f:L_F8401                                   ; 00EF90 22 01 84 0F 
   PLA                                             ; 00EF94 68 
   ORA #$FF00                                      ; 00EF95 09 00 FF 
   TAX                                             ; 00EF98 AA 
   SEP #$20                                        ; 00EF99 E2 20 
-.a8
   LDA #$07                                        ; 00EF9B A9 07 
   JSL f:L_F830F                                   ; 00EF9D 22 0F 83 0F 
   REP #$20                                        ; 00EFA1 C2 20 
@@ -10726,7 +10315,7 @@ B_EFA3:
   JSL f:L_ED117                                   ; 00EFA7 22 17 D1 0E 
   DEC $0214                                       ; 00EFAB CE 14 02 
   BNE B_EFA3                                      ; 00EFAE D0 F3 
-  JMP D_EF6D                                      ; 00EFB0 4C 6D EF 
+  JMP (D_EF6D & $FFFF)                            ; 00EFB0 4C 6D EF 
 B_EFB3:
   PLB                                             ; 00EFB3 AB 
   PLP                                             ; 00EFB4 28 
@@ -10736,45 +10325,33 @@ D_EFB6:
 .byte $BE,$EF,$C4,$EF,$CE,$EF,$D8,$EF             ; 00EFB6 ????????
 .byte $8C,$00,$00,$00,$FF,$FF,$47,$00             ; 00EFBE ??????G?
 .byte $01,$00,$3C,$00,$02,$00,$FF,$FF             ; 00EFC6 ??<?????
-.byte $6E,$00,$07,$00                             ; 00EFCF n???
-D_EFD2:
-.byte $3C,$00,$06,$00,$FF,$FF,$18,$00             ; 00EFD2 <???????
-.byte $03,$00,$3C,$00,$04,$00,$18,$00             ; 00EFDA ??<?????
-D_EFE2:
-.byte $03,$00,$46,$00,$05,$00,$3C,$00             ; 00EFE2 ??F???<?
-.byte $06,$00,$FF,$FF                             ; 00EFEB ????
+.byte $6E,$00,$07,$00,$3C,$00,$06,$00             ; 00EFCE n???<???
+.byte $FF,$FF,$18,$00,$03,$00,$3C,$00             ; 00EFD6 ??????<?
+.byte $04,$00,$18,$00,$03,$00,$46,$00             ; 00EFDE ??????F?
+.byte $05,$00,$3C,$00,$06,$00,$FF,$FF             ; 00EFE6 ??<?????
 D_EFEE:
-.byte $19,$80,$27,$81                             ; 00EFEF ??'?
-D_EFF2:
-.byte $1C                                         ; 00EFF3 ?
-D_EFF3:
-.byte $80,$26,$81,$1D,$80,$2C,$82,$1B             ; 00EFF3 ?&???,??
-.byte $80,$1A,$80                                 ; 00EFFC ???
+.byte $19,$80,$27,$81,$1C,$80,$26,$81             ; 00EFEE ??'???&?
+.byte $1D,$80,$2C,$82,$1B,$80,$1A,$80             ; 00EFF6 ??,?????
 
 
 L_EFFE:
   PHP                                             ; 00EFFE 08 
   REP #$30                                        ; 00EFFF C2 30 
-.i16
   LDX #$F039                                      ; 00F001 A2 39 F0 
-  LDY #$0000                                      ; 00F004 A0 00 00 
+  LDY.W #$0000                                    ; 00F004 A0 00 00 
   JSL f:L_EDCC1                                   ; 00F007 22 C1 DC 0E 
   LDX #$E76E                                      ; 00F00B A2 6E E7 
-  LDY #$000C                                      ; 00F00E A0 0C 00 
+  LDY.W #$000C                                    ; 00F00E A0 0C 00 
   JSL f:L_EE8EF                                   ; 00F011 22 EF E8 0E 
-
-L_F015:
-.a16
   LDA #$E72E                                      ; 00F015 A9 2E E7 
-  LDX #$000C                                      ; 00F018 A2 0C 00 
+  LDX.W #$000C                                    ; 00F018 A2 0C 00 
   JSL f:L_EE94C                                   ; 00F01B 22 4C E9 0E 
   SEP #$20                                        ; 00F01F E2 20 
-.a8
   LDA #$81                                        ; 00F021 A9 81 
   STA NMITIMEN                                    ; 00F023 8D 00 42 
   REP #$20                                        ; 00F026 C2 20 
   JSL f:L_ECA1E                                   ; 00F028 22 1E CA 0E 
-  LDX #$00B4                                      ; 00F02C A2 B4 00 
+  LDX.W #$00B4                                    ; 00F02C A2 B4 00 
   JSL f:L_EC972                                   ; 00F02F 22 72 C9 0E 
   JSL f:L_ECA32                                   ; 00F033 22 32 CA 0E 
   PLP                                             ; 00F037 28 
@@ -10790,19 +10367,19 @@ L_F015:
   JSL f:L_AF0E                                    ; 00F04A 22 0E AF 00 
   JSL f:L_EF095                                   ; 00F04E 22 95 F0 0E 
   JSL f:L_EF175                                   ; 00F052 22 75 F1 0E 
-  JSR L_F2E1                                      ; 00F056 20 E1 F2 
-  JSR L_F607                                      ; 00F059 20 07 F6 
+  JSR (L_F2E1 & $FFFF)                            ; 00F056 20 E1 F2 
+  JSR (L_F607 & $FFFF)                            ; 00F059 20 07 F6 
   JSL f:L_EF822                                   ; 00F05C 22 22 F8 0E 
-  JSR L_F666                                      ; 00F060 20 66 F6 
+  JSR (L_F666 & $FFFF)                            ; 00F060 20 66 F6 
   JSL f:L_F414                                    ; 00F063 22 14 F4 00 
   JSL f:L_F318                                    ; 00F067 22 18 F3 00 
-  JSR L_F3B2                                      ; 00F06B 20 B2 F3 
-  JSR L_F5AD                                      ; 00F06E 20 AD F5 
-  JSR L_F4BA                                      ; 00F071 20 BA F4 
-  JSR L_F57C                                      ; 00F074 20 7C F5 
-  JSR L_F2AA                                      ; 00F077 20 AA F2 
-  JSR L_F17E                                      ; 00F07A 20 7E F1 
-  JSR L_F117                                      ; 00F07D 20 17 F1 
+  JSR (L_F3B2 & $FFFF)                            ; 00F06B 20 B2 F3 
+  JSR (L_F5AD & $FFFF)                            ; 00F06E 20 AD F5 
+  JSR (L_F4BA & $FFFF)                            ; 00F071 20 BA F4 
+  JSR (L_F57C & $FFFF)                            ; 00F074 20 7C F5 
+  JSR (L_F2AA & $FFFF)                            ; 00F077 20 AA F2 
+  JSR (L_F17E & $FFFF)                            ; 00F07A 20 7E F1 
+  JSR (L_F117 & $FFFF)                            ; 00F07D 20 17 F1 
   SEP #$20                                        ; 00F080 E2 20 
   STZ HDMAEN                                      ; 00F082 9C 0C 42 
   STZ TMW                                         ; 00F085 9C 2E 21 
@@ -10855,7 +10432,6 @@ B_F0BA:
   STA BG2VOFS                                     ; 00F101 8D 10 21 
   LDA $06CA                                       ; 00F104 AD CA 06 
   STA BG3VOFS                                     ; 00F107 8D 12 21 
-D_F10A:
   LDA $06CB                                       ; 00F10A AD CB 06 
   AND #$01                                        ; 00F10D 29 01 
   STA BG3VOFS                                     ; 00F10F 8D 12 21 
@@ -10874,7 +10450,6 @@ L_F117:
   STA $1949                                       ; 00F12A 8D 49 19 
   ASL                                             ; 00F12D 0A 
   TAX                                             ; 00F12E AA 
-.a16
   LDA f:D_F176,X                                  ; 00F12F BF 76 F1 00 
   STA A1T1L                                       ; 00F133 8D 12 43 
   LDA f:D_F177,X                                  ; 00F136 BF 77 F1 00 
@@ -10882,7 +10457,6 @@ L_F117:
   PHP                                             ; 00F13D 08 
   REP #$10                                        ; 00F13E C2 10 
   SEP #$20                                        ; 00F140 E2 20 
-.a8
   LDA #$80                                        ; 00F142 A9 80 
   STA VMAIN                                       ; 00F144 8D 15 21 
   LDX #$6AC0                                      ; 00F147 A2 C0 6A 
@@ -10891,13 +10465,13 @@ L_F117:
   STX DMAP1                                       ; 00F150 8E 10 43 
   LDA #$7E                                        ; 00F153 A9 7E 
   STA A1B1                                        ; 00F155 8D 14 43 
-  LDX #$0040                                      ; 00F158 A2 40 00 
+  LDX.W #$0040                                    ; 00F158 A2 40 00 
   STX DAS1L                                       ; 00F15B 8E 15 43 
   LDA #$02                                        ; 00F15E A9 02 
   STA MDMAEN                                      ; 00F160 8D 0B 42 
   LDX #$6BC0                                      ; 00F163 A2 C0 6B 
   STX VMADDL                                      ; 00F166 8E 16 21 
-  LDX #$0040                                      ; 00F169 A2 40 00 
+  LDX.W #$0040                                    ; 00F169 A2 40 00 
   STX DAS1L                                       ; 00F16C 8E 15 43 
   LDA #$02                                        ; 00F16F A9 02 
   STA MDMAEN                                      ; 00F171 8D 0B 42 
@@ -10916,12 +10490,10 @@ L_F17E:
   PHP                                             ; 00F17E 08 
   REP #$20                                        ; 00F17F C2 20 
   SEP #$10                                        ; 00F181 E2 10 
-.i8
   LDX #$80                                        ; 00F183 A2 80 
   STX VMAIN                                       ; 00F185 8E 15 21 
   LDX $1AB2                                       ; 00F188 AE B2 1A 
   BEQ B_F1E8                                      ; 00F18B F0 5B 
-.a16
   LDA #$7C40                                      ; 00F18D A9 40 7C 
   STA VMADDL                                      ; 00F190 8D 16 21 
   LDA $1AB3                                       ; 00F193 AD B3 1A 
@@ -10930,25 +10502,25 @@ L_F17E:
   STA A1T1L                                       ; 00F19C 8D 12 43 
   LDX $1AB7                                       ; 00F19F AE B7 1A 
   STX A1B1                                        ; 00F1A2 8E 14 43 
-  LDA #$0080                                      ; 00F1A5 A9 80 00 
+  LDA.W #$0080                                    ; 00F1A5 A9 80 00 
   STA DAS1L                                       ; 00F1A8 8D 15 43 
   LDX #$02                                        ; 00F1AB A2 02 
   STX MDMAEN                                      ; 00F1AD 8E 0B 42 
   LDA #$7D40                                      ; 00F1B0 A9 40 7D 
   STA VMADDL                                      ; 00F1B3 8D 16 21 
-  LDA #$0080                                      ; 00F1B6 A9 80 00 
+  LDA.W #$0080                                    ; 00F1B6 A9 80 00 
   STA DAS1L                                       ; 00F1B9 8D 15 43 
   LDX #$02                                        ; 00F1BC A2 02 
   STX MDMAEN                                      ; 00F1BE 8E 0B 42 
   LDA #$7E40                                      ; 00F1C1 A9 40 7E 
   STA VMADDL                                      ; 00F1C4 8D 16 21 
-  LDA #$0080                                      ; 00F1C7 A9 80 00 
+  LDA.W #$0080                                    ; 00F1C7 A9 80 00 
   STA DAS1L                                       ; 00F1CA 8D 15 43 
   LDX #$02                                        ; 00F1CD A2 02 
   STX MDMAEN                                      ; 00F1CF 8E 0B 42 
   LDA #$7F40                                      ; 00F1D2 A9 40 7F 
   STA VMADDL                                      ; 00F1D5 8D 16 21 
-  LDA #$0080                                      ; 00F1D8 A9 80 00 
+  LDA.W #$0080                                    ; 00F1D8 A9 80 00 
   STA DAS1L                                       ; 00F1DB 8D 15 43 
   LDX #$02                                        ; 00F1DE A2 02 
   STX MDMAEN                                      ; 00F1E0 8E 0B 42 
@@ -10965,25 +10537,25 @@ B_F1E8:
   STA A1T1L                                       ; 00F1FC 8D 12 43 
   LDX $1ABF                                       ; 00F1FF AE BF 1A 
   STX A1B1                                        ; 00F202 8E 14 43 
-  LDA #$0080                                      ; 00F205 A9 80 00 
+  LDA.W #$0080                                    ; 00F205 A9 80 00 
   STA DAS1L                                       ; 00F208 8D 15 43 
   LDX #$02                                        ; 00F20B A2 02 
   STX MDMAEN                                      ; 00F20D 8E 0B 42 
   LDA #$7D80                                      ; 00F210 A9 80 7D 
   STA VMADDL                                      ; 00F213 8D 16 21 
-  LDA #$0080                                      ; 00F216 A9 80 00 
+  LDA.W #$0080                                    ; 00F216 A9 80 00 
   STA DAS1L                                       ; 00F219 8D 15 43 
   LDX #$02                                        ; 00F21C A2 02 
   STX MDMAEN                                      ; 00F21E 8E 0B 42 
   LDA #$7E80                                      ; 00F221 A9 80 7E 
   STA VMADDL                                      ; 00F224 8D 16 21 
-  LDA #$0080                                      ; 00F227 A9 80 00 
+  LDA.W #$0080                                    ; 00F227 A9 80 00 
   STA DAS1L                                       ; 00F22A 8D 15 43 
   LDX #$02                                        ; 00F22D A2 02 
   STX MDMAEN                                      ; 00F22F 8E 0B 42 
   LDA #$7F80                                      ; 00F232 A9 80 7F 
   STA VMADDL                                      ; 00F235 8D 16 21 
-  LDA #$0080                                      ; 00F238 A9 80 00 
+  LDA.W #$0080                                    ; 00F238 A9 80 00 
   STA DAS1L                                       ; 00F23B 8D 15 43 
   LDX #$02                                        ; 00F23E A2 02 
   STX MDMAEN                                      ; 00F240 8E 0B 42 
@@ -10997,29 +10569,28 @@ B_F248:
   LDA $1AC3                                       ; 00F253 AD C3 1A 
   STA DMAP1                                       ; 00F256 8D 10 43 
   LDA $1AC5                                       ; 00F259 AD C5 1A 
-D_F25C:
   STA A1T1L                                       ; 00F25C 8D 12 43 
   LDX $1AC7                                       ; 00F25F AE C7 1A 
   STX A1B1                                        ; 00F262 8E 14 43 
-  LDA #$0080                                      ; 00F265 A9 80 00 
+  LDA.W #$0080                                    ; 00F265 A9 80 00 
   STA DAS1L                                       ; 00F268 8D 15 43 
   LDX #$02                                        ; 00F26B A2 02 
   STX MDMAEN                                      ; 00F26D 8E 0B 42 
   LDA #$7DC0                                      ; 00F270 A9 C0 7D 
   STA VMADDL                                      ; 00F273 8D 16 21 
-  LDA #$0080                                      ; 00F276 A9 80 00 
+  LDA.W #$0080                                    ; 00F276 A9 80 00 
   STA DAS1L                                       ; 00F279 8D 15 43 
   LDX #$02                                        ; 00F27C A2 02 
   STX MDMAEN                                      ; 00F27E 8E 0B 42 
   LDA #$7EC0                                      ; 00F281 A9 C0 7E 
   STA VMADDL                                      ; 00F284 8D 16 21 
-  LDA #$0080                                      ; 00F287 A9 80 00 
+  LDA.W #$0080                                    ; 00F287 A9 80 00 
   STA DAS1L                                       ; 00F28A 8D 15 43 
   LDX #$02                                        ; 00F28D A2 02 
   STX MDMAEN                                      ; 00F28F 8E 0B 42 
   LDA #$7FC0                                      ; 00F292 A9 C0 7F 
   STA VMADDL                                      ; 00F295 8D 16 21 
-  LDA #$0080                                      ; 00F298 A9 80 00 
+  LDA.W #$0080                                    ; 00F298 A9 80 00 
   STA DAS1L                                       ; 00F29B 8D 15 43 
   LDX #$02                                        ; 00F29E A2 02 
   STX MDMAEN                                      ; 00F2A0 8E 0B 42 
@@ -11034,7 +10605,6 @@ L_F2AA:
   PHP                                             ; 00F2AA 08 
   REP #$10                                        ; 00F2AB C2 10 
   SEP #$20                                        ; 00F2AD E2 20 
-.a8
   LDA #$80                                        ; 00F2AF A9 80 
   STA VMAIN                                       ; 00F2B1 8D 15 21 
   LDA $1A9B                                       ; 00F2B4 AD 9B 1A 
@@ -11091,7 +10661,6 @@ L_F318:
   LDA $05A4                                       ; 00F320 AD A4 05 
   BEQ B_F368                                      ; 00F323 F0 43 
   REP #$20                                        ; 00F325 C2 20 
-.a16
   LDA #$5041                                      ; 00F327 A9 41 50 
   STA VMADDL                                      ; 00F32A 8D 16 21 
   LDX #$00                                        ; 00F32D A2 00 
@@ -11167,13 +10736,11 @@ B_F3B0:
 L_F3B2:
   PHP                                             ; 00F3B2 08 
   SEP #$20                                        ; 00F3B3 E2 20 
-.a8
   LDA #$80                                        ; 00F3B5 A9 80 
   STA VMAIN                                       ; 00F3B7 8D 15 21 
   LDA $0528                                       ; 00F3BA AD 28 05 
   BEQ B_F3E6                                      ; 00F3BD F0 27 
   REP #$20                                        ; 00F3BF C2 20 
-.a16
   LDA #$5862                                      ; 00F3C1 A9 62 58 
   STA VMADDL                                      ; 00F3C4 8D 16 21 
   LDA $87                                         ; 00F3C7 A5 87 
@@ -11214,7 +10781,6 @@ B_F412:
 L_F414:
   PHP                                             ; 00F414 08 
   SEP #$30                                        ; 00F415 E2 30 
-.a8
   LDA #$80                                        ; 00F417 A9 80 
   STA VMAIN                                       ; 00F419 8D 15 21 
   LDA $B4                                         ; 00F41C A5 B4 
@@ -11231,8 +10797,7 @@ B_F429:
   BPL B_F429                                      ; 00F431 10 F6 
   CLC                                             ; 00F433 18 
   LDA $B0                                         ; 00F434 A5 B0 
-.a16
-  ADC #$0020                                      ; 00F436 69 20 00 
+  ADC.W #$0020                                    ; 00F436 69 20 00 
   STA VMADDL                                      ; 00F439 8D 16 21 
   LDY #$0E                                        ; 00F43C A0 0E 
 B_F43E:
@@ -11258,7 +10823,7 @@ B_F459:
   BPL B_F459                                      ; 00F461 10 F6 
   CLC                                             ; 00F463 18 
   LDA $B2                                         ; 00F464 A5 B2 
-  ADC #$0020                                      ; 00F466 69 20 00 
+  ADC.W #$0020                                    ; 00F466 69 20 00 
   STA VMADDL                                      ; 00F469 8D 16 21 
   LDY #$0E                                        ; 00F46C A0 0E 
 B_F46E:
@@ -11306,7 +10871,6 @@ B_F4B8:
 L_F4BA:
   PHP                                             ; 00F4BA 08 
   SEP #$30                                        ; 00F4BB E2 30 
-.a8
   LDA #$80                                        ; 00F4BD A9 80 
   STA VMAIN                                       ; 00F4BF 8D 15 21 
   LDA $0632                                       ; 00F4C2 AD 32 06 
@@ -11351,7 +10915,6 @@ L_F57C:
   SEP #$20                                        ; 00F57F E2 20 
   LDA $0688                                       ; 00F581 AD 88 06 
   BEQ B_F5AB                                      ; 00F584 F0 25 
-.i16
   LDX #$4800                                      ; 00F586 A2 00 48 
   STX VMADDL                                      ; 00F589 8E 16 21 
   LDX #$1801                                      ; 00F58C A2 01 18 
@@ -11380,7 +10943,6 @@ L_F5AD:
   REP #$20                                        ; 00F5BA C2 20 
   LDA $05E8                                       ; 00F5BC AD E8 05 
   STA VMADDL                                      ; 00F5BF 8D 16 21 
-.i8
   LDY #$00                                        ; 00F5C2 A0 00 
 B_F5C4:
   LDA $05EA,Y                                     ; 00F5C4 B9 EA 05 
@@ -11391,8 +10953,7 @@ B_F5C4:
   BNE B_F5C4                                      ; 00F5CE D0 F4 
   CLC                                             ; 00F5D0 18 
   LDA $05E8                                       ; 00F5D1 AD E8 05 
-.a16
-  ADC #$0020                                      ; 00F5D4 69 20 00 
+  ADC.W #$0020                                    ; 00F5D4 69 20 00 
   STA VMADDL                                      ; 00F5D7 8D 16 21 
   LDY #$00                                        ; 00F5DA A0 00 
 B_F5DC:
@@ -11404,7 +10965,7 @@ B_F5DC:
   BNE B_F5DC                                      ; 00F5E6 D0 F4 
   CLC                                             ; 00F5E8 18 
   LDA $05E8                                       ; 00F5E9 AD E8 05 
-  ADC #$0040                                      ; 00F5EC 69 40 00 
+  ADC.W #$0040                                    ; 00F5EC 69 40 00 
   STA VMADDL                                      ; 00F5EF 8D 16 21 
   LDY #$00                                        ; 00F5F2 A0 00 
 B_F5F4:
@@ -11425,7 +10986,6 @@ L_F607:
   PHP                                             ; 00F607 08 
   REP #$10                                        ; 00F608 C2 10 
   SEP #$20                                        ; 00F60A E2 20 
-.a8
   LDA #$80                                        ; 00F60C A9 80 
   STA VMAIN                                       ; 00F60E 8D 15 21 
   LDA $1A83                                       ; 00F611 AD 83 1A 
@@ -11454,7 +11014,6 @@ B_F639:
   STX A1T1L                                       ; 00F650 8E 12 43 
   LDA $1A8D                                       ; 00F653 AD 8D 1A 
   STA A1B1                                        ; 00F656 8D 14 43 
-.i16
   LDX #$1000                                      ; 00F659 A2 00 10 
   STX DAS1L                                       ; 00F65C 8E 15 43 
   LDA #$02                                        ; 00F65F A9 02 
@@ -11471,15 +11030,12 @@ L_F666:
   LDA #$0D                                        ; 00F66A A9 0D 
   PHA                                             ; 00F66C 48 
   PLB                                             ; 00F66D AB 
-.i8
   LDX #$03                                        ; 00F66E A2 03 
 B_F670:
   LDA $18CD,X                                     ; 00F670 BD CD 18 
   BEQ B_F6A4                                      ; 00F673 F0 2F 
   PHX                                             ; 00F675 DA 
   STZ $18CD,X                                     ; 00F676 9E CD 18 
-.i16
-.a16
   LDA f:D_F6AA,X                                  ; 00F679 BF AA F6 00 
   STA CGADD                                       ; 00F67D 8D 21 21 
   LDA $18C1,X                                     ; 00F680 BD C1 18 
@@ -11489,7 +11045,6 @@ B_F670:
   STA $00                                         ; 00F689 85 00 
   LDA f:D_F6AF,X                                  ; 00F68B BF AF F6 00 
   STA $01                                         ; 00F68F 85 01 
-.i8
   LDY #$00                                        ; 00F691 A0 00 
 B_F693:
   LDA ($00),Y                                     ; 00F693 B1 00 
@@ -11525,7 +11080,6 @@ D_F6AF:
   SEP #$20                                        ; 00F6E0 E2 20 
 B_F6E2:
   LDA HVBJOY                                      ; 00F6E2 AD 12 42 
-.a8
   AND #$40                                        ; 00F6E5 29 40 
   BEQ B_F6E2                                      ; 00F6E7 F0 F9 
   LDA #$13                                        ; 00F6E9 A9 13 
@@ -11605,15 +11159,14 @@ D_F871:
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F899 ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8A1 ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8A9 ????????
-.byte $00,$00,$00,$00,$00,$00,$00                 ; 00F8B2 ???????
-D_F8B8:
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8B8 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8C0 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8C8 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8D0 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8D8 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8E0 ????????
-.byte $00,$00,$00,$00,$00,$00,$00                 ; 00F8E9 ???????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8B1 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8B9 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8C1 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8C9 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8D1 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8D9 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8E1 ????????
+.byte $00,$00,$00,$00,$00,$00                     ; 00F8EA ??????
 D_F8EF:
 .byte $5D,$00,$5E,$00,$5F,$00,$60,$00             ; 00F8EF ]?^?_?`?
 .byte $61,$00,$62,$00,$63,$00,$64,$00             ; 00F8F7 a?b?c?d?
@@ -11626,223 +11179,220 @@ D_F8EF:
 D_F92F:
 .byte $67,$00,$68,$00,$69,$00,$6A,$00             ; 00F92F g?h?i?j?
 .byte $6B,$00,$6A,$00,$6C,$00,$6D,$00             ; 00F937 k?j?l?m?
-.byte $6E,$00,$6F,$00                             ; 00F940 n?o?
-D_F943:
-.byte $1A,$04,$1B,$04,$03,$84,$04,$84             ; 00F943 ????????
-.byte $05,$84,$1C,$04,$00,$00,$00,$00             ; 00F94B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F953 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F95B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F963 ????????
-.byte $00,$00,$00,$00,$70,$04,$71,$04             ; 00F96B ????p?q?
-.byte $72,$04,$73,$04,$74,$04,$75,$04             ; 00F973 r?s?t?u?
-.byte $76,$04,$77,$04,$78,$04,$79,$04             ; 00F97B v?w?x?y?
-.byte $7A,$04,$7B,$04,$7C,$04,$7D,$04             ; 00F983 z?{?|?}?
-.byte $7E,$04,$7F,$04,$70,$04,$71,$04             ; 00F98B ~???p?q?
-.byte $72,$04,$73,$04,$74,$04,$75,$04             ; 00F993 r?s?t?u?
-.byte $76,$04,$77,$04,$00,$00,$00,$00             ; 00F99B v?w?????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F9A3 ????????
-.byte $00,$00,$00,$00,$00,$00,$80,$04             ; 00F9AB ????????
-.byte $81,$04,$82,$04,$83,$04,$76,$04             ; 00F9B3 ??????v?
-.byte $84,$04,$00,$00,$00,$00,$85,$04             ; 00F9BB ????????
-.byte $86,$04,$87,$04,$88,$04,$89,$04             ; 00F9C3 ????????
-.byte $8A,$04,$00,$00,$00,$00,$00,$00             ; 00F9CB ????????
-.byte $8B,$04,$8C,$04,$8D,$04,$00,$00             ; 00F9D3 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F9DB ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F9E3 ????????
-.byte $00,$00,$00,$00,$8E,$04,$8F,$04             ; 00F9EB ????????
-.byte $90,$04,$91,$04,$92,$04,$93,$04             ; 00F9F3 ????????
-.byte $94,$04,$95,$04,$95,$44,$96,$04             ; 00F9FB ?????D??
-.byte $97,$04,$98,$04,$99,$04,$9A,$04             ; 00FA03 ????????
-.byte $9B,$04,$9C,$04,$9D,$04,$9E,$04             ; 00FA0B ????????
-.byte $9F,$04,$A0,$04,$A1,$04,$A2,$04             ; 00FA13 ????????
-.byte $A3,$04,$A4,$04,$00,$00,$00,$00             ; 00FA1B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FA23 ????????
-.byte $00,$00,$00,$00,$00,$00,$A5,$04             ; 00FA2B ????????
-.byte $A6,$04,$A7,$04,$A8,$04,$80,$04             ; 00FA33 ????????
-.byte $A9,$04,$00,$00,$00,$00,$AA,$04             ; 00FA3B ????????
-.byte $AB,$04,$AC,$04,$AD,$04,$AE,$04             ; 00FA43 ????????
-.byte $AF,$04,$00,$00,$00,$00,$B0,$04             ; 00FA4B ????????
-.byte $8F,$04,$B1,$04,$B2,$04,$B3,$04             ; 00FA53 ????????
-.byte $B4,$04,$00,$00,$00,$00,$00,$00             ; 00FA5B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FA63 ????????
-.byte $00,$00,$00,$00,$B5,$04,$B6,$04             ; 00FA6B ????????
-.byte $B7,$04,$B8,$04,$B9,$04,$9B,$04             ; 00FA73 ????????
-.byte $BA,$04,$BB,$04,$BC,$04,$BD,$04             ; 00FA7B ????????
-.byte $BE,$04,$BF,$04,$C0,$04,$C1,$04             ; 00FA83 ????????
-.byte $C2,$04,$C3,$04,$C4,$04,$C5,$04             ; 00FA8B ????????
-.byte $C6,$04,$C7,$04,$C8,$04,$C9,$04             ; 00FA93 ????????
-.byte $CA,$04,$CB,$04,$00,$00,$00,$00             ; 00FA9B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FAA3 ????????
-.byte $00,$00,$00,$00,$00,$00,$CC,$04             ; 00FAAB ????????
-.byte $CD,$04,$CE,$04,$CF,$04,$D0,$04             ; 00FAB3 ????????
-.byte $D1,$04,$D2,$04,$D3,$04,$D4,$04             ; 00FABB ????????
-.byte $BA,$04,$BB,$04,$D5,$04,$D6,$04             ; 00FAC3 ????????
-.byte $D7,$04,$8A,$04,$D6,$04,$D8,$04             ; 00FACB ????????
-.byte $D9,$04,$DA,$04,$DB,$04,$DC,$04             ; 00FAD3 ????????
-.byte $DD,$04,$DE,$04,$00,$00,$00,$00             ; 00FADB ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FAE3 ????????
-.byte $00,$00,$00,$00,$DF,$04,$E0,$04             ; 00FAEB ????????
-.byte $E1,$04,$E2,$04,$E3,$04,$E4,$04             ; 00FAF3 ????????
-.byte $E5,$04,$E6,$04,$E7,$04,$E8,$04             ; 00FAFB ????????
-.byte $E9,$04,$EA,$04,$EB,$04,$EC,$04             ; 00FB03 ????????
-.byte $ED,$04,$EE,$04,$00,$00,$00,$00             ; 00FB0B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB13 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB1B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB23 ????????
-.byte $00,$00,$00,$00,$00,$00,$80,$04             ; 00FB2B ????????
-.byte $EF,$04,$F0,$04,$F1,$04,$F2,$04             ; 00FB33 ????????
-.byte $F3,$04,$00,$00,$F4,$04,$F5,$04             ; 00FB3B ????????
-.byte $F6,$04,$F7,$04,$F8,$04,$F9,$04             ; 00FB43 ????????
-.byte $FA,$04,$FB,$04,$00,$00,$00,$00             ; 00FB4B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB53 ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB5B ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB63 ????????
-.byte $00,$00,$00,$00,$B0,$02,$0F,$00             ; 00FB6B ????????
-.byte $F1,$21,$E0,$1F,$04,$B0,$FD,$50             ; 00FB73 ?!?????P
-.byte $1D,$10,$13,$0D,$0F,$3E,$A0,$7C             ; 00FB7B ?????>?|
-.byte $E1,$F3,$7C,$03,$D0,$51,$C2,$B0             ; 00FB83 ??|??Q??
-.byte $0F,$4F,$D3,$53,$DE,$0F,$17,$DD             ; 00FB8B ?O?S????
-.byte $B0,$1F,$E2,$4F,$F0,$FF,$51,$D0             ; 00FB93 ???O??Q?
-.byte $3E,$A0,$7A,$4F,$F3,$4E,$2F,$17             ; 00FB9B >?zO?N/?
-.byte $0B,$E1,$B0,$F7,$0F,$F1,$F1,$30             ; 00FBA3 ???????0
-.byte $EE,$2F,$16,$B0,$DD,$45,$F0,$EF             ; 00FBAB ?/???E??
-.byte $13,$3E,$E1,$1C,$B0,$23,$DE,$3F             ; 00FBB3 ?>???#??
-.byte $24,$DE,$3F,$04,$FE,$B0,$12,$E5             ; 00FBBB $???????
-.byte $FB,$27,$3B,$E1,$F2,$7D,$A0,$92             ; 00FBC3 ?';??}??
-.byte $FE,$71,$DF,$F2,$27,$3B,$D1                 ; 00FBCC ?q??';?
-L_FBD2:
-.byte $B0,$21,$1E,$DF,$50,$3F,$C1,$7F             ; 00FBD2 ?!??P???
-.byte $0E,$B0,$EF,$43,$1A,$11,$10,$4E             ; 00FBDA ???C???N
-.byte $DF,$03,$A0,$44,$AC,$74,$3D,$B0             ; 00FBE2 ???D?t=?
-.byte $12,$7B,$D1,$B0,$50,$F1,$FB,$43             ; 00FBEA ?{??P??C
-.byte $01,$EE,$41,$1E,$B0,$0F,$D1,$4E             ; 00FBF2 ??A????N
-.byte $5E,$EF,$56,$CE,$E0,$B0,$42,$1E             ; 00FBFA ^?V???B?
-.byte $C3,$5D,$20,$D0,$13,$2E,$B0,$1C             ; 00FC02 ?] ??.??
-.byte $16,$E1,$3C,$B4,$3F,$3C,$D5,$B0             ; 00FC0A ??<??<??
-.byte $32,$AE,$00,$7F,$0D,$F2,$40,$1F             ; 00FC12 2?????@?
-.byte $B0,$0D,$04,$2F,$1C,$17,$E2,$EE             ; 00FC1A ???/????
-.byte $F2,$B0,$4E,$1D,$C5,$5E,$1B,$0F             ; 00FC22 ??N??^??
-.byte $72,$FE,$B0,$F0,$61,$E2,$DF,$13             ; 00FC2A r???a???
-.byte $F2,$E0,$24,$B0,$2E,$DE,$27,$EF             ; 00FC32 ??$?.?'?
-.byte $CE,$36,$FD,$F0,$B0,$D4,$6E,$F1             ; 00FC3A ?6????n?
-.byte $C3,$7C,$12,$DE,$34,$B0,$C4,$D0             ; 00FC42 ?|??4???
-.byte $51,$3B,$F0,$37,$CE,$DF,$B0,$63             ; 00FC4A Q;?7???c
-.byte $C0,$0C,$36,$E0,$FF,$F4,$4D,$A0             ; 00FC52 ??6???M?
-.byte $28,$C7,$7B,$1D,$E7,$65,$8B,$E6             ; 00FC5A (?{??e??
-.byte $B0,$7C,$FE,$E4,$4D,$1F,$FF,$62             ; 00FC62 ?|??M??b
-.byte $FE,$B0,$1D,$64,$B4,$A0,$14,$FD             ; 00FC6A ???d????
-.byte $1F,$36,$C0,$F0,$D0,$24,$E0,$FE             ; 00FC72 ?6???$??
-.byte $23,$EF,$1E,$B0,$15,$3D,$F1,$E4             ; 00FC7A #????=??
-.byte $3C,$3D,$F1,$4F,$B0,$E1,$F3,$40             ; 00FC82 <=?O???@
-.byte $EF,$E0,$70,$B1,$E2,$B0,$7D,$D0             ; 00FC8A ??p???}?
-.byte $2C,$34,$D0,$3E,$14,$F0,$B0,$1D             ; 00FC92 ,4?>????
-.byte $E4,$2D,$2E,$14,$02,$EC,$E6,$B0             ; 00FC9A ?-.?????
-.byte $4D,$0D,$07,$1B,$03,$D2,$4E,$F1             ; 00FCA2 M?????N?
-.byte $A0,$1C,$37,$97,$8F,$25,$EE,$3E             ; 00FCAA ??7??%?>
-.byte $77,$B0,$FF,$FD,$17,$FD,$0D,$47             ; 00FCB2 w??????G
-.byte $CD,$11,$B0,$E3,$4C,$03,$D2,$2F             ; 00FCBA ????L??/
-.byte $03,$DE,$31,$B0,$E0,$2F,$07,$D1             ; 00FCC2 ??1??/??
-.byte $FD,$E7,$0E,$2C,$B0,$26,$1C,$E3             ; 00FCCA ???,?&??
-.byte $E0,$25,$B0,$3E,$32,$A0,$D0,$58             ; 00FCD2 ?%?>2??X
-L_FCDA:
-.byte $F6,$FC,$32,$D7,$20,$FC,$B0,$D2             ; 00FCDA ??2? ???
-.byte $7C,$00,$E3,$7C,$D3,$01,$32,$A0             ; 00FCE2 |??|??2?
-.byte $83,$7B,$3F,$03,$4A,$D5,$F2,$2E             ; 00FCEA ?{??J??.
-.byte $B0,$05,$F1,$DF,$F3,$4B,$F1,$E5             ; 00FCF2 ?????K??
-.byte $3D,$B0,$02,$D1,$5D,$E2,$2D,$21             ; 00FCFA =???]?-!
-.byte $F4,$DF,$B0,$13,$FE,$1E,$47,$DD             ; 00FD02 ??????G?
-.byte $10,$03,$1D,$B0,$F5,$D2,$00,$12             ; 00FD0A ????????
-.byte $E0,$4E,$01,$1E,$B0,$24,$E1,$ED             ; 00FD12 ?N???$??
-.byte $24,$EF,$0D,$64,$DF,$A0,$03,$D4             ; 00FD1A $??d????
-.byte $2B,$04,$7A,$10,$46,$EC,$B0,$E3             ; 00FD22 +?z?F???
-.byte $01,$0C,$33,$11,$C2,$F1,$5C,$A0             ; 00FD2A ??3???\?
-.byte $03,$D7,$03,$EC,$7A,$17,$84,$2D             ; 00FD32 ????z??-
-.byte $B0,$11,$20,$2E,$F0,$4E,$F1,$D4             ; 00FD3A ?? .?N??
-.byte $6E,$B0,$DF,$3F,$12,$C1,$4D,$10             ; 00FD42 n?????M?
-.byte $10,$40,$A0,$FD,$F7,$D2,$19,$47             ; 00FD4A ?@?????G
-.byte $E3,$F9,$F7,$A0,$FE,$1B,$76,$48             ; 00FD52 ??????vH
-.byte $E3,$7D,$F0,$E7,$B0,$11,$D0,$41             ; 00FD5A ?}?????A
-.byte $E2,$D0,$20,$0E,$1F,$B0,$51,$E1             ; 00FD62 ?? ???Q?
-.byte $1B,$43,$D2,$FD,$43,$EE,$A0,$12             ; 00FD6A ?C??C???
-.byte $4D,$F3,$11,$2D,$E3,$63,$D2,$A0             ; 00FD72 M??-?c??
-.byte $B0,$7D,$01,$A7,$20,$FB,$E5,$E3             ; 00FD7A ?}?? ???
-.byte $A0,$4C,$24,$10,$F4,$1A,$5F,$F0             ; 00FD82 ?L$???_?
-.byte $7C,$A0,$F4,$A5,$2F,$44,$F0,$C6             ; 00FD8A |???/D??
-.byte $DE,$EB,$B0,$52,$EF,$E4,$5C,$1C             ; 00FD92 ???R??\?
-.byte $4F,$5E,$C0,$B0,$53,$DE,$3D,$25             ; 00FD9A O^??S?=%
-.byte $E0,$01,$1F,$20,$A0,$23,$A0,$5F             ; 00FDA2 ??? ?#?_
-.byte $2D,$96,$64,$8D,$43,$A0,$D1,$EF             ; 00FDAA -?d?C???
-.byte $7E,$2E,$E6,$6D,$2D,$01,$A0,$59             ; 00FDB2 ~.?m-??Y
-.byte $F2,$D7,$3C,$4B,$6B,$34,$D4,$A0             ; 00FDBA ??<Kk4??
-.byte $E3,$EF,$43,$ED,$41,$F1,$3D,$03             ; 00FDC2 ??C?A?=?
-.byte $B0,$E1,$F2,$4E,$2C,$E6,$E1,$FD             ; 00FDCA ???N,???
-.byte $43,$B0,$F0,$E0,$44,$BE,$4E,$40             ; 00FDD2 C???D?N@
-.byte $DF,$44,$A0,$BD,$02,$1F,$4E,$07             ; 00FDDA ?D????N?
-.byte $E0,$2F,$7E,$B0,$1E,$F5,$F0,$FC             ; 00FDE2 ?/~?????
-.byte $53,$FE,$E3,$31,$A0,$DF,$15,$EE             ; 00FDEA S??1????
-.byte $E0,$73,$FC,$59,$5F,$B0,$2D,$03             ; 00FDF2 ?s?Y_?-?
-.byte $E5,$0E,$3F,$F4,$D0,$3D,$A0,$2F             ; 00FDFA ?????=?/
-.byte $FE,$66,$CF,$E7,$B0,$3F,$2F,$A0             ; 00FE02 ?f????/?
-.byte $3C,$F7,$01,$F2,$CF,$6D,$E2,$A7             ; 00FE0A <????m??
-.byte $A0,$10,$FE,$37,$48,$F7,$D5,$B0             ; 00FE12 ???7H???
-.byte $F4,$A0,$30,$E1,$3F,$05,$E1,$C2             ; 00FE1A ??0?????
-.byte $E0,$7E,$B0,$01,$E5,$D2,$2E,$20             ; 00FE22 ?~????. 
-.byte $E3,$11,$FF,$A0,$17,$C1,$F1,$1F             ; 00FE2A ????????
-.byte $3B,$23,$F3,$05,$A0,$CD,$17,$FD             ; 00FE32 ;#??????
-.byte $FD,$73,$BE,$17,$E1,$A0,$AF,$77             ; 00FE3A ?s?????w
-.byte $AF,$2F,$71,$F0,$07,$CE,$A0,$6A             ; 00FE42 ?/q????j
-.byte $4F,$F1,$22,$3B,$10,$7B,$2F,$A0             ; 00FE4A O?";?{/?
-.byte $42,$F1,$C2,$54,$ED,$15,$3C,$F7             ; 00FE52 B??T??<?
-.byte $A0,$C2,$1C,$34,$C4,$E3,$F3,$DF             ; 00FE5A ???4????
-.byte $6A,$A0,$50,$A7,$F0,$0E,$31,$5A             ; 00FE62 j?P???1Z
-.byte $23,$23,$A0,$93,$E3,$6C,$00,$7F             ; 00FE6A ##???l??
-.byte $C1,$21,$D0,$B0,$0E,$60,$EF,$E3             ; 00FE72 ?!???`??
-.byte $5D,$0C,$27,$E1,$A0,$94,$61,$FF             ; 00FE7A ]?'???a?
-.byte $E2,$25,$BF,$5D,$3E,$A0,$E3,$F3             ; 00FE82 ?%?]>???
-.byte $1D,$4E,$3F,$00,$5E,$10,$A0,$C7             ; 00FE8A ?N??^???
-.byte $2E,$0F,$21,$3F,$F0,$40,$FE,$B0             ; 00FE92 .?!??@??
-.byte $02,$00,$00,$4F,$0C,$25,$F0,$E0             ; 00FE9A ???O?%??
-.byte $A0,$76,$BC,$02,$6F,$C3,$C3,$7A             ; 00FEA2 ?v??o??z
-.byte $00,$A0,$F5,$08,$74,$2B,$30,$B1             ; 00FEAA ????t+0?
-.byte $7F,$DE,$B0,$2F,$6E,$C5,$F1,$3D             ; 00FEB2 ???/n??=
-.byte $11,$0F,$11,$A0,$E4,$FE,$50,$C5             ; 00FEBA ??????P?
-.byte $F2,$01,$4D,$F6,$A0,$B3,$EE,$7F             ; 00FEC2 ??M?????
-.byte $EF,$37,$B0,$01,$52,$A0,$B1,$10             ; 00FECA ?7??R???
-.byte $30,$F0,$05,$D1,$03,$0E,$A0,$6C             ; 00FED2 0??????l
-.byte $02,$1D,$F1,$17,$DC,$40,$71,$A0             ; 00FEDA ?????@q?
-.byte $A1,$23,$1E,$D2,$60,$E0,$E5,$2C             ; 00FEE2 ?#??`??,
-.byte $A0,$D5,$40,$EC,$16,$3C,$E1,$41             ; 00FEEA ??@??<?A
-.byte $FE,$A0,$04,$10,$D1,$42,$FE,$02             ; 00FEF2 ?????B??
-.byte $40,$DF,$A0,$7B,$5C,$03,$20,$F0             ; 00FEFA @??{\? ?
-.byte $12,$4C,$02,$90,$27,$DE,$31,$5E             ; 00FF02 ?L??'?1^
-.byte $1F,$16,$D0,$30,$90,$50,$E6,$E2             ; 00FF0A ???0?P??
-.byte $05,$B2,$4E,$30,$05,$90,$C4,$02             ; 00FF12 ??N0????
-.byte $2F,$02,$F2,$12,$02,$F2,$80,$14             ; 00FF1A /???????
-.byte $31,$14,$32,$4E,$7E,$54,$6A,$90             ; 00FF22 1?2N~Tj?
-.byte $40,$32,$E2,$2F,$5E,$22,$03,$21             ; 00FF2A @2?/^"?!
-.byte $A1,$01,$10,$20,$10,$2D,$50,$F3             ; 00FF32 ??? ?-P?
-.byte $D7,$90,$AB,$BC,$AE,$BE,$80,$BF             ; 00FF3A ????????
-.byte $CF,$F0,$F0,$20,$42,$45,$46,$90             ; 00FF42 ??? BEF?
-.byte $34,$35,$45,$55,$66,$65,$76,$67             ; 00FF4A 45EUfevg
-.byte $A0,$45,$25,$44,$35,$33,$42,$33             ; 00FF52 ?E%D53B3
-.byte $33,$90,$55,$54,$44,$34,$23,$23             ; 00FF5A 3?UTD4##
-.byte $21,$12,$70,$32,$40,$00,$E0,$D2             ; 00FF62 !?p2@???
-.byte $C2,$AF,$BE,$70,$D9,$DA,$DC,$AC             ; 00FF6A ???p????
-.byte $AC,$9D,$8E,$8D,$70,$AA,$CB,$9D             ; 00FF72 ????p???
-.byte $AC,$AC,$AC,$C0,$8E,$80,$CF,$C0             ; 00FF7A ????????
-.byte $C0,$ED,$FD,$FD,$FD,$FE,$80,$C0             ; 00FF82 ????????
-.byte $D0,$C0,$EF,$EF,$EF,$F0,$F0,$80             ; 00FF8A ????????
-.byte $F0,$F0,$E2,$02,$E2,$22,$20,$42             ; 00FF92 ?????" B
-.byte $80,$32,$24,$33,$44,$54,$54,$64             ; 00FF9A ?2$3DTTd
-.byte $65,$80,$65,$66,$56,$65,$66,$66             ; 00FFA2 e?efVeff
-.byte $66,$65,$80,$65,$66,$64,$64,$54             ; 00FFAA fe?efddT
-.byte $46,$26,$24,$80,$53,$43,$34,$43             ; 00FFB2 F&$?SC4C
-.byte $44,$34,$32,$23,$70,$90,$53,$4D             ; 00FFBA D42#p?SM
-.byte $41,$53,$48,$20,$54,$2E,$56,$2E             ; 00FFC2 ASH T.V.
-.byte $20,$20,$20,$20,$20,$20,$20,$20             ; 00FFCA         
-.byte $20,$20,$20,$20,$00,$09,$00,$00             ; 00FFD2     ????
-.byte $B1,$00,$19,$17,$E6,$E8,$FF,$FF             ; 00FFDA ????????
-.byte $FF,$FF,$89,$82,$89,$82,$89,$82             ; 00FFE2 ????????
-.byte $44,$82,$89,$82,$6A,$82,$FF,$FF             ; 00FFEA D???j???
-.byte $FF,$FF,$89,$82,$89,$82,$89,$82             ; 00FFF2 ????????
-.byte $89,$82,$00,$80,$89,$82                     ; 00FFFB ??????
+.byte $6E,$00,$6F,$00,$1A,$04,$1B,$04             ; 00F93F n?o?????
+.byte $03,$84,$04,$84,$05,$84,$1C,$04             ; 00F947 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F94F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F957 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F95F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F967 ????????
+.byte $70,$04,$71,$04,$72,$04,$73,$04             ; 00F96F p?q?r?s?
+.byte $74,$04,$75,$04,$76,$04,$77,$04             ; 00F977 t?u?v?w?
+.byte $78,$04,$79,$04,$7A,$04,$7B,$04             ; 00F97F x?y?z?{?
+.byte $7C,$04,$7D,$04,$7E,$04,$7F,$04             ; 00F987 |?}?~???
+.byte $70,$04,$71,$04,$72,$04,$73,$04             ; 00F98F p?q?r?s?
+.byte $74,$04,$75,$04,$76,$04,$77,$04             ; 00F997 t?u?v?w?
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F99F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F9A7 ????????
+.byte $00,$00,$80,$04,$81,$04,$82,$04             ; 00F9AF ????????
+.byte $83,$04,$76,$04,$84,$04,$00,$00             ; 00F9B7 ??v?????
+.byte $00,$00,$85,$04,$86,$04,$87,$04             ; 00F9BF ????????
+.byte $88,$04,$89,$04,$8A,$04,$00,$00             ; 00F9C7 ????????
+.byte $00,$00,$00,$00,$8B,$04,$8C,$04             ; 00F9CF ????????
+.byte $8D,$04,$00,$00,$00,$00,$00,$00             ; 00F9D7 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F9DF ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F9E7 ????????
+.byte $8E,$04,$8F,$04,$90,$04,$91,$04             ; 00F9EF ????????
+.byte $92,$04,$93,$04,$94,$04,$95,$04             ; 00F9F7 ????????
+.byte $95,$44,$96,$04,$97,$04,$98,$04             ; 00F9FF ?D??????
+.byte $99,$04,$9A,$04,$9B,$04,$9C,$04             ; 00FA07 ????????
+.byte $9D,$04,$9E,$04,$9F,$04,$A0,$04             ; 00FA0F ????????
+.byte $A1,$04,$A2,$04,$A3,$04,$A4,$04             ; 00FA17 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FA1F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FA27 ????????
+.byte $00,$00,$A5,$04,$A6,$04,$A7,$04             ; 00FA2F ????????
+.byte $A8,$04,$80,$04,$A9,$04,$00,$00             ; 00FA37 ????????
+.byte $00,$00,$AA,$04,$AB,$04,$AC,$04             ; 00FA3F ????????
+.byte $AD,$04,$AE,$04,$AF,$04,$00,$00             ; 00FA47 ????????
+.byte $00,$00,$B0,$04,$8F,$04,$B1,$04             ; 00FA4F ????????
+.byte $B2,$04,$B3,$04,$B4,$04,$00,$00             ; 00FA57 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FA5F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FA67 ????????
+.byte $B5,$04,$B6,$04,$B7,$04,$B8,$04             ; 00FA6F ????????
+.byte $B9,$04,$9B,$04,$BA,$04,$BB,$04             ; 00FA77 ????????
+.byte $BC,$04,$BD,$04,$BE,$04,$BF,$04             ; 00FA7F ????????
+.byte $C0,$04,$C1,$04,$C2,$04,$C3,$04             ; 00FA87 ????????
+.byte $C4,$04,$C5,$04,$C6,$04,$C7,$04             ; 00FA8F ????????
+.byte $C8,$04,$C9,$04,$CA,$04,$CB,$04             ; 00FA97 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FA9F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FAA7 ????????
+.byte $00,$00,$CC,$04,$CD,$04,$CE,$04             ; 00FAAF ????????
+.byte $CF,$04,$D0,$04,$D1,$04,$D2,$04             ; 00FAB7 ????????
+.byte $D3,$04,$D4,$04,$BA,$04,$BB,$04             ; 00FABF ????????
+.byte $D5,$04,$D6,$04,$D7,$04,$8A,$04             ; 00FAC7 ????????
+.byte $D6,$04,$D8,$04,$D9,$04,$DA,$04             ; 00FACF ????????
+.byte $DB,$04,$DC,$04,$DD,$04,$DE,$04             ; 00FAD7 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FADF ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FAE7 ????????
+.byte $DF,$04,$E0,$04,$E1,$04,$E2,$04             ; 00FAEF ????????
+.byte $E3,$04,$E4,$04,$E5,$04,$E6,$04             ; 00FAF7 ????????
+.byte $E7,$04,$E8,$04,$E9,$04,$EA,$04             ; 00FAFF ????????
+.byte $EB,$04,$EC,$04,$ED,$04,$EE,$04             ; 00FB07 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB0F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB17 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB1F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB27 ????????
+.byte $00,$00,$80,$04,$EF,$04,$F0,$04             ; 00FB2F ????????
+.byte $F1,$04,$F2,$04,$F3,$04,$00,$00             ; 00FB37 ????????
+.byte $F4,$04,$F5,$04,$F6,$04,$F7,$04             ; 00FB3F ????????
+.byte $F8,$04,$F9,$04,$FA,$04,$FB,$04             ; 00FB47 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB4F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB57 ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB5F ????????
+.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00FB67 ????????
+.byte $B0,$02,$0F,$00,$F1,$21,$E0,$1F             ; 00FB6F ?????!??
+.byte $04,$B0,$FD,$50,$1D,$10,$13,$0D             ; 00FB77 ???P????
+.byte $0F,$3E,$A0,$7C,$E1,$F3,$7C,$03             ; 00FB7F ?>?|??|?
+.byte $D0,$51,$C2,$B0,$0F,$4F,$D3,$53             ; 00FB87 ?Q???O?S
+.byte $DE,$0F,$17,$DD,$B0,$1F,$E2,$4F             ; 00FB8F ???????O
+.byte $F0,$FF,$51,$D0,$3E,$A0,$7A,$4F             ; 00FB97 ??Q?>?zO
+.byte $F3,$4E,$2F,$17,$0B,$E1,$B0,$F7             ; 00FB9F ?N/?????
+.byte $0F,$F1,$F1,$30,$EE,$2F,$16,$B0             ; 00FBA7 ???0?/??
+.byte $DD,$45,$F0,$EF,$13,$3E,$E1,$1C             ; 00FBAF ?E???>??
+.byte $B0,$23,$DE,$3F,$24,$DE,$3F,$04             ; 00FBB7 ?#??$???
+.byte $FE,$B0,$12,$E5,$FB,$27,$3B,$E1             ; 00FBBF ?????';?
+.byte $F2,$7D,$A0,$92,$FE,$71,$DF,$F2             ; 00FBC7 ?}???q??
+.byte $27,$3B,$D1,$B0,$21,$1E,$DF,$50             ; 00FBCF ';??!??P
+.byte $3F,$C1,$7F,$0E,$B0,$EF,$43,$1A             ; 00FBD7 ??????C?
+.byte $11,$10,$4E,$DF,$03,$A0,$44,$AC             ; 00FBDF ??N???D?
+.byte $74,$3D,$B0,$12,$7B,$D1,$B0,$50             ; 00FBE7 t=??{??P
+.byte $F1,$FB,$43,$01,$EE,$41,$1E,$B0             ; 00FBEF ??C??A??
+.byte $0F,$D1,$4E,$5E,$EF,$56,$CE,$E0             ; 00FBF7 ??N^?V??
+.byte $B0,$42,$1E,$C3,$5D,$20,$D0,$13             ; 00FBFF ?B??] ??
+.byte $2E,$B0,$1C,$16,$E1,$3C,$B4,$3F             ; 00FC07 .????<??
+.byte $3C,$D5,$B0,$32,$AE,$00,$7F,$0D             ; 00FC0F <??2????
+.byte $F2,$40,$1F,$B0,$0D,$04,$2F,$1C             ; 00FC17 ?@????/?
+.byte $17,$E2,$EE,$F2,$B0,$4E,$1D,$C5             ; 00FC1F ?????N??
+.byte $5E,$1B,$0F,$72,$FE,$B0,$F0,$61             ; 00FC27 ^??r???a
+.byte $E2,$DF,$13,$F2,$E0,$24,$B0,$2E             ; 00FC2F ?????$?.
+.byte $DE,$27,$EF,$CE,$36,$FD,$F0,$B0             ; 00FC37 ?'??6???
+.byte $D4,$6E,$F1,$C3,$7C,$12,$DE,$34             ; 00FC3F ?n??|??4
+.byte $B0,$C4,$D0,$51,$3B,$F0,$37,$CE             ; 00FC47 ???Q;?7?
+.byte $DF,$B0,$63,$C0,$0C,$36,$E0,$FF             ; 00FC4F ??c??6??
+.byte $F4,$4D,$A0,$28,$C7,$7B,$1D,$E7             ; 00FC57 ?M?(?{??
+.byte $65,$8B,$E6,$B0,$7C,$FE,$E4,$4D             ; 00FC5F e???|??M
+.byte $1F,$FF,$62,$FE,$B0,$1D,$64,$B4             ; 00FC67 ??b???d?
+.byte $A0,$14,$FD,$1F,$36,$C0,$F0,$D0             ; 00FC6F ????6???
+.byte $24,$E0,$FE,$23,$EF,$1E,$B0,$15             ; 00FC77 $??#????
+.byte $3D,$F1,$E4,$3C,$3D,$F1,$4F,$B0             ; 00FC7F =??<=?O?
+.byte $E1,$F3,$40,$EF,$E0,$70,$B1,$E2             ; 00FC87 ??@??p??
+.byte $B0,$7D,$D0,$2C,$34,$D0,$3E,$14             ; 00FC8F ?}?,4?>?
+.byte $F0,$B0,$1D,$E4,$2D,$2E,$14,$02             ; 00FC97 ????-.??
+.byte $EC,$E6,$B0,$4D,$0D,$07,$1B,$03             ; 00FC9F ???M????
+.byte $D2,$4E,$F1,$A0,$1C,$37,$97,$8F             ; 00FCA7 ?N???7??
+.byte $25,$EE,$3E,$77,$B0,$FF,$FD,$17             ; 00FCAF %?>w????
+.byte $FD,$0D,$47,$CD,$11,$B0,$E3,$4C             ; 00FCB7 ??G????L
+.byte $03,$D2,$2F,$03,$DE,$31,$B0,$E0             ; 00FCBF ??/??1??
+.byte $2F,$07,$D1,$FD,$E7,$0E,$2C,$B0             ; 00FCC7 /?????,?
+.byte $26,$1C,$E3,$E0,$25,$B0,$3E,$32             ; 00FCCF &???%?>2
+.byte $A0,$D0,$58,$F6,$FC,$32,$D7,$20             ; 00FCD7 ??X??2? 
+.byte $FC,$B0,$D2,$7C,$00,$E3,$7C,$D3             ; 00FCDF ???|??|?
+.byte $01,$32,$A0,$83,$7B,$3F,$03,$4A             ; 00FCE7 ?2??{??J
+.byte $D5,$F2,$2E,$B0,$05,$F1,$DF,$F3             ; 00FCEF ??.?????
+.byte $4B,$F1,$E5,$3D,$B0,$02,$D1,$5D             ; 00FCF7 K??=???]
+.byte $E2,$2D,$21,$F4,$DF,$B0,$13,$FE             ; 00FCFF ?-!?????
+.byte $1E,$47,$DD,$10,$03,$1D,$B0,$F5             ; 00FD07 ?G??????
+.byte $D2,$00,$12,$E0,$4E,$01,$1E,$B0             ; 00FD0F ????N???
+.byte $24,$E1,$ED,$24,$EF,$0D,$64,$DF             ; 00FD17 $??$??d?
+.byte $A0,$03,$D4,$2B,$04,$7A,$10,$46             ; 00FD1F ???+?z?F
+.byte $EC,$B0,$E3,$01,$0C,$33,$11,$C2             ; 00FD27 ?????3??
+.byte $F1,$5C,$A0,$03,$D7,$03,$EC,$7A             ; 00FD2F ?\?????z
+.byte $17,$84,$2D,$B0,$11,$20,$2E,$F0             ; 00FD37 ??-?? .?
+.byte $4E,$F1,$D4,$6E,$B0,$DF,$3F,$12             ; 00FD3F N??n????
+.byte $C1,$4D,$10,$10,$40,$A0,$FD,$F7             ; 00FD47 ?M??@???
+.byte $D2,$19,$47,$E3,$F9,$F7,$A0,$FE             ; 00FD4F ??G?????
+.byte $1B,$76,$48,$E3,$7D,$F0,$E7,$B0             ; 00FD57 ?vH?}???
+.byte $11,$D0,$41,$E2,$D0,$20,$0E,$1F             ; 00FD5F ??A?? ??
+.byte $B0,$51,$E1,$1B,$43,$D2,$FD,$43             ; 00FD67 ?Q??C??C
+.byte $EE,$A0,$12,$4D,$F3,$11,$2D,$E3             ; 00FD6F ???M??-?
+.byte $63,$D2,$A0,$B0,$7D,$01,$A7,$20             ; 00FD77 c???}?? 
+.byte $FB,$E5,$E3,$A0,$4C,$24,$10,$F4             ; 00FD7F ????L$??
+.byte $1A,$5F,$F0,$7C,$A0,$F4,$A5,$2F             ; 00FD87 ?_?|???/
+.byte $44,$F0,$C6,$DE,$EB,$B0,$52,$EF             ; 00FD8F D?????R?
+.byte $E4,$5C,$1C,$4F,$5E,$C0,$B0,$53             ; 00FD97 ?\?O^??S
+.byte $DE,$3D,$25,$E0,$01,$1F,$20,$A0             ; 00FD9F ?=%??? ?
+.byte $23,$A0,$5F,$2D,$96,$64,$8D,$43             ; 00FDA7 #?_-?d?C
+.byte $A0,$D1,$EF,$7E,$2E,$E6,$6D,$2D             ; 00FDAF ???~.?m-
+.byte $01,$A0,$59,$F2,$D7,$3C,$4B,$6B             ; 00FDB7 ??Y??<Kk
+.byte $34,$D4,$A0,$E3,$EF,$43,$ED,$41             ; 00FDBF 4????C?A
+.byte $F1,$3D,$03,$B0,$E1,$F2,$4E,$2C             ; 00FDC7 ?=????N,
+.byte $E6,$E1,$FD,$43,$B0,$F0,$E0,$44             ; 00FDCF ???C???D
+.byte $BE,$4E,$40,$DF,$44,$A0,$BD,$02             ; 00FDD7 ?N@?D???
+.byte $1F,$4E,$07,$E0,$2F,$7E,$B0,$1E             ; 00FDDF ?N??/~??
+.byte $F5,$F0,$FC,$53,$FE,$E3,$31,$A0             ; 00FDE7 ???S??1?
+.byte $DF,$15,$EE,$E0,$73,$FC,$59,$5F             ; 00FDEF ????s?Y_
+.byte $B0,$2D,$03,$E5,$0E,$3F,$F4,$D0             ; 00FDF7 ?-??????
+.byte $3D,$A0,$2F,$FE,$66,$CF,$E7,$B0             ; 00FDFF =?/?f???
+.byte $3F,$2F,$A0,$3C,$F7,$01,$F2,$CF             ; 00FE07 ?/?<????
+.byte $6D,$E2,$A7,$A0,$10,$FE,$37,$48             ; 00FE0F m?????7H
+.byte $F7,$D5,$B0,$F4,$A0,$30,$E1,$3F             ; 00FE17 ?????0??
+.byte $05,$E1,$C2,$E0,$7E,$B0,$01,$E5             ; 00FE1F ????~???
+.byte $D2,$2E,$20,$E3,$11,$FF,$A0,$17             ; 00FE27 ?. ?????
+.byte $C1,$F1,$1F,$3B,$23,$F3,$05,$A0             ; 00FE2F ???;#???
+.byte $CD,$17,$FD,$FD,$73,$BE,$17,$E1             ; 00FE37 ????s???
+.byte $A0,$AF,$77,$AF,$2F,$71,$F0,$07             ; 00FE3F ??w?/q??
+.byte $CE,$A0,$6A,$4F,$F1,$22,$3B,$10             ; 00FE47 ??jO?";?
+.byte $7B,$2F,$A0,$42,$F1,$C2,$54,$ED             ; 00FE4F {/?B??T?
+.byte $15,$3C,$F7,$A0,$C2,$1C,$34,$C4             ; 00FE57 ?<????4?
+.byte $E3,$F3,$DF,$6A,$A0,$50,$A7,$F0             ; 00FE5F ???j?P??
+.byte $0E,$31,$5A,$23,$23,$A0,$93,$E3             ; 00FE67 ?1Z##???
+.byte $6C,$00,$7F,$C1,$21,$D0,$B0,$0E             ; 00FE6F l???!???
+.byte $60,$EF,$E3,$5D,$0C,$27,$E1,$A0             ; 00FE77 `??]?'??
+.byte $94,$61,$FF,$E2,$25,$BF,$5D,$3E             ; 00FE7F ?a??%?]>
+.byte $A0,$E3,$F3,$1D,$4E,$3F,$00,$5E             ; 00FE87 ????N??^
+.byte $10,$A0,$C7,$2E,$0F,$21,$3F,$F0             ; 00FE8F ???.?!??
+.byte $40,$FE,$B0,$02,$00,$00,$4F,$0C             ; 00FE97 @?????O?
+.byte $25,$F0,$E0,$A0,$76,$BC,$02,$6F             ; 00FE9F %???v??o
+.byte $C3,$C3,$7A,$00,$A0,$F5,$08,$74             ; 00FEA7 ??z????t
+.byte $2B,$30,$B1,$7F,$DE,$B0,$2F,$6E             ; 00FEAF +0????/n
+.byte $C5,$F1,$3D,$11,$0F,$11,$A0,$E4             ; 00FEB7 ??=?????
+.byte $FE,$50,$C5,$F2,$01,$4D,$F6,$A0             ; 00FEBF ?P???M??
+.byte $B3,$EE,$7F,$EF,$37,$B0,$01,$52             ; 00FEC7 ????7??R
+.byte $A0,$B1,$10,$30,$F0,$05,$D1,$03             ; 00FECF ???0????
+.byte $0E,$A0,$6C,$02,$1D,$F1,$17,$DC             ; 00FED7 ??l?????
+.byte $40,$71,$A0,$A1,$23,$1E,$D2,$60             ; 00FEDF @q??#??`
+.byte $E0,$E5,$2C,$A0,$D5,$40,$EC,$16             ; 00FEE7 ??,??@??
+.byte $3C,$E1,$41,$FE,$A0,$04,$10,$D1             ; 00FEEF <?A?????
+.byte $42,$FE,$02,$40,$DF,$A0,$7B,$5C             ; 00FEF7 B??@??{\
+.byte $03,$20,$F0,$12,$4C,$02,$90,$27             ; 00FEFF ? ??L??'
+.byte $DE,$31,$5E,$1F,$16,$D0,$30,$90             ; 00FF07 ?1^???0?
+.byte $50,$E6,$E2,$05,$B2,$4E,$30,$05             ; 00FF0F P????N0?
+.byte $90,$C4,$02,$2F,$02,$F2,$12,$02             ; 00FF17 ???/????
+.byte $F2,$80,$14,$31,$14,$32,$4E,$7E             ; 00FF1F ???1?2N~
+.byte $54,$6A,$90,$40,$32,$E2,$2F,$5E             ; 00FF27 Tj?@2?/^
+.byte $22,$03,$21,$A1,$01,$10,$20,$10             ; 00FF2F "?!??? ?
+.byte $2D,$50,$F3,$D7,$90,$AB,$BC,$AE             ; 00FF37 -P??????
+.byte $BE,$80,$BF,$CF,$F0,$F0,$20,$42             ; 00FF3F ?????? B
+.byte $45,$46,$90,$34,$35,$45,$55,$66             ; 00FF47 EF?45EUf
+.byte $65,$76,$67,$A0,$45,$25,$44,$35             ; 00FF4F evg?E%D5
+.byte $33,$42,$33,$33,$90,$55,$54,$44             ; 00FF57 3B33?UTD
+.byte $34,$23,$23,$21,$12,$70,$32,$40             ; 00FF5F 4##!?p2@
+.byte $00,$E0,$D2,$C2,$AF,$BE,$70,$D9             ; 00FF67 ??????p?
+.byte $DA,$DC,$AC,$AC,$9D,$8E,$8D,$70             ; 00FF6F ???????p
+.byte $AA,$CB,$9D,$AC,$AC,$AC,$C0,$8E             ; 00FF77 ????????
+.byte $80,$CF,$C0,$C0,$ED,$FD,$FD,$FD             ; 00FF7F ????????
+.byte $FE,$80,$C0,$D0,$C0,$EF,$EF,$EF             ; 00FF87 ????????
+.byte $F0,$F0,$80,$F0,$F0,$E2,$02,$E2             ; 00FF8F ????????
+.byte $22,$20,$42,$80,$32,$24,$33,$44             ; 00FF97 " B?2$3D
+.byte $54,$54,$64,$65,$80,$65,$66,$56             ; 00FF9F TTde?efV
+.byte $65,$66,$66,$66,$65,$80,$65,$66             ; 00FFA7 efffe?ef
+.byte $64,$64,$54,$46,$26,$24,$80,$53             ; 00FFAF ddTF&$?S
+.byte $43,$34,$43,$44,$34,$32,$23,$70             ; 00FFB7 C4CD42#p
+.byte $90,$53,$4D,$41,$53,$48,$20,$54             ; 00FFBF ?SMASH T
+.byte $2E,$56,$2E,$20,$20,$20,$20,$20             ; 00FFC7 .V.     
+.byte $20,$20,$20,$20,$20,$20,$20,$00             ; 00FFCF        ?
+.byte $09,$00,$00,$B1,$00,$19,$17,$E6             ; 00FFD7 ????????
+.byte $E8,$FF,$FF,$FF,$FF,$89,$82,$89             ; 00FFDF ????????
+.byte $82,$89,$82,$44,$82,$89,$82,$6A             ; 00FFE7 ???D???j
+.byte $82,$FF,$FF,$FF,$FF,$89,$82,$89             ; 00FFEF ????????
+.byte $82,$89,$82,$89,$82,$00,$80,$89             ; 00FFF7 ????????
+.byte $82                                         ; 010000 ?

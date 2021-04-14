@@ -1,10 +1,9 @@
 MEMORY {
-    MAIN: file=%O, start=%S, size=524288;
-#    MEM000: file=%O, start=$8000, size=524288;
+#    MAIN: file=%O, start=%S, size=524288;
+    MAIN: file=%O, start=%S, size=524511;
 }
 SEGMENTS {
     CODE: load=MAIN, type=rw;
-#    SEG000: load=MEM000, type=rw;
 }
 FEATURES {}
 SYMBOLS {}

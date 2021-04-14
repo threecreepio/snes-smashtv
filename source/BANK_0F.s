@@ -1,7 +1,5 @@
-.SETCPU "65816"
-.i16
-.a16
-.ORG $0F8000
+.BANK 15
+
 
 .byte $28,$E2,$30,$AD,$49,$19,$8D,$BE             ; 0F8000 (?0?I???
 .byte $06,$AD,$D1,$05,$8D,$BE,$06,$8D             ; 0F8008 ????????
@@ -27,7 +25,6 @@
 
 L_F809A:
   LDA $05AB                                       ; 0F809A AD AB 05 
-.a8
   CMP #$02                                        ; 0F809D C9 02 
   BEQ B_F80A2                                     ; 0F809F F0 01 
   RTL                                             ; 0F80A1 6B 
@@ -88,35 +85,37 @@ B_F819F:
   AND #$07                                        ; 0F81A3 29 07 
   ASL                                             ; 0F81A5 0A 
   TAX                                             ; 0F81A6 AA 
-  LDA D_81CA,X                                    ; 0F81A7 BD CA 81 
+  LDA (D_F81CA & $FFFF),X                         ; 0F81A7 BD CA 81 
   STA $06C8                                       ; 0F81AA 8D C8 06 
-  LDA D_81CB,X                                    ; 0F81AD BD CB 81 
+  LDA (D_F81CB & $FFFF),X                         ; 0F81AD BD CB 81 
   STA $06C9                                       ; 0F81B0 8D C9 06 
   JSL f:L_ECA95                                   ; 0F81B3 22 95 CA 0E 
   AND #$07                                        ; 0F81B7 29 07 
   ASL                                             ; 0F81B9 0A 
   TAX                                             ; 0F81BA AA 
-  LDA D_81CA,X                                    ; 0F81BB BD CA 81 
+  LDA (D_F81CA & $FFFF),X                         ; 0F81BB BD CA 81 
   STA $06CA                                       ; 0F81BE 8D CA 06 
-  LDA D_81CB,X                                    ; 0F81C1 BD CB 81 
+  LDA (D_F81CB & $FFFF),X                         ; 0F81C1 BD CB 81 
   STA $06CB                                       ; 0F81C4 8D CB 06 
 B_F81C7:
   PLB                                             ; 0F81C7 AB 
   PLP                                             ; 0F81C8 28 
   RTL                                             ; 0F81C9 6B 
 
-.byte $00,$00,$01,$00,$FF,$FF,$00,$00             ; 0F81CA ????????
-.byte $01,$00,$FF,$FF,$00,$00,$00,$00             ; 0F81D2 ????????
+D_F81CA:
+.byte $00                                         ; 0F81CB ?
+D_F81CB:
+.byte $00,$01,$00,$FF,$FF,$00,$00,$01             ; 0F81CB ????????
+.byte $00,$FF,$FF,$00,$00,$00,$00                 ; 0F81D4 ???????
 
 
 L_F81DA:
   PHP                                             ; 0F81DA 08 
   PHB                                             ; 0F81DB 8B 
   REP #$30                                        ; 0F81DC C2 30 
-  LDX #$0000                                      ; 0F81DE A2 00 00 
-.a16
+  LDX.W #$0000                                    ; 0F81DE A2 00 00 
   LDA #$A146                                      ; 0F81E1 A9 46 A1 
-  LDY #$000B                                      ; 0F81E4 A0 0B 00 
+  LDY.W #$000B                                    ; 0F81E4 A0 0B 00 
   JSL f:L_580C1                                   ; 0F81E7 22 C1 80 05 
   SEP #$10                                        ; 0F81EB E2 10 
   LDX $05AB                                       ; 0F81ED AE AB 05 
@@ -134,7 +133,7 @@ B_F8224:
   REP #$30                                        ; 0F8224 C2 30 
   LDX #$4000                                      ; 0F8226 A2 00 40 
   LDA #$8000                                      ; 0F8229 A9 00 80 
-  LDY #$000B                                      ; 0F822C A0 0B 00 
+  LDY.W #$000B                                    ; 0F822C A0 0B 00 
   JSL f:L_580C1                                   ; 0F822F 22 C1 80 05 
   PLB                                             ; 0F8233 AB 
   PLP                                             ; 0F8234 28 
@@ -163,7 +162,6 @@ L_F82AD:
   STY $EE                                         ; 0F82B0 84 EE 
 B_F82B2:
   LDA APUIO0                                      ; 0F82B2 AD 40 21 
-.a8
   CMP #$AA                                        ; 0F82B5 C9 AA 
   BNE B_F82B2                                     ; 0F82B7 D0 F9 
   LDA APUIO1                                      ; 0F82B9 AD 41 21 
@@ -176,11 +174,11 @@ B_F82B2:
   STA APUIO3                                      ; 0F82CA 8D 43 21 
   LDA #$CC                                        ; 0F82CD A9 CC 
   STA APUIO0                                      ; 0F82CF 8D 40 21 
-  JSR L_8309                                      ; 0F82D2 20 09 83 
-  LDY #$0000                                      ; 0F82D5 A0 00 00 
+  JSR (L_F8309 & $FFFF)                           ; 0F82D2 20 09 83 
+  LDY.W #$0000                                    ; 0F82D5 A0 00 00 
 B_F82D8:
   LDA [$EE],Y                                     ; 0F82D8 B7 EE 
-  JSR L_8302                                      ; 0F82DA 20 02 83 
+  JSR (L_F8302 & $FFFF)                           ; 0F82DA 20 02 83 
   INY                                             ; 0F82DD C8 
   DEX                                             ; 0F82DE CA 
   BNE B_F82D8                                     ; 0F82DF D0 F7 
@@ -190,7 +188,7 @@ B_F82D8:
   LDA #$02                                        ; 0F82E9 A9 02 
   STA APUIO3                                      ; 0F82EB 8D 43 21 
   TYA                                             ; 0F82EE 98 
-  INC                                             ; 0F82EF 1A 
+.byte $1A
   STA APUIO0                                      ; 0F82F0 8D 40 21 
   LDA #$CA                                        ; 0F82F3 A9 CA 
 B_F82F5:
@@ -200,12 +198,15 @@ B_F82F5:
   STZ $1BFF                                       ; 0F82FD 9C FF 1B 
   PLP                                             ; 0F8300 28 
   RTL                                             ; 0F8301 6B 
+
+L_F8302:
   STA APUIO1                                      ; 0F8302 8D 41 21 
   TYA                                             ; 0F8305 98 
   STA APUIO0                                      ; 0F8306 8D 40 21 
-B_F8309:
+
+L_F8309:
   CMP APUIO0                                      ; 0F8309 CD 40 21 
-  BNE B_F8309                                     ; 0F830C D0 FB 
+  BNE L_F8309                                     ; 0F830C D0 FB 
   RTS                                             ; 0F830E 60 
 
 
@@ -218,7 +219,7 @@ B_F8316:
   CMP APUIO0                                      ; 0F8316 CD 40 21 
   BNE B_F8316                                     ; 0F8319 D0 FB 
   STX APUIO2                                      ; 0F831B 8E 42 21 
-  INC                                             ; 0F831E 1A 
+.byte $1A
   XBA                                             ; 0F831F EB 
   STA APUIO1                                      ; 0F8320 8D 41 21 
   XBA                                             ; 0F8323 EB 
@@ -226,12 +227,14 @@ B_F8316:
   STA $1BFF                                       ; 0F8327 8D FF 1B 
   PLP                                             ; 0F832A 28 
   RTL                                             ; 0F832B 6B 
+
+L_F832C:
   XBA                                             ; 0F832C EB 
   LDA $1BFF                                       ; 0F832D AD FF 1B 
 B_F8330:
   CMP APUIO0                                      ; 0F8330 CD 40 21 
   BNE B_F8330                                     ; 0F8333 D0 FB 
-  INC                                             ; 0F8335 1A 
+.byte $1A
   XBA                                             ; 0F8336 EB 
   STA APUIO1                                      ; 0F8337 8D 41 21 
   XBA                                             ; 0F833A EB 
@@ -260,12 +263,11 @@ L_F836D:
   PHP                                             ; 0F836D 08 
   REP #$10                                        ; 0F836E C2 10 
   TAX                                             ; 0F8370 AA 
-.a16
   LDA f:D_1FFFD,X                                 ; 0F8371 BF FD FF 01 
   STA CONTROL                                     ; 0F8375 85 F1 
   LDA f:D_1FFFE,X                                 ; 0F8377 BF FE FF 01 
   STA DSPADDR                                     ; 0F837B 85 F2 
-  LDY #$0000                                      ; 0F837D A0 00 00 
+  LDY.W #$0000                                    ; 0F837D A0 00 00 
   LDA [CONTROL],Y                                 ; 0F8380 B7 F1 
   STA $EE                                         ; 0F8382 85 EE 
   INY                                             ; 0F8384 C8 
@@ -273,19 +275,18 @@ L_F836D:
   STA $EF                                         ; 0F8387 85 EF 
   DEY                                             ; 0F8389 88 
   LDA [$EE],Y                                     ; 0F838A B7 EE 
-  DEC                                             ; 0F838C 3A 
-  DEC                                             ; 0F838D 3A 
+.byte $3A
+.byte $3A
   TAX                                             ; 0F838E AA 
   STA CPUIO4                                      ; 0F838F 85 F7 
   SEP #$20                                        ; 0F8391 E2 20 
-.a8
   LDA #$01                                        ; 0F8393 A9 01 
   JSL f:L_F830F                                   ; 0F8395 22 0F 83 0F 
   REP #$20                                        ; 0F8399 C2 20 
   INY                                             ; 0F839B C8 
   INY                                             ; 0F839C C8 
   LDA [$EE],Y                                     ; 0F839D B7 EE 
-  JSR L_83F3                                      ; 0F839F 20 F3 83 
+  JSR (L_F83F3 & $FFFF)                           ; 0F839F 20 F3 83 
 B_F83A2:
   INY                                             ; 0F83A2 C8 
   INY                                             ; 0F83A3 C8 
@@ -293,7 +294,7 @@ B_F83A2:
   BEQ B_F83CF                                     ; 0F83A6 F0 27 
   LDA [$EE],Y                                     ; 0F83A8 B7 EE 
   BMI B_F83DB                                     ; 0F83AA 30 2F 
-  JSR L_83D1                                      ; 0F83AC 20 D1 83 
+  JSR (L_F83D1 & $FFFF)                           ; 0F83AC 20 D1 83 
   INY                                             ; 0F83AF C8 
   INY                                             ; 0F83B0 C8 
   LDA [$EE],Y                                     ; 0F83B1 B7 EE 
@@ -302,11 +303,11 @@ B_F83A2:
   LDA [$EE],Y                                     ; 0F83B6 B7 EE 
   STA CPUIO2                                      ; 0F83B8 85 F5 
   PHY                                             ; 0F83BA 5A 
-  LDY #$0000                                      ; 0F83BB A0 00 00 
+  LDY.W #$0000                                    ; 0F83BB A0 00 00 
   SEP #$20                                        ; 0F83BE E2 20 
 B_F83C0:
   LDA [CPUIO1],Y                                  ; 0F83C0 B7 F4 
-  JSR L_832C                                      ; 0F83C2 20 2C 83 
+  JSR (L_F832C & $FFFF)                           ; 0F83C2 20 2C 83 
   INY                                             ; 0F83C5 C8 
   CPY T0OUT                                       ; 0F83C6 C4 FD 
   BNE B_F83C0                                     ; 0F83C8 D0 F6 
@@ -316,6 +317,8 @@ B_F83C0:
 B_F83CF:
   PLP                                             ; 0F83CF 28 
   RTL                                             ; 0F83D0 6B 
+
+L_F83D1:
   STA T0OUT                                       ; 0F83D1 85 FD 
   LDA CPUIO4                                      ; 0F83D3 A5 F7 
   SEC                                             ; 0F83D5 38 
@@ -324,27 +327,28 @@ B_F83CF:
   RTS                                             ; 0F83DA 60 
 
 B_F83DB:
-.a16
   AND #$7FFF                                      ; 0F83DB 29 FF 7F 
   TAX                                             ; 0F83DE AA 
   ASL                                             ; 0F83DF 0A 
-  JSR L_83D1                                      ; 0F83E0 20 D1 83 
+  JSR (L_F83D1 & $FFFF)                           ; 0F83E0 20 D1 83 
   INY                                             ; 0F83E3 C8 
   INY                                             ; 0F83E4 C8 
   LDA [$EE],Y                                     ; 0F83E5 B7 EE 
   STA T0OUT                                       ; 0F83E7 85 FD 
 B_F83E9:
   LDA T0OUT                                       ; 0F83E9 A5 FD 
-  JSR L_83F3                                      ; 0F83EB 20 F3 83 
+  JSR (L_F83F3 & $FFFF)                           ; 0F83EB 20 F3 83 
   DEX                                             ; 0F83EE CA 
   BNE B_F83E9                                     ; 0F83EF D0 F8 
   BRA B_F83A2                                     ; 0F83F1 80 AF 
+
+L_F83F3:
   PHA                                             ; 0F83F3 48 
   SEP #$20                                        ; 0F83F4 E2 20 
   PLA                                             ; 0F83F6 68 
-  JSR L_832C                                      ; 0F83F7 20 2C 83 
+  JSR (L_F832C & $FFFF)                           ; 0F83F7 20 2C 83 
   PLA                                             ; 0F83FA 68 
-  JSR L_832C                                      ; 0F83FB 20 2C 83 
+  JSR (L_F832C & $FFFF)                           ; 0F83FB 20 2C 83 
   REP #$20                                        ; 0F83FE C2 20 
   RTS                                             ; 0F8400 60 
 
@@ -356,9 +360,9 @@ L_F8401:
   REP #$10                                        ; 0F8407 C2 10 
   SEP #$20                                        ; 0F8409 E2 20 
   STA T0OUT                                       ; 0F840B 85 FD 
-  LDY #$0003                                      ; 0F840D A0 03 00 
+  LDY.W #$0003                                    ; 0F840D A0 03 00 
+D_F8410:
   LDA [CONTROL],Y                                 ; 0F8410 B7 F1 
-.a8
   CMP #$FF                                        ; 0F8412 C9 FF 
   BEQ B_F847F                                     ; 0F8414 F0 69 
   CMP T0OUT                                       ; 0F8416 C5 FD 
@@ -367,7 +371,7 @@ L_F8401:
   INY                                             ; 0F841B C8 
   INY                                             ; 0F841C C8 
   INY                                             ; 0F841D C8 
-  JMP D_8410                                      ; 0F841E 4C 10 84 
+  JMP (D_F8410 & $FFFF)                           ; 0F841E 4C 10 84 
 B_F8421:
   INY                                             ; 0F8421 C8 
   REP #$20                                        ; 0F8422 C2 20 
@@ -376,10 +380,10 @@ B_F8421:
   INY                                             ; 0F8428 C8 
   LDA [CONTROL],Y                                 ; 0F8429 B7 F1 
   STA $EF                                         ; 0F842B 85 EF 
-  LDY #$0000                                      ; 0F842D A0 00 00 
+  LDY.W #$0000                                    ; 0F842D A0 00 00 
   LDA [$EE],Y                                     ; 0F8430 B7 EE 
-  DEC                                             ; 0F8432 3A 
-  DEC                                             ; 0F8433 3A 
+.byte $3A
+.byte $3A
   STA CPUIO4                                      ; 0F8434 85 F7 
   INY                                             ; 0F8436 C8 
   INY                                             ; 0F8437 C8 
@@ -393,7 +397,7 @@ B_F843C:
   LDA [$EE],Y                                     ; 0F8442 B7 EE 
   BMI B_F8481                                     ; 0F8444 30 3B 
   STA RAMREG2                                     ; 0F8446 85 F9 
-  JSR L_83D1                                      ; 0F8448 20 D1 83 
+  JSR (L_F83D1 & $FFFF)                           ; 0F8448 20 D1 83 
   INY                                             ; 0F844B C8 
   INY                                             ; 0F844C C8 
   LDA [$EE],Y                                     ; 0F844D B7 EE 
@@ -402,18 +406,18 @@ B_F843C:
   LDA [$EE],Y                                     ; 0F8452 B7 EE 
   STA CPUIO2                                      ; 0F8454 85 F5 
   PHY                                             ; 0F8456 5A 
-  LDY #$0000                                      ; 0F8457 A0 00 00 
+  LDY.W #$0000                                    ; 0F8457 A0 00 00 
   SEP #$20                                        ; 0F845A E2 20 
   LDA #$10                                        ; 0F845C A9 10 
   LDX T0OUT                                       ; 0F845E A6 FD 
   JSL f:L_F830F                                   ; 0F8460 22 0F 83 0F 
   LDA T1TARGET                                    ; 0F8464 A5 FB 
-  JSR L_832C                                      ; 0F8466 20 2C 83 
+  JSR (L_F832C & $FFFF)                           ; 0F8466 20 2C 83 
   LDA T2TARGET                                    ; 0F8469 A5 FC 
-  JSR L_832C                                      ; 0F846B 20 2C 83 
+  JSR (L_F832C & $FFFF)                           ; 0F846B 20 2C 83 
 B_F846E:
   LDA [CPUIO1],Y                                  ; 0F846E B7 F4 
-  JSR L_832C                                      ; 0F8470 20 2C 83 
+  JSR (L_F832C & $FFFF)                           ; 0F8470 20 2C 83 
   INC T1TARGET                                    ; 0F8473 E6 FB 
   INY                                             ; 0F8475 C8 
   CPY RAMREG2                                     ; 0F8476 C4 F9 
@@ -442,13 +446,12 @@ L_F84BE:
   SEP #$20                                        ; 0F84C1 E2 20 
   PHA                                             ; 0F84C3 48 
   LDA #$04                                        ; 0F84C4 A9 04 
-  LDX #$0000                                      ; 0F84C6 A2 00 00 
+  LDX.W #$0000                                    ; 0F84C6 A2 00 00 
   JSL f:L_F830F                                   ; 0F84C9 22 0F 83 0F 
   PLA                                             ; 0F84CD 68 
   BEQ B_F84EA                                     ; 0F84CE F0 1A 
   REP #$20                                        ; 0F84D0 C2 20 
-.a16
-  AND #$00FF                                      ; 0F84D2 29 FF 00 
+  AND.W #$00FF                                    ; 0F84D2 29 FF 00 
   PHA                                             ; 0F84D5 48 
   EOR #$FFFF                                      ; 0F84D6 49 FF FF 
   CLC                                             ; 0F84D9 18 
@@ -456,7 +459,6 @@ L_F84BE:
   JSL f:L_F8401                                   ; 0F84DD 22 01 84 0F 
   PLX                                             ; 0F84E1 FA 
   SEP #$20                                        ; 0F84E2 E2 20 
-.a8
   LDA #$04                                        ; 0F84E4 A9 04 
   JSL f:L_F830F                                   ; 0F84E6 22 0F 83 0F 
 B_F84EA:
@@ -469,13 +471,12 @@ L_F84EC:
   SEP #$20                                        ; 0F84EF E2 20 
   PHA                                             ; 0F84F1 48 
   LDA #$04                                        ; 0F84F2 A9 04 
-  LDX #$0000                                      ; 0F84F4 A2 00 00 
+  LDX.W #$0000                                    ; 0F84F4 A2 00 00 
   JSL f:L_F830F                                   ; 0F84F7 22 0F 83 0F 
   PLA                                             ; 0F84FB 68 
   BEQ B_F851C                                     ; 0F84FC F0 1E 
   REP #$20                                        ; 0F84FE C2 20 
-.a16
-  AND #$00FF                                      ; 0F8500 29 FF 00 
+  AND.W #$00FF                                    ; 0F8500 29 FF 00 
   PHA                                             ; 0F8503 48 
   EOR #$FFFF                                      ; 0F8504 49 FF FF 
   CLC                                             ; 0F8507 18 
@@ -485,7 +486,6 @@ L_F84EC:
   ORA #$0100                                      ; 0F8510 09 00 01 
   TAX                                             ; 0F8513 AA 
   SEP #$20                                        ; 0F8514 E2 20 
-.a8
   LDA #$04                                        ; 0F8516 A9 04 
   JSL f:L_F830F                                   ; 0F8518 22 0F 83 0F 
 B_F851C:

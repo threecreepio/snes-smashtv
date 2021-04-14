@@ -98,9 +98,9 @@ const OpMode = [
 
 const OpName = [
 	"BRK", "ORA", "COP", "ORA", "TSB", "ORA", "ASL", "ORA", "PHP", "ORA", "ASL", "PHD", "TSB", "ORA", "ASL", "ORA",
-	"BPL", "ORA", "ORA", "ORA", "TRB", "ORA", "ASL", "ORA", "CLC", "ORA", "INC", "TCS", "TRB", "ORA", "ASL", "ORA",
+	"BPL", "ORA", "ORA", "ORA", "TRB", "ORA", "ASL", "ORA", "CLC", "ORA", "?INC", "TCS", "TRB", "ORA", "ASL", "ORA",
 	"JSR", "AND", "JSL", "AND", "BIT", "AND", "ROL", "AND", "PLP", "AND", "ROL", "PLD", "BIT", "AND", "ROL", "AND",
-	"BMI", "AND", "AND", "AND", "BIT", "AND", "ROL", "AND", "SEC", "AND", "DEC", "TSC", "BIT", "AND", "ROL", "AND",
+	"BMI", "AND", "AND", "AND", "BIT", "AND", "ROL", "AND", "SEC", "AND", "?DEC", "TSC", "BIT", "AND", "ROL", "AND",
 	"RTI", "EOR", "WDM", "EOR", "MVP", "EOR", "LSR", "EOR", "PHA", "EOR", "LSR", "PHK", "JMP", "EOR", "LSR", "EOR",
 	"BVC", "EOR", "EOR", "EOR", "MVN", "EOR", "LSR", "EOR", "CLI", "EOR", "PHY", "TCD", "JMP", "EOR", "LSR", "EOR",
 	"RTS", "ADC", "PER", "ADC", "STZ", "ADC", "ROR", "ADC", "PLA", "ADC", "ROR", "RTL", "JMP", "ADC", "ROR", "ADC",
@@ -234,9 +234,12 @@ for (let i=0; i<romData.byteLength;) {
 
 const PrintOp = (opCode, operand, offset, bank) => {
 	const addrMode = OpMode[opCode];
-    const out = OpName[opCode];
+    let out = OpName[opCode];
+    if (operand.byteLength === 2 && operand[1] === 0) {
+        out = out + '.W';
+    }
     
-    const operandHexValue = '$' + (
+    let operandHexValue = '$' + (
         (operand.toString('hex')
         .padStart(operand.byteLength * 2, '0')
         .match(/../g) || []
@@ -245,11 +248,17 @@ const PrintOp = (opCode, operand, offset, bank) => {
     let operandValue = operandHexValue;
     let value = operand.byteLength ? operand.readUIntLE(0, operand.byteLength) : 0;
     let foundLabel = null;
-    if (operand.byteLength === 3) foundLabel = labels[operand.readUIntLE(0, operand.byteLength)];
-    else if (operand.byteLength && value >= 0x8000) foundLabel = labels[bank + operand.readUIntLE(0, operand.byteLength)];
+    // FAR address found
+    if (operand.byteLength === 3) {
+        foundLabel = labels[operand.readUIntLE(0, operand.byteLength)];
+    } else if (operand.byteLength && value >= 0x8000) {
+        // absolute address
+        foundLabel = labels[bank + operand.readUIntLE(0, operand.byteLength)];
+        foundLabel = `(${foundLabel} & $FFFF)`
+    }
     else foundLabel = labels[value];
     if (foundLabel) operandValue = foundLabel;
-    
+
     switch (addrMode) {
 		case AddrMode.Abs: return `${out} ${operandValue}`;
 		case AddrMode.AbsJmp: return `${out} ${operandValue}`;
@@ -320,14 +329,14 @@ for (let code of codes) {
             if (/^\?/.test(OpName[code.id])) {
                 output.push('.byte $' + code.id.toString(16).padStart(2, '0').toUpperCase());
             } else {
-                if (code.indexMode && code.indexMode !== im) {
-                    output.push('.i' + code.indexMode);
-                    im = code.indexMode;
-                }
-                if (code.memoryMode && code.memoryMode !== mm) {
-                    output.push('.a' + code.memoryMode);
-                    mm = code.memoryMode;
-                }
+                //if (code.indexMode && code.indexMode !== im) {
+                //    output.push('.i' + code.indexMode);
+                //    im = code.indexMode;
+                //}
+                //if (code.memoryMode && code.memoryMode !== mm) {
+                //    output.push('.a' + code.memoryMode);
+                //    mm = code.memoryMode;
+                //}
                 const op = PrintOp(code.id, code.operand, code.offset, bank);
                     output.push('  ' +
                         op.padEnd(48, ' ') + '; ' +
@@ -380,7 +389,7 @@ for (let code of codes) {
 }
 
 // print results
-const entry = ['.include "../ca65.inc"'];
+const entry = ['.include "../wla.inc"'];
 const extraLabels = [];
 for (const label of Object.keys(labels)) {
     if (placedLabels[label]) continue;
@@ -396,10 +405,8 @@ for (let i=0; i<banks.length; ++i) {
     entry.push('.include "' + name + '"');
     entry.push('');
     banks[i].unshift(...[
-        '.SETCPU "65816"',
-        '.i16',
-        '.a16',
-        '.ORG $' + (0x8000 + (i * 0x10000)).toString(16).padStart(6, '0').toUpperCase()
+        `.BANK ${i}`,
+        ''
     ]);
     fs.writeFileSync(__dirname + '/source/' + name, banks[i].join('\n'));
 }
