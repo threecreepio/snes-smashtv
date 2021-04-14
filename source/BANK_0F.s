@@ -113,7 +113,7 @@ D_F81CB:
 L_F81DA:
   PHP                                             ; 0F81DA 08 
   PHB                                             ; 0F81DB 8B 
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0F81DC C2 30 
+  REP.B #$30                                      ; 0F81DC C2 30 
   LDX.W #$0000                                    ; 0F81DE A2 00 00 
   LDA.W #$A146                                    ; 0F81E1 A9 46 A1 
   LDY.W #$000B                                    ; 0F81E4 A0 0B 00 
@@ -131,7 +131,7 @@ L_F81DA:
 .byte $80,$0F                                     ; 0F8223 ..       ??
 
 B_F8224:
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0F8224 C2 30 
+  REP.B #$30                                      ; 0F8224 C2 30 
   LDX.W #$4000                                    ; 0F8226 A2 00 40 
   LDA.W #$8000                                    ; 0F8229 A9 00 80 
   LDY.W #$000B                                    ; 0F822C A0 0B 00 
