@@ -2313,7 +2313,7 @@ L_EC6F5:
   JSL L_F8401                                     ; 0EC712 22 01 84 0F 
   LDA.W #$822B                                    ; 0EC716 A9 2B 82 
   JSL L_F8401                                     ; 0EC719 22 01 84 0F 
-  REP.B #$30                                      ; 0EC71D C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC71D C2 30 
   PHB                                             ; 0EC71F 8B 
   PEA.W $7E7E                                     ; 0EC720 F4 7E 7E 
   PLB                                             ; 0EC723 AB 
@@ -2367,7 +2367,7 @@ L_EC765:
   LDA.B #$01                                      ; 0EC78B A9 01 
   STA.W $1A83                                     ; 0EC78D 8D 83 1A 
   JSL L_ECA13                                     ; 0EC790 22 13 CA 0E 
-  REP.B #$30                                      ; 0EC794 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC794 C2 30 
   LDA.W #$A31D                                    ; 0EC796 A9 1D A3 
   LDY.W #$000F                                    ; 0EC799 A0 0F 00 
   LDX.W #$28AE                                    ; 0EC79C A2 AE 28 
@@ -2412,7 +2412,7 @@ L_EC765:
   LDA.B #$01                                      ; 0EC811 A9 01 
   STA.W $1A91                                     ; 0EC813 8D 91 1A 
   JSL L_ECA13                                     ; 0EC816 22 13 CA 0E 
-  REP.B #$30                                      ; 0EC81A C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC81A C2 30 
   LDX.W #$3BAE                                    ; 0EC81C A2 AE 3B 
   LDA.W #$CB72                                    ; 0EC81F A9 72 CB 
   LDY.W #$000D                                    ; 0EC822 A0 0D 00 
@@ -2748,7 +2748,7 @@ L_ECB3A:
   PEA.W $7E7E                                     ; 0ECB3C F4 7E 7E 
   PLB                                             ; 0ECB3F AB 
   PLB                                             ; 0ECB40 AB 
-  REP.B #$30                                      ; 0ECB41 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECB41 C2 30 
   LDX.W #$0000                                    ; 0ECB43 A2 00 00 
   LDA.W $0266                                     ; 0ECB46 AD 66 02 
 B_ECB49:
@@ -2802,7 +2802,7 @@ L_ECB94:
 
 L_ECBAF:
   PHP                                             ; 0ECBAF 08 
-  REP.B #$30                                      ; 0ECBB0 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECBB0 C2 30 
   LDX.W #$CCF1                                    ; 0ECBB2 A2 F1 CC 
   LDY.W #$000E                                    ; 0ECBB5 A0 0E 00 
   JSL L_EDCC1                                     ; 0ECBB8 22 C1 DC 0E 
@@ -2836,7 +2836,7 @@ B_ECBF8:
   STA.W INIDISP                                   ; 0ECC07 8D 00 21 
   DEX                                             ; 0ECC0A CA 
   BPL.B B_ECBF8                                   ; 0ECC0B 10 EB 
-  REP.B #$30                                      ; 0ECC0D C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECC0D C2 30 
 B_ECC0F:
   JSL L_ECA13                                     ; 0ECC0F 22 13 CA 0E 
   JSL L_ECA13                                     ; 0ECC13 22 13 CA 0E 
@@ -2891,7 +2891,7 @@ B_ECC85:
   STA.W INIDISP                                   ; 0ECC94 8D 00 21 
   DEX                                             ; 0ECC97 CA 
   BPL.B B_ECC85                                   ; 0ECC98 10 EB 
-  REP.B #$30                                      ; 0ECC9A C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECC9A C2 30 
   INC.B $08                                       ; 0ECC9C E6 08 
   LDA.W #$0007                                    ; 0ECC9E A9 07 00 
   JSL L_F84BE                                     ; 0ECCA1 22 BE 84 0F 
@@ -2912,7 +2912,7 @@ B_ECCBA:
   DEX                                             ; 0ECCCB CA 
 B_ECCCC:
   STX.B $06                                       ; 0ECCCC 86 06 
-  REP.B #$30                                      ; 0ECCCE C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECCCE C2 30 
   JSL L_ECAFA                                     ; 0ECCD0 22 FA CA 0E 
   LDA.W $0262                                     ; 0ECCD4 AD 62 02 
   BEQ.B B_ECCE5                                   ; 0ECCD7 F0 0C 
@@ -2946,7 +2946,7 @@ B_ECD01:
 
 L_ECD12:
   PHP                                             ; 0ECD12 08 
-  REP.B #$30                                      ; 0ECD13 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECD13 C2 30 
   LDX.W #$CDCB                                    ; 0ECD15 A2 CB CD 
   LDY.W #$000E                                    ; 0ECD18 A0 0E 00 
   JSL L_EDCC1                                     ; 0ECD1B 22 C1 DC 0E 
@@ -3245,7 +3245,7 @@ L_ED0B9:
   STA.W $02A1                                     ; 0ED0EF 8D A1 02 
   LDA.B #$D3                                      ; 0ED0F2 A9 D3 
   STA.W $02A4                                     ; 0ED0F4 8D A4 02 
-  REP.B #$30                                      ; 0ED0F7 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED0F7 C2 30 
   LDA.W #$C000                                    ; 0ED0F9 A9 00 C0 
   LDY.W #$000E                                    ; 0ED0FC A0 0E 00 
   LDX.W #$28AE                                    ; 0ED0FF A2 AE 28 
@@ -3273,7 +3273,7 @@ L_ED117:
   BNE.B B_ED18B                                   ; 0ED132 D0 57 
   LDA.B #$04                                      ; 0ED134 A9 04 
   STA.W $0298                                     ; 0ED136 8D 98 02 
-  REP.B #$30                                      ; 0ED139 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED139 C2 30 
   LDX.W $0299                                     ; 0ED13B AE 99 02 
   INC.W $0299                                     ; 0ED13E EE 99 02 
   INC.W $0299                                     ; 0ED141 EE 99 02 
@@ -3337,7 +3337,7 @@ B_ED1B1:
   INY                                             ; 0ED1BB C8 
   TYA                                             ; 0ED1BC 98 
   STA.W $02A5,X                                   ; 0ED1BD 9D A5 02 
-  REP.B #$30                                      ; 0ED1C0 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED1C0 C2 30 
   TXA                                             ; 0ED1C2 8A 
   ASL                                             ; 0ED1C3 0A 
   TAX                                             ; 0ED1C4 AA 
@@ -3420,7 +3420,7 @@ D_ED25B:
 
 L_ED327:
   PHP                                             ; 0ED327 08 
-  REP.B #$30                                      ; 0ED328 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED328 C2 30 
   AND.W #$00FF                                    ; 0ED32A 29 FF 00 
   ASL                                             ; 0ED32D 0A 
   PHA                                             ; 0ED32E 48 
@@ -3605,7 +3605,7 @@ L_ED46E:
 
 L_ED4C0:
   PHP                                             ; 0ED4C0 08 
-  REP.B #$30                                      ; 0ED4C1 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED4C1 C2 30 
   STX.W $0282                                     ; 0ED4C3 8E 82 02 
   LDX.W #$0000                                    ; 0ED4C6 A2 00 00 
   JSL L_EF072                                     ; 0ED4C9 22 72 F0 0E 
@@ -3734,7 +3734,7 @@ D_ED5F2:
 L_ED607:
   CLI                                             ; 0ED607 58 
   PHP                                             ; 0ED608 08 
-  REP.B #$30                                      ; 0ED609 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED609 C2 30 
   LDX.W #$0000                                    ; 0ED60B A2 00 00 
   JSL L_EF072                                     ; 0ED60E 22 72 F0 0E 
   LDA.W #$0007                                    ; 0ED612 A9 07 00 
@@ -3756,7 +3756,7 @@ L_ED607:
 
 L_ED641:
   PHP                                             ; 0ED641 08 
-  REP.B #$30                                      ; 0ED642 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED642 C2 30 
   LDX.W #$0000                                    ; 0ED644 A2 00 00 
   JSL L_EF072                                     ; 0ED647 22 72 F0 0E 
   LDA.W #$0007                                    ; 0ED64B A9 07 00 
@@ -3790,7 +3790,7 @@ B_ED684:
 B_ED68C:
   AND.B #$10                                      ; 0ED68C 29 10 
   BEQ.B B_ED670                                   ; 0ED68E F0 E0 
-  REP.B #$30                                      ; 0ED690 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED690 C2 30 
   LDA.W #$0000                                    ; 0ED692 A9 00 00 
   LDX.W #$02FE                                    ; 0ED695 A2 FE 02 
 B_ED698:
@@ -3806,7 +3806,7 @@ B_ED698:
 L_ED6A8:
   PHP                                             ; 0ED6A8 08 
   PHB                                             ; 0ED6A9 8B 
-  REP.B #$30                                      ; 0ED6AA C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED6AA C2 30 
   PEA.W $0E0E                                     ; 0ED6AC F4 0E 0E 
   PLB                                             ; 0ED6AF AB 
   PLB                                             ; 0ED6B0 AB 
@@ -3885,7 +3885,7 @@ B_ED75C:
 
 L_ED75E:
   PHP                                             ; 0ED75E 08 
-  REP.B #$30                                      ; 0ED75F C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED75F C2 30 
   LDX.W #$D8E4                                    ; 0ED761 A2 E4 D8 
   LDY.W #$000E                                    ; 0ED764 A0 0E 00 
   JSL L_EDCC1                                     ; 0ED767 22 C1 DC 0E 
@@ -4125,7 +4125,7 @@ B_EDADB:
 
 L_EDAF3:
   PHP                                             ; 0EDAF3 08 
-  REP.B #$30                                      ; 0EDAF4 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EDAF4 C2 30 
   JSR.W L_EDAD4                                   ; 0EDAF6 20 D4 DA 
   STA.L D_7E020C                                  ; 0EDAF9 8F 0C 02 7E 
   PLP                                             ; 0EDAFD 28 
@@ -4133,7 +4133,7 @@ L_EDAF3:
 
 L_EDAFF:
   PHP                                             ; 0EDAFF 08 
-  REP.B #$30                                      ; 0EDB00 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EDB00 C2 30 
   LDA.W #$0000                                    ; 0EDB02 A9 00 00 
   STA.L D_7E020A                                  ; 0EDB05 8F 0A 02 7E 
   JSR.W L_EDAD4                                   ; 0EDB09 20 D4 DA 
@@ -4566,7 +4566,7 @@ B_EE254:
 
 L_EE257:
   PHP                                             ; 0EE257 08 
-  REP.B #$30                                      ; 0EE258 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE258 C2 30 
   LDX.W #$0000                                    ; 0EE25A A2 00 00 
   LDA.W #$2096                                    ; 0EE25D A9 96 20 
   JSR.W L_EE1D3                                   ; 0EE260 20 D3 E1 
@@ -4580,7 +4580,7 @@ L_EE257:
   BCC.B B_EE27D                                   ; 0EE278 90 03 
   DEC.W $025A                                     ; 0EE27A CE 5A 02 
 B_EE27D:
-  REP.B #$30                                      ; 0EE27D C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE27D C2 30 
   LDX.W #$DB9B                                    ; 0EE27F A2 9B DB 
   LDY.W #$000E                                    ; 0EE282 A0 0E 00 
   JSL L_EDCC1                                     ; 0EE285 22 C1 DC 0E 
@@ -4735,7 +4735,7 @@ B_EE3DC:
 
 L_EE3E6:
   PHP                                             ; 0EE3E6 08 
-  REP.B #$30                                      ; 0EE3E7 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE3E7 C2 30 
   LDA.W #$8128                                    ; 0EE3E9 A9 28 81 
   JSL L_F8401                                     ; 0EE3EC 22 01 84 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE3F0 E2 30 
@@ -4761,7 +4761,7 @@ B_EE406:
 .byte $EE,$A4,$18                                 ; 0EE410 ...      ???
 
 B_EE412:
-  REP.B #$30                                      ; 0EE412 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE412 C2 30 
   LDX.W #$8000                                    ; 0EE414 A2 00 80 
   LDA.W #$2096                                    ; 0EE417 A9 96 20 
   JSR.W L_EE1D3                                   ; 0EE41A 20 D3 E1 
@@ -4866,7 +4866,7 @@ B_EE493:
   JSL L_EF164                                     ; 0EE521 22 64 F1 0E 
   LDA.B #$81                                      ; 0EE525 A9 81 
   STA.W NMITIMEN                                  ; 0EE527 8D 00 42 
-  REP.B #$30                                      ; 0EE52A C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE52A C2 30 
   JSL L_ECA1E                                     ; 0EE52C 22 1E CA 0E 
 B_EE530:
   JSL L_ECA13                                     ; 0EE530 22 13 CA 0E 
@@ -5189,7 +5189,7 @@ L_EE7A6:
 
 L_EE7C8:
   PHP                                             ; 0EE7C8 08 
-  REP.B #$30                                      ; 0EE7C9 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE7C9 C2 30 
   LDX.W #$DBAB                                    ; 0EE7CB A2 AB DB 
   LDY.W #$000E                                    ; 0EE7CE A0 0E 00 
   JSL L_EDCC1                                     ; 0EE7D1 22 C1 DC 0E 
@@ -5271,7 +5271,7 @@ L_EE87F:
   PEA.W $7E7E                                     ; 0EE881 F4 7E 7E 
   PLB                                             ; 0EE884 AB 
   PLB                                             ; 0EE885 AB 
-  REP.B #$30                                      ; 0EE886 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE886 C2 30 
   INC.W $0260                                     ; 0EE888 EE 60 02 
   STZ.B $06                                       ; 0EE88B 64 06 
   LDX.W #$0000                                    ; 0EE88D A2 00 00 
