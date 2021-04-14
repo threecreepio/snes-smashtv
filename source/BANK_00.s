@@ -16,7 +16,7 @@ V_STARTUP:
   LDA.B #$00                                      ; 008019 A9 00 
   PHA                                             ; 00801B 48 
   PLB                                             ; 00801C AB 
-  REP.B #$30                                      ; 00801D C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00801D C2 30 
   LDA.W #$0080                                    ; 00801F A9 80 00 
   STA.W INIDISP                                   ; 008022 8D 00 21 
   LDA.W #$0000                                    ; 008025 A9 00 00 
@@ -24,7 +24,7 @@ V_STARTUP:
   LDA.W #$01FF                                    ; 008029 A9 FF 01 
   TCS                                             ; 00802C 1B 
   STZ.W $1BF1                                     ; 00802D 9C F1 1B 
-  SEP.B #$30                                      ; 008030 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008030 E2 30 
   STZ.W $02CB                                     ; 008032 9C CB 02 
   STZ.W $052C                                     ; 008035 9C 2C 05 
   JSR.W L_8232                                    ; 008038 20 32 82 
@@ -49,12 +49,12 @@ B_806B:
   BNE.B B_8074                                    ; 00806E D0 04 
   JSL L_EFFE                                      ; 008070 22 FE EF 00 
 B_8074:
-  REP.B #$30                                      ; 008074 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008074 C2 30 
   JSL L_F835A                                     ; 008076 22 5A 83 0F 
   LDA.W #$0000                                    ; 00807A A9 00 00 
   JSL L_F836D                                     ; 00807D 22 6D 83 0F 
 D_8081:
-  SEP.B #$20                                      ; 008081 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 008081 E2 20 
   STZ.W $02CB                                     ; 008083 9C CB 02 
   STZ.W $052C                                     ; 008086 9C 2C 05 
   LDA.B #$08                                      ; 008089 A9 08 
@@ -82,22 +82,22 @@ B_80BC:
   PLB                                             ; 0080C0 AB 
   JSL L_ECBAF                                     ; 0080C1 22 AF CB 0E 
   JSL L_ECD12                                     ; 0080C5 22 12 CD 0E 
-  SEP.B #$20                                      ; 0080C9 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0080C9 E2 20 
   LDA.B #$0D                                      ; 0080CB A9 0D 
   LDX.W #$4040                                    ; 0080CD A2 40 40 
   JSL L_F830F                                     ; 0080D0 22 0F 83 0F 
-  REP.B #$10                                      ; 0080D4 C2 10 
+  REP.B #P_Idx8Bit                                      ; 0080D4 C2 10 
   LDA.B #$02                                      ; 0080D6 A9 02 
   STA.W $05E0                                     ; 0080D8 8D E0 05 
   LDX.W $05E0                                     ; 0080DB AE E0 05 
   LDA.B #$0F                                      ; 0080DE A9 0F 
   JSL L_F830F                                     ; 0080E0 22 0F 83 0F 
-  SEP.B #$10                                      ; 0080E4 E2 10 
+  SEP.B #P_Idx8Bit                                      ; 0080E4 E2 10 
 D_80E6:
   PEA.W $0000                                     ; 0080E6 F4 00 00 
   PLB                                             ; 0080E9 AB 
   PLB                                             ; 0080EA AB 
-  SEP.B #$30                                      ; 0080EB E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0080EB E2 30 
   STZ.W $05AB                                     ; 0080ED 9C AB 05 
   STZ.W $05AC                                     ; 0080F0 9C AC 05 
   STZ.W $052E                                     ; 0080F3 9C 2E 05 
@@ -121,7 +121,7 @@ D_8135:
   STZ.W $05AB                                     ; 008135 9C AB 05 
   STZ.W $05AC                                     ; 008138 9C AC 05 
   JSL L_E454                                      ; 00813B 22 54 E4 00 
-  SEP.B #$20                                      ; 00813F E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00813F E2 20 
   STZ.W $02CB                                     ; 008141 9C CB 02 
   STZ.W $052C                                     ; 008144 9C 2C 05 
   JSL L_ED730                                     ; 008147 22 30 D7 0E 
@@ -135,7 +135,7 @@ B_8159:
   PEA.W $0000                                     ; 008159 F4 00 00 
   PLB                                             ; 00815C AB 
   PLB                                             ; 00815D AB 
-  SEP.B #$30                                      ; 00815E E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00815E E2 30 
   JSR.W L_81D0                                    ; 008160 20 D0 81 
   LDX.W $05AB                                     ; 008163 AE AB 05 
   STX.W $05AB                                     ; 008166 8E AB 05 
@@ -214,7 +214,7 @@ D_822F:
 
 L_8232:
   PHP                                             ; 008232 08 
-  REP.B #$30                                      ; 008233 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008233 C2 30 
   LDX.W #$8000                                    ; 008235 A2 00 80 
   LDA.W #$8000                                    ; 008238 A9 00 80 
   LDY.W #$0007                                    ; 00823B A0 07 00 
@@ -223,21 +223,21 @@ L_8232:
   RTS                                             ; 008243 60 
 
 V_NMI:
-  REP.B #$30                                      ; 008244 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008244 C2 30 
   PHA                                             ; 008246 48 
   PHX                                             ; 008247 DA 
   PHY                                             ; 008248 5A 
   PHB                                             ; 008249 8B 
   PHP                                             ; 00824A 08 
   INC.B FrameCounter                              ; 00824B E6 CF 
-  SEP.B #$20                                      ; 00824D E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00824D E2 20 
   LDA.B #$00                                      ; 00824F A9 00 
   PHA                                             ; 008251 48 
   PLB                                             ; 008252 AB 
   LDA.W RDNMI                                     ; 008253 AD 10 42 
-  REP.B #$30                                      ; 008256 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008256 C2 30 
   JSL L_8267                                      ; 008258 22 67 82 00 
-  SEP.B #$20                                      ; 00825C E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00825C E2 20 
   STZ.W $052D                                     ; 00825E 9C 2D 05 
   PLP                                             ; 008261 28 
   PLB                                             ; 008262 AB 
@@ -250,18 +250,18 @@ L_8267:
   JML.W [$00C7]                                   ; 008267 DC C7 00 
 
 V_IRQ:
-  REP.B #$30                                      ; 00826A C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00826A C2 30 
   PHA                                             ; 00826C 48 
   PHX                                             ; 00826D DA 
   PHY                                             ; 00826E 5A 
   PHP                                             ; 00826F 08 
   PHB                                             ; 008270 8B 
-  SEP.B #$20                                      ; 008271 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 008271 E2 20 
   LDA.B #$00                                      ; 008273 A9 00 
   PHA                                             ; 008275 48 
   PLB                                             ; 008276 AB 
   LDA.W TIMEUP                                    ; 008277 AD 11 42 
-  REP.B #$20                                      ; 00827A C2 20 
+  REP.B #P_Acc8Bit                                      ; 00827A C2 20 
   JSL L_8286                                      ; 00827C 22 86 82 00 
   PLB                                             ; 008280 AB 
   PLP                                             ; 008281 28 
@@ -310,7 +310,7 @@ B_82C5:
 
 L_82D9:
   PHP                                             ; 0082D9 08 
-  SEP.B #$30                                      ; 0082DA E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0082DA E2 30 
   LDA.B #$80                                      ; 0082DC A9 80 
   STA.W INIDISP                                   ; 0082DE 8D 00 21 
   JSR.W L_A45F                                    ; 0082E1 20 5F A4 
@@ -339,7 +339,7 @@ B_830A:
   BPL.B B_830A                                    ; 008317 10 F1 
   JSR.W L_9961                                    ; 008319 20 61 99 
   JSR.W L_B032                                    ; 00831C 20 32 B0 
-  SEP.B #$30                                      ; 00831F E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00831F E2 30 
   LDA.W $05AC                                     ; 008321 AD AC 05 
   BNE.B B_8329                                    ; 008324 D0 03 
   JSR.W L_83CA                                    ; 008326 20 CA 83 
@@ -390,7 +390,7 @@ B_8329:
   LDA.W $05AB                                     ; 0083A8 AD AB 05 
   ASL                                             ; 0083AB 0A 
   TAX                                             ; 0083AC AA 
-  REP.B #$20                                      ; 0083AD C2 20 
+  REP.B #P_Acc8Bit                                      ; 0083AD C2 20 
   LDA.L D_83C4,X                                  ; 0083AF BF C4 83 00 
   STA.W $05A6                                     ; 0083B3 8D A6 05 
   LDX.B #$00                                      ; 0083B6 A2 00 
@@ -407,10 +407,10 @@ D_83C4:
 
 L_83CA:
   PHP                                             ; 0083CA 08 
-  REP.B #$20                                      ; 0083CB C2 20 
+  REP.B #P_Acc8Bit                                      ; 0083CB C2 20 
   LDA.W #$8128                                    ; 0083CD A9 28 81 
   JSL L_F8401                                     ; 0083D0 22 01 84 0F 
-  SEP.B #$30                                      ; 0083D4 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0083D4 E2 30 
   JSL L_380F3                                     ; 0083D6 22 F3 80 03 
   LDA.B #$0D                                      ; 0083DA A9 0D 
   JSL L_38064                                     ; 0083DC 22 64 80 03 
@@ -525,7 +525,7 @@ L_84CC:
 
 L_84D7:
   PHP                                             ; 0084D7 08 
-  SEP.B #$30                                      ; 0084D8 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0084D8 E2 30 
   JSR.W L_82D9                                    ; 0084DA 20 D9 82 
   LDA.B #$81                                      ; 0084DD A9 81 
   STA.W NMITIMEN                                  ; 0084DF 8D 00 42 
@@ -702,7 +702,7 @@ B_8645:
 
 L_8663:
   PHP                                             ; 008663 08 
-  SEP.B #$30                                      ; 008664 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008664 E2 30 
   JSR.W L_8B8A                                    ; 008666 20 8A 8B 
   JSL L_ECA13                                     ; 008669 22 13 CA 0E 
   LDA.W $05AB                                     ; 00866D AD AB 05 
@@ -728,13 +728,13 @@ L_8663:
   LDA.W $05AB                                     ; 0086A4 AD AB 05 
   ASL                                             ; 0086A7 0A 
   TAX                                             ; 0086A8 AA 
-  REP.B #$20                                      ; 0086A9 C2 20 
+  REP.B #P_Acc8Bit                                      ; 0086A9 C2 20 
   LDA.L D_8827,X                                  ; 0086AB BF 27 88 00 
-  REP.B #$10                                      ; 0086AF C2 10 
+  REP.B #P_Idx8Bit                                      ; 0086AF C2 10 
   LDX.W #$3BAE                                    ; 0086B1 A2 AE 3B 
   LDY.W #$000D                                    ; 0086B4 A0 0D 00 
   JSL L_58000                                     ; 0086B7 22 00 80 05 
-  SEP.B #$20                                      ; 0086BB E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0086BB E2 20 
   LDX.W #$4800                                    ; 0086BD A2 00 48 
   STX.W $1A99                                     ; 0086C0 8E 99 1A 
   LDX.W #$1801                                    ; 0086C3 A2 01 18 
@@ -749,12 +749,12 @@ L_8663:
   STA.W $1A91                                     ; 0086DC 8D 91 1A 
   JSL L_ECA13                                     ; 0086DF 22 13 CA 0E 
   JSR.W L_8F93                                    ; 0086E3 20 93 8F 
-  REP.B #$30                                      ; 0086E6 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0086E6 C2 30 
   LDX.W #$3BAE                                    ; 0086E8 A2 AE 3B 
   LDA.W #$A32A                                    ; 0086EB A9 2A A3 
   LDY.W #$000D                                    ; 0086EE A0 0D 00 
   JSL L_58000                                     ; 0086F1 22 00 80 05 
-  SEP.B #$20                                      ; 0086F5 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0086F5 E2 20 
   LDX.W #$0000                                    ; 0086F7 A2 00 00 
   STX.W $1A99                                     ; 0086FA 8E 99 1A 
   LDX.W #$1801                                    ; 0086FD A2 01 18 
@@ -809,7 +809,7 @@ L_8663:
   STX.W $1A97                                     ; 00878C 8E 97 1A 
   LDA.B #$01                                      ; 00878F A9 01 
   STA.W $1A91                                     ; 008791 8D 91 1A 
-  SEP.B #$10                                      ; 008794 E2 10 
+  SEP.B #P_Idx8Bit                                      ; 008794 E2 10 
   LDX.B #$22                                      ; 008796 A2 22 
   JSL L_EF072                                     ; 008798 22 72 F0 0E 
   LDA.B #$29                                      ; 00879C A9 29 
@@ -886,7 +886,7 @@ D_882E:
 
 L_8833:
   PHP                                             ; 008833 08 
-  SEP.B #$30                                      ; 008834 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008834 E2 30 
   PHB                                             ; 008836 8B 
   PEA.W $0000                                     ; 008837 F4 00 00 
   PLB                                             ; 00883A AB 
@@ -908,7 +908,7 @@ L_8833:
 B_8855:
   PHA                                             ; 008855 48 
   JSR.W L_8920                                    ; 008856 20 20 89 
-  SEP.B #$10                                      ; 008859 E2 10 
+  SEP.B #P_Idx8Bit                                      ; 008859 E2 10 
   LDA.B #$01                                      ; 00885B A9 01 
   STA.W $18AF                                     ; 00885D 8D AF 18 
   LDX.B #$22                                      ; 008860 A2 22 
@@ -984,7 +984,7 @@ D_88E4:
 
 L_8920:
   PHP                                             ; 008920 08 
-  SEP.B #$30                                      ; 008921 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008921 E2 30 
   JSL L_ECA13                                     ; 008923 22 13 CA 0E 
   STZ.W $1A86                                     ; 008927 9C 86 1A 
   STZ.W $1A7D                                     ; 00892A 9C 7D 1A 
@@ -1001,12 +1001,12 @@ L_8920:
   LDA.B #$01                                      ; 008946 A9 01 
   STA.W $1A83                                     ; 008948 8D 83 1A 
   JSL L_ECA13                                     ; 00894B 22 13 CA 0E 
-  REP.B #$30                                      ; 00894F C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00894F C2 30 
   LDX.W #$3BAE                                    ; 008951 A2 AE 3B 
   LDA.W #$9663                                    ; 008954 A9 63 96 
   LDY.W #$000D                                    ; 008957 A0 0D 00 
   JSL L_58000                                     ; 00895A 22 00 80 05 
-  SEP.B #$20                                      ; 00895E E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00895E E2 20 
   LDX.W #$0000                                    ; 008960 A2 00 00 
   STX.W $1A99                                     ; 008963 8E 99 1A 
   LDX.W #$1801                                    ; 008966 A2 01 18 
@@ -1046,12 +1046,12 @@ L_8920:
   LDA.B #$01                                      ; 0089C9 A9 01 
   STA.W $1A91                                     ; 0089CB 8D 91 1A 
   JSL L_ECA13                                     ; 0089CE 22 13 CA 0E 
-  REP.B #$30                                      ; 0089D2 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0089D2 C2 30 
   LDA.W #$BE0B                                    ; 0089D4 A9 0B BE 
   LDY.W #$000D                                    ; 0089D7 A0 0D 00 
   LDX.W #$20AE                                    ; 0089DA A2 AE 20 
   JSL L_58000                                     ; 0089DD 22 00 80 05 
-  SEP.B #$20                                      ; 0089E1 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0089E1 E2 20 
   LDX.W #$4800                                    ; 0089E3 A2 00 48 
   STX.W $1A99                                     ; 0089E6 8E 99 1A 
   LDX.W #$1801                                    ; 0089E9 A2 01 18 
@@ -1070,7 +1070,7 @@ L_8920:
 
 L_8A07:
   PHP                                             ; 008A07 08 
-  SEP.B #$30                                      ; 008A08 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008A08 E2 30 
   LDY.W $05B2                                     ; 008A0A AC B2 05 
   BEQ.B B_8A21                                    ; 008A0D F0 12 
   DEY                                             ; 008A0F 88 
@@ -1099,8 +1099,8 @@ L_8A3A:
   PHP                                             ; 008A3A 08 
   PHB                                             ; 008A3B 8B 
   JSL L_ECA13                                     ; 008A3C 22 13 CA 0E 
-  REP.B #$10                                      ; 008A40 C2 10 
-  SEP.B #$20                                      ; 008A42 E2 20 
+  REP.B #P_Idx8Bit                                      ; 008A40 C2 10 
+  SEP.B #P_Acc8Bit                                      ; 008A42 E2 20 
   LDA.B #$80                                      ; 008A44 A9 80 
   STA.W VMAIN                                     ; 008A46 8D 15 21 
   LDX.W #$5000                                    ; 008A49 A2 00 50 
@@ -1115,12 +1115,12 @@ L_8A3A:
   STX.W DAS1L                                     ; 008A63 8E 15 43 
   LDA.B #$02                                      ; 008A66 A9 02 
   STA.W MDMAEN                                    ; 008A68 8D 0B 42 
-  SEP.B #$30                                      ; 008A6B E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008A6B E2 30 
   PLB                                             ; 008A6D AB 
-  SEP.B #$10                                      ; 008A6E E2 10 
+  SEP.B #P_Idx8Bit                                      ; 008A6E E2 10 
   LDA.B #$40                                      ; 008A70 A9 40 
   STA.W $1A86                                     ; 008A72 8D 86 1A 
-  SEP.B #$30                                      ; 008A75 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008A75 E2 30 
   STZ.W $02CB                                     ; 008A77 9C CB 02 
   LDA.W $05AD                                     ; 008A7A AD AD 05 
   CMP.B #$05                                      ; 008A7D C9 05 
@@ -1179,7 +1179,7 @@ B_8AC4:
   JSR.W L_8833                                    ; 008AF4 20 33 88 
   JSL L_ECA13                                     ; 008AF7 22 13 CA 0E 
   JSL L_EC619                                     ; 008AFB 22 19 C6 0E 
-  SEP.B #$30                                      ; 008AFF E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008AFF E2 30 
   LDX.W $05AB                                     ; 008B01 AE AB 05 
   BEQ.B B_8B1B                                    ; 008B04 F0 15 
 
@@ -1192,7 +1192,7 @@ B_8B1B:
   CMP.B #$0A                                      ; 008B1E C9 0A 
   BEQ.B B_8B5B                                    ; 008B20 F0 39 
   JSR.W L_8B65                                    ; 008B22 20 65 8B 
-  REP.B #$10                                      ; 008B25 C2 10 
+  REP.B #P_Idx8Bit                                      ; 008B25 C2 10 
   LDX.W #$1800                                    ; 008B27 A2 00 18 
   STX.W $1A99                                     ; 008B2A 8E 99 1A 
   LDX.W #$1801                                    ; 008B2D A2 01 18 
@@ -1205,7 +1205,7 @@ B_8B1B:
   STX.W $1A97                                     ; 008B41 8E 97 1A 
   LDA.B #$01                                      ; 008B44 A9 01 
   STA.W $1A91                                     ; 008B46 8D 91 1A 
-  SEP.B #$10                                      ; 008B49 E2 10 
+  SEP.B #P_Idx8Bit                                      ; 008B49 E2 10 
   JSL L_ECA13                                     ; 008B4B 22 13 CA 0E 
   LDX.B #$00                                      ; 008B4F A2 00 
   JSL L_AB23                                      ; 008B51 22 23 AB 00 
@@ -1239,8 +1239,8 @@ L_8B65:
 L_8B8A:
   PHP                                             ; 008B8A 08 
   JSL L_ECA13                                     ; 008B8B 22 13 CA 0E 
-  REP.B #$10                                      ; 008B8F C2 10 
-  SEP.B #$20                                      ; 008B91 E2 20 
+  REP.B #P_Idx8Bit                                      ; 008B8F C2 10 
+  SEP.B #P_Acc8Bit                                      ; 008B91 E2 20 
   LDA.B #$80                                      ; 008B93 A9 80 
   STA.W VMAIN                                     ; 008B95 8D 15 21 
   LDX.W #$5000                                    ; 008B98 A2 00 50 
@@ -1262,7 +1262,7 @@ L_8B8A:
 L_8BBC:
   PHP                                             ; 008BBC 08 
   PHB                                             ; 008BBD 8B 
-  SEP.B #$30                                      ; 008BBE E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008BBE E2 30 
   LDA.B #$00                                      ; 008BC0 A9 00 
   PHA                                             ; 008BC2 48 
   PLB                                             ; 008BC3 AB 
@@ -1292,12 +1292,12 @@ B_8BF8:
   LDA.W $05AD                                     ; 008BF8 AD AD 05 
   ASL                                             ; 008BFB 0A 
   TAX                                             ; 008BFC AA 
-  REP.B #$20                                      ; 008BFD C2 20 
+  REP.B #P_Acc8Bit                                      ; 008BFD C2 20 
   LDA.W D_8E2F,X                                  ; 008BFF BD 2F 8E 
   STA.B $04                                       ; 008C02 85 04 
   LDA.W D_8E73,X                                  ; 008C04 BD 73 8E 
   STA.B $06                                       ; 008C07 85 06 
-  REP.B #$10                                      ; 008C09 C2 10 
+  REP.B #P_Idx8Bit                                      ; 008C09 C2 10 
   LDX.W #$3BAE                                    ; 008C0B A2 AE 3B 
   LDA.B $04                                       ; 008C0E A5 04 
   LDY.B $06                                       ; 008C10 A4 06 
@@ -1306,7 +1306,7 @@ B_8BF8:
   PEA.W $7E7E                                     ; 008C17 F4 7E 7E 
   PLB                                             ; 008C1A AB 
   PLB                                             ; 008C1B AB 
-  SEP.B #$20                                      ; 008C1C E2 20 
+  SEP.B #P_Acc8Bit                                      ; 008C1C E2 20 
   LDA.W $05AB                                     ; 008C1E AD AB 05 
   CMP.B #$02                                      ; 008C21 C9 02 
   BNE.B B_8C2C                                    ; 008C23 D0 07 
@@ -1314,8 +1314,8 @@ B_8BF8:
 .byte $AD,$AC,$05,$C9,$07,$F0,$49                 ; 008C26 .......  ??????I
 
 B_8C2C:
-  REP.B #$20                                      ; 008C2C C2 20 
-  SEP.B #$10                                      ; 008C2E E2 10 
+  REP.B #P_Acc8Bit                                      ; 008C2C C2 20 
+  SEP.B #P_Idx8Bit                                      ; 008C2E E2 10 
   LDY.B #$0E                                      ; 008C30 A0 0E 
 B_8C32:
   LDA.W $3BC6,Y                                   ; 008C32 B9 C6 3B 
@@ -1342,7 +1342,7 @@ B_8C32:
   DEY                                             ; 008C71 88 
   DEY                                             ; 008C72 88 
   BPL.B B_8C32                                    ; 008C73 10 BD 
-  REP.B #$30                                      ; 008C75 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008C75 C2 30 
   LDY.W #$07FE                                    ; 008C77 A0 FE 07 
 B_8C7A:
   LDA.W $3BAE,Y                                   ; 008C7A B9 AE 3B 
@@ -1362,7 +1362,7 @@ B_8C8A:
   DEY                                             ; 008C9C 88 
   DEY                                             ; 008C9D 88 
   BPL.B B_8C8A                                    ; 008C9E 10 EA 
-  SEP.B #$20                                      ; 008CA0 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 008CA0 E2 20 
   LDA.W $05E2                                     ; 008CA2 AD E2 05 
   BMI.B B_8CED                                    ; 008CA5 30 46 
   LDA.W $06C7                                     ; 008CA7 AD C7 06 
@@ -1370,7 +1370,7 @@ B_8C8A:
   BEQ.B B_8CD2                                    ; 008CAC F0 24 
   LDY.W #$000A                                    ; 008CAE A0 0A 00 
 B_8CB1:
-  REP.B #$20                                      ; 008CB1 C2 20 
+  REP.B #P_Acc8Bit                                      ; 008CB1 C2 20 
   LDA.W $05EA,Y                                   ; 008CB3 B9 EA 05 
   AND.W #$EDFF                                    ; 008CB6 29 FF ED 
   STA.W $3C48,Y                                   ; 008CB9 99 48 3C 
@@ -1384,7 +1384,7 @@ B_8CB1:
   DEY                                             ; 008CCF 88 
   BPL.B B_8CB1                                    ; 008CD0 10 DF 
 B_8CD2:
-  REP.B #$20                                      ; 008CD2 C2 20 
+  REP.B #P_Acc8Bit                                      ; 008CD2 C2 20 
   LDY.W #$000A                                    ; 008CD4 A0 0A 00 
 B_8CD7:
   LDA.W $05EA,Y                                   ; 008CD7 B9 EA 05 
@@ -1398,10 +1398,10 @@ B_8CD7:
   BPL.B B_8CD7                                    ; 008CEB 10 EA 
 B_8CED:
   PLB                                             ; 008CED AB 
-  SEP.B #$30                                      ; 008CEE E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008CEE E2 30 
   JSL L_ECA13                                     ; 008CF0 22 13 CA 0E 
-  REP.B #$10                                      ; 008CF4 C2 10 
-  SEP.B #$20                                      ; 008CF6 E2 20 
+  REP.B #P_Idx8Bit                                      ; 008CF4 C2 10 
+  SEP.B #P_Acc8Bit                                      ; 008CF6 E2 20 
   LDA.B #$80                                      ; 008CF8 A9 80 
   STA.W VMAIN                                     ; 008CFA 8D 15 21 
   LDX.W #$5400                                    ; 008CFD A2 00 54 
@@ -1416,7 +1416,7 @@ B_8CED:
   STX.W DAS1L                                     ; 008D17 8E 15 43 
   LDA.B #$02                                      ; 008D1A A9 02 
   STA.W MDMAEN                                    ; 008D1C 8D 0B 42 
-  SEP.B #$30                                      ; 008D1F E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008D1F E2 30 
   LDX.W $05AD                                     ; 008D21 AE AD 05 
   STZ.W $1A86                                     ; 008D24 9C 86 1A 
   STZ.W $1A7D                                     ; 008D27 9C 7D 1A 
@@ -1971,12 +1971,12 @@ B_92FE:
 
 L_9311:
   PHP                                             ; 009311 08 
-  REP.B #$30                                      ; 009312 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 009312 C2 30 
   LDX.W #$3BAE                                    ; 009314 A2 AE 3B 
   LDA.W #$E067                                    ; 009317 A9 67 E0 
   LDY.W #$000D                                    ; 00931A A0 0D 00 
   JSL L_58000                                     ; 00931D 22 00 80 05 
-  SEP.B #$20                                      ; 009321 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 009321 E2 20 
   LDX.W #$7800                                    ; 009323 A2 00 78 
   STX.W $1A99                                     ; 009326 8E 99 1A 
   LDX.W #$1801                                    ; 009329 A2 01 18 
@@ -2372,8 +2372,8 @@ B_9643:
   LDY.B #$02                                      ; 00964A A0 02 
   JSR.W L_96B9                                    ; 00964C 20 B9 96 
 B_964F:
-  REP.B #$10                                      ; 00964F C2 10 
-  SEP.B #$20                                      ; 009651 E2 20 
+  REP.B #P_Idx8Bit                                      ; 00964F C2 10 
+  SEP.B #P_Acc8Bit                                      ; 009651 E2 20 
   LDX.W #$6600                                    ; 009653 A2 00 66 
   STX.W $1A99                                     ; 009656 8E 99 1A 
   LDX.W #$1801                                    ; 009659 A2 01 18 
@@ -2387,14 +2387,14 @@ B_964F:
   LDA.B #$01                                      ; 009670 A9 01 
   STA.W $1A91                                     ; 009672 8D 91 1A 
   JSL L_ECA13                                     ; 009675 22 13 CA 0E 
-  REP.B #$20                                      ; 009679 C2 20 
+  REP.B #P_Acc8Bit                                      ; 009679 C2 20 
   LDA.W #$8017                                    ; 00967B A9 17 80 
   JSL L_F8401                                     ; 00967E 22 01 84 0F 
-  SEP.B #$20                                      ; 009682 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 009682 E2 20 
   LDA.B #$07                                      ; 009684 A9 07 
   LDX.W #$FF17                                    ; 009686 A2 17 FF 
   JSL L_F830F                                     ; 009689 22 0F 83 0F 
-  SEP.B #$30                                      ; 00968D E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00968D E2 30 
   LDX.B #$26                                      ; 00968F A2 26 
   JSL L_EF072                                     ; 009691 22 72 F0 0E 
   LDA.B #$92                                      ; 009695 A9 92 
@@ -2572,7 +2572,7 @@ B_9802:
 
 L_9804:
   PHP                                             ; 009804 08 
-  SEP.B #$30                                      ; 009805 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 009805 E2 30 
   LDA.W $0533                                     ; 009807 AD 33 05 
   BEQ.B B_9854                                    ; 00980A F0 48 
   LDA.W $0301                                     ; 00980C AD 01 03 
@@ -2730,7 +2730,7 @@ D_995F:
 
 L_9961:
   PHP                                             ; 009961 08 
-  SEP.B #$20                                      ; 009962 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 009962 E2 20 
   STZ.W $1A91                                     ; 009964 9C 91 1A 
   STZ.W $1A7C                                     ; 009967 9C 7C 1A 
   STZ.W $1A83                                     ; 00996A 9C 83 1A 
@@ -2762,7 +2762,7 @@ L_9961:
 L_99AE:
   PHP                                             ; 0099AE 08 
   PHB                                             ; 0099AF 8B 
-  SEP.B #$30                                      ; 0099B0 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0099B0 E2 30 
   LDA.B #$00                                      ; 0099B2 A9 00 
   PHA                                             ; 0099B4 48 
   PLB                                             ; 0099B5 AB 
@@ -2998,7 +2998,7 @@ D_9C51:
 L_9CB2:
   PHP                                             ; 009CB2 08 
   PHB                                             ; 009CB3 8B 
-  SEP.B #$30                                      ; 009CB4 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 009CB4 E2 30 
   LDA.B #$00                                      ; 009CB6 A9 00 
   PHA                                             ; 009CB8 48 
   PLB                                             ; 009CB9 AB 
@@ -3663,7 +3663,7 @@ D_A249:
 
 L_A250:
   PHP                                             ; 00A250 08 
-  SEP.B #$30                                      ; 00A251 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A251 E2 30 
   LDA.W $1901                                     ; 00A253 AD 01 19 
   BNE.B B_A262                                    ; 00A256 D0 0A 
   LDA.W $05E3                                     ; 00A258 AD E3 05 
@@ -3684,7 +3684,7 @@ B_A264:
 B_A272:
   STX.W $05E1                                     ; 00A272 8E E1 05 
   JSR.W L_A338                                    ; 00A275 20 38 A3 
-  REP.B #$20                                      ; 00A278 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00A278 C2 20 
   LDY.B #$0A                                      ; 00A27A A0 0A 
 B_A27C:
   LDA.W $05EA,Y                                   ; 00A27C B9 EA 05 
@@ -3701,7 +3701,7 @@ B_A27C:
   BPL.B B_A27C                                    ; 00A299 10 E1 
   LDA.W #$544D                                    ; 00A29B A9 4D 54 
   STA.W $05E8                                     ; 00A29E 8D E8 05 
-  SEP.B #$20                                      ; 00A2A1 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00A2A1 E2 20 
   INC.W $05E5                                     ; 00A2A3 EE E5 05 
   PLP                                             ; 00A2A6 28 
   RTS                                             ; 00A2A7 60 
@@ -3709,7 +3709,7 @@ B_A27C:
 
 L_A2A8:
   PHP                                             ; 00A2A8 08 
-  SEP.B #$30                                      ; 00A2A9 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A2A9 E2 30 
   LDA.W $05E2                                     ; 00A2AB AD E2 05 
   BMI.B B_A2BA                                    ; 00A2AE 30 0A 
   LDA.W $05E3                                     ; 00A2B0 AD E3 05 
@@ -3763,7 +3763,7 @@ D_A301:
   PHA                                             ; 00A30C 48 
   PLB                                             ; 00A30D AB 
   LDY.B #$0A                                      ; 00A30E A0 0A 
-  REP.B #$20                                      ; 00A310 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00A310 C2 20 
 B_A312:
   LDA.W $060E,Y                                   ; 00A312 B9 0E 06 
   STA.W $3448,Y                                   ; 00A315 99 48 34 
@@ -3776,10 +3776,10 @@ B_A312:
   BPL.B B_A312                                    ; 00A326 10 EA 
   PLB                                             ; 00A328 AB 
 B_A329:
-  REP.B #$20                                      ; 00A329 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00A329 C2 20 
   LDA.W #$504D                                    ; 00A32B A9 4D 50 
   STA.W $05E8                                     ; 00A32E 8D E8 05 
-  SEP.B #$20                                      ; 00A331 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00A331 E2 20 
   INC.W $05E5                                     ; 00A333 EE E5 05 
   PLP                                             ; 00A336 28 
   RTS                                             ; 00A337 60 
@@ -3806,7 +3806,7 @@ L_A338:
   LDA.W $05E7                                     ; 00A35F AD E7 05 
   ADC.B #$00                                      ; 00A362 69 00 
   STA.B $05                                       ; 00A364 85 05 
-  REP.B #$20                                      ; 00A366 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00A366 C2 20 
   LDY.B #$22                                      ; 00A368 A0 22 
 B_A36A:
   LDA.W $060E,Y                                   ; 00A36A B9 0E 06 
@@ -3855,7 +3855,7 @@ L_A3AB:
   PEA.W $0D0D                                     ; 00A3AD F4 0D 0D 
   PLB                                             ; 00A3B0 AB 
   PLB                                             ; 00A3B1 AB 
-  SEP.B #$30                                      ; 00A3B2 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A3B2 E2 30 
   LDA.W $0634                                     ; 00A3B4 AD 34 06 
   BEQ.B B_A402                                    ; 00A3B7 F0 49 
 
@@ -3899,8 +3899,8 @@ L_A45F:
   PHP                                             ; 00A45F 08 
   JSL L_EC9AC                                     ; 00A460 22 AC C9 0E 
   JSL L_EC97A                                     ; 00A464 22 7A C9 0E 
-  REP.B #$10                                      ; 00A468 C2 10 
-  SEP.B #$20                                      ; 00A46A E2 20 
+  REP.B #P_Idx8Bit                                      ; 00A468 C2 10 
+  SEP.B #P_Acc8Bit                                      ; 00A46A E2 20 
   LDA.B #$09                                      ; 00A46C A9 09 
   STA.W BGMODE                                    ; 00A46E 8D 05 21 
   LDA.B #$49                                      ; 00A471 A9 49 
@@ -3926,12 +3926,12 @@ L_A45F:
   STZ.W BG3VOFS                                   ; 00A4A9 9C 12 21 
   LDA.B #$80                                      ; 00A4AC A9 80 
   STA.W VMAIN                                     ; 00A4AE 8D 15 21 
-  REP.B #$30                                      ; 00A4B1 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A4B1 C2 30 
   LDX.W #$3BAE                                    ; 00A4B3 A2 AE 3B 
   LDA.W #$CFAD                                    ; 00A4B6 A9 AD CF 
   LDY.W #$000F                                    ; 00A4B9 A0 0F 00 
   JSL L_58000                                     ; 00A4BC 22 00 80 05 
-  SEP.B #$20                                      ; 00A4C0 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00A4C0 E2 20 
   PHB                                             ; 00A4C2 8B 
   LDA.B #$7E                                      ; 00A4C3 A9 7E 
   PHA                                             ; 00A4C5 48 
@@ -3983,12 +3983,12 @@ B_A4CA:
   STX.W DAS1L                                     ; 00A536 8E 15 43 
   LDA.B #$02                                      ; 00A539 A9 02 
   STA.W MDMAEN                                    ; 00A53B 8D 0B 42 
-  REP.B #$30                                      ; 00A53E C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A53E C2 30 
   LDX.W #$3BAE                                    ; 00A540 A2 AE 3B 
   LDA.W #$D55B                                    ; 00A543 A9 5B D5 
   LDY.W #$000F                                    ; 00A546 A0 0F 00 
   JSL L_58000                                     ; 00A549 22 00 80 05 
-  SEP.B #$20                                      ; 00A54D E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00A54D E2 20 
   PHB                                             ; 00A54F 8B 
   LDA.B #$7E                                      ; 00A550 A9 7E 
   PHA                                             ; 00A552 48 
@@ -4016,12 +4016,12 @@ B_A557:
   STX.W DAS1L                                     ; 00A583 8E 15 43 
   LDA.B #$02                                      ; 00A586 A9 02 
   STA.W MDMAEN                                    ; 00A588 8D 0B 42 
-  REP.B #$30                                      ; 00A58B C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A58B C2 30 
   LDX.W #$3BAE                                    ; 00A58D A2 AE 3B 
   LDA.W #$D6D5                                    ; 00A590 A9 D5 D6 
   LDY.W #$000F                                    ; 00A593 A0 0F 00 
   JSL L_58000                                     ; 00A596 22 00 80 05 
-  SEP.B #$20                                      ; 00A59A E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00A59A E2 20 
   LDA.B #$80                                      ; 00A59C A9 80 
   STA.W VMAIN                                     ; 00A59E 8D 15 21 
   LDX.W #$2000                                    ; 00A5A1 A2 00 20 
@@ -4036,13 +4036,13 @@ B_A557:
   STX.W DAS1L                                     ; 00A5BB 8E 15 43 
   LDA.B #$02                                      ; 00A5BE A9 02 
   STA.W MDMAEN                                    ; 00A5C0 8D 0B 42 
-  SEP.B #$20                                      ; 00A5C3 E2 20 
-  REP.B #$30                                      ; 00A5C5 C2 30 
+  SEP.B #P_Acc8Bit                                      ; 00A5C3 E2 20 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A5C5 C2 30 
   LDX.W #$3BAE                                    ; 00A5C7 A2 AE 3B 
   LDA.W #$8000                                    ; 00A5CA A9 00 80 
   LDY.W #$0002                                    ; 00A5CD A0 02 00 
   JSL L_58000                                     ; 00A5D0 22 00 80 05 
-  SEP.B #$20                                      ; 00A5D4 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00A5D4 E2 20 
   LDA.B #$80                                      ; 00A5D6 A9 80 
   STA.W VMAIN                                     ; 00A5D8 8D 15 21 
   LDX.W #$4000                                    ; 00A5DB A2 00 40 
@@ -4057,12 +4057,12 @@ B_A557:
   STX.W DAS1L                                     ; 00A5F5 8E 15 43 
   LDA.B #$02                                      ; 00A5F8 A9 02 
   STA.W MDMAEN                                    ; 00A5FA 8D 0B 42 
-  REP.B #$30                                      ; 00A5FD C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A5FD C2 30 
   LDX.W #$3BAE                                    ; 00A5FF A2 AE 3B 
   LDA.W #$8EEA                                    ; 00A602 A9 EA 8E 
   LDY.W #$0002                                    ; 00A605 A0 02 00 
   JSL L_58000                                     ; 00A608 22 00 80 05 
-  SEP.B #$20                                      ; 00A60C E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00A60C E2 20 
   LDA.B #$80                                      ; 00A60E A9 80 
   STA.W VMAIN                                     ; 00A610 8D 15 21 
   LDX.W #$6000                                    ; 00A613 A2 00 60 
@@ -4077,14 +4077,14 @@ B_A557:
   STX.W DAS1L                                     ; 00A62D 8E 15 43 
   LDA.B #$02                                      ; 00A630 A9 02 
   STA.W MDMAEN                                    ; 00A632 8D 0B 42 
-  REP.B #$30                                      ; 00A635 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A635 C2 30 
   JSR.W L_9311                                    ; 00A637 20 11 93 
-  REP.B #$30                                      ; 00A63A C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A63A C2 30 
   LDX.W #$3BAE                                    ; 00A63C A2 AE 3B 
   LDA.W #$E067                                    ; 00A63F A9 67 E0 
   LDY.W #$000D                                    ; 00A642 A0 0D 00 
   JSL L_58000                                     ; 00A645 22 00 80 05 
-  SEP.B #$20                                      ; 00A649 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00A649 E2 20 
   LDA.B #$80                                      ; 00A64B A9 80 
   STA.W VMAIN                                     ; 00A64D 8D 15 21 
   LDX.W #$7800                                    ; 00A650 A2 00 78 
@@ -4099,12 +4099,12 @@ B_A557:
   STX.W DAS1L                                     ; 00A66A 8E 15 43 
   LDA.B #$02                                      ; 00A66D A9 02 
   STA.W MDMAEN                                    ; 00A66F 8D 0B 42 
-  REP.B #$30                                      ; 00A672 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A672 C2 30 
   LDX.W #$20AE                                    ; 00A674 A2 AE 20 
   LDA.W #$DD9D                                    ; 00A677 A9 9D DD 
   LDY.W #$000D                                    ; 00A67A A0 0D 00 
   JSL L_58000                                     ; 00A67D 22 00 80 05 
-  SEP.B #$30                                      ; 00A681 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A681 E2 30 
   STZ.W CGADD                                     ; 00A683 9C 21 21 
   LDA.W D_A755                                    ; 00A686 AD 55 A7 
   STA.W CGDATA                                    ; 00A689 8D 22 21 
@@ -4136,7 +4136,7 @@ B_A6B5:
   INX                                             ; 00A6C2 E8 
   DEY                                             ; 00A6C3 88 
   BNE.B B_A6B5                                    ; 00A6C4 D0 EF 
-  REP.B #$10                                      ; 00A6C6 C2 10 
+  REP.B #P_Idx8Bit                                      ; 00A6C6 C2 10 
   LDX.W #$01FF                                    ; 00A6C8 A2 FF 01 
   LDA.B #$F0                                      ; 00A6CB A9 F0 
 B_A6CD:
@@ -4175,7 +4175,7 @@ B_A6FE:
   JSL L_AE6F                                      ; 00A70B 22 6F AE 00 
   JSL L_38000                                     ; 00A70F 22 00 80 03 
   JSL L_AF0E                                      ; 00A713 22 0E AF 00 
-  SEP.B #$30                                      ; 00A717 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A717 E2 30 
   STZ.W $06CD                                     ; 00A719 9C CD 06 
   STZ.W $06CE                                     ; 00A71C 9C CE 06 
   STZ.W $06D0                                     ; 00A71F 9C D0 06 
@@ -4261,7 +4261,7 @@ D_A7D5:
 
 L_A8D5:
   PHP                                             ; 00A8D5 08 
-  SEP.B #$30                                      ; 00A8D6 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A8D6 E2 30 
   LDA.W $05AB                                     ; 00A8D8 AD AB 05 
   ASL                                             ; 00A8DB 0A 
   TAY                                             ; 00A8DC A8 
@@ -4367,7 +4367,7 @@ D_AA7B:
 
 L_AB23:
   PHP                                             ; 00AB23 08 
-  SEP.B #$30                                      ; 00AB24 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AB24 E2 30 
   STX.B $04                                       ; 00AB26 86 04 
   PHB                                             ; 00AB28 8B 
   LDA.B #$09                                      ; 00AB29 A9 09 
@@ -4383,7 +4383,7 @@ L_AB23:
   LDX.B $04                                       ; 00AB3D A6 04 
   LDA.L D_AB5F,X                                  ; 00AB3F BF 5F AB 00 
   TAX                                             ; 00AB43 AA 
-  REP.B #$20                                      ; 00AB44 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00AB44 C2 20 
   LDY.B #$00                                      ; 00AB46 A0 00 
 B_AB48:
   LDA.B ($06),Y                                   ; 00AB48 B1 06 
@@ -4394,7 +4394,7 @@ B_AB48:
   INY                                             ; 00AB50 C8 
   CPY.B #$18                                      ; 00AB51 C0 18 
   BNE.B B_AB48                                    ; 00AB53 D0 F3 
-  SEP.B #$20                                      ; 00AB55 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00AB55 E2 20 
   LDX.B $04                                       ; 00AB57 A6 04 
   INC.W $05A4,X                                   ; 00AB59 FE A4 05 
   PLB                                             ; 00AB5C AB 
@@ -4412,7 +4412,7 @@ D_AB62:
 L_AB65:
   PHP                                             ; 00AB65 08 
   PHB                                             ; 00AB66 8B 
-  SEP.B #$30                                      ; 00AB67 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AB67 E2 30 
   STA.B $04                                       ; 00AB69 85 04 
   STX.B $05                                       ; 00AB6B 86 05 
   LDA.B #$00                                      ; 00AB6D A9 00 
@@ -4429,7 +4429,7 @@ L_AB65:
   ADC.B $04                                       ; 00AB80 65 04 
   ASL                                             ; 00AB82 0A 
   TAX                                             ; 00AB83 AA 
-  REP.B #$20                                      ; 00AB84 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00AB84 C2 20 
   LDA.L D_AC02,X                                  ; 00AB86 BF 02 AC 00 
   STA.B $06                                       ; 00AB8A 85 06 
   LDX.B $08                                       ; 00AB8C A6 08 
@@ -4456,7 +4456,7 @@ B_ABA7:
   DEY                                             ; 00ABAE 88 
   DEY                                             ; 00ABAF 88 
   BPL.B B_ABA7                                    ; 00ABB0 10 F5 
-  SEP.B #$20                                      ; 00ABB2 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00ABB2 E2 20 
   LDX.B $05                                       ; 00ABB4 A6 05 
   INC.B $B4,X                                     ; 00ABB6 F6 B4 
   LDA.W $18A3,X                                   ; 00ABB8 BD A3 18 
@@ -4479,7 +4479,7 @@ B_ABA7:
   LDX.B $05                                       ; 00ABD8 A6 05 
   LDA.L D_AC00,X                                  ; 00ABDA BF 00 AC 00 
   TAX                                             ; 00ABDE AA 
-  REP.B #$20                                      ; 00ABDF C2 20 
+  REP.B #P_Acc8Bit                                      ; 00ABDF C2 20 
   LDY.B #$00                                      ; 00ABE1 A0 00 
 B_ABE3:
   LDA.B ($06),Y                                   ; 00ABE3 B1 06 
@@ -4490,7 +4490,7 @@ B_ABE3:
   INY                                             ; 00ABEB C8 
   CPY.B #$18                                      ; 00ABEC C0 18 
   BNE.B B_ABE3                                    ; 00ABEE D0 F3 
-  SEP.B #$20                                      ; 00ABF0 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00ABF0 E2 20 
   LDX.B $05                                       ; 00ABF2 A6 05 
   INC.W $05A4,X                                   ; 00ABF4 FE A4 05 
   JSL L_AC73                                      ; 00ABF7 22 73 AC 00 
@@ -4523,7 +4523,7 @@ D_AC33:
 
 L_AC62:
   PHP                                             ; 00AC62 08 
-  SEP.B #$30                                      ; 00AC63 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AC63 E2 30 
   LDX.B #$00                                      ; 00AC65 A2 00 
   JSL L_AC73                                      ; 00AC67 22 73 AC 00 
   LDX.B #$01                                      ; 00AC6B A2 01 
@@ -4533,13 +4533,13 @@ L_AC62:
 
 L_AC73:
   PHP                                             ; 00AC73 08 
-  SEP.B #$30                                      ; 00AC74 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AC74 E2 30 
   TXA                                             ; 00AC76 8A 
   ASL                                             ; 00AC77 0A 
   ASL                                             ; 00AC78 0A 
   ASL                                             ; 00AC79 0A 
   TAY                                             ; 00AC7A A8 
-  REP.B #$20                                      ; 00AC7B C2 20 
+  REP.B #P_Acc8Bit                                      ; 00AC7B C2 20 
   LDA.W #$0004                                    ; 00AC7D A9 04 00 
   STA.B $04                                       ; 00AC80 85 04 
   LDA.W #$0000                                    ; 00AC82 A9 00 00 
@@ -4549,14 +4549,14 @@ B_AC85:
   INY                                             ; 00AC89 C8 
   DEC.B $04                                       ; 00AC8A C6 04 
   BNE.B B_AC85                                    ; 00AC8C D0 F7 
-  SEP.B #$20                                      ; 00AC8E E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00AC8E E2 20 
   INC.W $0528,X                                   ; 00AC90 FE 28 05 
   PLP                                             ; 00AC93 28 
   RTL                                             ; 00AC94 6B 
 
 L_AC95:
   PHP                                             ; 00AC95 08 
-  SEP.B #$30                                      ; 00AC96 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AC96 E2 30 
   LDA.W $18A3                                     ; 00AC98 AD A3 18 
   BEQ.B B_ACA3                                    ; 00AC9B F0 06 
   LDX.B #$00                                      ; 00AC9D A2 00 
@@ -4573,7 +4573,7 @@ B_ACAE:
 L_ACB0:
   PHP                                             ; 00ACB0 08 
   PHB                                             ; 00ACB1 8B 
-  SEP.B #$30                                      ; 00ACB2 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00ACB2 E2 30 
   LDA.B #$00                                      ; 00ACB4 A9 00 
   PHA                                             ; 00ACB6 48 
   PLB                                             ; 00ACB7 AB 
@@ -4588,7 +4588,7 @@ L_ACB0:
   ASL                                             ; 00ACC2 0A 
   PHX                                             ; 00ACC3 DA 
   TAX                                             ; 00ACC4 AA 
-  REP.B #$20                                      ; 00ACC5 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00ACC5 C2 20 
   LDA.W #$0004                                    ; 00ACC7 A9 04 00 
   STA.B $04                                       ; 00ACCA 85 04 
 B_ACCC:
@@ -4600,7 +4600,7 @@ B_ACCC:
   INY                                             ; 00ACD6 C8 
   DEC.B $04                                       ; 00ACD7 C6 04 
   BNE.B B_ACCC                                    ; 00ACD9 D0 F1 
-  SEP.B #$20                                      ; 00ACDB E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00ACDB E2 20 
   PLX                                             ; 00ACDD FA 
   INC.W $0528,X                                   ; 00ACDE FE 28 05 
   PLB                                             ; 00ACE1 AB 
@@ -4609,7 +4609,7 @@ B_ACCC:
 
 L_ACE4:
   PHP                                             ; 00ACE4 08 
-  SEP.B #$30                                      ; 00ACE5 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00ACE5 E2 30 
   PHB                                             ; 00ACE7 8B 
   LDA.B #$00                                      ; 00ACE8 A9 00 
   PHA                                             ; 00ACEA 48 
@@ -4674,12 +4674,12 @@ B_AD6A:
   TYA                                             ; 00AD70 98 
   ASL                                             ; 00AD71 0A 
   TAY                                             ; 00AD72 A8 
-  REP.B #$20                                      ; 00AD73 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00AD73 C2 20 
   LDA.L D_F8EF,X                                  ; 00AD75 BF EF F8 00 
   STA.W $0534,Y                                   ; 00AD79 99 34 05 
   LDA.L D_F92F,X                                  ; 00AD7C BF 2F F9 00 
   STA.W $0544,Y                                   ; 00AD80 99 44 05 
-  SEP.B #$20                                      ; 00AD83 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00AD83 E2 20 
   PLY                                             ; 00AD85 7A 
   DEY                                             ; 00AD86 88 
   BPL.B B_AD6A                                    ; 00AD87 10 E1 
@@ -4703,12 +4703,12 @@ B_AD9F:
   TYA                                             ; 00ADA5 98 
   ASL                                             ; 00ADA6 0A 
   TAY                                             ; 00ADA7 A8 
-  REP.B #$20                                      ; 00ADA8 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00ADA8 C2 20 
   LDA.L D_F8EF,X                                  ; 00ADAA BF EF F8 00 
   STA.W $0554,Y                                   ; 00ADAE 99 54 05 
   LDA.L D_F92F,X                                  ; 00ADB1 BF 2F F9 00 
   STA.W $0564,Y                                   ; 00ADB5 99 64 05 
-  SEP.B #$20                                      ; 00ADB8 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00ADB8 E2 20 
   PLY                                             ; 00ADBA 7A 
   DEY                                             ; 00ADBB 88 
   BPL.B B_AD9F                                    ; 00ADBC 10 E1 
@@ -4806,7 +4806,7 @@ D_AE4C:
 
 L_AE4E:
   PHP                                             ; 00AE4E 08 
-  REP.B #$30                                      ; 00AE4F C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AE4F C2 30 
   LDX.W #$0000                                    ; 00AE51 A2 00 00 
   LDA.W #$F0FF                                    ; 00AE54 A9 FF F0 
 B_AE57:
@@ -4828,7 +4828,7 @@ B_AE63:
 
 L_AE6F:
   PHP                                             ; 00AE6F 08 
-  SEP.B #$30                                      ; 00AE70 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AE70 E2 30 
   LDX.B #$7F                                      ; 00AE72 A2 7F 
 B_AE74:
   STZ.W $175E,X                                   ; 00AE74 9E 5E 17 
@@ -4950,14 +4950,14 @@ D_AF0A:
 
 L_AF0E:
   PHP                                             ; 00AF0E 08 
-  REP.B #$30                                      ; 00AF0F C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AF0F C2 30 
   LDA.W #$0400                                    ; 00AF11 A9 00 04 
   STA.W DMAP0                                     ; 00AF14 8D 00 43 
   LDA.W #$0308                                    ; 00AF17 A9 08 03 
   STA.W A1T0L                                     ; 00AF1A 8D 02 43 
   LDA.W #$0220                                    ; 00AF1D A9 20 02 
   STA.W DAS0L                                     ; 00AF20 8D 05 43 
-  SEP.B #$20                                      ; 00AF23 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00AF23 E2 20 
   STZ.W OAMADDL                                   ; 00AF25 9C 02 21 
   STZ.W OAMADDH                                   ; 00AF28 9C 03 21 
   LDA.B #$7E                                      ; 00AF2B A9 7E 
@@ -5072,7 +5072,7 @@ B_AFE9:
 
 L_B008:
   PHP                                             ; 00B008 08 
-  SEP.B #$30                                      ; 00B009 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B009 E2 30 
   LDX.W $18B2                                     ; 00B00B AE B2 18 
   BEQ.B B_B014                                    ; 00B00E F0 04 
   DEX                                             ; 00B010 CA 
@@ -5101,7 +5101,7 @@ B_B030:
 
 L_B032:
   PHP                                             ; 00B032 08 
-  SEP.B #$30                                      ; 00B033 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B033 E2 30 
   LDX.B #$01                                      ; 00B035 A2 01 
 D_B037:
   LDA.B #$45                                      ; 00B037 A9 45 
@@ -5197,12 +5197,12 @@ D_B0F7:
 L_B0F9:
   PHP                                             ; 00B0F9 08 
   PHB                                             ; 00B0FA 8B 
-  REP.B #$10                                      ; 00B0FB C2 10 
-  SEP.B #$20                                      ; 00B0FD E2 20 
+  REP.B #P_Idx8Bit                                      ; 00B0FB C2 10 
+  SEP.B #P_Acc8Bit                                      ; 00B0FD E2 20 
   LDX.W #$0001                                    ; 00B0FF A2 01 00 
   LDA.B #$0F                                      ; 00B102 A9 0F 
   JSL L_F830F                                     ; 00B104 22 0F 83 0F 
-  SEP.B #$10                                      ; 00B108 E2 10 
+  SEP.B #P_Idx8Bit                                      ; 00B108 E2 10 
   JSR.W L_B008                                    ; 00B10A 20 08 B0 
   LDA.W $18A3                                     ; 00B10D AD A3 18 
   BNE.B B_B115                                    ; 00B110 D0 03 
@@ -5604,11 +5604,11 @@ B_B3EB:
 B_B3F8:
   STA.W $166C,X                                   ; 00B3F8 9D 6C 16 
 D_B3FB:
-  REP.B #$10                                      ; 00B3FB C2 10 
+  REP.B #P_Idx8Bit                                      ; 00B3FB C2 10 
   LDX.W $05E0                                     ; 00B3FD AE E0 05 
   LDA.B #$0F                                      ; 00B400 A9 0F 
   JSL L_F830F                                     ; 00B402 22 0F 83 0F 
-  SEP.B #$30                                      ; 00B406 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B406 E2 30 
   LDA.W $18A3                                     ; 00B408 AD A3 18 
   BEQ.B B_B420                                    ; 00B40B F0 13 
   LDA.W $18A4                                     ; 00B40D AD A4 18 
@@ -6145,11 +6145,11 @@ B_B8C2:
   STA.W $175E,Y                                   ; 00B905 99 5E 17 
   JSL L_AEF1                                      ; 00B908 22 F1 AE 00 
   PHX                                             ; 00B90C DA 
-  REP.B #$10                                      ; 00B90D C2 10 
+  REP.B #P_Idx8Bit                                      ; 00B90D C2 10 
   LDA.B #$07                                      ; 00B90F A9 07 
   LDX.W #$FF01                                    ; 00B911 A2 01 FF 
   JSL L_F830F                                     ; 00B914 22 0F 83 0F 
-  SEP.B #$30                                      ; 00B918 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B918 E2 30 
   PLX                                             ; 00B91A FA 
   LDX.B $09                                       ; 00B91B A6 09 
   LDY.B $08                                       ; 00B91D A4 08 
@@ -6195,11 +6195,11 @@ D_B960:
   STA.B $04                                       ; 00B988 85 04 
   JSR.W L_B9AB                                    ; 00B98A 20 AB B9 
   PHX                                             ; 00B98D DA 
-  REP.B #$10                                      ; 00B98E C2 10 
+  REP.B #P_Idx8Bit                                      ; 00B98E C2 10 
   LDA.B #$07                                      ; 00B990 A9 07 
   LDX.W #$FF02                                    ; 00B992 A2 02 FF 
   JSL L_F830F                                     ; 00B995 22 0F 83 0F 
-  SEP.B #$30                                      ; 00B999 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B999 E2 30 
   PLX                                             ; 00B99B FA 
   JSR.W L_BEE9                                    ; 00B99C 20 E9 BE 
   LDX.B $09                                       ; 00B99F A6 09 
@@ -6426,11 +6426,11 @@ B_BB33:
   STA.W $175E,Y                                   ; 00BB76 99 5E 17 
   JSL L_AEF1                                      ; 00BB79 22 F1 AE 00 
   PHX                                             ; 00BB7D DA 
-  REP.B #$10                                      ; 00BB7E C2 10 
+  REP.B #P_Idx8Bit                                      ; 00BB7E C2 10 
   LDA.B #$07                                      ; 00BB80 A9 07 
   LDX.W #$FF03                                    ; 00BB82 A2 03 FF 
   JSL L_F830F                                     ; 00BB85 22 0F 83 0F 
-  SEP.B #$30                                      ; 00BB89 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BB89 E2 30 
   PLX                                             ; 00BB8B FA 
   JSR.W L_BEE9                                    ; 00BB8C 20 E9 BE 
   LDX.B $09                                       ; 00BB8F A6 09 
@@ -6747,11 +6747,11 @@ D_BE69:
   STA.W $175E,Y                                   ; 00BE8C 99 5E 17 
   JSL L_AEF1                                      ; 00BE8F 22 F1 AE 00 
   PHX                                             ; 00BE93 DA 
-  REP.B #$10                                      ; 00BE94 C2 10 
+  REP.B #P_Idx8Bit                                      ; 00BE94 C2 10 
   LDA.B #$07                                      ; 00BE96 A9 07 
   LDX.W #$8814                                    ; 00BE98 A2 14 88 
   JSL L_F830F                                     ; 00BE9B 22 0F 83 0F 
-  SEP.B #$30                                      ; 00BE9F E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BE9F E2 30 
   PLX                                             ; 00BEA1 FA 
   JSR.W L_BEE9                                    ; 00BEA2 20 E9 BE 
   LDX.B $09                                       ; 00BEA5 A6 09 
@@ -6813,8 +6813,8 @@ B_BF23:
   CMP.B #$03                                      ; 00BF26 C9 03 
   BNE.B B_BF4D                                    ; 00BF28 D0 23 
   PHX                                             ; 00BF2A DA 
-  REP.B #$10                                      ; 00BF2B C2 10 
-  SEP.B #$20                                      ; 00BF2D E2 20 
+  REP.B #P_Idx8Bit                                      ; 00BF2B C2 10 
+  SEP.B #P_Acc8Bit                                      ; 00BF2D E2 20 
   LDX.W #$0004                                    ; 00BF2F A2 04 00 
   LDA.B #$0F                                      ; 00BF32 A9 0F 
   JSL L_F830F                                     ; 00BF34 22 0F 83 0F 
@@ -6824,7 +6824,7 @@ B_BF23:
   LDX.W #$0001                                    ; 00BF41 A2 01 00 
   LDA.B #$0F                                      ; 00BF44 A9 0F 
   JSL L_F830F                                     ; 00BF46 22 0F 83 0F 
-  SEP.B #$30                                      ; 00BF4A E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BF4A E2 30 
   PLX                                             ; 00BF4C FA 
 B_BF4D:
   RTS                                             ; 00BF4D 60 
@@ -6832,7 +6832,7 @@ B_BF4D:
 
 L_BF4E:
   PHP                                             ; 00BF4E 08 
-  SEP.B #$30                                      ; 00BF4F E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BF4F E2 30 
   LDA.W $1514                                     ; 00BF51 AD 14 15 
   BEQ.B B_BF8E                                    ; 00BF54 F0 38 
   BMI.B B_BF6D                                    ; 00BF56 30 15 
@@ -7080,7 +7080,7 @@ D_C10A:
 L_C17B:
   PHP                                             ; 00C17B 08 
   PHB                                             ; 00C17C 8B 
-  SEP.B #$30                                      ; 00C17D E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00C17D E2 30 
   LDA.B #$FF                                      ; 00C17F A9 FF 
   STA.W $05AA                                     ; 00C181 8D AA 05 
   STZ.W $05D2                                     ; 00C184 9C D2 05 
@@ -7232,7 +7232,7 @@ B_C2B3:
 L_C2B5:
   PHP                                             ; 00C2B5 08 
   PHB                                             ; 00C2B6 8B 
-  SEP.B #$30                                      ; 00C2B7 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00C2B7 E2 30 
   LDA.W $1901                                     ; 00C2B9 AD 01 19 
   BEQ.B B_C2C4                                    ; 00C2BC F0 06 
   DEC.W $1901                                     ; 00C2BE CE 01 19 
@@ -7395,7 +7395,7 @@ B_C435:
   LDX.B $10                                       ; 00C438 A6 10 
   LDA.W $1917,X                                   ; 00C43A BD 17 19 
   STA.W $18F2                                     ; 00C43D 8D F2 18 
-  REP.B #$20                                      ; 00C440 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00C440 C2 20 
   LDA.W #$B000                                    ; 00C442 A9 00 B0 
   STA.W $1ACA                                     ; 00C445 8D CA 1A 
   LDA.W #$0200                                    ; 00C448 A9 00 02 
@@ -7412,7 +7412,7 @@ B_C435:
   STA.W $1AD6                                     ; 00C469 8D D6 1A 
   LDA.W #$0180                                    ; 00C46C A9 80 01 
   STA.W $1AD8                                     ; 00C46F 8D D8 1A 
-  SEP.B #$20                                      ; 00C472 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00C472 E2 20 
   LDA.B #$01                                      ; 00C474 A9 01 
   STA.W $1ADA                                     ; 00C476 8D DA 1A 
   LDA.B #$01                                      ; 00C479 A9 01 
@@ -8798,11 +8798,11 @@ B_D996:
   LDA.W $0C9C,X                                   ; 00D9BF BD 9C 0C 
   SBC.B #$08                                      ; 00D9C2 E9 08 
   STA.W $0FBA,X                                   ; 00D9C4 9D BA 0F 
-  REP.B #$10                                      ; 00D9C7 C2 10 
+  REP.B #P_Idx8Bit                                      ; 00D9C7 C2 10 
   LDA.B #$07                                      ; 00D9C9 A9 07 
   LDX.W #$FF0E                                    ; 00D9CB A2 0E FF 
   JSL L_F830F                                     ; 00D9CE 22 0F 83 0F 
-  SEP.B #$10                                      ; 00D9D2 E2 10 
+  SEP.B #P_Idx8Bit                                      ; 00D9D2 E2 10 
   LDA.B #$01                                      ; 00D9D4 A9 01 
   RTS                                             ; 00D9D6 60 
 
@@ -9600,7 +9600,7 @@ D_E1E9:
 
 L_E454:
   PHP                                             ; 00E454 08 
-  SEP.B #$30                                      ; 00E455 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00E455 E2 30 
   LDX.B #$0F                                      ; 00E457 A2 0F 
 B_E459:
   STZ.B XexzyScore,X                              ; 00E459 74 97 
@@ -9784,7 +9784,7 @@ L_E5C0:
 L_E5ED:
   PHP                                             ; 00E5ED 08 
   PHB                                             ; 00E5EE 8B 
-  SEP.B #$30                                      ; 00E5EF E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00E5EF E2 30 
   LDA.B #$00                                      ; 00E5F1 A9 00 
   PHA                                             ; 00E5F3 48 
   PLB                                             ; 00E5F4 AB 
@@ -9867,11 +9867,11 @@ B_E67A:
   CMP.B #$0E                                      ; 00E692 C9 0E 
   BNE.B B_E6A5                                    ; 00E694 D0 0F 
   PHX                                             ; 00E696 DA 
-  REP.B #$10                                      ; 00E697 C2 10 
+  REP.B #P_Idx8Bit                                      ; 00E697 C2 10 
   LDA.B #$07                                      ; 00E699 A9 07 
   LDX.W #$FF0B                                    ; 00E69B A2 0B FF 
   JSL L_F830F                                     ; 00E69E 22 0F 83 0F 
-  SEP.B #$10                                      ; 00E6A2 E2 10 
+  SEP.B #P_Idx8Bit                                      ; 00E6A2 E2 10 
   PLX                                             ; 00E6A4 FA 
 B_E6A5:
   DEX                                             ; 00E6A5 CA 
@@ -9947,7 +9947,7 @@ D_E6E0:
 
 L_E883:
   PHP                                             ; 00E883 08 
-  SEP.B #$30                                      ; 00E884 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00E884 E2 30 
   LDA.W $05AC                                     ; 00E886 AD AC 05 
   BPL.B B_E88D                                    ; 00E889 10 02 
 
@@ -10040,7 +10040,7 @@ B_E907:
 
 L_E933:
   PHP                                             ; 00E933 08 
-  SEP.B #$30                                      ; 00E934 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00E934 E2 30 
   LDA.W $06C9                                     ; 00E936 AD C9 06 
   ORA.W $06CB                                     ; 00E939 0D CB 06 
   BEQ.B B_E948                                    ; 00E93C F0 0A 
@@ -10282,7 +10282,7 @@ L_EF57:
   PEA.W $0000                                     ; 00EF59 F4 00 00 
   PLB                                             ; 00EF5C AB 
   PLB                                             ; 00EF5D AB 
-  REP.B #$30                                      ; 00EF5E C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00EF5E C2 30 
   AND.W #$00FF                                    ; 00EF60 29 FF 00 
   STA.W $0210                                     ; 00EF63 8D 10 02 
   STZ.W $0212                                     ; 00EF66 9C 12 02 
@@ -10311,10 +10311,10 @@ D_EF6D:
   PLA                                             ; 00EF94 68 
   ORA.W #$FF00                                    ; 00EF95 09 00 FF 
   TAX                                             ; 00EF98 AA 
-  SEP.B #$20                                      ; 00EF99 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00EF99 E2 20 
   LDA.B #$07                                      ; 00EF9B A9 07 
   JSL L_F830F                                     ; 00EF9D 22 0F 83 0F 
-  REP.B #$20                                      ; 00EFA1 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00EFA1 C2 20 
 B_EFA3:
   JSL L_ECA13                                     ; 00EFA3 22 13 CA 0E 
   JSL L_ED117                                     ; 00EFA7 22 17 D1 0E 
@@ -10341,7 +10341,7 @@ D_EFEE:
 
 L_EFFE:
   PHP                                             ; 00EFFE 08 
-  REP.B #$30                                      ; 00EFFF C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00EFFF C2 30 
   LDX.W #$F039                                    ; 00F001 A2 39 F0 
   LDY.W #$0000                                    ; 00F004 A0 00 00 
   JSL L_EDCC1                                     ; 00F007 22 C1 DC 0E 
@@ -10351,10 +10351,10 @@ L_EFFE:
   LDA.W #$E72E                                    ; 00F015 A9 2E E7 
   LDX.W #$000C                                    ; 00F018 A2 0C 00 
   JSL L_EE94C                                     ; 00F01B 22 4C E9 0E 
-  SEP.B #$20                                      ; 00F01F E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F01F E2 20 
   LDA.B #$81                                      ; 00F021 A9 81 
   STA.W NMITIMEN                                  ; 00F023 8D 00 42 
-  REP.B #$20                                      ; 00F026 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00F026 C2 20 
   JSL L_ECA1E                                     ; 00F028 22 1E CA 0E 
   LDX.W #$00B4                                    ; 00F02C A2 B4 00 
   JSL L_EC972                                     ; 00F02F 22 72 C9 0E 
@@ -10385,7 +10385,7 @@ L_EFFE:
   JSR.W L_F2AA                                    ; 00F077 20 AA F2 
   JSR.W L_F17E                                    ; 00F07A 20 7E F1 
   JSR.W L_F117                                    ; 00F07D 20 17 F1 
-  SEP.B #$20                                      ; 00F080 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F080 E2 20 
   STZ.W HDMAEN                                    ; 00F082 9C 0C 42 
   STZ.W TMW                                       ; 00F085 9C 2E 21 
   LDA.W $05D9                                     ; 00F088 AD D9 05 
@@ -10444,7 +10444,7 @@ B_F0BA:
   RTL                                             ; 00F116 6B 
 
 L_F117:
-  SEP.B #$30                                      ; 00F117 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00F117 E2 30 
   DEC.W $194A                                     ; 00F119 CE 4A 19 
   BNE.B B_F175                                    ; 00F11C D0 57 
   LDA.B #$0C                                      ; 00F11E A9 0C 
@@ -10460,8 +10460,8 @@ L_F117:
   LDA.L D_F177,X                                  ; 00F136 BF 77 F1 00 
   STA.W A1T1H                                     ; 00F13A 8D 13 43 
   PHP                                             ; 00F13D 08 
-  REP.B #$10                                      ; 00F13E C2 10 
-  SEP.B #$20                                      ; 00F140 E2 20 
+  REP.B #P_Idx8Bit                                      ; 00F13E C2 10 
+  SEP.B #P_Acc8Bit                                      ; 00F140 E2 20 
   LDA.B #$80                                      ; 00F142 A9 80 
   STA.W VMAIN                                     ; 00F144 8D 15 21 
   LDX.W #$6AC0                                    ; 00F147 A2 C0 6A 
@@ -10493,8 +10493,8 @@ D_F177:
 
 L_F17E:
   PHP                                             ; 00F17E 08 
-  REP.B #$20                                      ; 00F17F C2 20 
-  SEP.B #$10                                      ; 00F181 E2 10 
+  REP.B #P_Acc8Bit                                      ; 00F17F C2 20 
+  SEP.B #P_Idx8Bit                                      ; 00F181 E2 10 
   LDX.B #$80                                      ; 00F183 A2 80 
   STX.W VMAIN                                     ; 00F185 8E 15 21 
   LDX.W $1AB2                                     ; 00F188 AE B2 1A 
@@ -10608,8 +10608,8 @@ B_F2A8:
 
 L_F2AA:
   PHP                                             ; 00F2AA 08 
-  REP.B #$10                                      ; 00F2AB C2 10 
-  SEP.B #$20                                      ; 00F2AD E2 20 
+  REP.B #P_Idx8Bit                                      ; 00F2AB C2 10 
+  SEP.B #P_Acc8Bit                                      ; 00F2AD E2 20 
   LDA.B #$80                                      ; 00F2AF A9 80 
   STA.W VMAIN                                     ; 00F2B1 8D 15 21 
   LDA.W $1A9B                                     ; 00F2B4 AD 9B 1A 
@@ -10634,8 +10634,8 @@ B_F2DF:
 
 L_F2E1:
   PHP                                             ; 00F2E1 08 
-  REP.B #$10                                      ; 00F2E2 C2 10 
-  SEP.B #$20                                      ; 00F2E4 E2 20 
+  REP.B #P_Idx8Bit                                      ; 00F2E2 C2 10 
+  SEP.B #P_Acc8Bit                                      ; 00F2E4 E2 20 
   LDA.B #$80                                      ; 00F2E6 A9 80 
   STA.W VMAIN                                     ; 00F2E8 8D 15 21 
   LDA.W $1A91                                     ; 00F2EB AD 91 1A 
@@ -10660,12 +10660,12 @@ B_F316:
 
 L_F318:
   PHP                                             ; 00F318 08 
-  SEP.B #$30                                      ; 00F319 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00F319 E2 30 
   LDA.B #$80                                      ; 00F31B A9 80 
   STA.W VMAIN                                     ; 00F31D 8D 15 21 
   LDA.W $05A4                                     ; 00F320 AD A4 05 
   BEQ.B B_F368                                    ; 00F323 F0 43 
-  REP.B #$20                                      ; 00F325 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00F325 C2 20 
   LDA.W #$5041                                    ; 00F327 A9 41 50 
   STA.W VMADDL                                    ; 00F32A 8D 16 21 
   LDX.B #$00                                      ; 00F32D A2 00 
@@ -10696,12 +10696,12 @@ B_F357:
   INX                                             ; 00F35E E8 
   CPX.B #$08                                      ; 00F35F E0 08 
   BNE.B B_F357                                    ; 00F361 D0 F4 
-  SEP.B #$20                                      ; 00F363 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F363 E2 20 
   STZ.W $05A4                                     ; 00F365 9C A4 05 
 B_F368:
   LDA.W $05A5                                     ; 00F368 AD A5 05 
   BEQ.B B_F3B0                                    ; 00F36B F0 43 
-  REP.B #$20                                      ; 00F36D C2 20 
+  REP.B #P_Acc8Bit                                      ; 00F36D C2 20 
   LDA.W #$505B                                    ; 00F36F A9 5B 50 
   STA.W VMADDL                                    ; 00F372 8D 16 21 
   LDX.B #$00                                      ; 00F375 A2 00 
@@ -10732,7 +10732,7 @@ B_F39F:
   INX                                             ; 00F3A6 E8 
   CPX.B #$08                                      ; 00F3A7 E0 08 
   BNE.B B_F39F                                    ; 00F3A9 D0 F4 
-  SEP.B #$20                                      ; 00F3AB E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F3AB E2 20 
   STZ.W $05A5                                     ; 00F3AD 9C A5 05 
 B_F3B0:
   PLP                                             ; 00F3B0 28 
@@ -10740,12 +10740,12 @@ B_F3B0:
 
 L_F3B2:
   PHP                                             ; 00F3B2 08 
-  SEP.B #$20                                      ; 00F3B3 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F3B3 E2 20 
   LDA.B #$80                                      ; 00F3B5 A9 80 
   STA.W VMAIN                                     ; 00F3B7 8D 15 21 
   LDA.W $0528                                     ; 00F3BA AD 28 05 
   BEQ.B B_F3E6                                    ; 00F3BD F0 27 
-  REP.B #$20                                      ; 00F3BF C2 20 
+  REP.B #P_Acc8Bit                                      ; 00F3BF C2 20 
   LDA.W #$5862                                    ; 00F3C1 A9 62 58 
   STA.W VMADDL                                    ; 00F3C4 8D 16 21 
   LDA.B $87                                       ; 00F3C7 A5 87 
@@ -10758,12 +10758,12 @@ L_F3B2:
   STA.W VMDATAL                                   ; 00F3D9 8D 18 21 
   LDA.B $8D                                       ; 00F3DC A5 8D 
   STA.W VMDATAL                                   ; 00F3DE 8D 18 21 
-  SEP.B #$20                                      ; 00F3E1 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F3E1 E2 20 
   STZ.W $0528                                     ; 00F3E3 9C 28 05 
 B_F3E6:
   LDA.W $0529                                     ; 00F3E6 AD 29 05 
   BEQ.B B_F412                                    ; 00F3E9 F0 27 
-  REP.B #$20                                      ; 00F3EB C2 20 
+  REP.B #P_Acc8Bit                                      ; 00F3EB C2 20 
   LDA.W #$587C                                    ; 00F3ED A9 7C 58 
   STA.W VMADDL                                    ; 00F3F0 8D 16 21 
   LDA.B $8F                                       ; 00F3F3 A5 8F 
@@ -10776,21 +10776,24 @@ B_F3E6:
   STA.W VMDATAL                                   ; 00F405 8D 18 21 
   LDA.B $95                                       ; 00F408 A5 95 
   STA.W VMDATAL                                   ; 00F40A 8D 18 21 
-  SEP.B #$20                                      ; 00F40D E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F40D E2 20 
   STZ.W $0529                                     ; 00F40F 9C 29 05 
 B_F412:
   PLP                                             ; 00F412 28 
   RTS                                             ; 00F413 60 
 
 
+.DEFINE Test $20
+
+
 L_F414:
   PHP                                             ; 00F414 08 
-  SEP.B #$30                                      ; 00F415 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00F415 E2 30 
   LDA.B #$80                                      ; 00F417 A9 80 
   STA.W VMAIN                                     ; 00F419 8D 15 21 
   LDA.B $B4                                       ; 00F41C A5 B4 
   BEQ.B B_F44C                                    ; 00F41E F0 2C 
-  REP.B #$20                                      ; 00F420 C2 20 
+  REP.B #Test                                      ; 00F420 C2 20 
   LDA.B $B0                                       ; 00F422 A5 B0 
   STA.W VMADDL                                    ; 00F424 8D 16 21 
   LDY.B #$0E                                      ; 00F427 A0 0E 
@@ -10811,12 +10814,12 @@ B_F43E:
   DEY                                             ; 00F444 88 
   DEY                                             ; 00F445 88 
   BPL.B B_F43E                                    ; 00F446 10 F6 
-  SEP.B #$20                                      ; 00F448 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F448 E2 20 
   STZ.B $B4                                       ; 00F44A 64 B4 
 B_F44C:
   LDA.B $B5                                       ; 00F44C A5 B5 
   BEQ.B B_F47C                                    ; 00F44E F0 2C 
-  REP.B #$20                                      ; 00F450 C2 20 
+  REP.B #P_Acc8Bit                                      ; 00F450 C2 20 
   LDA.B $B2                                       ; 00F452 A5 B2 
   STA.W VMADDL                                    ; 00F454 8D 16 21 
   LDY.B #$0E                                      ; 00F457 A0 0E 
@@ -10837,7 +10840,7 @@ B_F46E:
   DEY                                             ; 00F474 88 
   DEY                                             ; 00F475 88 
   BPL.B B_F46E                                    ; 00F476 10 F6 
-  SEP.B #$20                                      ; 00F478 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F478 E2 20 
   STZ.B $B5                                       ; 00F47A 64 B5 
 B_F47C:
   LDA.B $C6                                       ; 00F47C A5 C6 
@@ -10875,7 +10878,7 @@ B_F4B8:
 
 L_F4BA:
   PHP                                             ; 00F4BA 08 
-  SEP.B #$30                                      ; 00F4BB E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00F4BB E2 30 
   LDA.B #$80                                      ; 00F4BD A9 80 
   STA.W VMAIN                                     ; 00F4BF 8D 15 21 
   LDA.W $0632                                     ; 00F4C2 AD 32 06 
@@ -10916,8 +10919,8 @@ B_F57A:
 
 L_F57C:
   PHP                                             ; 00F57C 08 
-  REP.B #$10                                      ; 00F57D C2 10 
-  SEP.B #$20                                      ; 00F57F E2 20 
+  REP.B #P_Idx8Bit                                      ; 00F57D C2 10 
+  SEP.B #P_Acc8Bit                                      ; 00F57F E2 20 
   LDA.W $0688                                     ; 00F581 AD 88 06 
   BEQ.B B_F5AB                                    ; 00F584 F0 25 
   LDX.W #$4800                                    ; 00F586 A2 00 48 
@@ -10940,12 +10943,12 @@ B_F5AB:
 
 L_F5AD:
   PHP                                             ; 00F5AD 08 
-  SEP.B #$30                                      ; 00F5AE E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00F5AE E2 30 
   LDA.W $05E5                                     ; 00F5B0 AD E5 05 
   BEQ.B B_F605                                    ; 00F5B3 F0 50 
   LDA.B #$80                                      ; 00F5B5 A9 80 
   STA.W VMAIN                                     ; 00F5B7 8D 15 21 
-  REP.B #$20                                      ; 00F5BA C2 20 
+  REP.B #P_Acc8Bit                                      ; 00F5BA C2 20 
   LDA.W $05E8                                     ; 00F5BC AD E8 05 
   STA.W VMADDL                                    ; 00F5BF 8D 16 21 
   LDY.B #$00                                      ; 00F5C2 A0 00 
@@ -10980,7 +10983,7 @@ B_F5F4:
   INY                                             ; 00F5FB C8 
   CPY.B #$0C                                      ; 00F5FC C0 0C 
   BNE.B B_F5F4                                    ; 00F5FE D0 F4 
-  SEP.B #$20                                      ; 00F600 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F600 E2 20 
   STZ.W $05E5                                     ; 00F602 9C E5 05 
 B_F605:
   PLP                                             ; 00F605 28 
@@ -10989,8 +10992,8 @@ B_F605:
 
 L_F607:
   PHP                                             ; 00F607 08 
-  REP.B #$10                                      ; 00F608 C2 10 
-  SEP.B #$20                                      ; 00F60A E2 20 
+  REP.B #P_Idx8Bit                                      ; 00F608 C2 10 
+  SEP.B #P_Acc8Bit                                      ; 00F60A E2 20 
   LDA.B #$80                                      ; 00F60C A9 80 
   STA.W VMAIN                                     ; 00F60E 8D 15 21 
   LDA.W $1A83                                     ; 00F611 AD 83 1A 
@@ -11031,7 +11034,7 @@ B_F664:
 L_F666:
   PHP                                             ; 00F666 08 
   PHB                                             ; 00F667 8B 
-  SEP.B #$30                                      ; 00F668 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00F668 E2 30 
   LDA.B #$0D                                      ; 00F66A A9 0D 
   PHA                                             ; 00F66C 48 
   PLB                                             ; 00F66D AB 
@@ -11082,7 +11085,7 @@ D_F6AF:
 .byte $C9,$F2,$C9,$12,$CA,$32,$CA,$52             ; 00F6D7 ........ ?????2?R
 .byte $CA                                         ; 00F6E0 .        ?
 
-  SEP.B #$20                                      ; 00F6E0 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 00F6E0 E2 20 
 B_F6E2:
   LDA.W HVBJOY                                    ; 00F6E2 AD 12 42 
   AND.B #$40                                      ; 00F6E5 29 40 

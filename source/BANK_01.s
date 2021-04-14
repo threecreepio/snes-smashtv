@@ -4,7 +4,7 @@
 
 L_18000:
   JSL L_18110                                     ; 018000 22 10 81 01 
-  REP.B #$20                                      ; 018004 C2 20 
+  REP.B #P_Acc8Bit                                      ; 018004 C2 20 
   LDA.W $1AE9                                     ; 018006 AD E9 1A 
   ASL                                             ; 018009 0A 
   CLC                                             ; 01800A 18 
@@ -15,15 +15,15 @@ L_18000:
   CLC                                             ; 018015 18 
   ADC.W $1AEB                                     ; 018016 6D EB 1A 
   STA.W $1AEB                                     ; 018019 8D EB 1A 
-  SEP.B #$20                                      ; 01801C E2 20 
+  SEP.B #P_Acc8Bit                                      ; 01801C E2 20 
 D_1801E:
   LDA.W $1AEE                                     ; 01801E AD EE 1A 
   BEQ.B B_18033                                   ; 018021 F0 10 
-  REP.B #$20                                      ; 018023 C2 20 
+  REP.B #P_Acc8Bit                                      ; 018023 C2 20 
   LSR.W $1AE9                                     ; 018025 4E E9 1A 
   LSR.W $1AEB                                     ; 018028 4E EB 1A 
   LSR.W $1AED                                     ; 01802B 4E ED 1A 
-  SEP.B #$20                                      ; 01802E E2 20 
+  SEP.B #P_Acc8Bit                                      ; 01802E E2 20 
   JMP.W D_1801E                                   ; 018030 4C 1E 80 
 B_18033:
   STZ.W WRDIVL                                    ; 018033 9C 04 42 

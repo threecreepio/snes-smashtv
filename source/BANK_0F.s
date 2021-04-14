@@ -63,7 +63,7 @@ B_F80A2:
 L_F8177:
   PHP                                             ; 0F8177 08 
   PHB                                             ; 0F8178 8B 
-  SEP.B #$30                                      ; 0F8179 E2 30 
+  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0F8179 E2 30 
   PEA.W $0F0F                                     ; 0F817B F4 0F 0F 
   PLB                                             ; 0F817E AB 
   PLB                                             ; 0F817F AB 
@@ -113,12 +113,12 @@ D_F81CB:
 L_F81DA:
   PHP                                             ; 0F81DA 08 
   PHB                                             ; 0F81DB 8B 
-  REP.B #$30                                      ; 0F81DC C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0F81DC C2 30 
   LDX.W #$0000                                    ; 0F81DE A2 00 00 
   LDA.W #$A146                                    ; 0F81E1 A9 46 A1 
   LDY.W #$000B                                    ; 0F81E4 A0 0B 00 
   JSL L_580C1                                     ; 0F81E7 22 C1 80 05 
-  SEP.B #$10                                      ; 0F81EB E2 10 
+  SEP.B #P_Idx8Bit                                      ; 0F81EB E2 10 
   LDX.W $05AB                                     ; 0F81ED AE AB 05 
   BEQ.B B_F8224                                   ; 0F81F0 F0 32 
 
@@ -131,7 +131,7 @@ L_F81DA:
 .byte $80,$0F                                     ; 0F8223 ..       ??
 
 B_F8224:
-  REP.B #$30                                      ; 0F8224 C2 30 
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0F8224 C2 30 
   LDX.W #$4000                                    ; 0F8226 A2 00 40 
   LDA.W #$8000                                    ; 0F8229 A9 00 80 
   LDY.W #$000B                                    ; 0F822C A0 0B 00 
@@ -213,7 +213,7 @@ L_F8309:
 
 L_F830F:
   PHP                                             ; 0F830F 08 
-  SEP.B #$20                                      ; 0F8310 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0F8310 E2 20 
   XBA                                             ; 0F8312 EB 
   LDA.W $1BFF                                     ; 0F8313 AD FF 1B 
 B_F8316:
@@ -251,8 +251,8 @@ B_F8330:
 
 L_F835A:
   PHP                                             ; 0F835A 08 
-  REP.B #$10                                      ; 0F835B C2 10 
-  SEP.B #$20                                      ; 0F835D E2 20 
+  REP.B #P_Idx8Bit                                      ; 0F835B C2 10 
+  SEP.B #P_Acc8Bit                                      ; 0F835D E2 20 
   LDY.W #$F563                                    ; 0F835F A0 63 F5 
   LDA.B #$01                                      ; 0F8362 A9 01 
   LDX.W #$07C6                                    ; 0F8364 A2 C6 07 
@@ -262,7 +262,7 @@ L_F835A:
 
 L_F836D:
   PHP                                             ; 0F836D 08 
-  REP.B #$10                                      ; 0F836E C2 10 
+  REP.B #P_Idx8Bit                                      ; 0F836E C2 10 
   TAX                                             ; 0F8370 AA 
   LDA.L D_1FFFD,X                                 ; 0F8371 BF FD FF 01 
   STA.B CONTROL                                   ; 0F8375 85 F1 
@@ -280,10 +280,10 @@ L_F836D:
 .byte $3A                                         ; 0F838D (unrecognized opcode ?DEC) :
   TAX                                             ; 0F838E AA 
   STA.B CPUIO4                                    ; 0F838F 85 F7 
-  SEP.B #$20                                      ; 0F8391 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0F8391 E2 20 
   LDA.B #$01                                      ; 0F8393 A9 01 
   JSL L_F830F                                     ; 0F8395 22 0F 83 0F 
-  REP.B #$20                                      ; 0F8399 C2 20 
+  REP.B #P_Acc8Bit                                      ; 0F8399 C2 20 
   INY                                             ; 0F839B C8 
   INY                                             ; 0F839C C8 
   LDA.B [$EE],Y                                   ; 0F839D B7 EE 
@@ -305,14 +305,14 @@ B_F83A2:
   STA.B CPUIO2                                    ; 0F83B8 85 F5 
   PHY                                             ; 0F83BA 5A 
   LDY.W #$0000                                    ; 0F83BB A0 00 00 
-  SEP.B #$20                                      ; 0F83BE E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0F83BE E2 20 
 B_F83C0:
   LDA.B [CPUIO1],Y                                ; 0F83C0 B7 F4 
   JSR.W L_F832C                                   ; 0F83C2 20 2C 83 
   INY                                             ; 0F83C5 C8 
   CPY.B T0OUT                                     ; 0F83C6 C4 FD 
   BNE.B B_F83C0                                   ; 0F83C8 D0 F6 
-  REP.B #$20                                      ; 0F83CA C2 20 
+  REP.B #P_Acc8Bit                                      ; 0F83CA C2 20 
   PLY                                             ; 0F83CC 7A 
   BRA.B B_F83A2                                   ; 0F83CD 80 D3 
 B_F83CF:
@@ -345,12 +345,12 @@ B_F83E9:
 
 L_F83F3:
   PHA                                             ; 0F83F3 48 
-  SEP.B #$20                                      ; 0F83F4 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0F83F4 E2 20 
   PLA                                             ; 0F83F6 68 
   JSR.W L_F832C                                   ; 0F83F7 20 2C 83 
   PLA                                             ; 0F83FA 68 
   JSR.W L_F832C                                   ; 0F83FB 20 2C 83 
-  REP.B #$20                                      ; 0F83FE C2 20 
+  REP.B #P_Acc8Bit                                      ; 0F83FE C2 20 
   RTS                                             ; 0F8400 60 
 
 
@@ -358,8 +358,8 @@ L_F8401:
   PHP                                             ; 0F8401 08 
   BIT.W #$8000                                    ; 0F8402 89 00 80 
   BEQ.B B_F847F                                   ; 0F8405 F0 78 
-  REP.B #$10                                      ; 0F8407 C2 10 
-  SEP.B #$20                                      ; 0F8409 E2 20 
+  REP.B #P_Idx8Bit                                      ; 0F8407 C2 10 
+  SEP.B #P_Acc8Bit                                      ; 0F8409 E2 20 
   STA.B T0OUT                                     ; 0F840B 85 FD 
   LDY.W #$0003                                    ; 0F840D A0 03 00 
 D_F8410:
@@ -375,7 +375,7 @@ D_F8410:
   JMP.W D_F8410                                   ; 0F841E 4C 10 84 
 B_F8421:
   INY                                             ; 0F8421 C8 
-  REP.B #$20                                      ; 0F8422 C2 20 
+  REP.B #P_Acc8Bit                                      ; 0F8422 C2 20 
   LDA.B [CONTROL],Y                               ; 0F8424 B7 F1 
   STA.B $EE                                       ; 0F8426 85 EE 
   INY                                             ; 0F8428 C8 
@@ -408,7 +408,7 @@ B_F843C:
   STA.B CPUIO2                                    ; 0F8454 85 F5 
   PHY                                             ; 0F8456 5A 
   LDY.W #$0000                                    ; 0F8457 A0 00 00 
-  SEP.B #$20                                      ; 0F845A E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0F845A E2 20 
   LDA.B #$10                                      ; 0F845C A9 10 
   LDX.B T0OUT                                     ; 0F845E A6 FD 
   JSL L_F830F                                     ; 0F8460 22 0F 83 0F 
@@ -423,7 +423,7 @@ B_F846E:
   INY                                             ; 0F8475 C8 
   CPY.B RAMREG2                                   ; 0F8476 C4 F9 
   BNE.B B_F846E                                   ; 0F8478 D0 F4 
-  REP.B #$20                                      ; 0F847A C2 20 
+  REP.B #P_Acc8Bit                                      ; 0F847A C2 20 
   PLY                                             ; 0F847C 7A 
   BRA.B B_F843C                                   ; 0F847D 80 BD 
 B_F847F:
@@ -443,15 +443,15 @@ B_F8481:
 
 L_F84BE:
   PHP                                             ; 0F84BE 08 
-  REP.B #$10                                      ; 0F84BF C2 10 
-  SEP.B #$20                                      ; 0F84C1 E2 20 
+  REP.B #P_Idx8Bit                                      ; 0F84BF C2 10 
+  SEP.B #P_Acc8Bit                                      ; 0F84C1 E2 20 
   PHA                                             ; 0F84C3 48 
   LDA.B #$04                                      ; 0F84C4 A9 04 
   LDX.W #$0000                                    ; 0F84C6 A2 00 00 
   JSL L_F830F                                     ; 0F84C9 22 0F 83 0F 
   PLA                                             ; 0F84CD 68 
   BEQ.B B_F84EA                                   ; 0F84CE F0 1A 
-  REP.B #$20                                      ; 0F84D0 C2 20 
+  REP.B #P_Acc8Bit                                      ; 0F84D0 C2 20 
   AND.W #$00FF                                    ; 0F84D2 29 FF 00 
   PHA                                             ; 0F84D5 48 
   EOR.W #$FFFF                                    ; 0F84D6 49 FF FF 
@@ -459,7 +459,7 @@ L_F84BE:
   ADC.W #$8100                                    ; 0F84DA 69 00 81 
   JSL L_F8401                                     ; 0F84DD 22 01 84 0F 
   PLX                                             ; 0F84E1 FA 
-  SEP.B #$20                                      ; 0F84E2 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0F84E2 E2 20 
   LDA.B #$04                                      ; 0F84E4 A9 04 
   JSL L_F830F                                     ; 0F84E6 22 0F 83 0F 
 B_F84EA:
@@ -468,15 +468,15 @@ B_F84EA:
 
 L_F84EC:
   PHP                                             ; 0F84EC 08 
-  REP.B #$10                                      ; 0F84ED C2 10 
-  SEP.B #$20                                      ; 0F84EF E2 20 
+  REP.B #P_Idx8Bit                                      ; 0F84ED C2 10 
+  SEP.B #P_Acc8Bit                                      ; 0F84EF E2 20 
   PHA                                             ; 0F84F1 48 
   LDA.B #$04                                      ; 0F84F2 A9 04 
   LDX.W #$0000                                    ; 0F84F4 A2 00 00 
   JSL L_F830F                                     ; 0F84F7 22 0F 83 0F 
   PLA                                             ; 0F84FB 68 
   BEQ.B B_F851C                                   ; 0F84FC F0 1E 
-  REP.B #$20                                      ; 0F84FE C2 20 
+  REP.B #P_Acc8Bit                                      ; 0F84FE C2 20 
   AND.W #$00FF                                    ; 0F8500 29 FF 00 
   PHA                                             ; 0F8503 48 
   EOR.W #$FFFF                                    ; 0F8504 49 FF FF 
@@ -486,7 +486,7 @@ L_F84EC:
   PLA                                             ; 0F850F 68 
   ORA.W #$0100                                    ; 0F8510 09 00 01 
   TAX                                             ; 0F8513 AA 
-  SEP.B #$20                                      ; 0F8514 E2 20 
+  SEP.B #P_Acc8Bit                                      ; 0F8514 E2 20 
   LDA.B #$04                                      ; 0F8516 A9 04 
   JSL L_F830F                                     ; 0F8518 22 0F 83 0F 
 B_F851C:

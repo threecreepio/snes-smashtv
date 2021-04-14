@@ -4115,11 +4115,11 @@ L_CFD26:
   CMP.B #$40                                      ; 0CFD2A C9 40 
   BCS.B B_CFD3D                                   ; 0CFD2C B0 0F 
   PHX                                             ; 0CFD2E DA 
-  REP.B #$10                                      ; 0CFD2F C2 10 
+  REP.B #P_Idx8Bit                                      ; 0CFD2F C2 10 
   LDX.W #$FF2B                                    ; 0CFD31 A2 2B FF 
   LDA.B #$07                                      ; 0CFD34 A9 07 
   JSL L_F830F                                     ; 0CFD36 22 0F 83 0F 
-  SEP.B #$10                                      ; 0CFD3A E2 10 
+  SEP.B #P_Idx8Bit                                      ; 0CFD3A E2 10 
   PLX                                             ; 0CFD3C FA 
 B_CFD3D:
   RTL                                             ; 0CFD3D 6B 
