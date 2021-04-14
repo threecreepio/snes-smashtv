@@ -2305,7 +2305,7 @@ B_95B6:
   CMP.W $0C9C,X                                   ; 0095D1 DD 9C 0C 
   BCC.B B_95DD                                    ; 0095D4 90 07 
   LDA.W $0004,Y                                   ; 0095D6 B9 04 00 
-.byte $1A                                         ; 0095D9 (unrecognized opcode ?INC) ?
+  INC A
   STA.W $0004,Y                                   ; 0095DA 99 04 00 
 B_95DD:
   DEX                                             ; 0095DD CA 
@@ -3013,7 +3013,7 @@ L_9CB2:
   LDA.B #$02                                      ; 009CC7 A9 02 
   STA.W $1868                                     ; 009CC9 8D 68 18 
   LDA.W $185E                                     ; 009CCC AD 5E 18 
-.byte $1A                                         ; 009CCF (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$05                                      ; 009CD0 C9 05 
   BCC.B B_9CD6                                    ; 009CD2 90 02 
   LDA.B #$00                                      ; 009CD4 A9 00 
@@ -3061,7 +3061,7 @@ B_9D1F:
   LDA.B #$03                                      ; 009D29 A9 03 
   STA.W $1869                                     ; 009D2B 8D 69 18 
   LDA.W $185F                                     ; 009D2E AD 5F 18 
-.byte $1A                                         ; 009D31 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$05                                      ; 009D32 C9 05 
   BCC.B B_9D38                                    ; 009D34 90 02 
   LDA.B #$00                                      ; 009D36 A9 00 
@@ -3109,7 +3109,7 @@ B_9D81:
   LDA.B #$02                                      ; 009D8B A9 02 
   STA.W $186A                                     ; 009D8D 8D 6A 18 
   LDA.W $1860                                     ; 009D90 AD 60 18 
-.byte $1A                                         ; 009D93 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$03                                      ; 009D94 C9 03 
   BCC.B B_9D9A                                    ; 009D96 90 02 
   LDA.B #$00                                      ; 009D98 A9 00 
@@ -3157,7 +3157,7 @@ B_9DE3:
   LDA.B #$03                                      ; 009DED A9 03 
   STA.W $186B                                     ; 009DEF 8D 6B 18 
   LDA.W $1861                                     ; 009DF2 AD 61 18 
-.byte $1A                                         ; 009DF5 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$03                                      ; 009DF6 C9 03 
   BCC.B B_9DFC                                    ; 009DF8 90 02 
   LDA.B #$00                                      ; 009DFA A9 00 
@@ -3205,7 +3205,7 @@ B_9E45:
   LDA.B #$06                                      ; 009E4F A9 06 
   STA.W $186C                                     ; 009E51 8D 6C 18 
   LDA.W $1862                                     ; 009E54 AD 62 18 
-.byte $1A                                         ; 009E57 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$08                                      ; 009E58 C9 08 
   BCC.B B_9E5E                                    ; 009E5A 90 02 
   LDA.B #$00                                      ; 009E5C A9 00 
@@ -3253,7 +3253,7 @@ B_9EA7:
   LDA.B #$07                                      ; 009EB1 A9 07 
   STA.W $186D                                     ; 009EB3 8D 6D 18 
   LDA.W $1863                                     ; 009EB6 AD 63 18 
-.byte $1A                                         ; 009EB9 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$07                                      ; 009EBA C9 07 
   BCC.B B_9EC0                                    ; 009EBC 90 02 
   LDA.B #$00                                      ; 009EBE A9 00 
@@ -3299,7 +3299,7 @@ B_9F04:
   LDA.B #$08                                      ; 009F0E A9 08 
   STA.W $186D                                     ; 009F10 8D 6D 18 
   LDA.W $1863                                     ; 009F13 AD 63 18 
-.byte $1A                                         ; 009F16 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$07                                      ; 009F17 C9 07 
   BCC.B B_9F1D                                    ; 009F19 90 02 
   LDA.B #$00                                      ; 009F1B A9 00 
@@ -3345,7 +3345,7 @@ B_9F61:
   LDA.B #$08                                      ; 009F6B A9 08 
   STA.W $186E                                     ; 009F6D 8D 6E 18 
   LDA.W $1864                                     ; 009F70 AD 64 18 
-.byte $1A                                         ; 009F73 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$08                                      ; 009F74 C9 08 
   BCC.B B_9F7A                                    ; 009F76 90 02 
   LDA.B #$00                                      ; 009F78 A9 00 
@@ -3391,7 +3391,7 @@ B_9FBE:
   LDA.B #$05                                      ; 009FC8 A9 05 
   STA.W $186F                                     ; 009FCA 8D 6F 18 
   LDA.W $1865                                     ; 009FCD AD 65 18 
-.byte $1A                                         ; 009FD0 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$09                                      ; 009FD1 C9 09 
   BCC.B B_9FD7                                    ; 009FD3 90 02 
   LDA.B #$00                                      ; 009FD5 A9 00 
@@ -3444,7 +3444,7 @@ B_A020:
 B_A033:
   STY.W $1870                                     ; 00A033 8C 70 18 
   LDA.W $1866                                     ; 00A036 AD 66 18 
-.byte $1A                                         ; 00A039 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$05                                      ; 00A03A C9 05 
   BCC.B B_A040                                    ; 00A03C 90 02 
   LDA.B #$00                                      ; 00A03E A9 00 
@@ -3490,7 +3490,7 @@ B_A089:
   LDA.B #$04                                      ; 00A08E A9 04 
   STA.W $1871                                     ; 00A090 8D 71 18 
   LDA.W $1867                                     ; 00A093 AD 67 18 
-.byte $1A                                         ; 00A096 (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$0A                                      ; 00A097 C9 0A 
   BCC.B B_A09D                                    ; 00A099 90 02 
   LDA.B #$00                                      ; 00A09B A9 00 
@@ -4739,7 +4739,7 @@ B_ADC0:
   LDX.B #$01                                      ; 00ADC6 A2 01 
 B_ADC8:
   LDA.W $189B,X                                   ; 00ADC8 BD 9B 18 
-.byte $1A                                         ; 00ADCB (unrecognized opcode ?INC) ?
+  INC A
   CMP.B #$07                                      ; 00ADCC C9 07 
   BCS.B B_ADD3                                    ; 00ADCE B0 03 
   STA.W $189B,X                                   ; 00ADD0 9D 9B 18 
@@ -6203,7 +6203,7 @@ D_B960:
   STA.B $04                                       ; 00B972 85 04 
   JSR.W L_B9AB                                    ; 00B974 20 AB B9 
   LDA.B $04                                       ; 00B977 A5 04 
-.byte $3A                                         ; 00B979 (unrecognized opcode ?DEC) :
+  DEC A
   AND.B #$0F                                      ; 00B97A 29 0F 
   STA.B $04                                       ; 00B97C 85 04 
   JSR.W L_B9AB                                    ; 00B97E 20 AB B9 
@@ -6947,7 +6947,7 @@ B_C00A:
   STA.W XexzyTorsoY,Y                             ; 00C00C 99 09 03 
 B_C00F:
   LDA.B $08,X                                     ; 00C00F B5 08 
-.byte $1A                                         ; 00C011 (unrecognized opcode ?INC) ?
+  INC A
   ASL                                             ; 00C012 0A 
   ASL                                             ; 00C013 0A 
   TAY                                             ; 00C014 A8 
@@ -7041,7 +7041,7 @@ B_C0BA:
   ORA.W $1888,X                                   ; 00C0C5 1D 88 18 
   STA.B $07                                       ; 00C0C8 85 07 
   LDA.B $08,X                                     ; 00C0CA B5 08 
-.byte $1A                                         ; 00C0CC (unrecognized opcode ?INC) ?
+  INC A
   ASL                                             ; 00C0CD 0A 
   ASL                                             ; 00C0CE 0A 
   TAY                                             ; 00C0CF A8 
@@ -7348,7 +7348,7 @@ L_C39D:
   LDA.W D_C3C0,Y                                  ; 00C3A4 B9 C0 C3 
   CMP.W $05AA                                     ; 00C3A7 CD AA 05 
   BNE.B B_C3AF                                    ; 00C3AA D0 03 
-.byte $1A                                         ; 00C3AC (unrecognized opcode ?INC) ?
+  INC A
   AND.B #$03                                      ; 00C3AD 29 03 
 B_C3AF:
   STA.W $05AA                                     ; 00C3AF 8D AA 05 
@@ -9984,7 +9984,7 @@ B_E88D:
   LDA.W RoundRoomNames+1,X                                  ; 00E89C BD 8A E9 
   STA.B $05                                       ; 00E89F 85 05 
   LDA.W CurrentRoom                                     ; 00E8A1 AD AC 05 
-.byte $3A                                         ; 00E8A4 (unrecognized opcode ?DEC) :
+  DEC A
   STA.W WRMPYA                                    ; 00E8A5 8D 02 42 
   LDA.B #$1A                                      ; 00E8A8 A9 1A 
   STA.W WRMPYB                                    ; 00E8AA 8D 03 42 

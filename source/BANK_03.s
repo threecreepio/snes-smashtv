@@ -75,7 +75,7 @@ B_38071:
 
 B_3807A:
   LDA.W $18C5,Y                                   ; 03807A B9 C5 18 
-.byte $1A                                         ; 03807D (unrecognized opcode ?INC) ?
+  INC A
   STA.W $18C5,Y                                   ; 03807E 99 C5 18 
   LDA.B #$00                                      ; 038081 A9 00 
   RTL                                             ; 038083 6B 
@@ -1156,7 +1156,7 @@ D_38D90:
   DEC.W $0D80,X                                   ; 038D98 DE 80 0D 
   BNE.B B_38DD3                                   ; 038D9B D0 36 
   LDA.W $11F4,X                                   ; 038D9D BD F4 11 
-.byte $1A                                         ; 038DA0 (unrecognized opcode ?INC) ?
+  INC A
   AND.B #$03                                      ; 038DA1 29 03 
   TAY                                             ; 038DA3 A8 
   ORA.B #$04                                      ; 038DA4 09 04 
@@ -5371,7 +5371,7 @@ B_3C2AB:
   BNE.B B_3C2D7                                   ; 03C2B1 D0 24 
   JSL AdvanceRNG                                     ; 03C2B3 22 95 CA 0E 
   AND.B #$1F                                      ; 03C2B7 29 1F 
-.byte $1A                                         ; 03C2B9 (unrecognized opcode ?INC) ?
+  INC A
   STA.W $0D80,X                                   ; 03C2BA 9D 80 0D 
   JSL AdvanceRNG                                     ; 03C2BD 22 95 CA 0E 
   AND.B #$07                                      ; 03C2C1 29 07 
@@ -8280,13 +8280,13 @@ D_3EA77:
   LDA.W $102C,X                                   ; 03EA91 BD 2C 10 
   BEQ.B B_3EAA1                                   ; 03EA94 F0 0B 
   LDA.W $11F4,X                                   ; 03EA96 BD F4 11 
-.byte $3A                                         ; 03EA99 (unrecognized opcode ?DEC) :
+  DEC A
   AND.B #$07                                      ; 03EA9A 29 07 
   STA.W $11F4,X                                   ; 03EA9C 9D F4 11 
   BRA.B B_3EAAA                                   ; 03EA9F 80 09 
 B_3EAA1:
   LDA.W $11F4,X                                   ; 03EAA1 BD F4 11 
-.byte $1A                                         ; 03EAA4 (unrecognized opcode ?INC) ?
+  INC A
   AND.B #$07                                      ; 03EAA5 29 07 
   STA.W $11F4,X                                   ; 03EAA7 9D F4 11 
 B_3EAAA:
@@ -8410,13 +8410,13 @@ B_3EB63:
   BEQ.B B_3EB96                                   ; 03EB7C F0 18 
   BCC.B B_3EB8B                                   ; 03EB7E 90 0B 
   LDA.W $11F4,X                                   ; 03EB80 BD F4 11 
-.byte $3A                                         ; 03EB83 (unrecognized opcode ?DEC) :
+  DEC A
   AND.B #$0F                                      ; 03EB84 29 0F 
   STA.W $11F4,X                                   ; 03EB86 9D F4 11 
   BRA.B B_3EBAD                                   ; 03EB89 80 22 
 B_3EB8B:
   LDA.W $11F4,X                                   ; 03EB8B BD F4 11 
-.byte $1A                                         ; 03EB8E (unrecognized opcode ?INC) ?
+  INC A
   AND.B #$0F                                      ; 03EB8F 29 0F 
   STA.W $11F4,X                                   ; 03EB91 9D F4 11 
   BRA.B B_3EBAD                                   ; 03EB94 80 17 
@@ -8608,7 +8608,7 @@ B_3ECB3:
   PLA                                             ; 03ED0F 68 
 B_3ED10:
   AND.B #$7F                                      ; 03ED10 29 7F 
-.byte $3A                                         ; 03ED12 (unrecognized opcode ?DEC) :
+  DEC A
   CLC                                             ; 03ED13 18 
   ADC.W $11F4,X                                   ; 03ED14 7D F4 11 
   AND.B #$0F                                      ; 03ED17 29 0F 

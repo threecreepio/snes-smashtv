@@ -83,7 +83,7 @@ D_58082:
   ROL                                             ; 05808A 2A 
   JMP.W D_58082                                   ; 05808B 4C 82 80 
 B_5808E:
-.byte $1A                                         ; 05808E (unrecognized opcode ?INC) ?
+  INC A
   STA.B $E4                                       ; 05808F 85 E4 
   LDY.B $D8                                       ; 058091 A4 D8 
   MVN $7e,$7e                                     ; 058093 54 7E 7E 
@@ -199,7 +199,7 @@ D_58143:
   ROL                                             ; 05814B 2A 
   JMP.W D_58143                                   ; 05814C 4C 43 81 
 B_5814F:
-.byte $1A                                         ; 05814F (unrecognized opcode ?INC) ?
+  INC A
   STA.B $E4                                       ; 058150 85 E4 
   LDY.B $D8                                       ; 058152 A4 D8 
   MVN $7f,$7f                                     ; 058154 54 7F 7F 
@@ -1055,7 +1055,7 @@ L_588AD:
   CMP.B #$36                                      ; 0588C3 C9 36 
   BNE.B B_588DB                                   ; 0588C5 D0 14 
   LDA.W $0F48,X                                   ; 0588C7 BD 48 0F 
-.byte $1A                                         ; 0588CA (unrecognized opcode ?INC) ?
+  INC A
   STA.W $0F48,X                                   ; 0588CB 9D 48 0F 
   CMP.B #$08                                      ; 0588CE C9 08 
   BNE.B B_58925                                   ; 0588D0 D0 53 

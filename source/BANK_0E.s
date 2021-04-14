@@ -2844,7 +2844,7 @@ B_ECC0F:
   LDA.W $0262                                     ; 0ECC1B AD 62 02 
   CMP.W #$001F                                    ; 0ECC1E C9 1F 00 
   BCS.B B_ECC2F                                   ; 0ECC21 B0 0C 
-.byte $1A                                         ; 0ECC23 (unrecognized opcode ?INC) ?
+  INC A
   STA.W $0262                                     ; 0ECC24 8D 62 02 
   DEC.W $0264                                     ; 0ECC27 CE 64 02 
   DEC.W $0264                                     ; 0ECC2A CE 64 02 
@@ -2916,7 +2916,7 @@ B_ECCCC:
   JSL L_ECAFA                                     ; 0ECCD0 22 FA CA 0E 
   LDA.W $0262                                     ; 0ECCD4 AD 62 02 
   BEQ.B B_ECCE5                                   ; 0ECCD7 F0 0C 
-.byte $3A                                         ; 0ECCD9 (unrecognized opcode ?DEC) :
+  DEC A
   STA.W $0262                                     ; 0ECCDA 8D 62 02 
   INC.W $0264                                     ; 0ECCDD EE 64 02 
   INC.W $0264                                     ; 0ECCE0 EE 64 02 
@@ -4621,10 +4621,10 @@ B_EE2DC:
   DEY                                             ; 0EE2E5 88 
   BNE.B B_EE2DC                                   ; 0EE2E6 D0 F4 
   LDX.W #$0002                                    ; 0EE2E8 A2 02 00 
-.byte $3A                                         ; 0EE2EB (unrecognized opcode ?DEC) :
+  DEC A
   JSR.W L_EE7A6                                   ; 0EE2EC 20 A6 E7 
   LDX.W #$0000                                    ; 0EE2EF A2 00 00 
-.byte $1A                                         ; 0EE2F2 (unrecognized opcode ?INC) ?
+  INC A
   JSR.W L_EE7A6                                   ; 0EE2F3 20 A6 E7 
   LDA.W #$201E                                    ; 0EE2F6 A9 1E 20 
   STA.B $14                                       ; 0EE2F9 85 14 

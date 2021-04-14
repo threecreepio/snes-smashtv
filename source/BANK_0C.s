@@ -3983,7 +3983,7 @@ L_CFB81:
   STZ.W $069B                                     ; 0CFBA1 9C 9B 06 
   INC.W $069C                                     ; 0CFBA4 EE 9C 06 
   LDA.W $069C                                     ; 0CFBA7 AD 9C 06 
-.byte $3A                                         ; 0CFBAA (unrecognized opcode ?DEC) :
+  DEC A
   ASL                                             ; 0CFBAB 0A 
   TAX                                             ; 0CFBAC AA 
   JSR.W (L_CFBD2,X)                               ; 0CFBAD FC D2 FB 

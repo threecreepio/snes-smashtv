@@ -189,7 +189,7 @@ B_F82D8:
   LDA.B #$02                                      ; 0F82E9 A9 02 
   STA.W APUIO3                                    ; 0F82EB 8D 43 21 
   TYA                                             ; 0F82EE 98 
-.byte $1A                                         ; 0F82EF (unrecognized opcode ?INC) ?
+  INC A
   STA.W APUIO0                                    ; 0F82F0 8D 40 21 
   LDA.B #$CA                                      ; 0F82F3 A9 CA 
 B_F82F5:
@@ -220,7 +220,7 @@ B_F8316:
   CMP.W APUIO0                                    ; 0F8316 CD 40 21 
   BNE.B B_F8316                                   ; 0F8319 D0 FB 
   STX.W APUIO2                                    ; 0F831B 8E 42 21 
-.byte $1A                                         ; 0F831E (unrecognized opcode ?INC) ?
+  INC A
   XBA                                             ; 0F831F EB 
   STA.W APUIO1                                    ; 0F8320 8D 41 21 
   XBA                                             ; 0F8323 EB 
@@ -235,7 +235,7 @@ L_F832C:
 B_F8330:
   CMP.W APUIO0                                    ; 0F8330 CD 40 21 
   BNE.B B_F8330                                   ; 0F8333 D0 FB 
-.byte $1A                                         ; 0F8335 (unrecognized opcode ?INC) ?
+  INC A
   XBA                                             ; 0F8336 EB 
   STA.W APUIO1                                    ; 0F8337 8D 41 21 
   XBA                                             ; 0F833A EB 
@@ -276,8 +276,8 @@ L_F836D:
   STA.B $EF                                       ; 0F8387 85 EF 
   DEY                                             ; 0F8389 88 
   LDA.B [$EE],Y                                   ; 0F838A B7 EE 
-.byte $3A                                         ; 0F838C (unrecognized opcode ?DEC) :
-.byte $3A                                         ; 0F838D (unrecognized opcode ?DEC) :
+  DEC A
+  DEC A
   TAX                                             ; 0F838E AA 
   STA.B CPUIO4                                    ; 0F838F 85 F7 
   SEP.B #P_Acc8Bit                                      ; 0F8391 E2 20 
@@ -383,8 +383,8 @@ B_F8421:
   STA.B $EF                                       ; 0F842B 85 EF 
   LDY.W #$0000                                    ; 0F842D A0 00 00 
   LDA.B [$EE],Y                                   ; 0F8430 B7 EE 
-.byte $3A                                         ; 0F8432 (unrecognized opcode ?DEC) :
-.byte $3A                                         ; 0F8433 (unrecognized opcode ?DEC) :
+  DEC A
+  DEC A
   STA.B CPUIO4                                    ; 0F8434 85 F7 
   INY                                             ; 0F8436 C8 
   INY                                             ; 0F8437 C8 
