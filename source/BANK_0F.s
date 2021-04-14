@@ -25,7 +25,7 @@
 
 
 L_F809A:
-  LDA.W $05AB                                     ; 0F809A AD AB 05 
+  LDA.W CurrentRound                                     ; 0F809A AD AB 05 
   CMP.B #$02                                      ; 0F809D C9 02 
   BEQ.B B_F80A2                                   ; 0F809F F0 01 
   RTL                                             ; 0F80A1 6B 
@@ -119,7 +119,7 @@ L_F81DA:
   LDY.W #$000B                                    ; 0F81E4 A0 0B 00 
   JSL L_580C1                                     ; 0F81E7 22 C1 80 05 
   SEP.B #P_Idx8Bit                                      ; 0F81EB E2 10 
-  LDX.W $05AB                                     ; 0F81ED AE AB 05 
+  LDX.W CurrentRound                                     ; 0F81ED AE AB 05 
   BEQ.B B_F8224                                   ; 0F81F0 F0 32 
 
 .byte $CA,$F0,$1E,$C2,$30,$A2,$00,$40             ; 0F81F2 ........ ????0??@

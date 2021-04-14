@@ -98,8 +98,8 @@ D_80E6:
   PLB                                             ; 0080E9 AB 
   PLB                                             ; 0080EA AB 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0080EB E2 30 
-  STZ.W $05AB                                     ; 0080ED 9C AB 05 
-  STZ.W $05AC                                     ; 0080F0 9C AC 05 
+  STZ.W CurrentRound                                     ; 0080ED 9C AB 05 
+  STZ.W CurrentRoom                                     ; 0080F0 9C AC 05 
   STZ.W $052E                                     ; 0080F3 9C 2E 05 
   LDA.W $052F                                     ; 0080F6 AD 2F 05 
   BEQ.B B_811F                                    ; 0080F9 F0 24 
@@ -118,8 +118,8 @@ B_811F:
   JSL L_E454                                      ; 00812D 22 54 E4 00 
   JSL L_EE257                                     ; 008131 22 57 E2 0E 
 D_8135:
-  STZ.W $05AB                                     ; 008135 9C AB 05 
-  STZ.W $05AC                                     ; 008138 9C AC 05 
+  STZ.W CurrentRound                                     ; 008135 9C AB 05 
+  STZ.W CurrentRoom                                     ; 008138 9C AC 05 
   JSL L_E454                                      ; 00813B 22 54 E4 00 
   SEP.B #P_Acc8Bit                                      ; 00813F E2 20 
   STZ.W $02CB                                     ; 008141 9C CB 02 
@@ -137,12 +137,12 @@ B_8159:
   PLB                                             ; 00815D AB 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00815E E2 30 
   JSR.W L_81D0                                    ; 008160 20 D0 81 
-  LDX.W $05AB                                     ; 008163 AE AB 05 
-  STX.W $05AB                                     ; 008166 8E AB 05 
+  LDX.W CurrentRound                                     ; 008163 AE AB 05 
+  STX.W CurrentRound                                     ; 008166 8E AB 05 
   LDA.L D_81CD,X                                  ; 008169 BF CD 81 00 
   JSL L_F84EC                                     ; 00816D 22 EC 84 0F 
   JSR.W L_84D7                                    ; 008171 20 D7 84 
-  LDA.W $05AB                                     ; 008174 AD AB 05 
+  LDA.W CurrentRound                                     ; 008174 AD AB 05 
   BMI.B B_81C2                                    ; 008177 30 49 
 
 .byte $9C,$AC,$05,$22,$14,$DE,$0E,$AD             ; 008179 ........ ???"????
@@ -292,7 +292,7 @@ L_828A:
   JSR.W L_C17B                                    ; 0082AC 20 7B C1 
   JSR.W L_97D3                                    ; 0082AF 20 D3 97 
   JSR.W L_A8D5                                    ; 0082B2 20 D5 A8 
-  LDA.W $05AB                                     ; 0082B5 AD AB 05 
+  LDA.W CurrentRound                                     ; 0082B5 AD AB 05 
   CMP.B #$01                                      ; 0082B8 C9 01 
   BNE.B B_82C5                                    ; 0082BA D0 09 
 
@@ -340,7 +340,7 @@ B_830A:
   JSR.W L_9961                                    ; 008319 20 61 99 
   JSR.W L_B032                                    ; 00831C 20 32 B0 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00831F E2 30 
-  LDA.W $05AC                                     ; 008321 AD AC 05 
+  LDA.W CurrentRoom                                     ; 008321 AD AC 05 
   BNE.B B_8329                                    ; 008324 D0 03 
   JSR.W L_83CA                                    ; 008326 20 CA 83 
 B_8329:
@@ -387,7 +387,7 @@ B_8329:
   JSL L_EF822                                     ; 00839D 22 22 F8 0E 
   JSR.W L_BF4E                                    ; 0083A1 20 4E BF 
   JSL L_AF0E                                      ; 0083A4 22 0E AF 00 
-  LDA.W $05AB                                     ; 0083A8 AD AB 05 
+  LDA.W CurrentRound                                     ; 0083A8 AD AB 05 
   ASL                                             ; 0083AB 0A 
   TAX                                             ; 0083AC AA 
   REP.B #P_Acc8Bit                                      ; 0083AD C2 20 
@@ -670,7 +670,7 @@ B_8610:
   BNE.B B_8633                                    ; 008617 D0 1A 
   JSR.W L_8B8A                                    ; 008619 20 8A 8B 
   JSR.W L_914E                                    ; 00861C 20 4E 91 
-  LDA.W $05AC                                     ; 00861F AD AC 05 
+  LDA.W CurrentRoom                                     ; 00861F AD AC 05 
   BMI.B B_8627                                    ; 008622 30 03 
   JMP.W B_851E                                    ; 008624 4C 1E 85 
 B_8627:
@@ -696,7 +696,7 @@ B_8645:
   JSL L_ACE4                                      ; 008651 22 E4 AC 00 
   JSR.W L_A2A8                                    ; 008655 20 A8 A2 
   JSR.W L_A3AB                                    ; 008658 20 AB A3 
-  LDA.W $05AB                                     ; 00865B AD AB 05 
+  LDA.W CurrentRound                                     ; 00865B AD AB 05 
   BMI.B B_8627                                    ; 00865E 30 C7 
   JMP.W B_851E                                    ; 008660 4C 1E 85 
 
@@ -705,7 +705,7 @@ L_8663:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008664 E2 30 
   JSR.W L_8B8A                                    ; 008666 20 8A 8B 
   JSL L_ECA13                                     ; 008669 22 13 CA 0E 
-  LDA.W $05AB                                     ; 00866D AD AB 05 
+  LDA.W CurrentRound                                     ; 00866D AD AB 05 
   ASL                                             ; 008670 0A 
   TAX                                             ; 008671 AA 
   STZ.W $1A86                                     ; 008672 9C 86 1A 
@@ -725,7 +725,7 @@ L_8663:
   JSL L_ECA13                                     ; 00869A 22 13 CA 0E 
   JSR.W L_9013                                    ; 00869E 20 13 90 
   JSR.W L_8F93                                    ; 0086A1 20 93 8F 
-  LDA.W $05AB                                     ; 0086A4 AD AB 05 
+  LDA.W CurrentRound                                     ; 0086A4 AD AB 05 
   ASL                                             ; 0086A7 0A 
   TAX                                             ; 0086A8 AA 
   REP.B #P_Acc8Bit                                      ; 0086A9 C2 20 
@@ -891,14 +891,14 @@ L_8833:
   PEA.W $0000                                     ; 008837 F4 00 00 
   PLB                                             ; 00883A AB 
   PLB                                             ; 00883B AB 
-  LDA.W $05AB                                     ; 00883C AD AB 05 
+  LDA.W CurrentRound                                     ; 00883C AD AB 05 
   ASL                                             ; 00883F 0A 
   TAY                                             ; 008840 A8 
   LDA.W D_88E3,Y                                  ; 008841 B9 E3 88 
   STA.B $04                                       ; 008844 85 04 
   LDA.W D_88E4,Y                                  ; 008846 B9 E4 88 
   STA.B $05                                       ; 008849 85 05 
-  LDY.W $05AC                                     ; 00884B AC AC 05 
+  LDY.W CurrentRoom                                     ; 00884B AC AC 05 
   LDA.B ($04),Y                                   ; 00884E B1 04 
   BPL.B B_8855                                    ; 008850 10 03 
   PLB                                             ; 008852 AB 
@@ -1180,7 +1180,7 @@ B_8AC4:
   JSL L_ECA13                                     ; 008AF7 22 13 CA 0E 
   JSL L_EC619                                     ; 008AFB 22 19 C6 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008AFF E2 30 
-  LDX.W $05AB                                     ; 008B01 AE AB 05 
+  LDX.W CurrentRound                                     ; 008B01 AE AB 05 
   BEQ.B B_8B1B                                    ; 008B04 F0 15 
 
 .byte $CA,$F0,$09,$AD,$AC,$05,$C9,$15             ; 008B06 ........ ????????
@@ -1188,7 +1188,7 @@ B_8AC4:
 .byte $07,$F0,$42,$80,$07                         ; 008B17 .....    ??B??
 
 B_8B1B:
-  LDA.W $05AC                                     ; 008B1B AD AC 05 
+  LDA.W CurrentRoom                                     ; 008B1B AD AC 05 
   CMP.B #$0A                                      ; 008B1E C9 0A 
   BEQ.B B_8B5B                                    ; 008B20 F0 39 
   JSR.W L_8B65                                    ; 008B22 20 65 8B 
@@ -1266,12 +1266,12 @@ L_8BBC:
   LDA.B #$00                                      ; 008BC0 A9 00 
   PHA                                             ; 008BC2 48 
   PLB                                             ; 008BC3 AB 
-  LDX.W $05AB                                     ; 008BC4 AE AB 05 
+  LDX.W CurrentRound                                     ; 008BC4 AE AB 05 
   LDA.W D_8DF2,X                                  ; 008BC7 BD F2 8D 
   STA.B $04                                       ; 008BCA 85 04 
   LDA.W D_8DF5,X                                  ; 008BCC BD F5 8D 
   STA.B $05                                       ; 008BCF 85 05 
-  LDY.W $05AC                                     ; 008BD1 AC AC 05 
+  LDY.W CurrentRoom                                     ; 008BD1 AC AC 05 
   LDA.B ($04),Y                                   ; 008BD4 B1 04 
   STA.W $05AD                                     ; 008BD6 8D AD 05 
   TAX                                             ; 008BD9 AA 
@@ -1307,7 +1307,7 @@ B_8BF8:
   PLB                                             ; 008C1A AB 
   PLB                                             ; 008C1B AB 
   SEP.B #P_Acc8Bit                                      ; 008C1C E2 20 
-  LDA.W $05AB                                     ; 008C1E AD AB 05 
+  LDA.W CurrentRound                                     ; 008C1E AD AB 05 
   CMP.B #$02                                      ; 008C21 C9 02 
   BNE.B B_8C2C                                    ; 008C23 D0 07 
 
@@ -1708,9 +1708,9 @@ B_907D:
   JSR.W L_9568                                    ; 0090A0 20 68 95 
   JSL L_AC62                                      ; 0090A3 22 62 AC 00 
   JSR.W L_94E2                                    ; 0090A7 20 E2 94 
-  JSR.W L_97B7                                    ; 0090AA 20 B7 97 
+  JSR.W LocateCurrentRoomOffset                                    ; 0090AA 20 B7 97 
   LDA.B ($04),Y                                   ; 0090AD B1 04 
-  STA.W $05AC                                     ; 0090AF 8D AC 05 
+  STA.W CurrentRoom                                     ; 0090AF 8D AC 05 
   JSR.W L_828A                                    ; 0090B2 20 8A 82 
   JSR.W L_8BBC                                    ; 0090B5 20 BC 8B 
   JSL L_ECA13                                     ; 0090B8 22 13 CA 0E 
@@ -1804,10 +1804,10 @@ B_9167:
   JSR.W L_9568                                    ; 00918A 20 68 95 
   JSL L_AC62                                      ; 00918D 22 62 AC 00 
   JSR.W L_94E2                                    ; 009191 20 E2 94 
-  JSR.W L_97B7                                    ; 009194 20 B7 97 
+  JSR.W LocateCurrentRoomOffset                                    ; 009194 20 B7 97 
   INY                                             ; 009197 C8 
   LDA.B ($04),Y                                   ; 009198 B1 04 
-  STA.W $05AC                                     ; 00919A 8D AC 05 
+  STA.W CurrentRoom                                     ; 00919A 8D AC 05 
   BPL.B B_91A3                                    ; 00919D 10 04 
 
 .byte $20,$47,$93,$60                             ; 0091A0 ....      G?`
@@ -1816,9 +1816,9 @@ B_91A3:
   LDA.W $1BF1                                     ; 0091A3 AD F1 1B 
   BEQ.B B_91AD                                    ; 0091A6 F0 05 
   LDA.B #$07                                      ; 0091A8 A9 07 
-  STA.W $05AC                                     ; 0091AA 8D AC 05 
+  STA.W CurrentRoom                                     ; 0091AA 8D AC 05 
 B_91AD:
-  LDA.W $05AB                                     ; 0091AD AD AB 05 
+  LDA.W CurrentRound                                     ; 0091AD AD AB 05 
   CMP.B #$02                                      ; 0091B0 C9 02 
   BNE.B B_91C7                                    ; 0091B2 D0 13 
 
@@ -1851,7 +1851,7 @@ B_91F7:
   JSR.W L_9374                                    ; 009202 20 74 93 
   LDA.W $1BF1                                     ; 009205 AD F1 1B 
   BNE.B B_9211                                    ; 009208 D0 07 
-  LDA.W $05AC                                     ; 00920A AD AC 05 
+  LDA.W CurrentRoom                                     ; 00920A AD AC 05 
   CMP.B #$01                                      ; 00920D C9 01 
   BNE.B B_9222                                    ; 00920F D0 11 
 B_9211:
@@ -1876,7 +1876,7 @@ B_9222:
   JSR.W L_8F83                                    ; 00923B 20 83 8F 
   JSL L_ECA13                                     ; 00923E 22 13 CA 0E 
   JSL L_ECA6A                                     ; 009242 22 6A CA 0E 
-  LDA.W $05AC                                     ; 009246 AD AC 05 
+  LDA.W CurrentRoom                                     ; 009246 AD AC 05 
   BPL.B B_924E                                    ; 009249 10 03 
 
 .byte $4C,$10,$93                                 ; 00924C ...      L??
@@ -1895,7 +1895,7 @@ B_925D:
   JSL L_ECA13                                     ; 00925E 22 13 CA 0E 
   JSL L_ECA6A                                     ; 009262 22 6A CA 0E 
   JSR.W L_8F83                                    ; 009266 20 83 8F 
-  LDA.W $05AC                                     ; 009269 AD AC 05 
+  LDA.W CurrentRoom                                     ; 009269 AD AC 05 
   CMP.B #$01                                      ; 00926C C9 01 
   BNE.B B_927E                                    ; 00926E D0 0E 
   SEC                                             ; 009270 38 
@@ -1920,7 +1920,7 @@ B_9284:
   JSR.W L_8F83                                    ; 009298 20 83 8F 
   LDA.W $1BF1                                     ; 00929B AD F1 1B 
   BNE.B B_92A7                                    ; 00929E D0 07 
-  LDA.W $05AC                                     ; 0092A0 AD AC 05 
+  LDA.W CurrentRoom                                     ; 0092A0 AD AC 05 
   CMP.B #$01                                      ; 0092A3 C9 01 
   BNE.B B_92D3                                    ; 0092A5 D0 2C 
 B_92A7:
@@ -1952,7 +1952,7 @@ B_92D9:
   LDA.B #$01                                      ; 0092E5 A9 01 
   STA.W $05D9                                     ; 0092E7 8D D9 05 
   JSR.W L_8A3A                                    ; 0092EA 20 3A 8A 
-  LDA.W $05AB                                     ; 0092ED AD AB 05 
+  LDA.W CurrentRound                                     ; 0092ED AD AB 05 
   CMP.B #$02                                      ; 0092F0 C9 02 
   BNE.B B_92FE                                    ; 0092F2 D0 0A 
 
@@ -2059,11 +2059,11 @@ B_93C2:
   JSR.W L_9568                                    ; 0093E5 20 68 95 
   JSL L_AC62                                      ; 0093E8 22 62 AC 00 
   JSR.W L_94E2                                    ; 0093EC 20 E2 94 
-  JSR.W L_97B7                                    ; 0093EF 20 B7 97 
+  JSR.W LocateCurrentRoomOffset                                    ; 0093EF 20 B7 97 
   INY                                             ; 0093F2 C8 
   INY                                             ; 0093F3 C8 
   LDA.B ($04),Y                                   ; 0093F4 B1 04 
-  STA.W $05AC                                     ; 0093F6 8D AC 05 
+  STA.W CurrentRoom                                     ; 0093F6 8D AC 05 
   JSR.W L_828A                                    ; 0093F9 20 8A 82 
   JSR.W L_8BBC                                    ; 0093FC 20 BC 8B 
   LDA.B #$03                                      ; 0093FF A9 03 
@@ -2337,7 +2337,7 @@ B_95FB:
   STA.W $05D4                                     ; 0095FD 8D D4 05 
   INC.W $05D3                                     ; 009600 EE D3 05 
   JSL L_F809A                                     ; 009603 22 9A 80 0F 
-  LDA.W $05AC                                     ; 009607 AD AC 05 
+  LDA.W CurrentRoom                                     ; 009607 AD AC 05 
   CMP.B #$01                                      ; 00960A C9 01 
   BNE.B B_9611                                    ; 00960C D0 03 
   JSR.W L_8663                                    ; 00960E 20 63 86 
@@ -2354,8 +2354,8 @@ B_9625:
   LDA.W $05D5                                     ; 009625 AD D5 05 
   AND.B #$02                                      ; 009628 29 02 
   BNE.B B_9643                                    ; 00962A D0 17 
-  LDA.W $05AC                                     ; 00962C AD AC 05 
-  LDY.W $05AB                                     ; 00962F AC AB 05 
+  LDA.W CurrentRoom                                     ; 00962C AD AC 05 
+  LDY.W CurrentRound                                     ; 00962F AC AB 05 
   BEQ.B B_963A                                    ; 009632 F0 06 
 
 .byte $C9,$12,$F0,$0B,$80,$04                     ; 009635 ......   ??????
@@ -2523,29 +2523,32 @@ D_97B4:
 .byte $25,$7D,$CC                                 ; 0097B5 DDD      %}?
 
 
-L_97B7:
-  LDA.B #$00                                      ; 0097B7 A9 00 
-  PHA                                             ; 0097B9 48 
-  PLB                                             ; 0097BA AB 
-  LDA.W $05AC                                     ; 0097BB AD AC 05 
-  STA.B $04                                       ; 0097BE 85 04 
-  ASL                                             ; 0097C0 0A 
-  CLC                                             ; 0097C1 18 
-  ADC.B $04                                       ; 0097C2 65 04 
-  TAY                                             ; 0097C4 A8 
-  LDX.W $05AB                                     ; 0097C5 AE AB 05 
-  LDA.W D_AA78,X                                  ; 0097C8 BD 78 AA 
-  STA.B $04                                       ; 0097CB 85 04 
-  LDA.W D_AA7B,X                                  ; 0097CD BD 7B AA 
-  STA.B $05                                       ; 0097D0 85 05 
-  RTS                                             ; 0097D2 60 
+LocateCurrentRoomOffset:
+  ; switch to data bank 0
+  lda #$00
+  pha
+  plb
+  ; find offset in round to current room
+  lda CurrentRoom
+  sta $04
+  asl
+  clc
+  adc $04
+  tay
+  ; find offset to the room list for the round
+  ldx CurrentRound
+  lda.w RoundRoomIndexesLo,X
+  sta $04
+  lda.w RoundRoomIndexesHi,X
+  sta $05
+  rts
 
 
 L_97D3:
   PHB                                             ; 0097D3 8B 
   LDA.B #$00                                      ; 0097D4 A9 00 
   STA.W $05D5                                     ; 0097D6 8D D5 05 
-  JSR.W L_97B7                                    ; 0097D9 20 B7 97 
+  JSR.W LocateCurrentRoomOffset                                    ; 0097D9 20 B7 97 
   LDA.B ($04),Y                                   ; 0097DC B1 04 
   BNE.B B_97E8                                    ; 0097DE D0 08 
   LDA.B #$01                                      ; 0097E0 A9 01 
@@ -2635,7 +2638,7 @@ B_9889:
   PHX                                             ; 009897 DA 
   JSL L_ED607                                     ; 009898 22 07 D6 0E 
   LDA.B #$FF                                      ; 00989C A9 FF 
-  STA.W $05AB                                     ; 00989E 8D AB 05 
+  STA.W CurrentRound                                     ; 00989E 8D AB 05 
   PLX                                             ; 0098A1 FA 
 B_98A2:
   RTS                                             ; 0098A2 60 
@@ -4194,7 +4197,7 @@ B_A6FE:
   LDA.B #$63                                      ; 00A742 A9 63 
   STA.W OBSEL                                     ; 00A744 8D 01 21 
   LDA.B #$17                                      ; 00A747 A9 17 
-  LDX.W $05AC                                     ; 00A749 AE AC 05 
+  LDX.W CurrentRoom                                     ; 00A749 AE AC 05 
   BEQ.B B_A750                                    ; 00A74C F0 02 
 
 .byte $A9,$16                                     ; 00A74F ..       ??
@@ -4262,14 +4265,14 @@ D_A7D5:
 L_A8D5:
   PHP                                             ; 00A8D5 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A8D6 E2 30 
-  LDA.W $05AB                                     ; 00A8D8 AD AB 05 
+  LDA.W CurrentRound                                     ; 00A8D8 AD AB 05 
   ASL                                             ; 00A8DB 0A 
   TAY                                             ; 00A8DC A8 
   LDA.W D_AA3B,Y                                  ; 00A8DD B9 3B AA 
   STA.B $04                                       ; 00A8E0 85 04 
   LDA.W D_AA3C,Y                                  ; 00A8E2 B9 3C AA 
   STA.B $05                                       ; 00A8E5 85 05 
-  LDY.W $05AC                                     ; 00A8E7 AC AC 05 
+  LDY.W CurrentRoom                                     ; 00A8E7 AC AC 05 
   LDA.B ($04),Y                                   ; 00A8EA B1 04 
   ASL                                             ; 00A8EC 0A 
   TAY                                             ; 00A8ED A8 
@@ -4339,14 +4342,28 @@ D_AA3C:
 .byte $06,$06,$06,$07,$06,$06,$05,$06             ; 00AA64 ........ ????????
 .byte $05,$06,$05,$06,$06,$06,$06,$06             ; 00AA6C ........ ????????
 .byte $06,$02,$05,$05                             ; 00AA75 ....     ????
-D_AA78:
-.byte $7E,$A2,$DB                                 ; 00AA79 D..      ~??
-D_AA7B:
-.byte $AA,$AA,$AA,$00,$01,$00,$00,$03             ; 00AA7B D...D.DD ????????
-.byte $00,$00,$04,$00,$02,$00,$06,$00             ; 00AA83 D...DDD. ????????
-.byte $05,$08,$00,$00,$09,$00,$07,$00             ; 00AA8B .....DDD ????????
-.byte $08,$0B,$00,$00,$09,$00,$00,$0A             ; 00AA93 DDD...DD ????????
-.byte $00,$00,$FF,$00,$09,$00,$04,$00             ; 00AA9B DDDDDDD. ????????
+
+
+RoundRoomIndexesLo:
+.byte <Round1RoomIndexes,<Round2RoomIndexes,<Round3RoomIndexes
+RoundRoomIndexesHi:
+.byte >Round1RoomIndexes,>Round2RoomIndexes,>Round3RoomIndexes
+
+
+Round1RoomIndexes:
+;       S   E   N   W
+.byte $00,$01,$00,$00
+.byte $03,$00,$00,$04
+.byte $00,$02,$00,$06
+.byte $00,$05,$08,$00
+.byte $00,$09,$00,$07
+.byte $00,$08,$0B,$00
+.byte $00,$09,$00,$00
+.byte $0A,$00,$00,$FF
+.byte $00,$09,$00,$04
+
+Round2RoomIndexes:
+.byte $00             ; 00AA9B DDDDDDD. ????????
 .byte $01,$00,$08,$02,$0D,$09,$03,$0E             ; 00AAA3 ........ ????????
 .byte $04,$00,$0F,$0B,$00,$00,$00,$00             ; 00AAAB ........ ????????
 .byte $06,$00,$07,$00,$00,$FF,$00,$00             ; 00AAB3 ........ ????????
@@ -4354,6 +4371,8 @@ D_AA7B:
 .byte $00,$0C,$00,$00,$00,$05,$00,$0E             ; 00AAC3 ........ ????????
 .byte $00,$00,$0F,$00,$00,$00,$11,$06             ; 00AACB ........ ????????
 .byte $00,$00,$00,$12,$00,$10,$0A,$00             ; 00AAD3 ........ ????????
+
+Round3RoomIndexes:
 .byte $00,$01,$00,$08,$02,$0D,$09,$03             ; 00AADB ........ ????????
 .byte $0E,$04,$00,$0F,$0B,$00,$00,$00             ; 00AAE3 ........ ????????
 .byte $00,$06,$00,$07,$00,$00,$13,$00             ; 00AAEB ........ ????????
@@ -4421,7 +4440,7 @@ L_AB65:
   LDX.B $05                                       ; 00AB71 A6 05 
   LDA.L D_ABFE,X                                  ; 00AB73 BF FE AB 00 
   STA.B $08                                       ; 00AB77 85 08 
-  LDA.W $05AB                                     ; 00AB79 AD AB 05 
+  LDA.W CurrentRound                                     ; 00AB79 AD AB 05 
   ASL                                             ; 00AB7C 0A 
   ASL                                             ; 00AB7D 0A 
   ASL                                             ; 00AB7E 0A 
@@ -4464,7 +4483,7 @@ B_ABA7:
   LDA.B #$09                                      ; 00ABBD A9 09 
   PHA                                             ; 00ABBF 48 
   PLB                                             ; 00ABC0 AB 
-  LDA.W $05AB                                     ; 00ABC1 AD AB 05 
+  LDA.W CurrentRound                                     ; 00ABC1 AD AB 05 
   ASL                                             ; 00ABC4 0A 
   ASL                                             ; 00ABC5 0A 
   CLC                                             ; 00ABC6 18 
@@ -4646,7 +4665,7 @@ L_ACE4:
   LDA.B $05                                       ; 00AD24 A5 05 
   ADC.B #$01                                      ; 00AD26 69 01 
   STA.B $C5                                       ; 00AD28 85 C5 
-  LDA.W $05AC                                     ; 00AD2A AD AC 05 
+  LDA.W CurrentRoom                                     ; 00AD2A AD AC 05 
   BPL.B B_AD56                                    ; 00AD2D 10 27 
 
 .byte $64,$B4,$64,$B5,$64,$C6,$A2,$0F             ; 00AD2F ........ d?d?d???
@@ -7122,14 +7141,14 @@ B_C1E0:
   LDA.B #$02                                      ; 00C1E0 A9 02 
   PHA                                             ; 00C1E2 48 
   PLB                                             ; 00C1E3 AB 
-  LDA.W $05AB                                     ; 00C1E4 AD AB 05 
+  LDA.W CurrentRound                                     ; 00C1E4 AD AB 05 
   ASL                                             ; 00C1E7 0A 
   TAX                                             ; 00C1E8 AA 
   LDA.W D_B5F0,X                                  ; 00C1E9 BD F0 B5 
   STA.B $04                                       ; 00C1EC 85 04 
   LDA.W D_B5F1,X                                  ; 00C1EE BD F1 B5 
   STA.B $05                                       ; 00C1F1 85 05 
-  LDA.W $05AC                                     ; 00C1F3 AD AC 05 
+  LDA.W CurrentRoom                                     ; 00C1F3 AD AC 05 
   ASL                                             ; 00C1F6 0A 
   TAY                                             ; 00C1F7 A8 
   LDA.B ($04),Y                                   ; 00C1F8 B1 04 
@@ -8201,14 +8220,14 @@ D_CD93:
 
   RTS                                             ; 00D11B 60 
 
-  LDA.W $05AB                                     ; 00D11C AD AB 05 
+  LDA.W CurrentRound                                     ; 00D11C AD AB 05 
   ASL                                             ; 00D11F 0A 
   TAX                                             ; 00D120 AA 
   LDA.W D_C29C,X                                  ; 00D121 BD 9C C2 
   STA.B $04                                       ; 00D124 85 04 
   LDA.W D_C29D,X                                  ; 00D126 BD 9D C2 
   STA.B $05                                       ; 00D129 85 05 
-  LDA.W $05AC                                     ; 00D12B AD AC 05 
+  LDA.W CurrentRoom                                     ; 00D12B AD AC 05 
   ASL                                             ; 00D12E 0A 
   TAY                                             ; 00D12F A8 
   LDA.B ($04),Y                                   ; 00D130 B1 04 
@@ -9002,14 +9021,14 @@ B_DB88:
   LDA.B #$02                                      ; 00DB89 A9 02 
   PHA                                             ; 00DB8B 48 
   PLB                                             ; 00DB8C AB 
-  LDA.W $05AB                                     ; 00DB8D AD AB 05 
+  LDA.W CurrentRound                                     ; 00DB8D AD AB 05 
   ASL                                             ; 00DB90 0A 
   TAX                                             ; 00DB91 AA 
   LDA.W D_BE69-1,X                                  ; 00DB92 BD 68 BE 
   STA.B $04                                       ; 00DB95 85 04 
   LDA.W D_BE69,X                                  ; 00DB97 BD 69 BE 
   STA.B $05                                       ; 00DB9A 85 05 
-  LDA.W $05AC                                     ; 00DB9C AD AC 05 
+  LDA.W CurrentRoom                                     ; 00DB9C AD AC 05 
   ASL                                             ; 00DB9F 0A 
   TAY                                             ; 00DBA0 A8 
   LDA.B ($04),Y                                   ; 00DBA1 B1 04 
@@ -9297,14 +9316,14 @@ B_DFAF:
   LDA.B #$00                                      ; 00DFB2 A9 00 
   PHA                                             ; 00DFB4 48 
   PLB                                             ; 00DFB5 AB 
-  LDA.W $05AB                                     ; 00DFB6 AD AB 05 
+  LDA.W CurrentRound                                     ; 00DFB6 AD AB 05 
   ASL                                             ; 00DFB9 0A 
   TAY                                             ; 00DFBA A8 
   LDA.W D_E070,Y                                  ; 00DFBB B9 70 E0 
   STA.B $04                                       ; 00DFBE 85 04 
   LDA.W D_E071,Y                                  ; 00DFC0 B9 71 E0 
   STA.B $05                                       ; 00DFC3 85 05 
-  LDA.W $05AC                                     ; 00DFC5 AD AC 05 
+  LDA.W CurrentRoom                                     ; 00DFC5 AD AC 05 
   ASL                                             ; 00DFC8 0A 
   TAY                                             ; 00DFC9 A8 
   LDA.B ($04),Y                                   ; 00DFCA B1 04 
@@ -9422,14 +9441,14 @@ B_E117:
   LDA.B #$00                                      ; 00E11A A9 00 
   PHA                                             ; 00E11C 48 
   PLB                                             ; 00E11D AB 
-  LDA.W $05AB                                     ; 00E11E AD AB 05 
+  LDA.W CurrentRound                                     ; 00E11E AD AB 05 
   ASL                                             ; 00E121 0A 
   TAY                                             ; 00E122 A8 
   LDA.W D_E1E8,Y                                  ; 00E123 B9 E8 E1 
   STA.B $04                                       ; 00E126 85 04 
   LDA.W D_E1E9,Y                                  ; 00E128 B9 E9 E1 
   STA.B $05                                       ; 00E12B 85 05 
-  LDA.W $05AC                                     ; 00E12D AD AC 05 
+  LDA.W CurrentRoom                                     ; 00E12D AD AC 05 
   ASL                                             ; 00E130 0A 
   TAY                                             ; 00E131 A8 
   LDA.B ($04),Y                                   ; 00E132 B1 04 
@@ -9948,7 +9967,7 @@ D_E6E0:
 L_E883:
   PHP                                             ; 00E883 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00E884 E2 30 
-  LDA.W $05AC                                     ; 00E886 AD AC 05 
+  LDA.W CurrentRoom                                     ; 00E886 AD AC 05 
   BPL.B B_E88D                                    ; 00E889 10 02 
   plp
   rts
@@ -9957,14 +9976,14 @@ B_E88D:
   LDA.B #$00                                      ; 00E88E A9 00 
   PHA                                             ; 00E890 48 
   PLB                                             ; 00E891 AB 
-  LDA.W $05AB                                     ; 00E892 AD AB 05 
+  LDA.W CurrentRound                                     ; 00E892 AD AB 05 
   ASL                                             ; 00E895 0A 
   TAX                                             ; 00E896 AA 
   LDA.W RoundRoomNames,X                                  ; 00E897 BD 89 E9 
   STA.B $04                                       ; 00E89A 85 04 
   LDA.W RoundRoomNames+1,X                                  ; 00E89C BD 8A E9 
   STA.B $05                                       ; 00E89F 85 05 
-  LDA.W $05AC                                     ; 00E8A1 AD AC 05 
+  LDA.W CurrentRoom                                     ; 00E8A1 AD AC 05 
 .byte $3A                                         ; 00E8A4 (unrecognized opcode ?DEC) :
   STA.W WRMPYA                                    ; 00E8A5 8D 02 42 
   LDA.B #$1A                                      ; 00E8A8 A9 1A 

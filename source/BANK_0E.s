@@ -2252,7 +2252,7 @@ D_EBE78:
 L_EC619:
   PHP                                             ; 0EC619 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC61A E2 30 
-  LDX.W $05AB                                     ; 0EC61C AE AB 05 
+  LDX.W CurrentRound                                     ; 0EC61C AE AB 05 
   BEQ.B B_EC648                                   ; 0EC61F F0 27 
 
 .byte $CA,$F0,$17,$AD,$AC,$05,$C9,$07             ; 0EC621 ........ ????????
@@ -2262,7 +2262,7 @@ L_EC619:
 .byte $13,$20,$D6,$C6,$4C,$58,$C6                 ; 0EC642 .......  ? ??LX?
 
 B_EC648:
-  LDA.W $05AC                                     ; 0EC648 AD AC 05 
+  LDA.W CurrentRoom                                     ; 0EC648 AD AC 05 
   CMP.B #$0A                                      ; 0EC64B C9 0A 
   BNE.B B_EC655                                   ; 0EC64D D0 06 
   JSR.W L_EC6F5                                   ; 0EC64F 20 F5 C6 

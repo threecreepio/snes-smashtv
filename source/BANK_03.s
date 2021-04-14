@@ -4676,7 +4676,7 @@ B_3B9D5:
 
 B_3B9D8:
   PLX                                             ; 03B9D8 FA 
-  LDA.W $05AB                                     ; 03B9D9 AD AB 05 
+  LDA.W CurrentRound                                     ; 03B9D9 AD AB 05 
   CMP.B #$02                                      ; 03B9DC C9 02 
   BNE.B B_3B9E7                                   ; 03B9DE D0 07 
 

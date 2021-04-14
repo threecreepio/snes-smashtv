@@ -1,4 +1,7 @@
 
+CurrentRound = $5AB
+CurrentRoom = $5AC
+
 ActiveEntities = $0744
 
 

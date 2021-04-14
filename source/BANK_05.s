@@ -2277,7 +2277,7 @@ B_5994C:
 
 B_5997A:
   STZ.B $41,X                                     ; 05997A 74 41 
-  LDY.W $05AB                                     ; 05997C AC AB 05 
+  LDY.W CurrentRound                                     ; 05997C AC AB 05 
   BEQ.B B_5998F                                   ; 05997F F0 0E 
 
 .byte $88,$F0,$02,$80,$10,$AD,$AC,$05             ; 059981 ........ ????????
@@ -2371,7 +2371,7 @@ L_599F9:
 .byte $8D,$AE,$05,$20,$F9,$99,$60                 ; 059A51 .......  ??? ??`
 
 B_59A57:
-  LDY.W $05AB                                     ; 059A57 AC AB 05 
+  LDY.W CurrentRound                                     ; 059A57 AC AB 05 
   BEQ.B B_59A6A                                   ; 059A5A F0 0E 
 
 .byte $88,$F0,$02,$80,$10,$AD,$AC,$05             ; 059A5C ........ ????????
@@ -2957,7 +2957,7 @@ B_59EAB:
   STA.W $09F0,X                                   ; 059EDB 9D F0 09 
   LDA.W $1AE8                                     ; 059EDE AD E8 1A 
   STA.W $0A62,X                                   ; 059EE1 9D 62 0A 
-  LDA.W $05AB                                     ; 059EE4 AD AB 05 
+  LDA.W CurrentRound                                     ; 059EE4 AD AB 05 
   CMP.B #$02                                      ; 059EE7 C9 02 
   BNE.B B_59EF2                                   ; 059EE9 D0 07 
 
