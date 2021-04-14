@@ -2649,17 +2649,17 @@ B_ECA7A:
   PLP                                             ; 0ECA93 28 
   RTL                                             ; 0ECA94 6B 
 
-L_ECA95:
-  LDA.W XexzyWeaponTypeMaybe                      ; 0ECA95 AD A8 05 
+AdvanceRNG:
+  LDA.W RNG0                                      ; 0ECA95 AD A8 05 
   ASL                                             ; 0ECA98 0A 
-  LDA.W XexzyWeaponTypeMaybe                      ; 0ECA99 AD A8 05 
+  LDA.W RNG0                                      ; 0ECA99 AD A8 05 
   ROL                                             ; 0ECA9C 2A 
   ADC.B #$4E                                      ; 0ECA9D 69 4E 
   EOR.B #$3A                                      ; 0ECA9F 49 3A 
-  STA.W XexzyWeaponTypeMaybe                      ; 0ECAA1 8D A8 05 
-  EOR.W XexzyMoneyTypeMaybe                       ; 0ECAA4 4D A9 05 
+  STA.W RNG0                                      ; 0ECAA1 8D A8 05 
+  EOR.W RNG1                                      ; 0ECAA4 4D A9 05 
   ADC.B #$C3                                      ; 0ECAA7 69 C3 
-  STA.W XexzyMoneyTypeMaybe                       ; 0ECAA9 8D A9 05 
+  STA.W RNG1                                      ; 0ECAA9 8D A9 05 
   RTL                                             ; 0ECAAC 6B 
 
 L_ECAAD:
@@ -3280,7 +3280,7 @@ L_ED117:
   LDA.L D_ED24E,X                                 ; 0ED144 BF 4E D2 0E 
   BPL.B B_ED16A                                   ; 0ED148 10 20 
   SEP.B #P_Acc8Bit                                      ; 0ED14A E2 20 
-  JSL L_ECA95                                     ; 0ED14C 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0ED14C 22 95 CA 0E 
   REP.B #P_Acc8Bit                                      ; 0ED150 C2 20 
   AND.W #$000F                                    ; 0ED152 29 0F 00 
   ASL                                             ; 0ED155 0A 
@@ -5458,7 +5458,7 @@ B_EEA3F:
   BPL.B B_EEA69                                   ; 0EEA54 10 13 
   DEC.W $0220,X                                   ; 0EEA56 DE 20 02 
   BNE.B B_EEAC6                                   ; 0EEA59 D0 6B 
-  JSL L_ECA95                                     ; 0EEA5B 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0EEA5B 22 95 CA 0E 
   AND.B #$1F                                      ; 0EEA5F 29 1F 
   ADC.B #$A0                                      ; 0EEA61 69 A0 
   STA.W $0220,X                                   ; 0EEA63 9D 20 02 

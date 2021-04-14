@@ -1,3 +1,7 @@
+
+ActiveEntities = $0744
+
+
 XexzyItemLocationMaybe = $27
 XexzyItemXPickupMaybe = $28
 XexzyDropIndicator = $43
@@ -23,8 +27,8 @@ XexzyTorsoY = $309
 XexzyLegY = $30D
 XexzyItemY = $505
 XexzyLivesCount = $531
-XexzyWeaponTypeMaybe = $5A8
-XexzyMoneyTypeMaybe = $5A9
+RNG0 = $5A8
+RNG1 = $5A9
 XexzyDropCountDownTimer = $5AE
 XexzyMutoidHealth = $69A
 XexzyFlyingDrop = $6D4

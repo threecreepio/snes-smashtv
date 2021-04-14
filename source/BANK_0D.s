@@ -531,7 +531,7 @@ L_D9000:
   STZ.W $1BFD                                     ; 0D9018 9C FD 1B 
   STZ.B FrameCounter                              ; 0D901B 64 CF 
   STZ.B $D2                                       ; 0D901D 64 D2 
-  STZ.W XexzyWeaponTypeMaybe                      ; 0D901F 9C A8 05 
+  STZ.W RNG0                      ; 0D901F 9C A8 05 
   STZ.W $020E                                     ; 0D9022 9C 0E 02 
   LDA.W #$FFFF                                    ; 0D9025 A9 FF FF 
   STA.W $1BF1                                     ; 0D9028 8D F1 1B 
@@ -3849,7 +3849,7 @@ B_DECE4:
 B_DECFA:
   PHX                                             ; 0DECFA DA 
   JSL L_ECA13                                     ; 0DECFB 22 13 CA 0E 
-  JSL L_ECA95                                     ; 0DECFF 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DECFF 22 95 CA 0E 
   AND.B #$07                                      ; 0DED03 29 07 
   ASL                                             ; 0DED05 0A 
   ASL                                             ; 0DED06 0A 
@@ -3974,21 +3974,21 @@ L_DEE00:
   STA.B $05                                       ; 0DEE0F 85 05 
   LDA.W $07B6,X                                   ; 0DEE11 BD B6 07 
   STA.B $06                                       ; 0DEE14 85 06 
-  JSL L_ECA95                                     ; 0DEE16 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DEE16 22 95 CA 0E 
   AND.B #$07                                      ; 0DEE1A 29 07 
   TAY                                             ; 0DEE1C A8 
   CLC                                             ; 0DEE1D 18 
   LDA.B $04                                       ; 0DEE1E A5 04 
   ADC.W D_DEFA0,Y                                 ; 0DEE20 79 A0 EF 
   STA.B $04                                       ; 0DEE23 85 04 
-  JSL L_ECA95                                     ; 0DEE25 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DEE25 22 95 CA 0E 
   AND.B #$07                                      ; 0DEE29 29 07 
   TAY                                             ; 0DEE2B A8 
   CLC                                             ; 0DEE2C 18 
   LDA.B $05                                       ; 0DEE2D A5 05 
   ADC.W D_DEFA0,Y                                 ; 0DEE2F 79 A0 EF 
   STA.B $05                                       ; 0DEE32 85 05 
-  JSL L_ECA95                                     ; 0DEE34 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DEE34 22 95 CA 0E 
   STA.W WRMPYA                                    ; 0DEE38 8D 02 42 
   LDA.B #$03                                      ; 0DEE3B A9 03 
   STA.W WRMPYB                                    ; 0DEE3D 8D 03 42 
@@ -4021,7 +4021,7 @@ B_DEE5A:
   LDA.B #$00                                      ; 0DEE6E A9 00 
   SBC.B $0B                                       ; 0DEE70 E5 0B 
   STA.B $0B                                       ; 0DEE72 85 0B 
-  JSL L_ECA95                                     ; 0DEE74 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DEE74 22 95 CA 0E 
   AND.B #$01                                      ; 0DEE78 29 01 
   BEQ.B B_DEE89                                   ; 0DEE7A F0 0D 
   SEC                                             ; 0DEE7C 38 
@@ -4032,7 +4032,7 @@ B_DEE5A:
   SBC.B $09                                       ; 0DEE85 E5 09 
   STA.B $09                                       ; 0DEE87 85 09 
 B_DEE89:
-  JSL L_ECA95                                     ; 0DEE89 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DEE89 22 95 CA 0E 
   AND.B #$03                                      ; 0DEE8D 29 03 
   BEQ.B B_DEE96                                   ; 0DEE8F F0 05 
   JSR.W L_DEF1F                                   ; 0DEE91 20 1F EF 
@@ -4055,10 +4055,10 @@ B_DEEA5:
   LDA.B #$01                                      ; 0DEEA9 A9 01 
   STA.W $06D2,X                                   ; 0DEEAB 9D D2 06 
   LDA.B #$6E                                      ; 0DEEAE A9 6E 
-  STA.W $0744,X                                   ; 0DEEB0 9D 44 07 
+  STA.W ActiveEntities,X                                   ; 0DEEB0 9D 44 07 
   LDA.B #$00                                      ; 0DEEB3 A9 00 
   STA.W $0828,X                                   ; 0DEEB5 9D 28 08 
-  JSL L_ECA95                                     ; 0DEEB8 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DEEB8 22 95 CA 0E 
   AND.B #$01                                      ; 0DEEBC 29 01 
   TAY                                             ; 0DEEBE A8 
   LDA.W D_DEF1D,Y                                 ; 0DEEBF B9 1D EF 
@@ -4089,7 +4089,7 @@ B_DEEA5:
   LDA.B #$10                                      ; 0DEEFF A9 10 
   STA.B $1D                                       ; 0DEF01 85 1D 
   JSL L_AFC2                                      ; 0DEF03 22 C2 AF 00 
-  JSL L_ECA95                                     ; 0DEF07 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DEF07 22 95 CA 0E 
   AND.B #$03                                      ; 0DEF0B 29 03 
   BNE.B B_DEF1C                                   ; 0DEF0D D0 0D 
   REP.B #P_Idx8Bit                                      ; 0DEF0F C2 10 
@@ -4116,7 +4116,7 @@ B_DEF28:
   LDA.B #$01                                      ; 0DEF2C A9 01 
   STA.W $06D2,X                                   ; 0DEF2E 9D D2 06 
   LDA.B #$1C                                      ; 0DEF31 A9 1C 
-  STA.W $0744,X                                   ; 0DEF33 9D 44 07 
+  STA.W ActiveEntities,X                                   ; 0DEF33 9D 44 07 
   LDA.B #$00                                      ; 0DEF36 A9 00 
   STA.W $0828,X                                   ; 0DEF38 9D 28 08 
   LDA.B #$24                                      ; 0DEF3B A9 24 
@@ -4150,7 +4150,7 @@ B_DEF28:
   LDA.B #$08                                      ; 0DEF82 A9 08 
   STA.B $1D                                       ; 0DEF84 85 1D 
   JSL L_AFC2                                      ; 0DEF86 22 C2 AF 00 
-  JSL L_ECA95                                     ; 0DEF8A 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0DEF8A 22 95 CA 0E 
   AND.B #$03                                      ; 0DEF8E 29 03 
   BNE.B B_DEF9F                                   ; 0DEF90 D0 0D 
   REP.B #P_Idx8Bit                                      ; 0DEF92 C2 10 

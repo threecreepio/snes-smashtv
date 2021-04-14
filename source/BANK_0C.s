@@ -4010,7 +4010,7 @@ L_CFBD2:
 
   LDX.W $068B                                     ; 0CFBE6 AE 8B 06 
   LDA.B #$7C                                      ; 0CFBE9 A9 7C 
-  STA.W $0744,X                                   ; 0CFBEB 9D 44 07 
+  STA.W ActiveEntities,X                                   ; 0CFBEB 9D 44 07 
   LDA.B #$8C                                      ; 0CFBEE A9 8C 
   STA.W $0D80,X                                   ; 0CFBF0 9D 80 0D 
   STZ.W $090C,X                                   ; 0CFBF3 9E 0C 09 
@@ -4035,7 +4035,7 @@ L_CFBD2:
   STZ.W $0A62,X                                   ; 0CFC26 9E 62 0A 
   LDX.W $068E                                     ; 0CFC29 AE 8E 06 
   LDA.B #$71                                      ; 0CFC2C A9 71 
-  STA.W $0744,X                                   ; 0CFC2E 9D 44 07 
+  STA.W ActiveEntities,X                                   ; 0CFC2E 9D 44 07 
   LDA.B #$01                                      ; 0CFC31 A9 01 
   STA.W $0D80,X                                   ; 0CFC33 9D 80 0D 
   LDA.B #$78                                      ; 0CFC36 A9 78 
@@ -4111,7 +4111,7 @@ B_CFCFA:
 
 
 L_CFD26:
-  JSL L_ECA95                                     ; 0CFD26 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0CFD26 22 95 CA 0E 
   CMP.B #$40                                      ; 0CFD2A C9 40 
   BCS.B B_CFD3D                                   ; 0CFD2C B0 0F 
   PHX                                             ; 0CFD2E DA 

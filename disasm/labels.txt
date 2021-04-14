@@ -9,8 +9,8 @@ CF      FrameCounter
 28      XexzyItemXPickupMaybe
 505     XexzyItemY
 5AE     XexzyDropCountDownTimer
-5A8     XexzyWeaponTypeMaybe
-5A9     XexzyMoneyTypeMaybe
+5A8     RNG0
+5A9     RNG1
 6D4     XexzyWeaponOnFloorMaybe
 189D    XexzyAmmoCounter
 69A     XexzyMutoidHealth

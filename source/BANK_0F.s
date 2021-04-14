@@ -82,7 +82,7 @@ L_F8177:
   PLP                                             ; 0F819D 28 
   RTL                                             ; 0F819E 6B 
 B_F819F:
-  JSL L_ECA95                                     ; 0F819F 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0F819F 22 95 CA 0E 
   AND.B #$07                                      ; 0F81A3 29 07 
   ASL                                             ; 0F81A5 0A 
   TAX                                             ; 0F81A6 AA 
@@ -90,7 +90,7 @@ B_F819F:
   STA.W $06C8                                     ; 0F81AA 8D C8 06 
   LDA.W D_F81CB,X                                 ; 0F81AD BD CB 81 
   STA.W $06C9                                     ; 0F81B0 8D C9 06 
-  JSL L_ECA95                                     ; 0F81B3 22 95 CA 0E 
+  JSL AdvanceRNG                                     ; 0F81B3 22 95 CA 0E 
   AND.B #$07                                      ; 0F81B7 29 07 
   ASL                                             ; 0F81B9 0A 
   TAX                                             ; 0F81BA AA 
