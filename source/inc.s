@@ -2,9 +2,11 @@
 CurrentRound = $5AB
 CurrentRoom = $5AC
 
-MaxEntities  = $72
+; entity data
+MaxEntities = $72
+Projectiles = $42
 EntityHeader = $06D2
-EntityId     = EntityHeader + (MaxEntities *  1)
+EntityV1     = EntityHeader + (MaxEntities *  1)
 EntityV2     = EntityHeader + (MaxEntities *  2)
 EntityV3     = EntityHeader + (MaxEntities *  3)
 EntityV4     = EntityHeader + (MaxEntities *  4)
@@ -27,7 +29,20 @@ EntityV20    = EntityHeader + (MaxEntities * 20)
 EntityV21    = EntityHeader + (MaxEntities * 21)
 EntityV22    = EntityHeader + (MaxEntities * 22)
 EntityV23    = EntityHeader + (MaxEntities * 23)
-EntityV24    = EntityHeader + (MaxEntities * 2)
+EntityV24    = EntityHeader + (MaxEntities * 24)
+EntityV25    = EntityHeader + (MaxEntities * 25)
+EntityV26    = EntityHeader + (MaxEntities * 26)
+EntityV27    = EntityHeader + (MaxEntities * 27)
+EntityV28    = EntityHeader + (MaxEntities * 28)
+EntityV29    = EntityHeader + (MaxEntities * 29)
+EntityV30    = EntityHeader + (MaxEntities * 30)
+EntityV31    = EntityHeader + (MaxEntities * 31)
+EntityV32    = EntityHeader + (MaxEntities * 32) + 4 ; 4 values squeezed in before these
+EntityV33    = EntityHeader + (MaxEntities * 33) + 4
+EntityV34    = EntityHeader + (MaxEntities * 34) + 4
+EntityV35    = EntityHeader + (MaxEntities * 35) + 4
+EntityV36    = EntityHeader + (MaxEntities * 36) + 4
+
 
 
 XexzyItemLocationMaybe = $27

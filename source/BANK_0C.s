@@ -4010,13 +4010,13 @@ L_CFBD2:
 
   LDX.W $068B                                     ; 0CFBE6 AE 8B 06 
   LDA.B #$7C                                      ; 0CFBE9 A9 7C 
-  STA.W EntityId,X                                   ; 0CFBEB 9D 44 07 
+  STA.W EntityV1,X                                   ; 0CFBEB 9D 44 07 
   LDA.B #$8C                                      ; 0CFBEE A9 8C 
-  STA.W $0D80,X                                   ; 0CFBF0 9D 80 0D 
-  STZ.W $090C,X                                   ; 0CFBF3 9E 0C 09 
-  STZ.W $097E,X                                   ; 0CFBF6 9E 7E 09 
-  STZ.W $09F0,X                                   ; 0CFBF9 9E F0 09 
-  STZ.W $0A62,X                                   ; 0CFBFC 9E 62 0A 
+  STA.W EntityV15,X                                   ; 0CFBF0 9D 80 0D 
+  STZ.W EntityV5,X                                   ; 0CFBF3 9E 0C 09 
+  STZ.W EntityV6,X                                   ; 0CFBF6 9E 7E 09 
+  STZ.W EntityV7,X                                   ; 0CFBF9 9E F0 09 
+  STZ.W EntityV8,X                                   ; 0CFBFC 9E 62 0A 
   LDX.W $068C                                     ; 0CFBFF AE 8C 06 
   LDA.B #$20                                      ; 0CFC02 A9 20 
   JSL L_3823C                                     ; 0CFC04 22 3C 82 03 
@@ -4028,19 +4028,19 @@ L_CFBD2:
 
   LDX.W $068B                                     ; 0CFC15 AE 8B 06 
   LDA.B #$B4                                      ; 0CFC18 A9 B4 
-  STA.W $0D80,X                                   ; 0CFC1A 9D 80 0D 
-  STZ.W $090C,X                                   ; 0CFC1D 9E 0C 09 
-  STZ.W $097E,X                                   ; 0CFC20 9E 7E 09 
-  STZ.W $09F0,X                                   ; 0CFC23 9E F0 09 
-  STZ.W $0A62,X                                   ; 0CFC26 9E 62 0A 
+  STA.W EntityV15,X                                   ; 0CFC1A 9D 80 0D 
+  STZ.W EntityV5,X                                   ; 0CFC1D 9E 0C 09 
+  STZ.W EntityV6,X                                   ; 0CFC20 9E 7E 09 
+  STZ.W EntityV7,X                                   ; 0CFC23 9E F0 09 
+  STZ.W EntityV8,X                                   ; 0CFC26 9E 62 0A 
   LDX.W $068E                                     ; 0CFC29 AE 8E 06 
   LDA.B #$71                                      ; 0CFC2C A9 71 
-  STA.W EntityId,X                                   ; 0CFC2E 9D 44 07 
+  STA.W EntityV1,X                                   ; 0CFC2E 9D 44 07 
   LDA.B #$01                                      ; 0CFC31 A9 01 
-  STA.W $0D80,X                                   ; 0CFC33 9D 80 0D 
+  STA.W EntityV15,X                                   ; 0CFC33 9D 80 0D 
   LDA.B #$78                                      ; 0CFC36 A9 78 
-  STA.W $0DF2,X                                   ; 0CFC38 9D F2 0D 
-  LDA.W $14A0,X                                   ; 0CFC3B BD A0 14 
+  STA.W EntityV16,X                                   ; 0CFC38 9D F2 0D 
+  LDA.W EntityV31,X                                   ; 0CFC3B BD A0 14 
   ASL                                             ; 0CFC3E 0A 
   ASL                                             ; 0CFC3F 0A 
   TAY                                             ; 0CFC40 A8 
@@ -4053,7 +4053,7 @@ B_CFC4A:
 .byte $A9,$F0,$99,$09,$03                         ; 0CFC4B .....    ?????
 
 B_CFC4F:
-  LDY.W $14A0,X                                   ; 0CFC4F BC A0 14 
+  LDY.W EntityV31,X                                   ; 0CFC4F BC A0 14 
   JSL L_AEF1                                      ; 0CFC52 22 F1 AE 00 
   JSR.W L_CFCDA                                   ; 0CFC56 20 DA FC 
   RTS                                             ; 0CFC59 60 
@@ -4143,9 +4143,9 @@ B_CFD3D:
 L_CFDAC:
   LDA.W XexzyCharX,X                              ; 0CFDAC BD 46 0B 
   STA.W $0694                                     ; 0CFDAF 8D 94 06 
-  LDA.W $0C9C,X                                   ; 0CFDB2 BD 9C 0C 
+  LDA.W EntityV13,X                                   ; 0CFDB2 BD 9C 0C 
   STA.W $0695                                     ; 0CFDB5 8D 95 06 
-  LDA.W $0D0E,X                                   ; 0CFDB8 BD 0E 0D 
+  LDA.W EntityV14,X                                   ; 0CFDB8 BD 0E 0D 
   STA.W $0696                                     ; 0CFDBB 8D 96 06 
   PHY                                             ; 0CFDBE 5A 
   LDA.W $1AB1                                     ; 0CFDBF AD B1 1A 
@@ -4158,10 +4158,10 @@ L_CFDAC:
   CLC                                             ; 0CFDD0 18 
   LDA.W $0695                                     ; 0CFDD1 AD 95 06 
   ADC.B #$30                                      ; 0CFDD4 69 30 
-  STA.W $0C9C,Y                                   ; 0CFDD6 99 9C 0C 
+  STA.W EntityV13,Y                                   ; 0CFDD6 99 9C 0C 
   LDA.W $0696                                     ; 0CFDD9 AD 96 06 
   ADC.B #$00                                      ; 0CFDDC 69 00 
-  STA.W $0D0E,Y                                   ; 0CFDDE 99 0E 0D 
+  STA.W EntityV14,Y                                   ; 0CFDDE 99 0E 0D 
 B_CFDE1:
   LDA.W $1AB0                                     ; 0CFDE1 AD B0 1A 
   BEQ.B B_CFE03                                   ; 0CFDE4 F0 1D 
@@ -4173,10 +4173,10 @@ B_CFDE1:
   CLC                                             ; 0CFDF2 18 
   LDA.W $0695                                     ; 0CFDF3 AD 95 06 
   ADC.B #$30                                      ; 0CFDF6 69 30 
-  STA.W $0C9C,Y                                   ; 0CFDF8 99 9C 0C 
+  STA.W EntityV13,Y                                   ; 0CFDF8 99 9C 0C 
   LDA.W $0696                                     ; 0CFDFB AD 96 06 
   ADC.B #$00                                      ; 0CFDFE 69 00 
-  STA.W $0D0E,Y                                   ; 0CFE00 99 0E 0D 
+  STA.W EntityV14,Y                                   ; 0CFE00 99 0E 0D 
 B_CFE03:
   LDA.W $0696                                     ; 0CFE03 AD 96 06 
   BNE.B B_CFE24                                   ; 0CFE06 D0 1C 
@@ -4188,7 +4188,7 @@ B_CFE0B:
   CLC                                             ; 0CFE10 18 
   LDA.W $0695                                     ; 0CFE11 AD 95 06 
   ADC.B #$3A                                      ; 0CFE14 69 3A 
-  CMP.W $0C9C,X                                   ; 0CFE16 DD 9C 0C 
+  CMP.W EntityV13,X                                   ; 0CFE16 DD 9C 0C 
   BCS.B B_CFE20                                   ; 0CFE19 B0 05 
   LDA.B #$80                                      ; 0CFE1B A9 80 
   STA.W $1514,X                                   ; 0CFE1D 9D 14 15 
