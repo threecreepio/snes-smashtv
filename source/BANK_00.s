@@ -10284,12 +10284,21 @@ L_EFFE:
   RTL                                             ; 00F038 6B 
   RTL                                             ; 00F039 6B 
 
-.byte $6B,$6B,$6B                                 ; 00F03B ...      kkk
+UnusedSceneNMIHandler:
+  rtl
 
+TitleSceneIRQHandler:
+  rtl
+
+.byte $6B
+
+TitleSceneNMIHandler:
   JSL L_AF0E                                      ; 00F03D 22 0E AF 00 
   JSL L_EF175                                     ; 00F041 22 75 F1 0E 
   JSL L_ECA4C                                     ; 00F045 22 4C CA 0E 
   RTL                                             ; 00F049 6B 
+
+GameSceneNMIHandler:
   JSL L_AF0E                                      ; 00F04A 22 0E AF 00 
   JSL L_EF095                                     ; 00F04E 22 95 F0 0E 
   JSL L_EF175                                     ; 00F052 22 75 F1 0E 
@@ -11006,6 +11015,7 @@ D_F6AF:
 .byte $C9,$F2,$C9,$12,$CA,$32,$CA,$52             ; 00F6D7 ........ ?????2?R
 .byte $CA                                         ; 00F6E0 .        ?
 
+GameSceneIRQHandler:
   SEP.B #P_Acc8Bit                                      ; 00F6E0 E2 20 
 B_F6E2:
   LDA.W HVBJOY                                    ; 00F6E2 AD 12 42 

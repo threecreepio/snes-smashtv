@@ -2701,9 +2701,9 @@ L_ECAAD:
   LDA.B #$0E                                      ; 0ECAB0 A9 0E 
   PHA                                             ; 0ECAB2 48 
   PLB                                             ; 0ECAB3 AB 
-  LDA.W ScreenConfigPtrsLo,X                                 ; 0ECAB4 BD DB CA 
+  LDA.W SceneInterruptsLo,X                                 ; 0ECAB4 BD DB CA 
   STA.B $04                                       ; 0ECAB7 85 04 
-  LDA.W ScreenConfigPtrsHi,X                                 ; 0ECAB9 BD DE CA 
+  LDA.W SceneInterruptCfgHi,X                                 ; 0ECAB9 BD DE CA 
   STA.B $05                                       ; 0ECABC 85 05 
   LDY.B #$00                                      ; 0ECABE A0 00 
   REP.B #P_Acc8Bit                                      ; 0ECAC0 C2 20 
@@ -2725,16 +2725,31 @@ L_ECAAD:
   PLP                                             ; 0ECAD9 28 
   RTL                                             ; 0ECADA 6B 
 
-ScreenConfigPtrsLo:
-.byte <$CAE2, <$CAEA, <$CAF2
-ScreenConfigPtrsHi:
-.byte >$CAE2, >$CAEA, >$CAF2
+SceneInterruptsLo:
+.byte <TitleSceneInterrupts, <UnusedSceneInterrupts, <GameSceneInterrupts
+SceneInterruptCfgHi:
+.byte >TitleSceneInterrupts, >UnusedSceneInterrupts, >GameSceneInterrupts
 
+; spare rts, can never have enough of 
+.byte $60
 
-.byte $60,$3D,$F0,$00,$00             ; 0ECADE D.D.DDDD ???`=???
-.byte $3B,$F0,$00,$00,$3A,$F0,$00,$00             ; 0ECAE6 DDDD.... ;???:???
-.byte $3B,$F0,$00,$00,$4A,$F0,$00,$00             ; 0ECAEE ....DDDD ;???J???
-.byte $E0,$F6,$00,$00                             ; 0ECAF7 DDDD     ????
+TitleSceneInterrupts:
+.dl TitleSceneNMIHandler
+.byte $00
+.dl TitleSceneIRQHandler
+.byte $00
+
+UnusedSceneInterrupts:
+.dl UnusedSceneNMIHandler
+.byte $00
+.dl TitleSceneIRQHandler
+.byte $00
+
+GameSceneInterrupts:
+.dl GameSceneNMIHandler
+.byte $00
+.dl GameSceneIRQHandler
+.byte $00
 
 
 L_ECAFA:
