@@ -2701,18 +2701,18 @@ L_ECAAD:
   LDA.B #$0E                                      ; 0ECAB0 A9 0E 
   PHA                                             ; 0ECAB2 48 
   PLB                                             ; 0ECAB3 AB 
-  LDA.W D_ECADB,X                                 ; 0ECAB4 BD DB CA 
+  LDA.W ScreenConfigPtrsLo,X                                 ; 0ECAB4 BD DB CA 
   STA.B $04                                       ; 0ECAB7 85 04 
-  LDA.W D_ECADE,X                                 ; 0ECAB9 BD DE CA 
+  LDA.W ScreenConfigPtrsHi,X                                 ; 0ECAB9 BD DE CA 
   STA.B $05                                       ; 0ECABC 85 05 
   LDY.B #$00                                      ; 0ECABE A0 00 
   REP.B #P_Acc8Bit                                      ; 0ECAC0 C2 20 
   LDA.B ($04),Y                                   ; 0ECAC2 B1 04 
-  STA.B $C7                                       ; 0ECAC4 85 C7 
+  STA.B NMIHandlerLo                                       ; 0ECAC4 85 C7 
   INY                                             ; 0ECAC6 C8 
   INY                                             ; 0ECAC7 C8 
   LDA.B ($04),Y                                   ; 0ECAC8 B1 04 
-  STA.B $C9                                       ; 0ECACA 85 C9 
+  STA.B NMIHandlerBank                                       ; 0ECACA 85 C9 
   INY                                             ; 0ECACC C8 
   INY                                             ; 0ECACD C8 
   LDA.B ($04),Y                                   ; 0ECACE B1 04 
@@ -2725,10 +2725,13 @@ L_ECAAD:
   PLP                                             ; 0ECAD9 28 
   RTL                                             ; 0ECADA 6B 
 
-D_ECADB:
-.byte $E2,$EA,$F2                                 ; 0ECADC D.D      ???
-D_ECADE:
-.byte $CA,$CA,$CA,$60,$3D,$F0,$00,$00             ; 0ECADE D.D.DDDD ???`=???
+ScreenConfigPtrsLo:
+.byte <$CAE2, <$CAEA, <$CAF2
+ScreenConfigPtrsHi:
+.byte >$CAE2, >$CAEA, >$CAF2
+
+
+.byte $60,$3D,$F0,$00,$00             ; 0ECADE D.D.DDDD ???`=???
 .byte $3B,$F0,$00,$00,$3A,$F0,$00,$00             ; 0ECAE6 DDDD.... ;???:???
 .byte $3B,$F0,$00,$00,$4A,$F0,$00,$00             ; 0ECAEE ....DDDD ;???J???
 .byte $E0,$F6,$00,$00                             ; 0ECAF7 DDDD     ????
@@ -4315,8 +4318,8 @@ L_EDCC1:
   REP.B #P_Idx8Bit                                      ; 0EDCC2 C2 10 
   SEP.B #P_Acc8Bit                                      ; 0EDCC4 E2 20 
   STZ.W NMITIMEN                                  ; 0EDCC6 9C 00 42 
-  STX.B $C7                                       ; 0EDCC9 86 C7 
-  STY.B $C9                                       ; 0EDCCB 84 C9 
+  STX.B NMIHandlerLo                                       ; 0EDCC9 86 C7 
+  STY.B NMIHandlerBank                                       ; 0EDCCB 84 C9 
   JSL L_EC9AC                                     ; 0EDCCD 22 AC C9 0E 
   JSL L_EC97A                                     ; 0EDCD1 22 7A C9 0E 
   JSL L_AE4E                                      ; 0EDCD5 22 4E AE 00 

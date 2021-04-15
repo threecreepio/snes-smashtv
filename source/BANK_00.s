@@ -222,32 +222,41 @@ L_8232:
   PLP                                             ; 008242 28 
   RTS                                             ; 008243 60 
 
+; non-maskable interrupt handler
 V_NMI:
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008244 C2 30 
-  PHA                                             ; 008246 48 
-  PHX                                             ; 008247 DA 
-  PHY                                             ; 008248 5A 
-  PHB                                             ; 008249 8B 
-  PHP                                             ; 00824A 08 
-  INC.B FrameCounter                              ; 00824B E6 CF 
-  SEP.B #P_Acc8Bit                                      ; 00824D E2 20 
-  LDA.B #$00                                      ; 00824F A9 00 
-  PHA                                             ; 008251 48 
-  PLB                                             ; 008252 AB 
-  LDA.W RDNMI                                     ; 008253 AD 10 42 
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008256 C2 30 
-  JSL L_8267                                      ; 008258 22 67 82 00 
-  SEP.B #P_Acc8Bit                                      ; 00825C E2 20 
-  STZ.W $052D                                     ; 00825E 9C 2D 05 
-  PLP                                             ; 008261 28 
-  PLB                                             ; 008262 AB 
-  PLY                                             ; 008263 7A 
-  PLX                                             ; 008264 FA 
-  PLA                                             ; 008265 68 
-  RTI                                             ; 008266 40 
+  ; set 16 bit mode
+  rep #P_Idx8Bit | P_Acc8Bit
+  ; store away state from interrupted code
+  pha
+  phx
+  phy
+  phb
+  php
+  ; increment frame count
+  inc FrameCounter
+  ; enable data bank 0
+  sep #P_Acc8Bit
+  lda #0
+  pha
+  plb
+  ; reset nmi
+  lda RDNMI
+  rep #P_Idx8Bit | P_Acc8Bit
+  jsl L_8267
+  sep #P_Acc8Bit
+  ; clear pending state
+  stz NMIPending
+  ; restore interrupted state
+  plp
+  plb
+  ply
+  plx
+  pla
+  ; resume interrupted code
+  rti
 
 L_8267:
-  JML.W [$00C7]                                   ; 008267 DC C7 00 
+  JML.W [NMIHandlerLo]                                   ; 008267 DC C7 00 
 
 V_IRQ:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00826A C2 30 
@@ -548,11 +557,11 @@ B_84F0:
   LDA.B #$01                                      ; 008514 A9 01 
   STA.W $05D9                                     ; 008516 8D D9 05 
   LDA.B #$01                                      ; 008519 A9 01 
-  STA.W $052D                                     ; 00851B 8D 2D 05 
+  STA.W NMIPending                                     ; 00851B 8D 2D 05 
 B_851E:
-  LDA.W $052D                                     ; 00851E AD 2D 05 
+  LDA.W NMIPending                                     ; 00851E AD 2D 05 
   BNE.B B_851E                                    ; 008521 D0 FB 
-  INC.W $052D                                     ; 008523 EE 2D 05 
+  INC.W NMIPending                                     ; 008523 EE 2D 05 
   INC.B $D2                                       ; 008526 E6 D2 
   JSL L_ECA6A                                     ; 008528 22 6A CA 0E 
   JSR.W L_B0F9                                    ; 00852C 20 F9 B0 

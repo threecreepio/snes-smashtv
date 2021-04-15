@@ -44,7 +44,11 @@ EntityV35    = EntityHeader + (MaxEntities * 35) + 4
 EntityV36    = EntityHeader + (MaxEntities * 36) + 4
 
 
+NMIHandlerLo   = $00C7
+NMIHandlerHi   = $00C8
+NMIHandlerBank = $00C9
 
+NMIPending = $052D
 XexzyItemLocationMaybe = $27
 XexzyItemXPickupMaybe = $28
 XexzyDropIndicator = $43
