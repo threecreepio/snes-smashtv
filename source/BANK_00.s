@@ -242,7 +242,8 @@ V_NMI:
   ; reset nmi
   lda RDNMI
   rep #P_Idx8Bit | P_Acc8Bit
-  jsl L_8267
+  ; run the configured nmi handler for the game mode
+  jsl @CallHandler
   sep #P_Acc8Bit
   ; clear pending state
   stz NMIPending
@@ -254,33 +255,38 @@ V_NMI:
   pla
   ; resume interrupted code
   rti
-
-L_8267:
-  JML.W [NMIHandlerLo]                                   ; 008267 DC C7 00 
+@CallHandler:
+  jml [NMIHandlerLo]
 
 V_IRQ:
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00826A C2 30 
-  PHA                                             ; 00826C 48 
-  PHX                                             ; 00826D DA 
-  PHY                                             ; 00826E 5A 
-  PHP                                             ; 00826F 08 
-  PHB                                             ; 008270 8B 
-  SEP.B #P_Acc8Bit                                      ; 008271 E2 20 
-  LDA.B #$00                                      ; 008273 A9 00 
-  PHA                                             ; 008275 48 
-  PLB                                             ; 008276 AB 
-  LDA.W TIMEUP                                    ; 008277 AD 11 42 
-  REP.B #P_Acc8Bit                                      ; 00827A C2 20 
-  JSL L_8286                                      ; 00827C 22 86 82 00 
-  PLB                                             ; 008280 AB 
-  PLP                                             ; 008281 28 
-  PLY                                             ; 008282 7A 
-  PLX                                             ; 008283 FA 
-  PLA                                             ; 008284 68 
-  RTI                                             ; 008285 40 
-
-L_8286:
-  JML.W [$00CB]                                   ; 008286 DC CB 00 
+  ; set 16 bit mode
+  rep #P_Idx8Bit | P_Acc8Bit
+  ; store away state from interrupted code
+  pha
+  phx
+  phy
+  php
+  phb
+  ; enable data bank 0
+  sep #P_Acc8Bit
+  lda #0
+  pha
+  plb
+  ; reset nmi
+  lda TIMEUP
+  rep #P_Acc8Bit
+  ; run the configured irq handler for the game mode
+  jsl @CallHandler
+  ; restore interrupted state
+  plb
+  plp
+  ply
+  plx
+  pla
+  ; resume interrupted code
+  rti
+@CallHandler:
+  jml [IRQHandlerLo]
 
 V_RTI:
   rti

@@ -44,6 +44,10 @@ EntityV35    = EntityHeader + (MaxEntities * 35) + 4
 EntityV36    = EntityHeader + (MaxEntities * 36) + 4
 
 
+IRQHandlerLo   = $00CB
+IRQHandlerHi   = $00CC
+IRQHandlerBank = $00CD
+
 NMIHandlerLo   = $00C7
 NMIHandlerHi   = $00C8
 NMIHandlerBank = $00C9
