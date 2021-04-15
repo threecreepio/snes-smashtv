@@ -289,7 +289,7 @@ L_5829C:
 B_582A8:
   LDA.W $18A3,X                                   ; 0582A8 BD A3 18 
   BEQ.B B_58317                                   ; 0582AB F0 6A 
-  LDA.W $06D2,X                                   ; 0582AD BD D2 06 
+  LDA.W EntityHeader,X                                   ; 0582AD BD D2 06 
   BEQ.B B_58317                                   ; 0582B0 F0 65 
   LDA.W $0828,X                                   ; 0582B2 BD 28 08 
   AND.B #$01                                      ; 0582B5 29 01 
@@ -397,7 +397,7 @@ B_5835D:
   PLX                                             ; 058371 FA 
   JSL L_38094                                     ; 058372 22 94 80 03 
   LDA.B #$01                                      ; 058376 A9 01 
-  STA.W $06D2,X                                   ; 058378 9D D2 06 
+  STA.W EntityHeader,X                                   ; 058378 9D D2 06 
   LDY.B $1F                                       ; 05837B A4 1F 
   LDA.W $195B,Y                                   ; 05837D B9 5B 19 
   STA.W XexzyCharX,X                              ; 058380 9D 46 0B 
@@ -439,7 +439,7 @@ L_583C6:
   LDY.B #$00                                      ; 0583C8 A0 00 
   LDX.B #$3F                                      ; 0583CA A2 3F 
 B_583CC:
-  LDA.W EntityActiveFlag,X                         ; 0583CC BD D4 06 
+  LDA.W EntityHeader+2,X                         ; 0583CC BD D4 06 
   BEQ.B B_583DB                                   ; 0583CF F0 0A 
   LDA.W $082A,X                                   ; 0583D1 BD 2A 08 
   AND.B $04                                       ; 0583D4 25 04 
@@ -458,7 +458,7 @@ L_583E1:
   LDX.B #$3F                                      ; 0583E3 A2 3F 
 B_583E5:
   STZ.B XexzyDropIndicator,X                      ; 0583E5 74 43 
-  LDA.W EntityActiveFlag,X                         ; 0583E7 BD D4 06 
+  LDA.W EntityHeader+2,X                         ; 0583E7 BD D4 06 
   BEQ.B B_583F5                                   ; 0583EA F0 09 
   LDA.W $082A,X                                   ; 0583EC BD 2A 08 
   AND.B $04                                       ; 0583EF 25 04 
@@ -480,7 +480,7 @@ L_583F9:
   STX.B $1E                                       ; 058405 86 1E 
   LDX.B #$3F                                      ; 058407 A2 3F 
 B_58409:
-  LDA.W EntityActiveFlag,X                         ; 058409 BD D4 06 
+  LDA.W EntityHeader+2,X                         ; 058409 BD D4 06 
   BEQ.B B_58415                                   ; 05840C F0 07 
   STX.B $1F                                       ; 05840E 86 1F 
   JSR.W EnemyHitByProjectile                                   ; 058410 20 29 8E 
@@ -509,7 +509,7 @@ L_58428:
 B_58434:
   LDA.W $18A3,X                                   ; 058434 BD A3 18 
   BEQ.B B_5849B                                   ; 058437 F0 62 
-  LDA.W $06D2,X                                   ; 058439 BD D2 06 
+  LDA.W EntityHeader,X                                   ; 058439 BD D2 06 
   BEQ.B B_5849B                                   ; 05843C F0 5D 
   LDA.W $0828,X                                   ; 05843E BD 28 08 
   AND.B #$01                                      ; 058441 29 01 
@@ -572,7 +572,7 @@ B_584A3:
   LDX.B #$3F                                      ; 0584AA A2 3F 
 B_584AC:
   STZ.B XexzyDropIndicator,X                      ; 0584AC 74 43 
-  LDA.W EntityActiveFlag,X                         ; 0584AE BD D4 06 
+  LDA.W EntityHeader+2,X                         ; 0584AE BD D4 06 
   BEQ.B B_584E0                                   ; 0584B1 F0 2D 
   LDA.W $082A,X                                   ; 0584B3 BD 2A 08 
   AND.B #$04                                      ; 0584B6 29 04 
@@ -743,7 +743,7 @@ B_585E9:
   STX.B $1F                                       ; 0585ED 86 1F 
   INC.W $06BE                                     ; 0585EF EE BE 06 
   PHY                                             ; 0585F2 5A 
-  LDA.W EntityActiveFlag,X                         ; 0585F3 BD D4 06 
+  LDA.W EntityHeader+2,X                         ; 0585F3 BD D4 06 
   BEQ.B B_58602                                   ; 0585F6 F0 0A 
   LDA.W $082A,X                                   ; 0585F8 BD 2A 08 
   AND.B #$10                                      ; 0585FB 29 10 
@@ -838,7 +838,7 @@ L_5866C:
 B_58685:
   LDA.W $18A3,X                                   ; 058685 BD A3 18 
   BEQ.B B_586D5                                   ; 058688 F0 4B 
-  LDA.W $06D2,X                                   ; 05868A BD D2 06 
+  LDA.W EntityHeader,X                                   ; 05868A BD D2 06 
   BEQ.B B_586D5                                   ; 05868D F0 46 
   LDA.W $0828,X                                   ; 05868F BD 28 08 
   AND.B #$01                                      ; 058692 29 01 
@@ -862,7 +862,7 @@ B_586B6:
   STX.B $1F                                       ; 0586BA 86 1F 
   INC.W $06BE                                     ; 0586BC EE BE 06 
   PHY                                             ; 0586BF 5A 
-  LDA.W EntityActiveFlag,X                         ; 0586C0 BD D4 06 
+  LDA.W EntityHeader+2,X                         ; 0586C0 BD D4 06 
   BEQ.B B_586CF                                   ; 0586C3 F0 0A 
   LDA.W $082A,X                                   ; 0586C5 BD 2A 08 
   AND.B #$20                                      ; 0586C8 29 20 
@@ -1089,7 +1089,7 @@ B_588F9:
 .byte $A9,$00,$9D,$28,$08,$60                     ; 0588FE ......   ???(?`
 
 B_58903:
-  STZ.W $06D2,X                                   ; 058903 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 058903 9E D2 06 
   PHX                                             ; 058906 DA 
   LDY.W $14A0,X                                   ; 058907 BC A0 14 
   JSL L_AEF1                                      ; 05890A 22 F1 AE 00 
@@ -1159,7 +1159,7 @@ B_58982:
 .byte $A9,$00,$9D,$28,$08,$60                     ; 058987 ......   ???(?`
 
 B_5898C:
-  STZ.W $06D2,X                                   ; 05898C 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 05898C 9E D2 06 
   PHX                                             ; 05898F DA 
   LDY.W $14A0,X                                   ; 058990 BC A0 14 
   JSL L_AEF1                                      ; 058993 22 F1 AE 00 
@@ -1217,7 +1217,7 @@ B_589E8:
 .byte $A9,$00,$9D,$28,$08,$60                     ; 0589ED ......   ???(?`
 
 B_589F2:
-  STZ.W $06D2,X                                   ; 0589F2 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 0589F2 9E D2 06 
   PHX                                             ; 0589F5 DA 
   LDY.W $14A0,X                                   ; 0589F6 BC A0 14 
   JSL L_AEF1                                      ; 0589F9 22 F1 AE 00 
@@ -1327,7 +1327,7 @@ B_58AA2:
   RTS                                             ; 058AC1 60 
 
 B_58AC2:
-  STZ.W $06D2,X                                   ; 058AC2 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 058AC2 9E D2 06 
   PHX                                             ; 058AC5 DA 
   LDY.W $14A0,X                                   ; 058AC6 BC A0 14 
   JSL L_AEF1                                      ; 058AC9 22 F1 AE 00 
@@ -2167,7 +2167,7 @@ B_5987D:
 
 B_598A4:
   STZ.B $41,X                                     ; 0598A4 74 41 
-  STZ.W $06D2,X                                   ; 0598A6 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 0598A6 9E D2 06 
   PHX                                             ; 0598A9 DA 
   LDY.W $14A0,X                                   ; 0598AA BC A0 14 
   JSL L_AEF1                                      ; 0598AD 22 F1 AE 00 
@@ -2220,7 +2220,7 @@ B_598E1:
 
 B_5990F:
   STZ.B $41,X                                     ; 05990F 74 41 
-  STZ.W $06D2,X                                   ; 059911 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 059911 9E D2 06 
   PHX                                             ; 059914 DA 
   LDY.W $14A0,X                                   ; 059915 BC A0 14 
   JSL L_AEF1                                      ; 059918 22 F1 AE 00 
@@ -2289,7 +2289,7 @@ B_5998F:
 .byte $20,$43,$9C,$80,$22                         ; 059992 .....     C??"
 
 B_59996:
-  STZ.W $06D2,X                                   ; 059996 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 059996 9E D2 06 
   PHX                                             ; 059999 DA 
   LDY.W $14A0,X                                   ; 05999A BC A0 14 
   JSL L_AEF1                                      ; 05999D 22 F1 AE 00 
@@ -2383,7 +2383,7 @@ B_59A6A:
 .byte $20,$43,$9C,$80,$22                         ; 059A6D .....     C??"
 
 B_59A71:
-  STZ.W $06D2,X                                   ; 059A71 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 059A71 9E D2 06 
   PHX                                             ; 059A74 DA 
   LDY.W $14A0,X                                   ; 059A75 BC A0 14 
   JSL L_AEF1                                      ; 059A78 22 F1 AE 00 
@@ -2480,7 +2480,7 @@ B_59B16:
 
 B_59B2A:
   STZ.B $41,X                                     ; 059B2A 74 41 
-  STZ.W $06D2,X                                   ; 059B2C 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 059B2C 9E D2 06 
   PHX                                             ; 059B2F DA 
   LDY.W $14A0,X                                   ; 059B30 BC A0 14 
   JSL L_AEF1                                      ; 059B33 22 F1 AE 00 
@@ -2524,7 +2524,7 @@ B_59B74:
   LDA.W $05CE                                     ; 059B7B AD CE 05 
   STA.W $0FBA,X                                   ; 059B7E 9D BA 0F 
   LDA.B #$01                                      ; 059B81 A9 01 
-  STA.W $06D2,X                                   ; 059B83 9D D2 06 
+  STA.W EntityHeader,X                                   ; 059B83 9D D2 06 
   LDA.B #$38                                      ; 059B86 A9 38 
   STA.W EntityId,X                                   ; 059B88 9D 44 07 
   LDA.B #$02                                      ; 059B8B A9 02 
@@ -2631,7 +2631,7 @@ L_59C43:
   LDA.W $05CC,Y                                   ; 059C45 B9 CC 05 
   BMI.B B_59C54                                   ; 059C48 30 0A 
   PHA                                             ; 059C4A 48 
-  STZ.W $06D2,X                                   ; 059C4B 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 059C4B 9E D2 06 
   JSR.W L_59C9D                                   ; 059C4E 20 9D 9C 
   PLX                                             ; 059C51 FA 
   BRA.B B_59C92                                   ; 059C52 80 3E 
@@ -2697,7 +2697,7 @@ B_59CBB:
 
 B_59CC3:
   STZ.B $41,X                                     ; 059CC3 74 41 
-  STZ.W $06D2,X                                   ; 059CC5 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 059CC5 9E D2 06 
   PHX                                             ; 059CC8 DA 
   LDY.W $14A0,X                                   ; 059CC9 BC A0 14 
   JSL L_AEF1                                      ; 059CCC 22 F1 AE 00 
@@ -2751,7 +2751,7 @@ B_59CE6:
 
 B_59D29:
   STZ.B $41,X                                     ; 059D29 74 41 
-  STZ.W $06D2,X                                   ; 059D2B 9E D2 06 
+  STZ.W EntityHeader,X                                   ; 059D2B 9E D2 06 
   PHX                                             ; 059D2E DA 
   LDY.W $14A0,X                                   ; 059D2F BC A0 14 
   JSL L_AEF1                                      ; 059D32 22 F1 AE 00 
@@ -3112,7 +3112,7 @@ B_5A0B4:
 D_5A0B7:
   LDX.B #$3F                                      ; 05A0B7 A2 3F 
 B_5A0B9:
-  LDA.W EntityActiveFlag,X                         ; 05A0B9 BD D4 06 
+  LDA.W EntityHeader+2,X                         ; 05A0B9 BD D4 06 
   BEQ.B B_5A0DC                                   ; 05A0BC F0 1E 
   LDA.W $0746,X                                   ; 05A0BE BD 46 07 
   CMP.B #$55                                      ; 05A0C1 C9 55 

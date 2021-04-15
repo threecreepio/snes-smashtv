@@ -19,7 +19,7 @@ CF      FrameCounter
 30D     XexzyLegY
 309     XexzyTorsoY
 B46     XexzyCharX
-6D4     EntityActiveFlag
+6D4     EntityHeader+2
 531     XexzyLivesCount
 
 

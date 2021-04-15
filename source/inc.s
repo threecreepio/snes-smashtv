@@ -2,7 +2,32 @@
 CurrentRound = $5AB
 CurrentRoom = $5AC
 
-EntityId = $0744
+MaxEntities  = $72
+EntityHeader = $06D2
+EntityId     = EntityHeader + (MaxEntities *  1)
+EntityV2     = EntityHeader + (MaxEntities *  2)
+EntityV3     = EntityHeader + (MaxEntities *  3)
+EntityV4     = EntityHeader + (MaxEntities *  4)
+EntityV5     = EntityHeader + (MaxEntities *  5)
+EntityV6     = EntityHeader + (MaxEntities *  6)
+EntityV7     = EntityHeader + (MaxEntities *  7)
+EntityV8     = EntityHeader + (MaxEntities *  8)
+EntityV9     = EntityHeader + (MaxEntities *  9)
+EntityV10    = EntityHeader + (MaxEntities * 10)
+EntityV11    = EntityHeader + (MaxEntities * 11)
+EntityV12    = EntityHeader + (MaxEntities * 12)
+EntityV13    = EntityHeader + (MaxEntities * 13)
+EntityV14    = EntityHeader + (MaxEntities * 14)
+EntityV15    = EntityHeader + (MaxEntities * 15)
+EntityV16    = EntityHeader + (MaxEntities * 16)
+EntityV17    = EntityHeader + (MaxEntities * 17)
+EntityV18    = EntityHeader + (MaxEntities * 18)
+EntityV19    = EntityHeader + (MaxEntities * 19)
+EntityV20    = EntityHeader + (MaxEntities * 20)
+EntityV21    = EntityHeader + (MaxEntities * 21)
+EntityV22    = EntityHeader + (MaxEntities * 22)
+EntityV23    = EntityHeader + (MaxEntities * 23)
+EntityV24    = EntityHeader + (MaxEntities * 2)
 
 
 XexzyItemLocationMaybe = $27
@@ -34,7 +59,6 @@ RNG0 = $5A8
 RNG1 = $5A9
 XexzyDropCountDownTimer = $5AE
 XexzyMutoidHealth = $69A
-EntityActiveFlag = $6D4
 XexzyCharX = $B46
 XexzyWalkAnimation = $1886
 XexzyAmmoCounter = $189D

@@ -4053,7 +4053,7 @@ L_DEE9C:
 B_DEEA5:
   JSL L_38094                                     ; 0DEEA5 22 94 80 03 
   LDA.B #$01                                      ; 0DEEA9 A9 01 
-  STA.W $06D2,X                                   ; 0DEEAB 9D D2 06 
+  STA.W EntityHeader,X                                   ; 0DEEAB 9D D2 06 
   LDA.B #$6E                                      ; 0DEEAE A9 6E 
   STA.W EntityId,X                                   ; 0DEEB0 9D 44 07 
   LDA.B #$00                                      ; 0DEEB3 A9 00 
@@ -4114,7 +4114,7 @@ L_DEF1F:
 B_DEF28:
   JSL L_38094                                     ; 0DEF28 22 94 80 03 
   LDA.B #$01                                      ; 0DEF2C A9 01 
-  STA.W $06D2,X                                   ; 0DEF2E 9D D2 06 
+  STA.W EntityHeader,X                                   ; 0DEF2E 9D D2 06 
   LDA.B #$1C                                      ; 0DEF31 A9 1C 
   STA.W EntityId,X                                   ; 0DEF33 9D 44 07 
   LDA.B #$00                                      ; 0DEF36 A9 00 
