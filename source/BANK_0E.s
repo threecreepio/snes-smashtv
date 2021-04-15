@@ -2733,7 +2733,7 @@ SceneInterruptsLo:
 SceneInterruptsHi:
 .byte >TitleSceneInterrupts, >UnusedSceneInterrupts, >GameSceneInterrupts
 
-; spare rts, can never have enough of 
+; spare rts, can never have enough of em
 .byte $60
 
 TitleSceneInterrupts:
