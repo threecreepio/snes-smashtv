@@ -330,7 +330,7 @@ L_82D9:
   STA.W INIDISP                                   ; 0082DE 8D 00 21 
   JSR.W L_A45F                                    ; 0082E1 20 5F A4 
   LDA.B #$02                                      ; 0082E4 A9 02 
-  JSL L_ECAAD                                     ; 0082E6 22 AD CA 0E 
+  JSL LoadSceneInterruptConfiguration                                     ; 0082E6 22 AD CA 0E 
   LDX.B #$07                                      ; 0082EA A2 07 
 B_82EC:
   STZ.W $05B4,X                                   ; 0082EC 9E B4 05 

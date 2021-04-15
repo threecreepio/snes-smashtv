@@ -3361,7 +3361,7 @@ L_D911C:
 L_DE650:
   JSR.W L_DE66F                                   ; 0DE650 20 6F E6 
   LDA.B #$00                                      ; 0DE653 A9 00 
-  JSL L_ECAAD                                     ; 0DE655 22 AD CA 0E 
+  JSL LoadSceneInterruptConfiguration                                     ; 0DE655 22 AD CA 0E 
   SEP.B #P_Acc8Bit                                      ; 0DE659 E2 20 
   LDA.B #$81                                      ; 0DE65B A9 81 
   STA.W NMITIMEN                                  ; 0DE65D 8D 00 42 

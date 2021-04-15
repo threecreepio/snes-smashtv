@@ -2692,40 +2692,45 @@ AdvanceRNG:
   sta RNG1
   rtl
 
-L_ECAAD:
-  PHP                                             ; 0ECAAD 08 
-  PHB                                             ; 0ECAAE 8B 
-  TAX                                             ; 0ECAAF AA 
-  LDA.B #$0E                                      ; 0ECAB0 A9 0E 
-  PHA                                             ; 0ECAB2 48 
-  PLB                                             ; 0ECAB3 AB 
-  LDA.W SceneInterruptsLo,X                                 ; 0ECAB4 BD DB CA 
-  STA.B $04                                       ; 0ECAB7 85 04 
-  LDA.W SceneInterruptCfgHi,X                                 ; 0ECAB9 BD DE CA 
-  STA.B $05                                       ; 0ECABC 85 05 
-  LDY.B #$00                                      ; 0ECABE A0 00 
-  REP.B #P_Acc8Bit                                      ; 0ECAC0 C2 20 
-  LDA.B ($04),Y                                   ; 0ECAC2 B1 04 
-  STA.B NMIHandlerLo                                       ; 0ECAC4 85 C7 
-  INY                                             ; 0ECAC6 C8 
-  INY                                             ; 0ECAC7 C8 
-  LDA.B ($04),Y                                   ; 0ECAC8 B1 04 
-  STA.B NMIHandlerBank                                       ; 0ECACA 85 C9 
-  INY                                             ; 0ECACC C8 
-  INY                                             ; 0ECACD C8 
-  LDA.B ($04),Y                                   ; 0ECACE B1 04 
-  STA.B IRQHandlerLo                                       ; 0ECAD0 85 CB 
-  INY                                             ; 0ECAD2 C8 
-  INY                                             ; 0ECAD3 C8 
-  LDA.B ($04),Y                                   ; 0ECAD4 B1 04 
-  STA.B IRQHandlerBank                                       ; 0ECAD6 85 CD 
-  PLB                                             ; 0ECAD8 AB 
-  PLP                                             ; 0ECAD9 28 
-  RTL                                             ; 0ECADA 6B 
+LoadSceneInterruptConfiguration:
+  php
+  phb
+  tax
+  ; switch to data bank E
+  lda.b #$0E
+  pha
+  plb
+  ; load pointer to the current scenes interrupts
+  lda.w SceneInterruptsLo,X
+  sta $04
+  lda.w SceneInterruptsHi,X
+  sta $05
+  ldy #0
+  ; set new nmi handler
+  rep #P_Acc8Bit
+  lda ($04),Y
+  sta NMIHandlerLo
+  iny
+  iny
+  lda ($04),Y
+  sta NMIHandlerBank
+  iny
+  iny
+  ; set new irq handler
+  lda ($04),Y
+  sta IRQHandlerLo
+  iny
+  iny
+  lda ($04),Y
+  sta IRQHandlerBank
+  ; restore state and exit
+  plb
+  plp
+  rtl
 
 SceneInterruptsLo:
 .byte <TitleSceneInterrupts, <UnusedSceneInterrupts, <GameSceneInterrupts
-SceneInterruptCfgHi:
+SceneInterruptsHi:
 .byte >TitleSceneInterrupts, >UnusedSceneInterrupts, >GameSceneInterrupts
 
 ; spare rts, can never have enough of 
