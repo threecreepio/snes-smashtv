@@ -4143,7 +4143,7 @@ B_CFD3D:
 L_CFDAC:
   LDA.W XexzyCharX,X                              ; 0CFDAC BD 46 0B 
   STA.W $0694                                     ; 0CFDAF 8D 94 06 
-  LDA.W EntityV13,X                                   ; 0CFDB2 BD 9C 0C 
+  LDA.W EntityYPx,X                                   ; 0CFDB2 BD 9C 0C 
   STA.W $0695                                     ; 0CFDB5 8D 95 06 
   LDA.W EntityV14,X                                   ; 0CFDB8 BD 0E 0D 
   STA.W $0696                                     ; 0CFDBB 8D 96 06 
@@ -4158,7 +4158,7 @@ L_CFDAC:
   CLC                                             ; 0CFDD0 18 
   LDA.W $0695                                     ; 0CFDD1 AD 95 06 
   ADC.B #$30                                      ; 0CFDD4 69 30 
-  STA.W EntityV13,Y                                   ; 0CFDD6 99 9C 0C 
+  STA.W EntityYPx,Y                                   ; 0CFDD6 99 9C 0C 
   LDA.W $0696                                     ; 0CFDD9 AD 96 06 
   ADC.B #$00                                      ; 0CFDDC 69 00 
   STA.W EntityV14,Y                                   ; 0CFDDE 99 0E 0D 
@@ -4173,7 +4173,7 @@ B_CFDE1:
   CLC                                             ; 0CFDF2 18 
   LDA.W $0695                                     ; 0CFDF3 AD 95 06 
   ADC.B #$30                                      ; 0CFDF6 69 30 
-  STA.W EntityV13,Y                                   ; 0CFDF8 99 9C 0C 
+  STA.W EntityYPx,Y                                   ; 0CFDF8 99 9C 0C 
   LDA.W $0696                                     ; 0CFDFB AD 96 06 
   ADC.B #$00                                      ; 0CFDFE 69 00 
   STA.W EntityV14,Y                                   ; 0CFE00 99 0E 0D 
@@ -4188,7 +4188,7 @@ B_CFE0B:
   CLC                                             ; 0CFE10 18 
   LDA.W $0695                                     ; 0CFE11 AD 95 06 
   ADC.B #$3A                                      ; 0CFE14 69 3A 
-  CMP.W EntityV13,X                                   ; 0CFE16 DD 9C 0C 
+  CMP.W EntityYPx,X                                   ; 0CFE16 DD 9C 0C 
   BCS.B B_CFE20                                   ; 0CFE19 B0 05 
   LDA.B #$80                                      ; 0CFE1B A9 80 
   STA.W $1514,X                                   ; 0CFE1D 9D 14 15 

@@ -5581,7 +5581,7 @@ L_EEB03:
 
 B_EEB12:
   PHB                                             ; 0EEB12 8B 
-  PEA.W XexzyItemY                                ; 0EEB13 F4 05 05 
+  PEA.W $0505                                     ; 0EEB13 F4 05 05 
   PLB                                             ; 0EEB16 AB 
   PLB                                             ; 0EEB17 AB 
   STX.B $06                                       ; 0EEB18 86 06 
