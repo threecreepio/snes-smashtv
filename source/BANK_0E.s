@@ -2682,17 +2682,17 @@ B_ECA7A:
   RTL                                             ; 0ECA94 6B 
 
 AdvanceRNG:
-  LDA.W RNG0                                      ; 0ECA95 AD A8 05 
-  ASL                                             ; 0ECA98 0A 
-  LDA.W RNG0                                      ; 0ECA99 AD A8 05 
-  ROL                                             ; 0ECA9C 2A 
-  ADC.B #$4E                                      ; 0ECA9D 69 4E 
-  EOR.B #$3A                                      ; 0ECA9F 49 3A 
-  STA.W RNG0                                      ; 0ECAA1 8D A8 05 
-  EOR.W RNG1                                      ; 0ECAA4 4D A9 05 
-  ADC.B #$C3                                      ; 0ECAA7 69 C3 
-  STA.W RNG1                                      ; 0ECAA9 8D A9 05 
-  RTL                                             ; 0ECAAC 6B 
+  lda RNG0
+  asl
+  lda RNG0
+  rol
+  adc.b #$4E
+  eor.b #$3A
+  sta RNG0
+  eor RNG1
+  adc.b #$C3
+  sta RNG1
+  rtl
 
 L_ECAAD:
   PHP                                             ; 0ECAAD 08 
