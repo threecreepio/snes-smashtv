@@ -10713,9 +10713,6 @@ B_F412:
   RTS                                             ; 00F413 60 
 
 
-.DEFINE Test $20
-
-
 L_F414:
   PHP                                             ; 00F414 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00F415 E2 30 
@@ -10723,7 +10720,7 @@ L_F414:
   STA.W VMAIN                                     ; 00F419 8D 15 21 
   LDA.B $B4                                       ; 00F41C A5 B4 
   BEQ.B B_F44C                                    ; 00F41E F0 2C 
-  REP.B #Test                                      ; 00F420 C2 20 
+  REP.B #$20                                      ; 00F420 C2 20 
   LDA.B $B0                                       ; 00F422 A5 B0 
   STA.W VMADDL                                    ; 00F424 8D 16 21 
   LDY.B #$0E                                      ; 00F427 A0 0E 

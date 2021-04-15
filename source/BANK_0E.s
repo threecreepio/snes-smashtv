@@ -2308,9 +2308,7 @@ StartEncounterEvilMC:
 .byte $13,$CA,$0E,$A9,$00,$8D,$89,$06             ; 0EC69B ........ ????????
 .byte $A9,$08,$8D,$8A,$06,$A9,$01,$8D             ; 0EC6A3 ........ ????????
 .byte $88,$06,$9C,$CD,$06,$9C,$CE,$06             ; 0EC6AB ........ ????????
-.byte $A9,$00,$8D
-
-.byte $D0,$06,$A9,$FF,$8D             ; 0EC6B3 ........ ????????
+.byte $A9,$00,$8D,$D0,$06,$A9,$FF,$8D             ; 0EC6B3 ........ ????????
 .byte $D1,$06,$22,$13,$CA,$0E,$A9,$4A             ; 0EC6BB ........ ??"????J
 .byte $8D,$07,$21,$A9,$17,$8D,$2C,$21             ; 0EC6C3 ........ ??!???,!
 .byte $28,$60
@@ -3936,7 +3934,7 @@ B_ED75C:
 L_ED75E:
   PHP                                             ; 0ED75E 08 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED75F C2 30 
-  LDX.W #$D8E4                                    ; 0ED761 A2 E4 D8 
+  LDX.W #L_ED8E4                                    ; 0ED761 A2 E4 D8 
   LDY.W #$000E                                    ; 0ED764 A0 0E 00 
   JSL L_EDCC1                                     ; 0ED767 22 C1 DC 0E 
   LDX.W #$FDB7                                    ; 0ED76B A2 B7 FD 
@@ -4079,6 +4077,8 @@ B_ED8DA:
 B_ED8E2:
   PLP                                             ; 0ED8E2 28 
   RTL                                             ; 0ED8E3 6B 
+
+L_ED8E4:
   LDA.W #$0400                                    ; 0ED8E4 A9 00 04 
   STA.W $0230                                     ; 0ED8E7 8D 30 02 
   LDY.W #$0005                                    ; 0ED8EA A0 05 00 
