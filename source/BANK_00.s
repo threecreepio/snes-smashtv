@@ -529,12 +529,12 @@ L_84D7:
   JSR.W L_82D9                                    ; 0084DA 20 D9 82 
   LDA.B #$81                                      ; 0084DD A9 81 
   STA.W NMITIMEN                                  ; 0084DF 8D 00 42 
-  JSL L_ECA1E                                     ; 0084E2 22 1E CA 0E 
+  JSL FadeScreenIn                                     ; 0084E2 22 1E CA 0E 
   JSL L_F81DA                                     ; 0084E6 22 DA 81 0F 
   LDX.B #$28                                      ; 0084EA A2 28 
   JSL L_EC972                                     ; 0084EC 22 72 C9 0E 
 B_84F0:
-  JSL L_ECA13                                     ; 0084F0 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0084F0 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0084F4 22 6A CA 0E 
   JSR.W L_E5ED                                    ; 0084F8 20 ED E5 
   JSR.W L_99AE                                    ; 0084FB 20 AE 99 
@@ -676,7 +676,7 @@ B_8610:
 B_8627:
   STZ.W $02CB                                     ; 008627 9C CB 02 
   STZ.W $02C2                                     ; 00862A 9C C2 02 
-  JSL L_ECA32                                     ; 00862D 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 00862D 22 32 CA 0E 
   PLP                                             ; 008631 28 
   RTS                                             ; 008632 60 
 
@@ -704,7 +704,7 @@ L_8663:
   PHP                                             ; 008663 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008664 E2 30 
   JSR.W L_8B8A                                    ; 008666 20 8A 8B 
-  JSL L_ECA13                                     ; 008669 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008669 22 13 CA 0E 
   LDA.W CurrentRound                                     ; 00866D AD AB 05 
   ASL                                             ; 008670 0A 
   TAX                                             ; 008671 AA 
@@ -722,7 +722,7 @@ L_8663:
   STA.W $1A82                                     ; 008692 8D 82 1A 
   LDA.B #$01                                      ; 008695 A9 01 
   STA.W $1A83                                     ; 008697 8D 83 1A 
-  JSL L_ECA13                                     ; 00869A 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00869A 22 13 CA 0E 
   JSR.W L_9013                                    ; 00869E 20 13 90 
   JSR.W L_8F93                                    ; 0086A1 20 93 8F 
   LDA.W CurrentRound                                     ; 0086A4 AD AB 05 
@@ -747,7 +747,7 @@ L_8663:
   STX.W $1A97                                     ; 0086D7 8E 97 1A 
   LDA.B #$01                                      ; 0086DA A9 01 
   STA.W $1A91                                     ; 0086DC 8D 91 1A 
-  JSL L_ECA13                                     ; 0086DF 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0086DF 22 13 CA 0E 
   JSR.W L_8F93                                    ; 0086E3 20 93 8F 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0086E6 C2 30 
   LDX.W #$3BAE                                    ; 0086E8 A2 AE 3B 
@@ -767,7 +767,7 @@ L_8663:
   STX.W $1A97                                     ; 008711 8E 97 1A 
   LDA.B #$01                                      ; 008714 A9 01 
   STA.W $1A91                                     ; 008716 8D 91 1A 
-  JSL L_ECA13                                     ; 008719 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008719 22 13 CA 0E 
   JSR.W L_8F93                                    ; 00871D 20 93 8F 
   LDX.W #$0800                                    ; 008720 A2 00 08 
   STX.W $1A99                                     ; 008723 8E 99 1A 
@@ -781,7 +781,7 @@ L_8663:
   STX.W $1A97                                     ; 00873A 8E 97 1A 
   LDA.B #$01                                      ; 00873D A9 01 
   STA.W $1A91                                     ; 00873F 8D 91 1A 
-  JSL L_ECA13                                     ; 008742 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008742 22 13 CA 0E 
   JSR.W L_8F93                                    ; 008746 20 93 8F 
   LDX.W #$1000                                    ; 008749 A2 00 10 
   STX.W $1A99                                     ; 00874C 8E 99 1A 
@@ -795,7 +795,7 @@ L_8663:
   STX.W $1A97                                     ; 008763 8E 97 1A 
   LDA.B #$01                                      ; 008766 A9 01 
   STA.W $1A91                                     ; 008768 8D 91 1A 
-  JSL L_ECA13                                     ; 00876B 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00876B 22 13 CA 0E 
   JSR.W L_8F93                                    ; 00876F 20 93 8F 
   LDX.W #$1800                                    ; 008772 A2 00 18 
   STX.W $1A99                                     ; 008775 8E 99 1A 
@@ -821,7 +821,7 @@ L_8663:
   STZ.W $06CE                                     ; 0087AB 9C CE 06 
   STZ.W $06D0                                     ; 0087AE 9C D0 06 
   STZ.W $06D1                                     ; 0087B1 9C D1 06 
-  JSL L_ECA13                                     ; 0087B4 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0087B4 22 13 CA 0E 
   JSR.W L_8F93                                    ; 0087B8 20 93 8F 
   LDA.B #$49                                      ; 0087BB A9 49 
   STA.W BG1SC                                     ; 0087BD 8D 07 21 
@@ -832,7 +832,7 @@ L_8663:
   LDX.B #$3D                                      ; 0087CA A2 3D 
 B_87CC:
   PHX                                             ; 0087CC DA 
-  JSL L_ECA13                                     ; 0087CD 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0087CD 22 13 CA 0E 
   JSR.W L_8F93                                    ; 0087D1 20 93 8F 
   SEC                                             ; 0087D4 38 
   LDA.W $06CD                                     ; 0087D5 AD CD 06 
@@ -844,7 +844,7 @@ B_87CC:
   LDX.B #$78                                      ; 0087E1 A2 78 
 B_87E3:
   PHX                                             ; 0087E3 DA 
-  JSL L_ECA13                                     ; 0087E4 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0087E4 22 13 CA 0E 
   JSR.W L_8F93                                    ; 0087E8 20 93 8F 
   PLX                                             ; 0087EB FA 
   DEX                                             ; 0087EC CA 
@@ -854,7 +854,7 @@ B_87E3:
   LDX.B #$74                                      ; 0087F4 A2 74 
 B_87F6:
   PHX                                             ; 0087F6 DA 
-  JSL L_ECA13                                     ; 0087F7 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0087F7 22 13 CA 0E 
   JSR.W L_8F93                                    ; 0087FB 20 93 8F 
   SEC                                             ; 0087FE 38 
   LDA.W $06D0                                     ; 0087FF AD D0 06 
@@ -869,7 +869,7 @@ B_87F6:
   LDA.B #$16                                      ; 008813 A9 16 
   STA.W TM                                        ; 008815 8D 2C 21 
   JSR.W L_8B65                                    ; 008818 20 65 8B 
-  JSL L_ECA13                                     ; 00881B 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00881B 22 13 CA 0E 
   STZ.W $02C2                                     ; 00881F 9C C2 02 
   STZ.W $18AF                                     ; 008822 9C AF 18 
   PLP                                             ; 008825 28 
@@ -920,7 +920,7 @@ B_8855:
   STZ.W $06CE                                     ; 008870 9C CE 06 
   STZ.W $06D0                                     ; 008873 9C D0 06 
   STZ.W $06D1                                     ; 008876 9C D1 06 
-  JSL L_ECA13                                     ; 008879 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008879 22 13 CA 0E 
   LDA.B #$49                                      ; 00887D A9 49 
   STA.W BG1SC                                     ; 00887F 8D 07 21 
   LDA.B #$17                                      ; 008882 A9 17 
@@ -928,7 +928,7 @@ B_8855:
   LDX.B #$3D                                      ; 008887 A2 3D 
 B_8889:
   PHX                                             ; 008889 DA 
-  JSL L_ECA13                                     ; 00888A 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00888A 22 13 CA 0E 
   SEC                                             ; 00888E 38 
   LDA.W $06CD                                     ; 00888F AD CD 06 
   SBC.B #$02                                      ; 008892 E9 02 
@@ -945,7 +945,7 @@ B_8889:
   LDX.B #$74                                      ; 0088AB A2 74 
 B_88AD:
   PHX                                             ; 0088AD DA 
-  JSL L_ECA13                                     ; 0088AE 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0088AE 22 13 CA 0E 
   JSR.W L_8F93                                    ; 0088B2 20 93 8F 
   JSL L_ED117                                     ; 0088B5 22 17 D1 0E 
   SEC                                             ; 0088B9 38 
@@ -963,7 +963,7 @@ B_88AD:
   STZ.W $02C2                                     ; 0088D3 9C C2 02 
   STZ.W $18AF                                     ; 0088D6 9C AF 18 
   JSR.W L_8B65                                    ; 0088D9 20 65 8B 
-  JSL L_ECA13                                     ; 0088DC 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0088DC 22 13 CA 0E 
   PLB                                             ; 0088E0 AB 
   PLP                                             ; 0088E1 28 
   RTS                                             ; 0088E2 60 
@@ -985,7 +985,7 @@ D_88E4:
 L_8920:
   PHP                                             ; 008920 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008921 E2 30 
-  JSL L_ECA13                                     ; 008923 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008923 22 13 CA 0E 
   STZ.W $1A86                                     ; 008927 9C 86 1A 
   STZ.W $1A7D                                     ; 00892A 9C 7D 1A 
   LDA.B #$22                                      ; 00892D A9 22 
@@ -1000,7 +1000,7 @@ L_8920:
   STA.W $1A82                                     ; 008943 8D 82 1A 
   LDA.B #$01                                      ; 008946 A9 01 
   STA.W $1A83                                     ; 008948 8D 83 1A 
-  JSL L_ECA13                                     ; 00894B 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00894B 22 13 CA 0E 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00894F C2 30 
   LDX.W #$3BAE                                    ; 008951 A2 AE 3B 
   LDA.W #$9663                                    ; 008954 A9 63 96 
@@ -1019,7 +1019,7 @@ L_8920:
   STX.W $1A97                                     ; 00897A 8E 97 1A 
   LDA.B #$01                                      ; 00897D A9 01 
   STA.W $1A91                                     ; 00897F 8D 91 1A 
-  JSL L_ECA13                                     ; 008982 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008982 22 13 CA 0E 
   LDX.W #$0800                                    ; 008986 A2 00 08 
   STX.W $1A99                                     ; 008989 8E 99 1A 
   LDX.W #$1801                                    ; 00898C A2 01 18 
@@ -1032,7 +1032,7 @@ L_8920:
   STX.W $1A97                                     ; 0089A0 8E 97 1A 
   LDA.B #$01                                      ; 0089A3 A9 01 
   STA.W $1A91                                     ; 0089A5 8D 91 1A 
-  JSL L_ECA13                                     ; 0089A8 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0089A8 22 13 CA 0E 
   LDX.W #$1000                                    ; 0089AC A2 00 10 
   STX.W $1A99                                     ; 0089AF 8E 99 1A 
   LDX.W #$1801                                    ; 0089B2 A2 01 18 
@@ -1045,7 +1045,7 @@ L_8920:
   STX.W $1A97                                     ; 0089C6 8E 97 1A 
   LDA.B #$01                                      ; 0089C9 A9 01 
   STA.W $1A91                                     ; 0089CB 8D 91 1A 
-  JSL L_ECA13                                     ; 0089CE 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0089CE 22 13 CA 0E 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0089D2 C2 30 
   LDA.W #$BE0B                                    ; 0089D4 A9 0B BE 
   LDY.W #$000D                                    ; 0089D7 A0 0D 00 
@@ -1098,7 +1098,7 @@ B_8A38:
 L_8A3A:
   PHP                                             ; 008A3A 08 
   PHB                                             ; 008A3B 8B 
-  JSL L_ECA13                                     ; 008A3C 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008A3C 22 13 CA 0E 
   REP.B #$10                                      ; 008A40 C2 10 
   SEP.B #P_Acc8Bit                                      ; 008A42 E2 20 
   LDA.B #$80                                      ; 008A44 A9 80 
@@ -1135,7 +1135,7 @@ B_8A85:
 B_8A8F:
   LDA.B #$01                                      ; 008A8F A9 01 
   STA.W $1A83                                     ; 008A91 8D 83 1A 
-  JSL L_ECA13                                     ; 008A94 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008A94 22 13 CA 0E 
   LDA.B #$80                                      ; 008A98 A9 80 
   STA.W CGADD                                     ; 008A9A 8D 21 21 
   LDY.B #$20                                      ; 008A9D A0 20 
@@ -1153,13 +1153,13 @@ B_8AA1:
   STA.W $1A8F                                     ; 008AB6 8D 8F 1A 
   LDA.B #$20                                      ; 008AB9 A9 20 
   STA.W $1A90                                     ; 008ABB 8D 90 1A 
-  JSL L_ECA13                                     ; 008ABE 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008ABE 22 13 CA 0E 
   LDX.B #$03                                      ; 008AC2 A2 03 
 B_8AC4:
   PHX                                             ; 008AC4 DA 
   LDA.B #$01                                      ; 008AC5 A9 01 
   STA.W $1A88                                     ; 008AC7 8D 88 1A 
-  JSL L_ECA13                                     ; 008ACA 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008ACA 22 13 CA 0E 
   CLC                                             ; 008ACE 18 
   LDA.W $1A8C                                     ; 008ACF AD 8C 1A 
   ADC.B #$10                                      ; 008AD2 69 10 
@@ -1175,9 +1175,9 @@ B_8AC4:
   STZ.W $06C9                                     ; 008AE7 9C C9 06 
   STZ.W $06CA                                     ; 008AEA 9C CA 06 
   STZ.W $06CB                                     ; 008AED 9C CB 06 
-  JSL L_ECA13                                     ; 008AF0 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008AF0 22 13 CA 0E 
   JSR.W L_8833                                    ; 008AF4 20 33 88 
-  JSL L_ECA13                                     ; 008AF7 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008AF7 22 13 CA 0E 
   JSL L_EC619                                     ; 008AFB 22 19 C6 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008AFF E2 30 
   LDX.W CurrentRound                                     ; 008B01 AE AB 05 
@@ -1206,14 +1206,14 @@ B_8B1B:
   LDA.B #$01                                      ; 008B44 A9 01 
   STA.W $1A91                                     ; 008B46 8D 91 1A 
   SEP.B #$10                                      ; 008B49 E2 10 
-  JSL L_ECA13                                     ; 008B4B 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008B4B 22 13 CA 0E 
   LDX.B #$00                                      ; 008B4F A2 00 
   JSL L_AB23                                      ; 008B51 22 23 AB 00 
   LDX.B #$01                                      ; 008B55 A2 01 
   JSL L_AB23                                      ; 008B57 22 23 AB 00 
 B_8B5B:
   JSL L_AC95                                      ; 008B5B 22 95 AC 00 
-  JSL L_ECA13                                     ; 008B5F 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008B5F 22 13 CA 0E 
   PLP                                             ; 008B63 28 
   RTS                                             ; 008B64 60 
 
@@ -1238,7 +1238,7 @@ L_8B65:
 
 L_8B8A:
   PHP                                             ; 008B8A 08 
-  JSL L_ECA13                                     ; 008B8B 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008B8B 22 13 CA 0E 
   REP.B #$10                                      ; 008B8F C2 10 
   SEP.B #P_Acc8Bit                                      ; 008B91 E2 20 
   LDA.B #$80                                      ; 008B93 A9 80 
@@ -1399,7 +1399,7 @@ B_8CD7:
 B_8CED:
   PLB                                             ; 008CED AB 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008CEE E2 30 
-  JSL L_ECA13                                     ; 008CF0 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008CF0 22 13 CA 0E 
   REP.B #$10                                      ; 008CF4 C2 10 
   SEP.B #P_Acc8Bit                                      ; 008CF6 E2 20 
   LDA.B #$80                                      ; 008CF8 A9 80 
@@ -1474,13 +1474,13 @@ B_8D6E:
   STA.W $1A8C                                     ; 008D9A 8D 8C 1A 
   LDA.B $06                                       ; 008D9D A5 06 
   STA.W $1A8D                                     ; 008D9F 8D 8D 1A 
-  JSL L_ECA13                                     ; 008DA2 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008DA2 22 13 CA 0E 
   LDX.B #$03                                      ; 008DA6 A2 03 
 B_8DA8:
   PHX                                             ; 008DA8 DA 
   LDA.B #$01                                      ; 008DA9 A9 01 
   STA.W $1A88                                     ; 008DAB 8D 88 1A 
-  JSL L_ECA13                                     ; 008DAE 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 008DAE 22 13 CA 0E 
   CLC                                             ; 008DB2 18 
   LDA.W $1A8C                                     ; 008DB3 AD 8C 1A 
   ADC.B #$10                                      ; 008DB6 69 10 
@@ -1713,13 +1713,13 @@ B_907D:
   STA.W CurrentRoom                                     ; 0090AF 8D AC 05 
   JSR.W L_828A                                    ; 0090B2 20 8A 82 
   JSR.W L_8BBC                                    ; 0090B5 20 BC 8B 
-  JSL L_ECA13                                     ; 0090B8 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0090B8 22 13 CA 0E 
   JSR.W L_E883                                    ; 0090BC 20 83 E8 
   LDX.B #$01                                      ; 0090BF A2 01 
   JSL L_ACE4                                      ; 0090C1 22 E4 AC 00 
 B_90C5:
   JSR.W L_8F83                                    ; 0090C5 20 83 8F 
-  JSL L_ECA13                                     ; 0090C8 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0090C8 22 13 CA 0E 
   SEC                                             ; 0090CC 38 
   LDA.W $06CA                                     ; 0090CD AD CA 06 
   SBC.B #$02                                      ; 0090D0 E9 02 
@@ -1732,7 +1732,7 @@ B_90C5:
   STZ.W $05DE                                     ; 0090E2 9C DE 05 
   STZ.W $05DF                                     ; 0090E5 9C DF 05 
   JSR.W L_8F83                                    ; 0090E8 20 83 8F 
-  JSL L_ECA13                                     ; 0090EB 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0090EB 22 13 CA 0E 
   LDX.B #$01                                      ; 0090EF A2 01 
   LDA.B #$FF                                      ; 0090F1 A9 FF 
 B_90F3:
@@ -1743,7 +1743,7 @@ B_90F3:
   LDX.B #$30                                      ; 0090FC A2 30 
 B_90FE:
   PHX                                             ; 0090FE DA 
-  JSL L_ECA13                                     ; 0090FF 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0090FF 22 13 CA 0E 
   JSR.W L_8F83                                    ; 009103 20 83 8F 
   PLX                                             ; 009106 FA 
   DEX                                             ; 009107 CA 
@@ -1754,7 +1754,7 @@ B_910C:
   STZ.W $18BA,X                                   ; 00910F 9E BA 18 
   DEX                                             ; 009112 CA 
   BPL.B B_910C                                    ; 009113 10 F7 
-  JSL L_ECA13                                     ; 009115 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 009115 22 13 CA 0E 
   JSR.W L_9013                                    ; 009119 20 13 90 
   JSR.W L_8F83                                    ; 00911C 20 83 8F 
   LDX.B #$3C                                      ; 00911F A2 3C 
@@ -1766,7 +1766,7 @@ B_910C:
   JSR.W L_8A3A                                    ; 009131 20 3A 8A 
   STZ.W $0A62                                     ; 009134 9C 62 0A 
   STZ.W $0A63                                     ; 009137 9C 63 0A 
-  JSL L_ECA13                                     ; 00913A 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00913A 22 13 CA 0E 
   LDA.B #$50                                      ; 00913E A9 50 
   STA.W BG2SC                                     ; 009140 8D 08 21 
   LDA.B #$58                                      ; 009143 A9 58 
@@ -1839,14 +1839,14 @@ B_91C7:
   STA.W $05D9                                     ; 0091DD 8D D9 05 
   JSR.W L_828A                                    ; 0091E0 20 8A 82 
   JSR.W L_8BBC                                    ; 0091E3 20 BC 8B 
-  JSL L_ECA13                                     ; 0091E6 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0091E6 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0091EA 22 6A CA 0E 
   JSR.W L_E883                                    ; 0091EE 20 83 E8 
   LDX.B #$01                                      ; 0091F1 A2 01 
   JSL L_ACE4                                      ; 0091F3 22 E4 AC 00 
 B_91F7:
   JSR.W L_8F83                                    ; 0091F7 20 83 8F 
-  JSL L_ECA13                                     ; 0091FA 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0091FA 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0091FE 22 6A CA 0E 
   JSR.W L_9374                                    ; 009202 20 74 93 
   LDA.W $1BF1                                     ; 009205 AD F1 1B 
@@ -1874,7 +1874,7 @@ B_9222:
   STZ.W $05DE                                     ; 009235 9C DE 05 
   STZ.W $05DF                                     ; 009238 9C DF 05 
   JSR.W L_8F83                                    ; 00923B 20 83 8F 
-  JSL L_ECA13                                     ; 00923E 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00923E 22 13 CA 0E 
   JSL L_ECA6A                                     ; 009242 22 6A CA 0E 
   LDA.W CurrentRoom                                     ; 009246 AD AC 05 
   BPL.B B_924E                                    ; 009249 10 03 
@@ -1892,7 +1892,7 @@ B_9252:
   LDX.B #$1C                                      ; 00925B A2 1C 
 B_925D:
   PHX                                             ; 00925D DA 
-  JSL L_ECA13                                     ; 00925E 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00925E 22 13 CA 0E 
   JSL L_ECA6A                                     ; 009262 22 6A CA 0E 
   JSR.W L_8F83                                    ; 009266 20 83 8F 
   LDA.W CurrentRoom                                     ; 009269 AD AC 05 
@@ -1914,7 +1914,7 @@ B_9284:
   STZ.W $18B6,X                                   ; 009287 9E B6 18 
   DEX                                             ; 00928A CA 
   BPL.B B_9284                                    ; 00928B 10 F7 
-  JSL L_ECA13                                     ; 00928D 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00928D 22 13 CA 0E 
   JSL L_ECA6A                                     ; 009291 22 6A CA 0E 
   JSR.W L_9013                                    ; 009295 20 13 90 
   JSR.W L_8F83                                    ; 009298 20 83 8F 
@@ -1931,12 +1931,12 @@ B_92A7:
   BCS.B B_92B5                                    ; 0092B0 B0 03 
   DEC.W $06D1                                     ; 0092B2 CE D1 06 
 B_92B5:
-  JSL L_ECA13                                     ; 0092B5 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0092B5 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0092B9 22 6A CA 0E 
   LDA.W $06D0                                     ; 0092BD AD D0 06 
   CMP.B #$32                                      ; 0092C0 C9 32 
   BCS.B B_92A7                                    ; 0092C2 B0 E3 
-  JSL L_ECA13                                     ; 0092C4 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0092C4 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0092C8 22 6A CA 0E 
   LDA.B #$16                                      ; 0092CC A9 16 
   STA.W TM                                        ; 0092CE 8D 2C 21 
@@ -1960,7 +1960,7 @@ B_92D9:
 .byte $11,$93                                     ; 0092FD ..       ??
 
 B_92FE:
-  JSL L_ECA13                                     ; 0092FE 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0092FE 22 13 CA 0E 
   JSL L_ECA6A                                     ; 009302 22 6A CA 0E 
   LDA.B #$50                                      ; 009306 A9 50 
   STA.W BG2SC                                     ; 009308 8D 08 21 
@@ -2070,7 +2070,7 @@ B_93C2:
   STA.W $05E1                                     ; 009401 8D E1 05 
   LDA.B #$64                                      ; 009404 A9 64 
   STA.W $05E3                                     ; 009406 8D E3 05 
-  JSL L_ECA13                                     ; 009409 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 009409 22 13 CA 0E 
   JSR.W L_E883                                    ; 00940D 20 83 E8 
   LDX.B #$00                                      ; 009410 A2 00 
   LDA.W $06C9                                     ; 009412 AD C9 06 
@@ -2082,7 +2082,7 @@ B_941B:
 B_941F:
   JSR.W L_8F83                                    ; 00941F 20 83 8F 
   JSR.W L_A250                                    ; 009422 20 50 A2 
-  JSL L_ECA13                                     ; 009425 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 009425 22 13 CA 0E 
   CLC                                             ; 009429 18 
   LDA.W $06CA                                     ; 00942A AD CA 06 
   ADC.B #$02                                      ; 00942D 69 02 
@@ -2094,7 +2094,7 @@ B_941F:
   STZ.W $05DE                                     ; 00943C 9C DE 05 
   STZ.W $05DF                                     ; 00943F 9C DF 05 
   JSR.W L_8F83                                    ; 009442 20 83 8F 
-  JSL L_ECA13                                     ; 009445 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 009445 22 13 CA 0E 
   LDX.B #$01                                      ; 009449 A2 01 
   LDA.B #$01                                      ; 00944B A9 01 
 B_944D:
@@ -2105,7 +2105,7 @@ B_944D:
   LDX.B #$24                                      ; 009456 A2 24 
 B_9458:
   PHX                                             ; 009458 DA 
-  JSL L_ECA13                                     ; 009459 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 009459 22 13 CA 0E 
   JSR.W L_8F83                                    ; 00945D 20 83 8F 
   PLX                                             ; 009460 FA 
   DEX                                             ; 009461 CA 
@@ -2116,7 +2116,7 @@ B_9466:
   STZ.W $18BA,X                                   ; 009469 9E BA 18 
   DEX                                             ; 00946C CA 
   BPL.B B_9466                                    ; 00946D 10 F7 
-  JSL L_ECA13                                     ; 00946F 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00946F 22 13 CA 0E 
   JSR.W L_9013                                    ; 009473 20 13 90 
   JSR.W L_8F83                                    ; 009476 20 83 8F 
   LDX.B #$3C                                      ; 009479 A2 3C 
@@ -2126,7 +2126,7 @@ B_9466:
   LDX.B #$00                                      ; 009485 A2 00 
   JSL L_ACE4                                      ; 009487 22 E4 AC 00 
   JSR.W L_8A3A                                    ; 00948B 20 3A 8A 
-  JSL L_ECA13                                     ; 00948E 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00948E 22 13 CA 0E 
   LDA.B #$50                                      ; 009492 A9 50 
   STA.W BG2SC                                     ; 009494 8D 08 21 
   LDA.B #$58                                      ; 009497 A9 58 
@@ -2386,7 +2386,7 @@ B_964F:
   STX.W $1A97                                     ; 00966D 8E 97 1A 
   LDA.B #$01                                      ; 009670 A9 01 
   STA.W $1A91                                     ; 009672 8D 91 1A 
-  JSL L_ECA13                                     ; 009675 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 009675 22 13 CA 0E 
   REP.B #P_Acc8Bit                                      ; 009679 C2 20 
   LDA.W #$8017                                    ; 00967B A9 17 80 
   JSL L_F8401                                     ; 00967E 22 01 84 0F 
@@ -10222,7 +10222,7 @@ D_EF6D:
   JSL L_F830F                                     ; 00EF9D 22 0F 83 0F 
   REP.B #P_Acc8Bit                                      ; 00EFA1 C2 20 
 B_EFA3:
-  JSL L_ECA13                                     ; 00EFA3 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 00EFA3 22 13 CA 0E 
   JSL L_ED117                                     ; 00EFA7 22 17 D1 0E 
   DEC.W $0214                                     ; 00EFAB CE 14 02 
   BNE.B B_EFA3                                    ; 00EFAE D0 F3 
@@ -10261,10 +10261,10 @@ L_EFFE:
   LDA.B #$81                                      ; 00F021 A9 81 
   STA.W NMITIMEN                                  ; 00F023 8D 00 42 
   REP.B #P_Acc8Bit                                      ; 00F026 C2 20 
-  JSL L_ECA1E                                     ; 00F028 22 1E CA 0E 
+  JSL FadeScreenIn                                     ; 00F028 22 1E CA 0E 
   LDX.W #$00B4                                    ; 00F02C A2 B4 00 
   JSL L_EC972                                     ; 00F02F 22 72 C9 0E 
-  JSL L_ECA32                                     ; 00F033 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 00F033 22 32 CA 0E 
   PLP                                             ; 00F037 28 
   RTL                                             ; 00F038 6B 
   RTL                                             ; 00F039 6B 

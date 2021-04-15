@@ -591,7 +591,7 @@ L_D90D5:
   STZ.W $1BF1                                     ; 0D90D5 9C F1 1B 
   LDX.W #$003C                                    ; 0D90D8 A2 3C 00 
   JSL L_EC972                                     ; 0D90DB 22 72 C9 0E 
-  JSL L_ECA32                                     ; 0D90DF 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 0D90DF 22 32 CA 0E 
   LDA.W #$000C                                    ; 0D90E3 A9 0C 00 
   JSL L_F830F                                     ; 0D90E6 22 0F 83 0F 
   RTS                                             ; 0D90EA 60 
@@ -3365,9 +3365,9 @@ L_DE650:
   SEP.B #P_Acc8Bit                                      ; 0DE659 E2 20 
   LDA.B #$81                                      ; 0DE65B A9 81 
   STA.W NMITIMEN                                  ; 0DE65D 8D 00 42 
-  JSL L_ECA1E                                     ; 0DE660 22 1E CA 0E 
+  JSL FadeScreenIn                                     ; 0DE660 22 1E CA 0E 
   JSR.W L_DECA6                                   ; 0DE664 20 A6 EC 
-  JSL L_ECA32                                     ; 0DE667 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 0DE667 22 32 CA 0E 
   STZ.W $02CB                                     ; 0DE66B 9C CB 02 
   RTL                                             ; 0DE66E 6B 
 
@@ -3807,12 +3807,12 @@ L_DECA6:
   LDX.B #$1E                                      ; 0DECA9 A2 1E 
 B_DECAB:
   PHX                                             ; 0DECAB DA 
-  JSL L_ECA13                                     ; 0DECAC 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0DECAC 22 13 CA 0E 
   PLX                                             ; 0DECB0 FA 
   DEX                                             ; 0DECB1 CA 
   BNE.B B_DECAB                                   ; 0DECB2 D0 F7 
 B_DECB4:
-  JSL L_ECA13                                     ; 0DECB4 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0DECB4 22 13 CA 0E 
   JSR.W L_DEAA0                                   ; 0DECB8 20 A0 EA 
   CLC                                             ; 0DECBB 18 
   LDA.B $08                                       ; 0DECBC A5 08 
@@ -3838,7 +3838,7 @@ B_DECD7:
   BCS.B B_DECE4                                   ; 0DECDF B0 03 
   JMP.W B_DECB4                                   ; 0DECE1 4C B4 EC 
 B_DECE4:
-  JSL L_ECA13                                     ; 0DECE4 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0DECE4 22 13 CA 0E 
   JSR.W L_DEAA0                                   ; 0DECE8 20 A0 EA 
   REP.B #P_Idx8Bit                                      ; 0DECEB C2 10 
   LDA.B #$07                                      ; 0DECED A9 07 
@@ -3848,7 +3848,7 @@ B_DECE4:
   LDX.B #$14                                      ; 0DECF8 A2 14 
 B_DECFA:
   PHX                                             ; 0DECFA DA 
-  JSL L_ECA13                                     ; 0DECFB 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0DECFB 22 13 CA 0E 
   JSL AdvanceRNG                                     ; 0DECFF 22 95 CA 0E 
   AND.B #$07                                      ; 0DED03 29 07 
   ASL                                             ; 0DED05 0A 
@@ -3878,7 +3878,7 @@ B_DECFA:
   LDX.B #$F0                                      ; 0DED4A A2 F0 
 B_DED4C:
   PHX                                             ; 0DED4C DA 
-  JSL L_ECA13                                     ; 0DED4D 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0DED4D 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0DED51 22 6A CA 0E 
   PLX                                             ; 0DED55 FA 
   LDA.W $02F1                                     ; 0DED56 AD F1 02 
@@ -3894,7 +3894,7 @@ B_DED63:
   JSL L_F830F                                     ; 0DED6A 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 0DED6E E2 10 
 B_DED70:
-  JSL L_ECA13                                     ; 0DED70 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0DED70 22 13 CA 0E 
   JSR.W L_DEAA0                                   ; 0DED74 20 A0 EA 
   CLC                                             ; 0DED77 18 
   LDA.B $10                                       ; 0DED78 A5 10 

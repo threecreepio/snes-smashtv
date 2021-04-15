@@ -2326,7 +2326,7 @@ B_EC728:
   BPL.B B_EC728                                   ; 0EC72D 10 F9 
   PLB                                             ; 0EC72F AB 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC730 E2 30 
-  JSL L_ECA13                                     ; 0EC732 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC732 22 13 CA 0E 
   LDA.B #$00                                      ; 0EC736 A9 00 
   STA.W $0689                                     ; 0EC738 8D 89 06 
   LDA.B #$08                                      ; 0EC73B A9 08 
@@ -2339,7 +2339,7 @@ B_EC728:
   STA.W $06D0                                     ; 0EC74D 8D D0 06 
   LDA.B #$FF                                      ; 0EC750 A9 FF 
   STA.W $06D1                                     ; 0EC752 8D D1 06 
-  JSL L_ECA13                                     ; 0EC755 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC755 22 13 CA 0E 
   LDA.B #$4A                                      ; 0EC759 A9 4A 
   STA.W BG1SC                                     ; 0EC75B 8D 07 21 
   LDA.B #$17                                      ; 0EC75E A9 17 
@@ -2350,7 +2350,7 @@ B_EC728:
 
 L_EC765:
   PHP                                             ; 0EC765 08 
-  JSL L_ECA13                                     ; 0EC766 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC766 22 13 CA 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC76A E2 30 
   STZ.W $1A86                                     ; 0EC76C 9C 86 1A 
   STZ.W $1A7D                                     ; 0EC76F 9C 7D 1A 
@@ -2366,7 +2366,7 @@ L_EC765:
   STA.W $1A82                                     ; 0EC788 8D 82 1A 
   LDA.B #$01                                      ; 0EC78B A9 01 
   STA.W $1A83                                     ; 0EC78D 8D 83 1A 
-  JSL L_ECA13                                     ; 0EC790 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC790 22 13 CA 0E 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC794 C2 30 
   LDA.W #$A31D                                    ; 0EC796 A9 1D A3 
   LDY.W #$000F                                    ; 0EC799 A0 0F 00 
@@ -2398,7 +2398,7 @@ L_EC765:
   STX.W $1A97                                     ; 0EC7E8 8E 97 1A 
   LDA.B #$01                                      ; 0EC7EB A9 01 
   STA.W $1A91                                     ; 0EC7ED 8D 91 1A 
-  JSL L_ECA13                                     ; 0EC7F0 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC7F0 22 13 CA 0E 
   LDX.W #$0800                                    ; 0EC7F4 A2 00 08 
   STX.W $1A99                                     ; 0EC7F7 8E 99 1A 
   LDX.W #$1801                                    ; 0EC7FA A2 01 18 
@@ -2411,7 +2411,7 @@ L_EC765:
   STX.W $1A97                                     ; 0EC80E 8E 97 1A 
   LDA.B #$01                                      ; 0EC811 A9 01 
   STA.W $1A91                                     ; 0EC813 8D 91 1A 
-  JSL L_ECA13                                     ; 0EC816 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC816 22 13 CA 0E 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC81A C2 30 
   LDX.W #$3BAE                                    ; 0EC81C A2 AE 3B 
   LDA.W #$CB72                                    ; 0EC81F A9 72 CB 
@@ -2431,7 +2431,7 @@ L_EC765:
   STX.W $1A97                                     ; 0EC847 8E 97 1A 
   LDA.B #$01                                      ; 0EC84A A9 01 
   STA.W $1A91                                     ; 0EC84C 8D 91 1A 
-  JSL L_ECA13                                     ; 0EC84F 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC84F 22 13 CA 0E 
   PLP                                             ; 0EC853 28 
   RTS                                             ; 0EC854 60 
 
@@ -2484,13 +2484,13 @@ L_EC945:
   STX.W $1A97                                     ; 0EC964 8E 97 1A 
   LDA.B #$01                                      ; 0EC967 A9 01 
   STA.W $1A91                                     ; 0EC969 8D 91 1A 
-  JSL L_ECA13                                     ; 0EC96C 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC96C 22 13 CA 0E 
   PLP                                             ; 0EC970 28 
   RTS                                             ; 0EC971 60 
 
 
 L_EC972:
-  JSL L_ECA13                                     ; 0EC972 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EC972 22 13 CA 0E 
   DEX                                             ; 0EC976 CA 
   BNE.B L_EC972                                   ; 0EC977 D0 F9 
   RTL                                             ; 0EC979 6B 
@@ -2568,45 +2568,48 @@ B_EC9F9:
   PLP                                             ; 0ECA11 28 
   RTL                                             ; 0ECA12 6B 
 
-L_ECA13:
-  PHP                                             ; 0ECA13 08 
-  SEP.B #P_Acc8Bit                                      ; 0ECA14 E2 20 
-  LDA.B FrameCounter                              ; 0ECA16 A5 CF 
-B_ECA18:
-  CMP.B FrameCounter                              ; 0ECA18 C5 CF 
-  BEQ.B B_ECA18                                   ; 0ECA1A F0 FC 
-  PLP                                             ; 0ECA1C 28 
-  RTL                                             ; 0ECA1D 6B 
+; loop until the framecounter value has been increased by NMI
+Wait1Frame:
+  php
+  sep #P_Acc8Bit
+  lda FrameCounter
+@KeepWaiting:
+  cmp FrameCounter
+  beq @KeepWaiting
+  plp
+  rtl
 
-L_ECA1E:
-  PHP                                             ; 0ECA1E 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECA1F E2 30 
-  LDX.B #$0F                                      ; 0ECA21 A2 0F 
-B_ECA23:
-  JSL L_ECA13                                     ; 0ECA23 22 13 CA 0E 
-  TXA                                             ; 0ECA27 8A 
-  EOR.B #$0F                                      ; 0ECA28 49 0F 
-  STA.W INIDISP                                   ; 0ECA2A 8D 00 21 
-  DEX                                             ; 0ECA2D CA 
-  BPL.B B_ECA23                                   ; 0ECA2E 10 F3 
-  PLP                                             ; 0ECA30 28 
-  RTL                                             ; 0ECA31 6B 
+; fade screen in from black
+FadeScreenIn:
+  php
+  sep #P_Idx8Bit | P_Acc8Bit
+  ldx #$0F
+@Loop:
+  jsl Wait1Frame
+  txa
+  eor #$0F
+  sta INIDISP
+  dex
+  bpl @Loop
+  plp
+  rtl
 
-L_ECA32:
-  PHP                                             ; 0ECA32 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECA33 E2 30 
-  LDX.B #$0F                                      ; 0ECA35 A2 0F 
-B_ECA37:
-  JSL L_ECA13                                     ; 0ECA37 22 13 CA 0E 
-  STX.W INIDISP                                   ; 0ECA3B 8E 00 21 
-  DEX                                             ; 0ECA3E CA 
-  BPL.B B_ECA37                                   ; 0ECA3F 10 F6 
-  LDA.B #$80                                      ; 0ECA41 A9 80 
-  STA.W INIDISP                                   ; 0ECA43 8D 00 21 
-  STZ.W NMITIMEN                                  ; 0ECA46 9C 00 42 
-  PLP                                             ; 0ECA49 28 
-  SEI                                             ; 0ECA4A 78 
-  RTL                                             ; 0ECA4B 6B 
+; fade screen out to solid black, then disable screen
+FadeScreenOut:
+  php
+  sep #P_Idx8Bit | P_Acc8Bit
+  ldx #$0F
+@Loop:
+  jsl Wait1Frame
+  stx INIDISP
+  dex
+  bpl @Loop
+  lda #$80
+  sta INIDISP
+  stz NMITIMEN
+  plp
+  sei
+  rtl
 
 L_ECA4C:
   PHP                                             ; 0ECA4C 08 
@@ -2828,9 +2831,9 @@ L_ECBAF:
   STA.W NMITIMEN                                  ; 0ECBF3 8D 00 42 
   LDX.B #$0F                                      ; 0ECBF6 A2 0F 
 B_ECBF8:
-  JSL L_ECA13                                     ; 0ECBF8 22 13 CA 0E 
-  JSL L_ECA13                                     ; 0ECBFC 22 13 CA 0E 
-  JSL L_ECA13                                     ; 0ECC00 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECBF8 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECBFC 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC00 22 13 CA 0E 
   TXA                                             ; 0ECC04 8A 
   EOR.B #$0F                                      ; 0ECC05 49 0F 
   STA.W INIDISP                                   ; 0ECC07 8D 00 21 
@@ -2838,8 +2841,8 @@ B_ECBF8:
   BPL.B B_ECBF8                                   ; 0ECC0B 10 EB 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECC0D C2 30 
 B_ECC0F:
-  JSL L_ECA13                                     ; 0ECC0F 22 13 CA 0E 
-  JSL L_ECA13                                     ; 0ECC13 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC0F 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC13 22 13 CA 0E 
   JSL L_ECAFA                                     ; 0ECC17 22 FA CA 0E 
   LDA.W $0262                                     ; 0ECC1B AD 62 02 
   CMP.W #$001F                                    ; 0ECC1E C9 1F 00 
@@ -2855,9 +2858,9 @@ B_ECC2F:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECC36 E2 30 
   LDX.B #$0F                                      ; 0ECC38 A2 0F 
 B_ECC3A:
-  JSL L_ECA13                                     ; 0ECC3A 22 13 CA 0E 
-  JSL L_ECA13                                     ; 0ECC3E 22 13 CA 0E 
-  JSL L_ECA13                                     ; 0ECC42 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC3A 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC3E 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC42 22 13 CA 0E 
   STX.W INIDISP                                   ; 0ECC46 8E 00 21 
   DEX                                             ; 0ECC49 CA 
   BPL.B B_ECC3A                                   ; 0ECC4A 10 EE 
@@ -2883,9 +2886,9 @@ B_ECC3A:
   STA.W NMITIMEN                                  ; 0ECC80 8D 00 42 
   LDX.B #$0F                                      ; 0ECC83 A2 0F 
 B_ECC85:
-  JSL L_ECA13                                     ; 0ECC85 22 13 CA 0E 
-  JSL L_ECA13                                     ; 0ECC89 22 13 CA 0E 
-  JSL L_ECA13                                     ; 0ECC8D 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC85 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC89 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECC8D 22 13 CA 0E 
   TXA                                             ; 0ECC91 8A 
   EOR.B #$0F                                      ; 0ECC92 49 0F 
   STA.W INIDISP                                   ; 0ECC94 8D 00 21 
@@ -2903,8 +2906,8 @@ B_ECC85:
   LDX.W #$000F                                    ; 0ECCB5 A2 0F 00 
   STX.B $06                                       ; 0ECCB8 86 06 
 B_ECCBA:
-  JSL L_ECA13                                     ; 0ECCBA 22 13 CA 0E 
-  JSL L_ECA13                                     ; 0ECCBE 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECCBA 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECCBE 22 13 CA 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECCC2 E2 30 
   LDX.B $06                                       ; 0ECCC4 A6 06 
   BMI.B B_ECCCC                                   ; 0ECCC6 30 04 
@@ -3004,11 +3007,11 @@ B_ECD7C:
   LDA.B #$81                                      ; 0ECD9E A9 81 
   STA.W NMITIMEN                                  ; 0ECDA0 8D 00 42 
   REP.B #P_Acc8Bit                                      ; 0ECDA3 C2 20 
-  JSL L_ECA1E                                     ; 0ECDA5 22 1E CA 0E 
+  JSL FadeScreenIn                                     ; 0ECDA5 22 1E CA 0E 
   INC.B $06                                       ; 0ECDA9 E6 06 
   LDX.W #$00B4                                    ; 0ECDAB A2 B4 00 
 B_ECDAE:
-  JSL L_ECA13                                     ; 0ECDAE 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ECDAE 22 13 CA 0E 
   PHX                                             ; 0ECDB2 DA 
   JSL L_ECA6A                                     ; 0ECDB3 22 6A CA 0E 
   LDA.W $02F0                                     ; 0ECDB7 AD F0 02 
@@ -3021,7 +3024,7 @@ B_ECDC1:
   PLX                                             ; 0ECDC1 FA 
   DEX                                             ; 0ECDC2 CA 
   BPL.B B_ECDAE                                   ; 0ECDC3 10 E9 
-  JSL L_ECA32                                     ; 0ECDC5 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 0ECDC5 22 32 CA 0E 
   PLP                                             ; 0ECDC9 28 
   RTL                                             ; 0ECDCA 6B 
   JSL L_EDC58                                     ; 0ECDCB 22 58 DC 0E 
@@ -3448,7 +3451,7 @@ D_ED351:
 L_ED363:
   PHP                                             ; 0ED363 08 
   SEP.B #P_Acc8Bit                                      ; 0ED364 E2 20 
-  JSL L_ECA13                                     ; 0ED366 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ED366 22 13 CA 0E 
   LDX.W #$5940                                    ; 0ED36A A2 40 59 
   STX.W VMADDL                                    ; 0ED36D 8E 16 21 
   LDA.B #$80                                      ; 0ED370 A9 80 
@@ -3625,7 +3628,7 @@ L_ED4C0:
   LDA.W #$0028                                    ; 0ED4F6 A9 28 00 
   STA.W $052A                                     ; 0ED4F9 8D 2A 05 
 B_ED4FC:
-  JSL L_ECA13                                     ; 0ED4FC 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ED4FC 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0ED500 22 6A CA 0E 
   LDA.W $0280                                     ; 0ED504 AD 80 02 
   ASL                                             ; 0ED507 0A 
@@ -3691,7 +3694,7 @@ B_ED599:
   STA.W $0284,X                                   ; 0ED59D 9D 84 02 
   DEX                                             ; 0ED5A0 CA 
   BPL.B B_ED599                                   ; 0ED5A1 10 F6 
-  JSL L_ECA13                                     ; 0ED5A3 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ED5A3 22 13 CA 0E 
   LDA.B #$84                                      ; 0ED5A7 A9 84 
   STA.W A1T7L                                     ; 0ED5A9 8D 72 43 
   LDA.B #$02                                      ; 0ED5AC A9 02 
@@ -3711,7 +3714,7 @@ B_ED599:
   STA.W $05D8                                     ; 0ED5CF 8D D8 05 
   LDX.B #$72                                      ; 0ED5D2 A2 72 
 B_ED5D4:
-  JSL L_ECA13                                     ; 0ED5D4 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ED5D4 22 13 CA 0E 
   INC.W $0284                                     ; 0ED5D8 EE 84 02 
   DEC.W $0289                                     ; 0ED5DB CE 89 02 
   DEC.W $028E                                     ; 0ED5DE CE 8E 02 
@@ -3774,7 +3777,7 @@ B_ED661:
   BPL.B B_ED661                                   ; 0ED66B 10 F4 
   JSR.W L_ED363                                   ; 0ED66D 20 63 D3 
 B_ED670:
-  JSL L_ECA13                                     ; 0ED670 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ED670 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0ED674 22 6A CA 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED678 E2 30 
   LDA.B #$00                                      ; 0ED67A A9 00 
@@ -3917,12 +3920,12 @@ L_ED75E:
   LDA.B #$81                                      ; 0ED7B5 A9 81 
   STA.W NMITIMEN                                  ; 0ED7B7 8D 00 42 
   REP.B #P_Acc8Bit                                      ; 0ED7BA C2 20 
-  JSL L_ECA1E                                     ; 0ED7BC 22 1E CA 0E 
+  JSL FadeScreenIn                                     ; 0ED7BC 22 1E CA 0E 
   STZ.W $026C                                     ; 0ED7C0 9C 6C 02 
   STZ.W $026A                                     ; 0ED7C3 9C 6A 02 
   STZ.W $026E                                     ; 0ED7C6 9C 6E 02 
 D_ED7C9:
-  JSL L_ECA13                                     ; 0ED7C9 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ED7C9 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0ED7CD 22 6A CA 0E 
   JSR.W L_ED6A8                                   ; 0ED7D1 20 A8 D6 
   BCC.B B_ED7FF                                   ; 0ED7D4 90 29 
@@ -3948,7 +3951,7 @@ B_ED7FF:
 B_ED81C:
   DEC.W $0254                                     ; 0ED81C CE 54 02 
   DEC.W $0254                                     ; 0ED81F CE 54 02 
-  JSL L_ECA13                                     ; 0ED822 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ED822 22 13 CA 0E 
   DEX                                             ; 0ED826 CA 
   BNE.B B_ED81C                                   ; 0ED827 D0 F3 
   DEC.W $0254                                     ; 0ED829 CE 54 02 
@@ -3968,7 +3971,7 @@ B_ED831:
 B_ED84E:
   INC.W $0254                                     ; 0ED84E EE 54 02 
   INC.W $0254                                     ; 0ED851 EE 54 02 
-  JSL L_ECA13                                     ; 0ED854 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0ED854 22 13 CA 0E 
   DEX                                             ; 0ED858 CA 
   BNE.B B_ED84E                                   ; 0ED859 D0 F3 
   INC.W $0254                                     ; 0ED85B EE 54 02 
@@ -4005,7 +4008,7 @@ B_ED8A0:
   LDX.W #$001E                                    ; 0ED8A7 A2 1E 00 
   JSL L_EC972                                     ; 0ED8AA 22 72 C9 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED8AE E2 30 
-  JSL L_ECA32                                     ; 0ED8B0 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 0ED8B0 22 32 CA 0E 
   LDA.B $12                                       ; 0ED8B4 A5 12 
   BNE.B B_ED8DA                                   ; 0ED8B6 D0 22 
   REP.B #P_Acc8Bit                                      ; 0ED8B8 C2 20 
@@ -4714,9 +4717,9 @@ B_EE3A5:
   STA.W NMITIMEN                                  ; 0EE3B2 8D 00 42 
   REP.B #P_Acc8Bit                                      ; 0EE3B5 C2 20 
   STZ.W $1BF1                                     ; 0EE3B7 9C F1 1B 
-  JSL L_ECA1E                                     ; 0EE3BA 22 1E CA 0E 
+  JSL FadeScreenIn                                     ; 0EE3BA 22 1E CA 0E 
 B_EE3BE:
-  JSL L_ECA13                                     ; 0EE3BE 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EE3BE 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0EE3C2 22 6A CA 0E 
   LDA.W $0258                                     ; 0EE3C6 AD 58 02 
   BEQ.B B_EE3DC                                   ; 0EE3C9 F0 11 
@@ -4729,7 +4732,7 @@ B_EE3BE:
 
 B_EE3DC:
   JSL L_D9000                                     ; 0EE3DC 22 00 90 0D 
-  JSL L_ECA32                                     ; 0EE3E0 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 0EE3E0 22 32 CA 0E 
   PLP                                             ; 0EE3E4 28 
   RTL                                             ; 0EE3E5 6B 
 
@@ -4867,9 +4870,9 @@ B_EE493:
   LDA.B #$81                                      ; 0EE525 A9 81 
   STA.W NMITIMEN                                  ; 0EE527 8D 00 42 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE52A C2 30 
-  JSL L_ECA1E                                     ; 0EE52C 22 1E CA 0E 
+  JSL FadeScreenIn                                     ; 0EE52C 22 1E CA 0E 
 B_EE530:
-  JSL L_ECA13                                     ; 0EE530 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EE530 22 13 CA 0E 
   JSR.W L_EE5F6                                   ; 0EE534 20 F6 E5 
   JSL L_ECA6A                                     ; 0EE537 22 6A CA 0E 
   LDX.W #$0000                                    ; 0EE53B A2 00 00 
@@ -4899,7 +4902,7 @@ B_EE568:
   STA.W $0314                                     ; 0EE576 8D 14 03 
   LDX.W #$001E                                    ; 0EE579 A2 1E 00 
   JSL L_EC972                                     ; 0EE57C 22 72 C9 0E 
-  JSL L_ECA32                                     ; 0EE580 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 0EE580 22 32 CA 0E 
   SEP.B #P_Acc8Bit                                      ; 0EE584 E2 20 
   STZ.W $02CB                                     ; 0EE586 9C CB 02 
   PLP                                             ; 0EE589 28 
@@ -5206,9 +5209,9 @@ L_EE7C8:
   LDA.B #$81                                      ; 0EE7F4 A9 81 
   STA.W NMITIMEN                                  ; 0EE7F6 8D 00 42 
   REP.B #P_Acc8Bit                                      ; 0EE7F9 C2 20 
-  JSL L_ECA1E                                     ; 0EE7FB 22 1E CA 0E 
+  JSL FadeScreenIn                                     ; 0EE7FB 22 1E CA 0E 
   JSR.W L_EE83A                                   ; 0EE7FF 20 3A E8 
-  JSL L_ECA32                                     ; 0EE802 22 32 CA 0E 
+  JSL FadeScreenOut                                     ; 0EE802 22 32 CA 0E 
   PLP                                             ; 0EE806 28 
   RTL                                             ; 0EE807 6B 
 
@@ -5234,7 +5237,7 @@ L_EE808:
 
 
 L_EE83A:
-  JSL L_ECA13                                     ; 0EE83A 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 0EE83A 22 13 CA 0E 
   JSL L_ECA6A                                     ; 0EE83E 22 6A CA 0E 
   LDA.W $02F0                                     ; 0EE842 AD F0 02 
   ORA.W $02F2                                     ; 0EE845 0D F2 02 

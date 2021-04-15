@@ -5033,7 +5033,7 @@ B_3BD30:
   SEP.B #P_Idx8Bit                                      ; 03BD3E E2 10 
   PLX                                             ; 03BD40 FA 
   INC.W $05B0                                     ; 03BD41 EE B0 05 
-  JSL L_ECA13                                     ; 03BD44 22 13 CA 0E 
+  JSL Wait1Frame                                     ; 03BD44 22 13 CA 0E 
   LDX.W $05B0                                     ; 03BD48 AE B0 05 
   LDA.W D_3BD71-1,X                                 ; 03BD4B BD 70 BD 
   LDY.B #$0F                                      ; 03BD4E A0 0F 
