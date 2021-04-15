@@ -2716,11 +2716,11 @@ L_ECAAD:
   INY                                             ; 0ECACC C8 
   INY                                             ; 0ECACD C8 
   LDA.B ($04),Y                                   ; 0ECACE B1 04 
-  STA.B $CB                                       ; 0ECAD0 85 CB 
+  STA.B IRQHandlerLo                                       ; 0ECAD0 85 CB 
   INY                                             ; 0ECAD2 C8 
   INY                                             ; 0ECAD3 C8 
   LDA.B ($04),Y                                   ; 0ECAD4 B1 04 
-  STA.B $CD                                       ; 0ECAD6 85 CD 
+  STA.B IRQHandlerBank                                       ; 0ECAD6 85 CD 
   PLB                                             ; 0ECAD8 AB 
   PLP                                             ; 0ECAD9 28 
   RTL                                             ; 0ECADA 6B 
