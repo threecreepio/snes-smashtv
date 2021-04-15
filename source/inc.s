@@ -2,7 +2,7 @@
 CurrentRound = $5AB
 CurrentRoom = $5AC
 
-ActiveEntities = $0744
+EntityId = $0744
 
 
 XexzyItemLocationMaybe = $27
@@ -34,7 +34,7 @@ RNG0 = $5A8
 RNG1 = $5A9
 XexzyDropCountDownTimer = $5AE
 XexzyMutoidHealth = $69A
-XexzyFlyingDrop = $6D4
+EntityActiveFlag = $6D4
 XexzyCharX = $B46
 XexzyWalkAnimation = $1886
 XexzyAmmoCounter = $189D

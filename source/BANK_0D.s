@@ -4055,7 +4055,7 @@ B_DEEA5:
   LDA.B #$01                                      ; 0DEEA9 A9 01 
   STA.W $06D2,X                                   ; 0DEEAB 9D D2 06 
   LDA.B #$6E                                      ; 0DEEAE A9 6E 
-  STA.W ActiveEntities,X                                   ; 0DEEB0 9D 44 07 
+  STA.W EntityId,X                                   ; 0DEEB0 9D 44 07 
   LDA.B #$00                                      ; 0DEEB3 A9 00 
   STA.W $0828,X                                   ; 0DEEB5 9D 28 08 
   JSL AdvanceRNG                                     ; 0DEEB8 22 95 CA 0E 
@@ -4116,7 +4116,7 @@ B_DEF28:
   LDA.B #$01                                      ; 0DEF2C A9 01 
   STA.W $06D2,X                                   ; 0DEF2E 9D D2 06 
   LDA.B #$1C                                      ; 0DEF31 A9 1C 
-  STA.W ActiveEntities,X                                   ; 0DEF33 9D 44 07 
+  STA.W EntityId,X                                   ; 0DEF33 9D 44 07 
   LDA.B #$00                                      ; 0DEF36 A9 00 
   STA.W $0828,X                                   ; 0DEF38 9D 28 08 
   LDA.B #$24                                      ; 0DEF3B A9 24 
