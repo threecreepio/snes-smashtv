@@ -2249,33 +2249,54 @@ D_EBE78:
 .byte $40                                         ; 0EC619 .        @
 
 
-L_EC619:
-  PHP                                             ; 0EC619 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC61A E2 30 
-  LDX.W CurrentRound                                     ; 0EC61C AE AB 05 
-  BEQ.B B_EC648                                   ; 0EC61F F0 27 
+; -
+; Checks the round + room indexes to figure out if we're entering
+; a boss fight, and runs the startup code for that room.
+CheckForEncounterRoom:
+  php
+  sep #P_Idx8Bit | P_Acc8Bit
+  ldx CurrentRound
+  beq @Round0
+  dex
+  beq @Round1
+  lda CurrentRoom
+  ; if we are in room #7 in round #3, encounter the cobras
+  cmp #$07
+  beq @Round2_Cobras
+  ; if we are in room #21 in round #3, encounter the evil mc
+  cmp #$15
+  bne @NoEncounterFound
+  jsr StartEncounterEvilMC
+  jmp @EncounterStarted
+@Round2_Cobras:
+  jsr StartEncounterCobras
+  jmp @EncounterStarted
+@Round1:
+  ; if we are in room #7 in round #2, encounter scarface
+  lda CurrentRoom
+  cmp #$07
+  bne @NoEncounterFound
+  jsr StartEncounterScarface
+  jmp @EncounterStarted
+@Round0:
+  ; if we are in room #10 in round #1, encounter mutoid man
+  lda CurrentRoom
+  cmp #$0A
+  bne @NoEncounterFound
+  jsr StartEncounterMutoidMan
+  jmp @EncounterStarted
+@NoEncounterFound:
+  ; clc to return that we have not started an encounter
+  plp
+  clc
+  rtl
+@EncounterStarted:
+  ; sec to return that we have started an encounter
+  plp
+  sec
+  rtl
 
-.byte $CA,$F0,$17,$AD,$AC,$05,$C9,$07             ; 0EC621 ........ ????????
-.byte $F0,$0A,$C9,$15,$D0,$26,$20,$5B             ; 0EC629 ........ ?????& [
-.byte $C6,$4C,$58,$C6,$20,$CD,$C6,$4C             ; 0EC631 ........ ?LX? ??L
-.byte $58,$C6,$AD,$AC,$05,$C9,$07,$D0             ; 0EC639 ........ X???????
-.byte $13,$20,$D6,$C6,$4C,$58,$C6                 ; 0EC642 .......  ? ??LX?
-
-B_EC648:
-  LDA.W CurrentRoom                                     ; 0EC648 AD AC 05 
-  CMP.B #$0A                                      ; 0EC64B C9 0A 
-  BNE.B B_EC655                                   ; 0EC64D D0 06 
-  JSR.W L_EC6F5                                   ; 0EC64F 20 F5 C6 
-  JMP.W D_EC658                                   ; 0EC652 4C 58 C6 
-B_EC655:
-  PLP                                             ; 0EC655 28 
-  CLC                                             ; 0EC656 18 
-  RTL                                             ; 0EC657 6B 
-D_EC658:
-  PLP                                             ; 0EC658 28 
-  SEC                                             ; 0EC659 38 
-  RTL                                             ; 0EC65A 6B 
-
+StartEncounterEvilMC:
 .byte $08,$E2,$20,$A9,$01,$8D,$9E,$06             ; 0EC65B ........ ?? ?????
 .byte $A9,$80,$8D,$AF,$05,$20,$55,$C8             ; 0EC663 ........ ????? U?
 .byte $20,$45,$C9,$C2,$20,$A9,$18,$80             ; 0EC66B ........  E?? ???
@@ -2287,18 +2308,26 @@ D_EC658:
 .byte $13,$CA,$0E,$A9,$00,$8D,$89,$06             ; 0EC69B ........ ????????
 .byte $A9,$08,$8D,$8A,$06,$A9,$01,$8D             ; 0EC6A3 ........ ????????
 .byte $88,$06,$9C,$CD,$06,$9C,$CE,$06             ; 0EC6AB ........ ????????
-.byte $A9,$00,$8D,$D0,$06,$A9,$FF,$8D             ; 0EC6B3 ........ ????????
+.byte $A9,$00,$8D
+
+.byte $D0,$06,$A9,$FF,$8D             ; 0EC6B3 ........ ????????
 .byte $D1,$06,$22,$13,$CA,$0E,$A9,$4A             ; 0EC6BB ........ ??"????J
 .byte $8D,$07,$21,$A9,$17,$8D,$2C,$21             ; 0EC6C3 ........ ??!???,!
-.byte $28,$60,$20,$45,$C9,$A9,$80,$8D             ; 0EC6CB ........ (` E????
-.byte $AF,$05,$60,$A9,$80,$8D,$AF,$05             ; 0EC6D3 ........ ??`?????
+.byte $28,$60
+
+StartEncounterCobras:
+.byte $20,$45,$C9,$A9,$80,$8D             ; 0EC6CB ........ (` E????
+.byte $AF,$05,$60
+
+StartEncounterScarface:
+.byte $A9,$80,$8D,$AF,$05             ; 0EC6D3 ........ ??`?????
 .byte $22,$7A,$F5,$0E,$20,$45,$C9,$C2             ; 0EC6DB ........ "z?? E??
 .byte $20,$A9,$18,$80,$22,$01,$84,$0F             ; 0EC6E3 ........  ???"???
 .byte $A9,$2B,$82,$22,$01,$84,$0F,$E2             ; 0EC6EB ........ ?+?"????
 .byte $20,$60                                     ; 0EC6F4 ..        `
 
 
-L_EC6F5:
+StartEncounterMutoidMan:
   PHP                                             ; 0EC6F5 08 
   SEP.B #P_Acc8Bit                                      ; 0EC6F6 E2 20 
   STZ.W $069E                                     ; 0EC6F8 9C 9E 06 

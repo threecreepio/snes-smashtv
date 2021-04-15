@@ -1178,7 +1178,7 @@ B_8AC4:
   JSL Wait1Frame                                     ; 008AF0 22 13 CA 0E 
   JSR.W L_8833                                    ; 008AF4 20 33 88 
   JSL Wait1Frame                                     ; 008AF7 22 13 CA 0E 
-  JSL L_EC619                                     ; 008AFB 22 19 C6 0E 
+  JSL CheckForEncounterRoom                                     ; 008AFB 22 19 C6 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008AFF E2 30 
   LDX.W CurrentRound                                     ; 008B01 AE AB 05 
   BEQ.B B_8B1B                                    ; 008B04 F0 15 
