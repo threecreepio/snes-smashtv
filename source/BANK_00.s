@@ -272,7 +272,6 @@ V_IRQ:
   lda #0
   pha
   plb
-  ; reset nmi
   lda TIMEUP
   rep #P_Acc8Bit
   ; run the configured irq handler for the game mode

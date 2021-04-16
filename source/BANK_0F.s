@@ -159,7 +159,7 @@ B_F8224:
 
 L_F82AD:
   PHP                                             ; 0F82AD 08 
-  STA.B TEST                                      ; 0F82AE 85 F0 
+  STA.B $F0                                      ; 0F82AE 85 F0 
   STY.B $EE                                       ; 0F82B0 84 EE 
 B_F82B2:
   LDA.W APUIO0                                    ; 0F82B2 AD 40 21 
@@ -265,21 +265,21 @@ L_F836D:
   REP.B #P_Idx8Bit                                      ; 0F836E C2 10 
   TAX                                             ; 0F8370 AA 
   LDA.L D_1FFFD,X                                 ; 0F8371 BF FD FF 01 
-  STA.B CONTROL                                   ; 0F8375 85 F1 
+  STA.B $F1                                   ; 0F8375 85 F1 
   LDA.L D_1FFFE,X                                 ; 0F8377 BF FE FF 01 
-  STA.B DSPADDR                                   ; 0F837B 85 F2 
+  STA.B $F2                                   ; 0F837B 85 F2 
   LDY.W #$0000                                    ; 0F837D A0 00 00 
-  LDA.B [CONTROL],Y                               ; 0F8380 B7 F1 
+  LDA.B [$F1],Y                               ; 0F8380 B7 F1 
   STA.B $EE                                       ; 0F8382 85 EE 
   INY                                             ; 0F8384 C8 
-  LDA.B [CONTROL],Y                               ; 0F8385 B7 F1 
+  LDA.B [$F1],Y                               ; 0F8385 B7 F1 
   STA.B $EF                                       ; 0F8387 85 EF 
   DEY                                             ; 0F8389 88 
   LDA.B [$EE],Y                                   ; 0F838A B7 EE 
   DEC A
   DEC A
   TAX                                             ; 0F838E AA 
-  STA.B CPUIO4                                    ; 0F838F 85 F7 
+  STA.B $F7                                    ; 0F838F 85 F7 
   SEP.B #P_Acc8Bit                                      ; 0F8391 E2 20 
   LDA.B #$01                                      ; 0F8393 A9 01 
   JSL L_F830F                                     ; 0F8395 22 0F 83 0F 
@@ -291,7 +291,7 @@ L_F836D:
 B_F83A2:
   INY                                             ; 0F83A2 C8 
   INY                                             ; 0F83A3 C8 
-  LDA.B CPUIO4                                    ; 0F83A4 A5 F7 
+  LDA.B $F7                                    ; 0F83A4 A5 F7 
   BEQ.B B_F83CF                                   ; 0F83A6 F0 27 
   LDA.B [$EE],Y                                   ; 0F83A8 B7 EE 
   BMI.B B_F83DB                                   ; 0F83AA 30 2F 
@@ -299,18 +299,18 @@ B_F83A2:
   INY                                             ; 0F83AF C8 
   INY                                             ; 0F83B0 C8 
   LDA.B [$EE],Y                                   ; 0F83B1 B7 EE 
-  STA.B CPUIO1                                    ; 0F83B3 85 F4 
+  STA.B $F4                                    ; 0F83B3 85 F4 
   INY                                             ; 0F83B5 C8 
   LDA.B [$EE],Y                                   ; 0F83B6 B7 EE 
-  STA.B CPUIO2                                    ; 0F83B8 85 F5 
+  STA.B $F5                                    ; 0F83B8 85 F5 
   PHY                                             ; 0F83BA 5A 
   LDY.W #$0000                                    ; 0F83BB A0 00 00 
   SEP.B #P_Acc8Bit                                      ; 0F83BE E2 20 
 B_F83C0:
-  LDA.B [CPUIO1],Y                                ; 0F83C0 B7 F4 
+  LDA.B [$F4],Y                                ; 0F83C0 B7 F4 
   JSR.W L_F832C                                   ; 0F83C2 20 2C 83 
   INY                                             ; 0F83C5 C8 
-  CPY.B T0OUT                                     ; 0F83C6 C4 FD 
+  CPY.B $FD                                     ; 0F83C6 C4 FD 
   BNE.B B_F83C0                                   ; 0F83C8 D0 F6 
   REP.B #P_Acc8Bit                                      ; 0F83CA C2 20 
   PLY                                             ; 0F83CC 7A 
@@ -320,11 +320,11 @@ B_F83CF:
   RTL                                             ; 0F83D0 6B 
 
 L_F83D1:
-  STA.B T0OUT                                     ; 0F83D1 85 FD 
-  LDA.B CPUIO4                                    ; 0F83D3 A5 F7 
+  STA.B $FD                                     ; 0F83D1 85 FD 
+  LDA.B $F7                                    ; 0F83D3 A5 F7 
   SEC                                             ; 0F83D5 38 
-  SBC.B T0OUT                                     ; 0F83D6 E5 FD 
-  STA.B CPUIO4                                    ; 0F83D8 85 F7 
+  SBC.B $FD                                     ; 0F83D6 E5 FD 
+  STA.B $F7                                    ; 0F83D8 85 F7 
   RTS                                             ; 0F83DA 60 
 
 B_F83DB:
@@ -335,9 +335,9 @@ B_F83DB:
   INY                                             ; 0F83E3 C8 
   INY                                             ; 0F83E4 C8 
   LDA.B [$EE],Y                                   ; 0F83E5 B7 EE 
-  STA.B T0OUT                                     ; 0F83E7 85 FD 
+  STA.B $FD                                     ; 0F83E7 85 FD 
 B_F83E9:
-  LDA.B T0OUT                                     ; 0F83E9 A5 FD 
+  LDA.B $FD                                     ; 0F83E9 A5 FD 
   JSR.W L_F83F3                                   ; 0F83EB 20 F3 83 
   DEX                                             ; 0F83EE CA 
   BNE.B B_F83E9                                   ; 0F83EF D0 F8 
@@ -360,13 +360,13 @@ L_F8401:
   BEQ.B B_F847F                                   ; 0F8405 F0 78 
   REP.B #P_Idx8Bit                                      ; 0F8407 C2 10 
   SEP.B #P_Acc8Bit                                      ; 0F8409 E2 20 
-  STA.B T0OUT                                     ; 0F840B 85 FD 
+  STA.B $FD                                     ; 0F840B 85 FD 
   LDY.W #$0003                                    ; 0F840D A0 03 00 
 D_F8410:
-  LDA.B [CONTROL],Y                               ; 0F8410 B7 F1 
+  LDA.B [$F1],Y                               ; 0F8410 B7 F1 
   CMP.B #$FF                                      ; 0F8412 C9 FF 
   BEQ.B B_F847F                                   ; 0F8414 F0 69 
-  CMP.B T0OUT                                     ; 0F8416 C5 FD 
+  CMP.B $FD                                     ; 0F8416 C5 FD 
   BEQ.B B_F8421                                   ; 0F8418 F0 07 
   INY                                             ; 0F841A C8 
   INY                                             ; 0F841B C8 
@@ -376,52 +376,52 @@ D_F8410:
 B_F8421:
   INY                                             ; 0F8421 C8 
   REP.B #P_Acc8Bit                                      ; 0F8422 C2 20 
-  LDA.B [CONTROL],Y                               ; 0F8424 B7 F1 
+  LDA.B [$F1],Y                               ; 0F8424 B7 F1 
   STA.B $EE                                       ; 0F8426 85 EE 
   INY                                             ; 0F8428 C8 
-  LDA.B [CONTROL],Y                               ; 0F8429 B7 F1 
+  LDA.B [$F1],Y                               ; 0F8429 B7 F1 
   STA.B $EF                                       ; 0F842B 85 EF 
   LDY.W #$0000                                    ; 0F842D A0 00 00 
   LDA.B [$EE],Y                                   ; 0F8430 B7 EE 
   DEC A
   DEC A
-  STA.B CPUIO4                                    ; 0F8434 85 F7 
+  STA.B $F7                                    ; 0F8434 85 F7 
   INY                                             ; 0F8436 C8 
   INY                                             ; 0F8437 C8 
   LDA.B [$EE],Y                                   ; 0F8438 B7 EE 
-  STA.B T1TARGET                                  ; 0F843A 85 FB 
+  STA.B $FB                                  ; 0F843A 85 FB 
 B_F843C:
   INY                                             ; 0F843C C8 
   INY                                             ; 0F843D C8 
-  LDA.B CPUIO4                                    ; 0F843E A5 F7 
+  LDA.B $F7                                    ; 0F843E A5 F7 
   BEQ.B B_F847F                                   ; 0F8440 F0 3D 
   LDA.B [$EE],Y                                   ; 0F8442 B7 EE 
   BMI.B B_F8481                                   ; 0F8444 30 3B 
-  STA.B RAMREG2                                   ; 0F8446 85 F9 
+  STA.B $F9                                   ; 0F8446 85 F9 
   JSR.W L_F83D1                                   ; 0F8448 20 D1 83 
   INY                                             ; 0F844B C8 
   INY                                             ; 0F844C C8 
   LDA.B [$EE],Y                                   ; 0F844D B7 EE 
-  STA.B CPUIO1                                    ; 0F844F 85 F4 
+  STA.B $F4                                    ; 0F844F 85 F4 
   INY                                             ; 0F8451 C8 
   LDA.B [$EE],Y                                   ; 0F8452 B7 EE 
-  STA.B CPUIO2                                    ; 0F8454 85 F5 
+  STA.B $F5                                    ; 0F8454 85 F5 
   PHY                                             ; 0F8456 5A 
   LDY.W #$0000                                    ; 0F8457 A0 00 00 
   SEP.B #P_Acc8Bit                                      ; 0F845A E2 20 
   LDA.B #$10                                      ; 0F845C A9 10 
-  LDX.B T0OUT                                     ; 0F845E A6 FD 
+  LDX.B $FD                                     ; 0F845E A6 FD 
   JSL L_F830F                                     ; 0F8460 22 0F 83 0F 
-  LDA.B T1TARGET                                  ; 0F8464 A5 FB 
+  LDA.B $FB                                  ; 0F8464 A5 FB 
   JSR.W L_F832C                                   ; 0F8466 20 2C 83 
-  LDA.B T2TARGET                                  ; 0F8469 A5 FC 
+  LDA.B $FC                                  ; 0F8469 A5 FC 
   JSR.W L_F832C                                   ; 0F846B 20 2C 83 
 B_F846E:
-  LDA.B [CPUIO1],Y                                ; 0F846E B7 F4 
+  LDA.B [$F4],Y                                ; 0F846E B7 F4 
   JSR.W L_F832C                                   ; 0F8470 20 2C 83 
-  INC.B T1TARGET                                  ; 0F8473 E6 FB 
+  INC.B $FB                                  ; 0F8473 E6 FB 
   INY                                             ; 0F8475 C8 
-  CPY.B RAMREG2                                   ; 0F8476 C4 F9 
+  CPY.B $F9                                   ; 0F8476 C4 F9 
   BNE.B B_F846E                                   ; 0F8478 D0 F4 
   REP.B #P_Acc8Bit                                      ; 0F847A C2 20 
   PLY                                             ; 0F847C 7A 
