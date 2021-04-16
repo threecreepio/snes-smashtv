@@ -558,8 +558,8 @@ L_D9091:
   PHP                                             ; 0D9091 08 
   PHB                                             ; 0D9092 8B 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0D9093 C2 30 
-  LDA.W $02E8                                     ; 0D9095 AD E8 02 
-  ORA.W $02EA                                     ; 0D9098 0D EA 02 
+  LDA.W JoyDirect                                     ; 0D9095 AD E8 02 
+  ORA.W JoyDirect+2                                     ; 0D9098 0D EA 02 
   BNE.B B_D90CA                                   ; 0D909B D0 2D 
   PEA.W $0D0D                                     ; 0D909D F4 0D 0D 
   PLB                                             ; 0D90A0 AB 
@@ -570,7 +570,7 @@ L_D9091:
   LDX.W #$0002                                    ; 0D90AB A2 02 00 
   LDA.W #$8800                                    ; 0D90AE A9 00 88 
   JSR.W L_D90EB                                   ; 0D90B1 20 EB 90 
-  LDA.W $02E8                                     ; 0D90B4 AD E8 02 
+  LDA.W JoyDirect                                     ; 0D90B4 AD E8 02 
   CMP.W #$2000                                    ; 0D90B7 C9 00 20 
   BEQ.B B_D90BF                                   ; 0D90BA F0 03 
   PLB                                             ; 0D90BC AB 
@@ -585,7 +585,7 @@ B_D90CA:
   JSR.W L_D90D5                                   ; 0D90CA 20 D5 90 
   LDA.W #$01FF                                    ; 0D90CD A9 FF 01 
   TCS                                             ; 0D90D0 1B 
-  JMP.L D_8135                                    ; 0D90D1 5C 35 81 00 
+  JMP.L ReturnToTitleMenu                                    ; 0D90D1 5C 35 81 00 
 
 L_D90D5:
   STZ.W $1BF1                                     ; 0D90D5 9C F1 1B 
@@ -614,7 +614,7 @@ B_D9103:
 B_D910C:
   INC.W $1BF7,X                                   ; 0D910C FE F7 1B 
   LDA.W $1BF3,X                                   ; 0D910F BD F3 1B 
-  STA.W $02E8,X                                   ; 0D9112 9D E8 02 
+  STA.W JoyDirect,X                                   ; 0D9112 9D E8 02 
   RTS                                             ; 0D9115 60 
 
 
@@ -3358,7 +3358,7 @@ L_D911C:
 .byte $AA,$8F,$EB,$C0,$AB                         ; 0DE64C DDDDD    ?????
 
 
-L_DE650:
+RunTitleSplashScreen:
   JSR.W L_DE66F                                   ; 0DE650 20 6F E6 
   LDA.B #$00                                      ; 0DE653 A9 00 
   JSL LoadSceneInterruptConfiguration                                     ; 0DE655 22 AD CA 0E 
@@ -3879,10 +3879,10 @@ B_DECFA:
 B_DED4C:
   PHX                                             ; 0DED4C DA 
   JSL Wait1Frame                                     ; 0DED4D 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 0DED51 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 0DED51 22 6A CA 0E 
   PLX                                             ; 0DED55 FA 
-  LDA.W $02F1                                     ; 0DED56 AD F1 02 
-  ORA.W $02F3                                     ; 0DED59 0D F3 02 
+  LDA.W JoyDown+1                                     ; 0DED56 AD F1 02 
+  ORA.W JoyDown+3                                     ; 0DED59 0D F3 02 
   AND.B #$10                                      ; 0DED5C 29 10 
   BNE.B B_DED63                                   ; 0DED5E D0 03 
   DEX                                             ; 0DED60 CA 

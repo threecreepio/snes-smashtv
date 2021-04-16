@@ -44,6 +44,12 @@ EntityV35    = EntityHeader + (MaxEntities * 35) + 4
 EntityV36    = EntityHeader + (MaxEntities * 36) + 4
 
 
+JoyDirect  = $02E8
+JoyDown    = $02F0
+JoyHolding = $02F8
+JoyPressed = $0300
+
+
 IRQHandlerLo   = $00CB
 IRQHandlerHi   = $00CC
 IRQHandlerBank = $00CD

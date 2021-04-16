@@ -75,13 +75,11 @@ D_8081:
   LDA.B #$0D                                      ; 0080A4 A9 0D 
   LDX.W #$1212                                    ; 0080A6 A2 12 12 
   JSL L_F830F                                     ; 0080A9 22 0F 83 0F 
-  JSL L_ECA6A                                     ; 0080AD 22 6A CA 0E 
-  LDA.W $02F0                                     ; 0080B1 AD F0 02 
+  JSL UpdateJoypadState                                     ; 0080AD 22 6A CA 0E 
+  LDA.W JoyDown                                     ; 0080B1 AD F0 02 
   CMP.B #$A0                                      ; 0080B4 C9 A0 
   BNE.B B_80BC                                    ; 0080B6 D0 04 
-
-.byte $22,$C3,$F2,$0E                             ; 0080B9 ....     "???
-
+  JSL RunGameEndingScreen
 B_80BC:
   PEA.W $0000                                     ; 0080BC F4 00 00 
   PLB                                             ; 0080BF AB 
@@ -99,7 +97,7 @@ B_80BC:
   LDA.B #$0F                                      ; 0080DE A9 0F 
   JSL L_F830F                                     ; 0080E0 22 0F 83 0F 
   SEP.B #$10                                      ; 0080E4 E2 10 
-D_80E6:
+GameScreenLoop:
   PEA.W $0000                                     ; 0080E6 F4 00 00 
   PLB                                             ; 0080E9 AB 
   PLB                                             ; 0080EA AB 
@@ -119,18 +117,18 @@ D_80E6:
 B_811F:
   LDA.B #$02                                      ; 00811F A9 02 
   JSL L_F84EC                                     ; 008121 22 EC 84 0F 
-  JSL L_DE650                                     ; 008125 22 50 E6 0D 
-  JSL L_EE7C8                                     ; 008129 22 C8 E7 0E 
+  JSL RunTitleSplashScreen                                     ; 008125 22 50 E6 0D 
+  JSL RunTitleTextCrawlScreen                                     ; 008129 22 C8 E7 0E 
   JSL L_E454                                      ; 00812D 22 54 E4 00 
-  JSL L_EE257                                     ; 008131 22 57 E2 0E 
-D_8135:
+  JSL RunTitleHighscoreScreen                                     ; 008131 22 57 E2 0E 
+ReturnToTitleMenu:
   STZ.W CurrentRound                                     ; 008135 9C AB 05 
   STZ.W CurrentRoom                                     ; 008138 9C AC 05 
   JSL L_E454                                      ; 00813B 22 54 E4 00 
   SEP.B #P_Acc8Bit                                      ; 00813F E2 20 
   STZ.W $02CB                                     ; 008141 9C CB 02 
   STZ.W $052C                                     ; 008144 9C 2C 05 
-  JSL L_ED730                                     ; 008147 22 30 D7 0E 
+  JSL RunTitleMenuScreen                                     ; 008147 22 30 D7 0E 
   LDA.W $020E                                     ; 00814B AD 0E 02 
   BEQ.B B_8159                                    ; 00814E F0 09 
 
@@ -147,10 +145,11 @@ B_8159:
   STX.W CurrentRound                                     ; 008166 8E AB 05 
   LDA.L D_81CD,X                                  ; 008169 BF CD 81 00 
   JSL L_F84EC                                     ; 00816D 22 EC 84 0F 
-  JSR.W L_84D7                                    ; 008171 20 D7 84 
+  JSR.W RunGameScreen                                    ; 008171 20 D7 84 
   LDA.W CurrentRound                                     ; 008174 AD AB 05 
   BMI.B B_81C2                                    ; 008177 30 49 
 
+; probably code to deal with winning the game?
 .byte $9C,$AC,$05,$22,$14,$DE,$0E,$AD             ; 008179 ........ ???"????
 .byte $08,$02,$D0,$18,$22,$7F,$DA,$0E             ; 008181 ........ ????"???
 .byte $22,$E6,$E3,$0E,$22,$57,$E2,$0E             ; 008189 ........ "???"W??
@@ -164,8 +163,8 @@ B_8159:
 
 B_81C2:
   JSL L_EE3E6                                     ; 0081C2 22 E6 E3 0E 
-  JSL L_EE257                                     ; 0081C6 22 57 E2 0E 
-  JMP.W D_80E6                                    ; 0081CA 4C E6 80 
+  JSL RunTitleHighscoreScreen                                     ; 0081C6 22 57 E2 0E 
+  JMP.W GameScreenLoop                                    ; 0081CA 4C E6 80 
 
 D_81CD:
 .byte $01,$03,$04                                 ; 0081CE D..      ???
@@ -543,7 +542,7 @@ L_84CC:
   RTS                                             ; 0084D6 60 
 
 
-L_84D7:
+RunGameScreen:
   PHP                                             ; 0084D7 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0084D8 E2 30 
   JSR.W L_82D9                                    ; 0084DA 20 D9 82 
@@ -555,7 +554,7 @@ L_84D7:
   JSL L_EC972                                     ; 0084EC 22 72 C9 0E 
 B_84F0:
   JSL Wait1Frame                                     ; 0084F0 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 0084F4 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 0084F4 22 6A CA 0E 
   JSR.W L_E5ED                                    ; 0084F8 20 ED E5 
   JSR.W L_99AE                                    ; 0084FB 20 AE 99 
   JSR.W L_BF4E                                    ; 0084FE 20 4E BF 
@@ -574,7 +573,7 @@ B_851E:
   BNE.B B_851E                                    ; 008521 D0 FB 
   INC.W NMIPending                                     ; 008523 EE 2D 05 
   INC.B $D2                                       ; 008526 E6 D2 
-  JSL L_ECA6A                                     ; 008528 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 008528 22 6A CA 0E 
   JSR.W L_B0F9                                    ; 00852C 20 F9 B0 
   LDA.B $D2                                       ; 00852F A5 D2 
   AND.W $052E                                     ; 008531 2D 2E 05 
@@ -623,11 +622,11 @@ B_8589:
   LDA.B #$00                                      ; 008589 A9 00 
   LDX.W $18A3                                     ; 00858B AE A3 18 
   BEQ.B B_8593                                    ; 00858E F0 03 
-  ORA.W $0301                                     ; 008590 0D 01 03 
+  ORA.W JoyPressed+1                                     ; 008590 0D 01 03 
 B_8593:
   LDX.W $18A4                                     ; 008593 AE A4 18 
   BEQ.B B_859B                                    ; 008596 F0 03 
-  ORA.W $0303                                     ; 008598 0D 03 03 
+  ORA.W JoyPressed+3                                     ; 008598 0D 03 03 
 B_859B:
   AND.B #$10                                      ; 00859B 29 10 
   BEQ.B B_85B5                                    ; 00859D F0 16 
@@ -1860,14 +1859,14 @@ B_91C7:
   JSR.W L_828A                                    ; 0091E0 20 8A 82 
   JSR.W L_8BBC                                    ; 0091E3 20 BC 8B 
   JSL Wait1Frame                                     ; 0091E6 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 0091EA 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 0091EA 22 6A CA 0E 
   JSR.W L_E883                                    ; 0091EE 20 83 E8 
   LDX.B #$01                                      ; 0091F1 A2 01 
   JSL L_ACE4                                      ; 0091F3 22 E4 AC 00 
 B_91F7:
   JSR.W L_8F83                                    ; 0091F7 20 83 8F 
   JSL Wait1Frame                                     ; 0091FA 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 0091FE 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 0091FE 22 6A CA 0E 
   JSR.W L_9374                                    ; 009202 20 74 93 
   LDA.W $1BF1                                     ; 009205 AD F1 1B 
   BNE.B B_9211                                    ; 009208 D0 07 
@@ -1895,7 +1894,7 @@ B_9222:
   STZ.W $05DF                                     ; 009238 9C DF 05 
   JSR.W L_8F83                                    ; 00923B 20 83 8F 
   JSL Wait1Frame                                     ; 00923E 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 009242 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 009242 22 6A CA 0E 
   LDA.W CurrentRoom                                     ; 009246 AD AC 05 
   BPL.B B_924E                                    ; 009249 10 03 
 
@@ -1913,7 +1912,7 @@ B_9252:
 B_925D:
   PHX                                             ; 00925D DA 
   JSL Wait1Frame                                     ; 00925E 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 009262 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 009262 22 6A CA 0E 
   JSR.W L_8F83                                    ; 009266 20 83 8F 
   LDA.W CurrentRoom                                     ; 009269 AD AC 05 
   CMP.B #$01                                      ; 00926C C9 01 
@@ -1935,7 +1934,7 @@ B_9284:
   DEX                                             ; 00928A CA 
   BPL.B B_9284                                    ; 00928B 10 F7 
   JSL Wait1Frame                                     ; 00928D 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 009291 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 009291 22 6A CA 0E 
   JSR.W L_9013                                    ; 009295 20 13 90 
   JSR.W L_8F83                                    ; 009298 20 83 8F 
   LDA.W $1BF1                                     ; 00929B AD F1 1B 
@@ -1952,12 +1951,12 @@ B_92A7:
   DEC.W $06D1                                     ; 0092B2 CE D1 06 
 B_92B5:
   JSL Wait1Frame                                     ; 0092B5 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 0092B9 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 0092B9 22 6A CA 0E 
   LDA.W $06D0                                     ; 0092BD AD D0 06 
   CMP.B #$32                                      ; 0092C0 C9 32 
   BCS.B B_92A7                                    ; 0092C2 B0 E3 
   JSL Wait1Frame                                     ; 0092C4 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 0092C8 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 0092C8 22 6A CA 0E 
   LDA.B #$16                                      ; 0092CC A9 16 
   STA.W TM                                        ; 0092CE 8D 2C 21 
   BRA.B B_92D9                                    ; 0092D1 80 06 
@@ -1981,7 +1980,7 @@ B_92D9:
 
 B_92FE:
   JSL Wait1Frame                                     ; 0092FE 22 13 CA 0E 
-  JSL L_ECA6A                                     ; 009302 22 6A CA 0E 
+  JSL UpdateJoypadState                                     ; 009302 22 6A CA 0E 
   LDA.B #$50                                      ; 009306 A9 50 
   STA.W BG2SC                                     ; 009308 8D 08 21 
   LDA.B #$58                                      ; 00930B A9 58 
@@ -2598,7 +2597,7 @@ L_9804:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 009805 E2 30 
   LDA.W $0533                                     ; 009807 AD 33 05 
   BEQ.B B_9854                                    ; 00980A F0 48 
-  LDA.W $0301                                     ; 00980C AD 01 03 
+  LDA.W JoyPressed+1                                     ; 00980C AD 01 03 
   AND.B #$10                                      ; 00980F 29 10 
   BEQ.B B_9830                                    ; 009811 F0 1D 
   LDA.W $18A3                                     ; 009813 AD A3 18 
@@ -2609,7 +2608,7 @@ L_9804:
 .byte $05,$A2,$07,$74,$97,$CA,$10,$FB             ; 009828 ........ ???t????
 
 B_9830:
-  LDA.W $0303                                     ; 009830 AD 03 03 
+  LDA.W JoyPressed+3                                     ; 009830 AD 03 03 
   AND.B #$10                                      ; 009833 29 10 
   BEQ.B B_9854                                    ; 009835 F0 1D 
 
@@ -5275,7 +5274,7 @@ B_B13F:
   STA.W $18BE                                     ; 00B14E 8D BE 18 
   LDA.W EntityYPx                                     ; 00B151 AD 9C 0C 
   STA.W $18BF                                     ; 00B154 8D BF 18 
-  LDA.W $02F1                                     ; 00B157 AD F1 02 
+  LDA.W JoyDown+1                                     ; 00B157 AD F1 02 
   AND.B #$0F                                      ; 00B15A 29 0F 
   ASL                                             ; 00B15C 0A 
   TAX                                             ; 00B15D AA 
@@ -5287,27 +5286,27 @@ B_B13F:
 B_B16A:
   JSR.W (L_B42F,X)                                ; 00B16A FC 2F B4 
   STZ.B $04                                       ; 00B16D 64 04 
-  LDA.W $02F0                                     ; 00B16F AD F0 02 
+  LDA.W JoyDown                                     ; 00B16F AD F0 02 
   AND.B #$80                                      ; 00B172 29 80 
   BEQ.B B_B17A                                    ; 00B174 F0 04 
   LDA.B #$01                                      ; 00B176 A9 01 
   STA.B $04                                       ; 00B178 85 04 
 B_B17A:
-  LDA.W $02F1                                     ; 00B17A AD F1 02 
+  LDA.W JoyDown+1                                     ; 00B17A AD F1 02 
   AND.B #$40                                      ; 00B17D 29 40 
   BEQ.B B_B187                                    ; 00B17F F0 06 
   LDA.B $04                                       ; 00B181 A5 04 
   ORA.B #$02                                      ; 00B183 09 02 
   STA.B $04                                       ; 00B185 85 04 
 B_B187:
-  LDA.W $02F0                                     ; 00B187 AD F0 02 
+  LDA.W JoyDown                                     ; 00B187 AD F0 02 
   AND.B #$40                                      ; 00B18A 29 40 
   BEQ.B B_B194                                    ; 00B18C F0 06 
   LDA.B $04                                       ; 00B18E A5 04 
   ORA.B #$08                                      ; 00B190 09 08 
   STA.B $04                                       ; 00B192 85 04 
 B_B194:
-  LDA.W $02F1                                     ; 00B194 AD F1 02 
+  LDA.W JoyDown+1                                     ; 00B194 AD F1 02 
   AND.B #$80                                      ; 00B197 29 80 
   BEQ.B B_B1A1                                    ; 00B199 F0 06 
   LDA.B $04                                       ; 00B19B A5 04 
@@ -5338,7 +5337,7 @@ B_B1A1:
 B_B1D6:
   BRA.B B_B20A                                    ; 00B1D6 80 32 
 B_B1D8:
-  LDA.W $02F1                                     ; 00B1D8 AD F1 02 
+  LDA.W JoyDown+1                                     ; 00B1D8 AD F1 02 
   AND.B #$0F                                      ; 00B1DB 29 0F 
   ASL                                             ; 00B1DD 0A 
   TAX                                             ; 00B1DE AA 
@@ -5472,7 +5471,7 @@ B_B2B4:
   STA.W $18BE                                     ; 00B2C3 8D BE 18 
   LDA.W EntityYPx+1                                     ; 00B2C6 AD 9D 0C 
   STA.W $18BF                                     ; 00B2C9 8D BF 18 
-  LDA.W $02F3                                     ; 00B2CC AD F3 02 
+  LDA.W JoyDown+3                                     ; 00B2CC AD F3 02 
   AND.B #$0F                                      ; 00B2CF 29 0F 
   ASL                                             ; 00B2D1 0A 
   TAX                                             ; 00B2D2 AA 
@@ -5487,27 +5486,27 @@ B_B2B4:
 B_B2E1:
   JSR.W (L_B42F,X)                                ; 00B2E1 FC 2F B4 
   STZ.B $04                                       ; 00B2E4 64 04 
-  LDA.W $02F2                                     ; 00B2E6 AD F2 02 
+  LDA.W JoyDown+2                                     ; 00B2E6 AD F2 02 
   AND.B #$80                                      ; 00B2E9 29 80 
   BEQ.B B_B2F1                                    ; 00B2EB F0 04 
   LDA.B #$01                                      ; 00B2ED A9 01 
   STA.B $04                                       ; 00B2EF 85 04 
 B_B2F1:
-  LDA.W $02F3                                     ; 00B2F1 AD F3 02 
+  LDA.W JoyDown+3                                     ; 00B2F1 AD F3 02 
   AND.B #$40                                      ; 00B2F4 29 40 
   BEQ.B B_B2FE                                    ; 00B2F6 F0 06 
   LDA.B $04                                       ; 00B2F8 A5 04 
   ORA.B #$02                                      ; 00B2FA 09 02 
   STA.B $04                                       ; 00B2FC 85 04 
 B_B2FE:
-  LDA.W $02F2                                     ; 00B2FE AD F2 02 
+  LDA.W JoyDown+2                                     ; 00B2FE AD F2 02 
   AND.B #$40                                      ; 00B301 29 40 
   BEQ.B B_B30B                                    ; 00B303 F0 06 
   LDA.B $04                                       ; 00B305 A5 04 
   ORA.B #$08                                      ; 00B307 09 08 
   STA.B $04                                       ; 00B309 85 04 
 B_B30B:
-  LDA.W $02F3                                     ; 00B30B AD F3 02 
+  LDA.W JoyDown+3                                     ; 00B30B AD F3 02 
   AND.B #$80                                      ; 00B30E 29 80 
   BEQ.B B_B318                                    ; 00B310 F0 06 
   LDA.B $04                                       ; 00B312 A5 04 
@@ -5539,7 +5538,7 @@ B_B318:
 B_B34F:
   BRA.B B_B383                                    ; 00B34F 80 32 
 B_B351:
-  LDA.W $02F3                                     ; 00B351 AD F3 02 
+  LDA.W JoyDown+3                                     ; 00B351 AD F3 02 
   AND.B #$0F                                      ; 00B354 29 0F 
   ASL                                             ; 00B356 0A 
   TAX                                             ; 00B357 AA 
@@ -10300,7 +10299,7 @@ TitleSceneIRQHandler:
 TitleSceneNMIHandler:
   JSL L_AF0E                                      ; 00F03D 22 0E AF 00 
   JSL L_EF175                                     ; 00F041 22 75 F1 0E 
-  JSL L_ECA4C                                     ; 00F045 22 4C CA 0E 
+  JSL ReadCurrentJoypadState                                     ; 00F045 22 4C CA 0E 
   RTL                                             ; 00F049 6B 
 
 GameSceneNMIHandler:
@@ -10375,7 +10374,7 @@ B_F0BA:
   LDA.W $06CB                                     ; 00F10A AD CB 06 
   AND.B #$01                                      ; 00F10D 29 01 
   STA.W BG3VOFS                                   ; 00F10F 8D 12 21 
-  JSL L_ECA4C                                     ; 00F112 22 4C CA 0E 
+  JSL ReadCurrentJoypadState                                     ; 00F112 22 4C CA 0E 
   RTL                                             ; 00F116 6B 
 
 L_F117:
