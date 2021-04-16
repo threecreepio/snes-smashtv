@@ -2,31 +2,37 @@
 .ORG 0
 
 V_STARTUP:
-  SEI                                             ; 008000 78 
-  STZ.W NMITIMEN                                  ; 008001 9C 00 42 
-  STZ.W HDMAEN                                    ; 008004 9C 0C 42 
-  STZ.W MDMAEN                                    ; 008007 9C 0B 42 
-  STZ.W APUIO0                                    ; 00800A 9C 40 21 
-  STZ.W APUIO1                                    ; 00800D 9C 41 21 
-  STZ.W APUIO2                                    ; 008010 9C 42 21 
-  STZ.W APUIO3                                    ; 008013 9C 43 21 
-  CLC                                             ; 008016 18 
-  XCE                                             ; 008017 FB 
-  CLD                                             ; 008018 D8 
-  LDA.B #$00                                      ; 008019 A9 00 
-  PHA                                             ; 00801B 48 
-  PLB                                             ; 00801C AB 
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00801D C2 30 
-  LDA.W #$0080                                    ; 00801F A9 80 00 
-  STA.W INIDISP                                   ; 008022 8D 00 21 
-  LDA.W #$0000                                    ; 008025 A9 00 00 
-  TCD                                             ; 008028 5B 
-  LDA.W #$01FF                                    ; 008029 A9 FF 01 
-  TCS                                             ; 00802C 1B 
-  STZ.W $1BF1                                     ; 00802D 9C F1 1B 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008030 E2 30 
-  STZ.W $02CB                                     ; 008032 9C CB 02 
-  STZ.W $052C                                     ; 008035 9C 2C 05 
+  sei
+  ; set a little starting register state
+  stz NMITIMEN
+  stz HDMAEN
+  stz MDMAEN
+  stz APUIO0
+  stz APUIO1
+  stz APUIO2
+  stz APUIO3
+  clc
+  xce
+  cld
+  ; switch to data bank 0
+  lda #0
+  pha
+  plb
+  rep #P_Idx8Bit | P_Acc8Bit
+  ; disable screen
+  lda.w #$80
+  sta INIDISP
+  ; set page register to 0
+  lda.w #$00
+  tcd
+  ; clear stack
+  lda.w #$01FF
+  tcs
+  ; initialize out some game state
+  stz $1BF1
+  sep #P_Idx8Bit | P_Acc8Bit                                      ; 008030 E2 30 
+  stz $02CB
+  stz $052C
   JSR.W L_8232                                    ; 008038 20 32 82 
   JSL L_EDAFF                                     ; 00803B 22 FF DA 0E 
   LDA.W $020A                                     ; 00803F AD 0A 02 
