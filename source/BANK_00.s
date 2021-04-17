@@ -65,16 +65,16 @@ ReturnToTitle:
   STZ.W $052C                                     ; 008086 9C 2C 05 
   LDA.B #$08                                      ; 008089 A9 08 
   LDX.W #$0000                                    ; 00808B A2 00 00 
-  JSL L_F830F                                     ; 00808E 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00808E 22 0F 83 0F 
   LDA.B #$03                                      ; 008092 A9 03 
   LDX.W #$0606                                    ; 008094 A2 06 06 
-  JSL L_F830F                                     ; 008097 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 008097 22 0F 83 0F 
   LDA.B #$02                                      ; 00809B A9 02 
   LDX.W #$7070                                    ; 00809D A2 70 70 
-  JSL L_F830F                                     ; 0080A0 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0080A0 22 0F 83 0F 
   LDA.B #$0D                                      ; 0080A4 A9 0D 
   LDX.W #$1212                                    ; 0080A6 A2 12 12 
-  JSL L_F830F                                     ; 0080A9 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0080A9 22 0F 83 0F 
   JSL UpdateJoypadState                                     ; 0080AD 22 6A CA 0E 
   LDA.W JoyDown                                     ; 0080B1 AD F0 02 
   CMP.B #$A0                                      ; 0080B4 C9 A0 
@@ -89,13 +89,13 @@ B_80BC:
   SEP.B #P_Acc8Bit                                      ; 0080C9 E2 20 
   LDA.B #$0D                                      ; 0080CB A9 0D 
   LDX.W #$4040                                    ; 0080CD A2 40 40 
-  JSL L_F830F                                     ; 0080D0 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0080D0 22 0F 83 0F 
   REP.B #$10                                      ; 0080D4 C2 10 
   LDA.B #$02                                      ; 0080D6 A9 02 
   STA.W $05E0                                     ; 0080D8 8D E0 05 
   LDX.W $05E0                                     ; 0080DB AE E0 05 
   LDA.B #$0F                                      ; 0080DE A9 0F 
-  JSL L_F830F                                     ; 0080E0 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0080E0 22 0F 83 0F 
   SEP.B #$10                                      ; 0080E4 E2 10 
 GameScreenLoop:
   PEA.W $0000                                     ; 0080E6 F4 00 00 
@@ -2416,7 +2416,7 @@ B_964F:
   SEP.B #P_Acc8Bit                                      ; 009682 E2 20 
   LDA.B #$07                                      ; 009684 A9 07 
   LDX.W #$FF17                                    ; 009686 A2 17 FF 
-  JSL L_F830F                                     ; 009689 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 009689 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00968D E2 30 
   LDX.B #$26                                      ; 00968F A2 26 
   JSL L_EF072                                     ; 009691 22 72 F0 0E 
@@ -5243,7 +5243,7 @@ L_B0F9:
   SEP.B #P_Acc8Bit                                      ; 00B0FD E2 20 
   LDX.W #$0001                                    ; 00B0FF A2 01 00 
   LDA.B #$0F                                      ; 00B102 A9 0F 
-  JSL L_F830F                                     ; 00B104 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00B104 22 0F 83 0F 
   SEP.B #$10                                      ; 00B108 E2 10 
   JSR.W L_B008                                    ; 00B10A 20 08 B0 
   LDA.W $18A3                                     ; 00B10D AD A3 18 
@@ -5649,7 +5649,7 @@ D_B3FB:
   REP.B #$10                                      ; 00B3FB C2 10 
   LDX.W $05E0                                     ; 00B3FD AE E0 05 
   LDA.B #$0F                                      ; 00B400 A9 0F 
-  JSL L_F830F                                     ; 00B402 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00B402 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B406 E2 30 
   LDA.W $18A3                                     ; 00B408 AD A3 18 
   BEQ.B B_B420                                    ; 00B40B F0 13 
@@ -6190,7 +6190,7 @@ B_B8C2:
   REP.B #$10                                      ; 00B90D C2 10 
   LDA.B #$07                                      ; 00B90F A9 07 
   LDX.W #$FF01                                    ; 00B911 A2 01 FF 
-  JSL L_F830F                                     ; 00B914 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00B914 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B918 E2 30 
   PLX                                             ; 00B91A FA 
   LDX.B $09                                       ; 00B91B A6 09 
@@ -6240,7 +6240,7 @@ D_B960:
   REP.B #$10                                      ; 00B98E C2 10 
   LDA.B #$07                                      ; 00B990 A9 07 
   LDX.W #$FF02                                    ; 00B992 A2 02 FF 
-  JSL L_F830F                                     ; 00B995 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00B995 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B999 E2 30 
   PLX                                             ; 00B99B FA 
   JSR.W L_BEE9                                    ; 00B99C 20 E9 BE 
@@ -6471,7 +6471,7 @@ B_BB33:
   REP.B #$10                                      ; 00BB7E C2 10 
   LDA.B #$07                                      ; 00BB80 A9 07 
   LDX.W #$FF03                                    ; 00BB82 A2 03 FF 
-  JSL L_F830F                                     ; 00BB85 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00BB85 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BB89 E2 30 
   PLX                                             ; 00BB8B FA 
   JSR.W L_BEE9                                    ; 00BB8C 20 E9 BE 
@@ -6792,7 +6792,7 @@ D_BE69:
   REP.B #$10                                      ; 00BE94 C2 10 
   LDA.B #$07                                      ; 00BE96 A9 07 
   LDX.W #$8814                                    ; 00BE98 A2 14 88 
-  JSL L_F830F                                     ; 00BE9B 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00BE9B 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BE9F E2 30 
   PLX                                             ; 00BEA1 FA 
   JSR.W L_BEE9                                    ; 00BEA2 20 E9 BE 
@@ -6859,13 +6859,13 @@ B_BF23:
   SEP.B #P_Acc8Bit                                      ; 00BF2D E2 20 
   LDX.W #$0004                                    ; 00BF2F A2 04 00 
   LDA.B #$0F                                      ; 00BF32 A9 0F 
-  JSL L_F830F                                     ; 00BF34 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00BF34 22 0F 83 0F 
   LDA.B #$07                                      ; 00BF38 A9 07 
   LDX.W #$FF13                                    ; 00BF3A A2 13 FF 
-  JSL L_F830F                                     ; 00BF3D 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00BF3D 22 0F 83 0F 
   LDX.W #$0001                                    ; 00BF41 A2 01 00 
   LDA.B #$0F                                      ; 00BF44 A9 0F 
-  JSL L_F830F                                     ; 00BF46 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00BF46 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BF4A E2 30 
   PLX                                             ; 00BF4C FA 
 B_BF4D:
@@ -8843,7 +8843,7 @@ B_D996:
   REP.B #$10                                      ; 00D9C7 C2 10 
   LDA.B #$07                                      ; 00D9C9 A9 07 
   LDX.W #$FF0E                                    ; 00D9CB A2 0E FF 
-  JSL L_F830F                                     ; 00D9CE 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00D9CE 22 0F 83 0F 
   SEP.B #$10                                      ; 00D9D2 E2 10 
   LDA.B #$01                                      ; 00D9D4 A9 01 
   RTS                                             ; 00D9D6 60 
@@ -9912,7 +9912,7 @@ B_E67A:
   REP.B #$10                                      ; 00E697 C2 10 
   LDA.B #$07                                      ; 00E699 A9 07 
   LDX.W #$FF0B                                    ; 00E69B A2 0B FF 
-  JSL L_F830F                                     ; 00E69E 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00E69E 22 0F 83 0F 
   SEP.B #$10                                      ; 00E6A2 E2 10 
   PLX                                             ; 00E6A4 FA 
 B_E6A5:
@@ -10242,7 +10242,7 @@ D_EF6D:
   TAX                                             ; 00EF98 AA 
   SEP.B #P_Acc8Bit                                      ; 00EF99 E2 20 
   LDA.B #$07                                      ; 00EF9B A9 07 
-  JSL L_F830F                                     ; 00EF9D 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 00EF9D 22 0F 83 0F 
   REP.B #P_Acc8Bit                                      ; 00EFA1 C2 20 
 B_EFA3:
   JSL Wait1Frame                                     ; 00EFA3 22 13 CA 0E 

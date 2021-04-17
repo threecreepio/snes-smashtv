@@ -157,17 +157,17 @@ B_F8224:
 .byte $5E,$17,$22,$F1,$AE,$00,$60                 ; 0F82A7 .......  ^?"???`
 
 
-L_F82AD:
+Audio_F82AD:
   PHP                                             ; 0F82AD 08 
   STA.B $F0                                      ; 0F82AE 85 F0 
   STY.B $EE                                       ; 0F82B0 84 EE 
-B_F82B2:
+@B_F82B2:
   LDA.W APUIO0                                    ; 0F82B2 AD 40 21 
   CMP.B #$AA                                      ; 0F82B5 C9 AA 
-  BNE.B B_F82B2                                   ; 0F82B7 D0 F9 
+  BNE.B @B_F82B2                                   ; 0F82B7 D0 F9 
   LDA.W APUIO1                                    ; 0F82B9 AD 41 21 
   CMP.B #$BB                                      ; 0F82BC C9 BB 
-  BNE.B B_F82B2                                   ; 0F82BE D0 F2 
+  BNE.B @B_F82B2                                   ; 0F82BE D0 F2 
   INC.W APUIO1                                    ; 0F82C0 EE 41 21 
   LDA.B #$00                                      ; 0F82C3 A9 00 
   STA.W APUIO2                                    ; 0F82C5 8D 42 21 
@@ -175,14 +175,14 @@ B_F82B2:
   STA.W APUIO3                                    ; 0F82CA 8D 43 21 
   LDA.B #$CC                                      ; 0F82CD A9 CC 
   STA.W APUIO0                                    ; 0F82CF 8D 40 21 
-  JSR.W L_F8309                                   ; 0F82D2 20 09 83 
+  JSR.W @L_F8309                                   ; 0F82D2 20 09 83 
   LDY.W #$0000                                    ; 0F82D5 A0 00 00 
-B_F82D8:
+@B_F82D8:
   LDA.B [$EE],Y                                   ; 0F82D8 B7 EE 
-  JSR.W L_F8302                                   ; 0F82DA 20 02 83 
+  JSR.W @L_F8302                                   ; 0F82DA 20 02 83 
   INY                                             ; 0F82DD C8 
   DEX                                             ; 0F82DE CA 
-  BNE.B B_F82D8                                   ; 0F82DF D0 F7 
+  BNE.B @B_F82D8                                   ; 0F82DF D0 F7 
   STZ.W APUIO1                                    ; 0F82E1 9C 41 21 
   LDA.B #$00                                      ; 0F82E4 A9 00 
   STA.W APUIO2                                    ; 0F82E6 8D 42 21 
@@ -192,33 +192,33 @@ B_F82D8:
   INC A
   STA.W APUIO0                                    ; 0F82F0 8D 40 21 
   LDA.B #$CA                                      ; 0F82F3 A9 CA 
-B_F82F5:
+@B_F82F5:
   CMP.W APUIO1                                    ; 0F82F5 CD 41 21 
-  BNE.B B_F82F5                                   ; 0F82F8 D0 FB 
+  BNE.B @B_F82F5                                   ; 0F82F8 D0 FB 
   STZ.W APUIO0                                    ; 0F82FA 9C 40 21 
   STZ.W $1BFF                                     ; 0F82FD 9C FF 1B 
   PLP                                             ; 0F8300 28 
   RTL                                             ; 0F8301 6B 
 
-L_F8302:
+@L_F8302:
   STA.W APUIO1                                    ; 0F8302 8D 41 21 
   TYA                                             ; 0F8305 98 
   STA.W APUIO0                                    ; 0F8306 8D 40 21 
 
-L_F8309:
+@L_F8309:
   CMP.W APUIO0                                    ; 0F8309 CD 40 21 
-  BNE.B L_F8309                                   ; 0F830C D0 FB 
+  BNE.B @L_F8309                                   ; 0F830C D0 FB 
   RTS                                             ; 0F830E 60 
 
 
-L_F830F:
+Audio_F830F:
   PHP                                             ; 0F830F 08 
   SEP.B #P_Acc8Bit                                      ; 0F8310 E2 20 
   XBA                                             ; 0F8312 EB 
   LDA.W $1BFF                                     ; 0F8313 AD FF 1B 
-B_F8316:
+@B_F8316:
   CMP.W APUIO0                                    ; 0F8316 CD 40 21 
-  BNE.B B_F8316                                   ; 0F8319 D0 FB 
+  BNE.B @B_F8316                                   ; 0F8319 D0 FB 
   STX.W APUIO2                                    ; 0F831B 8E 42 21 
   INC A
   XBA                                             ; 0F831F EB 
@@ -229,12 +229,12 @@ B_F8316:
   PLP                                             ; 0F832A 28 
   RTL                                             ; 0F832B 6B 
 
-L_F832C:
+Audio_F832C:
   XBA                                             ; 0F832C EB 
   LDA.W $1BFF                                     ; 0F832D AD FF 1B 
-B_F8330:
+@B_F8330:
   CMP.W APUIO0                                    ; 0F8330 CD 40 21 
-  BNE.B B_F8330                                   ; 0F8333 D0 FB 
+  BNE.B @B_F8330                                   ; 0F8333 D0 FB 
   INC A
   XBA                                             ; 0F8336 EB 
   STA.W APUIO1                                    ; 0F8337 8D 41 21 
@@ -256,7 +256,7 @@ L_F835A:
   LDY.W #$F563                                    ; 0F835F A0 63 F5 
   LDA.B #$01                                      ; 0F8362 A9 01 
   LDX.W #$07C6                                    ; 0F8364 A2 C6 07 
-  JSL L_F82AD                                     ; 0F8367 22 AD 82 0F 
+  JSL Audio_F82AD                                     ; 0F8367 22 AD 82 0F 
   PLP                                             ; 0F836B 28 
   RTL                                             ; 0F836C 6B 
 
@@ -282,7 +282,7 @@ L_F836D:
   STA.B $F7                                    ; 0F838F 85 F7 
   SEP.B #P_Acc8Bit                                      ; 0F8391 E2 20 
   LDA.B #$01                                      ; 0F8393 A9 01 
-  JSL L_F830F                                     ; 0F8395 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0F8395 22 0F 83 0F 
   REP.B #P_Acc8Bit                                      ; 0F8399 C2 20 
   INY                                             ; 0F839B C8 
   INY                                             ; 0F839C C8 
@@ -308,7 +308,7 @@ B_F83A2:
   SEP.B #P_Acc8Bit                                      ; 0F83BE E2 20 
 B_F83C0:
   LDA.B [$F4],Y                                ; 0F83C0 B7 F4 
-  JSR.W L_F832C                                   ; 0F83C2 20 2C 83 
+  JSR.W Audio_F832C                                   ; 0F83C2 20 2C 83 
   INY                                             ; 0F83C5 C8 
   CPY.B $FD                                     ; 0F83C6 C4 FD 
   BNE.B B_F83C0                                   ; 0F83C8 D0 F6 
@@ -347,9 +347,9 @@ L_F83F3:
   PHA                                             ; 0F83F3 48 
   SEP.B #P_Acc8Bit                                      ; 0F83F4 E2 20 
   PLA                                             ; 0F83F6 68 
-  JSR.W L_F832C                                   ; 0F83F7 20 2C 83 
+  JSR.W Audio_F832C                                   ; 0F83F7 20 2C 83 
   PLA                                             ; 0F83FA 68 
-  JSR.W L_F832C                                   ; 0F83FB 20 2C 83 
+  JSR.W Audio_F832C                                   ; 0F83FB 20 2C 83 
   REP.B #P_Acc8Bit                                      ; 0F83FE C2 20 
   RTS                                             ; 0F8400 60 
 
@@ -411,14 +411,14 @@ B_F843C:
   SEP.B #P_Acc8Bit                                      ; 0F845A E2 20 
   LDA.B #$10                                      ; 0F845C A9 10 
   LDX.B $FD                                     ; 0F845E A6 FD 
-  JSL L_F830F                                     ; 0F8460 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0F8460 22 0F 83 0F 
   LDA.B $FB                                  ; 0F8464 A5 FB 
-  JSR.W L_F832C                                   ; 0F8466 20 2C 83 
+  JSR.W Audio_F832C                                   ; 0F8466 20 2C 83 
   LDA.B $FC                                  ; 0F8469 A5 FC 
-  JSR.W L_F832C                                   ; 0F846B 20 2C 83 
+  JSR.W Audio_F832C                                   ; 0F846B 20 2C 83 
 B_F846E:
   LDA.B [$F4],Y                                ; 0F846E B7 F4 
-  JSR.W L_F832C                                   ; 0F8470 20 2C 83 
+  JSR.W Audio_F832C                                   ; 0F8470 20 2C 83 
   INC.B $FB                                  ; 0F8473 E6 FB 
   INY                                             ; 0F8475 C8 
   CPY.B $F9                                   ; 0F8476 C4 F9 
@@ -448,7 +448,7 @@ L_F84BE:
   PHA                                             ; 0F84C3 48 
   LDA.B #$04                                      ; 0F84C4 A9 04 
   LDX.W #$0000                                    ; 0F84C6 A2 00 00 
-  JSL L_F830F                                     ; 0F84C9 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0F84C9 22 0F 83 0F 
   PLA                                             ; 0F84CD 68 
   BEQ.B B_F84EA                                   ; 0F84CE F0 1A 
   REP.B #P_Acc8Bit                                      ; 0F84D0 C2 20 
@@ -461,7 +461,7 @@ L_F84BE:
   PLX                                             ; 0F84E1 FA 
   SEP.B #P_Acc8Bit                                      ; 0F84E2 E2 20 
   LDA.B #$04                                      ; 0F84E4 A9 04 
-  JSL L_F830F                                     ; 0F84E6 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0F84E6 22 0F 83 0F 
 B_F84EA:
   PLP                                             ; 0F84EA 28 
   RTL                                             ; 0F84EB 6B 
@@ -473,7 +473,7 @@ L_F84EC:
   PHA                                             ; 0F84F1 48 
   LDA.B #$04                                      ; 0F84F2 A9 04 
   LDX.W #$0000                                    ; 0F84F4 A2 00 00 
-  JSL L_F830F                                     ; 0F84F7 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0F84F7 22 0F 83 0F 
   PLA                                             ; 0F84FB 68 
   BEQ.B B_F851C                                   ; 0F84FC F0 1E 
   REP.B #P_Acc8Bit                                      ; 0F84FE C2 20 
@@ -488,7 +488,7 @@ L_F84EC:
   TAX                                             ; 0F8513 AA 
   SEP.B #P_Acc8Bit                                      ; 0F8514 E2 20 
   LDA.B #$04                                      ; 0F8516 A9 04 
-  JSL L_F830F                                     ; 0F8518 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0F8518 22 0F 83 0F 
 B_F851C:
   PLP                                             ; 0F851C 28 
   RTL                                             ; 0F851D 6B 

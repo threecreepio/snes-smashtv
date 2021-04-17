@@ -3486,7 +3486,7 @@ L_ED327:
   PHA                                             ; 0ED32E 48 
   LDX.W #$FF00                                    ; 0ED32F A2 00 FF 
   LDA.W #$0007                                    ; 0ED332 A9 07 00 
-  JSL L_F830F                                     ; 0ED335 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0ED335 22 0F 83 0F 
   PLX                                             ; 0ED339 FA 
   LDA.L D_ED351,X                                 ; 0ED33A BF 51 D3 0E 
   PHA                                             ; 0ED33E 48 
@@ -3495,7 +3495,7 @@ L_ED327:
   ORA.W #$FF00                                    ; 0ED344 09 00 FF 
   TAX                                             ; 0ED347 AA 
   LDA.W #$0007                                    ; 0ED348 A9 07 00 
-  JSL L_F830F                                     ; 0ED34B 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0ED34B 22 0F 83 0F 
   PLP                                             ; 0ED34F 28 
   RTL                                             ; 0ED350 6B 
 
@@ -5085,7 +5085,7 @@ B_EE679:
   SEP.B #P_Acc8Bit                                      ; 0EE67C E2 20 
   LDX.W #$FF28                                    ; 0EE67E A2 28 FF 
   LDA.B #$07                                      ; 0EE681 A9 07 
-  JSL L_F830F                                     ; 0EE683 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0EE683 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE687 E2 30 
   PLX                                             ; 0EE689 FA 
   LDA.W $025E,X                                   ; 0EE68A BD 5E 02 

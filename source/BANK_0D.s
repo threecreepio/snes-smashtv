@@ -609,7 +609,7 @@ GetDemoJoypad:
   jsl WaitXFrames
   jsl FadeScreenOut
   lda #$000C
-  JSL L_F830F
+  JSL Audio_F830F
   RTS
 
 
@@ -3859,7 +3859,7 @@ B_DECE4:
   REP.B #P_Idx8Bit                                      ; 0DECEB C2 10 
   LDA.B #$07                                      ; 0DECED A9 07 
   LDX.W #$FF06                                    ; 0DECEF A2 06 FF 
-  JSL L_F830F                                     ; 0DECF2 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0DECF2 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0DECF6 E2 30 
   LDX.B #$14                                      ; 0DECF8 A2 14 
 B_DECFA:
@@ -3907,7 +3907,7 @@ B_DED63:
   REP.B #P_Idx8Bit                                      ; 0DED63 C2 10 
   LDA.B #$07                                      ; 0DED65 A9 07 
   LDX.W #$FF23                                    ; 0DED67 A2 23 FF 
-  JSL L_F830F                                     ; 0DED6A 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0DED6A 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 0DED6E E2 10 
 B_DED70:
   JSL Wait1Frame                                     ; 0DED70 22 13 CA 0E 
@@ -4111,7 +4111,7 @@ B_DEEA5:
   REP.B #P_Idx8Bit                                      ; 0DEF0F C2 10 
   LDA.B #$07                                      ; 0DEF11 A9 07 
   LDX.W #$FF06                                    ; 0DEF13 A2 06 FF 
-  JSL L_F830F                                     ; 0DEF16 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0DEF16 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 0DEF1A E2 10 
 B_DEF1C:
   RTS                                             ; 0DEF1C 60 
@@ -4172,7 +4172,7 @@ B_DEF28:
   REP.B #P_Idx8Bit                                      ; 0DEF92 C2 10 
   LDA.B #$07                                      ; 0DEF94 A9 07 
   LDX.W #$FF06                                    ; 0DEF96 A2 06 FF 
-  JSL L_F830F                                     ; 0DEF99 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 0DEF99 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 0DEF9D E2 10 
 B_DEF9F:
   RTS                                             ; 0DEF9F 60 

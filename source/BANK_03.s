@@ -1175,7 +1175,7 @@ B_38DBD:
   REP.B #P_Idx8Bit                                      ; 038DC1 C2 10 
   LDA.B #$07                                      ; 038DC3 A9 07 
   LDX.W #$FF28                                    ; 038DC5 A2 28 FF 
-  JSL L_F830F                                     ; 038DC8 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 038DC8 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 038DCC E2 30 
   PLX                                             ; 038DCE FA 
 B_38DCF:
@@ -3643,7 +3643,7 @@ B_3B1D8:
   REP.B #P_Idx8Bit                                      ; 03B1D9 C2 10 
   LDA.B #$07                                      ; 03B1DB A9 07 
   LDX.W #$FF06                                    ; 03B1DD A2 06 FF 
-  JSL L_F830F                                     ; 03B1E0 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03B1E0 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 03B1E4 E2 30 
   PLX                                             ; 03B1E6 FA 
   JMP.W D_38141                                   ; 03B1E7 4C 41 81 
@@ -4039,7 +4039,7 @@ D_3B4A3:
   REP.B #P_Idx8Bit                                      ; 03B4E0 C2 10 
   LDA.B #$07                                      ; 03B4E2 A9 07 
   LDX.W #$FF06                                    ; 03B4E4 A2 06 FF 
-  JSL L_F830F                                     ; 03B4E7 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03B4E7 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 03B4EB E2 30 
   PLX                                             ; 03B4ED FA 
 B_3B4EE:
@@ -4524,7 +4524,7 @@ B_3B8A9:
   REP.B #P_Idx8Bit                                      ; 03B8AD C2 10 
   LDA.B #$07                                      ; 03B8AF A9 07 
   LDX.W #$FF06                                    ; 03B8B1 A2 06 FF 
-  JSL L_F830F                                     ; 03B8B4 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03B8B4 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 03B8B8 E2 30 
   PLX                                             ; 03B8BA FA 
 B_3B8BB:
@@ -4864,7 +4864,7 @@ B_3BB3F:
   REP.B #P_Idx8Bit                                      ; 03BB4C C2 10 
   LDA.B #$07                                      ; 03BB4E A9 07 
   LDX.W #$FF04                                    ; 03BB50 A2 04 FF 
-  JSL L_F830F                                     ; 03BB53 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03BB53 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03BB57 E2 10 
   PLX                                             ; 03BB59 FA 
   JMP.W D_38141                                   ; 03BB5A 4C 41 81 
@@ -4918,7 +4918,7 @@ B_3BBAB:
   REP.B #P_Idx8Bit                                      ; 03BBBA C2 10 
   LDA.B #$07                                      ; 03BBBC A9 07 
   LDX.W #$FF04                                    ; 03BBBE A2 04 FF 
-  JSL L_F830F                                     ; 03BBC1 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03BBC1 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03BBC5 E2 10 
   PLX                                             ; 03BBC7 FA 
   INC.W $05B1                                     ; 03BBC8 EE B1 05 
@@ -5029,7 +5029,7 @@ B_3BD30:
   REP.B #P_Idx8Bit                                      ; 03BD33 C2 10 
   LDA.B #$07                                      ; 03BD35 A9 07 
   LDX.W #$FF04                                    ; 03BD37 A2 04 FF 
-  JSL L_F830F                                     ; 03BD3A 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03BD3A 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03BD3E E2 10 
   PLX                                             ; 03BD40 FA 
   INC.W $05B0                                     ; 03BD41 EE B0 05 
@@ -5496,7 +5496,7 @@ B_3C387:
   REP.B #P_Idx8Bit                                      ; 03C3BD C2 10 
   LDA.B #$07                                      ; 03C3BF A9 07 
   LDX.W #$FF06                                    ; 03C3C1 A2 06 FF 
-  JSL L_F830F                                     ; 03C3C4 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03C3C4 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 03C3C8 E2 30 
   PLX                                             ; 03C3CA FA 
   JMP.W D_38141                                   ; 03C3CB 4C 41 81 
@@ -6211,7 +6211,7 @@ B_3D6D1:
   REP.B #P_Idx8Bit                                      ; 03D6D2 C2 10 
   LDX.W #$FF2B                                    ; 03D6D4 A2 2B FF 
   LDA.B #$07                                      ; 03D6D7 A9 07 
-  JSL L_F830F                                     ; 03D6D9 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03D6D9 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03D6DD E2 10 
   PLX                                             ; 03D6DF FA 
   BRA.B B_3D6F5                                   ; 03D6E0 80 13 
@@ -6222,7 +6222,7 @@ B_3D6E2:
   REP.B #P_Idx8Bit                                      ; 03D6E7 C2 10 
   LDX.W #$FF25                                    ; 03D6E9 A2 25 FF 
   LDA.B #$07                                      ; 03D6EC A9 07 
-  JSL L_F830F                                     ; 03D6EE 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03D6EE 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03D6F2 E2 10 
   PLX                                             ; 03D6F4 FA 
 B_3D6F5:
@@ -6664,7 +6664,7 @@ B_3DA57:
   REP.B #P_Idx8Bit                                      ; 03DAAB C2 10 
   LDA.B #$07                                      ; 03DAAD A9 07 
   LDX.W #$FF06                                    ; 03DAAF A2 06 FF 
-  JSL L_F830F                                     ; 03DAB2 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03DAB2 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03DAB6 E2 10 
 B_3DAB8:
   PLX                                             ; 03DAB8 FA 
@@ -6744,7 +6744,7 @@ B_3DAEB:
   SEP.B #P_Acc8Bit                                      ; 03DB59 E2 20 
   LDA.B #$07                                      ; 03DB5B A9 07 
   LDX.W #$FF11                                    ; 03DB5D A2 11 FF 
-  JSL L_F830F                                     ; 03DB60 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03DB60 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 03DB64 E2 30 
   PLX                                             ; 03DB66 FA 
   RTS                                             ; 03DB67 60 
@@ -7600,7 +7600,7 @@ B_3E385:
   REP.B #P_Idx8Bit                                      ; 03E3F7 C2 10 
   LDA.B #$07                                      ; 03E3F9 A9 07 
   LDX.W #$FF06                                    ; 03E3FB A2 06 FF 
-  JSL L_F830F                                     ; 03E3FE 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03E3FE 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03E402 E2 10 
 B_3E404:
   PLX                                             ; 03E404 FA 
@@ -7918,7 +7918,7 @@ B_3E6FD:
   REP.B #P_Idx8Bit                                      ; 03E76E C2 10 
   LDA.B #$07                                      ; 03E770 A9 07 
   LDX.W #$FF06                                    ; 03E772 A2 06 FF 
-  JSL L_F830F                                     ; 03E775 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03E775 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03E779 E2 10 
   PLX                                             ; 03E77B FA 
   RTS                                             ; 03E77C 60 
@@ -8015,7 +8015,7 @@ B_3E7CE:
   REP.B #P_Idx8Bit                                      ; 03E840 C2 10 
   LDA.B #$07                                      ; 03E842 A9 07 
   LDX.W #$FF06                                    ; 03E844 A2 06 FF 
-  JSL L_F830F                                     ; 03E847 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03E847 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03E84B E2 10 
 B_3E84D:
   PLX                                             ; 03E84D FA 
@@ -8916,7 +8916,7 @@ B_3EFB4:
   REP.B #P_Idx8Bit                                      ; 03EFC3 C2 10 
   LDA.B #$07                                      ; 03EFC5 A9 07 
   LDX.W #$FF03                                    ; 03EFC7 A2 03 FF 
-  JSL L_F830F                                     ; 03EFCA 22 0F 83 0F 
+  JSL Audio_F830F                                     ; 03EFCA 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03EFCE E2 10 
   PLX                                             ; 03EFD0 FA 
   RTS                                             ; 03EFD1 60 
