@@ -3926,7 +3926,7 @@ HandleTitleMenuCheats:
 .addr @CheatInputsCircuitWarp
 .addr @CheatInputsSoundTest
 .addr @CheatInputsLivesSelect
-.addr @Cheat3
+.addr @CheatTurboMode
 .addr $0000
 
 @CheatInputsSoundTest:
@@ -3953,7 +3953,7 @@ HandleTitleMenuCheats:
 .byte BTN0_LT,$00
 .byte $FF,$FF
 
-@Cheat3:
+@CheatTurboMode:
 .byte $00,BTN1_L
 .byte $00,BTN1_R
 .byte $00,BTN1_L
