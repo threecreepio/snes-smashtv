@@ -2,6 +2,7 @@
 .ORG 0
 
 
+DemoInputsPlayer1:
 .byte $17,$00,$00,$04,$00,$00,$00,$00             ; 0D8000 DDDDDDDD ????????
 .byte $08,$00,$00,$04,$00,$00,$00,$00             ; 0D8008 DDDDDDDD ????????
 .byte $0B,$00,$00,$02,$05,$00,$00,$00             ; 0D8010 DDDDDDDD ????????
@@ -258,6 +259,8 @@
 .byte $03,$00,$00,$82,$06,$00,$00,$86             ; 0D87E8 ........ ????????
 .byte $01,$00,$00,$06,$04,$00,$00,$04             ; 0D87F0 ........ ????????
 .byte $0E,$00,$00,$05,$0C,$00,$00,$00             ; 0D87F8 ........ ????????
+
+DemoInputsPlayer2:
 .byte $D4,$01,$80,$00,$EB,$00,$80,$01             ; 0D8800 DDDDDDDD ????????
 .byte $01,$00,$80,$05,$03,$00,$80,$85             ; 0D8808 DDDDDDDD ????????
 .byte $03,$00,$80,$84,$02,$00,$80,$80             ; 0D8810 DDDDDDDD ????????
@@ -517,27 +520,30 @@
 
 
 L_D9000:
-  PHP                                             ; 0D9000 08 
-  PHB                                             ; 0D9001 8B 
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0D9002 C2 30 
-  PEA.W $7E7E                                     ; 0D9004 F4 7E 7E 
-  PLB                                             ; 0D9007 AB 
-  PLB                                             ; 0D9008 AB 
-  STZ.W $1BF3                                     ; 0D9009 9C F3 1B 
-  STZ.W $1BF7                                     ; 0D900C 9C F7 1B 
-  STZ.W $1BFB                                     ; 0D900F 9C FB 1B 
-  STZ.W $1BF5                                     ; 0D9012 9C F5 1B 
-  STZ.W $1BF9                                     ; 0D9015 9C F9 1B 
-  STZ.W $1BFD                                     ; 0D9018 9C FD 1B 
-  STZ.B FrameCounter                              ; 0D901B 64 CF 
-  STZ.B $D2                                       ; 0D901D 64 D2 
-  STZ.W RNG0                      ; 0D901F 9C A8 05 
-  STZ.W $020E                                     ; 0D9022 9C 0E 02 
-  LDA.W #$FFFF                                    ; 0D9025 A9 FF FF 
-  STA.W $1BF1                                     ; 0D9028 8D F1 1B 
-  PLB                                             ; 0D902B AB 
-  PLP                                             ; 0D902C 28 
-  RTL                                             ; 0D902D 6B 
+  php
+  phb
+  rep #P_Idx8Bit | P_Acc8Bit
+  ; switch to data bank 7E
+  pea $7E7E
+  plb
+  plb
+  ; clear out some game state
+  stz $1BF3
+  stz $1BF7
+  stz $1BFB
+  stz $1BF5
+  stz $1BF9
+  stz $1BFD
+  stz FrameCounter
+  stz $D2
+  stz RNG0
+  stz GameCircuitWarpActive
+  ; flag that we're going to the menu
+  lda #$FFFF
+  sta DemoRunning
+  plb
+  plp
+  rtl
 
 .byte $08,$8B,$C2,$30,$F4,$0D,$0D,$AB             ; 0D902E ........ ???0????
 .byte $AB,$A2,$00,$00,$A9,$00,$80,$20             ; 0D9036 ........ ??????? 
@@ -554,47 +560,57 @@ L_D9000:
 .byte $FB,$1B,$60                                 ; 0D908F ...      ??`
 
 
-L_D9091:
-  PHP                                             ; 0D9091 08 
-  PHB                                             ; 0D9092 8B 
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0D9093 C2 30 
-  LDA.W JoyDirect                                     ; 0D9095 AD E8 02 
-  ORA.W JoyDirect+2                                     ; 0D9098 0D EA 02 
-  BNE.B B_D90CA                                   ; 0D909B D0 2D 
-  PEA.W $0D0D                                     ; 0D909D F4 0D 0D 
-  PLB                                             ; 0D90A0 AB 
-  PLB                                             ; 0D90A1 AB 
-  LDX.W #$0000                                    ; 0D90A2 A2 00 00 
-  LDA.W #$8000                                    ; 0D90A5 A9 00 80 
-  JSR.W L_D90EB                                   ; 0D90A8 20 EB 90 
-  LDX.W #$0002                                    ; 0D90AB A2 02 00 
-  LDA.W #$8800                                    ; 0D90AE A9 00 88 
-  JSR.W L_D90EB                                   ; 0D90B1 20 EB 90 
-  LDA.W JoyDirect                                     ; 0D90B4 AD E8 02 
-  CMP.W #$2000                                    ; 0D90B7 C9 00 20 
-  BEQ.B B_D90BF                                   ; 0D90BA F0 03 
-  PLB                                             ; 0D90BC AB 
-  PLP                                             ; 0D90BD 28 
-  RTL                                             ; 0D90BE 6B 
-B_D90BF:
-  JSR.W L_D90D5                                   ; 0D90BF 20 D5 90 
-  LDA.W #$01FF                                    ; 0D90C2 A9 FF 01 
-  TCS                                             ; 0D90C5 1B 
-  JMP.L D_8081                                    ; 0D90C6 5C 81 80 00 
-B_D90CA:
-  JSR.W L_D90D5                                   ; 0D90CA 20 D5 90 
-  LDA.W #$01FF                                    ; 0D90CD A9 FF 01 
-  TCS                                             ; 0D90D0 1B 
-  JMP.L ReturnToTitleMenu                                    ; 0D90D1 5C 35 81 00 
+GetDemoJoypad:
+  php
+  phb
+  rep #P_Idx8Bit | P_Acc8Bit
+  ; if a controller button is pressed,
+  ; exit back to the menu
+  lda JoyDirect
+  ora JoyDirect+2
+  bne @ExitToMenu
+  ; switch to data bank D
+  pea $0D0D
+  plb
+  plb
+  ; load player 1 inputs
+  ldx #$0000
+  lda #DemoInputsPlayer1
+  JSR.W L_D90EB
+  ; load player 2 inputs
+  ldx #$0002
+  lda #DemoInputsPlayer2
+  JSR.W L_D90EB
+  ; if the end of the demo playback is reached,
+  ; exit back to the title screen
+  lda JoyDirect
+  cmp #$2000
+  beq @ExitToTitle
+  ; exit
+  plb
+  plp
+  rtl
+@ExitToTitle:
+  jsr @ExitDemo
+  ; clear stack and exit
+  lda #$01FF
+  tcs
+  jml ReturnToTitle
+@ExitToMenu:
+  jsr @ExitDemo
+  ; clear stack and exit
+  lda #$01FF
+  tcs
+  jml ReturnToTitleMenu
 
-L_D90D5:
-  STZ.W $1BF1                                     ; 0D90D5 9C F1 1B 
-  LDX.W #$003C                                    ; 0D90D8 A2 3C 00 
-  JSL L_EC972                                     ; 0D90DB 22 72 C9 0E 
-  JSL FadeScreenOut                                     ; 0D90DF 22 32 CA 0E 
-  LDA.W #$000C                                    ; 0D90E3 A9 0C 00 
-  JSL L_F830F                                     ; 0D90E6 22 0F 83 0F 
-  RTS                                             ; 0D90EA 60 
+@ExitDemo:
+  stz DemoRunning
+  ldx #$003C
+  jsl WaitXFrames
+  jsl FadeScreenOut
+  lda #$000C
+  JSL L_F830F
+  RTS
 
 
 L_D90EB:
@@ -3874,7 +3890,7 @@ B_DECFA:
   DEX                                             ; 0DED41 CA 
   BNE.B B_DECFA                                   ; 0DED42 D0 B6 
   LDX.B #$1E                                      ; 0DED44 A2 1E 
-  JSL L_EC972                                     ; 0DED46 22 72 C9 0E 
+  JSL WaitXFrames                                     ; 0DED46 22 72 C9 0E 
   LDX.B #$F0                                      ; 0DED4A A2 F0 
 B_DED4C:
   PHX                                             ; 0DED4C DA 

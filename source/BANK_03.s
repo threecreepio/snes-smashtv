@@ -5039,7 +5039,7 @@ B_3BD30:
   LDY.B #$0F                                      ; 03BD4E A0 0F 
   JSL L_EF407                                     ; 03BD50 22 07 F4 0E 
   LDX.B #$B4                                      ; 03BD54 A2 B4 
-  JSL L_EC972                                     ; 03BD56 22 72 C9 0E 
+  JSL WaitXFrames                                     ; 03BD56 22 72 C9 0E 
   LDA.B #$00                                      ; 03BD5A A9 00 
   LDY.B #$0F                                      ; 03BD5C A0 0F 
   JSL L_EF407                                     ; 03BD5E 22 07 F4 0E 

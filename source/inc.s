@@ -49,6 +49,7 @@ JoyDown    = $02F0
 JoyHolding = $02F8
 JoyPressed = $0300
 
+GameCircuitWarpActive = $020E
 
 IRQHandlerLo   = $00CB
 IRQHandlerHi   = $00CC
@@ -57,6 +58,8 @@ IRQHandlerBank = $00CD
 NMIHandlerLo   = $00C7
 NMIHandlerHi   = $00C8
 NMIHandlerBank = $00C9
+
+DemoRunning = $1BF1
 
 NMIPending = $052D
 XexzyItemLocationMaybe = $27

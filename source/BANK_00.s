@@ -29,7 +29,7 @@ V_STARTUP:
   lda.w #$01FF
   tcs
   ; initialize out some game state
-  stz $1BF1
+  stz DemoRunning
   sep #P_Idx8Bit | P_Acc8Bit                                      ; 008030 E2 30 
   stz $02CB
   stz $052C
@@ -37,7 +37,7 @@ V_STARTUP:
   JSL L_EDAFF                                     ; 00803B 22 FF DA 0E 
   LDA.W $020A                                     ; 00803F AD 0A 02 
   BNE.B B_806B                                    ; 008042 D0 27 
-  STZ.W $020E                                     ; 008044 9C 0E 02 
+  STZ.W GameCircuitWarpActive                                     ; 008044 9C 0E 02 
   STZ.W $020F                                     ; 008047 9C 0F 02 
   STZ.W $052F                                     ; 00804A 9C 2F 05 
   LDA.B #$02                                      ; 00804D A9 02 
@@ -59,7 +59,7 @@ B_8074:
   JSL L_F835A                                     ; 008076 22 5A 83 0F 
   LDA.W #$0000                                    ; 00807A A9 00 00 
   JSL L_F836D                                     ; 00807D 22 6D 83 0F 
-D_8081:
+ReturnToTitle:
   SEP.B #P_Acc8Bit                                      ; 008081 E2 20 
   STZ.W $02CB                                     ; 008083 9C CB 02 
   STZ.W $052C                                     ; 008086 9C 2C 05 
@@ -129,11 +129,12 @@ ReturnToTitleMenu:
   STZ.W $02CB                                     ; 008141 9C CB 02 
   STZ.W $052C                                     ; 008144 9C 2C 05 
   JSL RunTitleMenuScreen                                     ; 008147 22 30 D7 0E 
-  LDA.W $020E                                     ; 00814B AD 0E 02 
+  LDA.W GameCircuitWarpActive                                     ; 00814B AD 0E 02 
   BEQ.B B_8159                                    ; 00814E F0 09 
 
-.byte $22,$18,$DD,$0E,$AD,$AB,$05,$30             ; 008150 ........ "??????0
-.byte $4C                                         ; 008159 .        L
+  JSL RunCircuitWarpScreen
+  LDA $05AB
+  BMI RunGameCreditsScreen
 
 B_8159:
   PEA.W $0000                                     ; 008159 F4 00 00 
@@ -155,7 +156,10 @@ B_8159:
 .byte $22,$E6,$E3,$0E,$22,$57,$E2,$0E             ; 008189 ........ "???"W??
 .byte $A9,$02,$8D,$08,$02,$22,$F3,$DA             ; 008191 ........ ?????"??
 .byte $0E,$4C,$E6,$80,$AE,$AB,$05,$E8             ; 008199 ........ ?L??????
-.byte $E0,$03,$D0,$C1,$AD,$2F,$05,$D0             ; 0081A1 ........ ?????/??
+.byte $E0,$03,$D0,$C1
+
+RunGameCreditsScreen:
+.byte $AD,$2F,$05,$D0             ; 0081A1 ........ ?????/??
 .byte $15,$AD,$2E,$05,$F0,$05,$A9,$02             ; 0081A9 ........ ??.?????
 .byte $8D,$30,$05,$22,$49,$E1,$0E,$AD             ; 0081B1 ........ ?0?"I???
 .byte $30,$05,$C9,$02,$F0,$03,$4C,$E6             ; 0081B9 ........ 0?????L?
@@ -551,7 +555,7 @@ RunGameScreen:
   JSL FadeScreenIn                                     ; 0084E2 22 1E CA 0E 
   JSL L_F81DA                                     ; 0084E6 22 DA 81 0F 
   LDX.B #$28                                      ; 0084EA A2 28 
-  JSL L_EC972                                     ; 0084EC 22 72 C9 0E 
+  JSL WaitXFrames                                     ; 0084EC 22 72 C9 0E 
 B_84F0:
   JSL Wait1Frame                                     ; 0084F0 22 13 CA 0E 
   JSL UpdateJoypadState                                     ; 0084F4 22 6A CA 0E 
@@ -1777,7 +1781,7 @@ B_910C:
   JSR.W L_9013                                    ; 009119 20 13 90 
   JSR.W L_8F83                                    ; 00911C 20 83 8F 
   LDX.B #$3C                                      ; 00911F A2 3C 
-  JSL L_EC972                                     ; 009121 22 72 C9 0E 
+  JSL WaitXFrames                                     ; 009121 22 72 C9 0E 
   JSR.W L_94AB                                    ; 009125 20 AB 94 
   JSR.W L_E933                                    ; 009128 20 33 E9 
   LDX.B #$01                                      ; 00912B A2 01 
@@ -1832,7 +1836,7 @@ B_9167:
 .byte $20,$47,$93,$60                             ; 0091A0 ....      G?`
 
 B_91A3:
-  LDA.W $1BF1                                     ; 0091A3 AD F1 1B 
+  LDA.W DemoRunning                                     ; 0091A3 AD F1 1B 
   BEQ.B B_91AD                                    ; 0091A6 F0 05 
   LDA.B #$07                                      ; 0091A8 A9 07 
   STA.W CurrentRoom                                     ; 0091AA 8D AC 05 
@@ -1868,7 +1872,7 @@ B_91F7:
   JSL Wait1Frame                                     ; 0091FA 22 13 CA 0E 
   JSL UpdateJoypadState                                     ; 0091FE 22 6A CA 0E 
   JSR.W L_9374                                    ; 009202 20 74 93 
-  LDA.W $1BF1                                     ; 009205 AD F1 1B 
+  LDA.W DemoRunning                                     ; 009205 AD F1 1B 
   BNE.B B_9211                                    ; 009208 D0 07 
   LDA.W CurrentRoom                                     ; 00920A AD AC 05 
   CMP.B #$01                                      ; 00920D C9 01 
@@ -1937,7 +1941,7 @@ B_9284:
   JSL UpdateJoypadState                                     ; 009291 22 6A CA 0E 
   JSR.W L_9013                                    ; 009295 20 13 90 
   JSR.W L_8F83                                    ; 009298 20 83 8F 
-  LDA.W $1BF1                                     ; 00929B AD F1 1B 
+  LDA.W DemoRunning                                     ; 00929B AD F1 1B 
   BNE.B B_92A7                                    ; 00929E D0 07 
   LDA.W CurrentRoom                                     ; 0092A0 AD AC 05 
   CMP.B #$01                                      ; 0092A3 C9 01 
@@ -1962,7 +1966,7 @@ B_92B5:
   BRA.B B_92D9                                    ; 0092D1 80 06 
 B_92D3:
   LDX.B #$3C                                      ; 0092D3 A2 3C 
-  JSL L_EC972                                     ; 0092D5 22 72 C9 0E 
+  JSL WaitXFrames                                     ; 0092D5 22 72 C9 0E 
 B_92D9:
   JSR.W L_94AB                                    ; 0092D9 20 AB 94 
   JSR.W L_E933                                    ; 0092DC 20 33 E9 
@@ -2139,7 +2143,7 @@ B_9466:
   JSR.W L_9013                                    ; 009473 20 13 90 
   JSR.W L_8F83                                    ; 009476 20 83 8F 
   LDX.B #$3C                                      ; 009479 A2 3C 
-  JSL L_EC972                                     ; 00947B 22 72 C9 0E 
+  JSL WaitXFrames                                     ; 00947B 22 72 C9 0E 
   JSR.W L_94AB                                    ; 00947F 20 AB 94 
   JSR.W L_E933                                    ; 009482 20 33 E9 
   LDX.B #$00                                      ; 009485 A2 00 
@@ -7150,7 +7154,7 @@ B_C1C7:
   STZ.W $1AAF,X                                   ; 00C1C7 9E AF 1A 
   DEX                                             ; 00C1CA CA 
   BPL.B B_C1C7                                    ; 00C1CB 10 FA 
-  LDA.W $020E                                     ; 00C1CD AD 0E 02 
+  LDA.W GameCircuitWarpActive                                     ; 00C1CD AD 0E 02 
   BEQ.B B_C1E0                                    ; 00C1D0 F0 0E 
 
 .byte $22,$6A,$CA,$0E,$AD,$F1,$02,$29             ; 00C1D2 ........ "j?????)
@@ -10282,7 +10286,7 @@ L_EFFE:
   REP.B #P_Acc8Bit                                      ; 00F026 C2 20 
   JSL FadeScreenIn                                     ; 00F028 22 1E CA 0E 
   LDX.W #$00B4                                    ; 00F02C A2 B4 00 
-  JSL L_EC972                                     ; 00F02F 22 72 C9 0E 
+  JSL WaitXFrames                                     ; 00F02F 22 72 C9 0E 
   JSL FadeScreenOut                                     ; 00F033 22 32 CA 0E 
   PLP                                             ; 00F037 28 
   RTL                                             ; 00F038 6B 
