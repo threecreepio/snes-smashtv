@@ -2523,78 +2523,91 @@ WaitXFrames:
   bne WaitXFrames
   rtl
 
-L_EC97A:
-  PHP                                             ; 0EC97A 08 
-  REP.B #P_Idx8Bit                                      ; 0EC97B C2 10 
-  SEP.B #P_Acc8Bit                                      ; 0EC97D E2 20 
-  LDA.B #$80                                      ; 0EC97F A9 80 
-  STA.W VMAIN                                     ; 0EC981 8D 15 21 
-  LDX.W #$C9AB                                    ; 0EC984 A2 AB C9 
-  STX.W A1T0L                                     ; 0EC987 8E 02 43 
-  LDA.B #$0E                                      ; 0EC98A A9 0E 
-  STA.W A1B0                                      ; 0EC98C 8D 04 43 
-  LDX.W #$0000                                    ; 0EC98F A2 00 00 
-  STX.W DAS0L                                     ; 0EC992 8E 05 43 
-  STX.W VMADDL                                    ; 0EC995 8E 16 21 
-  LDA.B #$18                                      ; 0EC998 A9 18 
-  STA.W BBAD0                                     ; 0EC99A 8D 01 43 
-  LDA.B #$09                                      ; 0EC99D A9 09 
-  STA.W DMAP0                                     ; 0EC99F 8D 00 43 
-  LDA.B #$80                                      ; 0EC9A2 A9 80 
-  LDA.B #$01                                      ; 0EC9A4 A9 01 
-  STA.W MDMAEN                                    ; 0EC9A6 8D 0B 42 
-  PLP                                             ; 0EC9A9 28 
-  RTL                                             ; 0EC9AA 6B 
+ClearPPUVRAM:
+  PHP
+  REP.B #P_Idx8Bit
+  SEP.B #P_Acc8Bit
+  ; set increment mode
+  LDA.B #$80
+  STA.W VMAIN
+  ; point hdma 1 source to a zero byte
+  LDX.W #@ZeroByte
+  STX.W A1T0L
+  LDA.B #$0E
+  STA.W A1B0
+  ; point hdma 0 and vram addr to $0000
+  LDX.W #$0000
+  STX.W DAS0L
+  STX.W VMADDL
+  ; set hdma 0 to write to VMDATAL
+  LDA.B #(VMDATAL & $FF)
+  STA.W BBAD0
+  ; copy zero byte repeatedly to vram
+  LDA.B #DMAP_AbusStep_Fixed|DMAP_VRAMTransferWords
+  STA.W DMAP0
+  ; load #$80!
+  lda #$80
+  ; load hdma register 1 and start transfer
+  lda #%00000001
+  sta MDMAEN
+  ; we've only bloody done it.
+  plp
+  rtl
+@ZeroByte
+.byte $00
 
-.byte $00                                         ; 0EC9AC D        ?
 
-
-L_EC9AC:
-  PHP                                             ; 0EC9AC 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EC9AD E2 30 
-  LDX.B #$02                                      ; 0EC9AF A2 02 
-B_EC9B1:
-  STZ.W OBSEL,X                                   ; 0EC9B1 9E 01 21 
-  STZ.W VMAIN,X                                   ; 0EC9B4 9E 15 21 
-  DEX                                             ; 0EC9B7 CA 
-  BPL.B B_EC9B1                                   ; 0EC9B8 10 F7 
-  LDX.B #$07                                      ; 0EC9BA A2 07 
-B_EC9BC:
-  STZ.W BGMODE,X                                  ; 0EC9BC 9E 05 21 
-  STZ.W BG1HOFS,X                                 ; 0EC9BF 9E 0D 21 
-  STZ.W BG1HOFS,X                                 ; 0EC9C2 9E 0D 21 
-  DEX                                             ; 0EC9C5 CA 
-  BPL.B B_EC9BC                                   ; 0EC9C6 10 F4 
-  STZ.W M7SEL                                     ; 0EC9C8 9C 1A 21 
-  STZ.W CGADD                                     ; 0EC9CB 9C 21 21 
-  LDA.B #$01                                      ; 0EC9CE A9 01 
-  STZ.W M7A                                       ; 0EC9D0 9C 1B 21 
-  STA.W M7A                                       ; 0EC9D3 8D 1B 21 
-  STZ.W M7B                                       ; 0EC9D6 9C 1C 21 
-  STZ.W M7B                                       ; 0EC9D9 9C 1C 21 
-  STZ.W M7C                                       ; 0EC9DC 9C 1D 21 
-  STZ.W M7C                                       ; 0EC9DF 9C 1D 21 
-  STZ.W M7D                                       ; 0EC9E2 9C 1E 21 
-  STA.W M7D                                       ; 0EC9E5 8D 1E 21 
-  STZ.W M7X                                       ; 0EC9E8 9C 1F 21 
-  STZ.W M7X                                       ; 0EC9EB 9C 1F 21 
-  STZ.W M7Y                                       ; 0EC9EE 9C 20 21 
-  STZ.W M7Y                                       ; 0EC9F1 9C 20 21 
-  STZ.W SETINI                                    ; 0EC9F4 9C 33 21 
-  LDX.B #$0E                                      ; 0EC9F7 A2 0E 
-B_EC9F9:
-  STZ.W W12SEL,X                                  ; 0EC9F9 9E 23 21 
-  STZ.W NMITIMEN,X                                ; 0EC9FC 9E 00 42 
-  DEX                                             ; 0EC9FF CA 
-  BPL.B B_EC9F9                                   ; 0ECA00 10 F7 
-  LDA.B #$FF                                      ; 0ECA02 A9 FF 
-  STA.W WRIO                                      ; 0ECA04 8D 01 42 
-  LDA.B #$E0                                      ; 0ECA07 A9 E0 
-  STA.W COLDATA                                   ; 0ECA09 8D 32 21 
-  LDA.B #$30                                      ; 0ECA0C A9 30 
-  STA.W CGWSEL                                    ; 0ECA0E 8D 30 21 
-  PLP                                             ; 0ECA11 28 
-  RTL                                             ; 0ECA12 6B 
+ClearPPUState:
+  php
+  sep #P_Idx8Bit | P_Acc8Bit
+  ; clear ppu masks
+  ldx #$02
+@ClearMasks:
+  stz OBSEL,X
+  stz VMAIN,X
+  dex
+  bpl @ClearMasks
+  ; clear ppu modes and scrolls
+  ldx #7
+@ClearScrollAndMode:
+  stz BGMODE,X
+  stz BG1HOFS,X
+  stz BG1HOFS,X
+  dex
+  bpl @ClearScrollAndMode
+  ; clear out mode7 settings
+  stz M7SEL
+  stz CGADD
+  lda #$01
+  stz M7A
+  sta M7A
+  stz M7B
+  stz M7B
+  stz M7C
+  stz M7C
+  stz M7D
+  sta M7D
+  stz M7X
+  stz M7X
+  stz M7Y
+  stz M7Y
+  stz SETINI
+  ; clear math settings
+  ldx #$E
+@ClearWindowMasksAndMathInfo:
+  stz W12SEL,X
+  stz NMITIMEN,X
+  dex
+  bpl @ClearWindowMasksAndMathInfo
+  ; reset a few more bits and pieces
+  lda #$FF
+  Sta WRIO
+  lda #$E0
+  sta COLDATA
+  lda #$30
+  sta CGWSEL
+  plp
+  rtl
 
 ; loop until the framecounter value has been increased by NMI
 Wait1Frame:
@@ -4399,34 +4412,42 @@ L_EDCC1:
   STZ.W NMITIMEN                                  ; 0EDCC6 9C 00 42 
   STX.B NMIHandlerLo                                       ; 0EDCC9 86 C7 
   STY.B NMIHandlerBank                                       ; 0EDCCB 84 C9 
-  JSL L_EC9AC                                     ; 0EDCCD 22 AC C9 0E 
-  JSL L_EC97A                                     ; 0EDCD1 22 7A C9 0E 
-  JSL L_AE4E                                      ; 0EDCD5 22 4E AE 00 
+  JSL ClearPPUState                                     ; 0EDCCD 22 AC C9 0E 
+  JSL ClearPPUVRAM                                     ; 0EDCD1 22 7A C9 0E 
+  JSL ClearSprites                                      ; 0EDCD5 22 4E AE 00 
+  ; set background screen bases
   LDA.B #$00                                      ; 0EDCD9 A9 00 
   STA.W BG1SC                                     ; 0EDCDB 8D 07 21 
   LDA.B #$04                                      ; 0EDCDE A9 04 
   STA.W BG2SC                                     ; 0EDCE0 8D 08 21 
   LDA.B #$08                                      ; 0EDCE3 A9 08 
   STA.W BG3SC                                     ; 0EDCE5 8D 09 21 
+  ; set background tile bases
   LDA.B #$24                                      ; 0EDCE8 A9 24 
   STA.W BG12NBA                                   ; 0EDCEA 8D 0B 21 
   LDA.B #$01                                      ; 0EDCED A9 01 
   STA.W BG34NBA                                   ; 0EDCEF 8D 0C 21 
-  LDA.B #$83                                      ; 0EDCF2 A9 83 
+  ; set object sizes
+  LDA.B #OBSEL_Size_16_64 | 3                                      ; 0EDCF2 A9 83 
   STA.W OBSEL                                     ; 0EDCF4 8D 01 21 
-  LDA.B #$09                                      ; 0EDCF7 A9 09 
+  LDA.B #BGMODE_Mode_1 | BGMODE_BGPrio_High                                      ; 0EDCF7 A9 09 
+  ; enable main screen backgrounds and objects
   STA.W BGMODE                                    ; 0EDCF9 8D 05 21 
-  LDA.B #$17                                      ; 0EDCFC A9 17 
+  LDA.B #TM_BG1_Enabled|TM_BG2_Enabled|TM_BG3_Enabled|TM_OBJ_Enabled                                      ; 0EDCFC A9 17 
   STA.W TM                                        ; 0EDCFE 8D 2C 21 
+  ; clear scroll
   LDX.W #$0000                                    ; 0EDD01 A2 00 00 
-B_EDD04:
+@ClearScroll:
   STZ.W BG1HOFS,X                                 ; 0EDD04 9E 0D 21 
   STZ.W BG1HOFS,X                                 ; 0EDD07 9E 0D 21 
   INX                                             ; 0EDD0A E8 
   CPX.W #$0008                                    ; 0EDD0B E0 08 00 
-  BNE.B B_EDD04                                   ; 0EDD0E D0 F4 
+  BNE.B @ClearScroll                                   ; 0EDD0E D0 F4 
+  ; clear sub screen backgrounds and objects
   STZ.W TS                                        ; 0EDD10 9C 2D 21 
+  ; clear screen 4 info
   STZ.W BG4SC                                     ; 0EDD13 9C 0A 21 
+  ; we are done!
   PLP                                             ; 0EDD16 28 
   RTL                                             ; 0EDD17 6B 
 

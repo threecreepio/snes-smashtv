@@ -51,8 +51,6 @@ CheatIndex_InputsLivesSelect = 2
 CheatIndex_TurboMode = 3
 
 
-
-
 TurboModeActive = $052E
 
 
@@ -327,3 +325,44 @@ D_7E334C = $7E334C
 D_7E338C = $7E338C
 D_7E3BAE = $7E3BAE
 D_7E6CF6 = $7E6CF6
+
+OBSEL_Size_8_16 = %00000000
+OBSEL_Size_8_32 = %00100000
+OBSEL_Size_8_64 = %01000000
+OBSEL_Size_16_32 = %01100000
+OBSEL_Size_16_64 = %10000000
+OBSEL_Size_32_64 = %10100000
+OBSEL_Size_16_3264 = %11000000
+OBSEL_Size_1632_3232 = %11100000
+
+BGMODE_Mode_0 = 0
+BGMODE_Mode_1 = 1
+BGMODE_Mode_2 = 2
+BGMODE_Mode_3 = 3
+BGMODE_Mode_4 = 4
+BGMODE_Mode_5 = 5
+BGMODE_Mode_6 = 6
+BGMODE_Mode_7 = 7
+
+BGMODE_BGPrio_Normal = 0 << 3
+BGMODE_BGPrio_High = 1 << 3
+
+BGMODE_BG1Tile_8  = 0 << 4
+BGMODE_BG1Tile_16 = 1 << 4
+BGMODE_BG2Tile_8  = 0 << 5
+BGMODE_BG2Tile_16 = 1 << 5
+BGMODE_BG3Tile_8  = 0 << 6
+BGMODE_BG3Tile_16 = 1 << 6
+BGMODE_BG4Tile_8  = 0 << 7
+BGMODE_BG4Tile_16 = 1 << 7
+
+TM_BG1_Enabled = %00000001
+TM_BG2_Enabled = %00000010
+TM_BG3_Enabled = %00000100
+TM_BG4_Enabled = %00001000
+TM_OBJ_Enabled = %00010000
+
+DMAP_AbusStep_Increment   = 0 << 2
+DMAP_AbusStep_Decrement   = 1 << 2
+DMAP_AbusStep_Fixed       = 2 << 2
+DMAP_VRAMTransferWords    = %0000001

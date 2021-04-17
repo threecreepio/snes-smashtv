@@ -3923,8 +3923,8 @@ B_A450:
 
 L_A45F:
   PHP                                             ; 00A45F 08 
-  JSL L_EC9AC                                     ; 00A460 22 AC C9 0E 
-  JSL L_EC97A                                     ; 00A464 22 7A C9 0E 
+  JSL ClearPPUState                                     ; 00A460 22 AC C9 0E 
+  JSL ClearPPUVRAM                                     ; 00A464 22 7A C9 0E 
   REP.B #$10                                      ; 00A468 C2 10 
   SEP.B #P_Acc8Bit                                      ; 00A46A E2 20 
   LDA.B #$09                                      ; 00A46C A9 09 
@@ -4846,27 +4846,28 @@ D_AE4C:
 .byte $58,$5C                                     ; 00AE4D DD       X\
 
 
-L_AE4E:
-  PHP                                             ; 00AE4E 08 
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AE4F C2 30 
-  LDX.W #$0000                                    ; 00AE51 A2 00 00 
-  LDA.W #$F0FF                                    ; 00AE54 A9 FF F0 
-B_AE57:
-  STA.W $0308,X                                   ; 00AE57 9D 08 03 
-  INX                                             ; 00AE5A E8 
-  INX                                             ; 00AE5B E8 
-  INX                                             ; 00AE5C E8 
-  INX                                             ; 00AE5D E8 
-  CPX.W #$0200                                    ; 00AE5E E0 00 02 
-  BNE.B B_AE57                                    ; 00AE61 D0 F4 
-B_AE63:
-  STZ.W $0308,X                                   ; 00AE63 9E 08 03 
-  INX                                             ; 00AE66 E8 
-  INX                                             ; 00AE67 E8 
-  CPX.W #$0220                                    ; 00AE68 E0 20 02 
-  BNE.B B_AE63                                    ; 00AE6B D0 F6 
-  PLP                                             ; 00AE6D 28 
-  RTL                                             ; 00AE6E 6B 
+ClearSprites:
+  php
+  rep #P_Idx8Bit | P_Acc8Bit
+  ldx #$0000
+  ; move X/Y coordinates off screen
+  lda #$F0FF
+@Clear1:
+  sta $0308,X
+  inx
+  inx
+  inx
+  inx
+  cpx #$0200
+  bne @Clear1
+@Clear2:
+  stz $0308,X
+  inx
+  inx
+  cpx #$0220
+  bne @Clear2
+  plp
+  rtl
 
 L_AE6F:
   PHP                                             ; 00AE6F 08 
@@ -10271,7 +10272,7 @@ D_EFEE:
 L_EFFE:
   PHP                                             ; 00EFFE 08 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00EFFF C2 30 
-  LDX.W #$F039                                    ; 00F001 A2 39 F0 
+  LDX.W #StartupNMIHandler                                    ; 00F001 A2 39 F0 
   LDY.W #$0000                                    ; 00F004 A0 00 00 
   JSL L_EDCC1                                     ; 00F007 22 C1 DC 0E 
   LDX.W #$E76E                                    ; 00F00B A2 6E E7 
@@ -10290,6 +10291,8 @@ L_EFFE:
   JSL FadeScreenOut                                     ; 00F033 22 32 CA 0E 
   PLP                                             ; 00F037 28 
   RTL                                             ; 00F038 6B 
+
+StartupNMIHandler:
   RTL                                             ; 00F039 6B 
 
 UnusedSceneNMIHandler:

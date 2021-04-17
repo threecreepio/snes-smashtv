@@ -3389,7 +3389,7 @@ RunTitleSplashScreen:
 
 L_DE66F:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0DE66F E2 30 
-  JSL L_EC9AC                                     ; 0DE671 22 AC C9 0E 
+  JSL ClearPPUState                                     ; 0DE671 22 AC C9 0E 
   PHP                                             ; 0DE675 08 
   REP.B #P_Idx8Bit                                      ; 0DE676 C2 10 
   SEP.B #P_Acc8Bit                                      ; 0DE678 E2 20 
