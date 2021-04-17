@@ -76,9 +76,9 @@ ReturnToTitle:
   LDX.W #$1212                                    ; 0080A6 A2 12 12 
   JSL Audio_F830F                                     ; 0080A9 22 0F 83 0F 
   JSL UpdateJoypadState                                     ; 0080AD 22 6A CA 0E 
-  LDA.W JoyDown                                     ; 0080B1 AD F0 02 
-  CMP.B #$A0                                      ; 0080B4 C9 A0 
-  BNE.B B_80BC                                    ; 0080B6 D0 04 
+  lda JoyDown
+  cmp #(BTN0_LT | BTN0_A)
+  bne B_80BC
   JSL RunGameEndingScreen
 B_80BC:
   PEA.W $0000                                     ; 0080BC F4 00 00 
@@ -104,7 +104,7 @@ GameScreenLoop:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0080EB E2 30 
   STZ.W CurrentRound                                     ; 0080ED 9C AB 05 
   STZ.W CurrentRoom                                     ; 0080F0 9C AC 05 
-  STZ.W $052E                                     ; 0080F3 9C 2E 05 
+  STZ.W TurboModeActive                                     ; 0080F3 9C 2E 05 
   LDA.W $052F                                     ; 0080F6 AD 2F 05 
   BEQ.B B_811F                                    ; 0080F9 F0 24 
 
@@ -580,7 +580,7 @@ B_851E:
   JSL UpdateJoypadState                                     ; 008528 22 6A CA 0E 
   JSR.W L_B0F9                                    ; 00852C 20 F9 B0 
   LDA.B $D2                                       ; 00852F A5 D2 
-  AND.W $052E                                     ; 008531 2D 2E 05 
+  AND.W TurboModeActive                                     ; 008531 2D 2E 05 
   BEQ.B B_8539                                    ; 008534 F0 03 
 
 .byte $20,$F9,$B0                                 ; 008537 ...       ??
@@ -592,7 +592,7 @@ B_8539:
   JSL L_9CB2                                      ; 008542 22 B2 9C 00 
   JSL L_3811E                                     ; 008546 22 1E 81 03 
   LDA.B $D2                                       ; 00854A A5 D2 
-  AND.W $052E                                     ; 00854C 2D 2E 05 
+  AND.W TurboModeActive                                     ; 00854C 2D 2E 05 
   BEQ.B B_8555                                    ; 00854F F0 04 
 
 .byte $22,$1E,$81,$03                             ; 008552 ....     "???
@@ -603,7 +603,7 @@ B_8555:
   BNE.B B_856B                                    ; 00855C D0 0D 
   JSR.W L_C2B5                                    ; 00855E 20 B5 C2 
   LDA.B $D2                                       ; 008561 A5 D2 
-  AND.W $052E                                     ; 008563 2D 2E 05 
+  AND.W TurboModeActive                                     ; 008563 2D 2E 05 
   BEQ.B B_856B                                    ; 008566 F0 03 
 
 .byte $20,$B5,$C2                                 ; 008569 ...       ??
@@ -630,7 +630,7 @@ B_8589:
 B_8593:
   LDX.W $18A4                                     ; 008593 AE A4 18 
   BEQ.B B_859B                                    ; 008596 F0 03 
-  ORA.W JoyPressed+3                                     ; 008598 0D 03 03 
+  ORA.W Joy2Pressed+1                                     ; 008598 0D 03 03 
 B_859B:
   AND.B #$10                                      ; 00859B 29 10 
   BEQ.B B_85B5                                    ; 00859D F0 16 
@@ -2612,7 +2612,7 @@ L_9804:
 .byte $05,$A2,$07,$74,$97,$CA,$10,$FB             ; 009828 ........ ???t????
 
 B_9830:
-  LDA.W JoyPressed+3                                     ; 009830 AD 03 03 
+  LDA.W Joy2Pressed+1                                     ; 009830 AD 03 03 
   AND.B #$10                                      ; 009833 29 10 
   BEQ.B B_9854                                    ; 009835 F0 1D 
 
@@ -5279,7 +5279,7 @@ B_B13F:
   LDA.W EntityYPx                                     ; 00B151 AD 9C 0C 
   STA.W $18BF                                     ; 00B154 8D BF 18 
   LDA.W JoyDown+1                                     ; 00B157 AD F1 02 
-  AND.B #$0F                                      ; 00B15A 29 0F 
+  AND.B #BTN1_R|BTN1_L|BTN1_D|BTN1_U                                      ; 00B15A 29 0F 
   ASL                                             ; 00B15C 0A 
   TAX                                             ; 00B15D AA 
   STZ.W $18C0                                     ; 00B15E 9C C0 18 
@@ -5291,27 +5291,27 @@ B_B16A:
   JSR.W (L_B42F,X)                                ; 00B16A FC 2F B4 
   STZ.B $04                                       ; 00B16D 64 04 
   LDA.W JoyDown                                     ; 00B16F AD F0 02 
-  AND.B #$80                                      ; 00B172 29 80 
+  AND.B #BTN0_A                                      ; 00B172 29 80 
   BEQ.B B_B17A                                    ; 00B174 F0 04 
   LDA.B #$01                                      ; 00B176 A9 01 
   STA.B $04                                       ; 00B178 85 04 
 B_B17A:
   LDA.W JoyDown+1                                     ; 00B17A AD F1 02 
-  AND.B #$40                                      ; 00B17D 29 40 
+  AND.B #BTN1_Y                                      ; 00B17D 29 40 
   BEQ.B B_B187                                    ; 00B17F F0 06 
   LDA.B $04                                       ; 00B181 A5 04 
   ORA.B #$02                                      ; 00B183 09 02 
   STA.B $04                                       ; 00B185 85 04 
 B_B187:
   LDA.W JoyDown                                     ; 00B187 AD F0 02 
-  AND.B #$40                                      ; 00B18A 29 40 
+  AND.B #BTN0_X                                      ; 00B18A 29 40 
   BEQ.B B_B194                                    ; 00B18C F0 06 
   LDA.B $04                                       ; 00B18E A5 04 
   ORA.B #$08                                      ; 00B190 09 08 
   STA.B $04                                       ; 00B192 85 04 
 B_B194:
   LDA.W JoyDown+1                                     ; 00B194 AD F1 02 
-  AND.B #$80                                      ; 00B197 29 80 
+  AND.B #BTN1_B                                      ; 00B197 29 80 
   BEQ.B B_B1A1                                    ; 00B199 F0 06 
   LDA.B $04                                       ; 00B19B A5 04 
   ORA.B #$04                                      ; 00B19D 09 04 
@@ -5342,7 +5342,7 @@ B_B1D6:
   BRA.B B_B20A                                    ; 00B1D6 80 32 
 B_B1D8:
   LDA.W JoyDown+1                                     ; 00B1D8 AD F1 02 
-  AND.B #$0F                                      ; 00B1DB 29 0F 
+  AND.B #BTN1_R|BTN1_L|BTN1_D|BTN1_U                                      ; 00B1DB 29 0F 
   ASL                                             ; 00B1DD 0A 
   TAX                                             ; 00B1DE AA 
   LDA.W $187C                                     ; 00B1DF AD 7C 18 
@@ -5475,8 +5475,8 @@ B_B2B4:
   STA.W $18BE                                     ; 00B2C3 8D BE 18 
   LDA.W EntityYPx+1                                     ; 00B2C6 AD 9D 0C 
   STA.W $18BF                                     ; 00B2C9 8D BF 18 
-  LDA.W JoyDown+3                                     ; 00B2CC AD F3 02 
-  AND.B #$0F                                      ; 00B2CF 29 0F 
+  LDA.W Joy2Down+1                                     ; 00B2CC AD F3 02 
+  AND.B #BTN1_R|BTN1_L|BTN1_D|BTN1_U                                      ; 00B2CF 29 0F 
   ASL                                             ; 00B2D1 0A 
   TAX                                             ; 00B2D2 AA 
   LDA.B #$01                                      ; 00B2D3 A9 01 
@@ -5490,28 +5490,28 @@ B_B2B4:
 B_B2E1:
   JSR.W (L_B42F,X)                                ; 00B2E1 FC 2F B4 
   STZ.B $04                                       ; 00B2E4 64 04 
-  LDA.W JoyDown+2                                     ; 00B2E6 AD F2 02 
-  AND.B #$80                                      ; 00B2E9 29 80 
+  LDA.W Joy2Down                                     ; 00B2E6 AD F2 02 
+  AND.B #BTN0_A                                      ; 00B2E9 29 80 
   BEQ.B B_B2F1                                    ; 00B2EB F0 04 
   LDA.B #$01                                      ; 00B2ED A9 01 
   STA.B $04                                       ; 00B2EF 85 04 
 B_B2F1:
-  LDA.W JoyDown+3                                     ; 00B2F1 AD F3 02 
-  AND.B #$40                                      ; 00B2F4 29 40 
+  LDA.W Joy2Down+1                                     ; 00B2F1 AD F3 02 
+  AND.B #BTN1_Y                                      ; 00B2F4 29 40 
   BEQ.B B_B2FE                                    ; 00B2F6 F0 06 
   LDA.B $04                                       ; 00B2F8 A5 04 
   ORA.B #$02                                      ; 00B2FA 09 02 
   STA.B $04                                       ; 00B2FC 85 04 
 B_B2FE:
-  LDA.W JoyDown+2                                     ; 00B2FE AD F2 02 
-  AND.B #$40                                      ; 00B301 29 40 
+  LDA.W Joy2Down                                     ; 00B2FE AD F2 02 
+  AND.B #BTN0_X                                      ; 00B301 29 40 
   BEQ.B B_B30B                                    ; 00B303 F0 06 
   LDA.B $04                                       ; 00B305 A5 04 
   ORA.B #$08                                      ; 00B307 09 08 
   STA.B $04                                       ; 00B309 85 04 
 B_B30B:
-  LDA.W JoyDown+3                                     ; 00B30B AD F3 02 
-  AND.B #$80                                      ; 00B30E 29 80 
+  LDA.W Joy2Down+1                                     ; 00B30B AD F3 02 
+  AND.B #BTN1_B                                      ; 00B30E 29 80 
   BEQ.B B_B318                                    ; 00B310 F0 06 
   LDA.B $04                                       ; 00B312 A5 04 
   ORA.B #$04                                      ; 00B314 09 04 
@@ -5542,8 +5542,8 @@ B_B318:
 B_B34F:
   BRA.B B_B383                                    ; 00B34F 80 32 
 B_B351:
-  LDA.W JoyDown+3                                     ; 00B351 AD F3 02 
-  AND.B #$0F                                      ; 00B354 29 0F 
+  LDA.W Joy2Down+1                                     ; 00B351 AD F3 02 
+  AND.B #BTN1_R|BTN1_L|BTN1_D|BTN1_U                                      ; 00B354 29 0F 
   ASL                                             ; 00B356 0A 
   TAX                                             ; 00B357 AA 
   LDA.W $187D                                     ; 00B358 AD 7D 18 

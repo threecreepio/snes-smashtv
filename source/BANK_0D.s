@@ -567,7 +567,7 @@ GetDemoJoypad:
   ; if a controller button is pressed,
   ; exit back to the menu
   lda JoyDirect
-  ora JoyDirect+2
+  ora Joy2Direct
   bne @ExitToMenu
   ; switch to data bank D
   pea $0D0D
@@ -3898,8 +3898,8 @@ B_DED4C:
   JSL UpdateJoypadState                                     ; 0DED51 22 6A CA 0E 
   PLX                                             ; 0DED55 FA 
   LDA.W JoyDown+1                                     ; 0DED56 AD F1 02 
-  ORA.W JoyDown+3                                     ; 0DED59 0D F3 02 
-  AND.B #$10                                      ; 0DED5C 29 10 
+  ORA.W Joy2Down+1                                     ; 0DED59 0D F3 02 
+  AND.B #BTN1_START                                      ; 0DED5C 29 10 
   BNE.B B_DED63                                   ; 0DED5E D0 03 
   DEX                                             ; 0DED60 CA 
   BNE.B B_DED4C                                   ; 0DED61 D0 E9 

@@ -1,4 +1,3 @@
-
 CurrentRound = $5AB
 CurrentRoom = $5AC
 
@@ -43,11 +42,49 @@ EntityV34    = EntityHeader + (MaxEntities * 34) + 4
 EntityV35    = EntityHeader + (MaxEntities * 35) + 4
 EntityV36    = EntityHeader + (MaxEntities * 36) + 4
 
+TitleEnteringCheat   = $026C
+TitleCheatInputIndex = $026E
+TitleActivatedCheat  = $026A
+CheatIndex_CircuitWarp = 0
+CheatIndex_SoundTest = 1
+CheatIndex_InputsLivesSelect = 2
+CheatIndex_TurboMode = 3
 
-JoyDirect  = $02E8
-JoyDown    = $02F0
-JoyHolding = $02F8
-JoyPressed = $0300
+
+
+
+TurboModeActive = $052E
+
+
+; joypad
+JoyDirect   = $02E8
+JoyDown     = $02F0
+JoyHolding  = $02F8
+JoyPressed  = $0300
+Joy2Direct  = $02EA
+Joy2Down    = $02F2
+Joy2Pressed = $0302
+
+(BTN1_B|BTN1_Y|BTN1_START)<<8|(BTN0_A|BTN0_X)
+
+BTN1_R      = %00000001
+BTN1_L      = %00000010
+BTN1_D      = %00000100
+BTN1_U      = %00001000
+BTN1_START  = %00010000
+BTN1_SELECT = %00100000
+BTN1_Y      = %01000000
+BTN1_B      = %10000000
+
+BTN0_Unk0   = %00000001
+BTN0_Unk1   = %00000010
+BTN0_Unk2   = %00000100
+BTN0_Unk3   = %00001000
+BTN0_RT     = %00010000
+BTN0_LT     = %00100000
+BTN0_X      = %01000000
+BTN0_A      = %10000000
+
 
 GameCircuitWarpActive = $020E
 

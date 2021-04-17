@@ -3072,7 +3072,7 @@ B_ECDAE:
   PHX                                             ; 0ECDB2 DA 
   JSL UpdateJoypadState                                     ; 0ECDB3 22 6A CA 0E 
   LDA.W JoyDown                                     ; 0ECDB7 AD F0 02 
-  CMP.W #$8030                                    ; 0ECDBA C9 30 80 
+  CMP.W #BTN0_LT + BTN0_RT + (BTN1_B << 8)
   BNE.B B_ECDC1                                   ; 0ECDBD D0 02 
 
 .byte $85,$04                                     ; 0ECDC0 ..       ??
@@ -3148,6 +3148,7 @@ B_ECE49:
   RTS                                             ; 0ECE49 60 
 
 
+CheatActivateSoundTest:
 .byte $08,$8B,$C2,$30,$A2,$3C,$D0,$A0             ; 0ECE4A ........ ???0?<??
 .byte $0E,$00,$22,$C1,$DC,$0E,$A2,$35             ; 0ECE52 ........ ??"????5
 .byte $EA,$A0,$0C,$00,$22,$EF,$E8,$0E             ; 0ECE5A ........ ????"???
@@ -3213,7 +3214,7 @@ L_ED00E:
   ADC.W #$0002                                    ; 0ED011 69 02 00 
   STA.B $0C                                       ; 0ED014 85 0C 
   LDA.W JoyPressed                                     ; 0ED016 AD 00 03 
-  ORA.W JoyPressed+2                                     ; 0ED019 0D 02 03 
+  ORA.W Joy2Pressed                                     ; 0ED019 0D 02 03 
   AND.W #$0100                                    ; 0ED01C 29 00 01 
   BEQ.B B_ED02A                                   ; 0ED01F F0 09 
 
@@ -3222,7 +3223,7 @@ L_ED00E:
 
 B_ED02A:
   LDA.W JoyPressed                                     ; 0ED02A AD 00 03 
-  ORA.W JoyPressed+2                                     ; 0ED02D 0D 02 03 
+  ORA.W Joy2Pressed                                     ; 0ED02D 0D 02 03 
   AND.W #$0200                                    ; 0ED030 29 00 02 
   BEQ.B B_ED03B                                   ; 0ED033 F0 06 
   DEX                                             ; 0ED035 CA 
@@ -3716,7 +3717,7 @@ B_ED53D:
   ASL                                             ; 0ED549 0A 
   TAX                                             ; 0ED54A AA 
   LDA.W JoyPressed,X                                   ; 0ED54B BD 00 03 
-  CMP.W #$1000                                    ; 0ED54E C9 00 10 
+  CMP.W #BTN1_START<<8                                    ; 0ED54E C9 00 10 
   BNE.B B_ED4FC                                   ; 0ED551 D0 A9 
   SEP.B #P_Acc8Bit                                      ; 0ED553 E2 20 
   DEC.W $0533                                     ; 0ED555 CE 33 05 
@@ -3863,87 +3864,137 @@ B_ED698:
   PLP                                             ; 0ED6A6 28 
   RTL                                             ; 0ED6A7 6B 
 
-L_ED6A8:
-  PHP                                             ; 0ED6A8 08 
-  PHB                                             ; 0ED6A9 8B 
-  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED6AA C2 30 
-  PEA.W $0E0E                                     ; 0ED6AC F4 0E 0E 
-  PLB                                             ; 0ED6AF AB 
-  PLB                                             ; 0ED6B0 AB 
-B_ED6B1:
-  LDA.W $026C                                     ; 0ED6B1 AD 6C 02 
-  ASL                                             ; 0ED6B4 0A 
-  TAX                                             ; 0ED6B5 AA 
-  LDA.W D_ED6F4,X                                 ; 0ED6B6 BD F4 D6 
-  BNE.B B_ED6C3                                   ; 0ED6B9 D0 08 
-  STZ.W $026C                                     ; 0ED6BB 9C 6C 02 
-  STZ.W $026E                                     ; 0ED6BE 9C 6E 02 
-  BRA.B B_ED6E6                                   ; 0ED6C1 80 23 
-B_ED6C3:
-  STA.B $1A                                       ; 0ED6C3 85 1A 
-  LDY.W $026E                                     ; 0ED6C5 AC 6E 02 
-  LDA.B ($1A),Y                                   ; 0ED6C8 B1 1A 
-  CMP.W #$FFFF                                    ; 0ED6CA C9 FF FF 
-  BEQ.B B_ED6EA                                   ; 0ED6CD F0 1B 
-  LDA.W JoyPressed                                     ; 0ED6CF AD 00 03 
-  BEQ.B B_ED6E6                                   ; 0ED6D2 F0 12 
-  CMP.B ($1A),Y                                   ; 0ED6D4 D1 1A 
-  BEQ.B B_ED6E0                                   ; 0ED6D6 F0 08 
-  INC.W $026C                                     ; 0ED6D8 EE 6C 02 
-  STZ.W $026E                                     ; 0ED6DB 9C 6E 02 
-  BRA.B B_ED6B1                                   ; 0ED6DE 80 D1 
-B_ED6E0:
-  INC.W $026E                                     ; 0ED6E0 EE 6E 02 
-  INC.W $026E                                     ; 0ED6E3 EE 6E 02 
-B_ED6E6:
-  PLB                                             ; 0ED6E6 AB 
-  PLP                                             ; 0ED6E7 28 
-  CLC                                             ; 0ED6E8 18 
-  RTS                                             ; 0ED6E9 60 
+HandleTitleMenuCheats:
+  php
+  phb
+  rep #P_Idx8Bit | P_Acc8Bit                                      ; 0ED6AA C2 30 
+  ; switch to data bank e
+  pea $0E0E
+  plb
+  plb
+@CheckNextCheat:
+  ; find pointer to the inputs for the current cheat code
+  lda TitleEnteringCheat
+  asl
+  tax
+  lda.w @CheatInputPtrs,X
+  bne @CheckCheat
+  ; we couldn't find the requested cheat, exit.
+  stz TitleEnteringCheat
+  stz TitleCheatInputIndex
+  bra @Exit
+@CheckCheat:
+  ; store away the pointer
+  sta $1A
+  ; check the next button needed to be pressed
+  ldy TitleCheatInputIndex
+  lda ($1A),Y
+  ; if we've reached the end of the input chain, activate!
+  cmp #$FFFF
+  beq @ActivateCheat
+  ; check the buttons pressed this frame and compare
+  lda JoyPressed
+  ; user hasn't pressed a button, nothing to do.
+  beq @Exit
+  ; check if we matched the required input
+  cmp ($1A),Y
+  beq @AdvanceIndex
+  ; incorrect inputs hit for this cheat, check the next one.
+  inc TitleEnteringCheat
+  stz TitleCheatInputIndex
+  bra @CheckNextCheat
+@AdvanceIndex:
+  ; we hit the correct buttons, advance the index
+  inc TitleCheatInputIndex
+  inc TitleCheatInputIndex
+@Exit:
+  ; clc to mark that a cheat was not entered, and exit
+  plb
+  plp
+  clc
+  rts
+@ActivateCheat:
+  ; mark cheat as active, sec to mark that a cheat was entered, and exit
+  lda TitleEnteringCheat
+  sta TitleActivatedCheat
+  plb
+  plp
+  sec
+  rts
 
+@CheatInputPtrs:
+.addr @CheatInputsCircuitWarp
+.addr @CheatInputsSoundTest
+.addr @CheatInputsLivesSelect
+.addr @Cheat3
+.addr $0000
 
-B_ED6EA:
-.byte $AD,$6C,$02,$8D,$6A,$02,$AB,$28             ; 0ED6EA ........ ?l??j??(
-.byte $38,$60                                     ; 0ED6F3 ..       8`
-D_ED6F4:
-.byte $14,$D7,$FE,$D6,$0A,$D7,$22,$D7             ; 0ED6F4 DDDDDDDD ??????"?
-.byte $00,$00,$20,$00,$10,$00,$20,$00             ; 0ED6FC DDDD.... ?? ??? ?
-.byte $20,$00,$10,$00,$FF,$FF,$00,$04             ; 0ED704 ......DD  ???????
-.byte $20,$00,$10,$00,$00,$08,$FF,$FF             ; 0ED70C DD......  ???????
-.byte $00,$01,$00,$01,$00,$08,$00,$04             ; 0ED714 DD...... ????????
-.byte $10,$00,$20,$00,$FF,$FF,$00,$02             ; 0ED71C ......DD ?? ?????
-.byte $00,$01,$00,$02,$00,$08,$10,$00             ; 0ED724 DD...... ????????
-.byte $10,$00,$FF,$FF                             ; 0ED72D ....     ????
+@CheatInputsSoundTest:
+.byte BTN0_LT,$00
+.byte BTN0_RT,$00
+.byte BTN0_LT,$00
+.byte BTN0_LT,$00
+.byte BTN0_RT,$00
+.byte $FF,$FF
+
+@CheatInputsLivesSelect:
+.byte $00,BTN1_D
+.byte BTN0_LT,$00
+.byte BTN0_RT,$00
+.byte $00,BTN1_U
+.byte $FF,$FF
+
+@CheatInputsCircuitWarp:
+.byte $00,BTN1_R
+.byte $00,BTN1_R
+.byte $00,BTN1_U
+.byte $00,BTN1_D
+.byte BTN0_RT,$00
+.byte BTN0_LT,$00
+.byte $FF,$FF
+
+@Cheat3:
+.byte $00,BTN1_L
+.byte $00,BTN1_R
+.byte $00,BTN1_L
+.byte $00,BTN1_U
+.byte BTN0_RT,$00
+.byte BTN0_RT,$00
+.byte $FF,$FF
 
 
 RunTitleMenuScreen:
-  PHP                                             ; 0ED730 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED731 E2 30 
-  JSL L_ED75E                                     ; 0ED733 22 5E D7 0E 
-  LDA.W $026A                                     ; 0ED737 AD 6A 02 
-  CMP.B #$01                                      ; 0ED73A C9 01 
-  BNE.B B_ED744                                   ; 0ED73C D0 06 
+  php
+  sep #P_Idx8Bit | P_Acc8Bit
+@KeepRunningMenu:
+  jsl @RunTitleMenuScreenInner
+  ; check if we've activated a cheat, and run the code for that cheat.
+  lda TitleActivatedCheat
+  cmp #CheatIndex_SoundTest
+  bne @CheckCheatInputsLivesSelect
+  ; enter the sound test menu
+  jsl CheatActivateSoundTest
+  bra @KeepRunningMenu
+@CheckCheatInputsLivesSelect:
+  cmp #CheatIndex_InputsLivesSelect
+  bne @CheckCheatTurboMode
+  ; enter the activate lives menu
+  jsr CheatActivateLivesSelect
+  bra @KeepRunningMenu
+@CheckCheatTurboMode:
+  cmp #CheatIndex_TurboMode
+  bne @Exit
+  ; activate turbo mode
+  rep #P_Idx8Bit
+  sep #P_Acc8Bit
+  lda #$01
+  sta TurboModeActive
+  bra @KeepRunningMenu
+@Exit:
+  plp
+  rtl
 
-.byte $22,$4A,$CE,$0E,$80,$EF                     ; 0ED73F ......   "J????
-
-B_ED744:
-  CMP.B #$02                                      ; 0ED744 C9 02 
-  BNE.B B_ED74D                                   ; 0ED746 D0 05 
-
-.byte $20,$1B,$D9,$80,$E6                         ; 0ED749 .....     ????
-
-B_ED74D:
-  CMP.B #$03                                      ; 0ED74D C9 03 
-  BNE.B B_ED75C                                   ; 0ED74F D0 0B 
-
-.byte $C2,$10,$E2,$20,$A9,$01,$8D,$2E             ; 0ED751 ........ ??? ???.
-.byte $05,$80,$D7                                 ; 0ED75A ...      ???
-
-B_ED75C:
-  PLP                                             ; 0ED75C 28 
-  RTL                                             ; 0ED75D 6B 
-
-L_ED75E:
+@RunTitleMenuScreenInner:
   PHP                                             ; 0ED75E 08 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED75F C2 30 
   LDX.W #L_ED8E4                                    ; 0ED761 A2 E4 D8 
@@ -3978,14 +4029,14 @@ L_ED75E:
   STA.W NMITIMEN                                  ; 0ED7B7 8D 00 42 
   REP.B #P_Acc8Bit                                      ; 0ED7BA C2 20 
   JSL FadeScreenIn                                     ; 0ED7BC 22 1E CA 0E 
-  STZ.W $026C                                     ; 0ED7C0 9C 6C 02 
-  STZ.W $026A                                     ; 0ED7C3 9C 6A 02 
-  STZ.W $026E                                     ; 0ED7C6 9C 6E 02 
+  STZ.W TitleEnteringCheat                                     ; 0ED7C0 9C 6C 02 
+  STZ.W TitleActivatedCheat                                     ; 0ED7C3 9C 6A 02 
+  STZ.W TitleCheatInputIndex                                     ; 0ED7C6 9C 6E 02 
 D_ED7C9:
   JSL Wait1Frame                                     ; 0ED7C9 22 13 CA 0E 
   JSL UpdateJoypadState                                     ; 0ED7CD 22 6A CA 0E 
-  JSR.W L_ED6A8                                   ; 0ED7D1 20 A8 D6 
-  BCC.B B_ED7FF                                   ; 0ED7D4 90 29 
+  JSR.W HandleTitleMenuCheats                                   ; 0ED7D1 20 A8 D6 
+  BCC.B HandleTitleMenuInputs                                   ; 0ED7D4 90 29 
 
 .byte $A9,$03,$00,$22,$27,$D3,$0E,$AD             ; 0ED7D6 ........ ???"'???
 .byte $6A,$02,$F0,$0D,$A2,$1E,$00,$22             ; 0ED7DE ........ j??????"
@@ -3994,10 +4045,10 @@ D_ED7C9:
 .byte $01,$00,$8D,$0E,$02,$22,$F3,$DA             ; 0ED7F6 ........ ?????"??
 .byte $0E                                         ; 0ED7FF .        ?
 
-B_ED7FF:
+HandleTitleMenuInputs:
   LDA.W JoyDown                                     ; 0ED7FF AD F0 02 
-  ORA.W JoyDown+2                                     ; 0ED802 0D F2 02 
-  AND.W #$0400                                    ; 0ED805 29 00 04 
+  ORA.W Joy2Down                                     ; 0ED802 0D F2 02 
+  AND.W #BTN1_D << 8                                    ; 0ED805 29 00 04 
   BEQ.B B_ED831                                   ; 0ED808 F0 27 
   LDA.W $0254                                     ; 0ED80A AD 54 02 
   CMP.W #$FF74                                    ; 0ED80D C9 74 FF 
@@ -4016,8 +4067,8 @@ B_ED81C:
   INC.B $12                                       ; 0ED82F E6 12 
 B_ED831:
   LDA.W JoyDown                                     ; 0ED831 AD F0 02 
-  ORA.W JoyDown+2                                     ; 0ED834 0D F2 02 
-  AND.W #$0800                                    ; 0ED837 29 00 08 
+  ORA.W Joy2Down                                     ; 0ED834 0D F2 02 
+  AND.W #BTN1_U << 8                                    ; 0ED837 29 00 08 
   BEQ.B B_ED863                                   ; 0ED83A F0 27 
   LDA.W $0254                                     ; 0ED83C AD 54 02 
   CMP.W #$FFC4                                    ; 0ED83F C9 C4 FF 
@@ -4055,8 +4106,8 @@ B_ED88B:
   JMP.W D_ED7C9                                   ; 0ED88F 4C C9 D7 
 B_ED892:
   LDA.W JoyPressed                                     ; 0ED892 AD 00 03 
-  ORA.W JoyPressed+2                                     ; 0ED895 0D 02 03 
-  AND.W #$D0C0                                    ; 0ED898 29 C0 D0 
+  ORA.W Joy2Pressed                                     ; 0ED895 0D 02 03 
+  AND.W #(BTN1_B|BTN1_Y|BTN1_START)<<8|(BTN0_A|BTN0_X)                                    ; 0ED898 29 C0 D0 
   BNE.B B_ED8A0                                   ; 0ED89B D0 03 
   JMP.W D_ED7C9                                   ; 0ED89D 4C C9 D7 
 B_ED8A0:
@@ -4070,7 +4121,7 @@ B_ED8A0:
   BNE.B B_ED8DA                                   ; 0ED8B6 D0 22 
   REP.B #P_Acc8Bit                                      ; 0ED8B8 C2 20 
   LDA.W JoyPressed                                     ; 0ED8BA AD 00 03 
-  AND.W #$D0C0                                    ; 0ED8BD 29 C0 D0 
+  AND.W #(BTN1_B|BTN1_Y|BTN1_START)<<8|(BTN0_A|BTN0_X)                                    ; 0ED8BD 29 C0 D0 
   BNE.B B_ED8CE                                   ; 0ED8C0 D0 0C 
 
 .byte $E2,$20,$9C,$A3,$18,$A9,$01,$8D             ; 0ED8C2 ........ ? ??????
@@ -4111,6 +4162,7 @@ L_ED8E4:
   JSL ReadCurrentJoypadState                                     ; 0ED916 22 4C CA 0E 
   RTL                                             ; 0ED91A 6B 
 
+CheatActivateLivesSelect:
 .byte $08,$C2,$30,$A9,$05,$00,$22,$EC             ; 0ED91B ........ ??0???"?
 .byte $84,$0F,$A2,$2E,$DA,$A0,$0E,$00             ; 0ED923 ........ ???.????
 .byte $22,$C1,$DC,$0E,$A2,$D9,$FD,$A0             ; 0ED92B ........ "???????
@@ -4784,8 +4836,8 @@ B_EE3BE:
   LDA.W $0258                                     ; 0EE3C6 AD 58 02 
   BEQ.B B_EE3DC                                   ; 0EE3C9 F0 11 
   LDA.W JoyDown                                     ; 0EE3CB AD F0 02 
-  ORA.W JoyDown+2                                     ; 0EE3CE 0D F2 02 
-  AND.W #$1000                                    ; 0EE3D1 29 00 10 
+  ORA.W Joy2Down                                     ; 0EE3CE 0D F2 02 
+  AND.W #BTN1_START << 8                                    ; 0EE3D1 29 00 10 
   BEQ.B B_EE3BE                                   ; 0EE3D4 F0 E8 
 
 .byte $22,$32,$CA,$0E,$28,$6B                     ; 0EE3D7 ......   "2??(k
@@ -4905,7 +4957,7 @@ B_EE493:
   STZ.W $0228                                     ; 0EE4DC 9C 28 02 
   STZ.W $022A                                     ; 0EE4DF 9C 2A 02 
   STZ.W $022C                                     ; 0EE4E2 9C 2C 02 
-  LDA.W #JoyPressed                                    ; 0EE4E5 A9 00 03 
+  LDA.W #$0300                                    ; 0EE4E5 A9 00 03 
   STA.W $0222                                     ; 0EE4E8 8D 22 02 
   LDA.W #$0003                                    ; 0EE4EB A9 03 00 
   STA.W $0224                                     ; 0EE4EE 8D 24 02 
@@ -5300,8 +5352,8 @@ L_EE83A:
   JSL Wait1Frame                                     ; 0EE83A 22 13 CA 0E 
   JSL UpdateJoypadState                                     ; 0EE83E 22 6A CA 0E 
   LDA.W JoyDown                                     ; 0EE842 AD F0 02 
-  ORA.W JoyDown+2                                     ; 0EE845 0D F2 02 
-  AND.W #$1000                                    ; 0EE848 29 00 10 
+  ORA.W Joy2Down                                     ; 0EE845 0D F2 02 
+  AND.W #BTN1_START << 8                                    ; 0EE848 29 00 10 
   BNE.B B_EE87E                                   ; 0EE84B D0 31 
   LDA.W $0254                                     ; 0EE84D AD 54 02 
   LSR                                             ; 0EE850 4A 
@@ -6065,47 +6117,145 @@ B_EF1BF:
 .byte $05,$FC
 
 RunGameEndingScreen:
-.byte $08,$C2,$30,$64,$12,$A2             ; 0EF2C1 ........ ????0d??
-.byte $C1,$F1,$A0,$0E,$00,$22,$C1,$DC             ; 0EF2C9 ........ ?????"??
-.byte $0E,$A9,$86,$F4,$A2,$0C,$00,$22             ; 0EF2D1 ........ ???????"
-.byte $4C,$E9,$0E,$F4,$0D,$0D,$AB,$AB             ; 0EF2D9 ........ L???????
-.byte $A9,$80,$00,$8D,$15,$21,$A2,$00             ; 0EF2E1 ........ ?????!??
-.byte $00,$8E,$16,$21,$CA,$CA,$8A,$4A             ; 0EF2E9 ........ ???!???J
-.byte $29,$FF,$03,$8D,$18,$21,$E0,$00             ; 0EF2F1 ........ )????!??
-.byte $F8,$D0,$F1,$8A,$38,$E9,$08,$00             ; 0EF2F9 ........ ????8???
-.byte $AA,$A0,$00,$00,$C8,$C0,$08,$02             ; 0EF301 ........ ????????
-.byte $D0,$03,$A0,$00,$00,$B9,$00,$80             ; 0EF309 ........ ????????
-.byte $8D,$18,$21,$CA,$CA,$D0,$ED,$E2             ; 0EF311 ........ ??!?????
-.byte $20,$A9,$04,$8D,$0B,$21,$9C,$05             ; 0EF319 ........  ????!??
-.byte $21,$A9,$01,$8D,$2C,$21,$F4,$0E             ; 0EF321 ........ !???,!??
-.byte $0E,$AB,$AB,$A9,$81,$8D,$00,$42             ; 0EF329 ........ ???????B
-.byte $A9,$0F,$8D,$00,$21,$A2,$07,$00             ; 0EF331 ........ ????!???
-.byte $BD,$FF,$F3,$8D,$0B,$21,$A0,$28             ; 0EF339 ........ ?????!?(
-.byte $00,$22,$13,$CA,$0E,$88,$D0,$F9             ; 0EF341 ........ ?"??????
-.byte $CA,$10,$ED,$A9,$80,$8D,$00,$21             ; 0EF349 ........ ???????!
-.byte $9C,$00,$42,$A9,$04,$8D,$0B,$21             ; 0EF351 ........ ??B????!
-.byte $9C,$07,$21,$C2,$20,$A2,$A6,$F4             ; 0EF359 ........ ??!? ???
-.byte $A0,$0C,$00,$22,$EF,$E8,$0E,$E6             ; 0EF361 ........ ???"????
-.byte $12,$E2,$20,$F4,$0E,$0E,$AB,$AB             ; 0EF369 ........ ?? ?????
-.byte $A9,$81,$8D,$00,$42,$A9,$0F,$8D             ; 0EF371 ........ ????B???
-.byte $00,$21,$22,$13,$CA,$0E,$20,$2F             ; 0EF379 ........ ?!"??? /
-.byte $F2,$20,$DD,$F3,$C2,$20,$A2,$C1             ; 0EF381 ........ ? ??? ??
-.byte $F1,$A0,$0E,$00,$22,$C1,$DC,$0E             ; 0EF389 ........ ????"???
-.byte $A2,$9F,$F6,$A0,$0C,$00,$22,$EF             ; 0EF391 ........ ??????"?
-.byte $E8,$0E,$A9,$7F,$F6,$A2,$0C,$00             ; 0EF399 ........ ????????
-.byte $22,$4C,$E9,$0E,$E2,$20,$9C,$05             ; 0EF3A1 ........ "L??? ??
-.byte $21,$A9,$01,$8D,$2C,$21,$A9,$81             ; 0EF3A9 ........ !???,!??
-.byte $8D,$00,$42,$22,$1E,$CA,$0E,$A9             ; 0EF3B1 ........ ??B"????
-.byte $01,$A2,$40,$02,$20,$EC,$F3,$A9             ; 0EF3B9 ........ ??@? ???
-.byte $03,$A2,$00,$03,$20,$EC,$F3,$A9             ; 0EF3C1 ........ ???? ???
-.byte $03,$A2,$C0,$03,$20,$EC,$F3,$A9             ; 0EF3C9 ........ ???? ???
-.byte $03,$A2,$80,$04,$20,$EC,$F3,$20             ; 0EF3D1 ........ ???? ?? 
-.byte $DD,$F3,$28,$6B,$A2,$68,$01,$22             ; 0EF3D9 ........ ??(k?h?"
+  PHP 
+  REP #$30
+  STZ $12
+  LDX #$F1C1
+  LDY #$000E
+  JSL L_EDCC1
+  LDA #$F486
+  LDX #$000C
+  JSL L_EE94C
+  PEA $0D0D
+  PLB 
+  PLB 
+  LDA #$0080
+  STA VMAIN
+  LDX #$0000
+  STX VMADDL
+B_0EF2ED:
+  DEX 
+  DEX 
+  TXA 
+  LSR 
+  AND #$03FF
+  STA VMDATAL
+  CPX #$F800
+  BNE B_0EF2ED
+  TXA 
+  SEC 
+  SBC #$0008
+  TAX 
+  LDY #$0000
+B_0EF305:
+  INY 
+  CPY #$0208
+  BNE B_0EF30E
+  LDY #$0000
+B_0EF30E:
+  LDA $8000,Y
+  STA VMDATAL
+  DEX 
+  DEX 
+  BNE B_0EF305
+  SEP #$20
+  LDA #$04
+  STA BG12NBA
+  STZ BGMODE
+  LDA #$01
+  STA TM
+  PEA $0E0E
+  PLB 
+  PLB 
+  LDA #$81
+  STA NMITIMEN
+  LDA #$0F
+  STA INIDISP
+  LDX #$0007
+B_0EF339:
+  LDA $F3FF,X
+  STA BG12NBA
+  LDY #$0028
+B_0EF342:
+  JSL Wait1Frame
+  DEY 
+  BNE B_0EF342
+  DEX 
+  BPL B_0EF339
+  LDA #$80
+  STA INIDISP
+  STZ NMITIMEN
+  LDA #$04
+  STA BG12NBA
+  STZ BG1SC
+  REP #$20
+  LDX #$F4A6
+  LDY #$000C
+  JSL $0EE8EF
+  INC $12
+  SEP #$20
+  PEA $0E0E
+  PLB 
+  PLB 
+  LDA #$81
+  STA NMITIMEN
+  LDA #$0F
+  STA INIDISP
+  JSL Wait1Frame
+  JSR $F22F
+  JSR $F3DD
+  REP #$20
+  LDX #$F1C1
+  LDY #$000E
+  JSL L_EDCC1
+  LDX #$F69F
+  LDY #$000C
+  JSL L_EE8EF
+  LDA #$F67F
+  LDX #$000C
+  JSL L_EE94C
+  SEP #$20
+  STZ BGMODE
+  LDA #$01
+  STA TM
+  LDA #$81
+  STA NMITIMEN
+  JSL FadeScreenIn
+  LDA #$01
+  LDX #$0240
+  JSR L_EF3EC
+  LDA #$03
+  LDX #$0300
+  JSR L_EF3EC
+  LDA #$03
+  LDX #$03C0
+  JSR L_EF3EC
+  LDA #$03
+  LDX #$0480
+  JSR L_EF3EC
+  JSR $F3DD
+  PLP 
+  RTL 
+
+
+.byte $A2,$68,$01,$22             ; 0EF3D9 ........ ??(k?h?"
 .byte $13,$CA,$0E,$CA,$D0,$F9,$22,$32             ; 0EF3E1 ........ ??????"2
-.byte $CA,$0E,$60,$48,$A0,$78,$00,$22             ; 0EF3E9 ........ ??`H?x?"
-.byte $13,$CA,$0E,$88,$D0,$F9,$68,$A0             ; 0EF3F1 ........ ??????h?
-.byte $3F,$00,$20,$F7,$F1,$60,$02,$03             ; 0EF3F9 ........ ?? ??`??
-.byte $02,$03,$02,$03,$04,$04                     ; 0EF402 ......   ??????
+.byte $CA,$0E,$60
+
+
+L_EF3EC:
+  PHA 
+  LDY #$0078
+@Loop:
+  JSL Wait1Frame
+  DEY 
+  BNE @Loop
+  PLA 
+  LDY #$003F
+  JSR $F1F7
+  RTS 
+
+.byte $02,$03,$02,$03,$02,$03,$04,$04
 
 
 L_EF407:
