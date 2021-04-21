@@ -2878,14 +2878,14 @@ L_ECBAF:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECBB0 C2 30 
   LDX.W #$CCF1                                    ; 0ECBB2 A2 F1 CC 
   LDY.W #$000E                                    ; 0ECBB5 A0 0E 00 
-  JSL L_EDCC1                                     ; 0ECBB8 22 C1 DC 0E 
+  JSL SetNMIAndClearPPU                                     ; 0ECBB8 22 C1 DC 0E 
   PHP                                             ; 0ECBBC 08 
   LDX.W #$FD8E                                    ; 0ECBBD A2 8E FD 
   LDY.W #$0005                                    ; 0ECBC0 A0 05 00 
   JSL L_EE8EF                                     ; 0ECBC3 22 EF E8 0E 
   LDA.W #$F3BE                                    ; 0ECBC7 A9 BE F3 
   LDX.W #$0005                                    ; 0ECBCA A2 05 00 
-  JSL L_EE94C                                     ; 0ECBCD 22 4C E9 0E 
+  JSL GfxSetPalette                                     ; 0ECBCD 22 4C E9 0E 
   LDA.W #$7C00                                    ; 0ECBD1 A9 00 7C 
   STA.W $0266                                     ; 0ECBD4 8D 66 02 
   LDA.W #$0400                                    ; 0ECBD7 A9 00 04 
@@ -2939,13 +2939,13 @@ B_ECC3A:
   PLP                                             ; 0ECC51 28 
   LDX.W #$CCF1                                    ; 0ECC52 A2 F1 CC 
   LDY.W #$000E                                    ; 0ECC55 A0 0E 00 
-  JSL L_EDCC1                                     ; 0ECC58 22 C1 DC 0E 
+  JSL SetNMIAndClearPPU                                     ; 0ECC58 22 C1 DC 0E 
   LDX.W #$FD64                                    ; 0ECC5C A2 64 FD 
   LDY.W #$0005                                    ; 0ECC5F A0 05 00 
   JSL L_EE8EF                                     ; 0ECC62 22 EF E8 0E 
   LDA.W #$FD04                                    ; 0ECC66 A9 04 FD 
   LDX.W #$0005                                    ; 0ECC69 A2 05 00 
-  JSL L_EE94C                                     ; 0ECC6C 22 4C E9 0E 
+  JSL GfxSetPalette                                     ; 0ECC6C 22 4C E9 0E 
   LDA.W #$0040                                    ; 0ECC70 A9 40 00 
   STA.B $04                                       ; 0ECC73 85 04 
   STZ.B $08                                       ; 0ECC75 64 08 
@@ -3022,13 +3022,13 @@ L_ECD12:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECD13 C2 30 
   LDX.W #$CDCB                                    ; 0ECD15 A2 CB CD 
   LDY.W #$000E                                    ; 0ECD18 A0 0E 00 
-  JSL L_EDCC1                                     ; 0ECD1B 22 C1 DC 0E 
+  JSL SetNMIAndClearPPU                                     ; 0ECD1B 22 C1 DC 0E 
   LDX.W #$DF1F                                    ; 0ECD1F A2 1F DF 
   LDY.W #$000C                                    ; 0ECD22 A0 0C 00 
   JSL L_EE8EF                                     ; 0ECD25 22 EF E8 0E 
   LDA.W #$DE1F                                    ; 0ECD29 A9 1F DE 
   LDX.W #$000C                                    ; 0ECD2C A2 0C 00 
-  JSL L_EE94C                                     ; 0ECD2F 22 4C E9 0E 
+  JSL GfxSetPalette                                     ; 0ECD2F 22 4C E9 0E 
   JSL L_EF072                                     ; 0ECD33 22 72 F0 0E 
   STZ.W $02BA                                     ; 0ECD37 9C BA 02 
   STZ.W $02BC                                     ; 0ECD3A 9C BC 02 
@@ -3647,7 +3647,7 @@ L_ED46E:
   PEA.W $7E7E                                     ; 0ED46F F4 7E 7E 
   PLB                                             ; 0ED472 AB 
   PLB                                             ; 0ED473 AB 
-  LDA.W $0533                                     ; 0ED474 AD 33 05 
+  LDA.W PlayerContinues                                     ; 0ED474 AD 33 05 
   AND.W #$00FF                                    ; 0ED477 29 FF 00 
   ASL                                             ; 0ED47A 0A 
   TAX                                             ; 0ED47B AA 
@@ -3733,7 +3733,7 @@ B_ED53D:
   CMP.W #BTN1_START<<8                                    ; 0ED54E C9 00 10 
   BNE.B B_ED4FC                                   ; 0ED551 D0 A9 
   SEP.B #P_Acc8Bit                                      ; 0ED553 E2 20 
-  DEC.W $0533                                     ; 0ED555 CE 33 05 
+  DEC.W PlayerContinues                                     ; 0ED555 CE 33 05 
   REP.B #P_Acc8Bit                                      ; 0ED558 C2 20 
   JSR.W L_ED46E                                   ; 0ED55A 20 6E D4 
   JSR.W L_ED363                                   ; 0ED55D 20 63 D3 
@@ -4012,13 +4012,13 @@ RunTitleMenuScreen:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ED75F C2 30 
   LDX.W #L_ED8E4                                    ; 0ED761 A2 E4 D8 
   LDY.W #$000E                                    ; 0ED764 A0 0E 00 
-  JSL L_EDCC1                                     ; 0ED767 22 C1 DC 0E 
+  JSL SetNMIAndClearPPU                                     ; 0ED767 22 C1 DC 0E 
   LDX.W #$FDB7                                    ; 0ED76B A2 B7 FD 
   LDY.W #$0005                                    ; 0ED76E A0 05 00 
   JSL L_EE8EF                                     ; 0ED771 22 EF E8 0E 
   LDA.W #$ED85                                    ; 0ED775 A9 85 ED 
   LDX.W #$000C                                    ; 0ED778 A2 0C 00 
-  JSL L_EE94C                                     ; 0ED77B 22 4C E9 0E 
+  JSL GfxSetPalette                                     ; 0ED77B 22 4C E9 0E 
   LDA.W #$FFC4                                    ; 0ED77F A9 C4 FF 
   STA.W $0254                                     ; 0ED782 8D 54 02 
   STZ.B $12                                       ; 0ED785 64 12 
@@ -4102,16 +4102,16 @@ B_ED863:
   LDA.B $12                                       ; 0ED863 A5 12 
   CMP.W #$0002                                    ; 0ED865 C9 02 00 
   BNE.B B_ED892                                   ; 0ED868 D0 28 
-  LDX.W $0208                                     ; 0ED86A AE 08 02 
+  LDX.W SelectedDifficulty                                     ; 0ED86A AE 08 02 
   LDA.W #$0004                                    ; 0ED86D A9 04 00 
   JSL L_ED00E                                     ; 0ED870 22 0E D0 0E 
-  CPX.W $0208                                     ; 0ED874 EC 08 02 
+  CPX.W SelectedDifficulty                                     ; 0ED874 EC 08 02 
   BEQ.B B_ED88B                                   ; 0ED877 F0 12 
   LDA.W DemoRunning                                     ; 0ED879 AD F1 1B 
   BEQ.B B_ED881                                   ; 0ED87C F0 03 
   LDX.W #$0002                                    ; 0ED87E A2 02 00 
 B_ED881:
-  STX.W $0208                                     ; 0ED881 8E 08 02 
+  STX.W SelectedDifficulty                                     ; 0ED881 8E 08 02 
   LDA.W #$0002                                    ; 0ED884 A9 02 00 
   JSL L_ED327                                     ; 0ED887 22 27 D3 0E 
 B_ED88B:
@@ -4158,7 +4158,7 @@ L_ED8E4:
   LDA.W #$0400                                    ; 0ED8E4 A9 00 04 
   STA.W $0230                                     ; 0ED8E7 8D 30 02 
   LDY.W #$0005                                    ; 0ED8EA A0 05 00 
-  LDX.W $0208                                     ; 0ED8ED AE 08 02 
+  LDX.W SelectedDifficulty                                     ; 0ED8ED AE 08 02 
   LDA.L D_5FDA0,X                                 ; 0ED8F0 BF A0 FD 05 
   TAX                                             ; 0ED8F4 AA 
   LDA.W #$0651                                    ; 0ED8F5 A9 51 06 
@@ -4405,7 +4405,7 @@ B_EDCBF:
   RTS                                             ; 0EDCC0 60 
 
 
-L_EDCC1:
+SetNMIAndClearPPU:
   PHP                                             ; 0EDCC1 08 
   REP.B #P_Idx8Bit                                      ; 0EDCC2 C2 10 
   SEP.B #P_Acc8Bit                                      ; 0EDCC4 E2 20 
@@ -4719,13 +4719,13 @@ B_EE27D:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE27D C2 30 
   LDX.W #$DB9B                                    ; 0EE27F A2 9B DB 
   LDY.W #$000E                                    ; 0EE282 A0 0E 00 
-  JSL L_EDCC1                                     ; 0EE285 22 C1 DC 0E 
+  JSL SetNMIAndClearPPU                                     ; 0EE285 22 C1 DC 0E 
   LDX.W #$ADD5                                    ; 0EE289 A2 D5 AD 
   LDY.W #$0005                                    ; 0EE28C A0 05 00 
   JSL L_EE8EF                                     ; 0EE28F 22 EF E8 0E 
   LDA.W #$BEE3                                    ; 0EE293 A9 E3 BE 
   LDX.W #$000C                                    ; 0EE296 A2 0C 00 
-  JSL L_EE94C                                     ; 0EE299 22 4C E9 0E 
+  JSL GfxSetPalette                                     ; 0EE299 22 4C E9 0E 
   JSL L_EF072                                     ; 0EE29D 22 72 F0 0E 
   STZ.W $02BA                                     ; 0EE2A1 9C BA 02 
   STZ.W $02BC                                     ; 0EE2A4 9C BC 02 
@@ -4912,13 +4912,13 @@ B_EE412:
 B_EE42D:
   LDX.W #$DB64                                    ; 0EE42D A2 64 DB 
   LDY.W #$000E                                    ; 0EE430 A0 0E 00 
-  JSL L_EDCC1                                     ; 0EE433 22 C1 DC 0E 
+  JSL SetNMIAndClearPPU                                     ; 0EE433 22 C1 DC 0E 
   LDX.W #$ADAB                                    ; 0EE437 A2 AB AD 
   LDY.W #$0005                                    ; 0EE43A A0 05 00 
   JSL L_EE8EF                                     ; 0EE43D 22 EF E8 0E 
   LDA.W #$BDE3                                    ; 0EE441 A9 E3 BD 
   LDX.W #$000C                                    ; 0EE444 A2 0C 00 
-  JSL L_EE94C                                     ; 0EE447 22 4C E9 0E 
+  JSL GfxSetPalette                                     ; 0EE447 22 4C E9 0E 
   LDA.W #$0800                                    ; 0EE44B A9 00 08 
   STA.W $0230                                     ; 0EE44E 8D 30 02 
   LDA.W #$0005                                    ; 0EE451 A9 05 00 
@@ -5328,13 +5328,13 @@ RunTitleTextCrawlScreen:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE7C9 C2 30 
   LDX.W #$DBAB                                    ; 0EE7CB A2 AB DB 
   LDY.W #$000E                                    ; 0EE7CE A0 0E 00 
-  JSL L_EDCC1                                     ; 0EE7D1 22 C1 DC 0E 
+  JSL SetNMIAndClearPPU                                     ; 0EE7D1 22 C1 DC 0E 
   LDX.W #$AE19                                    ; 0EE7D5 A2 19 AE 
   LDY.W #$0005                                    ; 0EE7D8 A0 05 00 
   JSL L_EE8EF                                     ; 0EE7DB 22 EF E8 0E 
   LDA.W #$BDA3                                    ; 0EE7DF A9 A3 BD 
   LDX.W #$000C                                    ; 0EE7E2 A2 0C 00 
-  JSL L_EE94C                                     ; 0EE7E5 22 4C E9 0E 
+  JSL GfxSetPalette                                     ; 0EE7E5 22 4C E9 0E 
   LDX.W #$AEC1                                    ; 0EE7E9 A2 C1 AE 
   LDY.W #$0005                                    ; 0EE7EC A0 05 00 
   JSR.W L_EE808                                   ; 0EE7EF 20 08 E8 
@@ -5473,17 +5473,19 @@ B_EE8C0:
 
 
 L_EE8EF:
-  PHP                                             ; 0EE8EF 08 
-  STX.B $14                                       ; 0EE8F0 86 14 
-  STY.B $16                                       ; 0EE8F2 84 16 
-  SEP.B #P_Acc8Bit                                      ; 0EE8F4 E2 20 
-  LDA.B #$80                                      ; 0EE8F6 A9 80 
-  STA.W VMAIN                                     ; 0EE8F8 8D 15 21 
-  LDA.B #$01                                      ; 0EE8FB A9 01 
-  STA.W DMAP0                                     ; 0EE8FD 8D 00 43 
-  LDA.B #$18                                      ; 0EE900 A9 18 
-  STA.W BBAD0                                     ; 0EE902 8D 01 43 
-  LDY.W #$0000                                    ; 0EE905 A0 00 00 
+  php
+  ; store the current pointer we're copying from
+  stx $14
+  sty $16
+  sep #P_Acc8Bit
+  ; update copy mode
+  lda #VMAIN_IncrementOnHigh
+  sta VMAIN
+  lda #DMAP_VRAMTransferWords
+  sta DMAP0
+  lda #(VMDATAL & $FF)
+  sta BBAD0
+  ldy #0
 B_EE908:
   REP.B #P_Acc8Bit                                      ; 0EE908 C2 20 
   LDA.B [$14],Y                                   ; 0EE90A B7 14 
@@ -5522,26 +5524,32 @@ B_EE94A:
   PLP                                             ; 0EE94A 28 
   RTL                                             ; 0EE94B 6B 
 
-L_EE94C:
-  PHP                                             ; 0EE94C 08 
-  STA.B $14                                       ; 0EE94D 85 14 
-  STX.B $16                                       ; 0EE94F 86 16 
-  SEP.B #P_Acc8Bit                                      ; 0EE951 E2 20 
-  STZ.W CGADD                                     ; 0EE953 9C 21 21 
-  LDY.W #$0000                                    ; 0EE956 A0 00 00 
-B_EE959:
-  LDA.B [$14],Y                                   ; 0EE959 B7 14 
-  STA.W $1AF1,Y                                   ; 0EE95B 99 F1 1A 
-  STA.W CGDATA                                    ; 0EE95E 8D 22 21 
-  INY                                             ; 0EE961 C8 
-  LDA.B [$14],Y                                   ; 0EE962 B7 14 
-  STA.W $1AF1,Y                                   ; 0EE964 99 F1 1A 
-  STA.W CGDATA                                    ; 0EE967 8D 22 21 
-  INY                                             ; 0EE96A C8 
-  CPY.W #$0100                                    ; 0EE96B C0 00 01 
-  BNE.B B_EE959                                   ; 0EE96E D0 E9 
-  PLP                                             ; 0EE970 28 
-  RTL                                             ; 0EE971 6B 
+; copies $100 bytes from a pointer in X (bank in Y), to the ppu palette and ram palette copy.
+GfxSetPalette:
+  php
+  ; store the current pointer we're copying from
+  sta $14
+  stx $16
+  sep #P_Acc8Bit
+  stz CGADD
+  ldy #$0000
+@CopyNextColor:
+  ; copy first byte of color..
+  lda [$14],Y
+  sta VRAMPalette,Y
+  sta CGDATA
+  iny
+  ; and the second byte!
+  lda [$14],Y
+  Sta VRAMPalette,Y
+  sta CGDATA
+  iny
+  ; keep copying if we haven't reached the end.
+  cpy #$0100
+  bne @CopyNextColor
+  ; and if we've reached the end.. end!
+  plp
+  rtl
 
 .byte $08,$8B,$F4,$0E,$0E,$AB,$AB,$C2             ; 0EE972 ........ ????????
 .byte $30,$8A,$0A,$65,$CF,$29,$07,$00             ; 0EE97A ........ 0??e?)??
@@ -6080,11 +6088,11 @@ L_EF175:
   STA.W CGADD                                     ; 0EF18D 8D 21 21 
   LDA.W $1AF2,X                                   ; 0EF190 BD F2 1A 
   PHA                                             ; 0EF193 48 
-  LDA.W $1AF1,X                                   ; 0EF194 BD F1 1A 
+  LDA.W VRAMPalette,X                                   ; 0EF194 BD F1 1A 
   PHA                                             ; 0EF197 48 
 B_EF198:
   LDA.W $1AF3,X                                   ; 0EF198 BD F3 1A 
-  STA.W $1AF1,X                                   ; 0EF19B 9D F1 1A 
+  STA.W VRAMPalette,X                                   ; 0EF19B 9D F1 1A 
   STA.W CGDATA                                    ; 0EF19E 8D 22 21 
   LDA.W $1AF4,X                                   ; 0EF1A1 BD F4 1A 
   STA.W $1AF2,X                                   ; 0EF1A4 9D F2 1A 
@@ -6094,7 +6102,7 @@ B_EF198:
   CPX.W $02CD                                     ; 0EF1AC EC CD 02 
   BNE.B B_EF198                                   ; 0EF1AF D0 E7 
   PLA                                             ; 0EF1B1 68 
-  STA.W $1AF1,X                                   ; 0EF1B2 9D F1 1A 
+  STA.W VRAMPalette,X                                   ; 0EF1B2 9D F1 1A 
   STA.W CGDATA                                    ; 0EF1B5 8D 22 21 
   PLA                                             ; 0EF1B8 68 
   STA.W $1AF2,X                                   ; 0EF1B9 9D F2 1A 
@@ -6143,10 +6151,10 @@ RunGameEndingScreen:
   STZ $12
   LDX #$F1C1
   LDY #$000E
-  JSL L_EDCC1
+  JSL SetNMIAndClearPPU
   LDA #$F486
   LDX #$000C
-  JSL L_EE94C
+  JSL GfxSetPalette
   PEA $0D0D
   PLB 
   PLB 
@@ -6228,13 +6236,13 @@ B_0EF342:
   REP #$20
   LDX #$F1C1
   LDY #$000E
-  JSL L_EDCC1
+  JSL SetNMIAndClearPPU
   LDX #$F69F
   LDY #$000C
   JSL L_EE8EF
   LDA #$F67F
   LDX #$000C
-  JSL L_EE94C
+  JSL GfxSetPalette
   SEP #$20
   STZ BGMODE
   LDA #$01

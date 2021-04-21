@@ -3308,15 +3308,21 @@ D_CDF7A:
 .byte $3D,$20,$83,$0F,$49,$C2,$63,$41             ; 0CE712 DDDDDDDD = ??I?cA
 .byte $85,$70,$91,$85,$67,$4D,$CF,$33             ; 0CE71A DDDDDDDD ?p??gM?3
 .byte $91,$D4,$0E,$E1,$07,$50,$01,$1C             ; 0CE722 DDDDDDDD ?????P??
-.byte $0D,$17,$51,$90,$00,$00,$1F,$00             ; 0CE72A DDDDDDDD ??Q?????
-.byte $1B,$00,$16,$00,$12,$00,$0D,$00             ; 0CE732 DDDDDDDD ????????
-.byte $EF,$36,$EF,$3D,$94,$52,$5A,$6B             ; 0CE73A DDDDDDDD ?6?=?RZk
-.byte $FF,$7F,$FF,$03,$54,$03,$AB,$06             ; 0CE742 DDDDDDDD ????T???
-.byte $05,$06,$81,$05,$00,$00,$10,$00             ; 0CE74A DDDDDDDD ????????
-.byte $35,$00,$0A,$00,$D9,$00,$DC,$01             ; 0CE752 DDDDDDDD 5???????
-.byte $DF,$1E,$7F,$2F,$DF,$3F,$22,$2C             ; 0CE75A DDDDDDDD ???/??",
-.byte $64,$38,$E7,$48,$4A,$55,$0F,$62             ; 0CE762 DDDDDDDD d8?HJU?b
-.byte $B4,$6E,$7B,$7F,$00,$00,$AB,$DF             ; 0CE76A DDDDDDDD ?n{?????
+.byte $0D,$17,$51,$90
+
+
+SmashLogoPalette:
+.word $0000,$001F,$001B,$0016
+.word $0012,$000D,$36EF,$3DEF
+.word $5294,$6B5A,$7FFF,$03FF
+.word $0354,$06AB,$0605,$0581
+.word $0000,$0010,$0035,$000A
+.word $00D9,$01DC,$1EDF,$2F7F
+.word $3FDF,$2C22,$3864,$48E7
+.word $554A,$620F,$6EB4,$7F7B
+
+StartupCFG:
+.byte $00,$00,$AB,$DF             ; 0CE76A DDDDDDDD ?n{?????
 .byte $0C,$00,$40,$06,$00,$40,$54,$E1             ; 0CE772 DDDDDDDD ??@??@T?
 .byte $0C,$00,$E0,$1F,$FF,$FF,$00,$08             ; 0CE77A DDDDDDDD ????????
 .byte $20,$00,$00,$10,$00,$10,$16,$0C             ; 0CE782 DDDDDDDD  ???????
@@ -4010,7 +4016,7 @@ L_CFBD2:
 
   LDX.W $068B                                     ; 0CFBE6 AE 8B 06 
   LDA.B #$7C                                      ; 0CFBE9 A9 7C 
-  STA.W EntityV1,X                                   ; 0CFBEB 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 0CFBEB 9D 44 07 
   LDA.B #$8C                                      ; 0CFBEE A9 8C 
   STA.W EntityV15,X                                   ; 0CFBF0 9D 80 0D 
   STZ.W EntityV5,X                                   ; 0CFBF3 9E 0C 09 
@@ -4035,7 +4041,7 @@ L_CFBD2:
   STZ.W EntityV8,X                                   ; 0CFC26 9E 62 0A 
   LDX.W $068E                                     ; 0CFC29 AE 8E 06 
   LDA.B #$71                                      ; 0CFC2C A9 71 
-  STA.W EntityV1,X                                   ; 0CFC2E 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 0CFC2E 9D 44 07 
   LDA.B #$01                                      ; 0CFC31 A9 01 
   STA.W EntityV15,X                                   ; 0CFC33 9D 80 0D 
   LDA.B #$78                                      ; 0CFC36 A9 78 
@@ -4141,7 +4147,7 @@ B_CFD3D:
 
 
 L_CFDAC:
-  LDA.W XexzyCharX,X                              ; 0CFDAC BD 46 0B 
+  LDA.W EntityXPx,X                              ; 0CFDAC BD 46 0B 
   STA.W $0694                                     ; 0CFDAF 8D 94 06 
   LDA.W EntityYPx,X                                   ; 0CFDB2 BD 9C 0C 
   STA.W $0695                                     ; 0CFDB5 8D 95 06 
@@ -4154,7 +4160,7 @@ L_CFDAC:
   SEC                                             ; 0CFDC7 38 
   LDA.W $0694                                     ; 0CFDC8 AD 94 06 
   SBC.B #$10                                      ; 0CFDCB E9 10 
-  STA.W XexzyCharX,Y                              ; 0CFDCD 99 46 0B 
+  STA.W EntityXPx,Y                              ; 0CFDCD 99 46 0B 
   CLC                                             ; 0CFDD0 18 
   LDA.W $0695                                     ; 0CFDD1 AD 95 06 
   ADC.B #$30                                      ; 0CFDD4 69 30 
@@ -4169,7 +4175,7 @@ B_CFDE1:
   CLC                                             ; 0CFDE9 18 
   LDA.W $0694                                     ; 0CFDEA AD 94 06 
   ADC.B #$10                                      ; 0CFDED 69 10 
-  STA.W XexzyCharX,Y                              ; 0CFDEF 99 46 0B 
+  STA.W EntityXPx,Y                              ; 0CFDEF 99 46 0B 
   CLC                                             ; 0CFDF2 18 
   LDA.W $0695                                     ; 0CFDF3 AD 95 06 
   ADC.B #$30                                      ; 0CFDF6 69 30 

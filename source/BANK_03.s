@@ -8,7 +8,7 @@ L_38000:
   LDX.B #$71                                      ; 038003 A2 71 
 B_38005:
   STZ.W EntityHeader,X                                   ; 038005 9E D2 06 
-  STZ.W EntityV1,X                                   ; 038008 9E 44 07 
+  STZ.W EntityTypeId,X                                   ; 038008 9E 44 07 
   STZ.W EntityV2,X                                   ; 03800B 9E B6 07 
   STZ.W EntityV3,X                                   ; 03800E 9E 28 08 
   STZ.W EntityV5,X                                   ; 038011 9E 0C 09 
@@ -16,7 +16,7 @@ B_38005:
   STZ.W EntityV7,X                                   ; 038017 9E F0 09 
   STZ.W EntityV8,X                                   ; 03801A 9E 62 0A 
   STZ.W EntityXSubPx,X                                   ; 03801D 9E D4 0A 
-  STZ.W XexzyCharX,X                              ; 038020 9E 46 0B 
+  STZ.W EntityXPx,X                              ; 038020 9E 46 0B 
   STZ.W EntityV11,X                                   ; 038023 9E B8 0B 
   STZ.W EntityYSubPx,X                                   ; 038026 9E 2A 0C 
   STZ.W EntityYPx,X                                   ; 038029 9E 9C 0C 
@@ -165,6 +165,7 @@ B_38110:
 .byte $10,$F8,$A9,$01,$6B                         ; 03811A .....    ????k
 
 
+GameRunActiveEntities:
 L_3811E:
   PHP                                             ; 03811E 08 
   PHB                                             ; 03811F 8B 
@@ -177,7 +178,7 @@ L_3811E:
 B_3812B:
   LDA.W EntityHeader,X                                   ; 03812B BD D2 06 
   BEQ.B B_38142                                   ; 03812E F0 12 
-  LDY.W EntityV1,X                                   ; 038130 BC 44 07 
+  LDY.W EntityTypeId,X                                   ; 038130 BC 44 07 
   LDA.W D_3878E,Y                                 ; 038133 B9 8E 87 
   STA.B $04                                       ; 038136 85 04 
   LDA.W D_38838,Y                                 ; 038138 B9 38 88 
@@ -209,8 +210,8 @@ B_3814D:
   BPL.B B_38164                                   ; 038161 10 01 
   DEY                                             ; 038163 88 
 B_38164:
-  ADC.W XexzyCharX,X                              ; 038164 7D 46 0B 
-  STA.W XexzyCharX,X                              ; 038167 9D 46 0B 
+  ADC.W EntityXPx,X                              ; 038164 7D 46 0B 
+  STA.W EntityXPx,X                              ; 038167 9D 46 0B 
   TYA                                             ; 03816A 98 
   ADC.W EntityV11,X                                   ; 03816B 7D B8 0B 
   STA.W EntityV11,X                                   ; 03816E 9D B8 0B 
@@ -244,7 +245,7 @@ L_38195:
   SEC                                             ; 0381A1 38 
   LDA.B #$EE                                      ; 0381A2 A9 EE 
   SBC.B $04                                       ; 0381A4 E5 04 
-  CMP.W XexzyCharX,X                              ; 0381A6 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 0381A6 DD 46 0B 
   BCS.B B_381E9                                   ; 0381A9 B0 3E 
 
 .byte $9D,$46,$0B,$BD,$7E,$09,$30,$36             ; 0381AB ........ ?F??~?06
@@ -256,7 +257,7 @@ B_381C6:
   CLC                                             ; 0381C6 18 
   LDA.B #$12                                      ; 0381C7 A9 12 
   ADC.B $04                                       ; 0381C9 65 04 
-  CMP.W XexzyCharX,X                              ; 0381CB DD 46 0B 
+  CMP.W EntityXPx,X                              ; 0381CB DD 46 0B 
   BCC.B B_381E9                                   ; 0381CE 90 19 
 
 .byte $9D,$46,$0B,$BD,$7E,$09,$10,$11             ; 0381D0 ........ ?F??~???
@@ -601,7 +602,7 @@ B_388FA:
   STA.W $188A,X                                   ; 038909 9D 8A 18 
   LDA.W D_38956,Y                                 ; 03890C B9 56 89 
   STA.W $1893,X                                   ; 03890F 9D 93 18 
-  LDA.W $1897,X                                   ; 038912 BD 97 18 
+  LDA.W EquippedWeaponType,X                                   ; 038912 BD 97 18 
   ASL                                             ; 038915 0A 
   ASL                                             ; 038916 0A 
   ASL                                             ; 038917 0A 
@@ -630,7 +631,7 @@ B_38947:
 B_3894A:
   STZ.W $052C                                     ; 03894A 9C 2C 05 
   STZ.W EntityV6,X                                   ; 03894D 9E 7E 09 
-  STZ.W EntityV1,X                                   ; 038950 9E 44 07 
+  STZ.W EntityTypeId,X                                   ; 038950 9E 44 07 
   JMP.W D_38141                                   ; 038953 4C 41 81 
 
 D_38956:
@@ -766,7 +767,7 @@ B_38A88:
   STA.B $04                                       ; 038A91 85 04 
   LDY.W EntityV20,X                                   ; 038A93 BC BA 0F 
   SEC                                             ; 038A96 38 
-  LDA.W XexzyCharX,Y                              ; 038A97 B9 46 0B 
+  LDA.W EntityXPx,Y                              ; 038A97 B9 46 0B 
   SBC.B #$11                                      ; 038A9A E9 11 
   STA.B $06                                       ; 038A9C 85 06 
   SEC                                             ; 038A9E 38 
@@ -834,7 +835,7 @@ B_38B2B:
 
 L_38B2E:
   SEC                                             ; 038B2E 38 
-  LDA.W XexzyCharX,X                              ; 038B2F BD 46 0B 
+  LDA.W EntityXPx,X                              ; 038B2F BD 46 0B 
   SBC.B #$04                                      ; 038B32 E9 04 
   BCS.B B_38B38                                   ; 038B34 B0 02 
 
@@ -843,7 +844,7 @@ L_38B2E:
 B_38B38:
   STA.W EntityV32,X                                   ; 038B38 9D 16 15 
   CLC                                             ; 038B3B 18 
-  LDA.W XexzyCharX,X                              ; 038B3C BD 46 0B 
+  LDA.W EntityXPx,X                              ; 038B3C BD 46 0B 
   ADC.B #$04                                      ; 038B3F 69 04 
   BCC.B B_38B45                                   ; 038B41 90 02 
 
@@ -1078,7 +1079,7 @@ D_38CEA:
 .byte $9E,$44,$07,$4C,$41,$81,$2D,$2C             ; 038CFA ........ ?D?LA?-,
 .byte $2B,$2A,$29,$2A,$2B,$2C                     ; 038D03 ......   +*)*+,
 
-  LDA.W XexzyCharX,X                              ; 038D08 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 038D08 BD 46 0B 
   STA.B $04                                       ; 038D0B 85 04 
   LDA.W EntityYPx,X                                   ; 038D0D BD 9C 0C 
   STA.B $05                                       ; 038D10 85 05 
@@ -1186,7 +1187,7 @@ B_38DD3:
   SBC.B #$10                                      ; 038DD7 E9 10 
   STA.B $05                                       ; 038DD9 85 05 
   SEC                                             ; 038DDB 38 
-  LDA.W XexzyCharX,X                              ; 038DDC BD 46 0B 
+  LDA.W EntityXPx,X                              ; 038DDC BD 46 0B 
   SBC.W $06C8                                     ; 038DDF ED C8 06 
   BCS.B B_38E19                                   ; 038DE2 B0 35 
   PHX                                             ; 038DE4 DA 
@@ -1266,7 +1267,7 @@ B_38E7F:
   SBC.B #$10                                      ; 038E83 E9 10 
   STA.B $05                                       ; 038E85 85 05 
   SEC                                             ; 038E87 38 
-  LDA.W XexzyCharX,X                              ; 038E88 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 038E88 BD 46 0B 
   SBC.W $06C8                                     ; 038E8B ED C8 06 
   BCS.B B_38EC5                                   ; 038E8E B0 35 
   PHX                                             ; 038E90 DA 
@@ -1381,7 +1382,7 @@ D_38F72:
 .byte $28,$AE,$2A,$AE,$2C,$AE,$2A                 ; 038F7B DDDDDDD  (?*?,?*
 
   SEC                                             ; 038F81 38 
-  LDA.W XexzyCharX,X                              ; 038F82 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 038F82 BD 46 0B 
   SBC.B #$08                                      ; 038F85 E9 08 
   STA.B $04                                       ; 038F87 85 04 
   LDA.W EntityV11,X                                   ; 038F89 BD B8 0B 
@@ -1435,7 +1436,7 @@ B_38FE8:
   PLX                                             ; 038FEB FA 
   JMP.W D_38141                                   ; 038FEC 4C 41 81 
   SEC                                             ; 038FEF 38 
-  LDA.W XexzyCharX,X                              ; 038FF0 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 038FF0 BD 46 0B 
   SBC.B #$08                                      ; 038FF3 E9 08 
   STA.B $04                                       ; 038FF5 85 04 
   LDA.W EntityV11,X                                   ; 038FF7 BD B8 0B 
@@ -1455,15 +1456,15 @@ B_38FE8:
   ORA.W EntityV5,X                                   ; 039019 1D 0C 09 
   BEQ.B B_39038                                   ; 03901C F0 1A 
   LDA.B #$EE                                      ; 03901E A9 EE 
-  CMP.W XexzyCharX,X                              ; 039020 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 039020 DD 46 0B 
   BCS.B B_39038                                   ; 039023 B0 13 
-  STA.W XexzyCharX,X                              ; 039025 9D 46 0B 
+  STA.W EntityXPx,X                              ; 039025 9D 46 0B 
   JMP.W D_39079                                   ; 039028 4C 79 90 
 B_3902B:
   LDA.B #$12                                      ; 03902B A9 12 
-  CMP.W XexzyCharX,X                              ; 03902D DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03902D DD 46 0B 
   BCC.B B_39038                                   ; 039030 90 06 
-  STA.W XexzyCharX,X                              ; 039032 9D 46 0B 
+  STA.W EntityXPx,X                              ; 039032 9D 46 0B 
   JMP.W D_39079                                   ; 039035 4C 79 90 
 B_39038:
   LDA.W EntityV8,X                                   ; 039038 BD 62 0A 
@@ -1559,7 +1560,7 @@ D_3909E:
 .byte $8C,$8E                                     ; 0391BF ..       ??
 
   SEC                                             ; 0391C0 38 
-  LDA.W XexzyCharX,X                              ; 0391C1 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 0391C1 BD 46 0B 
   SBC.B #$07                                      ; 0391C4 E9 07 
   BCS.B B_391CA                                   ; 0391C6 B0 02 
 
@@ -1568,7 +1569,7 @@ D_3909E:
 B_391CA:
   STA.W EntityV32,X                                   ; 0391CA 9D 16 15 
   CLC                                             ; 0391CD 18 
-  LDA.W XexzyCharX,X                              ; 0391CE BD 46 0B 
+  LDA.W EntityXPx,X                              ; 0391CE BD 46 0B 
   ADC.B #$07                                      ; 0391D1 69 07 
   BCC.B B_391D7                                   ; 0391D3 90 02 
 
@@ -1597,14 +1598,14 @@ B_391F1:
   DEC.W EntityV15,X                                   ; 0391F4 DE 80 0D 
   BNE.B B_39208                                   ; 0391F7 D0 0F 
   LDA.B #$16                                      ; 0391F9 A9 16 
-  STA.W EntityV1,X                                   ; 0391FB 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 0391FB 9D 44 07 
   LDA.B #$01                                      ; 0391FE A9 01 
   STA.W EntityV15,X                                   ; 039200 9D 80 0D 
   LDA.B #$1E                                      ; 039203 A9 1E 
   STA.W EntityV17,X                                   ; 039205 9D 64 0E 
 B_39208:
   SEC                                             ; 039208 38 
-  LDA.W XexzyCharX,X                              ; 039209 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 039209 BD 46 0B 
   SBC.B #$08                                      ; 03920C E9 08 
   STA.B $04                                       ; 03920E 85 04 
   LDA.W EntityV11,X                                   ; 039210 BD B8 0B 
@@ -1630,7 +1631,7 @@ B_39238:
   STA.B $07                                       ; 03923F 85 07 
   LDA.B #$20                                      ; 039241 A9 20 
   STA.W EntityV15,X                                   ; 039243 9D 80 0D 
-  LDA.W XexzyCharX,X                              ; 039246 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 039246 BD 46 0B 
   STA.B $04                                       ; 039249 85 04 
   LDA.W EntityYPx,X                                   ; 03924B BD 9C 0C 
   STA.B $05                                       ; 03924E 85 05 
@@ -1749,7 +1750,7 @@ L_3932D:
   LDA.B #$01                                      ; 03932D A9 01 
   STA.W EntityHeader,X                                   ; 03932F 9D D2 06 
   LDA.B #$15                                      ; 039332 A9 15 
-  STA.W EntityV1,X                                   ; 039334 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 039334 9D 44 07 
   LDA.B #$0C                                      ; 039337 A9 0C 
   STA.W EntityV3,X                                   ; 039339 9D 28 08 
   JSL AdvanceRNG                                     ; 03933C 22 95 CA 0E 
@@ -1771,20 +1772,20 @@ L_3932D:
   CLC                                             ; 03935E 18 
   LDA.B $04                                       ; 03935F A5 04 
   ADC.W D_39444,Y                                 ; 039361 79 44 94 
-  STA.W XexzyCharX,X                              ; 039364 9D 46 0B 
+  STA.W EntityXPx,X                              ; 039364 9D 46 0B 
   CLC                                             ; 039367 18 
   LDA.B $05                                       ; 039368 A5 05 
   ADC.W D_39454,Y                                 ; 03936A 79 54 94 
   STA.W EntityYPx,X                                   ; 03936D 9D 9C 0C 
   SEC                                             ; 039370 38 
-  LDA.W XexzyCharX,X                              ; 039371 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 039371 BD 46 0B 
   SBC.B #$07                                      ; 039374 E9 07 
   BCS.B B_3937A                                   ; 039376 B0 02 
   LDA.B #$00                                      ; 039378 A9 00 
 B_3937A:
   STA.W EntityV32,X                                   ; 03937A 9D 16 15 
   CLC                                             ; 03937D 18 
-  LDA.W XexzyCharX,X                              ; 03937E BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03937E BD 46 0B 
   ADC.B #$07                                      ; 039381 69 07 
   BCC.B B_39387                                   ; 039383 90 02 
   LDA.B #$FF                                      ; 039385 A9 FF 
@@ -1876,14 +1877,14 @@ D_39475:
 .byte $00,$00,$00,$48,$FF,$00,$00                 ; 03947E DDDDDDD  ???H???
 
   SEC                                             ; 039484 38 
-  LDA.W XexzyCharX,X                              ; 039485 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 039485 BD 46 0B 
   SBC.B #$07                                      ; 039488 E9 07 
   BCS.B B_3948E                                   ; 03948A B0 02 
   LDA.B #$00                                      ; 03948C A9 00 
 B_3948E:
   STA.W EntityV32,X                                   ; 03948E 9D 16 15 
   CLC                                             ; 039491 18 
-  LDA.W XexzyCharX,X                              ; 039492 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 039492 BD 46 0B 
   ADC.B #$07                                      ; 039495 69 07 
   BCC.B B_3949B                                   ; 039497 90 02 
   LDA.B #$FF                                      ; 039499 A9 FF 
@@ -1946,7 +1947,7 @@ B_394B5:
   LDA.W D_39733,Y                                 ; 03950E B9 33 97 
   STA.W EntityV8,X                                   ; 039511 9D 62 0A 
   LDA.B #$16                                      ; 039514 A9 16 
-  STA.W EntityV1,X                                   ; 039516 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 039516 9D 44 07 
 B_39519:
   JMP.W D_38141                                   ; 039519 4C 41 81 
 
@@ -1961,12 +1962,12 @@ D_39524:
   BMI.B B_39545                                   ; 039534 30 0F 
   ORA.W EntityV5,X                                   ; 039536 1D 0C 09 
   BEQ.B B_3954C                                   ; 039539 F0 11 
-  LDA.W XexzyCharX,X                              ; 03953B BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03953B BD 46 0B 
   CMP.B #$E7                                      ; 03953E C9 E7 
   BCS.B B_3956A                                   ; 039540 B0 28 
   JMP.W B_3954C                                   ; 039542 4C 4C 95 
 B_39545:
-  LDA.W XexzyCharX,X                              ; 039545 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 039545 BD 46 0B 
   CMP.B #$19                                      ; 039548 C9 19 
   BCC.B B_3956A                                   ; 03954A 90 1E 
 B_3954C:
@@ -1999,7 +2000,7 @@ B_3957F:
   ADC.B #$10                                      ; 039588 69 10 
   STA.W EntityV15,X                                   ; 03958A 9D 80 0D 
   LDY.W EntityV20,X                                   ; 03958D BC BA 0F 
-  LDA.W XexzyCharX,Y                              ; 039590 B9 46 0B 
+  LDA.W EntityXPx,Y                              ; 039590 B9 46 0B 
   STA.B $04                                       ; 039593 85 04 
   LDA.W EntityYPx,Y                                   ; 039595 B9 9C 0C 
   STA.B $05                                       ; 039598 85 05 
@@ -2018,7 +2019,7 @@ B_3957F:
   SEC                                             ; 0395B2 38 
   LDA.B $04                                       ; 0395B3 A5 04 
   SBC.B #$08                                      ; 0395B5 E9 08 
-  CMP.W XexzyCharX,X                              ; 0395B7 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 0395B7 DD 46 0B 
   BCC.B B_395C3                                   ; 0395BA 90 07 
   LDA.B #$04                                      ; 0395BC A9 04 
   STA.B $06                                       ; 0395BE 85 06 
@@ -2027,7 +2028,7 @@ B_395C3:
   CLC                                             ; 0395C3 18 
   LDA.B $04                                       ; 0395C4 A5 04 
   ADC.B #$08                                      ; 0395C6 69 08 
-  CMP.W XexzyCharX,X                              ; 0395C8 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 0395C8 DD 46 0B 
   BCS.B D_395D1                                   ; 0395CB B0 04 
   LDA.B #$08                                      ; 0395CD A9 08 
   STA.B $06                                       ; 0395CF 85 06 
@@ -2087,7 +2088,7 @@ B_39600:
   STA.W EntityV8,X                                   ; 03963E 9D 62 0A 
 D_39641:
   SEC                                             ; 039641 38 
-  LDA.W XexzyCharX,X                              ; 039642 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 039642 BD 46 0B 
   SBC.B #$07                                      ; 039645 E9 07 
   BCS.B B_3964B                                   ; 039647 B0 02 
 
@@ -2096,7 +2097,7 @@ D_39641:
 B_3964B:
   STA.W EntityV32,X                                   ; 03964B 9D 16 15 
   CLC                                             ; 03964E 18 
-  LDA.W XexzyCharX,X                              ; 03964F BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03964F BD 46 0B 
   ADC.B #$07                                      ; 039652 69 07 
   BCC.B B_39658                                   ; 039654 90 02 
 
@@ -2124,7 +2125,7 @@ B_39672:
   STA.W EntityV35,X                                   ; 039672 9D 6C 16 
   LDY.W EntityV23,X                                   ; 039675 BC 10 11 
   SEC                                             ; 039678 38 
-  LDA.W XexzyCharX,X                              ; 039679 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 039679 BD 46 0B 
   SBC.B #$08                                      ; 03967C E9 08 
   SBC.W $1A25,Y                                   ; 03967E F9 25 1A 
   STA.B $07                                       ; 039681 85 07 
@@ -2200,7 +2201,7 @@ D_39783:
 .byte $00,$00,$00,$00,$00,$00,$00                 ; 0397BC .......  ???????
 
   SEC                                             ; 0397C2 38 
-  LDA.W XexzyCharX,X                              ; 0397C3 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 0397C3 BD 46 0B 
   SBC.B #$07                                      ; 0397C6 E9 07 
   BCS.B B_397CC                                   ; 0397C8 B0 02 
 
@@ -2209,7 +2210,7 @@ D_39783:
 B_397CC:
   STA.W EntityV32,X                                   ; 0397CC 9D 16 15 
   CLC                                             ; 0397CF 18 
-  LDA.W XexzyCharX,X                              ; 0397D0 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 0397D0 BD 46 0B 
   ADC.B #$07                                      ; 0397D3 69 07 
   BCC.B B_397D9                                   ; 0397D5 90 02 
 
@@ -2242,7 +2243,7 @@ B_397F3:
   CMP.B #$21                                      ; 039801 C9 21 
   BNE.B B_39812                                   ; 039803 D0 0D 
   LDA.B #$16                                      ; 039805 A9 16 
-  STA.W EntityV1,X                                   ; 039807 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 039807 9D 44 07 
   LDA.B #$01                                      ; 03980A A9 01 
   STA.W EntityV15,X                                   ; 03980C 9D 80 0D 
   JMP.W D_38141                                   ; 03980F 4C 41 81 
@@ -2259,7 +2260,7 @@ B_39821:
   LSR                                             ; 039827 4A 
   TAY                                             ; 039828 A8 
   SEC                                             ; 039829 38 
-  LDA.W XexzyCharX,X                              ; 03982A BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03982A BD 46 0B 
   SBC.B #$08                                      ; 03982D E9 08 
   STA.B $07                                       ; 03982F 85 07 
   LDA.W EntityV30,X                                   ; 039831 BD 2E 14 
@@ -2594,16 +2595,16 @@ B_3A087:
   ORA.W EntityV5,X                                   ; 03A08C 1D 0C 09 
   BEQ.B B_3A0AF                                   ; 03A08F F0 1E 
   LDA.B #$F7                                      ; 03A091 A9 F7 
-  CMP.W XexzyCharX,X                              ; 03A093 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03A093 DD 46 0B 
   BCS.B B_3A0AF                                   ; 03A096 B0 17 
-  STA.W XexzyCharX,X                              ; 03A098 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03A098 9D 46 0B 
   LDY.B #$02                                      ; 03A09B A0 02 
   JMP.W D_3A0E5                                   ; 03A09D 4C E5 A0 
 B_3A0A0:
   LDA.B #$08                                      ; 03A0A0 A9 08 
-  CMP.W XexzyCharX,X                              ; 03A0A2 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03A0A2 DD 46 0B 
   BCC.B B_3A0AF                                   ; 03A0A5 90 08 
-  STA.W XexzyCharX,X                              ; 03A0A7 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03A0A7 9D 46 0B 
   LDY.B #$03                                      ; 03A0AA A0 03 
   JMP.W D_3A0E5                                   ; 03A0AC 4C E5 A0 
 B_3A0AF:
@@ -2670,18 +2671,18 @@ B_3A11D:
   LDA.B #$01                                      ; 03A12F A9 01 
   STA.W EntityHeader,X                                   ; 03A131 9D D2 06 
   LDA.B #$36                                      ; 03A134 A9 36 
-  STA.W EntityV1,X                                   ; 03A136 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03A136 9D 44 07 
   LDA.B #$02                                      ; 03A139 A9 02 
   STA.W EntityV3,X                                   ; 03A13B 9D 28 08 
   LDY.W $05D0                                     ; 03A13E AC D0 05 
-  LDA.W XexzyCharX,Y                              ; 03A141 B9 46 0B 
-  STA.W XexzyCharX,X                              ; 03A144 9D 46 0B 
+  LDA.W EntityXPx,Y                              ; 03A141 B9 46 0B 
+  STA.W EntityXPx,X                              ; 03A144 9D 46 0B 
   SEC                                             ; 03A147 38 
   LDA.W EntityYPx,Y                                   ; 03A148 B9 9C 0C 
   SBC.B #$1F                                      ; 03A14B E9 1F 
   STA.W EntityYPx,X                                   ; 03A14D 9D 9C 0C 
   SEC                                             ; 03A150 38 
-  LDA.W XexzyCharX,X                              ; 03A151 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03A151 BD 46 0B 
   SBC.B #$08                                      ; 03A154 E9 08 
   BCS.B B_3A15A                                   ; 03A156 B0 02 
 
@@ -2690,7 +2691,7 @@ B_3A11D:
 B_3A15A:
   STA.W EntityV32,X                                   ; 03A15A 9D 16 15 
   CLC                                             ; 03A15D 18 
-  LDA.W XexzyCharX,X                              ; 03A15E BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03A15E BD 46 0B 
   ADC.B #$08                                      ; 03A161 69 08 
   BCC.B B_3A167                                   ; 03A163 90 02 
 
@@ -3180,7 +3181,7 @@ B_3AE40:
   STZ.W EntityV8,X                                   ; 03AE5F 9E 62 0A 
 D_3AE62:
   LDA.B #$2D                                      ; 03AE62 A9 2D 
-  STA.W EntityV1,X                                   ; 03AE64 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03AE64 9D 44 07 
   JSL AdvanceRNG                                     ; 03AE67 22 95 CA 0E 
   AND.W EntityV22,X                                   ; 03AE6B 3D 9E 10 
   ADC.W EntityV21,X                                   ; 03AE6E 7D 2C 10 
@@ -3194,14 +3195,14 @@ D_3AE62:
   STA.W EntityV30,X                                   ; 03AE85 9D 2E 14 
 B_3AE88:
   SEC                                             ; 03AE88 38 
-  LDA.W XexzyCharX,X                              ; 03AE89 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03AE89 BD 46 0B 
   SBC.B #$08                                      ; 03AE8C E9 08 
   BCS.B B_3AE92                                   ; 03AE8E B0 02 
   LDA.B #$00                                      ; 03AE90 A9 00 
 B_3AE92:
   STA.W EntityV32,X                                   ; 03AE92 9D 16 15 
   CLC                                             ; 03AE95 18 
-  LDA.W XexzyCharX,X                              ; 03AE96 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03AE96 BD 46 0B 
   ADC.B #$08                                      ; 03AE99 69 08 
   BCC.B B_3AE9F                                   ; 03AE9B 90 02 
   LDA.B #$FF                                      ; 03AE9D A9 FF 
@@ -3251,7 +3252,7 @@ D_3AEE7:
 .byte $00,$C0,$FF                                 ; 03AEE8 DDD      ???
 
   SEC                                             ; 03AEEA 38 
-  LDA.W XexzyCharX,X                              ; 03AEEB BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03AEEB BD 46 0B 
   SBC.B #$08                                      ; 03AEEE E9 08 
   BCS.B B_3AEF4                                   ; 03AEF0 B0 02 
 
@@ -3260,7 +3261,7 @@ D_3AEE7:
 B_3AEF4:
   STA.W EntityV32,X                                   ; 03AEF4 9D 16 15 
   CLC                                             ; 03AEF7 18 
-  LDA.W XexzyCharX,X                              ; 03AEF8 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03AEF8 BD 46 0B 
   ADC.B #$08                                      ; 03AEFB 69 08 
   BCC.B B_3AF01                                   ; 03AEFD 90 02 
 
@@ -3292,7 +3293,7 @@ B_3AF1B:
   BEQ.B B_3AF43                                   ; 03AF24 F0 1D 
   DEY                                             ; 03AF26 88 
   BEQ.B B_3AF36                                   ; 03AF27 F0 0D 
-  LDA.W XexzyCharX,X                              ; 03AF29 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03AF29 BD 46 0B 
   CMP.B #$E2                                      ; 03AF2C C9 E2 
   BCC.B B_3AF89                                   ; 03AF2E 90 59 
   JSR.W L_3AFFA                                   ; 03AF30 20 FA AF 
@@ -3304,7 +3305,7 @@ B_3AF36:
   JSR.W L_3B009                                   ; 03AF3D 20 09 B0 
   JMP.W D_3AF5A                                   ; 03AF40 4C 5A AF 
 B_3AF43:
-  LDA.W XexzyCharX,X                              ; 03AF43 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03AF43 BD 46 0B 
   CMP.B #$1E                                      ; 03AF46 C9 1E 
   BCS.B B_3AF89                                   ; 03AF48 B0 3F 
   JSR.W L_3AFFA                                   ; 03AF4A 20 FA AF 
@@ -3339,7 +3340,7 @@ B_3AF89:
   DEC.W EntityV15,X                                   ; 03AF8F DE 80 0D 
   BNE.B B_3AFBC                                   ; 03AF92 D0 28 
   LDA.B #$2E                                      ; 03AF94 A9 2E 
-  STA.W EntityV1,X                                   ; 03AF96 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03AF96 9D 44 07 
   LDA.B #$3C                                      ; 03AF99 A9 3C 
   STA.W EntityV15,X                                   ; 03AF9B 9D 80 0D 
   LDY.W EntityV20,X                                   ; 03AF9E BC BA 0F 
@@ -3398,7 +3399,7 @@ B_3B005:
 
 
 L_3B009:
-  LDA.W XexzyCharX,X                              ; 03B009 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B009 BD 46 0B 
   BPL.B B_3B014                                   ; 03B00C 10 06 
   LDA.B #$01                                      ; 03B00E A9 01 
   STA.W EntityV20,X                                   ; 03B010 9D BA 0F 
@@ -3412,16 +3413,16 @@ B_3B014:
   DEC.W EntityV15,X                                   ; 03B01A DE 80 0D 
   BNE.B B_3B035                                   ; 03B01D D0 16 
   LDA.B #$2F                                      ; 03B01F A9 2F 
-  STA.W EntityV1,X                                   ; 03B021 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B021 9D 44 07 
   LDA.B #$3C                                      ; 03B024 A9 3C 
   STA.W EntityV15,X                                   ; 03B026 9D 80 0D 
-  LDA.W XexzyCharX,X                              ; 03B029 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B029 BD 46 0B 
   STA.W EntityV20,X                                   ; 03B02C 9D BA 0F 
   LDA.W EntityYPx,X                                   ; 03B02F BD 9C 0C 
   STA.W EntityV21,X                                   ; 03B032 9D 2C 10 
 B_3B035:
   SEC                                             ; 03B035 38 
-  LDA.W XexzyCharX,X                              ; 03B036 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B036 BD 46 0B 
   SBC.B #$08                                      ; 03B039 E9 08 
   BCS.B B_3B03F                                   ; 03B03B B0 02 
 
@@ -3430,7 +3431,7 @@ B_3B035:
 B_3B03F:
   STA.W EntityV32,X                                   ; 03B03F 9D 16 15 
   CLC                                             ; 03B042 18 
-  LDA.W XexzyCharX,X                              ; 03B043 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B043 BD 46 0B 
   ADC.B #$08                                      ; 03B046 69 08 
   BCC.B B_3B04C                                   ; 03B048 90 02 
 
@@ -3470,7 +3471,7 @@ B_3B066:
 B_3B084:
   JMP.W D_38141                                   ; 03B084 4C 41 81 
   SEC                                             ; 03B087 38 
-  LDA.W XexzyCharX,X                              ; 03B088 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B088 BD 46 0B 
   SBC.B #$08                                      ; 03B08B E9 08 
   BCS.B B_3B091                                   ; 03B08D B0 02 
 
@@ -3479,7 +3480,7 @@ B_3B084:
 B_3B091:
   STA.W EntityV32,X                                   ; 03B091 9D 16 15 
   CLC                                             ; 03B094 18 
-  LDA.W XexzyCharX,X                              ; 03B095 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B095 BD 46 0B 
   ADC.B #$08                                      ; 03B098 69 08 
   BCC.B B_3B09E                                   ; 03B09A 90 02 
 
@@ -3513,7 +3514,7 @@ B_3B0B8:
   CLC                                             ; 03B0C7 18 
   LDA.W EntityV20,X                                   ; 03B0C8 BD BA 0F 
   ADC.W D_3B1EA,Y                                 ; 03B0CB 79 EA B1 
-  STA.W XexzyCharX,X                              ; 03B0CE 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B0CE 9D 46 0B 
   JSL AdvanceRNG                                     ; 03B0D1 22 95 CA 0E 
   AND.B #$03                                      ; 03B0D5 29 03 
   TAY                                             ; 03B0D7 A8 
@@ -3538,7 +3539,7 @@ B_3B100:
   DEC.W $18EC                                     ; 03B100 CE EC 18 
   DEC.W $06C6                                     ; 03B103 CE C6 06 
   LDA.B #$09                                      ; 03B106 A9 09 
-  STA.W EntityV1,X                                   ; 03B108 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B108 9D 44 07 
   LDA.B #$00                                      ; 03B10B A9 00 
   STA.W EntityV3,X                                   ; 03B10D 9D 28 08 
   LDA.B #$20                                      ; 03B110 A9 20 
@@ -3552,7 +3553,7 @@ B_3B100:
   LDA.B #$04                                      ; 03B126 A9 04 
   STA.W EntityV28,X                                   ; 03B128 9D 4A 13 
   STZ.W EntityV27,X                                   ; 03B12B 9E D8 12 
-  LDA.W XexzyCharX,X                              ; 03B12E BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B12E BD 46 0B 
   STA.B $04                                       ; 03B131 85 04 
   LDA.W EntityYPx,X                                   ; 03B133 BD 9C 0C 
   STA.B $05                                       ; 03B136 85 05 
@@ -3570,7 +3571,7 @@ B_3B145:
   LDA.B #$01                                      ; 03B14C A9 01 
   STA.W EntityHeader,X                                   ; 03B14E 9D D2 06 
   LDA.B #$31                                      ; 03B151 A9 31 
-  STA.W EntityV1,X                                   ; 03B153 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B153 9D 44 07 
   LDA.B #$0C                                      ; 03B156 A9 0C 
   STA.W EntityV3,X                                   ; 03B158 9D 28 08 
   LDA.B #$48                                      ; 03B15B A9 48 
@@ -3578,7 +3579,7 @@ B_3B145:
   LDA.B #$37                                      ; 03B160 A9 37 
   STA.W EntityV30,X                                   ; 03B162 9D 2E 14 
   LDA.B $04                                       ; 03B165 A5 04 
-  STA.W XexzyCharX,X                              ; 03B167 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B167 9D 46 0B 
   LDA.B $05                                       ; 03B16A A5 05 
   STA.W EntityYPx,X                                   ; 03B16C 9D 9C 0C 
   LDA.B $06                                       ; 03B16F A5 06 
@@ -3599,7 +3600,7 @@ B_3B145:
   STA.W $175E,Y                                   ; 03B195 99 5E 17 
   JSL L_AEF1                                      ; 03B198 22 F1 AE 00 
   SEC                                             ; 03B19C 38 
-  LDA.W XexzyCharX,X                              ; 03B19D BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B19D BD 46 0B 
   SBC.B #$04                                      ; 03B1A0 E9 04 
   BCS.B B_3B1A6                                   ; 03B1A2 B0 02 
 
@@ -3608,7 +3609,7 @@ B_3B145:
 B_3B1A6:
   STA.W EntityV32,X                                   ; 03B1A6 9D 16 15 
   CLC                                             ; 03B1A9 18 
-  LDA.W XexzyCharX,X                              ; 03B1AA BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B1AA BD 46 0B 
   ADC.B #$04                                      ; 03B1AD 69 04 
   BCC.B B_3B1B3                                   ; 03B1AF 90 02 
 
@@ -3664,7 +3665,7 @@ D_3B1FF:
   DEC.W EntityV15,X                                   ; 03B20E DE 80 0D 
   BNE.B B_3B246                                   ; 03B211 D0 33 
   LDA.B #$2C                                      ; 03B213 A9 2C 
-  STA.W EntityV1,X                                   ; 03B215 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B215 9D 44 07 
   JSL AdvanceRNG                                     ; 03B218 22 95 CA 0E 
   AND.B #$1F                                      ; 03B21C 29 1F 
   CLC                                             ; 03B21E 18 
@@ -3685,7 +3686,7 @@ D_3B1FF:
   STA.W EntityV8,X                                   ; 03B243 9D 62 0A 
 B_3B246:
   SEC                                             ; 03B246 38 
-  LDA.W XexzyCharX,X                              ; 03B247 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B247 BD 46 0B 
   SBC.B #$08                                      ; 03B24A E9 08 
   BCS.B B_3B250                                   ; 03B24C B0 02 
 
@@ -3694,7 +3695,7 @@ B_3B246:
 B_3B250:
   STA.W EntityV32,X                                   ; 03B250 9D 16 15 
   CLC                                             ; 03B253 18 
-  LDA.W XexzyCharX,X                              ; 03B254 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B254 BD 46 0B 
   ADC.B #$08                                      ; 03B257 69 08 
   BCC.B B_3B25D                                   ; 03B259 90 02 
 
@@ -3721,7 +3722,7 @@ B_3B26A:
 B_3B277:
   STA.W EntityV35,X                                   ; 03B277 9D 6C 16 
   SEC                                             ; 03B27A 38 
-  LDA.W XexzyCharX,X                              ; 03B27B BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B27B BD 46 0B 
   SBC.B #$08                                      ; 03B27E E9 08 
   STA.B $04                                       ; 03B280 85 04 
   LDA.W EntityV11,X                                   ; 03B282 BD B8 0B 
@@ -3754,7 +3755,7 @@ D_3B2B8:
 D_3B2B9:
 .byte $00,$00,$00,$C0,$FF,$00,$00                 ; 03B2BA D..DDDD  ???????
 
-  LDA.W XexzyCharX,X                              ; 03B2C0 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B2C0 BD 46 0B 
   CMP.B #$1A                                      ; 03B2C3 C9 1A 
   BCC.B B_3B2D6                                   ; 03B2C5 90 0F 
   CMP.B #$E6                                      ; 03B2C7 C9 E6 
@@ -3787,7 +3788,7 @@ B_3B2F7:
   JMP.W D_38141                                   ; 03B2FB 4C 41 81 
 B_3B2FE:
   SEC                                             ; 03B2FE 38 
-  LDA.W XexzyCharX,X                              ; 03B2FF BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B2FF BD 46 0B 
   SBC.B #$02                                      ; 03B302 E9 02 
   BCS.B B_3B308                                   ; 03B304 B0 02 
 
@@ -3796,7 +3797,7 @@ B_3B2FE:
 B_3B308:
   STA.W EntityV32,X                                   ; 03B308 9D 16 15 
   CLC                                             ; 03B30B 18 
-  LDA.W XexzyCharX,X                              ; 03B30C BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B30C BD 46 0B 
   ADC.B #$02                                      ; 03B30F 69 02 
   BCC.B B_3B315                                   ; 03B311 90 02 
 
@@ -3833,16 +3834,16 @@ B_3B32F:
   ORA.W EntityV5,X                                   ; 03B346 1D 0C 09 
   BEQ.B B_3B369                                   ; 03B349 F0 1E 
   LDA.B #$EE                                      ; 03B34B A9 EE 
-  CMP.W XexzyCharX,X                              ; 03B34D DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03B34D DD 46 0B 
   BCS.B B_3B369                                   ; 03B350 B0 17 
-  STA.W XexzyCharX,X                              ; 03B352 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B352 9D 46 0B 
   LDY.B #$02                                      ; 03B355 A0 02 
   JMP.W D_3B3D3                                   ; 03B357 4C D3 B3 
 B_3B35A:
   LDA.B #$12                                      ; 03B35A A9 12 
-  CMP.W XexzyCharX,X                              ; 03B35C DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03B35C DD 46 0B 
   BCC.B B_3B369                                   ; 03B35F 90 08 
-  STA.W XexzyCharX,X                              ; 03B361 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B361 9D 46 0B 
   LDY.B #$03                                      ; 03B364 A0 03 
   JMP.W D_3B3D3                                   ; 03B366 4C D3 B3 
 B_3B369:
@@ -3865,7 +3866,7 @@ B_3B382:
   BRA.B D_3B3D3                                   ; 03B38E 80 43 
 B_3B390:
   SEC                                             ; 03B390 38 
-  LDA.W XexzyCharX,X                              ; 03B391 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B391 BD 46 0B 
   SBC.B #$01                                      ; 03B394 E9 01 
   BCS.B B_3B39A                                   ; 03B396 B0 02 
 
@@ -3874,7 +3875,7 @@ B_3B390:
 B_3B39A:
   STA.W EntityV32,X                                   ; 03B39A 9D 16 15 
   CLC                                             ; 03B39D 18 
-  LDA.W XexzyCharX,X                              ; 03B39E BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B39E BD 46 0B 
   ADC.B #$01                                      ; 03B3A1 69 01 
   BCC.B B_3B3A7                                   ; 03B3A3 90 02 
 
@@ -3917,7 +3918,7 @@ D_3B3D3:
   STZ.W EntityV7,X                                   ; 03B3E7 9E F0 09 
   STZ.W EntityV8,X                                   ; 03B3EA 9E 62 0A 
   LDA.B #$07                                      ; 03B3ED A9 07 
-  STA.W EntityV1,X                                   ; 03B3EF 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B3EF 9D 44 07 
   LDA.B #$00                                      ; 03B3F2 A9 00 
   STA.W EntityV3,X                                   ; 03B3F4 9D 28 08 
   LDA.B #$06                                      ; 03B3F7 A9 06 
@@ -3939,15 +3940,15 @@ D_3B40F:
   ORA.W EntityV5,X                                   ; 03B418 1D 0C 09 
   BEQ.B B_3B437                                   ; 03B41B F0 1A 
   LDA.B #$EE                                      ; 03B41D A9 EE 
-  CMP.W XexzyCharX,X                              ; 03B41F DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03B41F DD 46 0B 
   BCS.B B_3B437                                   ; 03B422 B0 13 
-  STA.W XexzyCharX,X                              ; 03B424 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B424 9D 46 0B 
   JMP.W D_3B4A3                                   ; 03B427 4C A3 B4 
 B_3B42A:
   LDA.B #$12                                      ; 03B42A A9 12 
-  CMP.W XexzyCharX,X                              ; 03B42C DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03B42C DD 46 0B 
   BCC.B B_3B437                                   ; 03B42F 90 06 
-  STA.W XexzyCharX,X                              ; 03B431 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B431 9D 46 0B 
   JMP.W D_3B4A3                                   ; 03B434 4C A3 B4 
 B_3B437:
   LDA.W EntityV8,X                                   ; 03B437 BD 62 0A 
@@ -3970,7 +3971,7 @@ B_3B45B:
   DEC.W EntityV15,X                                   ; 03B45B DE 80 0D 
   BEQ.B D_3B4A3                                   ; 03B45E F0 43 
   SEC                                             ; 03B460 38 
-  LDA.W XexzyCharX,X                              ; 03B461 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B461 BD 46 0B 
   SBC.B #$01                                      ; 03B464 E9 01 
   BCS.B B_3B46A                                   ; 03B466 B0 02 
 
@@ -3979,7 +3980,7 @@ B_3B45B:
 B_3B46A:
   STA.W EntityV32,X                                   ; 03B46A 9D 16 15 
   CLC                                             ; 03B46D 18 
-  LDA.W XexzyCharX,X                              ; 03B46E BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B46E BD 46 0B 
   ADC.B #$01                                      ; 03B471 69 01 
   BCC.B B_3B477                                   ; 03B473 90 02 
 
@@ -4013,7 +4014,7 @@ B_3B491:
   JMP.W D_38141                                   ; 03B4A0 4C 41 81 
 D_3B4A3:
   LDA.B #$06                                      ; 03B4A3 A9 06 
-  STA.W EntityV1,X                                   ; 03B4A5 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B4A5 9D 44 07 
   LDA.B #$00                                      ; 03B4A8 A9 00 
   STA.W EntityV3,X                                   ; 03B4AA 9D 28 08 
   LDA.B #$20                                      ; 03B4AD A9 20 
@@ -4052,15 +4053,15 @@ B_3B4EE:
 B_3B4FE:
   DEC.W $05D1                                     ; 03B4FE CE D1 05 
   LDA.B #$37                                      ; 03B501 A9 37 
-  STA.W EntityV1,X                                   ; 03B503 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B503 9D 44 07 
 B_3B506:
   CLC                                             ; 03B506 18 
   LDA.W EntityXSubPx,X                                   ; 03B507 BD D4 0A 
   ADC.W $18B4,Y                                   ; 03B50A 79 B4 18 
   STA.W EntityXSubPx,X                                   ; 03B50D 9D D4 0A 
-  LDA.W XexzyCharX,X                              ; 03B510 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B510 BD 46 0B 
   ADC.W $18B6,Y                                   ; 03B513 79 B6 18 
-  STA.W XexzyCharX,X                              ; 03B516 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B516 9D 46 0B 
   CLC                                             ; 03B519 18 
   LDA.W EntityYSubPx,X                                   ; 03B51A BD 2A 0C 
   ADC.W $18B8,Y                                   ; 03B51D 79 B8 18 
@@ -4096,7 +4097,7 @@ B_3B554:
   LDA.W D_3B5A8,Y                                 ; 03B55F B9 A8 B5 
   STA.W EntityV21,X                                   ; 03B562 9D 2C 10 
   SEC                                             ; 03B565 38 
-  LDA.W XexzyCharX,X                              ; 03B566 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B566 BD 46 0B 
   SBC.B #$07                                      ; 03B569 E9 07 
   BCS.B B_3B56F                                   ; 03B56B B0 02 
 
@@ -4105,7 +4106,7 @@ B_3B554:
 B_3B56F:
   STA.W EntityV32,X                                   ; 03B56F 9D 16 15 
   CLC                                             ; 03B572 18 
-  LDA.W XexzyCharX,X                              ; 03B573 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B573 BD 46 0B 
   ADC.B #$07                                      ; 03B576 69 07 
   BCC.B B_3B57C                                   ; 03B578 90 02 
 
@@ -4146,15 +4147,15 @@ D_3B5A8:
   ORA.W EntityV5,X                                   ; 03B5B5 1D 0C 09 
   BEQ.B B_3B5D4                                   ; 03B5B8 F0 1A 
   LDA.B #$EE                                      ; 03B5BA A9 EE 
-  CMP.W XexzyCharX,X                              ; 03B5BC DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03B5BC DD 46 0B 
   BCS.B B_3B5D4                                   ; 03B5BF B0 13 
-  STA.W XexzyCharX,X                              ; 03B5C1 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B5C1 9D 46 0B 
   JMP.W D_3B63A                                   ; 03B5C4 4C 3A B6 
 B_3B5C7:
   LDA.B #$12                                      ; 03B5C7 A9 12 
-  CMP.W XexzyCharX,X                              ; 03B5C9 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03B5C9 DD 46 0B 
   BCC.B B_3B5D4                                   ; 03B5CC 90 06 
-  STA.W XexzyCharX,X                              ; 03B5CE 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B5CE 9D 46 0B 
   JMP.W D_3B63A                                   ; 03B5D1 4C 3A B6 
 B_3B5D4:
   LDA.W EntityV8,X                                   ; 03B5D4 BD 62 0A 
@@ -4174,7 +4175,7 @@ B_3B5EB:
   BRA.B D_3B63A                                   ; 03B5F5 80 43 
 B_3B5F7:
   SEC                                             ; 03B5F7 38 
-  LDA.W XexzyCharX,X                              ; 03B5F8 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B5F8 BD 46 0B 
   SBC.B #$07                                      ; 03B5FB E9 07 
   BCS.B B_3B601                                   ; 03B5FD B0 02 
 
@@ -4183,7 +4184,7 @@ B_3B5F7:
 B_3B601:
   STA.W EntityV32,X                                   ; 03B601 9D 16 15 
   CLC                                             ; 03B604 18 
-  LDA.W XexzyCharX,X                              ; 03B605 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B605 BD 46 0B 
   ADC.B #$07                                      ; 03B608 69 07 
   BCC.B B_3B60E                                   ; 03B60A 90 02 
 
@@ -4217,7 +4218,7 @@ B_3B628:
   JMP.W D_38141                                   ; 03B637 4C 41 81 
 D_3B63A:
   LDA.B #$05                                      ; 03B63A A9 05 
-  STA.W EntityV1,X                                   ; 03B63C 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B63C 9D 44 07 
   LDA.B #$00                                      ; 03B63F A9 00 
   STA.W EntityV3,X                                   ; 03B641 9D 28 08 
   LDA.B #$40                                      ; 03B644 A9 40 
@@ -4239,7 +4240,7 @@ D_3B63A:
   LDA.W $18A5,Y                                   ; 03B670 B9 A5 18 
   BEQ.B B_3B684                                   ; 03B673 F0 0F 
   LDA.B #$10                                      ; 03B675 A9 10 
-  STA.W EntityV1,X                                   ; 03B677 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B677 9D 44 07 
   LDA.B #$FF                                      ; 03B67A A9 FF 
   STA.W $05CE                                     ; 03B67C 8D CE 05 
   LDA.B #$00                                      ; 03B67F A9 00 
@@ -4249,9 +4250,9 @@ B_3B684:
   LDA.W EntityXSubPx,X                                   ; 03B685 BD D4 0A 
   ADC.W $18B4,Y                                   ; 03B688 79 B4 18 
   STA.W EntityXSubPx,X                                   ; 03B68B 9D D4 0A 
-  LDA.W XexzyCharX,X                              ; 03B68E BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B68E BD 46 0B 
   ADC.W $18B6,Y                                   ; 03B691 79 B6 18 
-  STA.W XexzyCharX,X                              ; 03B694 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03B694 9D 46 0B 
   CLC                                             ; 03B697 18 
   LDA.W EntityYSubPx,X                                   ; 03B698 BD 2A 0C 
   ADC.W $18B8,Y                                   ; 03B69B 79 B8 18 
@@ -4280,7 +4281,7 @@ B_3B6D2:
   TYA                                             ; 03B6D2 98 
   STA.W EntityV15,X                                   ; 03B6D3 9D 80 0D 
   SEC                                             ; 03B6D6 38 
-  LDA.W XexzyCharX,X                              ; 03B6D7 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B6D7 BD 46 0B 
   SBC.B #$03                                      ; 03B6DA E9 03 
   BCS.B B_3B6E0                                   ; 03B6DC B0 02 
 
@@ -4289,7 +4290,7 @@ B_3B6D2:
 B_3B6E0:
   STA.W EntityV32,X                                   ; 03B6E0 9D 16 15 
   CLC                                             ; 03B6E3 18 
-  LDA.W XexzyCharX,X                              ; 03B6E4 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B6E4 BD 46 0B 
   ADC.B #$03                                      ; 03B6E7 69 03 
   BCC.B B_3B6ED                                   ; 03B6E9 90 02 
 
@@ -4382,8 +4383,8 @@ D_3B769:
 B_3B792:
   LDY.W EntityV15,X                                   ; 03B792 BC 80 0D 
   LDY.W EntityV20,X                                   ; 03B795 BC BA 0F 
-  LDA.W XexzyCharX,Y                              ; 03B798 B9 46 0B 
-  STA.W XexzyCharX,X                              ; 03B79B 9D 46 0B 
+  LDA.W EntityXPx,Y                              ; 03B798 B9 46 0B 
+  STA.W EntityXPx,X                              ; 03B79B 9D 46 0B 
   CLC                                             ; 03B79E 18 
   LDA.W EntityYPx,Y                                   ; 03B79F B9 9C 0C 
   ADC.W EntityV22,X                                   ; 03B7A2 7D 9E 10 
@@ -4416,7 +4417,7 @@ B_3B7D2:
   LDA.W D_3B81E,Y                                 ; 03B7D5 B9 1E B8 
   STA.W EntityV29,X                                   ; 03B7D8 9D BC 13 
   SEC                                             ; 03B7DB 38 
-  LDA.W XexzyCharX,X                              ; 03B7DC BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B7DC BD 46 0B 
   SBC.B #$01                                      ; 03B7DF E9 01 
   BCS.B B_3B7E5                                   ; 03B7E1 B0 02 
 
@@ -4425,7 +4426,7 @@ B_3B7D2:
 B_3B7E5:
   STA.W EntityV32,X                                   ; 03B7E5 9D 16 15 
   CLC                                             ; 03B7E8 18 
-  LDA.W XexzyCharX,X                              ; 03B7E9 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B7E9 BD 46 0B 
   ADC.B #$01                                      ; 03B7EC 69 01 
   BCC.B B_3B7F2                                   ; 03B7EE 90 02 
 
@@ -4470,7 +4471,7 @@ D_3B81E:
   DEC.W EntityV15,X                                   ; 03B84B DE 80 0D 
   BNE.B B_3B8BB                                   ; 03B84E D0 6B 
   LDA.B #$39                                      ; 03B850 A9 39 
-  STA.W EntityV1,X                                   ; 03B852 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03B852 9D 44 07 
   LDA.B #$02                                      ; 03B855 A9 02 
   STA.W EntityV3,X                                   ; 03B857 9D 28 08 
   LDA.B #$20                                      ; 03B85A A9 20 
@@ -4485,7 +4486,7 @@ D_3B81E:
   STA.W EntityV28,X                                   ; 03B872 9D 4A 13 
   STZ.W EntityV27,X                                   ; 03B875 9E D8 12 
   SEC                                             ; 03B878 38 
-  LDA.W XexzyCharX,X                              ; 03B879 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B879 BD 46 0B 
   SBC.B #$01                                      ; 03B87C E9 01 
   BCS.B B_3B882                                   ; 03B87E B0 02 
 
@@ -4494,7 +4495,7 @@ D_3B81E:
 B_3B882:
   STA.W EntityV32,X                                   ; 03B882 9D 16 15 
   CLC                                             ; 03B885 18 
-  LDA.W XexzyCharX,X                              ; 03B886 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03B886 BD 46 0B 
   ADC.B #$01                                      ; 03B889 69 01 
   BCC.B B_3B88F                                   ; 03B88B 90 02 
 
@@ -4569,7 +4570,7 @@ B_3B907:
 .byte $99,$09,$03,$4C,$41,$81                     ; 03B908 ......   ???LA?
 
 B_3B90D:
-  LDA.W EntityV1,X                                   ; 03B90D BD 44 07 
+  LDA.W EntityTypeId,X                                   ; 03B90D BD 44 07 
   CMP.B #$3E                                      ; 03B910 C9 3E 
   BEQ.B B_3B920                                   ; 03B912 F0 0C 
   CMP.B #$41                                      ; 03B914 C9 41 
@@ -4612,7 +4613,7 @@ B_3B951:
   AND.B #$3F                                      ; 03B956 29 3F 
   CLC                                             ; 03B958 18 
   ADC.B #$40                                      ; 03B959 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 03B95B 8D AE 05 
+  STA.W DropTimer                   ; 03B95B 8D AE 05 
   JMP.W D_38141                                   ; 03B95E 4C 41 81 
 
 D_3B961:
@@ -4841,10 +4842,10 @@ B_3BB19:
 B_3BB1C:
   PLX                                             ; 03BB1C FA 
   PLX                                             ; 03BB1D FA 
-  LDA.W XexzyLivesCount,X                         ; 03BB1E BD 31 05 
+  LDA.W PlayerLives,X                         ; 03BB1E BD 31 05 
   CMP.B #$09                                      ; 03BB21 C9 09 
   BCS.B B_3BB31                                   ; 03BB23 B0 0C 
-  INC.W XexzyLivesCount,X                         ; 03BB25 FE 31 05 
+  INC.W PlayerLives,X                         ; 03BB25 FE 31 05 
   LDA.W $05B2,X                                   ; 03BB28 BD B2 05 
   BNE.B B_3BB31                                   ; 03BB2B D0 04 
   JSL L_ACB0                                      ; 03BB2D 22 B0 AC 00 
@@ -4859,7 +4860,7 @@ B_3BB3F:
   AND.B #$3F                                      ; 03BB43 29 3F 
   CLC                                             ; 03BB45 18 
   ADC.B #$40                                      ; 03BB46 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 03BB48 8D AE 05 
+  STA.W DropTimer                   ; 03BB48 8D AE 05 
   PHX                                             ; 03BB4B DA 
   REP.B #P_Idx8Bit                                      ; 03BB4C C2 10 
   LDA.B #$07                                      ; 03BB4E A9 07 
@@ -4913,7 +4914,7 @@ B_3BBAB:
   AND.B #$3F                                      ; 03BBB1 29 3F 
   CLC                                             ; 03BBB3 18 
   ADC.B #$40                                      ; 03BBB4 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 03BBB6 8D AE 05 
+  STA.W DropTimer                   ; 03BBB6 8D AE 05 
   PHX                                             ; 03BBB9 DA 
   REP.B #P_Idx8Bit                                      ; 03BBBA C2 10 
   LDA.B #$07                                      ; 03BBBC A9 07 
@@ -5182,8 +5183,8 @@ D_3BD71:
   LDA.B #$08                                      ; 03C158 A9 08 
   JSR.W L_38195                                   ; 03C15A 20 95 81 
   LDY.W EntityV20,X                                   ; 03C15D BC BA 0F 
-  LDA.W XexzyCharX,X                              ; 03C160 BD 46 0B 
-  CMP.W XexzyCharX,Y                              ; 03C163 D9 46 0B 
+  LDA.W EntityXPx,X                              ; 03C160 BD 46 0B 
+  CMP.W EntityXPx,Y                              ; 03C163 D9 46 0B 
   BCS.B B_3C179                                   ; 03C166 B0 11 
   CLC                                             ; 03C168 18 
   LDA.W EntityV5,X                                   ; 03C169 BD 0C 09 
@@ -5256,7 +5257,7 @@ B_3C1E4:
   STZ.W EntityV7,X                                   ; 03C1ED 9E F0 09 
 B_3C1F0:
   SEC                                             ; 03C1F0 38 
-  LDA.W XexzyCharX,X                              ; 03C1F1 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03C1F1 BD 46 0B 
   SBC.B #$08                                      ; 03C1F4 E9 08 
   BCS.B B_3C1FA                                   ; 03C1F6 B0 02 
 
@@ -5265,7 +5266,7 @@ B_3C1F0:
 B_3C1FA:
   STA.W EntityV32,X                                   ; 03C1FA 9D 16 15 
   CLC                                             ; 03C1FD 18 
-  LDA.W XexzyCharX,X                              ; 03C1FE BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03C1FE BD 46 0B 
   ADC.B #$08                                      ; 03C201 69 08 
   BCC.B B_3C207                                   ; 03C203 90 02 
 
@@ -5332,7 +5333,7 @@ B_3C26E:
   STZ.W EntityV7,X                                   ; 03C277 9E F0 09 
 B_3C27A:
   SEC                                             ; 03C27A 38 
-  LDA.W XexzyCharX,X                              ; 03C27B BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03C27B BD 46 0B 
   SBC.B #$04                                      ; 03C27E E9 04 
   BCS.B B_3C284                                   ; 03C280 B0 02 
 
@@ -5341,7 +5342,7 @@ B_3C27A:
 B_3C284:
   STA.W EntityV32,X                                   ; 03C284 9D 16 15 
   CLC                                             ; 03C287 18 
-  LDA.W XexzyCharX,X                              ; 03C288 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03C288 BD 46 0B 
   ADC.B #$04                                      ; 03C28B 69 04 
   BCC.B B_3C291                                   ; 03C28D 90 02 
 
@@ -5391,7 +5392,7 @@ B_3C2D7:
   LDA.W EntityV22,X                                   ; 03C2DC BD 9E 10 
   STA.B $05                                       ; 03C2DF 85 05 
   LDY.W EntityV20,X                                   ; 03C2E1 BC BA 0F 
-  LDA.W XexzyCharX,Y                              ; 03C2E4 B9 46 0B 
+  LDA.W EntityXPx,Y                              ; 03C2E4 B9 46 0B 
   PHA                                             ; 03C2E7 48 
   CLC                                             ; 03C2E8 18 
   ADC.B #$0C                                      ; 03C2E9 69 0C 
@@ -5409,7 +5410,7 @@ B_3C2D7:
   SEC                                             ; 03C2FD 38 
   SBC.B #$0C                                      ; 03C2FE E9 0C 
   STA.B $08                                       ; 03C300 85 08 
-  LDA.W XexzyCharX,X                              ; 03C302 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03C302 BD 46 0B 
   CMP.B $07                                       ; 03C305 C5 07 
   BCS.B B_3C31E                                   ; 03C307 B0 15 
   CMP.B $06                                       ; 03C309 C5 06 
@@ -5473,7 +5474,7 @@ B_3C375:
 B_3C387:
   PLX                                             ; 03C387 FA 
   LDA.B #$08                                      ; 03C388 A9 08 
-  STA.W EntityV1,X                                   ; 03C38A 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03C38A 9D 44 07 
   LDA.B #$00                                      ; 03C38D A9 00 
   STA.W EntityV3,X                                   ; 03C38F 9D 28 08 
   LDA.B #$40                                      ; 03C392 A9 40 
@@ -5504,7 +5505,7 @@ D_3C3CE:
   LDA.B #$04                                      ; 03C3CE A9 04 
   JSR.W L_38195                                   ; 03C3D0 20 95 81 
   SEC                                             ; 03C3D3 38 
-  LDA.W XexzyCharX,X                              ; 03C3D4 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03C3D4 BD 46 0B 
   SBC.B #$04                                      ; 03C3D7 E9 04 
   BCS.B B_3C3DD                                   ; 03C3D9 B0 02 
 
@@ -5513,7 +5514,7 @@ D_3C3CE:
 B_3C3DD:
   STA.W EntityV32,X                                   ; 03C3DD 9D 16 15 
   CLC                                             ; 03C3E0 18 
-  LDA.W XexzyCharX,X                              ; 03C3E1 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03C3E1 BD 46 0B 
   ADC.B #$04                                      ; 03C3E4 69 04 
   BCC.B B_3C3EA                                   ; 03C3E6 90 02 
 
@@ -6125,7 +6126,7 @@ B_3C404:
   LDA.W EntityYPx,X                                   ; 03D60B BD 9C 0C 
   CMP.B #$08                                      ; 03D60E C9 08 
   BCC.B B_3D635                                   ; 03D610 90 23 
-  LDA.W XexzyCharX,X                              ; 03D612 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03D612 BD 46 0B 
   CMP.B #$10                                      ; 03D615 C9 10 
   BCC.B B_3D635                                   ; 03D617 90 1C 
   CMP.B #$F0                                      ; 03D619 C9 F0 
@@ -6160,7 +6161,7 @@ B_3D653:
   PLX                                             ; 03D656 FA 
   JMP.W D_38141                                   ; 03D657 4C 41 81 
   LDA.W $0694                                     ; 03D65A AD 94 06 
-  STA.W XexzyCharX,X                              ; 03D65D 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03D65D 9D 46 0B 
   LDA.W $069D                                     ; 03D660 AD 9D 06 
   BPL.B B_3D674                                   ; 03D663 10 0F 
 
@@ -6184,7 +6185,7 @@ B_3D674:
   CMP.W D_3D704,Y                                 ; 03D698 D9 04 D7 
   BCS.B B_3D6BE                                   ; 03D69B B0 21 
   LDA.B #$72                                      ; 03D69D A9 72 
-  STA.W EntityV1,X                                   ; 03D69F 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03D69F 9D 44 07 
   JSL AdvanceRNG                                     ; 03D6A2 22 95 CA 0E 
   AND.B #$01                                      ; 03D6A6 29 01 
   STA.W EntityV20,X                                   ; 03D6A8 9D BA 0F 
@@ -6240,7 +6241,7 @@ D_3D70C:
 .byte $1A,$1B,$1C,$10,$0E,$0F,$11,$11             ; 03D714 DDDDDDDD ????????
 
   LDA.W $0694                                     ; 03D71C AD 94 06 
-  STA.W XexzyCharX,X                              ; 03D71F 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03D71F 9D 46 0B 
   LDA.W $0695                                     ; 03D722 AD 95 06 
   SEC                                             ; 03D725 38 
   LDA.W $0695                                     ; 03D726 AD 95 06 
@@ -6257,7 +6258,7 @@ D_3D70C:
   LDA.B #$1E                                      ; 03D744 A9 1E 
   STA.W EntityV15,X                                   ; 03D746 9D 80 0D 
   LDA.B #$72                                      ; 03D749 A9 72 
-  STA.W EntityV1,X                                   ; 03D74B 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03D74B 9D 44 07 
 B_3D74E:
   LDA.B #$10                                      ; 03D74E A9 10 
   STA.B $1C                                       ; 03D750 85 1C 
@@ -6268,7 +6269,7 @@ B_3D74E:
   LDA.B #$20                                      ; 03D75D A9 20 
   STA.W $0699                                     ; 03D75F 8D 99 06 
   LDA.W $0694                                     ; 03D762 AD 94 06 
-  STA.W XexzyCharX,X                              ; 03D765 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03D765 9D 46 0B 
   SEC                                             ; 03D768 38 
   LDA.W $0695                                     ; 03D769 AD 95 06 
   SBC.W $069D                                     ; 03D76C ED 9D 06 
@@ -6281,7 +6282,7 @@ B_3D74E:
   JSL L_DEE00                                     ; 03D77F 22 00 EE 0D 
   DEC.W EntityV16,X                                   ; 03D783 DE F2 0D 
   BNE.B B_3D78B                                   ; 03D786 D0 03 
-  STZ.W EntityV1,X                                   ; 03D788 9E 44 07 
+  STZ.W EntityTypeId,X                                   ; 03D788 9E 44 07 
 B_3D78B:
   JSL L_3826A                                     ; 03D78B 22 6A 82 03 
   LDA.W EntityHeader,X                                   ; 03D78F BD D2 06 
@@ -6305,7 +6306,7 @@ D_3D7AA:
   DEC.W EntityV16,X                                   ; 03D7BF DE F2 0D 
   BNE.B B_3D7CB                                   ; 03D7C2 D0 07 
   LDA.B #$6F                                      ; 03D7C4 A9 6F 
-  STA.W EntityV1,X                                   ; 03D7C6 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03D7C6 9D 44 07 
   BRA.B B_3D7DC                                   ; 03D7C9 80 11 
 B_3D7CB:
   JSL L_DEFA8                                     ; 03D7CB 22 A8 EF 0D 
@@ -6313,10 +6314,10 @@ B_3D7CB:
   STA.W EntityV15,X                                   ; 03D7D1 9D 80 0D 
   STZ.W EntityV16,X                                   ; 03D7D4 9E F2 0D 
   LDA.B #$70                                      ; 03D7D7 A9 70 
-  STA.W EntityV1,X                                   ; 03D7D9 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03D7D9 9D 44 07 
 B_3D7DC:
   LDA.W $0694                                     ; 03D7DC AD 94 06 
-  STA.W XexzyCharX,X                              ; 03D7DF 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03D7DF 9D 46 0B 
   SEC                                             ; 03D7E2 38 
   LDA.W $0695                                     ; 03D7E3 AD 95 06 
   SBC.W $069D                                     ; 03D7E6 ED 9D 06 
@@ -6326,13 +6327,13 @@ B_3D7DC:
   JSL L_DEDA8                                     ; 03D7F2 22 A8 ED 0D 
   JMP.W D_38141                                   ; 03D7F6 4C 41 81 
   LDA.W $0694                                     ; 03D7F9 AD 94 06 
-  STA.W XexzyCharX,X                              ; 03D7FC 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03D7FC 9D 46 0B 
   LDA.W $0695                                     ; 03D7FF AD 95 06 
   STA.W EntityYPx,X                                   ; 03D802 9D 9C 0C 
   LDA.W $069C                                     ; 03D805 AD 9C 06 
   BEQ.B B_3D814                                   ; 03D808 F0 0A 
   LDA.B #$75                                      ; 03D80A A9 75 
-  STA.W EntityV1,X                                   ; 03D80C 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03D80C 9D 44 07 
   LDA.B #$01                                      ; 03D80F A9 01 
   STA.W EntityV15,X                                   ; 03D811 9D 80 0D 
 B_3D814:
@@ -6352,14 +6353,14 @@ B_3D82E:
 B_3D832:
   JMP.W D_38141                                   ; 03D832 4C 41 81 
   LDA.W $0694                                     ; 03D835 AD 94 06 
-  STA.W XexzyCharX,X                              ; 03D838 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03D838 9D 46 0B 
   LDA.W $0695                                     ; 03D83B AD 95 06 
   STA.W EntityYPx,X                                   ; 03D83E 9D 9C 0C 
   LDA.W $069C                                     ; 03D841 AD 9C 06 
   CMP.B #$02                                      ; 03D844 C9 02 
   BCC.B B_3D852                                   ; 03D846 90 0A 
   LDA.B #$83                                      ; 03D848 A9 83 
-  STA.W EntityV1,X                                   ; 03D84A 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03D84A 9D 44 07 
   LDA.B #$01                                      ; 03D84D A9 01 
   STA.W EntityV15,X                                   ; 03D84F 9D 80 0D 
 B_3D852:
@@ -6385,7 +6386,7 @@ B_3D870:
   CMP.B #$1E                                      ; 03D87D C9 1E 
   BNE.B B_3D898                                   ; 03D87F D0 17 
   LDA.B #$82                                      ; 03D881 A9 82 
-  STA.W EntityV1,X                                   ; 03D883 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03D883 9D 44 07 
   LDA.B #$01                                      ; 03D886 A9 01 
   STA.W EntityV15,X                                   ; 03D888 9D 80 0D 
   LDA.B #$04                                      ; 03D88B A9 04 
@@ -6405,7 +6406,7 @@ B_3D89E:
   JSR.W L_3DA1E                                   ; 03D8AA 20 1E DA 
 B_3D8AD:
   LDA.W $0694                                     ; 03D8AD AD 94 06 
-  STA.W XexzyCharX,X                              ; 03D8B0 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03D8B0 9D 46 0B 
   LDA.W $0695                                     ; 03D8B3 AD 95 06 
   STA.W EntityYPx,X                                   ; 03D8B6 9D 9C 0C 
   LDA.W EntityV25,X                                   ; 03D8B9 BD F4 11 
@@ -6428,7 +6429,7 @@ B_3D8D7:
   BCC.B B_3D8E4                                   ; 03D8DF 90 03 
   JMP.W D_3D984                                   ; 03D8E1 4C 84 D9 
 B_3D8E4:
-  LDA.W XexzyCharX,X                              ; 03D8E4 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03D8E4 BD 46 0B 
   CMP.B #$F4                                      ; 03D8E7 C9 F4 
   BCC.B B_3D8EE                                   ; 03D8E9 90 03 
   JMP.W D_3D984                                   ; 03D8EB 4C 84 D9 
@@ -6440,11 +6441,11 @@ B_3D8F5:
   DEC.W EntityV15,X                                   ; 03D8F5 DE 80 0D 
   BNE.B B_3D975                                   ; 03D8F8 D0 7B 
   LDA.B #$77                                      ; 03D8FA A9 77 
-  STA.W EntityV1,X                                   ; 03D8FC 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03D8FC 9D 44 07 
   LDA.B #$08                                      ; 03D8FF A9 08 
   STA.W EntityV3,X                                   ; 03D901 9D 28 08 
   SEC                                             ; 03D904 38 
-  LDA.W XexzyCharX,X                              ; 03D905 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03D905 BD 46 0B 
   SBC.B #$02                                      ; 03D908 E9 02 
   BCS.B B_3D90E                                   ; 03D90A B0 02 
 
@@ -6453,7 +6454,7 @@ B_3D8F5:
 B_3D90E:
   STA.W EntityV32,X                                   ; 03D90E 9D 16 15 
   CLC                                             ; 03D911 18 
-  LDA.W XexzyCharX,X                              ; 03D912 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03D912 BD 46 0B 
   ADC.B #$02                                      ; 03D915 69 02 
   BCC.B B_3D91B                                   ; 03D917 90 02 
 
@@ -6493,9 +6494,9 @@ B_3D935:
   AND.B #$07                                      ; 03D957 29 07 
   TAY                                             ; 03D959 A8 
   CLC                                             ; 03D95A 18 
-  LDA.W XexzyCharX,X                              ; 03D95B BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03D95B BD 46 0B 
   ADC.W D_3D9A9,Y                                 ; 03D95E 79 A9 D9 
-  STA.W XexzyCharX,X                              ; 03D961 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03D961 9D 46 0B 
   JSL AdvanceRNG                                     ; 03D964 22 95 CA 0E 
   AND.B #$07                                      ; 03D968 29 07 
   TAY                                             ; 03D96A A8 
@@ -6535,7 +6536,7 @@ D_3D9A9:
 .byte $00,$01,$02,$00,$00,$FF,$FE,$00             ; 03D9A9 DDDDDDDD ????????
 
   SEC                                             ; 03D9B1 38 
-  LDA.W XexzyCharX,X                              ; 03D9B2 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03D9B2 BD 46 0B 
   SBC.B #$02                                      ; 03D9B5 E9 02 
   BCS.B B_3D9BB                                   ; 03D9B7 B0 02 
 
@@ -6544,7 +6545,7 @@ D_3D9A9:
 B_3D9BB:
   STA.W EntityV32,X                                   ; 03D9BB 9D 16 15 
   CLC                                             ; 03D9BE 18 
-  LDA.W XexzyCharX,X                              ; 03D9BF BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03D9BF BD 46 0B 
   ADC.B #$02                                      ; 03D9C2 69 02 
   BCC.B B_3D9C8                                   ; 03D9C4 90 02 
 
@@ -6602,7 +6603,7 @@ B_3DA17:
 L_3DA1E:
   PHX                                             ; 03DA1E DA 
   CLC                                             ; 03DA1F 18 
-  LDA.W XexzyCharX,X                              ; 03DA20 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03DA20 BD 46 0B 
   ADC.W D_3DABA,Y                                 ; 03DA23 79 BA DA 
   STA.B $04                                       ; 03DA26 85 04 
   SEC                                             ; 03DA28 38 
@@ -6633,7 +6634,7 @@ B_3DA57:
   LDA.B #$01                                      ; 03DA5B A9 01 
   STA.W EntityHeader,X                                   ; 03DA5D 9D D2 06 
   LDA.B #$09                                      ; 03DA60 A9 09 
-  STA.W EntityV1,X                                   ; 03DA62 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03DA62 9D 44 07 
   LDA.B #$00                                      ; 03DA65 A9 00 
   STA.W EntityV3,X                                   ; 03DA67 9D 28 08 
   LDA.B #$20                                      ; 03DA6A A9 20 
@@ -6641,7 +6642,7 @@ B_3DA57:
   LDA.B #$32                                      ; 03DA6F A9 32 
   STA.W EntityV30,X                                   ; 03DA71 9D 2E 14 
   LDA.B $04                                       ; 03DA74 A5 04 
-  STA.W XexzyCharX,X                              ; 03DA76 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03DA76 9D 46 0B 
   LDA.B $05                                       ; 03DA79 A5 05 
   STA.W EntityYPx,X                                   ; 03DA7B 9D 9C 0C 
   LDA.B #$04                                      ; 03DA7E A9 04 
@@ -6687,7 +6688,7 @@ L_3DAC4:
   ADC.W $068F                                     ; 03DACC 6D 8F 06 
   TAY                                             ; 03DACF A8 
   CLC                                             ; 03DAD0 18 
-  LDA.W XexzyCharX,X                              ; 03DAD1 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03DAD1 BD 46 0B 
   ADC.W D_3DB6F,Y                                 ; 03DAD4 79 6F DB 
   STA.B $04                                       ; 03DAD7 85 04 
   CLC                                             ; 03DAD9 18 
@@ -6711,14 +6712,14 @@ B_3DAEB:
   LDA.B #$01                                      ; 03DB00 A9 01 
   STA.W EntityHeader,X                                   ; 03DB02 9D D2 06 
   LDA.B #$76                                      ; 03DB05 A9 76 
-  STA.W EntityV1,X                                   ; 03DB07 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03DB07 9D 44 07 
   LDA.B #$00                                      ; 03DB0A A9 00 
   STA.W EntityV3,X                                   ; 03DB0C 9D 28 08 
   LDY.W $068F                                     ; 03DB0F AC 8F 06 
   LDA.W D_3DB68,Y                                 ; 03DB12 B9 68 DB 
   STA.W EntityV15,X                                   ; 03DB15 9D 80 0D 
   LDA.B $04                                       ; 03DB18 A5 04 
-  STA.W XexzyCharX,X                              ; 03DB1A 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03DB1A 9D 46 0B 
   LDA.B $05                                       ; 03DB1D A5 05 
   STA.W EntityYPx,X                                   ; 03DB1F 9D 9C 0C 
   LDA.W $0690                                     ; 03DB22 AD 90 06 
@@ -6828,7 +6829,7 @@ B_3DC41:
   CMP.B #$60                                      ; 03DC44 C9 60 
   BCC.B B_3DC50                                   ; 03DC46 90 08 
   LDA.B #$79                                      ; 03DC48 A9 79 
-  STA.W EntityV1,X                                   ; 03DC4A 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03DC4A 9D 44 07 
   STZ.W EntityV7,X                                   ; 03DC4D 9E F0 09 
 B_3DC50:
   JSR.W L_3DFBF                                   ; 03DC50 20 BF DF 
@@ -6902,7 +6903,7 @@ B_3DCFA:
   DEC.W EntityV15,X                                   ; 03DCFA DE 80 0D 
   BNE.B B_3DD21                                   ; 03DCFD D0 22 
   LDA.B #$79                                      ; 03DCFF A9 79 
-  STA.W EntityV1,X                                   ; 03DD01 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03DD01 9D 44 07 
   STZ.W EntityV7,X                                   ; 03DD04 9E F0 09 
   STZ.W EntityV8,X                                   ; 03DD07 9E 62 0A 
   LDA.W $069C                                     ; 03DD0A AD 9C 06 
@@ -6932,7 +6933,7 @@ D_3DD37:
 .byte $88,$40,$30,$20                             ; 03DD50 ....     ?@0 
 
   JSL L_CFB81                                     ; 03DD53 22 81 FB 0C 
-  LDA.W XexzyCharX,X                              ; 03DD57 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03DD57 BD 46 0B 
   AND.B #$07                                      ; 03DD5A 29 07 
   TAY                                             ; 03DD5C A8 
   LDA.W EntityV21,X                                   ; 03DD5D BD 2C 10 
@@ -6941,9 +6942,9 @@ D_3DD37:
   LDA.W EntityV6,X                                   ; 03DD66 BD 7E 09 
   BPL.B B_3DD91                                   ; 03DD69 10 26 
   LDA.B #$44                                      ; 03DD6B A9 44 
-  CMP.W XexzyCharX,X                              ; 03DD6D DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03DD6D DD 46 0B 
   BCC.B B_3DDB5                                   ; 03DD70 90 43 
-  STA.W XexzyCharX,X                              ; 03DD72 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03DD72 9D 46 0B 
   JSL AdvanceRNG                                     ; 03DD75 22 95 CA 0E 
   AND.B #$01                                      ; 03DD79 29 01 
   BEQ.B B_3DD89                                   ; 03DD7B F0 0C 
@@ -6958,9 +6959,9 @@ B_3DD89:
   BRA.B B_3DDB5                                   ; 03DD8F 80 24 
 B_3DD91:
   LDA.B #$BC                                      ; 03DD91 A9 BC 
-  CMP.W XexzyCharX,X                              ; 03DD93 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03DD93 DD 46 0B 
   BCS.B B_3DDB5                                   ; 03DD96 B0 1D 
-  STA.W XexzyCharX,X                              ; 03DD98 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03DD98 9D 46 0B 
   JSL AdvanceRNG                                     ; 03DD9B 22 95 CA 0E 
   AND.B #$01                                      ; 03DD9F 29 01 
   BEQ.B B_3DDAF                                   ; 03DDA1 F0 0C 
@@ -6976,7 +6977,7 @@ B_3DDB5:
   DEC.W EntityV15,X                                   ; 03DDB5 DE 80 0D 
   BNE.B B_3DDDC                                   ; 03DDB8 D0 22 
   LDA.B #$79                                      ; 03DDBA A9 79 
-  STA.W EntityV1,X                                   ; 03DDBC 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03DDBC 9D 44 07 
   STZ.W EntityV5,X                                   ; 03DDBF 9E 0C 09 
   STZ.W EntityV6,X                                   ; 03DDC2 9E 7E 09 
   LDA.W $069C                                     ; 03DDC5 AD 9C 06 
@@ -7007,7 +7008,7 @@ D_3DDF2:
   DEC.W EntityV15,X                                   ; 03DDFF DE 80 0D 
   BNE.B B_3DE0E                                   ; 03DE02 D0 0A 
   LDA.B #$79                                      ; 03DE04 A9 79 
-  STA.W EntityV1,X                                   ; 03DE06 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03DE06 9D 44 07 
   LDA.B #$01                                      ; 03DE09 A9 01 
   STA.W EntityV15,X                                   ; 03DE0B 9D 80 0D 
 B_3DE0E:
@@ -7075,9 +7076,9 @@ L_3DF64:
   AND.B #$07                                      ; 03DF70 29 07 
   TAY                                             ; 03DF72 A8 
   CLC                                             ; 03DF73 18 
-  LDA.W XexzyCharX,X                              ; 03DF74 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03DF74 BD 46 0B 
   ADC.W D_3DFB7,Y                                 ; 03DF77 79 B7 DF 
-  STA.W XexzyCharX,X                              ; 03DF7A 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03DF7A 9D 46 0B 
   JSL AdvanceRNG                                     ; 03DF7D 22 95 CA 0E 
   AND.B #$07                                      ; 03DF81 29 07 
   TAY                                             ; 03DF83 A8 
@@ -7098,14 +7099,14 @@ B_3DF98:
   STA.W EntityYPx,X                                   ; 03DF9F 9D 9C 0C 
 B_3DFA2:
   LDA.B #$44                                      ; 03DFA2 A9 44 
-  CMP.W XexzyCharX,X                              ; 03DFA4 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03DFA4 DD 46 0B 
   BCC.B B_3DFAC                                   ; 03DFA7 90 03 
-  STA.W XexzyCharX,X                              ; 03DFA9 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03DFA9 9D 46 0B 
 B_3DFAC:
   LDA.B #$BC                                      ; 03DFAC A9 BC 
-  CMP.W XexzyCharX,X                              ; 03DFAE DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03DFAE DD 46 0B 
   BCS.B B_3DFB6                                   ; 03DFB1 B0 03 
-  STA.W XexzyCharX,X                              ; 03DFB3 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03DFB3 9D 46 0B 
 B_3DFB6:
   RTS                                             ; 03DFB6 60 
 
@@ -7118,7 +7119,7 @@ L_3DFBF:
   PHX                                             ; 03DFBF DA 
   STZ.B $0D                                       ; 03DFC0 64 0D 
   SEC                                             ; 03DFC2 38 
-  LDA.W XexzyCharX,X                              ; 03DFC3 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03DFC3 BD 46 0B 
   SBC.B #$20                                      ; 03DFC6 E9 20 
   STA.B $04                                       ; 03DFC8 85 04 
   SEC                                             ; 03DFCA 38 
@@ -7330,7 +7331,7 @@ D_3E177:
 L_3E180:
   SEC                                             ; 03E180 38 
   LDA.B #$40                                      ; 03E181 A9 40 
-  SBC.W XexzyCharX,X                              ; 03E183 FD 46 0B 
+  SBC.W EntityXPx,X                              ; 03E183 FD 46 0B 
   STA.W $06CD                                     ; 03E186 8D CD 06 
   LDA.B #$00                                      ; 03E189 A9 00 
   SBC.W EntityV11,X                                   ; 03E18B FD B8 0B 
@@ -7401,7 +7402,7 @@ D_3E20C:
 
 L_3E21C:
   LDA.B #$7B                                      ; 03E21C A9 7B 
-  STA.W EntityV1,X                                   ; 03E21E 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E21E 9D 44 07 
   LDA.W EntityYPx,X                                   ; 03E221 BD 9C 0C 
   STA.W EntityV21,X                                   ; 03E224 9D 2C 10 
   JSL AdvanceRNG                                     ; 03E227 22 95 CA 0E 
@@ -7432,7 +7433,7 @@ B_3E24E:
   LDA.W D_3E2EB,Y                                 ; 03E255 B9 EB E2 
   ADC.B #$00                                      ; 03E258 69 00 
   STA.W EntityV6,X                                   ; 03E25A 9D 7E 09 
-  LDA.W XexzyCharX,X                              ; 03E25D BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03E25D BD 46 0B 
   CMP.B #$60                                      ; 03E260 C9 60 
   BCC.B B_3E281                                   ; 03E262 90 1D 
   CMP.B #$A0                                      ; 03E264 C9 A0 
@@ -7454,7 +7455,7 @@ B_3E281:
 
 L_3E282:
   LDA.B #$7A                                      ; 03E282 A9 7A 
-  STA.W EntityV1,X                                   ; 03E284 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E284 9D 44 07 
   JSL AdvanceRNG                                     ; 03E287 22 95 CA 0E 
   AND.B #$07                                      ; 03E28B 29 07 
   TAY                                             ; 03E28D A8 
@@ -7526,7 +7527,7 @@ L_3E34A:
   PHX                                             ; 03E34A DA 
   STY.B $06                                       ; 03E34B 84 06 
   CLC                                             ; 03E34D 18 
-  LDA.W XexzyCharX,X                              ; 03E34E BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03E34E BD 46 0B 
   ADC.W D_3E428,Y                                 ; 03E351 79 28 E4 
   STA.B $04                                       ; 03E354 85 04 
   SEC                                             ; 03E356 38 
@@ -7557,7 +7558,7 @@ B_3E385:
   LDA.B #$01                                      ; 03E389 A9 01 
   STA.W EntityHeader,X                                   ; 03E38B 9D D2 06 
   LDA.B #$1C                                      ; 03E38E A9 1C 
-  STA.W EntityV1,X                                   ; 03E390 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E390 9D 44 07 
   LDA.B #$00                                      ; 03E393 A9 00 
   STA.W EntityV3,X                                   ; 03E395 9D 28 08 
   LDA.B #$24                                      ; 03E398 A9 24 
@@ -7565,7 +7566,7 @@ B_3E385:
   LDA.B #$32                                      ; 03E39D A9 32 
   STA.W EntityV30,X                                   ; 03E39F 9D 2E 14 
   LDA.B $04                                       ; 03E3A2 A5 04 
-  STA.W XexzyCharX,X                              ; 03E3A4 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03E3A4 9D 46 0B 
   LDA.B $05                                       ; 03E3A7 A5 05 
   STA.W EntityYPx,X                                   ; 03E3A9 9D 9C 0C 
   LDA.B #$05                                      ; 03E3AC A9 05 
@@ -7655,7 +7656,7 @@ D_3E432:
 .byte $1C,$E4                                     ; 03E52B ..       ??
 
   LDA.W $0694                                     ; 03E52C AD 94 06 
-  STA.W XexzyCharX,X                              ; 03E52F 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03E52F 9D 46 0B 
   LDA.W $0695                                     ; 03E532 AD 95 06 
   STA.W EntityYPx,X                                   ; 03E535 9D 9C 0C 
   LDA.B $D2                                       ; 03E538 A5 D2 
@@ -7671,7 +7672,7 @@ B_3E543:
   DEC.W EntityV16,X                                   ; 03E54D DE F2 0D 
   BNE.B B_3E55A                                   ; 03E550 D0 08 
   LDA.B #$85                                      ; 03E552 A9 85 
-  STA.W EntityV1,X                                   ; 03E554 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E554 9D 44 07 
   JMP.W D_38141                                   ; 03E557 4C 41 81 
 B_3E55A:
   LDY.B #$00                                      ; 03E55A A0 00 
@@ -7693,7 +7694,7 @@ B_3E571:
   CMP.B #$1E                                      ; 03E57E C9 1E 
   BNE.B B_3E599                                   ; 03E580 D0 17 
   LDA.B #$84                                      ; 03E582 A9 84 
-  STA.W EntityV1,X                                   ; 03E584 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E584 9D 44 07 
   LDA.B #$01                                      ; 03E587 A9 01 
   STA.W EntityV15,X                                   ; 03E589 9D 80 0D 
   LDA.B #$04                                      ; 03E58C A9 04 
@@ -7713,7 +7714,7 @@ B_3E59F:
   JSR.W L_3DA1E                                   ; 03E5AB 20 1E DA 
 B_3E5AE:
   LDA.W $0694                                     ; 03E5AE AD 94 06 
-  STA.W XexzyCharX,X                              ; 03E5B1 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03E5B1 9D 46 0B 
   LDA.W $0695                                     ; 03E5B4 AD 95 06 
   STA.W EntityYPx,X                                   ; 03E5B7 9D 9C 0C 
   LDA.W EntityV25,X                                   ; 03E5BA BD F4 11 
@@ -7732,7 +7733,7 @@ B_3E5D4:
 B_3E5D8:
   JMP.W D_38141                                   ; 03E5D8 4C 41 81 
   LDA.W $0694                                     ; 03E5DB AD 94 06 
-  STA.W XexzyCharX,X                              ; 03E5DE 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03E5DE 9D 46 0B 
   LDA.W $0695                                     ; 03E5E1 AD 95 06 
   STA.W EntityYPx,X                                   ; 03E5E4 9D 9C 0C 
   LDA.B $D2                                       ; 03E5E7 A5 D2 
@@ -7748,7 +7749,7 @@ B_3E5F2:
   DEC.W EntityV16,X                                   ; 03E5FC DE F2 0D 
   BNE.B B_3E609                                   ; 03E5FF D0 08 
   LDA.B #$86                                      ; 03E601 A9 86 
-  STA.W EntityV1,X                                   ; 03E603 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E603 9D 44 07 
   JMP.W D_38141                                   ; 03E606 4C 41 81 
 B_3E609:
   LDY.B #$01                                      ; 03E609 A0 01 
@@ -7764,7 +7765,7 @@ B_3E60E:
 B_3E620:
   JMP.W D_38141                                   ; 03E620 4C 41 81 
   LDA.W $0694                                     ; 03E623 AD 94 06 
-  STA.W XexzyCharX,X                              ; 03E626 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03E626 9D 46 0B 
   LDA.W $0695                                     ; 03E629 AD 95 06 
   STA.W EntityYPx,X                                   ; 03E62C 9D 9C 0C 
   LDA.W EntityV25,X                                   ; 03E62F BD F4 11 
@@ -7777,7 +7778,7 @@ B_3E620:
 B_3E641:
   JMP.W D_38141                                   ; 03E641 4C 41 81 
   LDA.W $0694                                     ; 03E644 AD 94 06 
-  STA.W XexzyCharX,X                              ; 03E647 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03E647 9D 46 0B 
   LDA.W $0695                                     ; 03E64A AD 95 06 
   STA.W EntityYPx,X                                   ; 03E64D 9D 9C 0C 
   LDA.W EntityV25,X                                   ; 03E650 BD F4 11 
@@ -7795,12 +7796,12 @@ B_3E662:
 
   LDA.W EntityV6,X                                   ; 03E671 BD 7E 09 
   BPL.B B_3E67F                                   ; 03E674 10 09 
-  LDA.W XexzyCharX,X                              ; 03E676 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03E676 BD 46 0B 
   CMP.B #$10                                      ; 03E679 C9 10 
   BCC.B B_3E695                                   ; 03E67B 90 18 
   BRA.B B_3E686                                   ; 03E67D 80 07 
 B_3E67F:
-  LDA.W XexzyCharX,X                              ; 03E67F BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03E67F BD 46 0B 
   CMP.B #$F0                                      ; 03E682 C9 F0 
   BCS.B B_3E695                                   ; 03E684 B0 0F 
 B_3E686:
@@ -7843,7 +7844,7 @@ L_3E6CA:
   PHX                                             ; 03E6CA DA 
   STY.B $06                                       ; 03E6CB 84 06 
   CLC                                             ; 03E6CD 18 
-  LDA.W XexzyCharX,X                              ; 03E6CE BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03E6CE BD 46 0B 
   ADC.W D_3E77F,Y                                 ; 03E6D1 79 7F E7 
   STA.B $04                                       ; 03E6D4 85 04 
   SEC                                             ; 03E6D6 38 
@@ -7884,13 +7885,13 @@ B_3E6FD:
   LDA.B #$01                                      ; 03E717 A9 01 
   STA.W EntityHeader,X                                   ; 03E719 9D D2 06 
   LDA.B #$8B                                      ; 03E71C A9 8B 
-  STA.W EntityV1,X                                   ; 03E71E 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E71E 9D 44 07 
   LDA.B #$00                                      ; 03E721 A9 00 
   STA.W EntityV3,X                                   ; 03E723 9D 28 08 
   LDA.B #$C0                                      ; 03E726 A9 C0 
   STA.W EntityV29,X                                   ; 03E728 9D BC 13 
   LDA.B $04                                       ; 03E72B A5 04 
-  STA.W XexzyCharX,X                              ; 03E72D 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03E72D 9D 46 0B 
   LDA.B $05                                       ; 03E730 A5 05 
   STA.W EntityYPx,X                                   ; 03E732 9D 9C 0C 
   LDY.B $06                                       ; 03E735 A4 06 
@@ -7941,7 +7942,7 @@ L_3E793:
   PHX                                             ; 03E793 DA 
   STY.B $06                                       ; 03E794 84 06 
   CLC                                             ; 03E796 18 
-  LDA.W XexzyCharX,X                              ; 03E797 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03E797 BD 46 0B 
   ADC.W D_3E871,Y                                 ; 03E79A 79 71 E8 
   STA.B $04                                       ; 03E79D 85 04 
   SEC                                             ; 03E79F 38 
@@ -7972,7 +7973,7 @@ B_3E7CE:
   LDA.B #$01                                      ; 03E7D2 A9 01 
   STA.W EntityHeader,X                                   ; 03E7D4 9D D2 06 
   LDA.B #$1C                                      ; 03E7D7 A9 1C 
-  STA.W EntityV1,X                                   ; 03E7D9 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E7D9 9D 44 07 
   LDA.B #$00                                      ; 03E7DC A9 00 
   STA.W EntityV3,X                                   ; 03E7DE 9D 28 08 
   LDA.B #$24                                      ; 03E7E1 A9 24 
@@ -7980,7 +7981,7 @@ B_3E7CE:
   LDA.B #$32                                      ; 03E7E6 A9 32 
   STA.W EntityV30,X                                   ; 03E7E8 9D 2E 14 
   LDA.B $04                                       ; 03E7EB A5 04 
-  STA.W XexzyCharX,X                              ; 03E7ED 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03E7ED 9D 46 0B 
   LDA.B $05                                       ; 03E7F0 A5 05 
   STA.W EntityYPx,X                                   ; 03E7F2 9D 9C 0C 
   LDA.B #$05                                      ; 03E7F5 A9 05 
@@ -8048,7 +8049,7 @@ D_3E873:
   LDA.B #$1E                                      ; 03E893 A9 1E 
   STA.W EntityV16,X                                   ; 03E895 9D F2 0D 
   LDA.B #$8D                                      ; 03E898 A9 8D 
-  STA.W EntityV1,X                                   ; 03E89A 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03E89A 9D 44 07 
   STZ.W EntityV5,X                                   ; 03E89D 9E 0C 09 
   STZ.W EntityV6,X                                   ; 03E8A0 9E 7E 09 
   STZ.W EntityV7,X                                   ; 03E8A3 9E F0 09 
@@ -8178,7 +8179,7 @@ B_3E989:
   ORA.W EntityV5,X                                   ; 03E98E 1D 0C 09 
   BEQ.B B_3E9E1                                   ; 03E991 F0 4E 
   LDA.B #$E4                                      ; 03E993 A9 E4 
-  CMP.W XexzyCharX,X                              ; 03E995 DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03E995 DD 46 0B 
   BCS.B B_3E9E1                                   ; 03E998 B0 47 
 
 .byte $9D,$46,$0B,$A9,$D0,$9D,$0C,$09             ; 03E99A ........ ?F??????
@@ -8189,7 +8190,7 @@ B_3E989:
 
 B_3E9BB:
   LDA.B #$1C                                      ; 03E9BB A9 1C 
-  CMP.W XexzyCharX,X                              ; 03E9BD DD 46 0B 
+  CMP.W EntityXPx,X                              ; 03E9BD DD 46 0B 
   BCC.B B_3E9E1                                   ; 03E9C0 90 1F 
 
 .byte $9D,$46,$0B,$A9,$30,$9D,$0C,$09             ; 03E9C2 ........ ?F??0???
@@ -8227,17 +8228,17 @@ B_3EA13:
   LDA.B #$32                                      ; 03EA2F A9 32 
   STA.W EntityV16,X                                   ; 03EA31 9D F2 0D 
   LDA.B #$8D                                      ; 03EA34 A9 8D 
-  STA.W EntityV1,X                                   ; 03EA36 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03EA36 9D 44 07 
 D_3EA39:
   SEC                                             ; 03EA39 38 
-  LDA.W XexzyCharX,X                              ; 03EA3A BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EA3A BD 46 0B 
   SBC.B #$0B                                      ; 03EA3D E9 0B 
   BCS.B B_3EA43                                   ; 03EA3F B0 02 
   LDA.B #$00                                      ; 03EA41 A9 00 
 B_3EA43:
   STA.W EntityV32,X                                   ; 03EA43 9D 16 15 
   CLC                                             ; 03EA46 18 
-  LDA.W XexzyCharX,X                              ; 03EA47 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EA47 BD 46 0B 
   ADC.B #$0B                                      ; 03EA4A 69 0B 
   BCC.B B_3EA50                                   ; 03EA4C 90 02 
 
@@ -8293,14 +8294,14 @@ B_3EAAA:
   DEC.W EntityV15,X                                   ; 03EAAA DE 80 0D 
   BNE.B B_3EABF                                   ; 03EAAD D0 10 
   LDA.B #$8C                                      ; 03EAAF A9 8C 
-  STA.W EntityV1,X                                   ; 03EAB1 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03EAB1 9D 44 07 
   JSL AdvanceRNG                                     ; 03EAB4 22 95 CA 0E 
   AND.B #$3F                                      ; 03EAB8 29 3F 
   ADC.B #$5A                                      ; 03EABA 69 5A 
   STA.W EntityV15,X                                   ; 03EABC 9D 80 0D 
 B_3EABF:
   SEC                                             ; 03EABF 38 
-  LDA.W XexzyCharX,X                              ; 03EAC0 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EAC0 BD 46 0B 
   SBC.B #$0B                                      ; 03EAC3 E9 0B 
   BCS.B B_3EAC9                                   ; 03EAC5 B0 02 
 
@@ -8309,7 +8310,7 @@ B_3EABF:
 B_3EAC9:
   STA.W EntityV32,X                                   ; 03EAC9 9D 16 15 
   CLC                                             ; 03EACC 18 
-  LDA.W XexzyCharX,X                              ; 03EACD BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EACD BD 46 0B 
   ADC.B #$0B                                      ; 03EAD0 69 0B 
   BCC.B B_3EAD6                                   ; 03EAD2 90 02 
 
@@ -8350,7 +8351,7 @@ B_3EAF0:
   DEC.W EntityV16,X                                   ; 03EB0D DE F2 0D 
   BNE.B B_3EB22                                   ; 03EB10 D0 10 
   LDA.B #$92                                      ; 03EB12 A9 92 
-  STA.W EntityV1,X                                   ; 03EB14 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03EB14 9D 44 07 
   JSL AdvanceRNG                                     ; 03EB17 22 95 CA 0E 
   AND.B #$0F                                      ; 03EB1B 29 0F 
   ADC.B #$10                                      ; 03EB1D 69 10 
@@ -8364,7 +8365,7 @@ B_3EB22:
   JSR.W L_3EF0B                                   ; 03EB2F 20 0B EF 
 B_3EB32:
   SEC                                             ; 03EB32 38 
-  LDA.W XexzyCharX,X                              ; 03EB33 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EB33 BD 46 0B 
   SBC.B #$08                                      ; 03EB36 E9 08 
   BCS.B B_3EB3C                                   ; 03EB38 B0 02 
 
@@ -8373,7 +8374,7 @@ B_3EB32:
 B_3EB3C:
   STA.W EntityV32,X                                   ; 03EB3C 9D 16 15 
   CLC                                             ; 03EB3F 18 
-  LDA.W XexzyCharX,X                              ; 03EB40 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EB40 BD 46 0B 
   ADC.B #$08                                      ; 03EB43 69 08 
   BCC.B B_3EB49                                   ; 03EB45 90 02 
 
@@ -8422,7 +8423,7 @@ B_3EB8B:
   BRA.B B_3EBAD                                   ; 03EB94 80 17 
 B_3EB96:
   LDA.B #$90                                      ; 03EB96 A9 90 
-  STA.W EntityV1,X                                   ; 03EB98 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03EB98 9D 44 07 
   LDA.B #$01                                      ; 03EB9B A9 01 
   STA.W EntityV15,X                                   ; 03EB9D 9D 80 0D 
   JSL AdvanceRNG                                     ; 03EBA0 22 95 CA 0E 
@@ -8435,7 +8436,7 @@ B_3EBAD:
   JSL L_3F032                                     ; 03EBB0 22 32 F0 03 
 B_3EBB4:
   SEC                                             ; 03EBB4 38 
-  LDA.W XexzyCharX,X                              ; 03EBB5 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EBB5 BD 46 0B 
   SBC.B #$08                                      ; 03EBB8 E9 08 
   BCS.B B_3EBBE                                   ; 03EBBA B0 02 
 
@@ -8444,7 +8445,7 @@ B_3EBB4:
 B_3EBBE:
   STA.W EntityV32,X                                   ; 03EBBE 9D 16 15 
   CLC                                             ; 03EBC1 18 
-  LDA.W XexzyCharX,X                              ; 03EBC2 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EBC2 BD 46 0B 
   ADC.B #$08                                      ; 03EBC5 69 08 
   BCC.B B_3EBCB                                   ; 03EBC7 90 02 
 
@@ -8497,12 +8498,12 @@ B_3EC15:
 B_3EC1F:
   STA.W EntityV22,X                                   ; 03EC1F 9D 9E 10 
   LDA.B #$91                                      ; 03EC22 A9 91 
-  STA.W EntityV1,X                                   ; 03EC24 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03EC24 9D 44 07 
   LDA.B #$01                                      ; 03EC27 A9 01 
   STA.W EntityV15,X                                   ; 03EC29 9D 80 0D 
 B_3EC2C:
   SEC                                             ; 03EC2C 38 
-  LDA.W XexzyCharX,X                              ; 03EC2D BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EC2D BD 46 0B 
   SBC.B #$08                                      ; 03EC30 E9 08 
   BCS.B B_3EC36                                   ; 03EC32 B0 02 
 
@@ -8511,7 +8512,7 @@ B_3EC2C:
 B_3EC36:
   STA.W EntityV32,X                                   ; 03EC36 9D 16 15 
   CLC                                             ; 03EC39 18 
-  LDA.W XexzyCharX,X                              ; 03EC3A BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EC3A BD 46 0B 
   ADC.B #$08                                      ; 03EC3D 69 08 
   BCC.B B_3EC43                                   ; 03EC3F 90 02 
 
@@ -8562,15 +8563,15 @@ D_3EC66:
   BNE.B B_3ECB3                                   ; 03ECA1 D0 10 
 B_3ECA3:
   LDA.B #$95                                      ; 03ECA3 A9 95 
-  STA.W EntityV1,X                                   ; 03ECA5 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03ECA5 9D 44 07 
   JSL AdvanceRNG                                     ; 03ECA8 22 95 CA 0E 
   AND.B #$0F                                      ; 03ECAC 29 0F 
   ADC.B #$10                                      ; 03ECAE 69 10 
   STA.W EntityV15,X                                   ; 03ECB0 9D 80 0D 
 B_3ECB3:
   LDY.W EntityV20,X                                   ; 03ECB3 BC BA 0F 
-  LDA.W XexzyCharX,Y                              ; 03ECB6 B9 46 0B 
-  STA.W XexzyCharX,X                              ; 03ECB9 9D 46 0B 
+  LDA.W EntityXPx,Y                              ; 03ECB6 B9 46 0B 
+  STA.W EntityXPx,X                              ; 03ECB9 9D 46 0B 
   LDA.W EntityYPx,Y                                   ; 03ECBC B9 9C 0C 
   STA.W EntityYPx,X                                   ; 03ECBF 9D 9C 0C 
   JSR.W L_3EDA3                                   ; 03ECC2 20 A3 ED 
@@ -8595,7 +8596,7 @@ B_3ECB3:
   BPL.B B_3ED10                                   ; 03ECF0 10 1E 
   PHA                                             ; 03ECF2 48 
   LDA.B #$93                                      ; 03ECF3 A9 93 
-  STA.W EntityV1,X                                   ; 03ECF5 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03ECF5 9D 44 07 
   LDA.B #$3C                                      ; 03ECF8 A9 3C 
   STA.W EntityV15,X                                   ; 03ECFA 9D 80 0D 
   LDA.B #$10                                      ; 03ECFD A9 10 
@@ -8621,8 +8622,8 @@ B_3ED10:
   JSL L_3F032                                     ; 03ED29 22 32 F0 03 
 B_3ED2D:
   LDY.W EntityV20,X                                   ; 03ED2D BC BA 0F 
-  LDA.W XexzyCharX,Y                              ; 03ED30 B9 46 0B 
-  STA.W XexzyCharX,X                              ; 03ED33 9D 46 0B 
+  LDA.W EntityXPx,Y                              ; 03ED30 B9 46 0B 
+  STA.W EntityXPx,X                              ; 03ED33 9D 46 0B 
   LDA.W EntityYPx,Y                                   ; 03ED36 B9 9C 0C 
   STA.W EntityYPx,X                                   ; 03ED39 9D 9C 0C 
   JSR.W L_3EDA3                                   ; 03ED3C 20 A3 ED 
@@ -8643,7 +8644,7 @@ D_3ED45:
   DEC.W EntityV15,X                                   ; 03ED73 DE 80 0D 
   BNE.B B_3ED8E                                   ; 03ED76 D0 16 
   LDA.B #$94                                      ; 03ED78 A9 94 
-  STA.W EntityV1,X                                   ; 03ED7A 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03ED7A 9D 44 07 
   LDA.B #$01                                      ; 03ED7D A9 01 
   STA.W EntityV15,X                                   ; 03ED7F 9D 80 0D 
   JSL AdvanceRNG                                     ; 03ED82 22 95 CA 0E 
@@ -8652,8 +8653,8 @@ D_3ED45:
   STZ.W EntityV27,X                                   ; 03ED8B 9E D8 12 
 B_3ED8E:
   LDY.W EntityV20,X                                   ; 03ED8E BC BA 0F 
-  LDA.W XexzyCharX,Y                              ; 03ED91 B9 46 0B 
-  STA.W XexzyCharX,X                              ; 03ED94 9D 46 0B 
+  LDA.W EntityXPx,Y                              ; 03ED91 B9 46 0B 
+  STA.W EntityXPx,X                              ; 03ED94 9D 46 0B 
   LDA.W EntityYPx,Y                                   ; 03ED97 B9 9C 0C 
   STA.W EntityYPx,X                                   ; 03ED9A 9D 9C 0C 
   JSR.W L_3EDA3                                   ; 03ED9D 20 A3 ED 
@@ -8661,7 +8662,7 @@ B_3ED8E:
 
 L_3EDA3:
   SEC                                             ; 03EDA3 38 
-  LDA.W XexzyCharX,X                              ; 03EDA4 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EDA4 BD 46 0B 
   SBC.B #$10                                      ; 03EDA7 E9 10 
   STA.B $04                                       ; 03EDA9 85 04 
   LDA.W EntityV11,X                                   ; 03EDAB BD B8 0B 
@@ -8729,11 +8730,11 @@ D_3EE2A:
 
 L_3EE49:
   STZ.B $0A                                       ; 03EE49 64 0A 
-  LDA.W XexzyCharX,X                              ; 03EE4B BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EE4B BD 46 0B 
   STA.B $04                                       ; 03EE4E 85 04 
   LDA.W EntityYPx,X                                   ; 03EE50 BD 9C 0C 
   STA.B $05                                       ; 03EE53 85 05 
-  LDA.W XexzyCharX,Y                              ; 03EE55 B9 46 0B 
+  LDA.W EntityXPx,Y                              ; 03EE55 B9 46 0B 
   STA.B $06                                       ; 03EE58 85 06 
   LDA.W EntityYPx,Y                                   ; 03EE5A B9 9C 0C 
   STA.B $07                                       ; 03EE5D 85 07 
@@ -8826,7 +8827,7 @@ L_3EF0B:
   STA.B $06                                       ; 03EF10 85 06 
   TAY                                             ; 03EF12 A8 
   CLC                                             ; 03EF13 18 
-  LDA.W XexzyCharX,X                              ; 03EF14 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EF14 BD 46 0B 
   ADC.W D_3EFD2,Y                                 ; 03EF17 79 D2 EF 
   STA.B $04                                       ; 03EF1A 85 04 
   CLC                                             ; 03EF1C 18 
@@ -8844,7 +8845,7 @@ B_3EF2F:
   LDA.B #$01                                      ; 03EF33 A9 01 
   STA.W EntityHeader,X                                   ; 03EF35 9D D2 06 
   LDA.B #$8E                                      ; 03EF38 A9 8E 
-  STA.W EntityV1,X                                   ; 03EF3A 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 03EF3A 9D 44 07 
   LDA.B #$08                                      ; 03EF3D A9 08 
   STA.W EntityV3,X                                   ; 03EF3F 9D 28 08 
   LDA.B #$4C                                      ; 03EF42 A9 4C 
@@ -8852,7 +8853,7 @@ B_3EF2F:
   LDA.B #$33                                      ; 03EF47 A9 33 
   STA.W EntityV30,X                                   ; 03EF49 9D 2E 14 
   LDA.B $04                                       ; 03EF4C A5 04 
-  STA.W XexzyCharX,X                              ; 03EF4E 9D 46 0B 
+  STA.W EntityXPx,X                              ; 03EF4E 9D 46 0B 
   LDA.B $05                                       ; 03EF51 A5 05 
   STA.W EntityYPx,X                                   ; 03EF53 9D 9C 0C 
   LDA.B $06                                       ; 03EF56 A5 06 
@@ -8873,7 +8874,7 @@ B_3EF2F:
   STA.W $175E,Y                                   ; 03EF7C 99 5E 17 
   JSL L_AEF1                                      ; 03EF7F 22 F1 AE 00 
   SEC                                             ; 03EF83 38 
-  LDA.W XexzyCharX,X                              ; 03EF84 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EF84 BD 46 0B 
   SBC.B #$01                                      ; 03EF87 E9 01 
   BCS.B B_3EF8D                                   ; 03EF89 B0 02 
 
@@ -8882,7 +8883,7 @@ B_3EF2F:
 B_3EF8D:
   STA.W EntityV32,X                                   ; 03EF8D 9D 16 15 
   CLC                                             ; 03EF90 18 
-  LDA.W XexzyCharX,X                              ; 03EF91 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 03EF91 BD 46 0B 
   ADC.B #$01                                      ; 03EF94 69 01 
   BCC.B B_3EF9A                                   ; 03EF96 90 02 
 

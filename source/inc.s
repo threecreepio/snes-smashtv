@@ -5,7 +5,7 @@ CurrentRoom = $5AC
 MaxEntities = $72
 Projectiles = $42
 EntityHeader = $06D2
-EntityV1     = EntityHeader + (MaxEntities *  1)
+EntityTypeId     = EntityHeader + (MaxEntities *  1)
 EntityV2     = EntityHeader + (MaxEntities *  2)
 EntityV3     = EntityHeader + (MaxEntities *  3)
 EntityV4     = EntityHeader + (MaxEntities *  4)
@@ -97,6 +97,31 @@ NMIHandlerBank = $00C9
 DemoRunning = $1BF1
 
 NMIPending = $052D
+
+PlayerLives = $531
+PlayerContinues = $533
+
+GameConfigContinues = $0204
+GameConfigLives = $0206
+SelectedDifficulty = $0208
+
+WeaponTypePickupAmmo    = $189E
+WeaponType1PickupAmmo   = $189F
+WeaponType2PickupAmmo   = $18A0
+WeaponType3PickupAmmo   = $18A1
+WeaponType4PickupAmmo   = $18A2
+
+EquippedWeaponAmmo         = $189D
+EquippedWeaponType         = $1897
+EquippedWeaponMagazines    = $1899
+EquippedWeaponMaxMagazines = $189B
+
+ActivePlayerEntity = $18C0
+
+
+VRAMPalette = $1AF1
+
+
 XexzyItemLocationMaybe = $27
 XexzyItemXPickupMaybe = $28
 XexzyDropIndicator = $43
@@ -105,14 +130,11 @@ FrameCounter = $CF
 XexzyTorsoY = $309
 XexzyLegY = $30D
 XexzyItemY = $505
-XexzyLivesCount = $531
 RNG0 = $5A8
 RNG1 = $5A9
-XexzyDropCountDownTimer = $5AE
+DropTimer = $5AE
 XexzyMutoidHealth = $69A
-XexzyCharX = $B46
 XexzyWalkAnimation = $1886
-XexzyAmmoCounter = $189D
 INIDISP = $2100
 OBSEL = $2101
 OAMADDL = $2102
@@ -366,3 +388,11 @@ DMAP_AbusStep_Increment   = 0 << 2
 DMAP_AbusStep_Decrement   = 1 << 2
 DMAP_AbusStep_Fixed       = 2 << 2
 DMAP_VRAMTransferWords    = %0000001
+
+NMITIMEN_NMI_IRQ  = %10000000
+NMITIMEN_VCounter = %00100000
+NMITIMEN_HCounter = %00010000
+NMITIMEN_Joypad   = %00000001
+
+VMAIN_IncrementOnLow = %00000000
+VMAIN_IncrementOnHigh = %10000000

@@ -400,7 +400,7 @@ B_5835D:
   STA.W EntityHeader,X                                   ; 058378 9D D2 06 
   LDY.B $1F                                       ; 05837B A4 1F 
   LDA.W $195B,Y                                   ; 05837D B9 5B 19 
-  STA.W XexzyCharX,X                              ; 058380 9D 46 0B 
+  STA.W EntityXPx,X                              ; 058380 9D 46 0B 
   LDA.W $196B,Y                                   ; 058383 B9 6B 19 
   STA.W EntityYPx,X                                   ; 058386 9D 9C 0C 
   LDA.W $197B,Y                                   ; 058389 B9 7B 19 
@@ -1003,7 +1003,7 @@ L_58844:
   STZ.W $18BA,X                                   ; 058867 9E BA 18 
   LDA.B #$40                                      ; 05886A A9 40 
   STA.W $188A,X                                   ; 05886C 9D 8A 18 
-  LDA.W $1897,X                                   ; 05886F BD 97 18 
+  LDA.W EquippedWeaponType,X                                   ; 05886F BD 97 18 
   CMP.B #$03                                      ; 058872 C9 03 
   BNE.B B_58886                                   ; 058874 D0 10 
   PHX                                             ; 058876 DA 
@@ -1047,7 +1047,7 @@ L_588AD:
   LDA.B $1E                                       ; 0588B3 A5 1E 
   ADC.B #$42                                      ; 0588B5 69 42 
   TAX                                             ; 0588B7 AA 
-  LDA.W EntityV1,X                                   ; 0588B8 BD 44 07 
+  LDA.W EntityTypeId,X                                   ; 0588B8 BD 44 07 
   CMP.B #$34                                      ; 0588BB C9 34 
   BEQ.B B_58925                                   ; 0588BD F0 66 
   CMP.B #$37                                      ; 0588BF C9 37 
@@ -1060,7 +1060,7 @@ L_588AD:
   CMP.B #$08                                      ; 0588CE C9 08 
   BNE.B B_58925                                   ; 0588D0 D0 53 
   LDA.B #$37                                      ; 0588D2 A9 37 
-  STA.W EntityV1,X                                   ; 0588D4 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 0588D4 9D 44 07 
   DEC.W $05D1                                     ; 0588D7 CE D1 05 
   RTS                                             ; 0588DA 60 
 
@@ -1068,7 +1068,7 @@ B_588DB:
   CMP.B #$38                                      ; 0588DB C9 38 
   BNE.B B_588EF                                   ; 0588DD D0 10 
   LDA.B #$10                                      ; 0588DF A9 10 
-  STA.W EntityV1,X                                   ; 0588E1 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 0588E1 9D 44 07 
   LDA.B #$FF                                      ; 0588E4 A9 FF 
   STA.W $05CE                                     ; 0588E6 8D CE 05 
   LDA.B #$00                                      ; 0588E9 A9 00 
@@ -1123,7 +1123,7 @@ B_5892C:
   LDA.B $1E                                       ; 05892D A5 1E 
   ADC.B #$42                                      ; 05892F 69 42 
   TAX                                             ; 058931 AA 
-  LDA.W EntityV1,X                                   ; 058932 BD 44 07 
+  LDA.W EntityTypeId,X                                   ; 058932 BD 44 07 
   CMP.B #$36                                      ; 058935 C9 36 
   BNE.B B_58964                                   ; 058937 D0 2B 
 
@@ -1138,7 +1138,7 @@ B_58964:
   CMP.B #$38                                      ; 058964 C9 38 
   BNE.B B_58978                                   ; 058966 D0 10 
   LDA.B #$10                                      ; 058968 A9 10 
-  STA.W EntityV1,X                                   ; 05896A 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 05896A 9D 44 07 
   LDA.B #$FF                                      ; 05896D A9 FF 
   STA.W $05CE                                     ; 05896F 8D CE 05 
   LDA.B #$00                                      ; 058972 A9 00 
@@ -1189,7 +1189,7 @@ L_589AF:
   LDA.B $1E                                       ; 0589B5 A5 1E 
   ADC.B #$42                                      ; 0589B7 69 42 
   TAX                                             ; 0589B9 AA 
-  LDA.W EntityV1,X                                   ; 0589BA BD 44 07 
+  LDA.W EntityTypeId,X                                   ; 0589BA BD 44 07 
   CMP.B #$36                                      ; 0589BD C9 36 
   BNE.B B_589CA                                   ; 0589BF D0 09 
 
@@ -1250,7 +1250,7 @@ B_58A1D:
   LDA.B $1E                                       ; 058A1E A5 1E 
   ADC.B #$42                                      ; 058A20 69 42 
   TAX                                             ; 058A22 AA 
-  LDA.W EntityV1,X                                   ; 058A23 BD 44 07 
+  LDA.W EntityTypeId,X                                   ; 058A23 BD 44 07 
   CMP.B #$33                                      ; 058A26 C9 33 
   BNE.B B_58A2E                                   ; 058A28 D0 04 
   JSR.W L_58CD0                                   ; 058A2A 20 D0 8C 
@@ -1315,7 +1315,7 @@ B_58AA2:
   CMP.B #$34                                      ; 058AA2 C9 34 
   BNE.B B_58AC2                                   ; 058AA4 D0 1C 
   LDA.B #$35                                      ; 058AA6 A9 35 
-  STA.W EntityV1,X                                   ; 058AA8 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 058AA8 9D 44 07 
   LDA.B #$01                                      ; 058AAB A9 01 
   STA.W EntityV15,X                                   ; 058AAD 9D 80 0D 
   LDA.B #$00                                      ; 058AB0 A9 00 
@@ -1390,7 +1390,7 @@ L_58B90:
   LDA.W $1872                                     ; 058B90 AD 72 18 
   BNE.B B_58B9F                                   ; 058B93 D0 0A 
   LDY.B $1E                                       ; 058B95 A4 1E 
-  LDA.W EntityV1+Projectiles,Y                                   ; 058B97 B9 86 07 
+  LDA.W EntityTypeId+Projectiles,Y                                   ; 058B97 B9 86 07 
   TAY                                             ; 058B9A A8 
   LDA.W D_58B70,Y                                 ; 058B9B B9 70 8B 
   RTS                                             ; 058B9E 60 
@@ -1409,7 +1409,7 @@ L_58BAA:
   LDA.W $1872                                     ; 058BAA AD 72 18 
   BNE.B B_58BB9                                   ; 058BAD D0 0A 
   LDY.B $1E                                       ; 058BAF A4 1E 
-  LDA.W EntityV1+Projectiles,Y                                   ; 058BB1 B9 86 07 
+  LDA.W EntityTypeId+Projectiles,Y                                   ; 058BB1 B9 86 07 
   TAY                                             ; 058BB4 A8 
   LDA.W D_58B8A,Y                                 ; 058BB5 B9 8A 8B 
   RTS                                             ; 058BB8 60 
@@ -1426,7 +1426,7 @@ L_58BC4:
   LDA.W $1872                                     ; 058BC4 AD 72 18 
   BNE.B B_58BD3                                   ; 058BC7 D0 0A 
   LDY.B $1E                                       ; 058BC9 A4 1E 
-  LDA.W EntityV1+Projectiles,Y                                   ; 058BCB B9 86 07 
+  LDA.W EntityTypeId+Projectiles,Y                                   ; 058BCB B9 86 07 
   TAY                                             ; 058BCE A8 
   LDA.W D_58BA4,Y                                 ; 058BCF B9 A4 8B 
   RTS                                             ; 058BD2 60 
@@ -1472,7 +1472,7 @@ B_58BD3:
 
 L_58CD0:
   LDA.B #$1C                                      ; 058CD0 A9 1C 
-  STA.W EntityV1,X                                   ; 058CD2 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 058CD2 9D 44 07 
   LDA.B #$00                                      ; 058CD5 A9 00 
   STA.W EntityV3,X                                   ; 058CD7 9D 28 08 
   LDA.B #$20                                      ; 058CDA A9 20 
@@ -1487,7 +1487,7 @@ L_58CD0:
 
 L_58CED:
   LDA.B #$09                                      ; 058CED A9 09 
-  STA.W EntityV1,X                                   ; 058CEF 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 058CEF 9D 44 07 
   LDA.B #$00                                      ; 058CF2 A9 00 
   STA.W EntityV3,X                                   ; 058CF4 9D 28 08 
   LDA.B #$20                                      ; 058CF7 A9 20 
@@ -1513,7 +1513,7 @@ L_58CED:
 
 L_58D25:
   LDA.B #$06                                      ; 058D25 A9 06 
-  STA.W EntityV1,X                                   ; 058D27 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 058D27 9D 44 07 
   LDA.B #$00                                      ; 058D2A A9 00 
   STA.W EntityV3,X                                   ; 058D2C 9D 28 08 
   LDA.B #$20                                      ; 058D2F A9 20 
@@ -1539,7 +1539,7 @@ L_58D25:
 
 L_58D5D:
   LDA.B #$08                                      ; 058D5D A9 08 
-  STA.W EntityV1,X                                   ; 058D5F 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 058D5F 9D 44 07 
   LDA.B #$00                                      ; 058D62 A9 00 
   STA.W EntityV3,X                                   ; 058D64 9D 28 08 
   LDA.B #$40                                      ; 058D67 A9 40 
@@ -1573,7 +1573,7 @@ L_58D5D:
 
 L_58DBE:
   LDA.B #$02                                      ; 058DBE A9 02 
-  STA.W EntityV1,X                                   ; 058DC0 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 058DC0 9D 44 07 
   LDA.B #$00                                      ; 058DC3 A9 00 
   STA.W EntityV3,X                                   ; 058DC5 9D 28 08 
   LDA.B #$60                                      ; 058DC8 A9 60 
@@ -1627,7 +1627,7 @@ EnemyHitByProjectile:
   ; for some reason i guess we're off by 2, because of player entity?
   adc #$02
   tax
-  ldy EntityV1,X
+  ldy EntityTypeId,X
   ; find the handler for the entity type
   lda EnemyHitByProjectileRoutinesLo,Y
   sta $04
@@ -1646,7 +1646,7 @@ PlayerHitEntity:
   ; for some reason i guess we're off by 2, because of player entity?
   adc #2
   tax
-  ldy EntityV1,X
+  ldy EntityTypeId,X
   ; find the handler for the entity type
   lda PlayerHitEntityRoutinesLo,Y
   sta $04
@@ -1800,7 +1800,7 @@ B_59156:
   LDY.B $1E                                       ; 059164 A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 059166 B9 FC 0F 
   JSL L_E46D                                      ; 059169 22 6D E4 00 
-  LDA.W EntityV1+Projectiles,Y                                   ; 05916D B9 86 07 
+  LDA.W EntityTypeId+Projectiles,Y                                   ; 05916D B9 86 07 
   TAY                                             ; 059170 A8 
   LDA.W D_5918B-$32,Y                                 ; 059171 B9 58 91 
   BNE.B B_59183                                   ; 059174 D0 0D 
@@ -1829,7 +1829,7 @@ D_5918B:
   LDA.B #$FF                                      ; 0591A1 A9 FF 
   STA.W EntityV27,X                                   ; 0591A3 9D D8 12 
   LDA.B #$17                                      ; 0591A6 A9 17 
-  STA.W EntityV1,X                                   ; 0591A8 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 0591A8 9D 44 07 
   RTS                                             ; 0591AB 60 
 
   LDA.B $D2                                       ; 0591AC A5 D2 
@@ -1841,8 +1841,8 @@ D_5918B:
   CMP.B #$04                                      ; 0591B9 C9 04 
   BEQ.B B_591D1                                   ; 0591BB F0 14 
   BCS.B B_591C9                                   ; 0591BD B0 0A 
-  LDA.W XexzyCharX,X                              ; 0591BF BD 46 0B 
-  CMP.W XexzyCharX,Y                              ; 0591C2 D9 46 0B 
+  LDA.W EntityXPx,X                              ; 0591BF BD 46 0B 
+  CMP.W EntityXPx,Y                              ; 0591C2 D9 46 0B 
   BCC.B B_591D1                                   ; 0591C5 90 0A 
 
 .byte $80,$0D                                     ; 0591C8 ..       ??
@@ -2079,13 +2079,13 @@ B_597EF:
   LDA.W EntityV21+Projectiles,Y                                   ; 0597F1 B9 6E 10 
   TAY                                             ; 0597F4 A8 
   CLC                                             ; 0597F5 18 
-  LDA.W XexzyCharX,X                              ; 0597F6 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 0597F6 BD 46 0B 
   ADC.W D_59845,Y                                 ; 0597F9 79 45 98 
   CMP.B #$1E                                      ; 0597FC C9 1E 
   BCC.B B_59807                                   ; 0597FE 90 07 
   CMP.B #$E2                                      ; 059800 C9 E2 
   BCS.B B_59807                                   ; 059802 B0 03 
-  STA.W XexzyCharX,X                              ; 059804 9D 46 0B 
+  STA.W EntityXPx,X                              ; 059804 9D 46 0B 
 B_59807:
   CLC                                             ; 059807 18 
   LDA.W EntityYPx,X                                   ; 059808 BD 9C 0C 
@@ -2136,7 +2136,7 @@ B_59860:
   LDA.W $1872                                     ; 059861 AD 72 18 
   BNE.B B_59877                                   ; 059864 D0 11 
   LDY.B $1E                                       ; 059866 A4 1E 
-  LDA.W EntityV1+Projectiles,Y                                   ; 059868 B9 86 07 
+  LDA.W EntityTypeId+Projectiles,Y                                   ; 059868 B9 86 07 
   CMP.B #$38                                      ; 05986B C9 38 
   BEQ.B B_59877                                   ; 05986D F0 08 
   CMP.B #$36                                      ; 05986F C9 36 
@@ -2188,7 +2188,7 @@ B_598C4:
 B_598C7:
   PLX                                             ; 0598C7 FA 
   LDX.B $1E                                       ; 0598C8 A6 1E 
-  LDA.W $1897,X                                   ; 0598CA BD 97 18 
+  LDA.W EquippedWeaponType,X                                   ; 0598CA BD 97 18 
   CMP.B #$03                                      ; 0598CD C9 03 
   BNE.B B_598E1                                   ; 0598CF D0 10 
 
@@ -2197,19 +2197,19 @@ B_598C7:
 
 B_598E1:
   LDA.B #$01                                      ; 0598E1 A9 01 
-  STA.W $1897,X                                   ; 0598E3 9D 97 18 
+  STA.W EquippedWeaponType,X                                   ; 0598E3 9D 97 18 
   LDA.B #$06                                      ; 0598E6 A9 06 
-  STA.W $1899,X                                   ; 0598E8 9D 99 18 
-  STZ.W $189B,X                                   ; 0598EB 9E 9B 18 
-  LDA.W $189F                                     ; 0598EE AD 9F 18 
-  STA.W XexzyAmmoCounter,X                        ; 0598F1 9D 9D 18 
+  STA.W EquippedWeaponMagazines,X                                   ; 0598E8 9D 99 18 
+  STZ.W EquippedWeaponMaxMagazines,X                                   ; 0598EB 9E 9B 18 
+  LDA.W WeaponType1PickupAmmo                                     ; 0598EE AD 9F 18 
+  STA.W EquippedWeaponAmmo,X                        ; 0598F1 9D 9D 18 
   LDA.B #$0A                                      ; 0598F4 A9 0A 
   STA.W $18B0,X                                   ; 0598F6 9D B0 18 
   JSL AdvanceRNG                                     ; 0598F9 22 95 CA 0E 
   AND.B #$3F                                      ; 0598FD 29 3F 
   CLC                                             ; 0598FF 18 
   ADC.B #$40                                      ; 059900 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059902 8D AE 05 
+  STA.W DropTimer                   ; 059902 8D AE 05 
   JSR.W L_599F9                                   ; 059905 20 F9 99 
   RTS                                             ; 059908 60 
 
@@ -2241,7 +2241,7 @@ B_5992F:
 B_59932:
   PLX                                             ; 059932 FA 
   LDX.B $1E                                       ; 059933 A6 1E 
-  LDA.W $1897,X                                   ; 059935 BD 97 18 
+  LDA.W EquippedWeaponType,X                                   ; 059935 BD 97 18 
   CMP.B #$03                                      ; 059938 C9 03 
   BNE.B B_5994C                                   ; 05993A D0 10 
   PHX                                             ; 05993C DA 
@@ -2254,19 +2254,19 @@ B_5994B:
   PLX                                             ; 05994B FA 
 B_5994C:
   LDA.B #$02                                      ; 05994C A9 02 
-  STA.W $1897,X                                   ; 05994E 9D 97 18 
+  STA.W EquippedWeaponType,X                                   ; 05994E 9D 97 18 
   LDA.B #$06                                      ; 059951 A9 06 
-  STA.W $1899,X                                   ; 059953 9D 99 18 
-  STZ.W $189B,X                                   ; 059956 9E 9B 18 
-  LDA.W $18A0                                     ; 059959 AD A0 18 
-  STA.W XexzyAmmoCounter,X                        ; 05995C 9D 9D 18 
+  STA.W EquippedWeaponMagazines,X                                   ; 059953 9D 99 18 
+  STZ.W EquippedWeaponMaxMagazines,X                                   ; 059956 9E 9B 18 
+  LDA.W WeaponType2PickupAmmo                                     ; 059959 AD A0 18 
+  STA.W EquippedWeaponAmmo,X                        ; 05995C 9D 9D 18 
   LDA.B #$09                                      ; 05995F A9 09 
   STA.W $18B0,X                                   ; 059961 9D B0 18 
   JSL AdvanceRNG                                     ; 059964 22 95 CA 0E 
   AND.B #$3F                                      ; 059968 29 3F 
   CLC                                             ; 05996A 18 
   ADC.B #$40                                      ; 05996B 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 05996D 8D AE 05 
+  STA.W DropTimer                   ; 05996D 8D AE 05 
   JSR.W L_599F9                                   ; 059970 20 F9 99 
   RTS                                             ; 059973 60 
 
@@ -2310,7 +2310,7 @@ B_599B4:
 B_599B7:
   PLX                                             ; 0599B7 FA 
   LDX.B $1E                                       ; 0599B8 A6 1E 
-  LDA.W $1897,X                                   ; 0599BA BD 97 18 
+  LDA.W EquippedWeaponType,X                                   ; 0599BA BD 97 18 
   CMP.B #$03                                      ; 0599BD C9 03 
   BNE.B B_599D1                                   ; 0599BF D0 10 
   LDX.W $18D1                                     ; 0599C1 AE D1 18 
@@ -2323,19 +2323,19 @@ B_599CF:
   LDX.B $1E                                       ; 0599CF A6 1E 
 B_599D1:
   LDA.B #$03                                      ; 0599D1 A9 03 
-  STA.W $1897,X                                   ; 0599D3 9D 97 18 
+  STA.W EquippedWeaponType,X                                   ; 0599D3 9D 97 18 
   LDA.B #$06                                      ; 0599D6 A9 06 
-  STA.W $1899,X                                   ; 0599D8 9D 99 18 
-  STZ.W $189B,X                                   ; 0599DB 9E 9B 18 
-  LDA.W $18A1                                     ; 0599DE AD A1 18 
-  STA.W XexzyAmmoCounter,X                        ; 0599E1 9D 9D 18 
+  STA.W EquippedWeaponMagazines,X                                   ; 0599D8 9D 99 18 
+  STZ.W EquippedWeaponMaxMagazines,X                                   ; 0599DB 9E 9B 18 
+  LDA.W WeaponType3PickupAmmo                                     ; 0599DE AD A1 18 
+  STA.W EquippedWeaponAmmo,X                        ; 0599E1 9D 9D 18 
   LDA.B #$04                                      ; 0599E4 A9 04 
   STA.W $18B0,X                                   ; 0599E6 9D B0 18 
   JSL AdvanceRNG                                     ; 0599E9 22 95 CA 0E 
   AND.B #$3F                                      ; 0599ED 29 3F 
   CLC                                             ; 0599EF 18 
   ADC.B #$40                                      ; 0599F0 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 0599F2 8D AE 05 
+  STA.W DropTimer                   ; 0599F2 8D AE 05 
   JSR.W L_599F9                                   ; 0599F5 20 F9 99 
   RTS                                             ; 0599F8 60 
 
@@ -2404,7 +2404,7 @@ B_59A8F:
 B_59A92:
   PLX                                             ; 059A92 FA 
   LDX.B $1E                                       ; 059A93 A6 1E 
-  LDA.W $1897,X                                   ; 059A95 BD 97 18 
+  LDA.W EquippedWeaponType,X                                   ; 059A95 BD 97 18 
   CMP.B #$03                                      ; 059A98 C9 03 
   BNE.B B_59AAC                                   ; 059A9A D0 10 
 
@@ -2413,19 +2413,19 @@ B_59A92:
 
 B_59AAC:
   LDA.B #$04                                      ; 059AAC A9 04 
-  STA.W $1897,X                                   ; 059AAE 9D 97 18 
+  STA.W EquippedWeaponType,X                                   ; 059AAE 9D 97 18 
   LDA.B #$06                                      ; 059AB1 A9 06 
-  STA.W $1899,X                                   ; 059AB3 9D 99 18 
-  STZ.W $189B,X                                   ; 059AB6 9E 9B 18 
-  LDA.W $18A2                                     ; 059AB9 AD A2 18 
-  STA.W XexzyAmmoCounter,X                        ; 059ABC 9D 9D 18 
+  STA.W EquippedWeaponMagazines,X                                   ; 059AB3 9D 99 18 
+  STZ.W EquippedWeaponMaxMagazines,X                                   ; 059AB6 9E 9B 18 
+  LDA.W WeaponType4PickupAmmo                                     ; 059AB9 AD A2 18 
+  STA.W EquippedWeaponAmmo,X                        ; 059ABC 9D 9D 18 
   LDA.B #$09                                      ; 059ABF A9 09 
   STA.W $18B0,X                                   ; 059AC1 9D B0 18 
   JSL AdvanceRNG                                     ; 059AC4 22 95 CA 0E 
   AND.B #$3F                                      ; 059AC8 29 3F 
   CLC                                             ; 059ACA 18 
   ADC.B #$40                                      ; 059ACB 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059ACD 8D AE 05 
+  STA.W DropTimer                   ; 059ACD 8D AE 05 
   JSR.W L_599F9                                   ; 059AD0 20 F9 99 
   RTS                                             ; 059AD3 60 
 
@@ -2437,7 +2437,7 @@ B_59AAC:
 B_59ADA:
   STZ.B $41,X                                     ; 059ADA 74 41 
   LDA.B #$1D                                      ; 059ADC A9 1D 
-  STA.W EntityV1,X                                   ; 059ADE 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 059ADE 9D 44 07 
   LDA.B #$00                                      ; 059AE1 A9 00 
   STA.W EntityV3,X                                   ; 059AE3 9D 28 08 
   LDA.B $1E                                       ; 059AE6 A5 1E 
@@ -2470,7 +2470,7 @@ B_59B16:
   AND.B #$3F                                      ; 059B1B 29 3F 
   CLC                                             ; 059B1D 18 
   ADC.B #$40                                      ; 059B1E 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059B20 8D AE 05 
+  STA.W DropTimer                   ; 059B20 8D AE 05 
   RTS                                             ; 059B23 60 
 
   LDA.W $05D6                                     ; 059B24 AD D6 05 
@@ -2510,7 +2510,7 @@ B_59B5C:
   AND.B #$3F                                      ; 059B60 29 3F 
   CLC                                             ; 059B62 18 
   ADC.B #$40                                      ; 059B63 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059B65 8D AE 05 
+  STA.W DropTimer                   ; 059B65 8D AE 05 
   LDA.B $1E                                       ; 059B68 A5 1E 
   STA.W $05CE                                     ; 059B6A 8D CE 05 
   JSL L_380E4                                     ; 059B6D 22 E4 80 03 
@@ -2526,18 +2526,18 @@ B_59B74:
   LDA.B #$01                                      ; 059B81 A9 01 
   STA.W EntityHeader,X                                   ; 059B83 9D D2 06 
   LDA.B #$38                                      ; 059B86 A9 38 
-  STA.W EntityV1,X                                   ; 059B88 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 059B88 9D 44 07 
   LDA.B #$02                                      ; 059B8B A9 02 
   STA.W EntityV3,X                                   ; 059B8D 9D 28 08 
   LDY.W $05CE                                     ; 059B90 AC CE 05 
-  LDA.W XexzyCharX,Y                              ; 059B93 B9 46 0B 
-  STA.W XexzyCharX,X                              ; 059B96 9D 46 0B 
+  LDA.W EntityXPx,Y                              ; 059B93 B9 46 0B 
+  STA.W EntityXPx,X                              ; 059B96 9D 46 0B 
   SEC                                             ; 059B99 38 
   LDA.W EntityYPx,Y                                   ; 059B9A B9 9C 0C 
   SBC.B #$16                                      ; 059B9D E9 16 
   STA.W EntityYPx,X                                   ; 059B9F 9D 9C 0C 
   SEC                                             ; 059BA2 38 
-  LDA.W XexzyCharX,X                              ; 059BA3 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 059BA3 BD 46 0B 
   SBC.B #$04                                      ; 059BA6 E9 04 
   BCS.B B_59BAC                                   ; 059BA8 B0 02 
 
@@ -2546,7 +2546,7 @@ B_59B74:
 B_59BAC:
   STA.W EntityV32,X                                   ; 059BAC 9D 16 15 
   CLC                                             ; 059BAF 18 
-  LDA.W XexzyCharX,X                              ; 059BB0 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 059BB0 BD 46 0B 
   ADC.B #$04                                      ; 059BB3 69 04 
   BCC.B B_59BB9                                   ; 059BB5 90 02 
 
@@ -2621,7 +2621,7 @@ B_59C2E:
   AND.B #$3F                                      ; 059C37 29 3F 
   CLC                                             ; 059C39 18 
   ADC.B #$40                                      ; 059C3A 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059C3C 8D AE 05 
+  STA.W DropTimer                   ; 059C3C 8D AE 05 
   JSR.W L_599F9                                   ; 059C3F 20 F9 99 
   RTS                                             ; 059C42 60 
 
@@ -2637,7 +2637,7 @@ L_59C43:
   BRA.B B_59C92                                   ; 059C52 80 3E 
 B_59C54:
   LDA.B #$04                                      ; 059C54 A9 04 
-  STA.W EntityV1,X                                   ; 059C56 9D 44 07 
+  STA.W EntityTypeId,X                                   ; 059C56 9D 44 07 
   LDA.B #$00                                      ; 059C59 A9 00 
   STA.W EntityV3,X                                   ; 059C5B 9D 28 08 
   JSR.W L_59C9D                                   ; 059C5E 20 9D 9C 
@@ -2721,7 +2721,7 @@ B_59CE6:
   AND.B #$3F                                      ; 059CEB 29 3F 
   CLC                                             ; 059CED 18 
   ADC.B #$40                                      ; 059CEE 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059CF0 8D AE 05 
+  STA.W DropTimer                   ; 059CF0 8D AE 05 
   LDA.B #$19                                      ; 059CF3 A9 19 
   STA.W $05D7                                     ; 059CF5 8D D7 05 
   LDA.B #$64                                      ; 059CF8 A9 64 
@@ -2733,7 +2733,7 @@ B_59CE6:
   AND.B #$3F                                      ; 059D07 29 3F 
   CLC                                             ; 059D09 18 
   ADC.B #$40                                      ; 059D0A 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059D0C 8D AE 05 
+  STA.W DropTimer                   ; 059D0C 8D AE 05 
   PHX                                             ; 059D0F DA 
   REP.B #P_Idx8Bit                                      ; 059D10 C2 10 
   LDA.B #$07                                      ; 059D12 A9 07 
@@ -2784,7 +2784,7 @@ B_59D5B:
   AND.B #$3F                                      ; 059D66 29 3F 
   CLC                                             ; 059D68 18 
   ADC.B #$40                                      ; 059D69 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059D6B 8D AE 05 
+  STA.W DropTimer                   ; 059D6B 8D AE 05 
   PHX                                             ; 059D6E DA 
   REP.B #P_Idx8Bit                                      ; 059D6F C2 10 
   LDA.B #$07                                      ; 059D71 A9 07 
@@ -2804,8 +2804,8 @@ B_59D84:
   STA.W EntityV3,X                                   ; 059D86 9D 28 08 
   STZ.B $41,X                                     ; 059D89 74 41 
   LDA.B #$49                                      ; 059D8B A9 49 
-  STA.W EntityV1,X                                   ; 059D8D 9D 44 07 
-  LDA.W XexzyCharX,X                              ; 059D90 BD 46 0B 
+  STA.W EntityTypeId,X                                   ; 059D8D 9D 44 07 
+  LDA.W EntityXPx,X                              ; 059D90 BD 46 0B 
   STA.W $1ADF                                     ; 059D93 8D DF 1A 
   LDA.W EntityYPx,X                                   ; 059D96 BD 9C 0C 
   STA.W $1AE1                                     ; 059D99 8D E1 1A 
@@ -2835,7 +2835,7 @@ B_59D84:
   AND.B #$3F                                      ; 059DD9 29 3F 
   CLC                                             ; 059DDB 18 
   ADC.B #$40                                      ; 059DDC 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059DDE 8D AE 05 
+  STA.W DropTimer                   ; 059DDE 8D AE 05 
   PHX                                             ; 059DE1 DA 
   REP.B #P_Idx8Bit                                      ; 059DE2 C2 10 
   LDA.B #$07                                      ; 059DE4 A9 07 
@@ -2859,8 +2859,8 @@ B_59DF9:
   STA.W EntityV3,X                                   ; 059DFB 9D 28 08 
   STZ.B $41,X                                     ; 059DFE 74 41 
   LDA.B #$4A                                      ; 059E00 A9 4A 
-  STA.W EntityV1,X                                   ; 059E02 9D 44 07 
-  LDA.W XexzyCharX,X                              ; 059E05 BD 46 0B 
+  STA.W EntityTypeId,X                                   ; 059E02 9D 44 07 
+  LDA.W EntityXPx,X                              ; 059E05 BD 46 0B 
   STA.W $1ADF                                     ; 059E08 8D DF 1A 
   LDA.W EntityYPx,X                                   ; 059E0B BD 9C 0C 
   STA.W $1AE1                                     ; 059E0E 8D E1 1A 
@@ -2897,7 +2897,7 @@ B_59DF9:
   AND.B #$3F                                      ; 059E5E 29 3F 
   CLC                                             ; 059E60 18 
   ADC.B #$40                                      ; 059E61 69 40 
-  STA.W XexzyDropCountDownTimer                   ; 059E63 8D AE 05 
+  STA.W DropTimer                   ; 059E63 8D AE 05 
   PHX                                             ; 059E66 DA 
   REP.B #P_Idx8Bit                                      ; 059E67 C2 10 
   LDA.B #$07                                      ; 059E69 A9 07 
@@ -2920,8 +2920,8 @@ B_59E7E:
   STA.W EntityV3,X                                   ; 059E80 9D 28 08 
   STZ.B $41,X                                     ; 059E83 74 41 
   LDA.B #$48                                      ; 059E85 A9 48 
-  STA.W EntityV1,X                                   ; 059E87 9D 44 07 
-  LDA.W XexzyCharX,X                              ; 059E8A BD 46 0B 
+  STA.W EntityTypeId,X                                   ; 059E87 9D 44 07 
+  LDA.W EntityXPx,X                              ; 059E8A BD 46 0B 
   STA.W $1ADF                                     ; 059E8D 8D DF 1A 
   LDA.W EntityYPx,X                                   ; 059E90 BD 9C 0C 
   STA.W $1AE1                                     ; 059E93 8D E1 1A 
@@ -3002,8 +3002,8 @@ D_59F2D:
   STA.W EntityV3,X                                   ; 059F3D 9D 28 08 
   STZ.B $41,X                                     ; 059F40 74 41 
   LDA.B #$4D                                      ; 059F42 A9 4D 
-  STA.W EntityV1,X                                   ; 059F44 9D 44 07 
-  LDA.W XexzyCharX,X                              ; 059F47 BD 46 0B 
+  STA.W EntityTypeId,X                                   ; 059F44 9D 44 07 
+  LDA.W EntityXPx,X                              ; 059F47 BD 46 0B 
   STA.W $1ADF                                     ; 059F4A 8D DF 1A 
   LDA.W EntityYPx,X                                   ; 059F4D BD 9C 0C 
   STA.W $1AE1                                     ; 059F50 8D E1 1A 
@@ -3095,7 +3095,7 @@ B_5A086:
   LDY.B $1E                                       ; 05A096 A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A098 B9 FC 0F 
   JSL L_E46D                                      ; 05A09B 22 6D E4 00 
-  LDA.W EntityV1+Projectiles,Y                                   ; 05A09F B9 86 07 
+  LDA.W EntityTypeId+Projectiles,Y                                   ; 05A09F B9 86 07 
   TAY                                             ; 05A0A2 A8 
   LDA.W D_5A0B1,Y                                 ; 05A0A3 B9 B1 A0 
   BNE.B B_5A0B4                                   ; 05A0A6 D0 0C 
@@ -3114,7 +3114,7 @@ D_5A0B7:
 B_5A0B9:
   LDA.W EntityHeader+2,X                         ; 05A0B9 BD D4 06 
   BEQ.B B_5A0DC                                   ; 05A0BC F0 1E 
-  LDA.W EntityV1+2,X                                   ; 05A0BE BD 46 07 
+  LDA.W EntityTypeId+2,X                                   ; 05A0BE BD 46 07 
   CMP.B #$55                                      ; 05A0C1 C9 55 
   BNE.B B_5A0DC                                   ; 05A0C3 D0 17 
   LDA.W EntityV20+2,X                                   ; 05A0C5 BD BC 0F 
@@ -3125,7 +3125,7 @@ B_5A0B9:
   ADC.B #$20                                      ; 05A0D2 69 20 
   STA.W EntityV15+2,X                                   ; 05A0D4 9D 82 0D 
   LDA.B #$56                                      ; 05A0D7 A9 56 
-  STA.W EntityV1+2,X                                   ; 05A0D9 9D 46 07 
+  STA.W EntityTypeId+2,X                                   ; 05A0D9 9D 46 07 
 B_5A0DC:
   DEX                                             ; 05A0DC CA 
   BPL.B B_5A0B9                                   ; 05A0DD 10 DA 
@@ -3165,7 +3165,7 @@ B_5A111:
   LDY.B $1E                                       ; 05A121 A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A123 B9 FC 0F 
   JSL L_E46D                                      ; 05A126 22 6D E4 00 
-  LDA.W EntityV1+Projectiles,Y                                   ; 05A12A B9 86 07 
+  LDA.W EntityTypeId+Projectiles,Y                                   ; 05A12A B9 86 07 
   TAY                                             ; 05A12D A8 
   LDA.W D_5A153-$32,Y                                 ; 05A12E B9 20 A1 
   BNE.B B_5A13F                                   ; 05A131 D0 0C 
@@ -3448,11 +3448,11 @@ B_5A561:
 
 B_5A565:
   SEC                                             ; 05A565 38 
-  LDA.W XexzyCharX,X                              ; 05A566 BD 46 0B 
+  LDA.W EntityXPx,X                              ; 05A566 BD 46 0B 
   SBC.B #$1C                                      ; 05A569 E9 1C 
   STA.B $06                                       ; 05A56B 85 06 
   CLC                                             ; 05A56D 18 
-  LDA.W XexzyCharX,X                              ; 05A56E BD 46 0B 
+  LDA.W EntityXPx,X                              ; 05A56E BD 46 0B 
   ADC.B #$1C                                      ; 05A571 69 1C 
   STA.B $07                                       ; 05A573 85 07 
   SEC                                             ; 05A575 38 
@@ -3464,12 +3464,12 @@ B_5A565:
   ADC.B #$36                                      ; 05A581 69 36 
   STA.B $05                                       ; 05A583 85 05 
   LDY.B $1E                                       ; 05A585 A4 1E 
-  LDA.W XexzyCharX,Y                              ; 05A587 B9 46 0B 
+  LDA.W EntityXPx,Y                              ; 05A587 B9 46 0B 
   CMP.B $06                                       ; 05A58A C5 06 
   BCS.B B_5A595                                   ; 05A58C B0 07 
   SEC                                             ; 05A58E 38 
   SBC.B #$02                                      ; 05A58F E9 02 
-  STA.W XexzyCharX,Y                              ; 05A591 99 46 0B 
+  STA.W EntityXPx,Y                              ; 05A591 99 46 0B 
   RTS                                             ; 05A594 60 
 
 B_5A595:
@@ -3477,7 +3477,7 @@ B_5A595:
   BCC.B B_5A59F                                   ; 05A597 90 06 
   CLC                                             ; 05A599 18 
   ADC.B #$02                                      ; 05A59A 69 02 
-  STA.W XexzyCharX,Y                              ; 05A59C 99 46 0B 
+  STA.W EntityXPx,Y                              ; 05A59C 99 46 0B 
 B_5A59F:
   LDA.W EntityYPx,Y                                   ; 05A59F B9 9C 0C 
   CMP.B $04                                       ; 05A5A2 C5 04 
@@ -3547,9 +3547,9 @@ B_5A608:
   PLX                                             ; 05A626 FA 
   STZ.B $41,X                                     ; 05A627 74 41 
   CLC                                             ; 05A629 18 
-  LDA.W XexzyCharX,X                              ; 05A62A BD 46 0B 
+  LDA.W EntityXPx,X                              ; 05A62A BD 46 0B 
   ADC.B #$08                                      ; 05A62D 69 08 
-  STA.W XexzyCharX,X                              ; 05A62F 9D 46 0B 
+  STA.W EntityXPx,X                              ; 05A62F 9D 46 0B 
   CLC                                             ; 05A632 18 
   LDA.W EntityYPx,X                                   ; 05A633 BD 9C 0C 
   ADC.B #$08                                      ; 05A636 69 08 
