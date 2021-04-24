@@ -166,7 +166,6 @@ B_38110:
 
 
 GameRunActiveEntities:
-L_3811E:
   PHP                                             ; 03811E 08 
   PHB                                             ; 03811F 8B 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 038120 E2 30 
@@ -177,17 +176,17 @@ L_3811E:
   LDX.B #$71                                      ; 038129 A2 71 
 B_3812B:
   LDA.W EntityHeader,X                                   ; 03812B BD D2 06 
-  BEQ.B B_38142                                   ; 03812E F0 12 
+  BEQ.B AdvanceToNextEntity2                                   ; 03812E F0 12 
   LDY.W EntityTypeId,X                                   ; 038130 BC 44 07 
-  LDA.W D_3878E,Y                                 ; 038133 B9 8E 87 
+  LDA.W EntityHandlersHi,Y                                 ; 038133 B9 8E 87 
   STA.B $04                                       ; 038136 85 04 
-  LDA.W D_38838,Y                                 ; 038138 B9 38 88 
+  LDA.W EntityHandlersLo,Y                                 ; 038138 B9 38 88 
   STA.B $05                                       ; 03813B 85 05 
   PHX                                             ; 03813D DA 
   JMP.W ($0004)                                   ; 03813E 6C 04 00 
-D_38141:
+AdvanceToNextEntity:
   PLX                                             ; 038141 FA 
-B_38142:
+AdvanceToNextEntity2:
   DEX                                             ; 038142 CA 
   BPL.B B_3812B                                   ; 038143 10 E6 
   PLB                                             ; 038145 AB 
@@ -535,54 +534,55 @@ D_386FF:
 .byte $FE,$D0,$FE,$E5,$FE,$FD,$FE,$17             ; 038777 DDDDDDDD ????????
 .byte $FF,$32,$FF,$4F,$FF,$6E,$FF,$8D             ; 03877F DDDDDDDD ?2?O?n??
 .byte $FF,$AD,$FF,$CE,$FF,$F0,$FF                 ; 038788 DDDDDDD  ???????
-D_3878E:
-.byte $E2,$E5,$B6,$0E,$11,$6B,$C3,$18             ; 03878E DDDDDDDD ?????k??
-.byte $42,$9A,$F2,$08,$98,$5F,$81,$EF             ; 038796 DD.DDDDD B????_??
-.byte $14,$A0,$F8,$4D,$2D,$84,$2C,$C2             ; 03879E D...DDDD ???M-?,?
-.byte $DD,$2E,$F4,$54,$46,$12,$D3,$14             ; 0387A6 ....DD.. ?.?TF???
-.byte $4E,$61,$01,$83,$BD,$7F,$4D,$F8             ; 0387AE ........ Na????M?
-.byte $14,$B3,$F4,$C0,$09,$EA,$1A,$87             ; 0387B6 ...DDDDD ????????
-.byte $0E,$C0,$41,$41,$41,$13,$F1,$B0             ; 0387BE DDDDDDDD ??AAA???
-.byte $6D,$19,$71,$46,$CA,$CA,$CA,$CA             ; 0387C6 DDDDDDDD m?qF????
-.byte $CA,$CA,$CA,$CA,$CA,$CA,$CA,$6F             ; 0387CE DDDDDDDD ???????o
-.byte $04,$CE,$5D,$CE,$66,$DF,$76,$60             ; 0387D6 DDD.DD.. ??]?f?v`
-.byte $35,$56,$CC,$51,$58,$33,$6D,$16             ; 0387DE ....DDD. 5V?QX3m?
-.byte $72,$F6,$74,$AC,$54,$45,$D3,$61             ; 0387E6 ........ r?t?TE?a
-.byte $CE,$D1,$D4,$D7,$FB,$E9,$53,$A4             ; 0387EE ........ ??????S?
-.byte $A7,$3A,$99,$2A,$FA,$26,$0B,$5A             ; 0387F6 ......DD ?:?*?&?Z
-.byte $1C,$5D,$BA,$F9,$35,$73,$DA,$B1             ; 0387FE DDDDDDDD ?]??5s??
-.byte $29,$5C,$A7,$53,$FA,$31,$93,$AF             ; 038806 DDDDD... )\?S?1??
-.byte $5E,$61,$2C,$74,$DB,$23,$44,$65             ; 03880E ..DDDDD. ^a,t?#De
-.byte $68,$6B,$6E,$71,$7B,$7B,$41,$F9             ; 038816 ...DDDD. hknq{{A?
-.byte $FC,$6C,$F6,$6E,$C8,$73,$12,$2D             ; 03881E DDDDDD.. ?l?n?s?-
-.byte $5A,$B8,$22,$A0,$C9,$50,$CF,$34             ; 038826 ........ Z?"??P?4
-.byte $C9,$0F,$28,$2B,$2E,$31,$34,$C8             ; 03882E ........ ??(+.14?
-.byte $7E,$56                                     ; 038837 ..       ~V
-D_38838:
-.byte $88,$88,$89,$8A,$8A,$8B,$8B,$8C             ; 038838 DDDDDDDD ????????
-.byte $8C,$8C,$8C,$8D,$8D,$8E,$8F,$8F             ; 038840 DD.DDDDD ????????
-.byte $90,$90,$90,$91,$92,$94,$95,$97             ; 038848 D...DDDD ????????
-.byte $98,$9A,$9C,$9E,$A0,$A1,$A1,$A3             ; 038850 ....DD.. ????????
-.byte $A4,$A5,$A6,$A7,$A8,$A9,$AA,$AA             ; 038858 ........ ????????
-.byte $A3,$AB,$AC,$91,$AE,$AE,$B0,$B0             ; 038860 ...DDDDD ????????
-.byte $B2,$B2,$B3,$B3,$B3,$B4,$B4,$B5             ; 038868 DDDDDDDD ????????
-.byte $B6,$B7,$B7,$B8,$B8,$B8,$B8,$B8             ; 038870 DDDDDDDD ????????
-.byte $B8,$B8,$B8,$B8,$B8,$B8,$B8,$B9             ; 038878 DDDDDDDD ????????
-.byte $BA,$BA,$BB,$BB,$BC,$BC,$BD,$BE             ; 038880 DDD.DD.. ????????
-.byte $BF,$C0,$C0,$C1,$C1,$C2,$C3,$C4             ; 038888 ....DDD. ????????
-.byte $C4,$C4,$C5,$C7,$C8,$CA,$CA,$CB             ; 038890 ........ ????????
-.byte $CB,$CB,$CB,$CB,$CC,$CE,$D0,$D1             ; 038898 ........ ????????
-.byte $D1,$D2,$D2,$D3,$D3,$D4,$D6,$D6             ; 0388A0 ......DD ????????
-.byte $D7,$D7,$D7,$D7,$D8,$D8,$D8,$D9             ; 0388A8 DDDDDDDD ????????
-.byte $DC,$DC,$DC,$DD,$DD,$DE,$DE,$DE             ; 0388B0 DDDDD... ????????
-.byte $DF,$DF,$E5,$E5,$E5,$E6,$E6,$E6             ; 0388B8 ..DDDDD. ????????
-.byte $E6,$E6,$E6,$E6,$E8,$EA,$B3,$EA             ; 0388C0 ...DDDD. ????????
-.byte $EA,$EB,$EB,$EC,$EC,$ED,$F1,$F2             ; 0388C8 DDDDDD.. ????????
-.byte $F2,$F2,$F3,$F3,$F3,$F4,$F4,$F5             ; 0388D0 ........ ????????
-.byte $F5,$F6,$F6,$F6,$F6,$F6,$F6,$F6             ; 0388D8 ........ ????????
-.byte $F7,$F8                                     ; 0388E1 ..       ??
 
-  JMP.W D_38141                                   ; 0388E2 4C 41 81 
+EntityHandlersHi:
+.byte <$88E2,<$88E5,<$89B6,<$8A0E,<$8A11,<$8B6B,<$8BC3,<$8C18
+.byte <$8C42,<$8C9A,<$8CF2,<$8D08,<$8D98,<$8E5F,<$8F81,<$8FEF
+.byte <$9014,<$90A0,<$90F8,<$914D,<$922D,<$9484,<$952C,<$97C2
+.byte <$98DD,<$9A2E,<$9CF4,<$9E54,<$A046,<$A112,<$A1D3,<$A314
+.byte <$A44E,<$A561,<$A601,<$A783,<$A8BD,<$A97F,<$AA4D,<$AAF8
+.byte <$A314,<$ABB3,<$ACF4,<$91C0,<$AE09,<$AEEA,<$B01A,<$B087
+.byte <$B20E,<$B2C0,<$B341,<$B341,<$B341,<$B413,<$B4F1,<$B5B0
+.byte <$B66D,<$B719,<$B771,<$B846,<$B8CA,<$B8CA,<$B8CA,<$B8CA
+.byte <$B8CA,<$B8CA,<$B8CA,<$B8CA,<$B8CA,<$B8CA,<$B8CA,<$B96F
+.byte <$BA04,<$BACE,<$BB5D,<$BBCE,<$BC66,<$BCDF,<$BD76,<$BE60
+.byte <$BF35,<$C056,<$C0CC,<$C151,<$C158,<$C233,<$C36D,<$C416
+.byte <$C472,<$C4F6,<$C574,<$C7AC,<$C854,<$CA45,<$CAD3,<$CB61
+.byte <$CBCE,<$CBD1,<$CBD4,<$CBD7,<$CCFB,<$CEE9,<$D053,<$D1A4
+.byte <$D1A7,<$D23A,<$D299,<$D32A,<$D3FA,<$D426,<$D60B,<$D65A
+.byte <$D71C,<$D75D,<$D7BA,<$D7F9,<$D835,<$D873,<$D8DA,<$D9B1
+.byte <$DC29,<$DC5C,<$DCA7,<$DD53,<$DDFA,<$DE31,<$DE93,<$DEAF
+.byte <$DF5E,<$DF61,<$E52C,<$E574,<$E5DB,<$E623,<$E644,<$E665
+.byte <$E668,<$E66B,<$E66E,<$E671,<$E87B,<$EA7B,<$B341,<$EAF9
+.byte <$EAFC,<$EB6C,<$EBF6,<$EC6E,<$ECC8,<$ED73,<$F112,<$F22D
+.byte <$F25A,<$F2B8,<$F322,<$F3A0,<$F3C9,<$F450,<$F4CF,<$F534
+.byte <$F5C9,<$F60F,<$F628,<$F62B,<$F62E,<$F631,<$F634,<$F6C8
+.byte <$F77E,<$F856
+EntityHandlersLo:
+.byte >$88E2,>$88E5,>$89B6,>$8A0E,>$8A11,>$8B6B,>$8BC3,>$8C18
+.byte >$8C42,>$8C9A,>$8CF2,>$8D08,>$8D98,>$8E5F,>$8F81,>$8FEF
+.byte >$9014,>$90A0,>$90F8,>$914D,>$922D,>$9484,>$952C,>$97C2
+.byte >$98DD,>$9A2E,>$9CF4,>$9E54,>$A046,>$A112,>$A1D3,>$A314
+.byte >$A44E,>$A561,>$A601,>$A783,>$A8BD,>$A97F,>$AA4D,>$AAF8
+.byte >$A314,>$ABB3,>$ACF4,>$91C0,>$AE09,>$AEEA,>$B01A,>$B087
+.byte >$B20E,>$B2C0,>$B341,>$B341,>$B341,>$B413,>$B4F1,>$B5B0
+.byte >$B66D,>$B719,>$B771,>$B846,>$B8CA,>$B8CA,>$B8CA,>$B8CA
+.byte >$B8CA,>$B8CA,>$B8CA,>$B8CA,>$B8CA,>$B8CA,>$B8CA,>$B96F
+.byte >$BA04,>$BACE,>$BB5D,>$BBCE,>$BC66,>$BCDF,>$BD76,>$BE60
+.byte >$BF35,>$C056,>$C0CC,>$C151,>$C158,>$C233,>$C36D,>$C416
+.byte >$C472,>$C4F6,>$C574,>$C7AC,>$C854,>$CA45,>$CAD3,>$CB61
+.byte >$CBCE,>$CBD1,>$CBD4,>$CBD7,>$CCFB,>$CEE9,>$D053,>$D1A4
+.byte >$D1A7,>$D23A,>$D299,>$D32A,>$D3FA,>$D426,>$D60B,>$D65A
+.byte >$D71C,>$D75D,>$D7BA,>$D7F9,>$D835,>$D873,>$D8DA,>$D9B1
+.byte >$DC29,>$DC5C,>$DCA7,>$DD53,>$DDFA,>$DE31,>$DE93,>$DEAF
+.byte >$DF5E,>$DF61,>$E52C,>$E574,>$E5DB,>$E623,>$E644,>$E665
+.byte >$E668,>$E66B,>$E66E,>$E671,>$E87B,>$EA7B,>$B341,>$EAF9
+.byte >$EAFC,>$EB6C,>$EBF6,>$EC6E,>$ECC8,>$ED73,>$F112,>$F22D
+.byte >$F25A,>$F2B8,>$F322,>$F3A0,>$F3C9,>$F450,>$F4CF,>$F534
+.byte >$F5C9,>$F60F,>$F628,>$F62B,>$F62E,>$F631,>$F634,>$F6C8
+.byte >$F77E,>$F856
+
+  JMP.W AdvanceToNextEntity                                   ; 0388E2 4C 41 81 
   DEC.W EntityV15,X                                   ; 0388E5 DE 80 0D 
   BNE.B B_38947                                   ; 0388E8 D0 5D 
   LDA.W EntityV20,X                                   ; 0388EA BD BA 0F 
@@ -627,12 +627,12 @@ B_388FA:
   STA.W EntityV8,X                                   ; 038941 9D 62 0A 
   INC.W EntityV20,X                                   ; 038944 FE BA 0F 
 B_38947:
-  JMP.W D_38141                                   ; 038947 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038947 4C 41 81 
 B_3894A:
   STZ.W $052C                                     ; 03894A 9C 2C 05 
   STZ.W EntityV6,X                                   ; 03894D 9E 7E 09 
   STZ.W EntityTypeId,X                                   ; 038950 9E 44 07 
-  JMP.W D_38141                                   ; 038953 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038953 4C 41 81 
 
 D_38956:
 .byte $04,$03,$02,$01,$00,$01,$02,$00             ; 038956 DDDDDDD. ????????
@@ -680,7 +680,7 @@ D_38997:
 B_389E6:
   STA.W XexzyTorsoY,Y                             ; 0389E6 99 09 03 
   PLX                                             ; 0389E9 FA 
-  JMP.W D_38141                                   ; 0389EA 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 0389EA 4C 41 81 
 B_389ED:
   TYA                                             ; 0389ED 98 
   STA.W EntityV27,X                                   ; 0389EE 9D D8 12 
@@ -692,12 +692,12 @@ B_389F7:
   LDA.B #$08                                      ; 0389FB A9 08 
   STA.B $1D                                       ; 0389FD 85 1D 
   JSL L_AFC2                                      ; 0389FF 22 C2 AF 00 
-  JMP.W D_38141                                   ; 038A03 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038A03 4C 41 81 
 
 D_38A06:
 .byte $60,$62,$64,$66,$68,$6A,$6C,$6E             ; 038A06 .DDDDDDD `bdfhjln
 
-  JMP.W D_38141                                   ; 038A0E 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038A0E 4C 41 81 
   LDY.W EntityV20,X                                   ; 038A11 BC BA 0F 
   LDA.W $18A5,Y                                   ; 038A14 B9 A5 18 
   BNE.B B_38A2D                                   ; 038A17 D0 14 
@@ -759,7 +759,7 @@ B_38A74:
   STA.W $05CC,X                                   ; 038A7E 9D CC 05 
   PLX                                             ; 038A81 FA 
   JSR.W L_38B2E                                   ; 038A82 20 2E 8B 
-  JMP.W D_38141                                   ; 038A85 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038A85 4C 41 81 
 B_38A88:
   DEC.W EntityV15,X                                   ; 038A88 DE 80 0D 
   LDY.W EntityV16,X                                   ; 038A8B BC F2 0D 
@@ -831,7 +831,7 @@ B_38B11:
 .byte $0B,$03                                     ; 038B2A ..       ??
 
 B_38B2B:
-  JMP.W D_38141                                   ; 038B2B 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038B2B 4C 41 81 
 
 L_38B2E:
   SEC                                             ; 038B2E 38 
@@ -908,7 +908,7 @@ B_38B9B:
 
 B_38B9E:
   PLX                                             ; 038B9E FA 
-  JMP.W D_38141                                   ; 038B9F 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038B9F 4C 41 81 
 B_38BA2:
   TYA                                             ; 038BA2 98 
   STA.W EntityV27,X                                   ; 038BA3 9D D8 12 
@@ -920,7 +920,7 @@ B_38BAC:
   LDA.B #$08                                      ; 038BB0 A9 08 
   STA.B $1D                                       ; 038BB2 85 1D 
   JSL L_AFC2                                      ; 038BB4 22 C2 AF 00 
-  JMP.W D_38141                                   ; 038BB8 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038BB8 4C 41 81 
 
 D_38BBB:
 .byte $40,$42,$44,$46,$48,$4A,$4C,$4E             ; 038BBB .DDDDDDD @BDFHJLN
@@ -951,7 +951,7 @@ B_38BF3:
   STA.W XexzyTorsoY,Y                             ; 038BF3 99 09 03 
 B_38BF6:
   PLX                                             ; 038BF6 FA 
-  JMP.W D_38141                                   ; 038BF7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038BF7 4C 41 81 
 B_38BFA:
   TYA                                             ; 038BFA 98 
   STA.W EntityV27,X                                   ; 038BFB 9D D8 12 
@@ -963,7 +963,7 @@ B_38C04:
   LDA.B #$08                                      ; 038C08 A9 08 
   STA.B $1D                                       ; 038C0A 85 1D 
   JSL L_AFC2                                      ; 038C0C 22 C2 AF 00 
-  JMP.W D_38141                                   ; 038C10 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038C10 4C 41 81 
 
 D_38C13:
 .byte $20,$22,$24,$22,$20                         ; 038C14 .DDDD     "$" 
@@ -989,7 +989,7 @@ B_38C3B:
 B_38C3E:
   PLX                                             ; 038C3E FA 
 B_38C3F:
-  JMP.W D_38141                                   ; 038C3F 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038C3F 4C 41 81 
   DEC.W EntityV28,X                                   ; 038C42 DE 4A 13 
   BNE.B B_38C83                                   ; 038C45 D0 3C 
   LDA.B #$04                                      ; 038C47 A9 04 
@@ -1016,7 +1016,7 @@ B_38C3F:
 B_38C72:
   STA.W XexzyTorsoY,Y                             ; 038C72 99 09 03 
   PLX                                             ; 038C75 FA 
-  JMP.W D_38141                                   ; 038C76 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038C76 4C 41 81 
 B_38C79:
   TYA                                             ; 038C79 98 
   STA.W EntityV27,X                                   ; 038C7A 9D D8 12 
@@ -1028,7 +1028,7 @@ B_38C83:
   LDA.B #$08                                      ; 038C87 A9 08 
   STA.B $1D                                       ; 038C89 85 1D 
   JSL L_AFC2                                      ; 038C8B 22 C2 AF 00 
-  JMP.W D_38141                                   ; 038C8F 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038C8F 4C 41 81 
 
 D_38C92:
 .byte $40,$42,$44,$46,$48,$4A,$4C,$4E             ; 038C92 .DDDDDDD @BDFHJLN
@@ -1059,7 +1059,7 @@ B_38CCA:
   STA.W XexzyTorsoY,Y                             ; 038CCA 99 09 03 
 B_38CCD:
   PLX                                             ; 038CCD FA 
-  JMP.W D_38141                                   ; 038CCE 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038CCE 4C 41 81 
 B_38CD1:
   TYA                                             ; 038CD1 98 
   STA.W EntityV27,X                                   ; 038CD2 9D D8 12 
@@ -1071,7 +1071,7 @@ B_38CDB:
   LDA.B #$08                                      ; 038CDF A9 08 
   STA.B $1D                                       ; 038CE1 85 1D 
   JSL L_AFC2                                      ; 038CE3 22 C2 AF 00 
-  JMP.W D_38141                                   ; 038CE7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038CE7 4C 41 81 
 
 D_38CEA:
 .byte $20,$22,$24,$26,$28,$2A,$2C,$2E             ; 038CEA .DDDDDDD  "$&(*,.
@@ -1132,7 +1132,7 @@ B_38D68:
   BPL.B B_38D71                                   ; 038D6C 10 03 
   STZ.W EntityHeader,X                                   ; 038D6E 9E D2 06 
 B_38D71:
-  JMP.W D_38141                                   ; 038D71 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038D71 4C 41 81 
 
 L_38D74:
   JSL AdvanceRNG                                     ; 038D74 22 95 CA 0E 
@@ -1217,7 +1217,7 @@ B_38DF3:
 B_38E12:
   STA.W XexzyTorsoY,Y                             ; 038E12 99 09 03 
   PLX                                             ; 038E15 FA 
-  JMP.W D_38141                                   ; 038E16 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038E16 4C 41 81 
 B_38E19:
   STA.B $04                                       ; 038E19 85 04 
   SEC                                             ; 038E1B 38 
@@ -1243,7 +1243,7 @@ B_38E42:
   STA.W $030A,Y                                   ; 038E4F 99 0A 03 
   LDA.W EntityV30,X                                   ; 038E52 BD 2E 14 
   STA.W $030B,Y                                   ; 038E55 99 0B 03 
-  JMP.W D_38141                                   ; 038E58 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038E58 4C 41 81 
 
 D_38E5B:
 .byte $0A,$05,$14,$05                             ; 038E5C DDDD     ????
@@ -1296,7 +1296,7 @@ B_38E9F:
 B_38EBE:
   STA.W XexzyTorsoY,Y                             ; 038EBE 99 09 03 
   PLX                                             ; 038EC1 FA 
-  JMP.W D_38141                                   ; 038EC2 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038EC2 4C 41 81 
 B_38EC5:
   STA.B $04                                       ; 038EC5 85 04 
   SEC                                             ; 038EC7 38 
@@ -1322,7 +1322,7 @@ B_38EEE:
   STA.W $030A,Y                                   ; 038EFB 99 0A 03 
   LDA.W EntityV30,X                                   ; 038EFE BD 2E 14 
   STA.W $030B,Y                                   ; 038F01 99 0B 03 
-  JMP.W D_38141                                   ; 038F04 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038F04 4C 41 81 
 
 .byte $14,$14,$14,$14                             ; 038F08 ....     ????
 
@@ -1414,7 +1414,7 @@ D_38F72:
   BCC.B B_38FCA                                   ; 038FC1 90 07 
 B_38FC3:
   JSL L_AF42                                      ; 038FC3 22 42 AF 00 
-  JMP.W D_38141                                   ; 038FC7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038FC7 4C 41 81 
 B_38FCA:
   STZ.W EntityHeader,X                                   ; 038FCA 9E D2 06 
   PHX                                             ; 038FCD DA 
@@ -1434,7 +1434,7 @@ B_38FCA:
 B_38FE8:
   STA.W XexzyTorsoY,Y                             ; 038FE8 99 09 03 
   PLX                                             ; 038FEB FA 
-  JMP.W D_38141                                   ; 038FEC 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 038FEC 4C 41 81 
   SEC                                             ; 038FEF 38 
   LDA.W EntityXPx,X                              ; 038FF0 BD 46 0B 
   SBC.B #$08                                      ; 038FF3 E9 08 
@@ -1450,7 +1450,7 @@ B_38FE8:
   SBC.B #$00                                      ; 039009 E9 00 
   STA.B $07                                       ; 03900B 85 07 
   JSL L_AF42                                      ; 03900D 22 42 AF 00 
-  JMP.W D_38141                                   ; 039011 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 039011 4C 41 81 
   LDA.W EntityV6,X                                   ; 039014 BD 7E 09 
   BMI.B B_3902B                                   ; 039017 30 12 
   ORA.W EntityV5,X                                   ; 039019 1D 0C 09 
@@ -1496,7 +1496,7 @@ B_3905C:
   LDA.B #$05                                      ; 03906E A9 05 
   STA.B $1D                                       ; 039070 85 1D 
   JSL L_AFC2                                      ; 039072 22 C2 AF 00 
-  JMP.W D_38141                                   ; 039076 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 039076 4C 41 81 
 D_39079:
   STZ.W EntityHeader,X                                   ; 039079 9E D2 06 
   PHX                                             ; 03907C DA 
@@ -1518,7 +1518,7 @@ B_39097:
 
 B_3909A:
   PLX                                             ; 03909A FA 
-  JMP.W D_38141                                   ; 03909B 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03909B 4C 41 81 
 
 D_3909E:
 .byte $33,$31,$A5,$D2,$29,$01,$D0,$3F             ; 03909E DD...... 31??)???
@@ -1619,11 +1619,11 @@ B_39208:
   SBC.B #$00                                      ; 039222 E9 00 
   STA.B $07                                       ; 039224 85 07 
   JSL L_AF42                                      ; 039226 22 42 AF 00 
-  JMP.W D_38141                                   ; 03922A 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03922A 4C 41 81 
   LDA.W EntityV15,X                                   ; 03922D BD 80 0D 
   BEQ.B B_39238                                   ; 039230 F0 06 
   DEC.W EntityV15,X                                   ; 039232 DE 80 0D 
-  JMP.W D_38141                                   ; 039235 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 039235 4C 41 81 
 B_39238:
   LDA.W EntityV22,X                                   ; 039238 BD 9E 10 
   STA.B $0C                                       ; 03923B 85 0C 
@@ -1698,7 +1698,7 @@ B_392CA:
   LDX.B $09                                       ; 0392CA A6 09 
   LDA.B $08                                       ; 0392CC A5 08 
   STA.W EntityV20,X                                   ; 0392CE 9D BA 0F 
-  JMP.W D_38141                                   ; 0392D1 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 0392D1 4C 41 81 
 B_392D4:
   LDX.B $09                                       ; 0392D4 A6 09 
   LDA.B $0C                                       ; 0392D6 A5 0C 
@@ -1740,7 +1740,7 @@ B_39316:
   LDA.W $18E4                                     ; 03931A AD E4 18 
   SBC.B #$05                                      ; 03931D E9 05 
   STA.W $18E4                                     ; 03931F 8D E4 18 
-  JMP.W D_38141                                   ; 039322 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 039322 4C 41 81 
 
 B_39325:
 .byte $A9,$01,$9D,$BA,$0F,$4C,$41,$81             ; 039325 ........ ?????LA?
@@ -1949,7 +1949,7 @@ B_394B5:
   LDA.B #$16                                      ; 039514 A9 16 
   STA.W EntityTypeId,X                                   ; 039516 9D 44 07 
 B_39519:
-  JMP.W D_38141                                   ; 039519 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 039519 4C 41 81 
 
 D_3951C:
 .byte $C4,$C6,$C8,$CA,$CC,$CA,$C8,$C6             ; 03951C DDDDDDDD ????????
@@ -2153,7 +2153,7 @@ B_396AE:
   STA.W $030A,Y                                   ; 0396BB 99 0A 03 
   LDA.W EntityV30,X                                   ; 0396BE BD 2E 14 
   STA.W $030B,Y                                   ; 0396C1 99 0B 03 
-  JMP.W D_38141                                   ; 0396C4 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 0396C4 4C 41 81 
 
 D_396C7:
 .byte $00,$00,$04,$00,$02,$01,$03,$00             ; 0396C7 .DD.DDD. ????????
@@ -2246,7 +2246,7 @@ B_397F3:
   STA.W EntityTypeId,X                                   ; 039807 9D 44 07 
   LDA.B #$01                                      ; 03980A A9 01 
   STA.W EntityV15,X                                   ; 03980C 9D 80 0D 
-  JMP.W D_38141                                   ; 03980F 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03980F 4C 41 81 
 B_39812:
   LDY.W EntityV27,X                                   ; 039812 BC D8 12 
   LDA.W D_398B0,Y                                 ; 039815 B9 B0 98 
@@ -2301,7 +2301,7 @@ B_39876:
   STA.W $030A,Y                                   ; 039883 99 0A 03 
   LDA.W EntityV30,X                                   ; 039886 BD 2E 14 
   STA.W $030B,Y                                   ; 039889 99 0B 03 
-  JMP.W D_38141                                   ; 03988C 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03988C 4C 41 81 
 
 D_3988F:
 .byte $80,$82,$84,$86,$88,$8A,$88,$86             ; 03988F DDDDDDDD ????????
@@ -2583,7 +2583,7 @@ B_3A076:
   STA.W XexzyTorsoY,Y                             ; 03A076 99 09 03 
 B_3A079:
   PLX                                             ; 03A079 FA 
-  JMP.W D_38141                                   ; 03A07A 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03A07A 4C 41 81 
 B_3A07D:
   TYA                                             ; 03A07D 98 
   STA.W EntityV27,X                                   ; 03A07E 9D D8 12 
@@ -2631,7 +2631,7 @@ B_3A0D6:
   LDA.B #$08                                      ; 03A0DA A9 08 
   STA.B $1D                                       ; 03A0DC 85 1D 
   JSL L_AFC2                                      ; 03A0DE 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03A0E2 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03A0E2 4C 41 81 
 D_3A0E5:
   STZ.W EntityHeader,X                                   ; 03A0E5 9E D2 06 
   PHX                                             ; 03A0E8 DA 
@@ -2651,7 +2651,7 @@ B_3A103:
   STA.W XexzyTorsoY,Y                             ; 03A103 99 09 03 
 B_3A106:
   PLX                                             ; 03A106 FA 
-  JMP.W D_38141                                   ; 03A107 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03A107 4C 41 81 
 
 D_3A10A:
 .byte $20,$22,$24,$26,$28,$2A,$2C,$2E             ; 03A10A .DDDDDDD  "$&(*,.
@@ -2660,7 +2660,7 @@ D_3A10A:
   BEQ.B B_3A11D                                   ; 03A115 F0 06 
   DEC.W EntityV15,X                                   ; 03A117 DE 80 0D 
 B_3A11A:
-  JMP.W D_38141                                   ; 03A11A 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03A11A 4C 41 81 
 B_3A11D:
   STX.B $04                                       ; 03A11D 86 04 
   JSL L_380E4                                     ; 03A11F 22 E4 80 03 
@@ -2747,7 +2747,7 @@ B_3A181:
   BNE.B B_3A1D0                                   ; 03A1CB D0 03 
   STZ.W EntityHeader,X                                   ; 03A1CD 9E D2 06 
 B_3A1D0:
-  JMP.W D_38141                                   ; 03A1D0 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03A1D0 4C 41 81 
 
 .byte $DE,$80,$0D,$D0,$0E,$A9,$3C,$9D             ; 03A1D3 ........ ??????<?
 .byte $80,$0D,$22,$95,$CA,$0E,$29,$07             ; 03A1DB ........ ??"???)?
@@ -3236,7 +3236,7 @@ B_3AEB9:
   ORA.W EntityV2,X                                   ; 03AED1 1D B6 07 
   STA.W EntityV30,X                                   ; 03AED4 9D 2E 14 
 B_3AED7:
-  JMP.W D_38141                                   ; 03AED7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03AED7 4C 41 81 
 
 D_3AEDA:
 .byte $00,$02                                     ; 03AEDB DD       ??
@@ -3366,7 +3366,7 @@ B_3AFBC:
   ORA.W EntityV2,X                                   ; 03AFD1 1D B6 07 
   STA.W EntityV30,X                                   ; 03AFD4 9D 2E 14 
 B_3AFD7:
-  JMP.W D_38141                                   ; 03AFD7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03AFD7 4C 41 81 
 
 D_3AFDA:
 .byte $0C,$0C,$0A,$0C                             ; 03AFDB DDDD     ????
@@ -3469,7 +3469,7 @@ B_3B066:
   ORA.W EntityV2,X                                   ; 03B07E 1D B6 07 
   STA.W EntityV30,X                                   ; 03B081 9D 2E 14 
 B_3B084:
-  JMP.W D_38141                                   ; 03B084 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B084 4C 41 81 
   SEC                                             ; 03B087 38 
   LDA.W EntityXPx,X                              ; 03B088 BD 46 0B 
   SBC.B #$08                                      ; 03B08B E9 08 
@@ -3534,7 +3534,7 @@ B_3B0B8:
   ORA.W EntityV2,X                                   ; 03B0F7 1D B6 07 
   STA.W EntityV30,X                                   ; 03B0FA 9D 2E 14 
 B_3B0FD:
-  JMP.W D_38141                                   ; 03B0FD 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B0FD 4C 41 81 
 B_3B100:
   DEC.W $18EC                                     ; 03B100 CE EC 18 
   DEC.W $06C6                                     ; 03B103 CE C6 06 
@@ -3647,7 +3647,7 @@ B_3B1D8:
   JSL Audio_F830F                                     ; 03B1E0 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 03B1E4 E2 30 
   PLX                                             ; 03B1E6 FA 
-  JMP.W D_38141                                   ; 03B1E7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B1E7 4C 41 81 
 
 D_3B1EA:
 .byte $00,$01,$FF,$00                             ; 03B1EB DDDD     ????
@@ -3744,7 +3744,7 @@ B_3B277:
   ORA.W EntityV2,X                                   ; 03B2A7 1D B6 07 
   STA.W EntityV30,X                                   ; 03B2AA 9D 2E 14 
 B_3B2AD:
-  JMP.W D_38141                                   ; 03B2AD 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B2AD 4C 41 81 
 
 D_3B2B0:
 .byte $00                                         ; 03B2B1 D        ?
@@ -3785,7 +3785,7 @@ B_3B2D6:
 B_3B2F7:
   STA.W XexzyTorsoY,Y                             ; 03B2F7 99 09 03 
   PLX                                             ; 03B2FA FA 
-  JMP.W D_38141                                   ; 03B2FB 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B2FB 4C 41 81 
 B_3B2FE:
   SEC                                             ; 03B2FE 38 
   LDA.W EntityXPx,X                              ; 03B2FF BD 46 0B 
@@ -3828,7 +3828,7 @@ B_3B32F:
   LDA.B #$09                                      ; 03B336 A9 09 
   STA.B $1D                                       ; 03B338 85 1D 
   JSL L_AFC2                                      ; 03B33A 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B33E 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B33E 4C 41 81 
   LDA.W EntityV6,X                                   ; 03B341 BD 7E 09 
   BMI.B B_3B35A                                   ; 03B344 30 14 
   ORA.W EntityV5,X                                   ; 03B346 1D 0C 09 
@@ -3906,7 +3906,7 @@ B_3B3C1:
   LDA.B #$08                                      ; 03B3C8 A9 08 
   STA.B $1D                                       ; 03B3CA 85 1D 
   JSL L_AFC2                                      ; 03B3CC 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B3D0 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B3D0 4C 41 81 
 D_3B3D3:
   LDA.W D_3B40B,Y                                 ; 03B3D3 B9 0B B4 
   STA.W EntityV29,X                                   ; 03B3D6 9D BC 13 
@@ -3928,7 +3928,7 @@ D_3B3D3:
   LDA.B #$08                                      ; 03B400 A9 08 
   STA.B $1D                                       ; 03B402 85 1D 
   JSL L_AFC2                                      ; 03B404 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B408 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B408 4C 41 81 
 
 D_3B40B:
 .byte $44,$44,$46,$46                             ; 03B40C DDDD     DDFF
@@ -4011,7 +4011,7 @@ B_3B491:
   LDA.B #$08                                      ; 03B498 A9 08 
   STA.B $1D                                       ; 03B49A 85 1D 
   JSL L_AFC2                                      ; 03B49C 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B4A0 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B4A0 4C 41 81 
 D_3B4A3:
   LDA.B #$06                                      ; 03B4A3 A9 06 
   STA.W EntityTypeId,X                                   ; 03B4A5 9D 44 07 
@@ -4044,7 +4044,7 @@ D_3B4A3:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 03B4EB E2 30 
   PLX                                             ; 03B4ED FA 
 B_3B4EE:
-  JMP.W D_38141                                   ; 03B4EE 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B4EE 4C 41 81 
   LDY.W $05D0                                     ; 03B4F1 AC D0 05 
   LDA.W $05D3                                     ; 03B4F4 AD D3 05 
   BNE.B B_3B4FE                                   ; 03B4F7 D0 05 
@@ -4137,7 +4137,7 @@ B_3B596:
   LDA.B #$09                                      ; 03B59D A9 09 
   STA.B $1D                                       ; 03B59F 85 1D 
   JSL L_AFC2                                      ; 03B5A1 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B5A5 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B5A5 4C 41 81 
 
 D_3B5A8:
 .byte $02,$01,$00,$07,$06,$05,$04,$03             ; 03B5A8 DDDDDDDD ????????
@@ -4215,7 +4215,7 @@ B_3B628:
   LDA.B #$09                                      ; 03B62F A9 09 
   STA.B $1D                                       ; 03B631 85 1D 
   JSL L_AFC2                                      ; 03B633 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B637 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B637 4C 41 81 
 D_3B63A:
   LDA.B #$05                                      ; 03B63A A9 05 
   STA.W EntityTypeId,X                                   ; 03B63C 9D 44 07 
@@ -4232,7 +4232,7 @@ D_3B63A:
   LDA.B #$04                                      ; 03B65A A9 04 
   STA.W EntityV28,X                                   ; 03B65C 9D 4A 13 
   STZ.W EntityV27,X                                   ; 03B65F 9E D8 12 
-  JMP.W D_38141                                   ; 03B662 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B662 4C 41 81 
 
 .byte $07,$07,$08,$08,$00,$80,$00,$40             ; 03B665 ........ ???????@
 
@@ -4321,7 +4321,7 @@ B_3B707:
   LDA.B #$09                                      ; 03B70E A9 09 
   STA.B $1D                                       ; 03B710 85 1D 
   JSL L_AFC2                                      ; 03B712 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B716 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B716 4C 41 81 
   DEC.W EntityV28,X                                   ; 03B719 DE 4A 13 
   BNE.B B_3B75A                                   ; 03B71C D0 3C 
   LDA.B #$04                                      ; 03B71E A9 04 
@@ -4350,7 +4350,7 @@ B_3B749:
 
 B_3B74C:
   PLX                                             ; 03B74C FA 
-  JMP.W D_38141                                   ; 03B74D 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B74D 4C 41 81 
 B_3B750:
   TYA                                             ; 03B750 98 
   STA.W EntityV27,X                                   ; 03B751 9D D8 12 
@@ -4362,7 +4362,7 @@ B_3B75A:
   LDA.B #$08                                      ; 03B75E A9 08 
   STA.B $1D                                       ; 03B760 85 1D 
   JSL L_AFC2                                      ; 03B762 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B766 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B766 4C 41 81 
 
 D_3B769:
 .byte $20,$22,$24,$26,$28,$2A,$2C,$2E             ; 03B769 .DDDDDDD  "$&(*,.
@@ -4411,7 +4411,7 @@ B_3B7CB:
 
 B_3B7CE:
   PLX                                             ; 03B7CE FA 
-  JMP.W D_38141                                   ; 03B7CF 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B7CF 4C 41 81 
 B_3B7D2:
   LDY.W EntityV15,X                                   ; 03B7D2 BC 80 0D 
   LDA.W D_3B81E,Y                                 ; 03B7D5 B9 1E B8 
@@ -4457,7 +4457,7 @@ B_3B80C:
   LDA.B #$08                                      ; 03B813 A9 08 
   STA.B $1D                                       ; 03B815 85 1D 
   JSL L_AFC2                                      ; 03B817 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B81B 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B81B 4C 41 81 
 
 D_3B81E:
 .byte $60,$60,$60,$60,$60,$62,$62,$62             ; 03B81E .DDDDDDD `````bbb
@@ -4534,7 +4534,7 @@ B_3B8BB:
   LDA.B #$08                                      ; 03B8BF A9 08 
   STA.B $1D                                       ; 03B8C1 85 1D 
   JSL L_AFC2                                      ; 03B8C3 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03B8C7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B8C7 4C 41 81 
   LDA.W $05DF                                     ; 03B8CA AD DF 05 
   BNE.B B_3B90D                                   ; 03B8CD D0 3E 
   DEC.W EntityV28,X                                   ; 03B8CF DE 4A 13 
@@ -4564,7 +4564,7 @@ B_3B8F7:
   LDA.B $04                                       ; 03B8FD A5 04 
   BCC.B B_3B907                                   ; 03B8FF 90 06 
   STA.W $0409,Y                                   ; 03B901 99 09 04 
-  JMP.W D_38141                                   ; 03B904 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B904 4C 41 81 
 
 B_3B907:
 .byte $99,$09,$03,$4C,$41,$81                     ; 03B908 ......   ???LA?
@@ -4614,7 +4614,7 @@ B_3B951:
   CLC                                             ; 03B958 18 
   ADC.B #$40                                      ; 03B959 69 40 
   STA.W DropTimer                   ; 03B95B 8D AE 05 
-  JMP.W D_38141                                   ; 03B95E 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B95E 4C 41 81 
 
 D_3B961:
 .byte $06,$06,$06,$06,$06,$06,$06,$06             ; 03B961 DDDDDDDD ????????
@@ -4651,7 +4651,7 @@ B_3B9A1:
   LDA.B $04                                       ; 03B9A7 A5 04 
   BCC.B B_3B9B1                                   ; 03B9A9 90 06 
   STA.W $0409,Y                                   ; 03B9AB 99 09 04 
-  JMP.W D_38141                                   ; 03B9AE 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B9AE 4C 41 81 
 
 B_3B9B1:
 .byte $99,$09,$03,$4C,$41,$81                     ; 03B9B2 ......   ???LA?
@@ -4689,7 +4689,7 @@ B_3B9E7:
   CLC                                             ; 03B9ED 18 
   ADC.B #$40                                      ; 03B9EE 69 40 
   STA.W $05AF                                     ; 03B9F0 8D AF 05 
-  JMP.W D_38141                                   ; 03B9F3 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03B9F3 4C 41 81 
 
 D_3B9F6:
 .byte $06,$06,$06,$06,$06,$06,$06,$06             ; 03B9F6 DDDDDDDD ????????
@@ -4711,7 +4711,7 @@ B_3BA15:
   LDA.B #$08                                      ; 03BA22 A9 08 
   STA.B $1D                                       ; 03BA24 85 1D 
   JSL L_AFC2                                      ; 03BA26 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03BA2A 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BA2A 4C 41 81 
 B_3BA2D:
   LDA.W EntityV20,X                                   ; 03BA2D BD BA 0F 
   STA.B $0E                                       ; 03BA30 85 0E 
@@ -4763,7 +4763,7 @@ B_3BA79:
 .byte $DE,$B4,$05                                 ; 03BA87 ...      ???
 
 B_3BA89:
-  JMP.W D_38141                                   ; 03BA89 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BA89 4C 41 81 
 B_3BA8C:
   STZ.W EntityHeader,X                                   ; 03BA8C 9E D2 06 
   PHX                                             ; 03BA8F DA 
@@ -4795,7 +4795,7 @@ B_3BAAD:
 .byte $DE,$B7,$05                                 ; 03BAB9 ...      ???
 
 B_3BABB:
-  JMP.W D_38141                                   ; 03BABB 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BABB 4C 41 81 
 
 D_3BABE:
 .byte $00,$01,$02,$00,$01,$02,$00,$01             ; 03BABE D..DDDDD ????????
@@ -4817,7 +4817,7 @@ B_3BADF:
   LDA.B #$08                                      ; 03BAEC A9 08 
   STA.B $1D                                       ; 03BAEE 85 1D 
   JSL L_AFC2                                      ; 03BAF0 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03BAF4 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BAF4 4C 41 81 
 B_3BAF7:
   LDA.W EntityV20,X                                   ; 03BAF7 BD BA 0F 
   PHA                                             ; 03BAFA 48 
@@ -4868,7 +4868,7 @@ B_3BB3F:
   JSL Audio_F830F                                     ; 03BB53 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 03BB57 E2 10 
   PLX                                             ; 03BB59 FA 
-  JMP.W D_38141                                   ; 03BB5A 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BB5A 4C 41 81 
   LDA.W EntityV8,X                                   ; 03BB5D BD 62 0A 
   BMI.B B_3BB6E                                   ; 03BB60 30 0C 
 
@@ -4885,7 +4885,7 @@ B_3BB6E:
   LDA.B #$08                                      ; 03BB7B A9 08 
   STA.B $1D                                       ; 03BB7D 85 1D 
   JSL L_AFC2                                      ; 03BB7F 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03BB83 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BB83 4C 41 81 
 B_3BB86:
   LDA.W EntityV20,X                                   ; 03BB86 BD BA 0F 
   PHA                                             ; 03BB89 48 
@@ -4923,7 +4923,7 @@ B_3BBAB:
   SEP.B #P_Idx8Bit                                      ; 03BBC5 E2 10 
   PLX                                             ; 03BBC7 FA 
   INC.W $05B1                                     ; 03BBC8 EE B1 05 
-  JMP.W D_38141                                   ; 03BBCB 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BBCB 4C 41 81 
 
 .byte $DE,$F2,$0D,$D0,$0A,$A9,$1B,$9D             ; 03BBCE ........ ????????
 .byte $44,$07,$A9,$01,$9D,$F2,$0D,$A5             ; 03BBD6 ........ D???????
@@ -4971,7 +4971,7 @@ B_3BC8E:
   LDA.B $04                                       ; 03BC99 A5 04 
   BCC.B B_3BCA3                                   ; 03BC9B 90 06 
   STA.W $0409,Y                                   ; 03BC9D 99 09 04 
-  JMP.W D_38141                                   ; 03BCA0 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BCA0 4C 41 81 
 
 B_3BCA3:
 .byte $99,$09,$03,$4C,$41,$81                     ; 03BCA4 ......   ???LA?
@@ -5000,7 +5000,7 @@ B_3BCF0:
   LDA.B #$08                                      ; 03BCFD A9 08 
   STA.B $1D                                       ; 03BCFF 85 1D 
   JSL L_AFC2                                      ; 03BD01 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03BD05 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BD05 4C 41 81 
 B_3BD08:
   DEC.W $06C6                                     ; 03BD08 CE C6 06 
   LDA.W EntityV20,X                                   ; 03BD0B BD BA 0F 
@@ -5051,7 +5051,7 @@ B_3BD30:
 .byte $A9,$01,$8D,$2F,$05                         ; 03BD6A .....    ???/?
 
 B_3BD6E:
-  JMP.W D_38141                                   ; 03BD6E 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03BD6E 4C 41 81 
 
 D_3BD71:
 .byte $06,$07,$08,$09,$0A,$AD,$DE,$05             ; 03BD71 D....... ????????
@@ -5295,7 +5295,7 @@ B_3C221:
   LDA.B #$09                                      ; 03C228 A9 09 
   STA.B $1D                                       ; 03C22A 85 1D 
   JSL L_AFC2                                      ; 03C22C 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03C230 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03C230 4C 41 81 
   LDA.B #$04                                      ; 03C233 A9 04 
   JSR.W L_38195                                   ; 03C235 20 95 81 
   LDA.W EntityV6,X                                   ; 03C238 BD 7E 09 
@@ -5455,7 +5455,7 @@ B_3C356:
   LDA.B #$09                                      ; 03C35A A9 09 
   STA.B $1D                                       ; 03C35C 85 1D 
   JSL L_AFC2                                      ; 03C35E 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03C362 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03C362 4C 41 81 
 
 D_3C365:
 .byte $0D,$0E,$0F,$10,$12,$14,$16,$18             ; 03C365 DDDDDDDD ????????
@@ -5500,7 +5500,7 @@ B_3C387:
   JSL Audio_F830F                                     ; 03C3C4 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 03C3C8 E2 30 
   PLX                                             ; 03C3CA FA 
-  JMP.W D_38141                                   ; 03C3CB 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03C3CB 4C 41 81 
 D_3C3CE:
   LDA.B #$04                                      ; 03C3CE A9 04 
   JSR.W L_38195                                   ; 03C3D0 20 95 81 
@@ -5545,7 +5545,7 @@ B_3C404:
   LDA.B #$09                                      ; 03C40B A9 09 
   STA.B $1D                                       ; 03C40D 85 1D 
   JSL L_AFC2                                      ; 03C40F 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03C413 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03C413 4C 41 81 
 
 .byte $BD,$62,$0A,$30,$0C,$1D,$F0,$09             ; 03C416 ........ ?b?0????
 .byte $F0,$10,$BD,$9C,$0C,$C9,$1B,$B0             ; 03C41E ........ ????????
@@ -6139,7 +6139,7 @@ B_3C404:
   LDA.B #$10                                      ; 03D62A A9 10 
   STA.B $1D                                       ; 03D62C 85 1D 
   JSL L_AFC2                                      ; 03D62E 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03D632 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D632 4C 41 81 
 B_3D635:
   STZ.W EntityHeader,X                                   ; 03D635 9E D2 06 
   PHX                                             ; 03D638 DA 
@@ -6159,7 +6159,7 @@ B_3D635:
 B_3D653:
   STA.W XexzyTorsoY,Y                             ; 03D653 99 09 03 
   PLX                                             ; 03D656 FA 
-  JMP.W D_38141                                   ; 03D657 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D657 4C 41 81 
   LDA.W $0694                                     ; 03D65A AD 94 06 
   STA.W EntityXPx,X                              ; 03D65D 9D 46 0B 
   LDA.W $069D                                     ; 03D660 AD 9D 06 
@@ -6232,7 +6232,7 @@ B_3D6F5:
 B_3D6FA:
   JSR.W L_3DB9D                                   ; 03D6FA 20 9D DB 
   JSL L_DEDA8                                     ; 03D6FD 22 A8 ED 0D 
-  JMP.W D_38141                                   ; 03D701 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D701 4C 41 81 
 
 D_3D704:
 .byte $40,$60,$80,$A0,$00,$C0,$00,$00             ; 03D704 DDDD.... @`??????
@@ -6265,7 +6265,7 @@ B_3D74E:
   LDA.B #$10                                      ; 03D752 A9 10 
   STA.B $1D                                       ; 03D754 85 1D 
   JSL L_AFC2                                      ; 03D756 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03D75A 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D75A 4C 41 81 
   LDA.B #$20                                      ; 03D75D A9 20 
   STA.W $0699                                     ; 03D75F 8D 99 06 
   LDA.W $0694                                     ; 03D762 AD 94 06 
@@ -6295,7 +6295,7 @@ B_3D78B:
   JSL L_3823C                                     ; 03D7A0 22 3C 82 03 
 B_3D7A4:
   JSR.W L_3DB9D                                   ; 03D7A4 20 9D DB 
-  JMP.W D_38141                                   ; 03D7A7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D7A7 4C 41 81 
 
 D_3D7AA:
 .byte $0E,$0F,$10,$0E,$0F,$10,$0E,$0F             ; 03D7AA ........ ????????
@@ -6325,7 +6325,7 @@ B_3D7DC:
   STZ.W EntityV14,X                                   ; 03D7EC 9E 0E 0D 
   JSR.W L_3DB9D                                   ; 03D7EF 20 9D DB 
   JSL L_DEDA8                                     ; 03D7F2 22 A8 ED 0D 
-  JMP.W D_38141                                   ; 03D7F6 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D7F6 4C 41 81 
   LDA.W $0694                                     ; 03D7F9 AD 94 06 
   STA.W EntityXPx,X                              ; 03D7FC 9D 46 0B 
   LDA.W $0695                                     ; 03D7FF AD 95 06 
@@ -6351,7 +6351,7 @@ B_3D814:
 B_3D82E:
   JSL L_DF118                                     ; 03D82E 22 18 F1 0D 
 B_3D832:
-  JMP.W D_38141                                   ; 03D832 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D832 4C 41 81 
   LDA.W $0694                                     ; 03D835 AD 94 06 
   STA.W EntityXPx,X                              ; 03D838 9D 46 0B 
   LDA.W $0695                                     ; 03D83B AD 95 06 
@@ -6378,7 +6378,7 @@ B_3D852:
 B_3D86C:
   JSL L_DF1CA                                     ; 03D86C 22 CA F1 0D 
 B_3D870:
-  JMP.W D_38141                                   ; 03D870 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D870 4C 41 81 
   LDA.W EntityHeader,X                                   ; 03D873 BD D2 06 
   AND.B #$40                                      ; 03D876 29 40 
   BEQ.B B_3D89E                                   ; 03D878 F0 24 
@@ -6423,7 +6423,7 @@ B_3D8AD:
 B_3D8D3:
   JSL L_DF118                                     ; 03D8D3 22 18 F1 0D 
 B_3D8D7:
-  JMP.W D_38141                                   ; 03D8D7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D8D7 4C 41 81 
   LDA.W EntityYPx,X                                   ; 03D8DA BD 9C 0C 
   CMP.B #$E6                                      ; 03D8DD C9 E6 
   BCC.B B_3D8E4                                   ; 03D8DF 90 03 
@@ -6510,7 +6510,7 @@ B_3D975:
   LDA.B #$08                                      ; 03D979 A9 08 
   STA.B $1D                                       ; 03D97B 85 1D 
   JSL L_AFC2                                      ; 03D97D 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03D981 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D981 4C 41 81 
 D_3D984:
   STZ.W EntityHeader,X                                   ; 03D984 9E D2 06 
   PHX                                             ; 03D987 DA 
@@ -6530,7 +6530,7 @@ D_3D984:
 B_3D9A2:
   STA.W XexzyTorsoY,Y                             ; 03D9A2 99 09 03 
   PLX                                             ; 03D9A5 FA 
-  JMP.W D_38141                                   ; 03D9A6 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D9A6 4C 41 81 
 
 D_3D9A9:
 .byte $00,$01,$02,$00,$00,$FF,$FE,$00             ; 03D9A9 DDDDDDDD ????????
@@ -6578,7 +6578,7 @@ B_3D9E2:
   LDA.B #$08                                      ; 03D9EE A9 08 
   STA.B $1D                                       ; 03D9F0 85 1D 
   JSL L_AFC2                                      ; 03D9F2 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03D9F6 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03D9F6 4C 41 81 
 B_3D9F9:
   STZ.W EntityHeader,X                                   ; 03D9F9 9E D2 06 
   PHX                                             ; 03D9FC DA 
@@ -6598,7 +6598,7 @@ B_3D9F9:
 B_3DA17:
   STA.W XexzyTorsoY,Y                             ; 03DA17 99 09 03 
   PLX                                             ; 03DA1A FA 
-  JMP.W D_38141                                   ; 03DA1B 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03DA1B 4C 41 81 
 
 L_3DA1E:
   PHX                                             ; 03DA1E DA 
@@ -6835,7 +6835,7 @@ B_3DC50:
   JSR.W L_3DFBF                                   ; 03DC50 20 BF DF 
   JSR.W L_3E180                                   ; 03DC53 20 80 E1 
   JSR.W L_3E132                                   ; 03DC56 20 32 E1 
-  JMP.W D_38141                                   ; 03DC59 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03DC59 4C 41 81 
   JSL L_CFB81                                     ; 03DC5C 22 81 FB 0C 
   DEC.W EntityV15,X                                   ; 03DC60 DE 80 0D 
   BNE.B B_3DC81                                   ; 03DC63 D0 1C 
@@ -6857,7 +6857,7 @@ B_3DC81:
   JSR.W L_3DFBF                                   ; 03DC8B 20 BF DF 
   JSR.W L_3E180                                   ; 03DC8E 20 80 E1 
   JSR.W L_3E132                                   ; 03DC91 20 32 E1 
-  JMP.W D_38141                                   ; 03DC94 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03DC94 4C 41 81 
 
 D_3DC97:
 .byte $01,$00,$00,$01,$00,$01,$00,$00             ; 03DC97 DDDDDDDD ????????
@@ -6924,7 +6924,7 @@ B_3DD21:
   JSR.W L_3DFBF                                   ; 03DD2B 20 BF DF 
   JSR.W L_3E180                                   ; 03DD2E 20 80 E1 
   JSR.W L_3E132                                   ; 03DD31 20 32 E1 
-  JMP.W D_38141                                   ; 03DD34 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03DD34 4C 41 81 
 
 D_3DD37:
 .byte $E8,$B0,$A8,$40,$E8,$A0,$88,$40             ; 03DD37 D...DDDD ???@???@
@@ -6998,7 +6998,7 @@ B_3DDDC:
   JSR.W L_3DFBF                                   ; 03DDE6 20 BF DF 
   JSR.W L_3E180                                   ; 03DDE9 20 80 E1 
   JSR.W L_3E132                                   ; 03DDEC 20 32 E1 
-  JMP.W D_38141                                   ; 03DDEF 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03DDEF 4C 41 81 
 
 D_3DDF2:
 .byte $00,$FF,$01,$01,$FF,$00,$FF,$01             ; 03DDF2 DDDDDDDD ????????
@@ -7025,7 +7025,7 @@ B_3DE25:
   JSR.W L_3DFBF                                   ; 03DE25 20 BF DF 
   JSR.W L_3E180                                   ; 03DE28 20 80 E1 
   JSR.W L_3E132                                   ; 03DE2B 20 32 E1 
-  JMP.W D_38141                                   ; 03DE2E 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03DE2E 4C 41 81 
 
 .byte $A9,$20,$8D,$99,$06,$DE,$80,$0D             ; 03DE31 ........ ? ??????
 .byte $D0,$19,$A9,$79,$9D,$44,$07,$A9             ; 03DE39 ........ ???y?D??
@@ -7673,7 +7673,7 @@ B_3E543:
   BNE.B B_3E55A                                   ; 03E550 D0 08 
   LDA.B #$85                                      ; 03E552 A9 85 
   STA.W EntityTypeId,X                                   ; 03E554 9D 44 07 
-  JMP.W D_38141                                   ; 03E557 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E557 4C 41 81 
 B_3E55A:
   LDY.B #$00                                      ; 03E55A A0 00 
   JSR.W L_3E6CA                                   ; 03E55C 20 CA E6 
@@ -7686,7 +7686,7 @@ B_3E55F:
   BEQ.B B_3E571                                   ; 03E56B F0 04 
   JSL L_DF118                                     ; 03E56D 22 18 F1 0D 
 B_3E571:
-  JMP.W D_38141                                   ; 03E571 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E571 4C 41 81 
   LDA.W EntityHeader,X                                   ; 03E574 BD D2 06 
   AND.B #$40                                      ; 03E577 29 40 
   BEQ.B B_3E59F                                   ; 03E579 F0 24 
@@ -7731,7 +7731,7 @@ B_3E5AE:
 B_3E5D4:
   JSL L_DF1CA                                     ; 03E5D4 22 CA F1 0D 
 B_3E5D8:
-  JMP.W D_38141                                   ; 03E5D8 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E5D8 4C 41 81 
   LDA.W $0694                                     ; 03E5DB AD 94 06 
   STA.W EntityXPx,X                              ; 03E5DE 9D 46 0B 
   LDA.W $0695                                     ; 03E5E1 AD 95 06 
@@ -7750,7 +7750,7 @@ B_3E5F2:
   BNE.B B_3E609                                   ; 03E5FF D0 08 
   LDA.B #$86                                      ; 03E601 A9 86 
   STA.W EntityTypeId,X                                   ; 03E603 9D 44 07 
-  JMP.W D_38141                                   ; 03E606 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E606 4C 41 81 
 B_3E609:
   LDY.B #$01                                      ; 03E609 A0 01 
   JSR.W L_3E6CA                                   ; 03E60B 20 CA E6 
@@ -7763,7 +7763,7 @@ B_3E60E:
   BEQ.B B_3E620                                   ; 03E61A F0 04 
   JSL L_DF1CA                                     ; 03E61C 22 CA F1 0D 
 B_3E620:
-  JMP.W D_38141                                   ; 03E620 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E620 4C 41 81 
   LDA.W $0694                                     ; 03E623 AD 94 06 
   STA.W EntityXPx,X                              ; 03E626 9D 46 0B 
   LDA.W $0695                                     ; 03E629 AD 95 06 
@@ -7776,7 +7776,7 @@ B_3E620:
   BEQ.B B_3E641                                   ; 03E63B F0 04 
   JSL L_DF118                                     ; 03E63D 22 18 F1 0D 
 B_3E641:
-  JMP.W D_38141                                   ; 03E641 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E641 4C 41 81 
   LDA.W $0694                                     ; 03E644 AD 94 06 
   STA.W EntityXPx,X                              ; 03E647 9D 46 0B 
   LDA.W $0695                                     ; 03E64A AD 95 06 
@@ -7789,7 +7789,7 @@ B_3E641:
   BEQ.B B_3E662                                   ; 03E65C F0 04 
   JSL L_DF1CA                                     ; 03E65E 22 CA F1 0D 
 B_3E662:
-  JMP.W D_38141                                   ; 03E662 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E662 4C 41 81 
 
 .byte $4C,$41,$81,$4C,$41,$81,$4C,$41             ; 03E665 ........ LA?LA?LA
 .byte $81,$4C,$41,$81                             ; 03E66E ....     ?LA?
@@ -7810,7 +7810,7 @@ B_3E686:
   LDA.B #$10                                      ; 03E68A A9 10 
   STA.B $1D                                       ; 03E68C 85 1D 
   JSL L_AFC2                                      ; 03E68E 22 C2 AF 00 
-  JMP.W D_38141                                   ; 03E692 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E692 4C 41 81 
 B_3E695:
   STZ.W EntityHeader,X                                   ; 03E695 9E D2 06 
   PHX                                             ; 03E698 DA 
@@ -7838,7 +7838,7 @@ B_3E6A7:
 B_3E6C3:
   STA.W XexzyTorsoY,Y                             ; 03E6C3 99 09 03 
   PLX                                             ; 03E6C6 FA 
-  JMP.W D_38141                                   ; 03E6C7 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03E6C7 4C 41 81 
 
 L_3E6CA:
   PHX                                             ; 03E6CA DA 
@@ -8263,7 +8263,7 @@ B_3EA5D:
 B_3EA6A:
   STA.W EntityV35,X                                   ; 03EA6A 9D 6C 16 
   JSR.W L_3F0E3                                   ; 03EA6D 20 E3 F0 
-  JMP.W D_38141                                   ; 03EA70 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03EA70 4C 41 81 
 
 D_3EA73:
 .byte $00,$01,$00,$01                             ; 03EA74 DD.D     ????
@@ -8337,7 +8337,7 @@ B_3EAE3:
 B_3EAF0:
   STA.W EntityV35,X                                   ; 03EAF0 9D 6C 16 
   JSR.W L_3F0E3                                   ; 03EAF3 20 E3 F0 
-  JMP.W D_38141                                   ; 03EAF6 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03EAF6 4C 41 81 
 
 .byte $4C,$41,$81                                 ; 03EAFA ...      LA?
 
@@ -8401,7 +8401,7 @@ B_3EB56:
 B_3EB63:
   STA.W EntityV35,X                                   ; 03EB63 9D 6C 16 
   JSR.W L_3EDA3                                   ; 03EB66 20 A3 ED 
-  JMP.W D_38141                                   ; 03EB69 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03EB69 4C 41 81 
   DEC.W EntityV15,X                                   ; 03EB6C DE 80 0D 
   BNE.B B_3EBB4                                   ; 03EB6F D0 43 
   LDA.B #$08                                      ; 03EB71 A9 08 
@@ -8472,7 +8472,7 @@ B_3EBD8:
 B_3EBE5:
   STA.W EntityV35,X                                   ; 03EBE5 9D 6C 16 
   JSR.W L_3EDA3                                   ; 03EBE8 20 A3 ED 
-  JMP.W D_38141                                   ; 03EBEB 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03EBEB 4C 41 81 
 
 D_3EBEE:
 .byte $01,$02,$02,$03,$03,$04,$03,$05             ; 03EBEE DDD.DDDD ????????
@@ -8535,7 +8535,7 @@ B_3EC50:
 B_3EC5D:
   STA.W EntityV35,X                                   ; 03EC5D 9D 6C 16 
   JSR.W L_3EDA3                                   ; 03EC60 20 A3 ED 
-  JMP.W D_38141                                   ; 03EC63 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03EC63 4C 41 81 
 
 D_3EC66:
 .byte $05,$06,$07,$08,$09,$0A,$0B,$08             ; 03EC66 .DDD..DD ????????
@@ -8575,7 +8575,7 @@ B_3ECB3:
   LDA.W EntityYPx,Y                                   ; 03ECBC B9 9C 0C 
   STA.W EntityYPx,X                                   ; 03ECBF 9D 9C 0C 
   JSR.W L_3EDA3                                   ; 03ECC2 20 A3 ED 
-  JMP.W D_38141                                   ; 03ECC5 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03ECC5 4C 41 81 
   DEC.W EntityV15,X                                   ; 03ECC8 DE 80 0D 
   BNE.B B_3ED2D                                   ; 03ECCB D0 60 
   JSL AdvanceRNG                                     ; 03ECCD 22 95 CA 0E 
@@ -8627,7 +8627,7 @@ B_3ED2D:
   LDA.W EntityYPx,Y                                   ; 03ED36 B9 9C 0C 
   STA.W EntityYPx,X                                   ; 03ED39 9D 9C 0C 
   JSR.W L_3EDA3                                   ; 03ED3C 20 A3 ED 
-  JMP.W D_38141                                   ; 03ED3F 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03ED3F 4C 41 81 
 
 D_3ED42:
 .byte $01,$FF                                     ; 03ED43 DD       ??
@@ -8658,7 +8658,7 @@ B_3ED8E:
   LDA.W EntityYPx,Y                                   ; 03ED97 B9 9C 0C 
   STA.W EntityYPx,X                                   ; 03ED9A 9D 9C 0C 
   JSR.W L_3EDA3                                   ; 03ED9D 20 A3 ED 
-  JMP.W D_38141                                   ; 03EDA0 4C 41 81 
+  JMP.W AdvanceToNextEntity                                   ; 03EDA0 4C 41 81 
 
 L_3EDA3:
   SEC                                             ; 03EDA3 38 
