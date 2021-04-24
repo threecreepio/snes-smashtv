@@ -403,7 +403,7 @@ B_8329:
   JSR.W L_94A2                                    ; 00837F 20 A2 94 
   LDX.B #$01                                      ; 008382 A2 01 
   JSL L_ACE4                                      ; 008384 22 E4 AC 00 
-  JSL L_F414                                      ; 008388 22 14 F4 00 
+  JSL GameDrawScoreboard                                      ; 008388 22 14 F4 00 
   LDA.B #$01                                      ; 00838C A9 01 
   STA.W $19D3                                     ; 00838E 8D D3 19 
   STA.W $19D4                                     ; 008391 8D D4 19 
@@ -4481,7 +4481,7 @@ L_AB65:
   LDY.B #$0E                                      ; 00AB8E A0 0E 
 B_AB90:
   LDA.B ($06),Y                                   ; 00AB90 B1 06 
-  STA.W $0534,X                                   ; 00AB92 9D 34 05 
+  STA.W VRAM_Player1ScoreRow1,X                                   ; 00AB92 9D 34 05 
   INX                                             ; 00AB95 E8 
   INX                                             ; 00AB96 E8 
   DEY                                             ; 00AB97 88 
@@ -4495,7 +4495,7 @@ B_AB90:
   LDY.B #$0E                                      ; 00ABA5 A0 0E 
 B_ABA7:
   LDA.B ($06),Y                                   ; 00ABA7 B1 06 
-  STA.W $0544,X                                   ; 00ABA9 9D 44 05 
+  STA.W VRAM_Player1ScoreRow2,X                                   ; 00ABA9 9D 44 05 
   INX                                             ; 00ABAC E8 
   INX                                             ; 00ABAD E8 
   DEY                                             ; 00ABAE 88 
@@ -4712,7 +4712,7 @@ B_AD61:
   STZ.B $B4                                       ; 00AD66 64 B4 
   LDY.B #$07                                      ; 00AD68 A0 07 
 B_AD6A:
-  LDA.W XexzyScore,Y                              ; 00AD6A B9 97 00 
+  LDA.W PlayerCurrentScore,Y                              ; 00AD6A B9 97 00 
   ASL                                             ; 00AD6D 0A 
   TAX                                             ; 00AD6E AA 
   PHY                                             ; 00AD6F 5A 
@@ -4720,10 +4720,10 @@ B_AD6A:
   ASL                                             ; 00AD71 0A 
   TAY                                             ; 00AD72 A8 
   REP.B #P_Acc8Bit                                      ; 00AD73 C2 20 
-  LDA.L D_F8EF,X                                  ; 00AD75 BF EF F8 00 
-  STA.W $0534,Y                                   ; 00AD79 99 34 05 
-  LDA.L D_F92F,X                                  ; 00AD7C BF 2F F9 00 
-  STA.W $0544,Y                                   ; 00AD80 99 44 05 
+  LDA.L ScoreDigitRow1Tiles,X                                  ; 00AD75 BF EF F8 00 
+  STA.W VRAM_Player1ScoreRow1,Y                                   ; 00AD79 99 34 05 
+  LDA.L ScoreDigitRow2Tiles,X                                  ; 00AD7C BF 2F F9 00 
+  STA.W VRAM_Player1ScoreRow2,Y                                   ; 00AD80 99 44 05 
   SEP.B #P_Acc8Bit                                      ; 00AD83 E2 20 
   PLY                                             ; 00AD85 7A 
   DEY                                             ; 00AD86 88 
@@ -4741,7 +4741,7 @@ B_AD96:
   STZ.B $B5                                       ; 00AD9B 64 B5 
   LDY.B #$07                                      ; 00AD9D A0 07 
 B_AD9F:
-  LDA.W $009F,Y                                   ; 00AD9F B9 9F 00 
+  LDA.W Player2CurrentScore,Y                                   ; 00AD9F B9 9F 00 
   ASL                                             ; 00ADA2 0A 
   TAX                                             ; 00ADA3 AA 
   PHY                                             ; 00ADA4 5A 
@@ -4749,10 +4749,10 @@ B_AD9F:
   ASL                                             ; 00ADA6 0A 
   TAY                                             ; 00ADA7 A8 
   REP.B #P_Acc8Bit                                      ; 00ADA8 C2 20 
-  LDA.L D_F8EF,X                                  ; 00ADAA BF EF F8 00 
-  STA.W $0554,Y                                   ; 00ADAE 99 54 05 
-  LDA.L D_F92F,X                                  ; 00ADB1 BF 2F F9 00 
-  STA.W $0564,Y                                   ; 00ADB5 99 64 05 
+  LDA.L ScoreDigitRow1Tiles,X                                  ; 00ADAA BF EF F8 00 
+  STA.W VRAM_Player2ScoreRow1,Y                                   ; 00ADAE 99 54 05 
+  LDA.L ScoreDigitRow2Tiles,X                                  ; 00ADB1 BF 2F F9 00 
+  STA.W VRAM_Player2ScoreRow2,Y                                   ; 00ADB5 99 64 05 
   SEP.B #P_Acc8Bit                                      ; 00ADB8 E2 20 
   PLY                                             ; 00ADBA 7A 
   DEY                                             ; 00ADBB 88 
@@ -9674,7 +9674,7 @@ L_E454:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00E455 E2 30 
   LDX.B #$0F                                      ; 00E457 A2 0F 
 B_E459:
-  STZ.B XexzyScore,X                              ; 00E459 74 97 
+  STZ.B PlayerCurrentScore,X                              ; 00E459 74 97 
   DEX                                             ; 00E45B CA 
   BPL.B B_E459                                    ; 00E45C 10 FB 
   PLP                                             ; 00E45E 28 
@@ -9684,104 +9684,102 @@ B_E459:
 .byte $CA,$10,$FA,$28,$6B                         ; 00E469 .....    ???(k
 
 
-L_E46D:
-  PHX                                             ; 00E46D DA 
-  ASL                                             ; 00E46E 0A 
-  ASL                                             ; 00E46F 0A 
-  ASL                                             ; 00E470 0A 
-  TAX                                             ; 00E471 AA 
-  LDA.B $A7                                       ; 00E472 A5 A7 
-  AND.B #$0F                                      ; 00E474 29 0F 
-  STA.B $AA                                       ; 00E476 85 AA 
-  LDA.B $A7                                       ; 00E478 A5 A7 
-  LSR                                             ; 00E47A 4A 
-  LSR                                             ; 00E47B 4A 
-  LSR                                             ; 00E47C 4A 
-  LSR                                             ; 00E47D 4A 
-  STA.B $AB                                       ; 00E47E 85 AB 
-  LDA.B $A8                                       ; 00E480 A5 A8 
-  AND.B #$0F                                      ; 00E482 29 0F 
-  STA.B $AC                                       ; 00E484 85 AC 
-  LDA.B $A8                                       ; 00E486 A5 A8 
-  LSR                                             ; 00E488 4A 
-  LSR                                             ; 00E489 4A 
-  LSR                                             ; 00E48A 4A 
-  LSR                                             ; 00E48B 4A 
-  STA.B $AD                                       ; 00E48C 85 AD 
-  LDA.B $A9                                       ; 00E48E A5 A9 
-  AND.B #$0F                                      ; 00E490 29 0F 
-  STA.B $AE                                       ; 00E492 85 AE 
-  LDA.B $A9                                       ; 00E494 A5 A9 
-  LSR                                             ; 00E496 4A 
-  LSR                                             ; 00E497 4A 
-  LSR                                             ; 00E498 4A 
-  LSR                                             ; 00E499 4A 
-  STA.B $AF                                       ; 00E49A 85 AF 
-  CLC                                             ; 00E49C 18 
-  LDA.B XexzyScore,X                              ; 00E49D B5 97 
-  ADC.B $AA                                       ; 00E49F 65 AA 
-  CMP.B #$0A                                      ; 00E4A1 C9 0A 
-  BCC.B B_E4A7                                    ; 00E4A3 90 02 
-
-.byte $E9,$0A                                     ; 00E4A6 ..       ??
-
-B_E4A7:
-  STA.B XexzyScore,X                              ; 00E4A7 95 97 
-  LDA.B $98,X                                     ; 00E4A9 B5 98 
-  ADC.B $AB                                       ; 00E4AB 65 AB 
-  CMP.B #$0A                                      ; 00E4AD C9 0A 
-  BCC.B B_E4B3                                    ; 00E4AF 90 02 
-  SBC.B #$0A                                      ; 00E4B1 E9 0A 
-B_E4B3:
-  STA.B $98,X                                     ; 00E4B3 95 98 
-  LDA.B $99,X                                     ; 00E4B5 B5 99 
-  ADC.B $AC                                       ; 00E4B7 65 AC 
-  CMP.B #$0A                                      ; 00E4B9 C9 0A 
-  BCC.B B_E4BF                                    ; 00E4BB 90 02 
-  SBC.B #$0A                                      ; 00E4BD E9 0A 
-B_E4BF:
-  STA.B $99,X                                     ; 00E4BF 95 99 
-  LDA.B $9A,X                                     ; 00E4C1 B5 9A 
-  ADC.B $AD                                       ; 00E4C3 65 AD 
-  CMP.B #$0A                                      ; 00E4C5 C9 0A 
-  BCC.B B_E4CB                                    ; 00E4C7 90 02 
-  SBC.B #$0A                                      ; 00E4C9 E9 0A 
-B_E4CB:
-  STA.B $9A,X                                     ; 00E4CB 95 9A 
-  LDA.B $9B,X                                     ; 00E4CD B5 9B 
-  ADC.B $AE                                       ; 00E4CF 65 AE 
-  CMP.B #$0A                                      ; 00E4D1 C9 0A 
-  BCC.B B_E4D7                                    ; 00E4D3 90 02 
-  SBC.B #$0A                                      ; 00E4D5 E9 0A 
-B_E4D7:
-  STA.B $9B,X                                     ; 00E4D7 95 9B 
-  LDA.B $9C,X                                     ; 00E4D9 B5 9C 
-  ADC.B $AF                                       ; 00E4DB 65 AF 
-  CMP.B #$0A                                      ; 00E4DD C9 0A 
-  BCC.B B_E4E3                                    ; 00E4DF 90 02 
-  SBC.B #$0A                                      ; 00E4E1 E9 0A 
-B_E4E3:
-  STA.B $9C,X                                     ; 00E4E3 95 9C 
-  LDA.B $9D,X                                     ; 00E4E5 B5 9D 
-  ADC.B #$00                                      ; 00E4E7 69 00 
-  CMP.B #$0A                                      ; 00E4E9 C9 0A 
-  BCC.B B_E4EF                                    ; 00E4EB 90 02 
-
-.byte $E9,$0A                                     ; 00E4EE ..       ??
-
-B_E4EF:
-  STA.B $9D,X                                     ; 00E4EF 95 9D 
-  LDA.B $9E,X                                     ; 00E4F1 B5 9E 
-  ADC.B #$00                                      ; 00E4F3 69 00 
-  CMP.B #$0A                                      ; 00E4F5 C9 0A 
-  BCC.B B_E4FB                                    ; 00E4F7 90 02 
-
-.byte $E9,$0A                                     ; 00E4FA ..       ??
-
-B_E4FB:
-  STA.B $9E,X                                     ; 00E4FB 95 9E 
-  PLX                                             ; 00E4FD FA 
-  RTL                                             ; 00E4FE 6B 
+IncreasePlayerScoreTmp = $AA
+IncreasePlayerScoreArg = $A7
+; increase player score takes 3 bytes of data in A7, A8, A9.
+IncreasePlayerScore:
+  phx
+  asl
+  asl
+  asl
+  tax
+  lda IncreasePlayerScoreArg
+  and #$0F
+  sta IncreasePlayerScoreTmp
+  lda IncreasePlayerScoreArg
+  lsr
+  lsr
+  lsr
+  lsr
+  sta IncreasePlayerScoreTmp+1
+  lda IncreasePlayerScoreArg+1
+  and #$0F
+  sta IncreasePlayerScoreTmp+2
+  lda IncreasePlayerScoreArg+1
+  lsr
+  lsr
+  lsr
+  lsr
+  sta IncreasePlayerScoreTmp+3
+  lda IncreasePlayerScoreArg+2
+  and #$0F
+  sta IncreasePlayerScoreTmp+4
+  lda IncreasePlayerScoreArg+2
+  lsr
+  lsr
+  lsr
+  lsr
+  sta IncreasePlayerScoreTmp+5
+  clc
+@Add1s:
+  lda PlayerCurrentScore+0,X
+  adc IncreasePlayerScoreTmp+0
+  cmp #10
+  bcc @Add10s
+  sbc #10
+@Add10s:
+  sta PlayerCurrentScore+0,X
+  lda PlayerCurrentScore+1,X
+  adc IncreasePlayerScoreTmp+1
+  cmp #10
+  bcc @Add100s
+  sbc #10
+@Add100s:
+  sta PlayerCurrentScore+1,X
+  lda PlayerCurrentScore+2,X
+  adc IncreasePlayerScoreTmp+2
+  cmp #10
+  bcc @Add1000s
+  sbc #10
+@Add1000s:
+  sta PlayerCurrentScore+2,X
+  lda PlayerCurrentScore+3,X
+  adc IncreasePlayerScoreTmp+3
+  cmp #10
+  bcc @Add10000s
+  sbc #10
+@Add10000s:
+  sta PlayerCurrentScore+3,X
+  lda PlayerCurrentScore+4,X
+  adc IncreasePlayerScoreTmp+4
+  cmp #10
+  bcc @Add100000s
+  sbc #10
+@Add100000s:
+  sta PlayerCurrentScore+4,X
+  lda PlayerCurrentScore+5,X
+  adc IncreasePlayerScoreTmp+5
+  cmp #10
+  bcc @Add1000000s
+  sbc #10
+@Add1000000s:
+  sta PlayerCurrentScore+5,X
+  lda PlayerCurrentScore+6,X
+  adc #0
+  cmp #10
+  bcc @Add10000000s
+  sbc #10
+@Add10000000s:
+  sta PlayerCurrentScore+6,X
+  lda PlayerCurrentScore+7,X
+  adc #0
+  cmp #10
+  bcc @Add100000000s
+  sbc #10
+@Add100000000s:
+  sta PlayerCurrentScore+7,X
+  plx
+  rtl
 
 .byte $DA,$0A,$0A,$0A,$AA,$A5,$A7,$29             ; 00E4FF ........ ???????)
 .byte $0F,$85,$AA,$A5,$A7,$4A,$4A,$4A             ; 00E507 ........ ?????JJJ
@@ -10350,7 +10348,7 @@ GameSceneNMIHandler:
   JSR.W L_F607                                    ; 00F059 20 07 F6 
   JSL L_EF822                                     ; 00F05C 22 22 F8 0E 
   JSR.W L_F666                                    ; 00F060 20 66 F6 
-  JSL L_F414                                      ; 00F063 22 14 F4 00 
+  JSL GameDrawScoreboard                                      ; 00F063 22 14 F4 00 
   JSL L_F318                                      ; 00F067 22 18 F3 00 
   JSR.W L_F3B2                                    ; 00F06B 20 B2 F3 
   JSR.W L_F5AD                                    ; 00F06E 20 AD F5 
@@ -10757,7 +10755,7 @@ B_F412:
   RTS                                             ; 00F413 60 
 
 
-L_F414:
+GameDrawScoreboard:
   PHP                                             ; 00F414 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00F415 E2 30 
   LDA.B #$80                                      ; 00F417 A9 80 
@@ -10769,7 +10767,7 @@ L_F414:
   STA.W VMADDL                                    ; 00F424 8D 16 21 
   LDY.B #$0E                                      ; 00F427 A0 0E 
 B_F429:
-  LDA.W $0534,Y                                   ; 00F429 B9 34 05 
+  LDA.W VRAM_Player1ScoreRow1,Y                                   ; 00F429 B9 34 05 
   STA.W VMDATAL                                   ; 00F42C 8D 18 21 
   DEY                                             ; 00F42F 88 
   DEY                                             ; 00F430 88 
@@ -10780,7 +10778,7 @@ B_F429:
   STA.W VMADDL                                    ; 00F439 8D 16 21 
   LDY.B #$0E                                      ; 00F43C A0 0E 
 B_F43E:
-  LDA.W $0544,Y                                   ; 00F43E B9 44 05 
+  LDA.W VRAM_Player1ScoreRow2,Y                                   ; 00F43E B9 44 05 
   STA.W VMDATAL                                   ; 00F441 8D 18 21 
   DEY                                             ; 00F444 88 
   DEY                                             ; 00F445 88 
@@ -10795,7 +10793,7 @@ B_F44C:
   STA.W VMADDL                                    ; 00F454 8D 16 21 
   LDY.B #$0E                                      ; 00F457 A0 0E 
 B_F459:
-  LDA.W $0554,Y                                   ; 00F459 B9 54 05 
+  LDA.W VRAM_Player2ScoreRow1,Y                                   ; 00F459 B9 54 05 
   STA.W VMDATAL                                   ; 00F45C 8D 18 21 
   DEY                                             ; 00F45F 88 
   DEY                                             ; 00F460 88 
@@ -10806,7 +10804,7 @@ B_F459:
   STA.W VMADDL                                    ; 00F469 8D 16 21 
   LDY.B #$0E                                      ; 00F46C A0 0E 
 B_F46E:
-  LDA.W $0564,Y                                   ; 00F46E B9 64 05 
+  LDA.W VRAM_Player2ScoreRow2,Y                                   ; 00F46E B9 64 05 
   STA.W VMDATAL                                   ; 00F471 8D 18 21 
   DEY                                             ; 00F474 88 
   DEY                                             ; 00F475 88 
@@ -11147,24 +11145,78 @@ D_F871:
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8D9 ........ ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F8E1 ........ ????????
 .byte $00,$00,$00,$00,$00,$00                     ; 00F8EA ......   ??????
-D_F8EF:
-.byte $5D,$00,$5E,$00,$5F,$00,$60,$00             ; 00F8EF DDDDDDDD ]?^?_?`?
-.byte $61,$00,$62,$00,$63,$00,$64,$00             ; 00F8F7 DDDDDDDD a?b?c?d?
-.byte $65,$00,$66,$00,$01,$04,$02,$04             ; 00F8FF DDDD.... e?f?????
-.byte $03,$04,$04,$04,$05,$04,$05,$04             ; 00F907 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F90F ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F917 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F91F ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F927 ........ ????????
-D_F92F:
-.byte $67,$00,$68,$00,$69,$00,$6A,$00             ; 00F92F DDDDDDDD g?h?i?j?
-.byte $6B,$00,$6A,$00,$6C,$00,$6D,$00             ; 00F937 DDDDDDDD k?j?l?m?
-.byte $6E,$00,$6F,$00,$1A,$04,$1B,$04             ; 00F93F DDDD.... n?o?????
-.byte $03,$84,$04,$84,$05,$84,$1C,$04             ; 00F947 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F94F ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F957 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F95F ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00F967 ........ ????????
+
+
+ScoreDigitRow1Tiles:
+.word $005D
+.word $005E
+.word $005F
+.word $0060
+.word $0061
+.word $0062
+.word $0063
+.word $0064
+.word $0065
+.word $0066
+.word $0401
+.word $0402
+.word $0403
+.word $0404
+.word $0405
+.word $0405
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+
+ScoreDigitRow2Tiles:
+.word $0067
+.word $0068
+.word $0069
+.word $006A
+.word $006B
+.word $006A
+.word $006C
+.word $006D
+.word $006E
+.word $006F
+.word $041A
+.word $041B
+.word $8403
+.word $8404
+.word $8405
+.word $041C
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+.word $0000
+
+
+
 .byte $70,$04,$71,$04,$72,$04,$73,$04             ; 00F96F DDDDDDDD p?q?r?s?
 .byte $74,$04,$75,$04,$76,$04,$77,$04             ; 00F977 DDDDDDDD t?u?v?w?
 .byte $78,$04,$79,$04,$7A,$04,$7B,$04             ; 00F97F DDDDDDDD x?y?z?{?

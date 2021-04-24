@@ -4625,9 +4625,9 @@ L_EE1D3:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE1D9 E2 30 
   LDX.B #$07                                      ; 0EE1DB A2 07 
 B_EE1DD:
-  LDA.B XexzyScore,X                              ; 0EE1DD B5 97 
+  LDA.B PlayerCurrentScore,X                              ; 0EE1DD B5 97 
   STA.L D_7E209A,X                                ; 0EE1DF 9F 9A 20 7E 
-  LDA.B $9F,X                                     ; 0EE1E3 B5 9F 
+  LDA.B PlayerCurrentScore+8,X                                     ; 0EE1E3 B5 9F 
   STA.L D_7E20A6,X                                ; 0EE1E5 9F A6 20 7E 
   DEX                                             ; 0EE1E9 CA 
   BPL.B B_EE1DD                                   ; 0EE1EA 10 F1 
@@ -4878,7 +4878,7 @@ L_EE3E6:
   LDX.B #$07                                      ; 0EE3F2 A2 07 
   LDA.B #$00                                      ; 0EE3F4 A9 00 
 B_EE3F6:
-  ORA.B XexzyScore,X                              ; 0EE3F6 15 97 
+  ORA.B PlayerCurrentScore,X                              ; 0EE3F6 15 97 
   DEX                                             ; 0EE3F8 CA 
   BPL.B B_EE3F6                                   ; 0EE3F9 10 FB 
   CMP.B #$00                                      ; 0EE3FB C9 00 
@@ -4888,7 +4888,7 @@ B_EE402:
   LDX.B #$07                                      ; 0EE402 A2 07 
   LDA.B #$00                                      ; 0EE404 A9 00 
 B_EE406:
-  ORA.B $9F,X                                     ; 0EE406 15 9F 
+  ORA.B PlayerCurrentScore+8,X                                     ; 0EE406 15 9F 
   DEX                                             ; 0EE408 CA 
   BPL.B B_EE406                                   ; 0EE409 10 FB 
   CMP.B #$00                                      ; 0EE40B C9 00 

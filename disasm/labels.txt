@@ -14,7 +14,7 @@ CF      FrameCounter
 6D4     XexzyWeaponOnFloorMaybe
 189D    XexzyAmmoCounter
 69A     XexzyMutoidHealth
-97      XexzyScore
+97      PlayerCurrentScore
 1886    XexzyWalkAnimation
 30D     XexzyLegY
 309     XexzyTorsoY

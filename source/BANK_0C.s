@@ -4095,7 +4095,7 @@ B_CFCDD:
   STZ.B $A9                                       ; 0CFCE8 64 A9 
   TXA                                             ; 0CFCEA 8A 
   PHA                                             ; 0CFCEB 48 
-  JSL L_E46D                                      ; 0CFCEC 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 0CFCEC 22 6D E4 00 
   PLA                                             ; 0CFCF0 68 
   LDY.W $069E                                     ; 0CFCF1 AC 9E 06 
   BEQ.B B_CFCFA                                   ; 0CFCF4 F0 04 

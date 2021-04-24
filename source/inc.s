@@ -98,6 +98,11 @@ DemoRunning = $1BF1
 
 NMIPending = $052D
 
+VRAM_Player1ScoreRow1 = $0534
+VRAM_Player1ScoreRow2 = $0544
+VRAM_Player2ScoreRow1 = $0554
+VRAM_Player2ScoreRow2 = $0564
+
 PlayerLives = $531
 PlayerContinues = $533
 
@@ -125,7 +130,8 @@ VRAMPalette = $1AF1
 XexzyItemLocationMaybe = $27
 XexzyItemXPickupMaybe = $28
 XexzyDropIndicator = $43
-XexzyScore = $97
+PlayerCurrentScore = $97
+Player2CurrentScore = $9F
 FrameCounter = $CF
 XexzyTorsoY = $309
 XexzyLegY = $30D

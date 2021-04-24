@@ -393,7 +393,7 @@ B_5835D:
   STZ.B $A8                                       ; 058367 64 A8 
   STZ.B $A9                                       ; 058369 64 A9 
   LDA.B $1E                                       ; 05836B A5 1E 
-  JSL L_E46D                                      ; 05836D 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05836D 22 6D E4 00 
   PLX                                             ; 058371 FA 
   JSL L_38094                                     ; 058372 22 94 80 03 
   LDA.B #$01                                      ; 058376 A9 01 
@@ -996,7 +996,7 @@ L_58844:
   STZ.B $A8                                       ; 058855 64 A8 
   STZ.B $A9                                       ; 058857 64 A9 
   TXA                                             ; 058859 8A 
-  JSL L_E46D                                      ; 05885A 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05885A 22 6D E4 00 
   STZ.W $18B4,X                                   ; 05885E 9E B4 18 
   STZ.W $18B8,X                                   ; 058861 9E B8 18 
   STZ.W $18B6,X                                   ; 058864 9E B6 18 
@@ -1799,7 +1799,7 @@ B_59156:
   BNE.B B_5917D                                   ; 059162 D0 19 
   LDY.B $1E                                       ; 059164 A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 059166 B9 FC 0F 
-  JSL L_E46D                                      ; 059169 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 059169 22 6D E4 00 
   LDA.W EntityTypeId+Projectiles,Y                                   ; 05916D B9 86 07 
   TAY                                             ; 059170 A8 
   LDA.W D_5918B-$32,Y                                 ; 059171 B9 58 91 
@@ -1811,7 +1811,7 @@ B_59179:
 
 B_5917D:
   LDA.B $1E                                       ; 05917D A5 1E 
-  JSL L_E46D                                      ; 05917F 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05917F 22 6D E4 00 
 B_59183:
   JSR.W L_58CED                                   ; 059183 20 ED 8C 
   JSR.W L_588AD                                   ; 059186 20 AD 88 
@@ -2060,11 +2060,11 @@ B_591D6:
   BNE.B B_597DA                                   ; 0597CC D0 0C 
   LDY.B $1E                                       ; 0597CE A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 0597D0 B9 FC 0F 
-  JSL L_E46D                                      ; 0597D3 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 0597D3 22 6D E4 00 
   JMP.W D_597E0                                   ; 0597D7 4C E0 97 
 B_597DA:
   LDA.B $1E                                       ; 0597DA A5 1E 
-  JSL L_E46D                                      ; 0597DC 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 0597DC 22 6D E4 00 
 D_597E0:
   STZ.B $41,X                                     ; 0597E0 74 41 
   DEC.W $18EC                                     ; 0597E2 CE EC 18 
@@ -2870,7 +2870,7 @@ B_59DF9:
   STA.B $A8                                       ; 059E17 85 A8 
   STZ.B $A9                                       ; 059E19 64 A9 
   LDA.B $1E                                       ; 059E1B A5 1E 
-  JSL L_E46D                                      ; 059E1D 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 059E1D 22 6D E4 00 
   LDA.B $1E                                       ; 059E21 A5 1E 
   STA.W EntityV20,X                                   ; 059E23 9D BA 0F 
   TAY                                             ; 059E26 A8 
@@ -2933,7 +2933,7 @@ B_59E7E:
   STA.B $A8                                       ; 059EA1 85 A8 
   STZ.B $A9                                       ; 059EA3 64 A9 
   LDA.B $1E                                       ; 059EA5 A5 1E 
-  JSL L_E46D                                      ; 059EA7 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 059EA7 22 6D E4 00 
 B_59EAB:
   LDA.B $1E                                       ; 059EAB A5 1E 
   STA.W EntityV20,X                                   ; 059EAD 9D BA 0F 
@@ -3036,7 +3036,7 @@ D_59F2D:
   LDA.B #$01                                      ; 059F94 A9 01 
   STA.B $A9                                       ; 059F96 85 A9 
   LDA.B $1E                                       ; 059F98 A5 1E 
-  JSL L_E46D                                      ; 059F9A 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 059F9A 22 6D E4 00 
   REP.B #P_Idx8Bit                                      ; 059F9E C2 10 
   LDA.B #$07                                      ; 059FA0 A9 07 
   LDX.W #$FF0F                                    ; 059FA2 A2 0F FF 
@@ -3094,7 +3094,7 @@ B_5A086:
   BNE.B B_5A0AE                                   ; 05A094 D0 18 
   LDY.B $1E                                       ; 05A096 A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A098 B9 FC 0F 
-  JSL L_E46D                                      ; 05A09B 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05A09B 22 6D E4 00 
   LDA.W EntityTypeId+Projectiles,Y                                   ; 05A09F B9 86 07 
   TAY                                             ; 05A0A2 A8 
   LDA.W D_5A0B1,Y                                 ; 05A0A3 B9 B1 A0 
@@ -3164,7 +3164,7 @@ B_5A111:
   BNE.B B_5A139                                   ; 05A11F D0 18 
   LDY.B $1E                                       ; 05A121 A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A123 B9 FC 0F 
-  JSL L_E46D                                      ; 05A126 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05A126 22 6D E4 00 
   LDA.W EntityTypeId+Projectiles,Y                                   ; 05A12A B9 86 07 
   TAY                                             ; 05A12D A8 
   LDA.W D_5A153-$32,Y                                 ; 05A12E B9 20 A1 
@@ -3371,7 +3371,7 @@ B_5A4B2:
   LDY.B $1E                                       ; 05A4DC A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A4DE B9 FC 0F 
   PHA                                             ; 05A4E1 48 
-  JSL L_E46D                                      ; 05A4E2 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05A4E2 22 6D E4 00 
   PLA                                             ; 05A4E6 68 
   LDY.W $069E                                     ; 05A4E7 AC 9E 06 
   BEQ.B B_5A4F0                                   ; 05A4EA F0 04 
@@ -3397,7 +3397,7 @@ B_5A4F0:
   LDY.B $1E                                       ; 05A50C A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A50E B9 FC 0F 
   PHA                                             ; 05A511 48 
-  JSL L_E46D                                      ; 05A512 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05A512 22 6D E4 00 
   PLA                                             ; 05A516 68 
   LDY.W $069E                                     ; 05A517 AC 9E 06 
   BEQ.B B_5A520                                   ; 05A51A F0 04 
@@ -3435,7 +3435,7 @@ B_5A520:
   LDY.B $1E                                       ; 05A54D A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A54F B9 FC 0F 
   PHA                                             ; 05A552 48 
-  JSL L_E46D                                      ; 05A553 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05A553 22 6D E4 00 
   PLA                                             ; 05A557 68 
   LDY.W $069E                                     ; 05A558 AC 9E 06 
   BEQ.B B_5A561                                   ; 05A55B F0 04 
@@ -3527,11 +3527,11 @@ B_5A5E1:
   STA.B $A9                                       ; 05A5F5 85 A9 
   LDY.B $1E                                       ; 05A5F7 A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A5F9 B9 FC 0F 
-  JSL L_E46D                                      ; 05A5FC 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05A5FC 22 6D E4 00 
   BRA.B B_5A608                                   ; 05A600 80 06 
 B_5A602:
   LDA.B $1E                                       ; 05A602 A5 1E 
-  JSL L_E46D                                      ; 05A604 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05A604 22 6D E4 00 
 B_5A608:
   LDY.W EntityV23,X                                   ; 05A608 BC 10 11 
   LDA.B #$00                                      ; 05A60B A9 00 
@@ -3611,7 +3611,7 @@ B_5A68E:
   STZ.B $A9                                       ; 05A6A3 64 A9 
   LDY.B $1E                                       ; 05A6A5 A4 1E 
   LDA.W EntityV20+Projectiles,Y                                   ; 05A6A7 B9 FC 0F 
-  JSL L_E46D                                      ; 05A6AA 22 6D E4 00 
+  JSL IncreasePlayerScore                                      ; 05A6AA 22 6D E4 00 
   LDY.W EntityV23,X                                   ; 05A6AE BC 10 11 
   LDA.B #$00                                      ; 05A6B1 A9 00 
   STA.W $1AAF,Y                                   ; 05A6B3 99 AF 1A 
