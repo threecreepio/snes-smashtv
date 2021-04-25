@@ -7315,7 +7315,7 @@ B_C2C4:
   JSR.W L_C25C                                    ; 00C2C4 20 5C C2 
   LDA.W $1900                                     ; 00C2C7 AD 00 19 
   BEQ.B B_C2D2                                    ; 00C2CA F0 06 
-  JSR.W L_DB76                                    ; 00C2CC 20 76 DB 
+  JSR.W SpawnNextDrop                                    ; 00C2CC 20 76 DB 
   JSR.W L_DA43                                    ; 00C2CF 20 43 DA 
 B_C2D2:
   LDA.B #$00                                      ; 00C2D2 A9 00 
@@ -9056,19 +9056,21 @@ D_DB6E:
 .byte $27,$23,$25,$27,$25,$23,$23,$23             ; 00DB6E DDDDDDDD '#%'%###
 
 
-L_DB76:
-  LDA.B $D2                                       ; 00DB76 A5 D2 
-  AND.B #$01                                      ; 00DB78 29 01 
-  BNE.B B_DB87                                    ; 00DB7A D0 0B 
-  LDX.W DropTimer                   ; 00DB7C AE AE 05 
-  BEQ.B B_DB88                                    ; 00DB7F F0 07 
-  BMI.B B_DB87                                    ; 00DB81 30 04 
-  DEX                                             ; 00DB83 CA 
-  STX.W DropTimer                   ; 00DB84 8E AE 05 
-B_DB87:
-  RTS                                             ; 00DB87 60 
-
-B_DB88:
+SpawnNextDrop:
+  ; if $D2 is set, we cannot drop
+  lda $D2
+  and #1
+  bne @Break
+  ; if our drop timer is 0, spawn a new drop
+  ldx DropTimer
+  beq @Spawn
+  ; otherwise, decrement the drop timer unless its high bit is set.
+  bmi @Break
+  dex
+  stx DropTimer
+@Break:
+  rts
+@Spawn:
   PHB                                             ; 00DB88 8B 
   LDA.B #$02                                      ; 00DB89 A9 02 
   PHA                                             ; 00DB8B 48 
