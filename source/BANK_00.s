@@ -371,7 +371,7 @@ B_830A:
   JSR.W L_83CA                                    ; 008326 20 CA 83 
 B_8329:
   LDA.B #$FF                                      ; 008329 A9 FF 
-  STA.W $05CE                                     ; 00832B 8D CE 05 
+  STA.W PlayerOrbStatus                                     ; 00832B 8D CE 05 
   STZ.W DropTimer                   ; 00832E 9C AE 05 
   JSL AdvanceRNG                                     ; 008331 22 95 CA 0E 
   AND.B #$7F                                      ; 008335 29 7F 
@@ -437,11 +437,11 @@ L_83CA:
   LDA.W #$8128                                    ; 0083CD A9 28 81 
   JSL L_F8401                                     ; 0083D0 22 01 84 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0083D4 E2 30 
-  JSL L_380F3                                     ; 0083D6 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 0083D6 22 F3 80 03 
   LDA.B #$0D                                      ; 0083DA A9 0D 
   JSL L_38064                                     ; 0083DC 22 64 80 03 
   STY.W $18D2                                     ; 0083E0 8C D2 18 
-  JSL L_38094                                     ; 0083E3 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 0083E3 22 94 80 03 
   LDA.B #$01                                      ; 0083E7 A9 01 
   STA.W EntityHeader,X                                   ; 0083E9 9D D2 06 
   LDA.B #$0C                                      ; 0083EC A9 0C 
@@ -497,11 +497,11 @@ L_83CA:
 
 
 L_8463:
-  JSL L_380F3                                     ; 008463 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 008463 22 F3 80 03 
   LDA.B #$0D                                      ; 008467 A9 0D 
   JSL L_38064                                     ; 008469 22 64 80 03 
   STY.W $18D2                                     ; 00846D 8C D2 18 
-  JSL L_38094                                     ; 008470 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 008470 22 94 80 03 
   LDA.B #$01                                      ; 008474 A9 01 
   STA.W EntityHeader,X                                   ; 008476 9D D2 06 
   LDA.B #$0D                                      ; 008479 A9 0D 
@@ -2204,8 +2204,8 @@ L_94E2:
 B_94E4:
   LDA.W $194B,Y                                   ; 0094E4 B9 4B 19 
   BEQ.B B_9557                                    ; 0094E7 F0 6E 
-  JSL L_380F3                                     ; 0094E9 22 F3 80 03 
-  JSL L_38094                                     ; 0094ED 22 94 80 03 
+  JSL FindEmptyEntitySlot                                     ; 0094E9 22 F3 80 03 
+  JSL ClearEntitySlotData                                     ; 0094ED 22 94 80 03 
   LDA.B #$01                                      ; 0094F1 A9 01 
   STA.W EntityHeader,X                                   ; 0094F3 9D D2 06 
   LDA.B #$0E                                      ; 0094F6 A9 0E 
@@ -2446,8 +2446,8 @@ B_96B5:
 
 L_96B9:
   STY.B $04                                       ; 0096B9 84 04 
-  JSL L_380F3                                     ; 0096BB 22 F3 80 03 
-  JSL L_38094                                     ; 0096BF 22 94 80 03 
+  JSL FindEmptyEntitySlot                                     ; 0096BB 22 F3 80 03 
+  JSL ClearEntitySlotData                                     ; 0096BF 22 94 80 03 
   LDA.B #$01                                      ; 0096C3 A9 01 
   STA.W EntityHeader,X                                   ; 0096C5 9D D2 06 
   LDA.B #$00                                      ; 0096C8 A9 00 
@@ -2474,8 +2474,8 @@ L_96B9:
   LDA.B #$00                                      ; 009701 A9 00 
   STA.B $1D                                       ; 009703 85 1D 
   JSL L_AFC2                                      ; 009705 22 C2 AF 00 
-  JSL L_380F3                                     ; 009709 22 F3 80 03 
-  JSL L_38094                                     ; 00970D 22 94 80 03 
+  JSL FindEmptyEntitySlot                                     ; 009709 22 F3 80 03 
+  JSL ClearEntitySlotData                                     ; 00970D 22 94 80 03 
   LDA.B #$01                                      ; 009711 A9 01 
   STA.W EntityHeader,X                                   ; 009713 9D D2 06 
   LDA.B #$00                                      ; 009716 A9 00 
@@ -2502,8 +2502,8 @@ L_96B9:
   LDA.B #$00                                      ; 00974D A9 00 
   STA.B $1D                                       ; 00974F 85 1D 
   JSL L_AFC2                                      ; 009751 22 C2 AF 00 
-  JSL L_380F3                                     ; 009755 22 F3 80 03 
-  JSL L_38094                                     ; 009759 22 94 80 03 
+  JSL FindEmptyEntitySlot                                     ; 009755 22 F3 80 03 
+  JSL ClearEntitySlotData                                     ; 009759 22 94 80 03 
   LDA.B #$01                                      ; 00975D A9 01 
   STA.W EntityHeader,X                                   ; 00975F 9D D2 06 
   LDA.B #$00                                      ; 009762 A9 00 
@@ -2710,13 +2710,13 @@ L_98AA:
   LDA.B #$03                                      ; 0098FD A9 03 
   JSL L_E5C0                                      ; 0098FF 22 C0 E5 00 
   STX.B $04                                       ; 009903 86 04 
-  JSL L_38102                                     ; 009905 22 02 81 03 
+  JSL FindEmptyEntitySlot2                                     ; 009905 22 02 81 03 
   BEQ.B B_990C                                    ; 009909 F0 01 
 
 .byte $60                                         ; 00990C .        `
 
 B_990C:
-  JSL L_38094                                     ; 00990C 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00990C 22 94 80 03 
   LDA.B #$01                                      ; 009910 A9 01 
   STA.W EntityHeader,X                                   ; 009912 9D D2 06 
   LDA.B #$04                                      ; 009915 A9 04 
@@ -3176,7 +3176,7 @@ B_9DB2:
   LDA.B #$FF                                      ; 009DDE A9 FF 
   STA.W $1A0A                                     ; 009DE0 8D 0A 1A 
 B_9DE3:
-  LDA.W $05D1                                     ; 009DE3 AD D1 05 
+  LDA.W PlayerRazorShieldStatus                                     ; 009DE3 AD D1 05 
   BEQ.B B_9E45                                    ; 009DE6 F0 5D 
   DEC.W $186B                                     ; 009DE8 CE 6B 18 
   BNE.B B_9E45                                    ; 009DEB D0 58 
@@ -5981,7 +5981,7 @@ L_B675:
 
 L_B6FC:
   LDY.B #$00                                      ; 00B6FC A0 00 
-  LDA.W $05D1                                     ; 00B6FE AD D1 05 
+  LDA.W PlayerRazorShieldStatus                                     ; 00B6FE AD D1 05 
   BEQ.B B_B70A                                    ; 00B701 F0 07 
   TXA                                             ; 00B703 8A 
   CMP.W $05D0                                     ; 00B704 CD D0 05 
@@ -6095,7 +6095,7 @@ L_B7F1:
   PHX                                             ; 00B818 DA 
   JSR.W (L_B840,X)                                ; 00B819 FC 40 B8 
   PLX                                             ; 00B81C FA 
-  LDA.W $05CE                                     ; 00B81D AD CE 05 
+  LDA.W PlayerOrbStatus                                     ; 00B81D AD CE 05 
   CMP.B $09                                       ; 00B820 C5 09 
   BNE.B B_B83F                                    ; 00B822 D0 1B 
   LDY.B $09                                       ; 00B824 A4 09 
@@ -6117,13 +6117,13 @@ L_B840:
 .byte $4A,$B8,$6F,$B9,$BB,$BA,$E3,$BB             ; 00B840 DDDDDDDD J?o?????
 .byte $7A,$BD                                     ; 00B849 DD       z?
 
-  JSL L_380E4                                     ; 00B84A 22 E4 80 03 
+  JSL FindEmptyProjectileSlot                                     ; 00B84A 22 E4 80 03 
   BEQ.B B_B853                                    ; 00B84E F0 03 
 
 .byte $4C,$26,$B9                                 ; 00B851 ...      L&?
 
 B_B853:
-  JSL L_38094                                     ; 00B853 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00B853 22 94 80 03 
   LDA.B $09                                       ; 00B857 A5 09 
   STA.W EntityV20,X                                   ; 00B859 9D BA 0F 
   LDA.B #$32                                      ; 00B85C A9 32 
@@ -6281,13 +6281,13 @@ D_B960:
 
 
 L_B9AB:
-  JSL L_380E4                                     ; 00B9AB 22 E4 80 03 
+  JSL FindEmptyProjectileSlot                                     ; 00B9AB 22 E4 80 03 
   BEQ.B B_B9B4                                    ; 00B9AF F0 03 
 
 .byte $4C,$62,$BA                                 ; 00B9B2 ...      Lb?
 
 B_B9B4:
-  JSL L_38094                                     ; 00B9B4 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00B9B4 22 94 80 03 
   LDA.B $09                                       ; 00B9B8 A5 09 
   STA.W EntityV20,X                                   ; 00B9BA 9D BA 0F 
   LDA.B #$33                                      ; 00B9BD A9 33 
@@ -6398,13 +6398,13 @@ D_BA9C:
 .byte $FB,$62,$FB,$77,$FC,$17,$FE,$00             ; 00BAAC DDDDDDDD ?b?w????
 .byte $00,$E9,$01,$89,$03,$9E,$04                 ; 00BAB5 DDDDDDD  ???????
 
-  JSL L_380E4                                     ; 00BABB 22 E4 80 03 
+  JSL FindEmptyProjectileSlot                                     ; 00BABB 22 E4 80 03 
   BEQ.B B_BAC4                                    ; 00BABF F0 03 
 
 .byte $4C,$9A,$BB                                 ; 00BAC2 ...      L??
 
 B_BAC4:
-  JSL L_38094                                     ; 00BAC4 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00BAC4 22 94 80 03 
   LDA.B $09                                       ; 00BAC8 A5 09 
   STA.W EntityV20,X                                   ; 00BACA 9D BA 0F 
   LDA.B #$34                                      ; 00BACD A9 34 
@@ -6532,13 +6532,13 @@ D_BBD4:
 .byte $03,$79,$02,$00,$00,$87,$FD,$80             ; 00BBD4 DDDDDDDD ?y??????
 .byte $FC,$87,$FD,$00,$00,$79,$02                 ; 00BBDD DDDDDDD  ?????y?
 
-  JSL L_380E4                                     ; 00BBE3 22 E4 80 03 
+  JSL FindEmptyProjectileSlot                                     ; 00BBE3 22 E4 80 03 
   BEQ.B B_BBEC                                    ; 00BBE7 F0 03 
 
 .byte $4C,$D1,$BC                                 ; 00BBEA ...      L??
 
 B_BBEC:
-  JSL L_38094                                     ; 00BBEC 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00BBEC 22 94 80 03 
   LDA.B $09                                       ; 00BBF0 A5 09 
   STA.W EntityV20,X                                   ; 00BBF2 9D BA 0F 
   LDA.B #$35                                      ; 00BBF5 A9 35 
@@ -6684,7 +6684,7 @@ D_BD3B:
 .byte $00,$63,$00,$C3,$00,$1C,$01,$6A             ; 00BD6B DDDDDDDD ?c?????j
 .byte $01,$A9,$01,$D9,$01,$F6,$01                 ; 00BD74 DDDDDDD  ???????
 
-  JSL L_380E4                                     ; 00BD7A 22 E4 80 03 
+  JSL FindEmptyProjectileSlot                                     ; 00BD7A 22 E4 80 03 
   BEQ.B B_BD83                                    ; 00BD7E F0 03 
 
 .byte $4C,$B0,$BE                                 ; 00BD81 ...      L??
@@ -6693,14 +6693,14 @@ B_BD83:
   LDA.B #$01                                      ; 00BD83 A9 01 
   STA.W EntityHeader,X                                   ; 00BD85 9D D2 06 
   STX.B $05                                       ; 00BD88 86 05 
-  JSL L_380E4                                     ; 00BD8A 22 E4 80 03 
+  JSL FindEmptyProjectileSlot                                     ; 00BD8A 22 E4 80 03 
   BEQ.B B_BD98                                    ; 00BD8E F0 08 
 
 .byte $A6,$05,$9E,$D2,$06,$4C,$B0,$BE             ; 00BD90 ........ ?????L??
 
 B_BD98:
   STX.B $04                                       ; 00BD98 86 04 
-  JSL L_38094                                     ; 00BD9A 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00BD9A 22 94 80 03 
   LDA.B #$01                                      ; 00BD9E A9 01 
   STA.W EntityHeader,X                                   ; 00BDA0 9D D2 06 
   LDA.B $09                                       ; 00BDA3 A5 09 
@@ -6793,7 +6793,7 @@ B_BE18:
   STA.W $175E,Y                                   ; 00BE4D 99 5E 17 
   JSL L_AEF1                                      ; 00BE50 22 F1 AE 00 
   LDX.B $05                                       ; 00BE54 A6 05 
-  JSL L_38094                                     ; 00BE56 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00BE56 22 94 80 03 
   LDA.B #$3A                                      ; 00BE5A A9 3A 
   STA.W EntityTypeId,X                                   ; 00BE5C 9D 44 07 
   LDA.B $04                                       ; 00BE5F A5 04 
@@ -7155,7 +7155,7 @@ L_C17B:
   LDA.B #$FF                                      ; 00C17F A9 FF 
   STA.W $05AA                                     ; 00C181 8D AA 05 
   STZ.W $05D2                                     ; 00C184 9C D2 05 
-  STZ.W $05D1                                     ; 00C187 9C D1 05 
+  STZ.W PlayerRazorShieldStatus                                     ; 00C187 9C D1 05 
   STZ.W $18E4                                     ; 00C18A 9C E4 18 
   STZ.W $18E5                                     ; 00C18D 9C E5 18 
   STZ.W $18E6                                     ; 00C190 9C E6 18 
@@ -7423,14 +7423,14 @@ D_C3D4:
   LDA.W $18E4                                     ; 00C3DA AD E4 18 
   CMP.W $18F2                                     ; 00C3DD CD F2 18 
   BCS.B B_C435                                    ; 00C3E0 B0 53 
-  JSL L_380F3                                     ; 00C3E2 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00C3E2 22 F3 80 03 
   BNE.B B_C435                                    ; 00C3E6 D0 4D 
   INC.W $06C6                                     ; 00C3E8 EE C6 06 
   CLC                                             ; 00C3EB 18 
   LDA.W $18E4                                     ; 00C3EC AD E4 18 
   ADC.B #$06                                      ; 00C3EF 69 06 
   STA.W $18E4                                     ; 00C3F1 8D E4 18 
-  JSL L_38094                                     ; 00C3F4 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00C3F4 22 94 80 03 
   LDA.B #$01                                      ; 00C3F8 A9 01 
   STA.W EntityHeader,X                                   ; 00C3FA 9D D2 06 
   JSR.W L_C39D                                    ; 00C3FD 20 9D C3 
@@ -7516,7 +7516,7 @@ B_C49E:
 
 
 L_C4A7:
-  JSL L_380F3                                     ; 00C4A7 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00C4A7 22 F3 80 03 
   BEQ.B B_C4AE                                    ; 00C4AB F0 01 
 
 B_C4AD:
@@ -7527,7 +7527,7 @@ B_C4AE:
   JSL L_38064                                     ; 00C4B0 22 64 80 03 
   BMI.B B_C4AD                                    ; 00C4B4 30 F7 
   STY.W $18E2                                     ; 00C4B6 8C E2 18 
-  JSL L_38094                                     ; 00C4B9 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00C4B9 22 94 80 03 
   LDA.B #$01                                      ; 00C4BD A9 01 
   STA.W EntityHeader,X                                   ; 00C4BF 9D D2 06 
   LDA.B #$92                                      ; 00C4C2 A9 92 
@@ -7759,7 +7759,7 @@ D_C55F:
   LDY.B $06                                       ; 00CA0C A4 06 
   LDA.B #$00                                      ; 00CA0E A9 00 
   STA.W $175E,Y                                   ; 00CA10 99 5E 17 
-  JSL L_380F3                                     ; 00CA13 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00CA13 22 F3 80 03 
   BEQ.B B_CA1C                                    ; 00CA17 F0 03 
 B_CA19:
   LDA.B #$00                                      ; 00CA19 A9 00 
@@ -7773,7 +7773,7 @@ B_CA1C:
   STX.B $04                                       ; 00CA27 86 04 
   INC.W $06C6                                     ; 00CA29 EE C6 06 
   INC.W $18EA                                     ; 00CA2C EE EA 18 
-  JSL L_38094                                     ; 00CA2F 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00CA2F 22 94 80 03 
   LDA.B #$01                                      ; 00CA33 A9 01 
   STA.W EntityHeader,X                                   ; 00CA35 9D D2 06 
   LDA.B #$8C                                      ; 00CA38 A9 8C 
@@ -7817,7 +7817,7 @@ B_CA6B:
   LDA.B #$01                                      ; 00CA92 A9 01 
   STA.W $175E,Y                                   ; 00CA94 99 5E 17 
   JSL L_AED8                                      ; 00CA97 22 D8 AE 00 
-  JSL L_380F3                                     ; 00CA9B 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00CA9B 22 F3 80 03 
   BEQ.B B_CAA4                                    ; 00CA9F F0 03 
 
 B_CAA1:
@@ -7828,7 +7828,7 @@ B_CAA4:
   JSL L_38064                                     ; 00CAA6 22 64 80 03 
   BMI.B B_CAA1                                    ; 00CAAA 30 F5 
   STY.W $18E2                                     ; 00CAAC 8C E2 18 
-  JSL L_38094                                     ; 00CAAF 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00CAAF 22 94 80 03 
   LDA.B #$01                                      ; 00CAB3 A9 01 
   STA.W EntityHeader,X                                   ; 00CAB5 9D D2 06 
   LDA.B #$95                                      ; 00CAB8 A9 95 
@@ -7899,7 +7899,7 @@ D_CB32:
   LDA.W $18EB                                     ; 00CB42 AD EB 18 
   CMP.W $18F9                                     ; 00CB45 CD F9 18 
   BCS.B B_CB58                                    ; 00CB48 B0 0E 
-  JSL L_380F3                                     ; 00CB4A 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00CB4A 22 F3 80 03 
   BNE.B B_CB58                                    ; 00CB4E D0 08 
   LDA.B #$02                                      ; 00CB50 A9 02 
   JSL L_38064                                     ; 00CB52 22 64 80 03 
@@ -7912,7 +7912,7 @@ B_CB5B:
   STY.W $18DF                                     ; 00CB5B 8C DF 18 
   INC.W $06C6                                     ; 00CB5E EE C6 06 
   INC.W $18EB                                     ; 00CB61 EE EB 18 
-  JSL L_38094                                     ; 00CB64 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00CB64 22 94 80 03 
   LDA.B #$01                                      ; 00CB68 A9 01 
   STA.W EntityHeader,X                                   ; 00CB6A 9D D2 06 
   LDA.B #$54                                      ; 00CB6D A9 54 
@@ -7962,7 +7962,7 @@ B_CBA0:
   LDA.B #$01                                      ; 00CBD8 A9 01 
   STA.B $08                                       ; 00CBDA 85 08 
 B_CBDC:
-  JSL L_380F3                                     ; 00CBDC 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00CBDC 22 F3 80 03 
   BEQ.B B_CBE5                                    ; 00CBE0 F0 03 
 
 .byte $A9,$01,$60                                 ; 00CBE3 ...      ??`
@@ -7973,7 +7973,7 @@ B_CBE5:
   LDX.W $18DF                                     ; 00CBE9 AE DF 18 
   INC.W $18C5,X                                   ; 00CBEC FE C5 18 
   PLX                                             ; 00CBEF FA 
-  JSL L_38094                                     ; 00CBF0 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00CBF0 22 94 80 03 
   LDA.B #$01                                      ; 00CBF4 A9 01 
   STA.W EntityHeader,X                                   ; 00CBF6 9D D2 06 
   LDA.B #$55                                      ; 00CBF9 A9 55 
@@ -8050,7 +8050,7 @@ D_CC90:
   LDA.W $18EC                                     ; 00CCB8 AD EC 18 
   CMP.W $18FA                                     ; 00CCBB CD FA 18 
   BCS.B B_CCC6                                    ; 00CCBE B0 06 
-  JSL L_380F3                                     ; 00CCC0 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00CCC0 22 F3 80 03 
   BEQ.B B_CCC9                                    ; 00CCC4 F0 03 
 B_CCC6:
   LDA.B #$00                                      ; 00CCC6 A9 00 
@@ -8059,7 +8059,7 @@ B_CCC6:
 B_CCC9:
   INC.W $06C6                                     ; 00CCC9 EE C6 06 
   INC.W $18EC                                     ; 00CCCC EE EC 18 
-  JSL L_38094                                     ; 00CCCF 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00CCCF 22 94 80 03 
   LDA.B #$01                                      ; 00CCD3 A9 01 
   STA.W EntityHeader,X                                   ; 00CCD5 9D D2 06 
   LDA.B #$2C                                      ; 00CCD8 A9 2C 
@@ -8292,8 +8292,8 @@ D_CD93:
   STZ.B $04                                       ; 00D13E 64 04 
   STA.B $05                                       ; 00D140 85 05 
 B_D142:
-  JSL L_380F3                                     ; 00D142 22 F3 80 03 
-  JSL L_38094                                     ; 00D146 22 94 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D142 22 F3 80 03 
+  JSL ClearEntitySlotData                                     ; 00D146 22 94 80 03 
   LDA.B #$01                                      ; 00D14A A9 01 
   STA.W EntityHeader,X                                   ; 00D14C 9D D2 06 
   LDA.B #$0F                                      ; 00D14F A9 0F 
@@ -8424,32 +8424,32 @@ B_D19E:
 B_D3A1:
   STA.W $069D                                     ; 00D3A1 8D 9D 06 
   INC.W $06C6                                     ; 00D3A4 EE C6 06 
-  JSL L_380F3                                     ; 00D3A7 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D3A7 22 F3 80 03 
   STX.W $068D                                     ; 00D3AB 8E 8D 06 
   LDA.B #$01                                      ; 00D3AE A9 01 
   STA.W EntityHeader,X                                   ; 00D3B0 9D D2 06 
-  JSL L_380F3                                     ; 00D3B3 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D3B3 22 F3 80 03 
   STX.W $068C                                     ; 00D3B7 8E 8C 06 
   LDA.B #$01                                      ; 00D3BA A9 01 
   STA.W EntityHeader,X                                   ; 00D3BC 9D D2 06 
-  JSL L_380F3                                     ; 00D3BF 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D3BF 22 F3 80 03 
   STX.W $068E                                     ; 00D3C3 8E 8E 06 
   LDA.B #$01                                      ; 00D3C6 A9 01 
   STA.W EntityHeader,X                                   ; 00D3C8 9D D2 06 
-  JSL L_380F3                                     ; 00D3CB 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D3CB 22 F3 80 03 
   STX.W $069F                                     ; 00D3CF 8E 9F 06 
   LDA.B #$01                                      ; 00D3D2 A9 01 
   STA.W EntityHeader,X                                   ; 00D3D4 9D D2 06 
-  JSL L_380F3                                     ; 00D3D7 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D3D7 22 F3 80 03 
   STX.W $06A0                                     ; 00D3DB 8E A0 06 
   LDA.B #$01                                      ; 00D3DE A9 01 
   STA.W EntityHeader,X                                   ; 00D3E0 9D D2 06 
-  JSL L_380F3                                     ; 00D3E3 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D3E3 22 F3 80 03 
   STX.W $068B                                     ; 00D3E7 8E 8B 06 
   LDA.B #$01                                      ; 00D3EA A9 01 
   STA.W EntityHeader,X                                   ; 00D3EC 9D D2 06 
   LDX.W $068E                                     ; 00D3EF AE 8E 06 
-  JSL L_38094                                     ; 00D3F2 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00D3F2 22 94 80 03 
   LDA.B #$12                                      ; 00D3F6 A9 12 
   LDY.W $069E                                     ; 00D3F8 AC 9E 06 
   BEQ.B B_D3FF                                    ; 00D3FB F0 02 
@@ -8492,7 +8492,7 @@ B_D3FF:
   LDX.W $06A0                                     ; 00D451 AE A0 06 
   JSR.W L_D4FE                                    ; 00D454 20 FE D4 
   LDX.W $068B                                     ; 00D457 AE 8B 06 
-  JSL L_38094                                     ; 00D45A 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00D45A 22 94 80 03 
   LDA.B #$11                                      ; 00D45E A9 11 
   JSL L_38064                                     ; 00D460 22 64 80 03 
   TYA                                             ; 00D464 98 
@@ -8537,7 +8537,7 @@ B_D4A9:
   DEX                                             ; 00D4C0 CA 
   BNE.B B_D4A9                                    ; 00D4C1 D0 E6 
   LDX.W $068C                                     ; 00D4C3 AE 8C 06 
-  JSL L_38094                                     ; 00D4C6 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00D4C6 22 94 80 03 
   LDA.B #$73                                      ; 00D4CA A9 73 
   STA.W EntityTypeId,X                                   ; 00D4CC 9D 44 07 
   LDA.B #$30                                      ; 00D4CF A9 30 
@@ -8547,7 +8547,7 @@ B_D4A9:
   LDA.B #$0C                                      ; 00D4D9 A9 0C 
   JSL L_3823C                                     ; 00D4DB 22 3C 82 03 
   LDX.W $068D                                     ; 00D4DF AE 8D 06 
-  JSL L_38094                                     ; 00D4E2 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00D4E2 22 94 80 03 
   LDA.B #$74                                      ; 00D4E6 A9 74 
   STA.W EntityTypeId,X                                   ; 00D4E8 9D 44 07 
   LDA.B #$30                                      ; 00D4EB A9 30 
@@ -8564,7 +8564,7 @@ L_D4FE:
   LDA.B #$0E                                      ; 00D4FE A9 0E 
   JSL L_38064                                     ; 00D500 22 64 80 03 
   STY.W $18E2                                     ; 00D504 8C E2 18 
-  JSL L_38094                                     ; 00D507 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00D507 22 94 80 03 
   LDA.B #$01                                      ; 00D50B A9 01 
   STA.W EntityHeader,X                                   ; 00D50D 9D D2 06 
   LDA.B #$92                                      ; 00D510 A9 92 
@@ -8734,7 +8734,7 @@ D_D59C:
 .byte $30,$A9,$48,$8D,$07,$21,$C2,$10             ; 00D8B0 ........ 0?H??!??
 .byte $20,$56,$D7,$28,$60,$60,$60                 ; 00D8B9 .......   V?(```
 
-  JSL L_380F3                                     ; 00D8BF 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D8BF 22 F3 80 03 
   BEQ.B B_D8C8                                    ; 00D8C3 F0 03 
 
 .byte $A9,$00,$60                                 ; 00D8C6 ...      ??`
@@ -8750,7 +8750,7 @@ B_D8C8:
 
 
 L_D8D6:
-  JSL L_38094                                     ; 00D8D6 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00D8D6 22 94 80 03 
   LDA.B #$01                                      ; 00D8DA A9 01 
   STA.W EntityHeader,X                                   ; 00D8DC 9D D2 06 
   LDA.B #$0B                                      ; 00D8DF A9 0B 
@@ -8798,8 +8798,8 @@ D_D92E:
   STA.W $05AF                                     ; 00D933 8D AF 05 
   RTS                                             ; 00D936 60 
 
-  JSL L_380F3                                     ; 00D937 22 F3 80 03 
-  JSL L_38094                                     ; 00D93B 22 94 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00D937 22 F3 80 03 
+  JSL ClearEntitySlotData                                     ; 00D93B 22 94 80 03 
   LDA.B #$01                                      ; 00D93F A9 01 
   STA.W EntityHeader,X                                   ; 00D941 9D D2 06 
   LDA.B #$4C                                      ; 00D944 A9 4C 
@@ -8909,7 +8909,7 @@ B_DA54:
   RTS                                             ; 00DA54 60 
 
 B_DA55:
-  JSL L_380F3                                     ; 00DA55 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00DA55 22 F3 80 03 
   BNE.B B_DA81                                    ; 00DA59 D0 26 
   JSR.W L_DA82                                    ; 00DA5B 20 82 DA 
   JSL AdvanceRNG                                     ; 00DA5E 22 95 CA 0E 
@@ -8941,12 +8941,12 @@ L_DA82:
   JSL AdvanceRNG                                     ; 00DA87 22 95 CA 0E 
   AND.B #$1F                                      ; 00DA8B 29 1F 
   TAY                                             ; 00DA8D A8 
-  LDA.W D_DD1C,Y                                  ; 00DA8E B9 1C DD 
+  LDA.W MapSpawnXPx,Y                                  ; 00DA8E B9 1C DD 
   STA.B $04                                       ; 00DA91 85 04 
   JSL AdvanceRNG                                     ; 00DA93 22 95 CA 0E 
   AND.B #$1F                                      ; 00DA97 29 1F 
   TAY                                             ; 00DA99 A8 
-  LDA.W D_DD3C,Y                                  ; 00DA9A B9 3C DD 
+  LDA.W MapSpawnYPx,Y                                  ; 00DA9A B9 3C DD 
   STA.B $05                                       ; 00DA9D 85 05 
   PLB                                             ; 00DA9F AB 
   RTS                                             ; 00DAA0 60 
@@ -8954,7 +8954,7 @@ L_DA82:
 
 L_DAA1:
   PHB                                             ; 00DAA1 8B 
-  JSL L_38094                                     ; 00DAA2 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00DAA2 22 94 80 03 
   LDA.B #$01                                      ; 00DAA6 A9 01 
   STA.W EntityHeader,X                                   ; 00DAA8 9D D2 06 
   LDA.B #$47                                      ; 00DAAB A9 47 
@@ -9057,6 +9057,9 @@ D_DB6E:
 
 
 SpawnNextDrop:
+  @SpawnNextDrop_RoundPtr = $4
+  @SpawnNextDrop_RoomPtr = $6
+  @SpawnNextDrop_DropTypeId = $7
   ; if $D2 is set, we cannot drop
   lda $D2
   and #1
@@ -9071,104 +9074,112 @@ SpawnNextDrop:
 @Break:
   rts
 @Spawn:
-  PHB                                             ; 00DB88 8B 
-  LDA.B #$02                                      ; 00DB89 A9 02 
-  PHA                                             ; 00DB8B 48 
-  PLB                                             ; 00DB8C AB 
-  LDA.W CurrentRound                                     ; 00DB8D AD AB 05 
-  ASL                                             ; 00DB90 0A 
-  TAX                                             ; 00DB91 AA 
-  LDA.W D_BE69-1,X                                  ; 00DB92 BD 68 BE 
-  STA.B $04                                       ; 00DB95 85 04 
-  LDA.W D_BE69,X                                  ; 00DB97 BD 69 BE 
-  STA.B $05                                       ; 00DB9A 85 05 
-  LDA.W CurrentRoom                                     ; 00DB9C AD AC 05 
-  ASL                                             ; 00DB9F 0A 
-  TAY                                             ; 00DBA0 A8 
-  LDA.B ($04),Y                                   ; 00DBA1 B1 04 
-  STA.B $06                                       ; 00DBA3 85 06 
-  INY                                             ; 00DBA5 C8 
-  LDA.B ($04),Y                                   ; 00DBA6 B1 04 
-  STA.B $07                                       ; 00DBA8 85 07 
-  JSL AdvanceRNG                                     ; 00DBAA 22 95 CA 0E 
-  STA.W WRMPYA                                    ; 00DBAE 8D 02 42 
-  LDA.B #$14                                      ; 00DBB1 A9 14 
-  STA.W WRMPYB                                    ; 00DBB3 8D 03 42 
-  NOP                                             ; 00DBB6 EA 
-  NOP                                             ; 00DBB7 EA 
-  NOP                                             ; 00DBB8 EA 
-  NOP                                             ; 00DBB9 EA 
-  LDY.W RDMPYH                                    ; 00DBBA AC 17 42 
-  LDA.B ($06),Y                                   ; 00DBBD B1 06 
-  STA.B $07                                       ; 00DBBF 85 07 
-  BEQ.B B_DBDD                                    ; 00DBC1 F0 1A 
-  CMP.B #$05                                      ; 00DBC3 C9 05 
-  BNE.B B_DBCC                                    ; 00DBC5 D0 05 
-  LDA.W $05D1                                     ; 00DBC7 AD D1 05 
-  BNE.B B_DBDD                                    ; 00DBCA D0 11 
-B_DBCC:
-  CMP.B #$06                                      ; 00DBCC C9 06 
-  BNE.B B_DBD5                                    ; 00DBCE D0 05 
-  LDA.W $05CE                                     ; 00DBD0 AD CE 05 
-  BPL.B B_DBDD                                    ; 00DBD3 10 08 
-B_DBD5:
-  PLB                                             ; 00DBD5 AB 
-  JSL L_380F3                                     ; 00DBD6 22 F3 80 03 
-  BEQ.B B_DBDF                                    ; 00DBDA F0 03 
+  ; switch to data bank 2
+  phb
+  lda #2
+  pha
+  plb
+  ; get round pointer based on current round
+  lda CurrentRound
+  asl
+  tax
+  lda.w DropTableRounds,X
+  sta @SpawnNextDrop_RoundPtr
+  lda.w DropTableRounds+1,X
+  sta @SpawnNextDrop_RoundPtr+1
+  ; get room pointer based on current room
+  lda CurrentRoom
+  asl
+  tay
+  lda (@SpawnNextDrop_RoundPtr),Y
+  sta @SpawnNextDrop_RoomPtr
+  iny
+  lda (@SpawnNextDrop_RoundPtr),Y
+  sta @SpawnNextDrop_RoomPtr+1
+  ; multiply the next rng value by 14, and get the high byte
+  jsl AdvanceRNG
+  sta WRMPYA
+  lda #$14
+  sta WRMPYB
+  nop ; nope!
+  nop ; nope!
+  nop ; nope!
+  nop ; nope!
+  ldy RDMPYH
+  ; get the item at the randomized offset, and store it as the entity id to spawn
+  lda (@SpawnNextDrop_RoomPtr),Y
+  sta @SpawnNextDrop_DropTypeId
+  beq @Bail
+  ; if we're spawning a shield, make sure there's none active
+  cmp #5
+  bne @CheckOrb
+  lda PlayerRazorShieldStatus
+  bne @Bail
+  ; if we're spawning an orb, make sure there's none active
+@CheckOrb:
+  cmp #6
+  bne @ContinueWithSpawn
+  lda PlayerOrbStatus
+  bpl @Bail
+@ContinueWithSpawn:
+  plb
+  ; find a good target slot to fill.
+  jsl FindEmptyEntitySlot
+  beq @DoDropSpawn
+  rts
+@Bail:
+  plb
+@Exit:
+  rts
 
-.byte $60                                         ; 00DBDD .        `
-
-B_DBDD:
-  PLB                                             ; 00DBDD AB 
-B_DBDE:
-  RTS                                             ; 00DBDE 60 
-
-B_DBDF:
-  JSL L_38094                                     ; 00DBDF 22 94 80 03 
-  LDY.B $07                                       ; 00DBE3 A4 07 
-  LDA.W D_DCEC,Y                                  ; 00DBE5 B9 EC DC 
-  STA.W EntityTypeId,X                                   ; 00DBE8 9D 44 07 
-  LDA.W D_DCF8,Y                                  ; 00DBEB B9 F8 DC 
-  BNE.B B_DBFF                                    ; 00DBEE D0 0F 
-  LDA.B #$07                                      ; 00DBF0 A9 07 
-  JSL L_38064                                     ; 00DBF2 22 64 80 03 
-  BMI.B B_DBDE                                    ; 00DBF6 30 E6 
-  STY.W $18D1                                     ; 00DBF8 8C D1 18 
-  TYA                                             ; 00DBFB 98 
-  ASL                                             ; 00DBFC 0A 
-  ORA.B #$28                                      ; 00DBFD 09 28 
+@DoDropSpawn:
+  jsl ClearEntitySlotData
+  ldy @SpawnNextDrop_DropTypeId
+  lda DropEntityTypes,Y
+  sta EntityTypeId,X
+  LDA.W D_DCF8,Y
+  BNE.B B_DBFF
+  LDA.B #$07
+  JSL L_38064
+  BMI.B @Exit
+  STY.W $18D1
+  TYA
+  ASL
+  ORA.B #$28
 B_DBFF:
-  STA.W EntityV2,X                                   ; 00DBFF 9D B6 07 
-  STA.W EntityV30,X                                   ; 00DC02 9D 2E 14 
-  LDA.B #$01                                      ; 00DC05 A9 01 
-  STA.W EntityHeader,X                                   ; 00DC07 9D D2 06 
-  LDA.B #$08                                      ; 00DC0A A9 08 
-  STA.W EntityV3,X                                   ; 00DC0C 9D 28 08 
-  LDA.B #$EE                                      ; 00DC0F A9 EE 
-  STA.W EntityV29,X                                   ; 00DC11 9D BC 13 
-  JSL AdvanceRNG                                     ; 00DC14 22 95 CA 0E 
-  AND.B #$1F                                      ; 00DC18 29 1F 
-  TAY                                             ; 00DC1A A8 
-  LDA.W D_DD1C,Y                                  ; 00DC1B B9 1C DD 
-  STA.W EntityXPx,X                              ; 00DC1E 9D 46 0B 
-  JSL AdvanceRNG                                     ; 00DC21 22 95 CA 0E 
-  AND.B #$1F                                      ; 00DC25 29 1F 
-  TAY                                             ; 00DC27 A8 
-  LDA.W D_DD3C,Y                                  ; 00DC28 B9 3C DD 
-  LDY.W $188E                                     ; 00DC2B AC 8E 18 
-  BEQ.B B_DC36                                    ; 00DC2E F0 06 
-
-.byte $C9,$8C,$90,$02,$A9,$82                     ; 00DC31 ......   ??????
-
-B_DC36:
-  STA.W EntityYPx,X                                   ; 00DC36 9D 9C 0C 
-  SEC                                             ; 00DC39 38 
-  LDA.W EntityXPx,X                              ; 00DC3A BD 46 0B 
-  SBC.B #$06                                      ; 00DC3D E9 06 
-  BCS.B B_DC43                                    ; 00DC3F B0 02 
-
-.byte $A9,$00                                     ; 00DC42 ..       ??
-
+  STA.W EntityV2,X
+  STA.W EntityV30,X
+  ; activate entity
+  LDA.B #$01
+  STA.W EntityHeader,X
+  LDA.B #$08
+  STA.W EntityV3,X
+  LDA.B #$EE
+  STA.W EntityV29,X
+  ; position item at random x
+  jsl AdvanceRNG
+  and #$1F
+  tay
+  lda MapSpawnXPx,Y
+  sta EntityXPx,X
+  ; position item at random y
+  jsl AdvanceRNG
+  and #$1F
+  tay
+  lda MapSpawnYPx,Y
+  ldy $188E
+  beq @StoreY
+  ; make sure we don't spawn too far down
+  cmp #$8C
+  bcc @StoreY
+  lda #$82
+@StoreY:
+  sta EntityYPx,X
+  sec
+  lda EntityXPx,X
+  sbc #$06
+  bcs B_DC43
+  lda #0
 B_DC43:
   STA.W EntityV32,X                                   ; 00DC43 9D 16 15 
   CLC                                             ; 00DC46 18 
@@ -9260,28 +9271,31 @@ B_DCB9:
   RTS                                             ; 00DCEB 60 
 
 
-D_DCEC:
-.byte $00,$3C,$3D,$3E,$3F,$40,$41,$42             ; 00DCEC .DDDDDDD ?<=>?@AB
-.byte $43,$44,$45,$46                             ; 00DCF5 DDDD     CDEF
+DropEntityTypes:
+.byte $00,$3C,$3D,$3E
+.byte $3F,$40,$41,$42
+.byte $43,$44,$45,$46
 D_DCF8:
-.byte $00,$22,$24,$00,$22,$22,$00,$22             ; 00DCF8 .DDDDDDD ?"$?""?"
-.byte $22,$00,$00,$22                             ; 00DD01 DDDD     "??"
+.byte $00,$22,$24,$00
+.byte $22,$22,$00,$22
+.byte $22,$00,$00,$22
 D_DD04:
 .byte $00                                         ; 00DD05 .        ?
 D_DD05:
 .byte $00,$80,$89,$C0,$89,$00,$8A,$40             ; 00DD05 .DDDDDDD ???????@
 .byte $8A,$80,$8A,$C0,$8A,$00,$8B,$40             ; 00DD0D DDDDDDDD ???????@
 .byte $8B,$80,$8B,$C0,$8B,$C0,$83                 ; 00DD16 DDDDDDD  ???????
-D_DD1C:
+MapSpawnXPx:
 .byte $64,$6C,$74,$7C,$84,$2C,$34,$3C             ; 00DD1C DDDDDDDD dlt|?,4<
 .byte $44,$4C,$54,$5C,$64,$6C,$74,$7C             ; 00DD24 DDDDDDDD DLT\dlt|
 .byte $84,$8C,$94,$9C,$A4,$AC,$B4,$BC             ; 00DD2C DDDDDDDD ????????
 .byte $C4,$CC,$D4,$84,$7C,$84,$8C,$94             ; 00DD34 DDDDDDDD ????|???
-D_DD3C:
+MapSpawnYPx:
 .byte $54,$5C,$64,$6C,$74,$7C,$84,$3C             ; 00DD3C DDDDDDDD T\dlt|?<
 .byte $44,$4C,$54,$5C,$64,$6C,$74,$7C             ; 00DD44 DDDDDDDD DLT\dlt|
 .byte $84,$8C,$94,$9C,$A4,$AC,$B4,$BC             ; 00DD4C DDDDDDDD ????????
 .byte $C4,$CC,$7C,$84,$8C,$94,$9C,$A4             ; 00DD54 DDDDDDDD ??|?????
+;;;;
 .byte $A6,$10,$BD,$33,$19,$D0,$01,$60             ; 00DD5C ........ ???3???`
 .byte $85,$06,$8B,$A9,$00,$48,$AB,$AD             ; 00DD64 ........ ?????H??
 .byte $AB,$05,$0A,$A8,$B9,$78,$DE,$85             ; 00DD6C ........ ?????x??
@@ -9407,11 +9421,11 @@ B_DFD7:
 
 
 L_DFF6:
-  JSL L_380F3                                     ; 00DFF6 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00DFF6 22 F3 80 03 
   BNE.B B_E067                                    ; 00DFFA D0 6B 
   INC.W $06C6                                     ; 00DFFC EE C6 06 
   INC.W $18EC                                     ; 00DFFF EE EC 18 
-  JSL L_38094                                     ; 00E002 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00E002 22 94 80 03 
   LDA.B #$01                                      ; 00E006 A9 01 
   STA.W EntityHeader,X                                   ; 00E008 9D D2 06 
   LDA.B #$30                                      ; 00E00B A9 30 
@@ -9532,7 +9546,7 @@ B_E13F:
 
 
 L_E15E:
-  JSL L_380F3                                     ; 00E15E 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 00E15E 22 F3 80 03 
   BNE.B B_E1D7                                    ; 00E162 D0 73 
   LDA.B #$05                                      ; 00E164 A9 05 
   JSL L_38064                                     ; 00E166 22 64 80 03 
@@ -9544,7 +9558,7 @@ L_E15E:
   STA.B $04                                       ; 00E173 85 04 
   INC.W $06C6                                     ; 00E175 EE C6 06 
   INC.W $18E4                                     ; 00E178 EE E4 18 
-  JSL L_38094                                     ; 00E17B 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 00E17B 22 94 80 03 
   LDA.B #$01                                      ; 00E17F A9 01 
   STA.W EntityHeader,X                                   ; 00E181 9D D2 06 
   LDA.B $04                                       ; 00E184 A5 04 

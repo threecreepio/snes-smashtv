@@ -379,7 +379,7 @@ B_58331:
   LDX.B $1F                                       ; 058351 A6 1F 
   JSR.W L_58398                                   ; 058353 20 98 83 
 B_58356:
-  JSL L_380F3                                     ; 058356 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 058356 22 F3 80 03 
   BEQ.B B_5835D                                   ; 05835A F0 01 
 
 .byte $60                                         ; 05835D .        `
@@ -395,7 +395,7 @@ B_5835D:
   LDA.B $1E                                       ; 05836B A5 1E 
   JSL IncreasePlayerScore                                      ; 05836D 22 6D E4 00 
   PLX                                             ; 058371 FA 
-  JSL L_38094                                     ; 058372 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 058372 22 94 80 03 
   LDA.B #$01                                      ; 058376 A9 01 
   STA.W EntityHeader,X                                   ; 058378 9D D2 06 
   LDY.B $1F                                       ; 05837B A4 1F 
@@ -1061,7 +1061,7 @@ L_588AD:
   BNE.B B_58925                                   ; 0588D0 D0 53 
   LDA.B #$37                                      ; 0588D2 A9 37 
   STA.W EntityTypeId,X                                   ; 0588D4 9D 44 07 
-  DEC.W $05D1                                     ; 0588D7 CE D1 05 
+  DEC.W PlayerRazorShieldStatus                                     ; 0588D7 CE D1 05 
   RTS                                             ; 0588DA 60 
 
 B_588DB:
@@ -1070,7 +1070,7 @@ B_588DB:
   LDA.B #$10                                      ; 0588DF A9 10 
   STA.W EntityTypeId,X                                   ; 0588E1 9D 44 07 
   LDA.B #$FF                                      ; 0588E4 A9 FF 
-  STA.W $05CE                                     ; 0588E6 8D CE 05 
+  STA.W PlayerOrbStatus                                     ; 0588E6 8D CE 05 
   LDA.B #$00                                      ; 0588E9 A9 00 
   STA.W EntityV3,X                                   ; 0588EB 9D 28 08 
   RTS                                             ; 0588EE 60 
@@ -1140,7 +1140,7 @@ B_58964:
   LDA.B #$10                                      ; 058968 A9 10 
   STA.W EntityTypeId,X                                   ; 05896A 9D 44 07 
   LDA.B #$FF                                      ; 05896D A9 FF 
-  STA.W $05CE                                     ; 05896F 8D CE 05 
+  STA.W PlayerOrbStatus                                     ; 05896F 8D CE 05 
   LDA.B #$00                                      ; 058972 A9 00 
   STA.W EntityV3,X                                   ; 058974 9D 28 08 
   RTS                                             ; 058977 60 
@@ -2512,16 +2512,16 @@ B_59B5C:
   ADC.B #$40                                      ; 059B63 69 40 
   STA.W DropTimer                   ; 059B65 8D AE 05 
   LDA.B $1E                                       ; 059B68 A5 1E 
-  STA.W $05CE                                     ; 059B6A 8D CE 05 
-  JSL L_380E4                                     ; 059B6D 22 E4 80 03 
+  STA.W PlayerOrbStatus                                     ; 059B6A 8D CE 05 
+  JSL FindEmptyProjectileSlot                                     ; 059B6D 22 E4 80 03 
   BEQ.B B_59B74                                   ; 059B71 F0 01 
 
 .byte $60                                         ; 059B74 .        `
 
 B_59B74:
   STX.W $05CF                                     ; 059B74 8E CF 05 
-  JSL L_38094                                     ; 059B77 22 94 80 03 
-  LDA.W $05CE                                     ; 059B7B AD CE 05 
+  JSL ClearEntitySlotData                                     ; 059B77 22 94 80 03 
+  LDA.W PlayerOrbStatus                                     ; 059B7B AD CE 05 
   STA.W EntityV20,X                                   ; 059B7E 9D BA 0F 
   LDA.B #$01                                      ; 059B81 A9 01 
   STA.W EntityHeader,X                                   ; 059B83 9D D2 06 
@@ -2529,7 +2529,7 @@ B_59B74:
   STA.W EntityTypeId,X                                   ; 059B88 9D 44 07 
   LDA.B #$02                                      ; 059B8B A9 02 
   STA.W EntityV3,X                                   ; 059B8D 9D 28 08 
-  LDY.W $05CE                                     ; 059B90 AC CE 05 
+  LDY.W PlayerOrbStatus                                     ; 059B90 AC CE 05 
   LDA.W EntityXPx,Y                              ; 059B93 B9 46 0B 
   STA.W EntityXPx,X                              ; 059B96 9D 46 0B 
   SEC                                             ; 059B99 38 

@@ -1999,150 +1999,1147 @@
 .byte $00,$8C,$0A,$16,$0A,$00,$00,$00             ; 02BE50 ........ ????????
 .byte $0E,$01,$00,$03,$00,$15,$01,$00             ; 02BE58 ........ ????????
 .byte $01,$00,$00,$00,$00,$6E,$0A,$00             ; 02BE60 ........ ?????n??
-.byte $6E
 
 
-DropTablesRound:
-.addr $86BE
-.addr $AEBE
-.addr $00BE
+DropTableRounds:
+.word DropTableRound0
+.word DropTableRound1
+.word DropTableRound2
 
-.byte $00             ; 02BE68 DD...... n???????
-.byte $DE,$BE,$F2,$BE,$06,$BF,$1A,$BF             ; 02BE70 DD..DD.. ????????
-.byte $2E,$BF,$42,$BF,$56,$BF,$6A,$BF             ; 02BE78 ..DDDD.. .?B?V?j?
-.byte $7E,$BF,$92,$BF,$A6,$BF,$00,$00             ; 02BE80 DDDDDD.. ~???????
-.byte $BA,$BF,$CE,$BF,$E2,$BF,$F6,$BF             ; 02BE88 ........ ????????
-.byte $0A,$C0,$1E,$C0,$33,$C0,$47,$C0             ; 02BE90 ........ ????3?G?
-.byte $5B,$C0,$6F,$C0,$83,$C0,$97,$C0             ; 02BE98 ........ [?o?????
-.byte $AB,$C0,$BF,$C0,$D3,$C0,$D3,$C0             ; 02BEA0 ........ ????????
-.byte $E7,$C0,$FB,$C0,$0F,$C1,$00,$00             ; 02BEA8 ........ ????????
-.byte $23,$C1,$37,$C1,$4A,$C1,$5E,$C1             ; 02BEB0 ........ #?7?J?^?
-.byte $72,$C1,$86,$C1,$98,$C1,$AC,$C1             ; 02BEB8 ........ r???????
-.byte $C0,$C1,$D4,$C1,$E8,$C1,$FC,$C1             ; 02BEC0 ........ ????????
-.byte $10,$C2,$24,$C2,$38,$C2,$4C,$C2             ; 02BEC8 ........ ??$?8?L?
-.byte $60,$C2,$74,$C2,$88,$C2,$88,$C2             ; 02BED0 ........ `?t?????
-.byte $92,$BF,$D4,$C1,$88,$C2,$05,$05             ; 02BED8 ........ ????????
-.byte $05,$05,$05,$05,$03,$03,$03,$07             ; 02BEE0 ..D....D ????????
-.byte $07,$07,$09,$09,$08,$08,$08,$08             ; 02BEE8 ..D...D. ????????
-.byte $08,$08,$05,$05,$05,$06,$06,$03             ; 02BEF0 ........ ????????
-.byte $03,$03,$01,$01,$01,$0A,$0B,$0B             ; 02BEF8 ........ ????????
-.byte $07,$09,$09,$09,$08,$08,$05,$06             ; 02BF00 ........ ????????
-.byte $06,$06,$03,$03,$03,$01,$01,$07             ; 02BF08 .D.D..D. ????????
-.byte $07,$07,$02,$02,$09,$09,$09,$09             ; 02BF10 .DD....D ????????
-.byte $08,$08,$05,$06,$06,$06,$03,$03             ; 02BF18 ........ ????????
-.byte $03,$01,$01,$0B,$0B,$07,$07,$02             ; 02BF20 ........ ????????
-.byte $02,$09,$09,$09,$09,$08,$06,$03             ; 02BF28 ........ ????????
-.byte $03,$01,$01,$01,$0A,$0A,$0A,$07             ; 02BF30 ........ ????????
-.byte $07,$02,$02,$09,$09,$09,$09,$09             ; 02BF38 ........ ????????
-.byte $08,$08,$05,$05,$06,$06,$03,$03             ; 02BF40 ...D.D.. ????????
-.byte $03,$01,$0A,$0B,$0B,$07,$07,$07             ; 02BF48 D.....D. ????????
-.byte $02,$02,$09,$09,$09,$08,$06,$06             ; 02BF50 D.DD..D. ????????
-.byte $05,$05,$03,$03,$0A,$07,$07,$02             ; 02BF58 ..DDD.D. ????????
-.byte $02,$09,$09,$08,$08,$0B,$0B,$01             ; 02BF60 .DDDD.DD ????????
-.byte $01,$01,$06,$03,$01,$01,$0A,$07             ; 02BF68 .D...... ????????
-.byte $07,$07,$02,$02,$02,$02,$02,$09             ; 02BF70 ........ ????????
-.byte $09,$09,$09,$08,$08,$08,$05,$06             ; 02BF78 ........ ????????
-.byte $06,$03,$01,$01,$0A,$0A,$07,$07             ; 02BF80 D.D..DD. ????????
-.byte $07,$02,$02,$02,$09,$09,$09,$09             ; 02BF88 DD..DDD. ????????
-.byte $08,$08,$03,$03,$03,$03,$01,$01             ; 02BF90 ..DDDDDD ????????
-.byte $01,$04,$04,$04,$04,$04,$04,$0B             ; 02BF98 DDDDDDDD ????????
-.byte $07,$07,$02,$02,$02,$09,$00,$00             ; 02BFA0 DDDDDDDD ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 02BFA8 DDDDDDDD ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 02BFB0 DDDDDDDD ????????
-.byte $00,$00,$03,$03,$03,$03,$03,$01             ; 02BFB8 DD...... ????????
-.byte $01,$0A,$07,$07,$02,$02,$02,$02             ; 02BFC0 ........ ????????
-.byte $09,$09,$09,$08,$08,$08,$05,$05             ; 02BFC8 ........ ????????
-.byte $05,$06,$06,$03,$03,$03,$03,$01             ; 02BFD0 ........ ????????
-.byte $01,$01,$0A,$0B,$07,$09,$09,$09             ; 02BFD8 ........ ????????
-.byte $08,$08,$05,$06,$06,$06,$03,$03             ; 02BFE0 ........ ????????
-.byte $03,$01,$01,$07,$07,$07,$02,$02             ; 02BFE8 ........ ????????
-.byte $09,$09,$09,$09,$08,$08,$05,$06             ; 02BFF0 ........ ????????
-.byte $06,$06,$03,$03,$03,$01,$01,$0B             ; 02BFF8 ........ ????????
-.byte $0B,$07,$07,$02,$02,$09,$09,$09             ; 02C000 ........ ????????
-.byte $09,$08,$05,$06,$06,$03,$03,$01             ; 02C008 ........ ????????
-.byte $01,$01,$07,$07,$07,$02,$02,$02             ; 02C010 ........ ????????
-.byte $09,$09,$09,$09,$08,$08,$05,$05             ; 02C018 ........ ????????
-.byte $06,$06,$03,$03,$03,$03,$01,$0B             ; 02C020 ........ ????????
-.byte $0B,$07,$07,$02,$02,$02,$09,$09             ; 02C028 ........ ????????
-.byte $09,$09,$08,$06,$03,$03,$03,$01             ; 02C030 ........ ????????
-.byte $01,$01,$01,$04,$04,$04,$04,$04             ; 02C038 ........ ????????
-.byte $04,$04,$02,$02,$02,$09,$09,$05             ; 02C040 ........ ????????
-.byte $06,$06,$03,$03,$03,$03,$01,$01             ; 02C048 ........ ????????
-.byte $01,$0A,$0B,$07,$02,$02,$09,$09             ; 02C050 ........ ????????
-.byte $09,$08,$08,$00,$00,$05,$06,$06             ; 02C058 ........ ????????
-.byte $03,$01,$01,$0A,$0A,$0B,$07,$07             ; 02C060 ........ ????????
-.byte $02,$09,$09,$09,$09,$08,$08,$00             ; 02C068 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 02C070 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 02C078 ........ ????????
-.byte $00,$00,$00,$00,$00,$05,$06,$06             ; 02C080 ........ ????????
-.byte $03,$03,$01,$01,$01,$0A,$0A,$07             ; 02C088 ........ ????????
-.byte $02,$09,$09,$09,$09,$08,$08,$05             ; 02C090 ........ ????????
-.byte $06,$06,$03,$03,$03,$03,$01,$01             ; 02C098 ........ ????????
-.byte $0A,$0A,$0A,$07,$02,$02,$02,$09             ; 02C0A0 ........ ????????
-.byte $09,$09,$08,$00,$05,$06,$06,$03             ; 02C0A8 ........ ????????
-.byte $03,$01,$01,$0A,$0A,$0B,$0B,$07             ; 02C0B0 ........ ????????
-.byte $02,$09,$09,$09,$09,$08,$08,$00             ; 02C0B8 ........ ????????
-.byte $00,$03,$03,$03,$01,$01,$0A,$0A             ; 02C0C0 ........ ????????
-.byte $0A,$0B,$0B,$07,$02,$09,$09,$09             ; 02C0C8 ........ ????????
-.byte $09,$08,$08,$05,$06,$06,$03,$03             ; 02C0D0 ........ ????????
-.byte $03,$03,$01,$01,$0A,$0B,$07,$07             ; 02C0D8 ........ ????????
-.byte $07,$02,$09,$09,$09,$08,$08,$05             ; 02C0E0 ........ ????????
-.byte $06,$06,$03,$03,$01,$01,$01,$07             ; 02C0E8 ........ ????????
-.byte $07,$07,$02,$02,$02,$09,$09,$09             ; 02C0F0 ........ ????????
-.byte $09,$08,$08,$05,$06,$06,$03,$01             ; 02C0F8 ........ ????????
-.byte $01,$0A,$0A,$07,$07,$07,$02,$02             ; 02C100 ........ ????????
-.byte $02,$09,$09,$09,$09,$08,$08,$00             ; 02C108 ........ ????????
-.byte $00,$05,$06,$03,$03,$03,$01,$01             ; 02C110 ........ ????????
-.byte $0A,$0A,$07,$07,$02,$09,$09,$09             ; 02C118 ........ ????????
-.byte $09,$08,$08,$05,$06,$06,$06,$03             ; 02C120 ........ ????????
-.byte $03,$03,$03,$03,$01,$01,$07,$07             ; 02C128 ........ ????????
-.byte $07,$02,$02,$09,$08,$08,$08,$05             ; 02C130 ........ ????????
-.byte $06,$06,$03,$03,$01,$01,$01,$01             ; 02C138 ........ ????????
-.byte $0A,$07,$02,$02,$09,$09,$09,$09             ; 02C140 ........ ????????
-.byte $08,$08,$00,$05,$06,$03,$01,$01             ; 02C148 ........ ????????
-.byte $07,$07,$07,$07,$02,$02,$02,$02             ; 02C150 ........ ????????
-.byte $09,$09,$09,$09,$08,$08,$05,$06             ; 02C158 ........ ????????
-.byte $06,$03,$01,$01,$0A,$07,$07,$07             ; 02C160 ........ ????????
-.byte $02,$02,$09,$09,$09,$09,$09,$08             ; 02C168 ........ ????????
-.byte $08,$08,$05,$06,$06,$03,$01,$01             ; 02C170 ........ ????????
-.byte $01,$0A,$07,$07,$07,$02,$02,$02             ; 02C178 ........ ????????
-.byte $09,$09,$09,$09,$08,$08,$05,$06             ; 02C180 ........ ????????
-.byte $06,$03,$01,$01,$0A,$07,$07,$02             ; 02C188 ........ ????????
-.byte $02,$02,$09,$09,$09,$09,$09,$08             ; 02C190 ........ ????????
-.byte $06,$06,$06,$03,$03,$03,$03,$03             ; 02C198 ........ ????????
-.byte $03,$01,$01,$01,$02,$07,$07,$02             ; 02C1A0 ........ ????????
-.byte $02,$02,$02,$09,$05,$06,$06,$03             ; 02C1A8 ........ ????????
-.byte $01,$01,$01,$0A,$07,$07,$07,$02             ; 02C1B0 ........ ????????
-.byte $02,$02,$09,$09,$09,$09,$08,$08             ; 02C1B8 ........ ????????
-.byte $05,$06,$06,$03,$01,$01,$01,$0A             ; 02C1C0 ........ ????????
-.byte $07,$07,$07,$02,$02,$02,$09,$09             ; 02C1C8 ........ ????????
-.byte $09,$09,$08,$08,$00,$00,$00,$00             ; 02C1D0 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 02C1D8 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 02C1E0 ........ ????????
-.byte $05,$05,$06,$06,$06,$03,$03,$03             ; 02C1E8 ........ ????????
-.byte $01,$01,$07,$07,$07,$02,$02,$09             ; 02C1F0 ........ ????????
-.byte $09,$08,$08,$08,$05,$06,$03,$01             ; 02C1F8 ........ ????????
-.byte $01,$01,$0A,$0A,$0A,$07,$07,$02             ; 02C200 ........ ????????
-.byte $02,$02,$09,$09,$09,$09,$08,$08             ; 02C208 ........ ????????
-.byte $05,$06,$06,$03,$01,$01,$01,$0A             ; 02C210 ........ ????????
-.byte $07,$07,$07,$02,$02,$02,$09,$09             ; 02C218 ........ ????????
-.byte $09,$09,$08,$08,$06,$03,$01,$01             ; 02C220 ........ ????????
-.byte $01,$0A,$0A,$0A,$07,$07,$07,$02             ; 02C228 ........ ????????
-.byte $02,$02,$09,$09,$09,$09,$08,$08             ; 02C230 ........ ????????
-.byte $05,$06,$06,$03,$01,$01,$01,$0A             ; 02C238 ........ ????????
-.byte $07,$07,$07,$02,$02,$02,$09,$09             ; 02C240 ........ ????????
-.byte $09,$09,$08,$08,$05,$06,$06,$03             ; 02C248 ........ ????????
-.byte $01,$01,$01,$0A,$07,$07,$07,$02             ; 02C250 ........ ????????
-.byte $02,$02,$09,$09,$09,$09,$08,$08             ; 02C258 ........ ????????
-.byte $05,$06,$03,$01,$01,$01,$0A,$07             ; 02C260 ........ ????????
-.byte $07,$07,$02,$02,$02,$09,$09,$09             ; 02C268 ........ ????????
-.byte $0B,$0B,$08,$08,$05,$06,$06,$03             ; 02C270 ........ ????????
-.byte $03,$03,$01,$01,$01,$07,$07,$07             ; 02C278 ........ ????????
-.byte $02,$02,$02,$09,$09,$09,$08,$08             ; 02C280 ........ ????????
-.byte $05,$06,$06,$03,$03,$03,$03,$01             ; 02C288 ........ ????????
-.byte $01,$01,$01,$0B,$07,$07,$02,$02             ; 02C290 ........ ????????
-.byte $09,$09,$08,$08,$A2,$C2,$B8,$C2             ; 02C298 ....DD.. ????????
-.byte $DE,$C2,$00,$00,$0E,$C3,$0E,$C3             ; 02C2A0 ........ ????????
+DropTableRound0:
+.word $0000
+.word DropTableRound0Room00
+.word DropTableRound0Room01
+.word DropTableRound0Room02
+.word DropTableRound0Room03
+.word DropTableRound0Room04
+.word DropTableRound0Room05
+.word DropTableRound0Room06
+.word DropTableRound0Room07
+.word DropTableRound0Room08
+.word DropTableRound0Room09
+.word DropTableRound0Room10
+
+DropTableRound1:
+.word $0000
+.word DropTableRound1Room00
+.word DropTableRound1Room01
+.word DropTableRound1Room02
+.word DropTableRound1Room03
+.word DropTableRound1Room04
+.word DropTableRound1Room05
+.word DropTableRound1Room06
+.word DropTableRound1Room07
+.word DropTableRound1Room08
+.word DropTableRound1Room09
+.word DropTableRound1Room10
+.word DropTableRound1Room11
+.word DropTableRound1Room12
+.word DropTableRound1Room13
+.word DropTableRound1Room14
+.word DropTableRound1Room15
+.word DropTableRound1Room16
+.word DropTableRound1Room17
+.word DropTableRound1Room18
+
+DropTableRound2:
+.word $0000
+.word DropTableRound2Room00
+.word DropTableRound2Room01
+.word DropTableRound2Room02
+.word DropTableRound2Room03
+.word DropTableRound2Room04
+.word DropTableRound2Room05
+.word DropTableRound2Room06
+.word DropTableRound2Room07
+.word DropTableRound2Room08
+.word DropTableRound2Room09
+.word DropTableRound2Room10
+.word DropTableRound2Room11
+.word DropTableRound2Room12
+.word DropTableRound2Room13
+.word DropTableRound2Room14
+.word DropTableRound2Room15
+.word DropTableRound2Room16
+.word DropTableRound2Room17
+.word DropTableRound2Room18
+.word DropTableRound2Room19
+.word DropTableRound2Room20
+.word DropTableRound2Room21
+.word DropTableRound2Room22
+
+; ARENA 1
+DropTableRound0Room00:
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+; COLLECT 10 KEYS!
+DropTableRound0Room01:
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+; COLLECT POWERUPS!
+DropTableRound0Room02:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+; MEET MR. SHRAPNEL
+DropTableRound0Room03:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+
+; BONUS PRIZES!
+DropTableRound0Room04:
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+; EAT MY SHRAPNEL
+DropTableRound0Room05:
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+
+; TOTAL CARNAGE
+DropTableRound0Room06:
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+
+; CROWD CONTROL
+DropTableRound0Room07:
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+; TANK TROUBLE
+DropTableRound0Room08:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room20:
+; MUTOID MAIN
+DropTableRound0Room09:
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+
+; SECRET ROOM #1
+DropTableRound0Room10:
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+
+DropTableRound1Room00:
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room01:
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room02:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room03:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+
+DropTableRound1Room04:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room05:
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+
+DropTableRound1Room06:
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Lobber
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+
+DropTableRound1Room07:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room08:
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room09:
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+
+DropTableRound1Room10:
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room11:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+
+DropTableRound1Room12:
+.byte DropTableType_None
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room13:
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room14:
+DropTableRound1Room15:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room16:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room17:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound1Room18:
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room00:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room01:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room02:
+.byte DropTableType_None
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room03:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room04:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room05:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+
+DropTableRound2Room06:
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Rockets
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+
+DropTableRound2Room07:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room08:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room09:
+DropTableRound2Room21:
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+
+DropTableRound2Room10:
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room11:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room12:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room13:
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room14:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room15:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room16:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Key
+.byte DropTableType_Key
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room17:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableRound2Room18:
+DropTableRound2Room19:
+DropTableRound2Room22:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Key
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+
+.byte $A2,$C2,$B8,$C2,$DE,$C2,$00,$00,$0E,$C3,$0E,$C3
 .byte $18,$C3,$1E,$C3,$26,$C3,$30,$C3             ; 02C2A8 DD....DD ????&?0?
 .byte $34,$C3,$3A,$C3,$44,$C3,$4C,$C3             ; 02C2B0 DD..DDDD 4?:?D?L?
 .byte $00,$00,$50,$C3,$50,$C3,$50,$C3             ; 02C2B8 ........ ??P?P?P?

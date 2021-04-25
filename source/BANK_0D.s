@@ -4061,13 +4061,13 @@ B_DEE99:
   RTL                                             ; 0DEE9B 6B 
 
 L_DEE9C:
-  JSL L_380F3                                     ; 0DEE9C 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 0DEE9C 22 F3 80 03 
   BEQ.B B_DEEA5                                   ; 0DEEA0 F0 03 
 
 .byte $4C,$1C,$EF                                 ; 0DEEA3 ...      L??
 
 B_DEEA5:
-  JSL L_38094                                     ; 0DEEA5 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 0DEEA5 22 94 80 03 
   LDA.B #$01                                      ; 0DEEA9 A9 01 
   STA.W EntityHeader,X                                   ; 0DEEAB 9D D2 06 
   LDA.B #$6E                                      ; 0DEEAE A9 6E 
@@ -4122,13 +4122,13 @@ D_DEF1D:
 
 
 L_DEF1F:
-  JSL L_380F3                                     ; 0DEF1F 22 F3 80 03 
+  JSL FindEmptyEntitySlot                                     ; 0DEF1F 22 F3 80 03 
   BEQ.B B_DEF28                                   ; 0DEF23 F0 03 
 
 .byte $4C,$9F,$EF                                 ; 0DEF26 ...      L??
 
 B_DEF28:
-  JSL L_38094                                     ; 0DEF28 22 94 80 03 
+  JSL ClearEntitySlotData                                     ; 0DEF28 22 94 80 03 
   LDA.B #$01                                      ; 0DEF2C A9 01 
   STA.W EntityHeader,X                                   ; 0DEF2E 9D D2 06 
   LDA.B #$1C                                      ; 0DEF31 A9 1C 

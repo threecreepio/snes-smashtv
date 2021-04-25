@@ -105,6 +105,8 @@ VRAM_Player2ScoreRow2 = $0564
 
 PlayerLives = $531
 PlayerContinues = $533
+PlayerRazorShieldStatus = $05D1
+PlayerOrbStatus = $05CE
 
 GameConfigContinues = $0204
 GameConfigLives = $0206
@@ -402,3 +404,17 @@ NMITIMEN_Joypad   = %00000001
 
 VMAIN_IncrementOnLow = %00000000
 VMAIN_IncrementOnHigh = %10000000
+
+DropTableType_None        = $00
+DropTableType_Spreader    = $01
+DropTableType_Rockets     = $02
+DropTableType_Grenades    = $03
+DropTableType_Lobber      = $04
+DropTableType_RazorShield = $05
+DropTableType_Orb         = $06
+DropTableType_Shield      = $07
+DropTableType_Nuke        = $08
+DropTableType_Shoe        = $09
+DropTableType_ExtraLife   = $0A
+DropTableType_Key         = $0B
+
