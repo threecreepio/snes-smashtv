@@ -9111,13 +9111,13 @@ SpawnNextDrop:
   sta @SpawnNextDrop_DropTypeId
   beq @Bail
   ; if we're spawning a shield, make sure there's none active
-  cmp #5
+  cmp #DropTableType_RazorShield
   bne @CheckOrb
   lda PlayerRazorShieldStatus
   bne @Bail
   ; if we're spawning an orb, make sure there's none active
 @CheckOrb:
-  cmp #6
+  cmp #DropTableType_Orb
   bne @ContinueWithSpawn
   lda PlayerOrbStatus
   bpl @Bail
@@ -9125,14 +9125,14 @@ SpawnNextDrop:
   plb
   ; find a good target slot to fill.
   jsl FindEmptyEntitySlot
-  beq @DoDropSpawn
+  beq @RunDropSpawn
   rts
 @Bail:
   plb
 @Exit:
   rts
 
-@DoDropSpawn:
+@RunDropSpawn:
   jsl ClearEntitySlotData
   ldy @SpawnNextDrop_DropTypeId
   lda DropEntityTypes,Y
