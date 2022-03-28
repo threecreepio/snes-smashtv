@@ -4842,7 +4842,7 @@ B_EE378:
   BEQ.B B_EE3A5                                   ; 0EE3A0 F0 03 
   JMP.W D_EE310                                   ; 0EE3A2 4C 10 E3 
 B_EE3A5:
-  LDA.W #$0015                                    ; 0EE3A5 A9 15 00 
+  LDA.W #$0001                                    ; 0EE3A5 A9 15 00 
   STA.W $0258                                     ; 0EE3A8 8D 58 02 
   STZ.W $0256                                     ; 0EE3AB 9C 56 02 
   SEP.B #P_Acc8Bit                                      ; 0EE3AE E2 20 
@@ -4903,7 +4903,10 @@ B_EE412:
   JSR.W L_EE1D3                                   ; 0EE41A 20 D3 E1 
   LDX.W #$8001                                    ; 0EE41D A2 01 80 
   LDA.W #$20A2                                    ; 0EE420 A9 A2 20 
-  JSR.W L_EE1D3                                   ; 0EE423 20 D3 E1 
+  ;JSR.W L_EE1D3                                   ; 0EE423 20 D3 E1 
+  nop
+  nop
+  nop
   LDA.W $025A                                     ; 0EE426 AD 5A 02 
   BNE.B B_EE42D                                   ; 0EE429 D0 02 
 
@@ -6993,77 +6996,132 @@ B_EFDAD:
   PLP                                             ; 0EFDAE 28 
   RTL                                             ; 0EFDAF 6B 
 
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDB0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDB8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDC0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDC8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDD0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDD8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDE0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDE8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDF0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFDF8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE00 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE08 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE10 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE18 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE20 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE28 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE30 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE38 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE40 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE48 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE50 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE58 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE60 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE68 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE70 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE78 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE80 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE88 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE90 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFE98 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEA0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEA8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEB0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEB8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEC0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEC8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFED0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFED8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEE0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEE8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEF0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFEF8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF00 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF08 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF10 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF18 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF20 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF28 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF30 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF38 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF40 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF48 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF50 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF58 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF60 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF68 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF70 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF78 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF80 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF88 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF90 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFF98 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFA0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFA8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFB0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFB8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFC0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFC8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFD0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFD8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFE0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFE8 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFF0 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0EFFF8 ........ ????????
+Creepio:
+  jsl ShowMutoidHealth
+  jml [NMIHandlerLo]
+
+ShowMutoidHealth:
+  sep #P_Idx8Bit
+  ldy.b #17
+  sty Player2CurrentScore+0
+  sty Player2CurrentScore+1
+  sty Player2CurrentScore+2
+  sty Player2CurrentScore+3
+  sty Player2CurrentScore+4
+  sty Player2CurrentScore+5
+  sty Player2CurrentScore+6
+  sty Player2CurrentScore+7
+  ldy CurrentRoom
+  cpy #$0A ; mutoid room
+  beq RunMutoidHealth
+  jsr ShowRNG
+  rep #P_Idx8Bit
+  rtl
+RunMutoidHealth:
+  lda.w #0
+  ldy #6
+CalcMutoidHealth:
+  cpy XexzyMutoidHealth+2
+  bcc DoneCalculating
+  clc
+  adc.w #$180
+  dey
+  bne CalcMutoidHealth
+DoneCalculating:
+  sec
+  sbc.w XexzyMutoidHealth
+  sbc.w #$180
+  sta $0
+
+  ldy.b #0
+Next1000:
+  sec
+  sbc.w #1000
+  bmi Done1000
+  iny
+  bpl Next1000
+Done1000:
+  clc
+  adc.w #1000
+  sty.b Player2CurrentScore+3
+
+  ldy.b #0
+Next100:
+  sec
+  sbc.w #100
+  bmi Done100
+  iny
+  bpl Next100
+Done100:
+  clc
+  adc.w #100
+  sty.b Player2CurrentScore+2
+  ldy.b #0
+
+Next10:
+  sec
+  sbc.w #10
+  bmi Done10
+  iny
+  bpl Next10
+Done10:
+  clc
+  adc.w #10
+  sty.b Player2CurrentScore+1
+  tay
+  sty.b Player2CurrentScore+0
+
+  ldy XexzyMutoidHealth+2
+  sty Player2CurrentScore+7
+  rtl
+
+
+ShowRNG:
+  lda.w RNG0
+  pha
+  and.w #$0F
+  tay
+  sty.b Player2CurrentScore+2
+  pla
+  lsr a
+  lsr a
+  lsr a
+  lsr a
+  pha
+  and.w #$0F
+  tay
+  sty.b Player2CurrentScore+3
+  pla
+  lsr a
+  lsr a
+  lsr a
+  lsr a
+  pha
+  and.w #$0F
+  tay
+  sty.b Player2CurrentScore+0
+  pla
+  lsr a
+  lsr a
+  lsr a
+  lsr a
+  pha
+  and.w #$0F
+  tay
+  sty.b Player2CurrentScore+1
+  pla
+
+  lda.w DropTimer
+  pha
+  and.w #$0F
+  tay
+  sty Player2CurrentScore+6
+  pla
+  lsr a
+  lsr a
+  lsr a
+  lsr a
+  and.w #$0F
+  tay
+  sty Player2CurrentScore+7
+  rts

@@ -53,7 +53,10 @@ V_STARTUP:
 B_806B:
   LDA.W $020A                                     ; 00806B AD 0A 02 
   BNE.B B_8074                                    ; 00806E D0 04 
-  JSL RunStartupSmashLogo                                      ; 008070 22 FE EF 00 
+  inc $020A
+  nop
+
+  ;JSL RunStartupSmashLogo                                      ; 008070 22 FE EF 00 
 B_8074:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008074 C2 30 
   JSL L_F835A                                     ; 008076 22 5A 83 0F 
@@ -84,8 +87,16 @@ B_80BC:
   PEA.W $0000                                     ; 0080BC F4 00 00 
   PLB                                             ; 0080BF AB 
   PLB                                             ; 0080C0 AB 
-  JSL L_ECBAF                                     ; 0080C1 22 AF CB 0E 
-  JSL L_ECD12                                     ; 0080C5 22 12 CD 0E 
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  ;JSL L_ECBAF                                     ; 0080C1 22 AF CB 0E 
+  ;JSL L_ECD12                                     ; 0080C5 22 12 CD 0E 
   SEP.B #P_Acc8Bit                                      ; 0080C9 E2 20 
   LDA.B #$0D                                      ; 0080CB A9 0D 
   LDX.W #$4040                                    ; 0080CD A2 40 40 
@@ -255,7 +266,8 @@ V_NMI:
   lda RDNMI
   rep #P_Idx8Bit | P_Acc8Bit
   ; run the configured nmi handler for the game mode
-  jsl @CallHandler
+  ;jsl @CallHandler
+  jsl Creepio
   sep #P_Acc8Bit
   ; clear pending state
   stz NMIPending
@@ -4481,7 +4493,10 @@ L_AB65:
   LDY.B #$0E                                      ; 00AB8E A0 0E 
 B_AB90:
   LDA.B ($06),Y                                   ; 00AB90 B1 06 
-  STA.W VRAM_Player1ScoreRow1,X                                   ; 00AB92 9D 34 05 
+  ;STA.W VRAM_Player1ScoreRow1,X                                   ; 00AB92 9D 34 05 
+  nop
+  nop
+  nop
   INX                                             ; 00AB95 E8 
   INX                                             ; 00AB96 E8 
   DEY                                             ; 00AB97 88 
@@ -4495,7 +4510,10 @@ B_AB90:
   LDY.B #$0E                                      ; 00ABA5 A0 0E 
 B_ABA7:
   LDA.B ($06),Y                                   ; 00ABA7 B1 06 
-  STA.W VRAM_Player1ScoreRow2,X                                   ; 00ABA9 9D 44 05 
+  ;STA.W VRAM_Player1ScoreRow2,X                                   ; 00ABA9 9D 44 05 
+  nop
+  nop
+  nop
   INX                                             ; 00ABAC E8 
   INX                                             ; 00ABAD E8 
   DEY                                             ; 00ABAE 88 
@@ -4734,10 +4752,14 @@ B_AD8B:
   BNE.B B_AD96                                    ; 00AD8E D0 06 
   LDA.B $D2                                       ; 00AD90 A5 D2 
   AND.B #$80                                      ; 00AD92 29 80 
-  BNE.B B_ADC0                                    ; 00AD94 D0 2A 
+  ;BNE.B B_ADC0                                    ; 00AD94 D0 2A 
+  nop
+  nop
 B_AD96:
   LDA.W $05B3                                     ; 00AD96 AD B3 05 
-  BNE.B B_ADC0                                    ; 00AD99 D0 25 
+  ;BNE.B B_ADC0                                    ; 00AD99 D0 25 
+  nop
+  nop
   STZ.B $B5                                       ; 00AD9B 64 B5 
   LDY.B #$07                                      ; 00AD9D A0 07 
 B_AD9F:
