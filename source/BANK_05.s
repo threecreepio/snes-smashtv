@@ -3902,75 +3902,44 @@ ROMHighscoreList:
 .byte "TOM",$00,$00,$00,$00,$00,$00,$02,$00,$00
 ROMHighscoreListEnd:
 
+; game intro scroll
 .byte "The Year is 199", '9' | $80, $A0
 .byte "Television has adapte", 'd' | $80, $A0
 .byte "to the more violen", 't' | $80, $A0
-.byte "nature of man", '.'  | $80, $A0
+.byte "nature of man", '.' | $80, $A0
 .byte $A0,$A0,$A0
 .byte "The most popular form o", 'f'  | $80, $A0
 .byte "television remain", 's'  | $80, $A0
 .byte "the game show", '.'  | $80, $A0
+.byte $A0,$A0,$A0
+.byte "One show in particula", 'r' | $80, $A0
+.byte "has dominated the ratings", '.' | $80, $A0
+.byte "That show is Smash T.V", '.' | $80, $A0
+.byte "The most violen", 't' | $80, $A0
+.byte "game show of all time", '.' | $80, $A0
+.byte $A0,$A0,$A0
+.byte "Two lucky contestant", 's' | $80, $A0
+.byte "compete for cash an" 'd' | $80, $A0
+.byte "prizes. Each contestant i", 's' | $80, $A0
+.byte "armed with an assortmen", 't' | $80, $A0
+.byte "of powerful weapons an", 'd' | $80, $A0
+.byte "sent into a closed arena", '.' | $80, $A0
+.byte $A0,$A0,$A0
+.byte "The action takes place i", 'n' | $80, $A0
+.byte "front of a studio audienc", 'e' | $80, $A0
+.byte "and is broadcast live vi", 'a' | $80, $A0
+.byte "satellite around the world", '.' | $80, $A0
+.byte $A0,$A0,$A0
+.byte "Be prepared", '.' | $80, $A0
+.byte $A0,$A0,$A0
+.byte "The future is now", '.' | $80, $A0
+.byte $A0,$A0,$A0,$A0
+.byte "You are the next luck", 'y' | $80, $A0
+.byte "contestant", '!' | $80, $A0
+.byte $A0,$A0,$A0,$A0,$A0,$A0,$A0,$A0
+.byte $A0,$A0,$A0,$A0,$A0,$A0,$A0,$A0
+.byte $00
 
-
-.byte $A0,$A0,$A0,$4F,$6E,$65,$20             ; 05AF49 DDDDDDDD ????One 
-.byte $73,$68,$6F,$77,$20,$69,$6E,$20             ; 05AF51 DDDDDDDD show in 
-.byte $70,$61,$72,$74,$69,$63,$75,$6C             ; 05AF59 DDDDDDDD particul
-.byte $61,$F2,$A0,$68,$61,$73,$20,$64             ; 05AF61 DDDDDDDD a??has d
-.byte $6F,$6D,$69,$6E,$61,$74,$65,$64             ; 05AF69 DDDDDDDD ominated
-.byte $20,$74,$68,$65,$20,$72,$61,$74             ; 05AF71 DDDDDDDD  the rat
-.byte $69,$6E,$67,$73,$AE,$A0,$54,$68             ; 05AF79 DDDDDDDD ings??Th
-.byte $61,$74,$20,$73,$68,$6F,$77,$20             ; 05AF81 DDDDDDDD at show 
-.byte $69,$73,$20,$53,$6D,$61,$73,$68             ; 05AF89 DDDDDDDD is Smash
-.byte $20,$54,$2E,$56,$AE,$A0,$54,$68             ; 05AF91 DDDDDDDD  T.V??Th
-.byte $65,$20,$6D,$6F,$73,$74,$20,$76             ; 05AF99 DDDDDDDD e most v
-.byte $69,$6F,$6C,$65,$6E,$F4,$A0,$67             ; 05AFA1 DDDDDDDD iolen??g
-.byte $61,$6D,$65,$20,$73,$68,$6F,$77             ; 05AFA9 DDDDDDDD ame show
-.byte $20,$6F,$66,$20,$61,$6C,$6C,$20             ; 05AFB1 DDDDDDDD  of all 
-.byte $74,$69,$6D,$65,$AE,$A0,$A0,$A0             ; 05AFB9 DDDDDDDD time????
-.byte $A0,$54,$77,$6F,$20,$6C,$75,$63             ; 05AFC1 DDDDDDDD ?Two luc
-.byte $6B,$79,$20,$63,$6F,$6E,$74,$65             ; 05AFC9 DDDDDDDD ky conte
-.byte $73,$74,$61,$6E,$74,$F3,$A0,$63             ; 05AFD1 DDDDDDDD stant??c
-.byte $6F,$6D,$70,$65,$74,$65,$20,$66             ; 05AFD9 DDDDDDDD ompete f
-.byte $6F,$72,$20,$63,$61,$73,$68,$20             ; 05AFE1 DDDDDDDD or cash 
-.byte $61,$6E,$E4,$A0,$70,$72,$69,$7A             ; 05AFE9 DDDDDDDD an??priz
-.byte $65,$73,$2E,$20,$45,$61,$63,$68             ; 05AFF1 DDDDDDDD es. Each
-.byte $20,$63,$6F,$6E,$74,$65,$73,$74             ; 05AFF9 DDDDDDDD  contest
-.byte $61,$6E,$74,$20,$69,$F3,$A0,$61             ; 05B001 DDDDDDDD ant i??a
-.byte $72,$6D,$65,$64,$20,$77,$69,$74             ; 05B009 DDDDDDDD rmed wit
-.byte $68,$20,$61,$6E,$20,$61,$73,$73             ; 05B011 DDDDDDDD h an ass
-.byte $6F,$72,$74,$6D,$65,$6E,$F4,$A0             ; 05B019 DDDDDDDD ortmen??
-.byte $6F,$66,$20,$70,$6F,$77,$65,$72             ; 05B021 DDDDDDDD of power
-.byte $66,$75,$6C,$20,$77,$65,$61,$70             ; 05B029 DDDDDDDD ful weap
-.byte $6F,$6E,$73,$20,$61,$6E,$E4,$A0             ; 05B031 DDDDDDDD ons an??
-.byte $73,$65,$6E,$74,$20,$69,$6E,$74             ; 05B039 DDDDDDDD sent int
-.byte $6F,$20,$61,$20,$63,$6C,$6F,$73             ; 05B041 DDDDDDDD o a clos
-.byte $65,$64,$20,$61,$72,$65,$6E,$61             ; 05B049 DDDDDDDD ed arena
-.byte $AE,$A0,$A0,$A0,$A0,$54,$68,$65             ; 05B051 DDDDDDDD ?????The
-.byte $20,$61,$63,$74,$69,$6F,$6E,$20             ; 05B059 DDDDDDDD  action 
-.byte $74,$61,$6B,$65,$73,$20,$70,$6C             ; 05B061 DDDDDDDD takes pl
-.byte $61,$63,$65,$20,$69,$EE,$A0,$66             ; 05B069 DDDDDDDD ace i??f
-.byte $72,$6F,$6E,$74,$20,$6F,$66,$20             ; 05B071 DDDDDDDD ront of 
-.byte $61,$20,$73,$74,$75,$64,$69,$6F             ; 05B079 DDDDDDDD a studio
-.byte $20,$61,$75,$64,$69,$65,$6E,$63             ; 05B081 DDDDDDDD  audienc
-.byte $E5,$A0,$61,$6E,$64,$20,$69,$73             ; 05B089 DDDDDDDD ??and is
-.byte $20,$62,$72,$6F,$61,$64,$63,$61             ; 05B091 DDDDDDDD  broadca
-.byte $73,$74,$20,$6C,$69,$76,$65,$20             ; 05B099 DDDDDDDD st live 
-.byte $76,$69,$E1,$A0,$73,$61,$74,$65             ; 05B0A1 DDDDDDDD vi??sate
-.byte $6C,$6C,$69,$74,$65,$20,$61,$72             ; 05B0A9 DDDDDDDD llite ar
-.byte $6F,$75,$6E,$64,$20,$74,$68,$65             ; 05B0B1 DDDDDDDD ound the
-.byte $20,$77,$6F,$72,$6C,$64,$AE,$A0             ; 05B0B9 DDDDDDDD  world??
-.byte $A0,$A0,$A0,$42,$65,$20,$70,$72             ; 05B0C1 DDDDDDDD ???Be pr
-.byte $65,$70,$61,$72,$65,$64,$AE,$A0             ; 05B0C9 DDDDDDDD epared??
-.byte $A0,$A0,$A0,$54,$68,$65,$20,$66             ; 05B0D1 DDDDDDDD ???The f
-.byte $75,$74,$75,$72,$65,$20,$69,$73             ; 05B0D9 DDDDDDDD uture is
-.byte $20,$6E,$6F,$77,$AE,$A0,$A0,$A0             ; 05B0E1 DDDDDDDD  now????
-.byte $A0,$A0,$59,$6F,$75,$20,$61,$72             ; 05B0E9 DDDDDDDD ??You ar
-.byte $65,$20,$74,$68,$65,$20,$6E,$65             ; 05B0F1 DDDDDDDD e the ne
-.byte $78,$74,$20,$6C,$75,$63,$6B,$F9             ; 05B0F9 DDDDDDDD xt luck?
-.byte $A0,$63,$6F,$6E,$74,$65,$73,$74             ; 05B101 DDDDDDDD ?contest
-.byte $61,$6E,$74,$A1,$A0,$A0,$A0,$A0             ; 05B109 DDDDDDDD ant?????
-.byte $A0,$A0,$A0,$A0,$A0,$A0,$A0,$A0             ; 05B111 DDDDDDDD ????????
-.byte $A0,$A0,$A0,$A0,$A0,$00                     ; 05B11A DDDDDD   ??????
 D_5B11F:
 .byte $A0,$0B,$C0,$0B,$E0,$0B,$00,$08             ; 05B11F ..DD..DD ????????
 .byte $20,$08,$40,$08,$60,$08,$80,$08             ; 05B127 ..DD..DD  ?@?`???
