@@ -1,5 +1,7 @@
 CurrentRound = $5AB
 CurrentRoom = $5AC
+HighscoreList  = $201E
+HighscoreListL = $7E201E
 
 ; entity data
 MaxEntities = $72
@@ -341,7 +343,6 @@ D_7E0208 = $7E0208
 D_7E020A = $7E020A
 D_7E020C = $7E020C
 D_7E1AF1 = $7E1AF1
-D_7E201E = $7E201E
 D_7E2096 = $7E2096
 D_7E2098 = $7E2098
 D_7E209A = $7E209A

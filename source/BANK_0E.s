@@ -4239,7 +4239,7 @@ L_EDAD4:
   CLC                                             ; 0EDAD7 18 
   LDA.W #$0000                                    ; 0EDAD8 A9 00 00 
 B_EDADB:
-  ADC.L D_7E201E,X                                ; 0EDADB 7F 1E 20 7E 
+  ADC.L HighscoreListL,X                                ; 0EDADB 7F 1E 20 7E 
   INX                                             ; 0EDADF E8 
   INX                                             ; 0EDAE0 E8 
   CPX.W #$0078                                    ; 0EDAE1 E0 78 00 
@@ -4609,10 +4609,10 @@ L_EE1BB:
   SEP.B #P_Acc8Bit                                      ; 0EE1BE E2 20 
   LDX.W #$0000                                    ; 0EE1C0 A2 00 00 
 B_EE1C3:
-  LDA.L D_5AE49,X                                 ; 0EE1C3 BF 49 AE 05 
-  STA.L D_7E201E,X                                ; 0EE1C7 9F 1E 20 7E 
+  LDA.L ROMHighscoreList,X                                 ; 0EE1C3 BF 49 AE 05 
+  STA.L HighscoreListL,X                                ; 0EE1C7 9F 1E 20 7E 
   INX                                             ; 0EE1CB E8 
-  CPX.W #$0078                                    ; 0EE1CC E0 78 00 
+  CPX.W #ROMHighscoreListEnd-ROMHighscoreList                                    ; 0EE1CC E0 78 00 
   BNE.B B_EE1C3                                   ; 0EE1CF D0 F2 
   PLP                                             ; 0EE1D1 28 
   RTL                                             ; 0EE1D2 6B 
@@ -4643,7 +4643,7 @@ B_EE1FC:
   STX.B $08                                       ; 0EE1FC 86 08 
   LDY.B #$0B                                      ; 0EE1FE A0 0B 
 B_EE200:
-  LDA.W $201E,X                                   ; 0EE200 BD 1E 20 
+  LDA.W HighscoreList,X                                   ; 0EE200 BD 1E 20 
   CMP.B ($06),Y                                   ; 0EE203 D1 06 
   BEQ.B B_EE20B                                   ; 0EE205 F0 04 
   BCC.B B_EE211                                   ; 0EE207 90 08 
@@ -4679,7 +4679,7 @@ B_EE225:
   TAX                                             ; 0EE238 AA 
   LDY.B #$6B                                      ; 0EE239 A0 6B 
 B_EE23B:
-  LDA.W $201E,Y                                   ; 0EE23B B9 1E 20 
+  LDA.W HighscoreList,Y                                   ; 0EE23B B9 1E 20 
   STA.W $202A,Y                                   ; 0EE23E 99 2A 20 
   DEY                                             ; 0EE241 88 
   DEX                                             ; 0EE242 CA 
@@ -4689,7 +4689,7 @@ B_EE245:
   LDX.B $04                                       ; 0EE247 A6 04 
 B_EE249:
   LDA.B ($06),Y                                   ; 0EE249 B1 06 
-  STA.W $201E,X                                   ; 0EE24B 9D 1E 20 
+  STA.W HighscoreList,X                                   ; 0EE24B 9D 1E 20 
   INX                                             ; 0EE24E E8 
   INY                                             ; 0EE24F C8 
   CPY.B #$0C                                      ; 0EE250 C0 0C 
@@ -4762,7 +4762,7 @@ B_EE2DC:
   LDX.W #$0000                                    ; 0EE2EF A2 00 00 
   INC A
   JSR.W L_EE7A6                                   ; 0EE2F3 20 A6 E7 
-  LDA.W #$201E                                    ; 0EE2F6 A9 1E 20 
+  LDA.W #HighscoreList                            ; 0EE2F6 A9 1E 20 
   STA.B $14                                       ; 0EE2F9 85 14 
   LDA.W #$007E                                    ; 0EE2FB A9 7E 00 
   STA.B $16                                       ; 0EE2FE 85 16 

@@ -3888,40 +3888,31 @@ D_5A709:
 .byte $FF,$FF,$52,$45,$49,$47,$4E,$49             ; 05AE31 DDDDDDDD ??REIGNI
 .byte $4E,$47,$20,$43,$48,$41,$4D,$50             ; 05AE39 DDDDDDDD NG CHAMP
 .byte $53,$00,$54,$4F,$44,$41,$59,$00             ; 05AE41 DDDDDDDD S?TODAY?
-D_5AE49:
-.byte $52,$4A,$52,$00,$00,$00,$00,$05             ; 05AE49 DDDDDDDD RJR?????
-.byte $07,$03,$03,$01,$42,$4C,$44,$00             ; 05AE51 DDDDDDDD ????BLD?
-.byte $00,$00,$00,$05,$02,$01,$02,$01             ; 05AE59 DDDDDDDD ????????
-.byte $47,$53,$53,$00,$00,$00,$00,$05             ; 05AE61 DDDDDDDD GSS?????
-.byte $07,$08,$01,$01,$41,$52,$4C,$00             ; 05AE69 DDDDDDDD ????ARL?
-.byte $00,$00,$00,$00,$05,$09,$09,$00             ; 05AE71 DDDDDDDD ????????
-.byte $4D,$52,$50,$00,$00,$00,$00,$05             ; 05AE79 DDDDDDDD MRP?????
-.byte $02,$08,$08,$00,$41,$45,$42,$00             ; 05AE81 DDDDDDDD ????AEB?
-.byte $00,$00,$00,$00,$00,$07,$07,$00             ; 05AE89 DDDDDDDD ????????
-.byte $41,$4E,$4E,$00,$00,$00,$00,$05             ; 05AE91 DDDDDDDD ANN?????
-.byte $07,$05,$05,$00,$4D,$4A,$54,$00             ; 05AE99 DDDDDDDD ????MJT?
-.byte $00,$00,$00,$00,$05,$04,$00,$00             ; 05AEA1 DDDDDDDD ????????
-.byte $53,$4A,$53,$00,$00,$00,$00,$05             ; 05AEA9 DDDDDDDD SJS?????
-.byte $02,$03,$00,$00,$54,$4F,$4D,$00             ; 05AEB1 DDDDDDDD ????TOM?
-.byte $00,$00,$00,$00,$00,$02,$00,$00             ; 05AEB9 DDDDDDDD ????????
-.byte $54,$68,$65,$20,$59,$65,$61,$72             ; 05AEC1 DDDDDDDD The Year
-.byte $20,$69,$73,$20,$31,$39,$39,$B9             ; 05AEC9 DDDDDDDD  is 199?
-.byte $A0,$54,$65,$6C,$65,$76,$69,$73             ; 05AED1 DDDDDDDD ?Televis
-.byte $69,$6F,$6E,$20,$68,$61,$73,$20             ; 05AED9 DDDDDDDD ion has 
-.byte $61,$64,$61,$70,$74,$65,$E4,$A0             ; 05AEE1 DDDDDDDD adapte??
-.byte $74,$6F,$20,$74,$68,$65,$20,$6D             ; 05AEE9 DDDDDDDD to the m
-.byte $6F,$72,$65,$20,$76,$69,$6F,$6C             ; 05AEF1 DDDDDDDD ore viol
-.byte $65,$6E,$F4,$A0,$6E,$61,$74,$75             ; 05AEF9 DDDDDDDD en??natu
-.byte $72,$65,$20,$6F,$66,$20,$6D,$61             ; 05AF01 DDDDDDDD re of ma
-.byte $6E,$AE,$A0,$A0,$A0,$A0,$54,$68             ; 05AF09 DDDDDDDD n?????Th
-.byte $65,$20,$6D,$6F,$73,$74,$20,$70             ; 05AF11 DDDDDDDD e most p
-.byte $6F,$70,$75,$6C,$61,$72,$20,$66             ; 05AF19 DDDDDDDD opular f
-.byte $6F,$72,$6D,$20,$6F,$E6,$A0,$74             ; 05AF21 DDDDDDDD orm o??t
-.byte $65,$6C,$65,$76,$69,$73,$69,$6F             ; 05AF29 DDDDDDDD elevisio
-.byte $6E,$20,$72,$65,$6D,$61,$69,$6E             ; 05AF31 DDDDDDDD n remain
-.byte $F3,$A0,$74,$68,$65,$20,$67,$61             ; 05AF39 DDDDDDDD ??the ga
-.byte $6D,$65,$20,$73,$68,$6F,$77,$AE             ; 05AF41 DDDDDDDD me show?
-.byte $A0,$A0,$A0,$A0,$4F,$6E,$65,$20             ; 05AF49 DDDDDDDD ????One 
+
+ROMHighscoreList:
+.byte "RJR",$00,$00,$00,$00,$05,$07,$03,$03,$01
+.byte "BLD",$00,$00,$00,$00,$05,$02,$01,$02,$01
+.byte "GSS",$00,$00,$00,$00,$05,$07,$08,$01,$01
+.byte "ARL",$00,$00,$00,$00,$00,$05,$09,$09,$00
+.byte "MRP",$00,$00,$00,$00,$05,$02,$08,$08,$00
+.byte "AEB",$00,$00,$00,$00,$00,$00,$07,$07,$00
+.byte "ANN",$00,$00,$00,$00,$05,$07,$05,$05,$00
+.byte "MJT",$00,$00,$00,$00,$00,$05,$04,$00,$00
+.byte "SJS",$00,$00,$00,$00,$05,$02,$03,$00,$00
+.byte "TOM",$00,$00,$00,$00,$00,$00,$02,$00,$00
+ROMHighscoreListEnd:
+
+.byte "The Year is 199", '9' | $80, $A0
+.byte "Television has adapte", 'd' | $80, $A0
+.byte "to the more violen", 't' | $80, $A0
+.byte "nature of man", '.'  | $80, $A0
+.byte $A0,$A0,$A0
+.byte "The most popular form o", 'f'  | $80, $A0
+.byte "television remain", 's'  | $80, $A0
+.byte "the game show", '.'  | $80, $A0
+
+
+.byte $A0,$A0,$A0,$4F,$6E,$65,$20             ; 05AF49 DDDDDDDD ????One 
 .byte $73,$68,$6F,$77,$20,$69,$6E,$20             ; 05AF51 DDDDDDDD show in 
 .byte $70,$61,$72,$74,$69,$63,$75,$6C             ; 05AF59 DDDDDDDD particul
 .byte $61,$F2,$A0,$68,$61,$73,$20,$64             ; 05AF61 DDDDDDDD a??has d
