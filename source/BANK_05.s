@@ -262,7 +262,7 @@ L_58267:
   LDA.W $1873                                     ; 058275 AD 73 18 
   BEQ.B B_58280                                   ; 058278 F0 06 
   JSR.W L_585AE                                   ; 05827A 20 AE 85 
-  JSR.W L_5866C                                   ; 05827D 20 6C 86 
+  JSR.W RunPlayerHitDetection                                   ; 05827D 20 6C 86 
 B_58280:
   LDA.B $D2                                       ; 058280 A5 D2 
   AND.B #$07                                      ; 058282 29 07 
@@ -823,7 +823,7 @@ B_5866B:
   RTS                                             ; 05866B 60 
 
 
-L_5866C:
+RunPlayerHitDetection:
   LDA.B #$05                                      ; 05866C A9 05 
   STA.B $24                                       ; 05866E 85 24 
   LDA.B #$AB                                      ; 058670 A9 AB 
@@ -1386,7 +1386,7 @@ D_58B8A:
 .byte $03,$99,$09,$03,$FA,$60                     ; 058B8B ......   ?????`
 
 
-L_58B90:
+GetSwirlProjectileDamage:
   LDA.W $1872                                     ; 058B90 AD 72 18 
   BNE.B B_58B9F                                   ; 058B93 D0 0A 
   LDY.B $1E                                       ; 058B95 A4 1E 
@@ -1401,15 +1401,16 @@ B_58B9F:
 
 
 .byte $01,$01                                     ; 058BA3 DD       ??
+
 D_58BA4:
 .byte $08,$02,$01,$01,$00,$08                     ; 058BA5 DDD.D.   ??????
 
 
-L_58BAA:
+GetWallGunnerProjectileDamage:
   LDA.W $1872                                     ; 058BAA AD 72 18 
   BNE.B B_58BB9                                   ; 058BAD D0 0A 
   LDY.B $1E                                       ; 058BAF A4 1E 
-  LDA.W EntityTypeId+Projectiles,Y                                   ; 058BB1 B9 86 07 
+  LDA.W EntityTypeId+Projectiles,Y                ; 058BB1 B9 86 07 
   TAY                                             ; 058BB4 A8 
   LDA.W D_58B8A,Y                                 ; 058BB5 B9 8A 8B 
   RTS                                             ; 058BB8 60 
@@ -1418,11 +1419,10 @@ B_58BB9:
   LDA.B #$80                                      ; 058BB9 A9 80 
   RTS                                             ; 058BBB 60 
 
-
 .byte $01,$01,$08,$02,$08,$00,$00,$08             ; 058BBC DDDDD... ????????
 
 
-L_58BC4:
+GetMutoidManProjectileDamage:
   LDA.W $1872                                     ; 058BC4 AD 72 18 
   BNE.B B_58BD3                                   ; 058BC7 D0 0A 
   LDY.B $1E                                       ; 058BC9 A4 1E 
@@ -1769,7 +1769,7 @@ PlayerHitEntityRoutinesHi:
 .byte $60,$60,$60,$60,$60,$60,$60,$60
 .byte $60
 
-  JSR.W L_58B90                                   ; 059125 20 90 8B 
+  JSR.W GetSwirlProjectileDamage                                   ; 059125 20 90 8B 
   BEQ.B B_59179                                   ; 059128 F0 4F 
   STZ.B $41,X                                     ; 05912A 74 41 
   DEC.W $18E4                                     ; 05912C CE E4 18 
@@ -2044,7 +2044,7 @@ B_591D6:
 .byte $FE,$FE,$00,$02,$A5,$D2,$29,$0F             ; 05979F ........ ??????)?
 .byte $D0,$05,$A9,$2A,$20,$44,$88,$60             ; 0597A7 ........ ???* D?`
 
-  JSR.W L_58B90                                   ; 0597AF 20 90 8B 
+  JSR.W GetSwirlProjectileDamage                                   ; 0597AF 20 90 8B 
   BEQ.B B_597EB                                   ; 0597B2 F0 37 
   CLC                                             ; 0597B4 18 
   ADC.W EntityV19,X                                   ; 0597B5 7D 48 0F 
@@ -3071,7 +3071,7 @@ D_59FAC:
 .byte $A5,$D2,$29,$0F,$D0,$05,$A9,$2A             ; 05A05C ........ ??)????*
 .byte $20,$44,$88,$60,$60,$60                     ; 05A065 ......    D?```
 
-  JSR.W L_58B90                                   ; 05A06A 20 90 8B 
+  JSR.W GetSwirlProjectileDamage                                   ; 05A06A 20 90 8B 
   BEQ.B B_5A0DF                                   ; 05A06D F0 70 
   STZ.B $41,X                                     ; 05A06F 74 41 
   DEC.W $18EB                                     ; 05A071 CE EB 18 
@@ -3138,7 +3138,7 @@ B_5A0DF:
 .byte $29,$0F,$D0,$05,$A9,$2A,$20,$44             ; 05A0EB ........ )????* D
 .byte $88,$60                                     ; 05A0F4 ..       ?`
 
-  JSR.W L_58B90                                   ; 05A0F5 20 90 8B 
+  JSR.W GetSwirlProjectileDamage                                   ; 05A0F5 20 90 8B 
   BNE.B B_5A0FD                                   ; 05A0F8 D0 03 
 
 .byte $4C,$4E,$A1                                 ; 05A0FB ...      LN?
@@ -3189,7 +3189,7 @@ D_5A142:
 D_5A153:
 .byte $00,$00,$01,$01,$00,$00                     ; 05A153 D.....   ??????
 
-  JSR.W L_58B90                                   ; 05A158 20 90 8B 
+  JSR.W GetSwirlProjectileDamage                                   ; 05A158 20 90 8B 
   BEQ.B B_5A188                                   ; 05A15B F0 2B 
   STZ.B $41,X                                     ; 05A15D 74 41 
   DEC.W $06C6                                     ; 05A15F CE C6 06 
@@ -3358,7 +3358,7 @@ B_5A4B2:
 .byte $60,$60,$60,$60,$60,$60,$60,$60             ; 05A4BB ........ ````````
 .byte $60,$60                                     ; 05A4C4 ..       ``
 
-  JSR.W L_58BC4                                   ; 05A4C5 20 C4 8B 
+  JSR.W GetMutoidManProjectileDamage                                   ; 05A4C5 20 C4 8B 
   BEQ.B B_5A4F0                                   ; 05A4C8 F0 26 
   JSR.W L_5A43B                                   ; 05A4CA 20 3B A4 
   LDA.B #$19                                      ; 05A4CD A9 19 
@@ -3384,7 +3384,7 @@ B_5A4F0:
 
   RTS                                             ; 05A4F4 60 
 
-  JSR.W L_58BC4                                   ; 05A4F5 20 C4 8B 
+  JSR.W GetMutoidManProjectileDamage                                   ; 05A4F5 20 C4 8B 
   BEQ.B B_5A520                                   ; 05A4F8 F0 26 
   JSR.W L_5A43B                                   ; 05A4FA 20 3B A4 
   LDA.B #$19                                      ; 05A4FD A9 19 
@@ -3421,7 +3421,7 @@ B_5A520:
 
   LDA.W $1872                                     ; 05A52E AD 72 18 
   BNE.B B_5A565                                   ; 05A531 D0 32 
-  JSR.W L_58BC4                                   ; 05A533 20 C4 8B 
+  JSR.W GetMutoidManProjectileDamage                                   ; 05A533 20 C4 8B 
   BEQ.B B_5A561                                   ; 05A536 F0 29 
   JSR.W L_5A43B                                   ; 05A538 20 3B A4 
   LDA.B #$1E                                      ; 05A53B A9 1E 
@@ -3504,7 +3504,7 @@ B_5A5B7:
 .byte $60,$60,$60,$60,$60,$60,$60,$60             ; 05A5BE ........ ````````
 .byte $60,$60,$60,$60,$60,$60,$60,$60             ; 05A5C6 ........ ````````
 
-  JSR.W L_58BAA                                   ; 05A5CE 20 AA 8B 
+  JSR.W GetWallGunnerProjectileDamage                                   ; 05A5CE 20 AA 8B 
   BEQ.B B_5A5DE                                   ; 05A5D1 F0 0B 
   CLC                                             ; 05A5D3 18 
   ADC.W EntityV19,X                                   ; 05A5D4 7D 48 0F 
@@ -3590,7 +3590,7 @@ D_5A66B:
 
 .byte $60,$60                                     ; 05A683 ..       ``
 
-  JSR.W L_58BAA                                   ; 05A684 20 AA 8B 
+  JSR.W GetWallGunnerProjectileDamage                                   ; 05A684 20 AA 8B 
   BEQ.B B_5A68B                                   ; 05A687 F0 02 
   BPL.B B_5A68E                                   ; 05A689 10 03 
 
