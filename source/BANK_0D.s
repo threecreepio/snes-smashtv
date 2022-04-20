@@ -3578,7 +3578,7 @@ B_DE83A:
   LDY.B #$FE                                      ; 0DE856 A0 FE 
   JSL L_EF164                                     ; 0DE858 22 64 F1 0E 
   JSL L_AE6F                                      ; 0DE85C 22 6F AE 00 
-  JSL L_38000                                     ; 0DE860 22 00 80 03 
+  JSL ClearAllEntities                                     ; 0DE860 22 00 80 03 
   JSL L_AF0E                                      ; 0DE864 22 0E AF 00 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0DE868 E2 30 
   LDA.B #$00                                      ; 0DE86A A9 00 

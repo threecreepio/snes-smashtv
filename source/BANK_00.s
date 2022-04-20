@@ -4202,7 +4202,7 @@ B_A6FE:
   CPY.W #$0020                                    ; 00A706 C0 20 00 
   BNE.B B_A6FE                                    ; 00A709 D0 F3 
   JSL L_AE6F                                      ; 00A70B 22 6F AE 00 
-  JSL L_38000                                     ; 00A70F 22 00 80 03 
+  JSL ClearAllEntities                                     ; 00A70F 22 00 80 03 
   JSL L_AF0E                                      ; 00A713 22 0E AF 00 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A717 E2 30 
   STZ.W $06CD                                     ; 00A719 9C CD 06 
@@ -9096,7 +9096,7 @@ SpawnNextDrop:
   iny
   lda (@SpawnNextDrop_RoundPtr),Y
   sta @SpawnNextDrop_RoomPtr+1
-  ; multiply the next rng value by 14, and get the high byte
+  ; multiply the next rng value by 20, and get the high byte
   jsl AdvanceRNG
   sta WRMPYA
   lda #$14

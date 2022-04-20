@@ -2700,17 +2700,17 @@ UpdateJoypadState:
   rtl
 
 AdvanceRNG:
-  lda RNG0
-  asl
-  lda RNG0
-  rol
-  adc.b #$4E
-  eor.b #$3A
-  sta RNG0
-  eor RNG1
-  adc.b #$C3
-  sta RNG1
-  rtl
+  lda RNG0                            ; get first rng byte
+  asl                                 ; shift top bit into carry
+  lda RNG0                            ; reload first rng byte
+  rol                                 ; shift the top bit into low bit, and high bit back into carry
+  adc.b #$4E                          ; add magic constant
+  eor.b #$3A                          ; xor magic constant
+  sta RNG0                            ; update first rng byte
+  eor RNG1                            ; xor first rng byte with second byte
+  adc.b #$C3                          ; add magic constant + carry of previous add
+  sta RNG1                            ; update second rng byte
+  rtl                                 ; and we are done
 
 LoadSceneInterruptConfiguration:
   php

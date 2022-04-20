@@ -2,31 +2,31 @@
 .ORG 0
 
 
-L_38000:
-  PHP                                             ; 038000 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 038001 E2 30 
-  LDX.B #$71                                      ; 038003 A2 71 
-B_38005:
-  STZ.W EntityHeader,X                                   ; 038005 9E D2 06 
-  STZ.W EntityTypeId,X                                   ; 038008 9E 44 07 
-  STZ.W EntityV2,X                                   ; 03800B 9E B6 07 
-  STZ.W EntityV3,X                                   ; 03800E 9E 28 08 
-  STZ.W EntityV5,X                                   ; 038011 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 038014 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 038017 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03801A 9E 62 0A 
-  STZ.W EntityXSubPx,X                                   ; 03801D 9E D4 0A 
-  STZ.W EntityXPx,X                              ; 038020 9E 46 0B 
-  STZ.W EntityV11,X                                   ; 038023 9E B8 0B 
-  STZ.W EntityYSubPx,X                                   ; 038026 9E 2A 0C 
-  STZ.W EntityYPx,X                                   ; 038029 9E 9C 0C 
-  STZ.W EntityV14,X                                   ; 03802C 9E 0E 0D 
-  STZ.W EntityV19,X                                   ; 03802F 9E 48 0F 
-  DEX                                             ; 038032 CA 
-  BPL.B B_38005                                   ; 038033 10 D0 
-  JSL L_3803B                                     ; 038035 22 3B 80 03 
-  PLP                                             ; 038039 28 
-  RTL                                             ; 03803A 6B 
+ClearAllEntities:
+  php                                             ; push processor state
+  sep #P_Idx8Bit | P_Acc8Bit                      ; set new processor state
+  ldx #MaxEntities-1                              ; load offset to final entity
+-:
+  stz EntityHeader,X                              ; clear a bunch of entity flags
+  stz EntityTypeId,X                              ; 
+  stz EntityV2,X                                  ; 
+  stz EntityV3,X                                  ; 
+  stz EntityV5,X                                  ; 
+  stz EntityV6,X                                  ; 
+  stz EntityV7,X                                  ; 
+  stz EntityV8,X                                  ; 
+  stz EntityXSubPx,X                              ; 
+  stz EntityXPx,X                                 ; 
+  stz EntityV11,X                                 ; 
+  stz EntityYSubPx,X                              ; 
+  stz EntityYPx,X                                 ; 
+  stz EntityV14,X                                 ; 
+  stz EntityV19,X                                 ; 
+  dex                                             ; advance to next entity
+  bpl -                                           ; and continue looping through each entity
+  jsl L_3803B                                     ; clear some more state
+  plp                                             ; restore processor state
+  rtl                                             ; and exit
 
 L_3803B:
   PHP                                             ; 03803B 08 
@@ -89,71 +89,71 @@ B_38084:
   RTL                                             ; 038093 6B 
 
 ClearEntitySlotData:
-  php
-  sep #P_Idx8Bit | P_Acc8Bit
-  stz EntityV5,X
-  stz EntityV6,X
-  stz EntityV7,X
-  stz EntityV8,X
-  stz EntityXSubPx,X
-  stz EntityYSubPx,X
-  stz EntityV2,X
-  stz EntityV3,X
-  stz EntityV4,X
-  stz EntityV29,X
-  stz EntityV30,X
-  stz EntityV25,X
-  stz EntityV15,X
-  stz EntityV16,X
-  stz EntityV17,X
-  stz EntityV20,X
-  stz EntityV21,X
-  stz EntityV22,X
-  stz EntityV23,X
-  stz EntityV24,X
-  stz EntityV19,X
-  stz EntityV32,X
-  stz EntityV33,X
-  stz EntityV34,X
-  stz EntityV35,X
-  plp
-  rtl
+  php                                             ; store away processor state and switch to 8 bit mode
+  sep #P_Idx8Bit | P_Acc8Bit                      ;
+  stz EntityV5,X                                  ; clear out a bunch of entity data
+  stz EntityV6,X                                  ; ...
+  stz EntityV7,X                                  ; ...
+  stz EntityV8,X                                  ; ...
+  stz EntityXSubPx,X                              ; ...
+  stz EntityYSubPx,X                              ; ...
+  stz EntityV2,X                                  ; ...
+  stz EntityV3,X                                  ; ...
+  stz EntityV4,X                                  ; ...
+  stz EntityV29,X                                 ; ...
+  stz EntityV30,X                                 ; ...
+  stz EntityV25,X                                 ; ...
+  stz EntityV15,X                                 ; ...
+  stz EntityV16,X                                 ; ...
+  stz EntityV17,X                                 ; ...
+  stz EntityV20,X                                 ; ...
+  stz EntityV21,X                                 ; ...
+  stz EntityV22,X                                 ; ...
+  stz EntityV23,X                                 ; ...
+  stz EntityV24,X                                 ; ...
+  stz EntityV19,X                                 ; ...
+  stz EntityV32,X                                 ; ...
+  stz EntityV33,X                                 ; ...
+  stz EntityV34,X                                 ; ...
+  stz EntityV35,X                                 ; ...
+  plp                                             ; restore initial processor state
+  rtl                                             ; and exit
 
 FindEmptyProjectileSlot:
-  ldx #Projectiles
+  ldx #Projectiles                                ; get starting offset for projectiles
 @Next:
-  lda EntityHeader,X
-  beq @Found
-  inx
-  cpx #MaxEntities
-  bne @Next
-  lda #1
+  lda EntityHeader,X                              ; is this projectile slot available?
+  beq @Found                                      ; yes - branch ahead
+  inx                                             ; no - advance to next
+  cpx #MaxEntities                                ; check if we're at the end of the entity list
+  bne @Next                                       ; no - check next slot
+  lda #1                                          ; yes - lda 1 to mark failure
 @Found:
-  rtl
+  rtl                                             ; and exit
 
 FindEmptyEntitySlot:
-  ldx #2
+  ldx #2                                          ; get starting offset for enemies (after 2 players)
 @Next:
-  lda EntityHeader,X
-  beq @Found
-  inx
-  cpx #62
-  bne @Next
-  lda #1
+  lda EntityHeader,X                              ; is this entity slot available?
+  beq @Found                                      ; yes - branch ahead
+  inx                                             ; no - advance to next
+  cpx #62                                         ; are we past the end of the list?
+  bne @Next                                       ; no - continue loop
+  lda #1                                          ; yes - lda 1 to mark failure
 @Found:
-  rtl
+  rtl                                             ; and exit
 
 FindEmptyEntitySlot2:
-  ldx #2
+  ldx #2                                          ; get starting offset for enemies (after 2 players)
 @Next:
-  lda EntityHeader,X
-  beq @Found
-  inx
-  cpx #66
-  bne @Next
-  lda #1
+  lda EntityHeader,X                              ; is this entity slot available?
+  beq @Found                                      ; yes - branch ahead
+  inx                                             ; no - advance to next
+  cpx #66                                         ; are we past the end of the list?
+  bne @Next                                       ; no - continue loop
+  lda #1                                          ; yes - lda 1 to mark failure
 @Found:
-  rtl
+  rtl                                             ; and exit
 
 .byte $A2,$41,$BD,$D2,$06,$F0,$05,$CA             ; 038111 ........ ?A??????
 .byte $10,$F8,$A9,$01,$6B                         ; 03811A .....    ????k
@@ -6830,6 +6830,7 @@ B_3DC50:
   JSR.W L_3E180                                   ; 03DC53 20 80 E1 
   JSR.W L_3E132                                   ; 03DC56 20 32 E1 
   JMP.W AdvanceToNextEntity                                   ; 03DC59 4C 41 81 
+
   JSL L_CFB81                                     ; 03DC5C 22 81 FB 0C 
   DEC.W EntityV15,X                                   ; 03DC60 DE 80 0D 
   BNE.B B_3DC81                                   ; 03DC63 D0 1C 
