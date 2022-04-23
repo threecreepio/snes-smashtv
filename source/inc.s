@@ -3,6 +3,17 @@ CurrentRoom = $5AC
 HighscoreList  = $201E
 HighscoreListL = $7E201E
 
+
+RoomWavesRemaining      = $1900
+RoomWaveType            = $1902
+RoomWaveMaxOnScreenLo   = $1909
+RoomWaveMaxOnScreenHi   = $1910
+RoomWaveTimer           = $1925
+RoomNextWaveTimerHi     = $192C
+RoomWaveCurrentTimerLo  = $193A
+RoomWaveCurrentTimerHi  = $1941
+RoomWaveVariantRate     = $1917
+
 ; entity data
 MaxEntities = $72
 Projectiles = $42

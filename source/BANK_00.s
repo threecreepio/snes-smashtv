@@ -315,7 +315,7 @@ L_828A:
   STZ.W $05B3                                     ; 0082A3 9C B3 05 
   STZ.W $05D3                                     ; 0082A6 9C D3 05 
   STZ.W $1873                                     ; 0082A9 9C 73 18 
-  JSR.W L_C17B                                    ; 0082AC 20 7B C1 
+  JSR.W PrepareRoom                                    ; 0082AC 20 7B C1 
   JSR.W L_97D3                                    ; 0082AF 20 D3 97 
   JSR.W L_A8D5                                    ; 0082B2 20 D5 A8 
   LDA.W CurrentRound                                     ; 0082B5 AD AB 05 
@@ -647,7 +647,7 @@ B_859B:
 .byte $8D,$C2,$02                                 ; 0085B3 ...      ???
 
 B_85B5:
-  LDA.W $1900                                     ; 0085B5 AD 00 19 
+  LDA.W RoomWavesRemaining                                     ; 0085B5 AD 00 19 
   ORA.W $06C6                                     ; 0085B8 0D C6 06 
   BNE.B B_85DB                                    ; 0085BB D0 1E 
   LDA.W $05D3                                     ; 0085BD AD D3 05 
@@ -7148,7 +7148,7 @@ D_C10A:
 .byte $00                                         ; 00C17B .        ?
 
 
-L_C17B:
+PrepareRoom:
   PHP                                             ; 00C17B 08 
   PHB                                             ; 00C17C 8B 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00C17D E2 30 
@@ -7171,11 +7171,11 @@ L_C17B:
   STZ.W $18F0                                     ; 00C1AE 9C F0 18 
   STZ.W $18F1                                     ; 00C1B1 9C F1 18 
   STZ.W $1901                                     ; 00C1B4 9C 01 19 
-  STZ.W $1900                                     ; 00C1B7 9C 00 19 
+  STZ.W RoomWavesRemaining                                     ; 00C1B7 9C 00 19 
   STZ.W $06C6                                     ; 00C1BA 9C C6 06 
   LDX.B #$06                                      ; 00C1BD A2 06 
 B_C1BF:
-  STZ.W $1902,X                                   ; 00C1BF 9E 02 19 
+  STZ.W RoomWaveType,X                                   ; 00C1BF 9E 02 19 
   DEX                                             ; 00C1C2 CA 
   BPL.B B_C1BF                                    ; 00C1C3 10 FA 
   LDX.B #$02                                      ; 00C1C5 A2 02 
@@ -7196,9 +7196,9 @@ B_C1E0:
   LDA.W CurrentRound                                     ; 00C1E4 AD AB 05 
   ASL                                             ; 00C1E7 0A 
   TAX                                             ; 00C1E8 AA 
-  LDA.W D_B5F0,X                                  ; 00C1E9 BD F0 B5 
+  LDA.W EntityWavesRounds,X                                  ; 00C1E9 BD F0 B5 
   STA.B $04                                       ; 00C1EC 85 04 
-  LDA.W D_B5F1,X                                  ; 00C1EE BD F1 B5 
+  LDA.W EntityWavesRounds+1,X                                  ; 00C1EE BD F1 B5 
   STA.B $05                                       ; 00C1F1 85 05 
   LDA.W CurrentRoom                                     ; 00C1F3 AD AC 05 
   ASL                                             ; 00C1F6 0A 
@@ -7212,38 +7212,38 @@ B_C1E0:
   LDA.B ($12),Y                                   ; 00C203 B1 12 
   STA.B $10                                       ; 00C205 85 10 
 B_C207:
-  INC.W $1900                                     ; 00C207 EE 00 19 
+  INC.W RoomWavesRemaining                                     ; 00C207 EE 00 19 
   LDX.B $10                                       ; 00C20A A6 10 
   INY                                             ; 00C20C C8 
   LDA.B ($12),Y                                   ; 00C20D B1 12 
-  STA.W $1902,X                                   ; 00C20F 9D 02 19 
+  STA.W RoomWaveType,X                                   ; 00C20F 9D 02 19 
   INY                                             ; 00C212 C8 
   LDA.B ($12),Y                                   ; 00C213 B1 12 
-  STA.W $1909,X                                   ; 00C215 9D 09 19 
+  STA.W RoomWaveMaxOnScreenLo,X                                   ; 00C215 9D 09 19 
   INY                                             ; 00C218 C8 
   LDA.B ($12),Y                                   ; 00C219 B1 12 
-  STA.W $1910,X                                   ; 00C21B 9D 10 19 
+  STA.W RoomWaveMaxOnScreenHi,X                                   ; 00C21B 9D 10 19 
   INY                                             ; 00C21E C8 
   LDA.B ($12),Y                                   ; 00C21F B1 12 
-  STA.W $1917,X                                   ; 00C221 9D 17 19 
+  STA.W RoomWaveVariantRate,X                                   ; 00C221 9D 17 19 
   INY                                             ; 00C224 C8 
   LDA.B ($12),Y                                   ; 00C225 B1 12 
   STA.W $191E,X                                   ; 00C227 9D 1E 19 
   INY                                             ; 00C22A C8 
   LDA.B ($12),Y                                   ; 00C22B B1 12 
-  STA.W $1925,X                                   ; 00C22D 9D 25 19 
+  STA.W RoomWaveTimer,X                                   ; 00C22D 9D 25 19 
   INY                                             ; 00C230 C8 
   LDA.B ($12),Y                                   ; 00C231 B1 12 
-  STA.W $192C,X                                   ; 00C233 9D 2C 19 
+  STA.W RoomNextWaveTimerHi,X                                   ; 00C233 9D 2C 19 
   INY                                             ; 00C236 C8 
   LDA.B ($12),Y                                   ; 00C237 B1 12 
   STA.W $1933,X                                   ; 00C239 9D 33 19 
   INY                                             ; 00C23C C8 
   LDA.B ($12),Y                                   ; 00C23D B1 12 
-  STA.W $193A,X                                   ; 00C23F 9D 3A 19 
+  STA.W RoomWaveCurrentTimerLo,X                                   ; 00C23F 9D 3A 19 
   INY                                             ; 00C242 C8 
   LDA.B ($12),Y                                   ; 00C243 B1 12 
-  STA.W $1941,X                                   ; 00C245 9D 41 19 
+  STA.W RoomWaveCurrentTimerHi,X                                   ; 00C245 9D 41 19 
   STY.B $11                                       ; 00C248 84 11 
   JSR.W L_C367                                    ; 00C24A 20 67 C3 
   LDY.B $11                                       ; 00C24D A4 11 
@@ -7260,7 +7260,7 @@ B_C207:
 L_C25C:
   LDY.B #$06                                      ; 00C25C A0 06 
 B_C25E:
-  LDA.W $1902,Y                                   ; 00C25E B9 02 19 
+  LDA.W RoomWaveType,Y                                   ; 00C25E B9 02 19 
   BEQ.B B_C268                                    ; 00C261 F0 05 
   PHY                                             ; 00C263 5A 
   JSR.W L_C26C                                    ; 00C264 20 6C C2 
@@ -7273,7 +7273,7 @@ B_C268:
 
 L_C26C:
   TYX                                             ; 00C26C BB 
-  LDA.W $1902,X                                   ; 00C26D BD 02 19 
+  LDA.W RoomWaveType,X                                   ; 00C26D BD 02 19 
   ASL                                             ; 00C270 0A 
   TAX                                             ; 00C271 AA 
   JMP.W ($C275,X)                                 ; 00C272 7C 75 C2 
@@ -7289,11 +7289,11 @@ D_C29D:
 .byte $B4,$C2,$B4,$C2,$B4,$C2                     ; 00C29E DDDD..   ??????
 
   LDA.W $18FF                                     ; 00C2A3 AD FF 18 
-  CMP.W $1900                                     ; 00C2A6 CD 00 19 
+  CMP.W RoomWavesRemaining                                     ; 00C2A6 CD 00 19 
   BCC.B B_C2B3                                    ; 00C2A9 90 08 
   LDA.B #$00                                      ; 00C2AB A9 00 
-  STA.W $1902,Y                                   ; 00C2AD 99 02 19 
-  DEC.W $1900                                     ; 00C2B0 CE 00 19 
+  STA.W RoomWaveType,Y                                   ; 00C2AD 99 02 19 
+  DEC.W RoomWavesRemaining                                     ; 00C2B0 CE 00 19 
 B_C2B3:
   RTS                                             ; 00C2B3 60 
 
@@ -7313,7 +7313,7 @@ L_C2B5:
 
 B_C2C4:
   JSR.W L_C25C                                    ; 00C2C4 20 5C C2 
-  LDA.W $1900                                     ; 00C2C7 AD 00 19 
+  LDA.W RoomWavesRemaining                                     ; 00C2C7 AD 00 19 
   BEQ.B B_C2D2                                    ; 00C2CA F0 06 
   JSR.W SpawnNextDrop                                    ; 00C2CC 20 76 DB 
   JSR.W L_DA43                                    ; 00C2CF 20 43 DA 
@@ -7323,40 +7323,40 @@ B_C2D2:
   PLB                                             ; 00C2D5 AB 
   LDY.B #$06                                      ; 00C2D6 A0 06 
 B_C2D8:
-  LDA.W $1902,Y                                   ; 00C2D8 B9 02 19 
+  LDA.W RoomWaveType,Y                                   ; 00C2D8 B9 02 19 
   BEQ.B B_C32B                                    ; 00C2DB F0 4E 
   SEC                                             ; 00C2DD 38 
-  LDA.W $193A,Y                                   ; 00C2DE B9 3A 19 
+  LDA.W RoomWaveCurrentTimerLo,Y                                   ; 00C2DE B9 3A 19 
   SBC.B #$01                                      ; 00C2E1 E9 01 
-  STA.W $193A,Y                                   ; 00C2E3 99 3A 19 
-  LDA.W $1941,Y                                   ; 00C2E6 B9 41 19 
+  STA.W RoomWaveCurrentTimerLo,Y                                   ; 00C2E3 99 3A 19 
+  LDA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2E6 B9 41 19 
   SBC.B #$00                                      ; 00C2E9 E9 00 
-  STA.W $1941,Y                                   ; 00C2EB 99 41 19 
-  LDA.W $193A,Y                                   ; 00C2EE B9 3A 19 
-  ORA.W $1941,Y                                   ; 00C2F1 19 41 19 
+  STA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2EB 99 41 19 
+  LDA.W RoomWaveCurrentTimerLo,Y                                   ; 00C2EE B9 3A 19 
+  ORA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2F1 19 41 19 
   BNE.B B_C32B                                    ; 00C2F4 D0 35 
-  LDA.W $1925,Y                                   ; 00C2F6 B9 25 19 
-  STA.W $193A,Y                                   ; 00C2F9 99 3A 19 
-  LDA.W $192C,Y                                   ; 00C2FC B9 2C 19 
-  STA.W $1941,Y                                   ; 00C2FF 99 41 19 
+  LDA.W RoomWaveTimer,Y                                   ; 00C2F6 B9 25 19 
+  STA.W RoomWaveCurrentTimerLo,Y                                   ; 00C2F9 99 3A 19 
+  LDA.W RoomNextWaveTimerHi,Y                                   ; 00C2FC B9 2C 19 
+  STA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2FF 99 41 19 
   STY.B $10                                       ; 00C302 84 10 
   JSR.W L_C331                                    ; 00C304 20 31 C3 
   STA.B $04                                       ; 00C307 85 04 
   LDY.B $10                                       ; 00C309 A4 10 
   SEC                                             ; 00C30B 38 
-  LDA.W $1909,Y                                   ; 00C30C B9 09 19 
+  LDA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C30C B9 09 19 
   SBC.B $04                                       ; 00C30F E5 04 
-  STA.W $1909,Y                                   ; 00C311 99 09 19 
-  LDA.W $1910,Y                                   ; 00C314 B9 10 19 
+  STA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C311 99 09 19 
+  LDA.W RoomWaveMaxOnScreenHi,Y                     ; 00C314 B9 10 19 
   SBC.B #$00                                      ; 00C317 E9 00 
-  STA.W $1910,Y                                   ; 00C319 99 10 19 
+  STA.W RoomWaveMaxOnScreenHi,Y                                   ; 00C319 99 10 19 
   BMI.B B_C323                                    ; 00C31C 30 05 
-  ORA.W $1909,Y                                   ; 00C31E 19 09 19 
+  ORA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C31E 19 09 19 
   BNE.B B_C32B                                    ; 00C321 D0 08 
 B_C323:
   LDA.B #$00                                      ; 00C323 A9 00 
-  STA.W $1902,Y                                   ; 00C325 99 02 19 
-  DEC.W $1900                                     ; 00C328 CE 00 19 
+  STA.W RoomWaveType,Y                                   ; 00C325 99 02 19 
+  DEC.W RoomWavesRemaining                                     ; 00C328 CE 00 19 
 B_C32B:
   DEY                                             ; 00C32B 88 
   BPL.B B_C2D8                                    ; 00C32C 10 AA 
@@ -7366,7 +7366,7 @@ B_C32B:
 
 
 L_C331:
-  LDA.W $1902,Y                                   ; 00C331 B9 02 19 
+  LDA.W RoomWaveType,Y                                   ; 00C331 B9 02 19 
   ASL                                             ; 00C334 0A 
   TAX                                             ; 00C335 AA 
   JMP.W ($C339,X)                                 ; 00C336 7C 39 C3 
@@ -7380,7 +7380,7 @@ L_C331:
 
 
 L_C367:
-  LDA.W $1902,X                                   ; 00C367 BD 02 19 
+  LDA.W RoomWaveType,X                                   ; 00C367 BD 02 19 
   ASL                                             ; 00C36A 0A 
   TAX                                             ; 00C36B AA 
   JMP.W ($C36F,X)                                 ; 00C36C 7C 6F C3 
@@ -7464,7 +7464,7 @@ B_C435:
   RTS                                             ; 00C437 60 
 
   LDX.B $10                                       ; 00C438 A6 10 
-  LDA.W $1917,X                                   ; 00C43A BD 17 19 
+  LDA.W RoomWaveVariantRate,X                                   ; 00C43A BD 17 19 
   STA.W $18F2                                     ; 00C43D 8D F2 18 
   REP.B #P_Acc8Bit                                      ; 00C440 C2 20 
   LDA.W #$B000                                    ; 00C442 A9 00 B0 
@@ -7499,9 +7499,9 @@ B_C435:
   PHA                                             ; 00C486 48 
   PLB                                             ; 00C487 AB 
   LDX.B $10                                       ; 00C488 A6 10 
-  DEC.W $1900                                     ; 00C48A CE 00 19 
-  STZ.W $1902,X                                   ; 00C48D 9E 02 19 
-  LDA.W $1909,X                                   ; 00C490 BD 09 19 
+  DEC.W RoomWavesRemaining                                     ; 00C48A CE 00 19 
+  STZ.W RoomWaveType,X                                   ; 00C48D 9E 02 19 
+  LDA.W RoomWaveMaxOnScreenLo,X                                   ; 00C490 BD 09 19 
   CMP.B #$01                                      ; 00C493 C9 01 
   BEQ.B B_C49E                                    ; 00C495 F0 07 
   LDA.B #$B4                                      ; 00C497 A9 B4 
@@ -7892,7 +7892,7 @@ D_CB32:
 .byte $00,$00,$00,$60,$FF,$00,$00                 ; 00CB33 D..DDDD  ???`???
 
   LDX.B $10                                       ; 00CB39 A6 10 
-  LDA.W $1917,X                                   ; 00CB3B BD 17 19 
+  LDA.W RoomWaveVariantRate,X                                   ; 00CB3B BD 17 19 
   STA.W $18F8                                     ; 00CB3E 8D F8 18 
   RTS                                             ; 00CB41 60 
 
@@ -8043,7 +8043,7 @@ D_CC90:
 .byte $00,$C0,$00,$10,$00,$40,$FF                 ; 00CCA9 DDDDDDD  ?????@?
 
   LDX.B $10                                       ; 00CCAF A6 10 
-  LDA.W $1917,X                                   ; 00CCB1 BD 17 19 
+  LDA.W RoomWaveVariantRate,X                                   ; 00CCB1 BD 17 19 
   STA.W $18F9                                     ; 00CCB4 8D F9 18 
   RTS                                             ; 00CCB7 60 
 
@@ -8152,7 +8152,7 @@ D_CD93:
 .byte $50,$32,$1E,$32                             ; 00CD94 DDDD     P2?2
 
   LDX.B $10                                       ; 00CD97 A6 10 
-  LDA.W $1917,X                                   ; 00CD99 BD 17 19 
+  LDA.W RoomWaveVariantRate,X                                   ; 00CD99 BD 17 19 
   STA.W $18FA                                     ; 00CD9C 8D FA 18 
   JSR.W L_DFA7                                    ; 00CD9F 20 A7 DF 
   RTS                                             ; 00CDA2 60 
@@ -8288,7 +8288,7 @@ D_CD93:
   LDA.B ($04),Y                                   ; 00D135 B1 04 
   STA.B $07                                       ; 00D137 85 07 
   LDX.B $10                                       ; 00D139 A6 10 
-  LDA.W $1909,X                                   ; 00D13B BD 09 19 
+  LDA.W RoomWaveMaxOnScreenLo,X                                   ; 00D13B BD 09 19 
   STZ.B $04                                       ; 00D13E 64 04 
   STA.B $05                                       ; 00D140 85 05 
 B_D142:
@@ -8393,7 +8393,7 @@ B_D19E:
 .byte $00,$10,$8E,$97,$1A,$A9,$01,$8D             ; 00D34D ........ ????????
 .byte $91,$1A,$22,$13,$CA,$0E,$28,$60             ; 00D355 ........ ??"???(`
 
-  INC.W $1900                                     ; 00D35D EE 00 19 
+  INC.W RoomWavesRemaining                                     ; 00D35D EE 00 19 
   LDA.B #$01                                      ; 00D360 A9 01 
   LDY.B #$70                                      ; 00D362 A0 70 
   STY.W $1512                                     ; 00D364 8C 12 15 
