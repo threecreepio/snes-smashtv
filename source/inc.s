@@ -5,14 +5,17 @@ HighscoreListL = $7E201E
 
 
 RoomWavesRemaining      = $1900
+RoomWavePauseTimer      = $1901                             ; used when grabbing a nuke, delays all spawns until 0
 RoomWaveType            = $1902
-RoomWaveMaxOnScreenLo   = $1909
-RoomWaveMaxOnScreenHi   = $1910
-RoomWaveTimer           = $1925
+RoomWaveRemainsLo   = $1909
+RoomWaveRemainsHi   = $1910
+RoomWaveUnk0            = $1917
+RoomWaveVariantRate     = $191E
+RoomNextWaveTimerLo     = $1925
 RoomNextWaveTimerHi     = $192C
+RoomWaveUnk1            = $1933
 RoomWaveCurrentTimerLo  = $193A
 RoomWaveCurrentTimerHi  = $1941
-RoomWaveVariantRate     = $1917
 
 ; entity data
 MaxEntities = $72
@@ -154,6 +157,7 @@ XexzyItemY = $505
 RNG0 = $5A8
 RNG1 = $5A9
 DropTimer = $5AE
+PrizeTimer = $5AF
 XexzyMutoidHealth = $69A
 XexzyWalkAnimation = $1886
 INIDISP = $2100

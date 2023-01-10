@@ -1800,16 +1800,15 @@ EntityWavesRound2:
 ; each rooms spawn waves is defined as:
 ; u8 - number of spawns in this room
 ; followed by a list of 10 bytes per spawn:
-;    u8 - spawn wave type
-;    u8 - quantity of spawns
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
+;    u8  - spawn wave type
+;    u16 - number of waves
+;    u8  - variant rate, if there are two enemies that can spawn for a group, how often the alternate spawns
+;    u8  - todo
+;    u8  - todo
+;    u8  - todo
+;    u8  - todo
+;    u8  - todo
+;    u8  - todo
 ; u8 - todo closing value
 
 EntityWavesRound0Room00:

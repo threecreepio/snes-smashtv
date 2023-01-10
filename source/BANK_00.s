@@ -2,35 +2,29 @@
 .ORG 0
 
 V_STARTUP:
-  sei
-  ; set a little starting register state
-  stz NMITIMEN
-  stz HDMAEN
-  stz MDMAEN
-  stz APUIO0
-  stz APUIO1
-  stz APUIO2
-  stz APUIO3
-  clc
-  xce
-  cld
-  ; switch to data bank 0
-  lda #0
-  pha
-  plb
-  rep #P_Idx8Bit | P_Acc8Bit
-  ; disable screen
-  lda.w #$80
-  sta INIDISP
-  ; set page register to 0
-  lda.w #$00
-  tcd
-  ; clear stack
-  lda.w #$01FF
-  tcs
-  ; initialize out some game state
-  stz DemoRunning
-  sep #P_Idx8Bit | P_Acc8Bit                                      ; 008030 E2 30 
+  sei                                             ; set starting state
+  stz NMITIMEN                                    ;
+  stz HDMAEN                                      ;
+  stz MDMAEN                                      ;
+  stz APUIO0                                      ;
+  stz APUIO1                                      ;
+  stz APUIO2                                      ;
+  stz APUIO3                                      ;
+  clc                                             ;
+  xce                                             ;
+  cld                                             ;
+  lda #0                                          ; switch to data bank 0
+  pha                                             ; 
+  plb                                             ; 
+  rep #P_Idx8Bit | P_Acc8Bit                      ; 
+  lda.w #$80                                      ; disable screen
+  sta INIDISP                                     ;
+  lda.w #$00                                      ; set page register to 0
+  tcd                                             ; 
+  lda.w #$01FF                                    ; clear stack
+  tcs                                             ;
+  stz DemoRunning                                 ; initialize out some game state
+  sep #P_Idx8Bit | P_Acc8Bit                      ; 008030 E2 30 
   stz $02CB
   stz $052C
   JSR.W L_8232                                    ; 008038 20 32 82 
@@ -375,7 +369,7 @@ B_8329:
   STZ.W DropTimer                   ; 00832E 9C AE 05 
   JSL AdvanceRNG                                     ; 008331 22 95 CA 0E 
   AND.B #$7F                                      ; 008335 29 7F 
-  STA.W $05AF                                     ; 008337 8D AF 05 
+  STA.W PrizeTimer                                     ; 008337 8D AF 05 
   STZ.W $06CD                                     ; 00833A 9C CD 06 
   STZ.W $06CE                                     ; 00833D 9C CE 06 
   STZ.W $06D0                                     ; 008340 9C D0 06 
@@ -3693,7 +3687,7 @@ D_A249:
 L_A250:
   PHP                                             ; 00A250 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A251 E2 30 
-  LDA.W $1901                                     ; 00A253 AD 01 19 
+  LDA.W RoomWavePauseTimer                                     ; 00A253 AD 01 19 
   BNE.B B_A262                                    ; 00A256 D0 0A 
   LDA.W $05E3                                     ; 00A258 AD E3 05 
   BEQ.B B_A262                                    ; 00A25B F0 05 
@@ -7170,7 +7164,7 @@ PrepareRoom:
   STZ.W $18EF                                     ; 00C1AB 9C EF 18 
   STZ.W $18F0                                     ; 00C1AE 9C F0 18 
   STZ.W $18F1                                     ; 00C1B1 9C F1 18 
-  STZ.W $1901                                     ; 00C1B4 9C 01 19 
+  STZ.W RoomWavePauseTimer                                     ; 00C1B4 9C 01 19 
   STZ.W RoomWavesRemaining                                     ; 00C1B7 9C 00 19 
   STZ.W $06C6                                     ; 00C1BA 9C C6 06 
   LDX.B #$06                                      ; 00C1BD A2 06 
@@ -7211,7 +7205,7 @@ B_C1E0:
   LDY.B #$00                                      ; 00C201 A0 00 
   LDA.B ($12),Y                                   ; 00C203 B1 12 
   STA.B $10                                       ; 00C205 85 10 
-B_C207:
+SetupNextWave:
   INC.W RoomWavesRemaining                                     ; 00C207 EE 00 19 
   LDX.B $10                                       ; 00C20A A6 10 
   INY                                             ; 00C20C C8 
@@ -7219,25 +7213,25 @@ B_C207:
   STA.W RoomWaveType,X                                   ; 00C20F 9D 02 19 
   INY                                             ; 00C212 C8 
   LDA.B ($12),Y                                   ; 00C213 B1 12 
-  STA.W RoomWaveMaxOnScreenLo,X                                   ; 00C215 9D 09 19 
+  STA.W RoomWaveRemainsLo,X                                   ; 00C215 9D 09 19 
   INY                                             ; 00C218 C8 
   LDA.B ($12),Y                                   ; 00C219 B1 12 
-  STA.W RoomWaveMaxOnScreenHi,X                                   ; 00C21B 9D 10 19 
+  STA.W RoomWaveRemainsHi,X                                   ; 00C21B 9D 10 19 
   INY                                             ; 00C21E C8 
   LDA.B ($12),Y                                   ; 00C21F B1 12 
-  STA.W RoomWaveVariantRate,X                                   ; 00C221 9D 17 19 
+  STA.W RoomWaveUnk0,X                                   ; 00C221 9D 17 19 
   INY                                             ; 00C224 C8 
   LDA.B ($12),Y                                   ; 00C225 B1 12 
-  STA.W $191E,X                                   ; 00C227 9D 1E 19 
+  STA.W RoomWaveVariantRate,X                                   ; 00C227 9D 1E 19 
   INY                                             ; 00C22A C8 
   LDA.B ($12),Y                                   ; 00C22B B1 12 
-  STA.W RoomWaveTimer,X                                   ; 00C22D 9D 25 19 
+  STA.W RoomNextWaveTimerLo,X                                   ; 00C22D 9D 25 19 
   INY                                             ; 00C230 C8 
   LDA.B ($12),Y                                   ; 00C231 B1 12 
   STA.W RoomNextWaveTimerHi,X                                   ; 00C233 9D 2C 19 
   INY                                             ; 00C236 C8 
   LDA.B ($12),Y                                   ; 00C237 B1 12 
-  STA.W $1933,X                                   ; 00C239 9D 33 19 
+  STA.W RoomWaveUnk1,X                                   ; 00C239 9D 33 19 
   INY                                             ; 00C23C C8 
   LDA.B ($12),Y                                   ; 00C23D B1 12 
   STA.W RoomWaveCurrentTimerLo,X                                   ; 00C23F 9D 3A 19 
@@ -7245,10 +7239,10 @@ B_C207:
   LDA.B ($12),Y                                   ; 00C243 B1 12 
   STA.W RoomWaveCurrentTimerHi,X                                   ; 00C245 9D 41 19 
   STY.B $11                                       ; 00C248 84 11 
-  JSR.W L_C367                                    ; 00C24A 20 67 C3 
+  JSR.W InitRoomWave                                    ; 00C24A 20 67 C3 
   LDY.B $11                                       ; 00C24D A4 11 
   DEC.B $10                                       ; 00C24F C6 10 
-  BPL.B B_C207                                    ; 00C251 10 B4 
+  BPL.B SetupNextWave                                    ; 00C251 10 B4 
   INY                                             ; 00C253 C8 
   LDA.B ($12),Y                                   ; 00C254 B1 12 
   STA.W $18FF                                     ; 00C256 8D FF 18 
@@ -7304,9 +7298,9 @@ L_C2B5:
   PHP                                             ; 00C2B5 08 
   PHB                                             ; 00C2B6 8B 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00C2B7 E2 30 
-  LDA.W $1901                                     ; 00C2B9 AD 01 19 
+  LDA.W RoomWavePauseTimer                                     ; 00C2B9 AD 01 19 
   BEQ.B B_C2C4                                    ; 00C2BC F0 06 
-  DEC.W $1901                                     ; 00C2BE CE 01 19 
+  DEC.W RoomWavePauseTimer                                     ; 00C2BE CE 01 19 
   PLB                                             ; 00C2C1 AB 
   PLP                                             ; 00C2C2 28 
   RTS                                             ; 00C2C3 60 
@@ -7335,7 +7329,7 @@ B_C2D8:
   LDA.W RoomWaveCurrentTimerLo,Y                                   ; 00C2EE B9 3A 19 
   ORA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2F1 19 41 19 
   BNE.B B_C32B                                    ; 00C2F4 D0 35 
-  LDA.W RoomWaveTimer,Y                                   ; 00C2F6 B9 25 19 
+  LDA.W RoomNextWaveTimerLo,Y                                   ; 00C2F6 B9 25 19 
   STA.W RoomWaveCurrentTimerLo,Y                                   ; 00C2F9 99 3A 19 
   LDA.W RoomNextWaveTimerHi,Y                                   ; 00C2FC B9 2C 19 
   STA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2FF 99 41 19 
@@ -7344,14 +7338,14 @@ B_C2D8:
   STA.B $04                                       ; 00C307 85 04 
   LDY.B $10                                       ; 00C309 A4 10 
   SEC                                             ; 00C30B 38 
-  LDA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C30C B9 09 19 
+  LDA.W RoomWaveRemainsLo,Y                                   ; 00C30C B9 09 19 
   SBC.B $04                                       ; 00C30F E5 04 
-  STA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C311 99 09 19 
-  LDA.W RoomWaveMaxOnScreenHi,Y                     ; 00C314 B9 10 19 
+  STA.W RoomWaveRemainsLo,Y                                   ; 00C311 99 09 19 
+  LDA.W RoomWaveRemainsHi,Y                     ; 00C314 B9 10 19 
   SBC.B #$00                                      ; 00C317 E9 00 
-  STA.W RoomWaveMaxOnScreenHi,Y                                   ; 00C319 99 10 19 
+  STA.W RoomWaveRemainsHi,Y                                   ; 00C319 99 10 19 
   BMI.B B_C323                                    ; 00C31C 30 05 
-  ORA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C31E 19 09 19 
+  ORA.W RoomWaveRemainsLo,Y                                   ; 00C31E 19 09 19 
   BNE.B B_C32B                                    ; 00C321 D0 08 
 B_C323:
   LDA.B #$00                                      ; 00C323 A9 00 
@@ -7379,7 +7373,7 @@ L_C331:
 .byte $BF,$D8,$37,$D9,$D8,$D9                     ; 00C362 DDDD..   ??7???
 
 
-L_C367:
+InitRoomWave:
   LDA.W RoomWaveType,X                                   ; 00C367 BD 02 19 
   ASL                                             ; 00C36A 0A 
   TAX                                             ; 00C36B AA 
@@ -7446,7 +7440,7 @@ B_C40E:
   LDA.B #$00                                      ; 00C413 A9 00 
   STA.W EntityV3,X                                   ; 00C415 9D 28 08 
   LDY.B $10                                       ; 00C418 A4 10 
-  LDA.W $191E,Y                                   ; 00C41A B9 1E 19 
+  LDA.W RoomWaveVariantRate,Y                                   ; 00C41A B9 1E 19 
   STA.W EntityV22,X                                   ; 00C41D 9D 9E 10 
   JSL AdvanceRNG                                     ; 00C420 22 95 CA 0E 
   AND.B #$03                                      ; 00C424 29 03 
@@ -7464,7 +7458,7 @@ B_C435:
   RTS                                             ; 00C437 60 
 
   LDX.B $10                                       ; 00C438 A6 10 
-  LDA.W RoomWaveVariantRate,X                                   ; 00C43A BD 17 19 
+  LDA.W RoomWaveUnk0,X                                   ; 00C43A BD 17 19 
   STA.W $18F2                                     ; 00C43D 8D F2 18 
   REP.B #P_Acc8Bit                                      ; 00C440 C2 20 
   LDA.W #$B000                                    ; 00C442 A9 00 B0 
@@ -7501,7 +7495,7 @@ B_C435:
   LDX.B $10                                       ; 00C488 A6 10 
   DEC.W RoomWavesRemaining                                     ; 00C48A CE 00 19 
   STZ.W RoomWaveType,X                                   ; 00C48D 9E 02 19 
-  LDA.W RoomWaveMaxOnScreenLo,X                                   ; 00C490 BD 09 19 
+  LDA.W RoomWaveRemainsLo,X                                   ; 00C490 BD 09 19 
   CMP.B #$01                                      ; 00C493 C9 01 
   BEQ.B B_C49E                                    ; 00C495 F0 07 
   LDA.B #$B4                                      ; 00C497 A9 B4 
@@ -7892,7 +7886,7 @@ D_CB32:
 .byte $00,$00,$00,$60,$FF,$00,$00                 ; 00CB33 D..DDDD  ???`???
 
   LDX.B $10                                       ; 00CB39 A6 10 
-  LDA.W RoomWaveVariantRate,X                                   ; 00CB3B BD 17 19 
+  LDA.W RoomWaveUnk0,X                                   ; 00CB3B BD 17 19 
   STA.W $18F8                                     ; 00CB3E 8D F8 18 
   RTS                                             ; 00CB41 60 
 
@@ -8043,7 +8037,7 @@ D_CC90:
 .byte $00,$C0,$00,$10,$00,$40,$FF                 ; 00CCA9 DDDDDDD  ?????@?
 
   LDX.B $10                                       ; 00CCAF A6 10 
-  LDA.W RoomWaveVariantRate,X                                   ; 00CCB1 BD 17 19 
+  LDA.W RoomWaveUnk0,X                                   ; 00CCB1 BD 17 19 
   STA.W $18F9                                     ; 00CCB4 8D F9 18 
   RTS                                             ; 00CCB7 60 
 
@@ -8069,7 +8063,7 @@ B_CCC9:
   LDA.B #$20                                      ; 00CCE2 A9 20 
   STA.W EntityV21,X                                   ; 00CCE4 9D 2C 10 
   LDY.B $10                                       ; 00CCE7 A4 10 
-  LDA.W $191E,Y                                   ; 00CCE9 B9 1E 19 
+  LDA.W RoomWaveVariantRate,Y                                   ; 00CCE9 B9 1E 19 
   STA.B $04                                       ; 00CCEC 85 04 
   BEQ.B B_CCF3                                    ; 00CCEE F0 03 
 
@@ -8152,7 +8146,7 @@ D_CD93:
 .byte $50,$32,$1E,$32                             ; 00CD94 DDDD     P2?2
 
   LDX.B $10                                       ; 00CD97 A6 10 
-  LDA.W RoomWaveVariantRate,X                                   ; 00CD99 BD 17 19 
+  LDA.W RoomWaveUnk0,X                                   ; 00CD99 BD 17 19 
   STA.W $18FA                                     ; 00CD9C 8D FA 18 
   JSR.W L_DFA7                                    ; 00CD9F 20 A7 DF 
   RTS                                             ; 00CDA2 60 
@@ -8288,7 +8282,7 @@ D_CD93:
   LDA.B ($04),Y                                   ; 00D135 B1 04 
   STA.B $07                                       ; 00D137 85 07 
   LDX.B $10                                       ; 00D139 A6 10 
-  LDA.W RoomWaveMaxOnScreenLo,X                                   ; 00D13B BD 09 19 
+  LDA.W RoomWaveRemainsLo,X                                   ; 00D13B BD 09 19 
   STZ.B $04                                       ; 00D13E 64 04 
   STA.B $05                                       ; 00D140 85 05 
 B_D142:
@@ -8795,7 +8789,7 @@ D_D92E:
 .byte $01,$80,$FE                                 ; 00D92F DDD      ???
 
   LDA.B #$FF                                      ; 00D931 A9 FF 
-  STA.W $05AF                                     ; 00D933 8D AF 05 
+  STA.W PrizeTimer                                     ; 00D933 8D AF 05 
   RTS                                             ; 00D936 60 
 
   JSL FindEmptyEntitySlot                                     ; 00D937 22 F3 80 03 
@@ -8900,11 +8894,11 @@ L_DA43:
   LDA.B $D2                                       ; 00DA43 A5 D2 
   AND.B #$01                                      ; 00DA45 29 01 
   BNE.B B_DA54                                    ; 00DA47 D0 0B 
-  LDX.W $05AF                                     ; 00DA49 AE AF 05 
+  LDX.W PrizeTimer                                     ; 00DA49 AE AF 05 
   BEQ.B B_DA55                                    ; 00DA4C F0 07 
   BMI.B B_DA54                                    ; 00DA4E 30 04 
   DEX                                             ; 00DA50 CA 
-  STX.W $05AF                                     ; 00DA51 8E AF 05 
+  STX.W PrizeTimer                                     ; 00DA51 8E AF 05 
 B_DA54:
   RTS                                             ; 00DA54 60 
 
@@ -9044,7 +9038,7 @@ B_DB26:
   SBC.B #$08                                      ; 00DB52 E9 08 
   STA.W EntityV20,X                                   ; 00DB54 9D BA 0F 
   LDA.B #$FF                                      ; 00DB57 A9 FF 
-  STA.W $05AF                                     ; 00DB59 8D AF 05 
+  STA.W PrizeTimer                                     ; 00DB59 8D AF 05 
   PLB                                             ; 00DB5C AB 
   RTL                                             ; 00DB5D 6B 
 
@@ -9374,7 +9368,7 @@ MapSpawnYPx:
 
 L_DFA7:
   LDX.B $10                                       ; 00DFA7 A6 10 
-  LDA.W $1933,X                                   ; 00DFA9 BD 33 19 
+  LDA.W RoomWaveUnk1,X                                   ; 00DFA9 BD 33 19 
   BNE.B B_DFAF                                    ; 00DFAC D0 01 
   RTS                                             ; 00DFAE 60 
 
@@ -9387,9 +9381,9 @@ B_DFAF:
   LDA.W CurrentRound                                     ; 00DFB6 AD AB 05 
   ASL                                             ; 00DFB9 0A 
   TAY                                             ; 00DFBA A8 
-  LDA.W D_E070,Y                                  ; 00DFBB B9 70 E0 
+  LDA.W RoomWaveStartingPatternsRounds,Y                                  ; 00DFBB B9 70 E0 
   STA.B $04                                       ; 00DFBE 85 04 
-  LDA.W D_E071,Y                                  ; 00DFC0 B9 71 E0 
+  LDA.W RoomWaveStartingPatternsRounds+1,Y                                  ; 00DFC0 B9 71 E0 
   STA.B $05                                       ; 00DFC3 85 05 
   LDA.W CurrentRoom                                     ; 00DFC5 AD AC 05 
   ASL                                             ; 00DFC8 0A 
@@ -9472,34 +9466,100 @@ D_E068:
 .byte $EC,$EA,$E8,$EA                             ; 00E069 D.DD     ????
 D_E06C:
 .byte $00,$40,$00,$00                             ; 00E06D D.DD     ?@??
-D_E070:
-.byte $76                                         ; 00E071 D        v
-D_E071:
-.byte $E0,$8A,$E0,$AC,$E0,$00,$00,$00             ; 00E071 D....... ????????
-.byte $00,$DC,$E0,$00,$00,$E2,$E0,$00             ; 00E079 ........ ????????
-.byte $00,$F7,$E0,$DC,$E0,$F7,$E0,$F7             ; 00E081 .DDDD..D ????????
-.byte $E0,$00,$00,$00,$00,$00,$E1,$00             ; 00E089 D....... ????????
-.byte $00,$00,$00,$00,$E1,$00,$00,$00             ; 00E091 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E099 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E0A1 ........ ????????
-.byte $00,$00,$E1,$00,$00,$00,$00,$00             ; 00E0A9 ........ ????????
-.byte $00,$DC,$E0,$03,$E1,$00,$00,$00             ; 00E0B1 ........ ????????
-.byte $00,$00,$00,$00,$00,$03,$E1,$00             ; 00E0B9 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E0C1 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$03             ; 00E0C9 ........ ????????
-.byte $E1,$00,$00,$03,$E1,$00,$00,$00             ; 00E0D1 ........ ????????
-.byte $00,$03,$E1,$31,$33,$03,$E2,$3A             ; 00E0D9 ...DDDDD ???13??:
-.byte $00,$31,$33,$03,$E2,$3A,$00,$3C             ; 00E0E1 D....... ?13??:?<
-.byte $46,$03,$BE,$50,$02,$48,$96,$02             ; 00E0E9 ........ F??P?H??
-.byte $19,$D0,$02,$E6,$D0,$02,$31,$33             ; 00E0F1 ......DD ??????13
-.byte $03,$E2,$3A,$00,$19,$D0,$02,$31             ; 00E0F9 DDDDDDD. ??:????1
-.byte $33,$03,$31,$33,$03,$E2,$3A,$00             ; 00E101 ........ 3?13??:?
-.byte $19,$D0,$02,$E6,$D0,$02                     ; 00E10A ......   ??????
+
+RoomWaveStartingPatternsRounds:
+.addr RoomWaveStartingPatternsRound0
+.addr RoomWaveStartingPatternsRound1
+.addr RoomWaveStartingPatternsRound2
+
+RoomWaveStartingPatternsRound0:
+.addr $0000                                       ; 
+.addr $0000                                       ; ARENA 1         
+.addr RoomWaveStartingPatterns0                   ; COLLECT 10 KEYS!     
+.addr $0000                                       ; COLLECT POWERUPS!    
+.addr RoomWaveStartingPatterns1                   ; MEET MR. SHRAPNEL    
+.addr $0000                                       ; BONUS PRIZES!      
+.addr RoomWaveStartingPatterns2                   ; EAT MY SHRAPNEL     
+.addr RoomWaveStartingPatterns0                   ; TOTAL CARNAGE      
+.addr RoomWaveStartingPatterns2                   ; CROWD CONTROL      
+.addr RoomWaveStartingPatterns2                   ; TANK TROUBLE       
+
+RoomWaveStartingPatternsRound1:
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns3
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns3
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns3
+
+RoomWaveStartingPatternsRound2:
+.addr $0000
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns0
+.addr RoomWaveStartingPatterns4
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns4
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns4
+.addr $0000
+.addr RoomWaveStartingPatterns4
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns4
+
+RoomWaveStartingPatterns0:
+.byte $31,$33,$03
+.byte $E2,$3A,$00
+
+RoomWaveStartingPatterns1:
+.byte $31,$33,$03
+.byte $E2,$3A,$00
+.byte $3C,$46,$03
+.byte $BE,$50,$02
+.byte $48,$96,$02
+.byte $19,$D0,$02
+.byte $E6,$D0,$02
+
+RoomWaveStartingPatterns2:
+.byte $31,$33,$03
+.byte $E2,$3A,$00
+.byte $19,$D0,$02
+
+RoomWaveStartingPatterns3:
+.byte $31,$33,$03
+
+RoomWaveStartingPatterns4:
+.byte $31,$33,$03
+.byte $E2,$3A,$00
+.byte $19,$D0,$02
+.byte $E6,$D0,$02
 
 
 L_E10F:
   LDX.B $10                                       ; 00E10F A6 10 
-  LDA.W $1933,X                                   ; 00E111 BD 33 19 
+  LDA.W RoomWaveUnk1,X                                   ; 00E111 BD 33 19 
   BNE.B B_E117                                    ; 00E114 D0 01 
   RTS                                             ; 00E116 60 
 

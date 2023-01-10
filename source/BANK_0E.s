@@ -2330,7 +2330,7 @@ StartEncounterMutoidMan:
   SEP.B #P_Acc8Bit                                      ; 0EC6F6 E2 20 
   STZ.W $069E                                     ; 0EC6F8 9C 9E 06 
   LDA.B #$80                                      ; 0EC6FB A9 80 
-  STA.W $05AF                                     ; 0EC6FD 8D AF 05 
+  STA.W PrizeTimer                                     ; 0EC6FD 8D AF 05 
   JSR.W L_EC945                                   ; 0EC700 20 45 C9 
   JSR.W L_EC765                                   ; 0EC703 20 65 C7 
   REP.B #P_Acc8Bit                                      ; 0EC706 C2 20 

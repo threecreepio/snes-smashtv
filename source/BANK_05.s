@@ -2725,7 +2725,7 @@ B_59CE6:
   LDA.B #$19                                      ; 059CF3 A9 19 
   STA.W $05D7                                     ; 059CF5 8D D7 05 
   LDA.B #$64                                      ; 059CF8 A9 64 
-  STA.W $1901                                     ; 059CFA 8D 01 19 
+  STA.W RoomWavePauseTimer                                     ; 059CFA 8D 01 19 
   LDX.B $1E                                       ; 059CFD A6 1E 
   INX                                             ; 059CFF E8 
   STX.W $05D6                                     ; 059D00 8E D6 05 
@@ -2968,7 +2968,7 @@ B_59EF2:
   AND.B #$3F                                      ; 059EF6 29 3F 
   CLC                                             ; 059EF8 18 
   ADC.B #$40                                      ; 059EF9 69 40 
-  STA.W $05AF                                     ; 059EFB 8D AF 05 
+  STA.W PrizeTimer                                     ; 059EFB 8D AF 05 
   LDA.B #$FF                                      ; 059EFE A9 FF 
   XBA                                             ; 059F00 EB 
   LDA.W EntityV23,X                                   ; 059F01 BD 10 11 

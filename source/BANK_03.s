@@ -4615,7 +4615,7 @@ D_3B961:
 .byte $06,$06,$06,$06,$06,$30                     ; 03B96A DDDDDD   ?????0
 
   LDA.B #$FF                                      ; 03B96F A9 FF 
-  STA.W $05AF                                     ; 03B971 8D AF 05 
+  STA.W PrizeTimer                                     ; 03B971 8D AF 05 
   LDA.W $05DF                                     ; 03B974 AD DF 05 
   BNE.B B_3B9B7                                   ; 03B977 D0 3E 
   DEC.W EntityV28,X                                   ; 03B979 DE 4A 13 
@@ -4682,7 +4682,7 @@ B_3B9E7:
   AND.B #$3F                                      ; 03B9EB 29 3F 
   CLC                                             ; 03B9ED 18 
   ADC.B #$40                                      ; 03B9EE 69 40 
-  STA.W $05AF                                     ; 03B9F0 8D AF 05 
+  STA.W PrizeTimer                                     ; 03B9F0 8D AF 05 
   JMP.W AdvanceToNextEntity                                   ; 03B9F3 4C 41 81 
 
 D_3B9F6:
