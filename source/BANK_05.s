@@ -1095,7 +1095,7 @@ B_58903:
   JSL L_AEF1                                      ; 05890A 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 05890E BD A0 14 
   TAX                                             ; 058911 AA 
-  STZ.W $175E,X                                   ; 058912 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 058912 9E 5E 17 
   ASL                                             ; 058915 0A 
   ASL                                             ; 058916 0A 
   TAY                                             ; 058917 A8 
@@ -1165,7 +1165,7 @@ B_5898C:
   JSL L_AEF1                                      ; 058993 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 058997 BD A0 14 
   TAX                                             ; 05899A AA 
-  STZ.W $175E,X                                   ; 05899B 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 05899B 9E 5E 17 
   ASL                                             ; 05899E 0A 
   ASL                                             ; 05899F 0A 
   TAY                                             ; 0589A0 A8 
@@ -1223,7 +1223,7 @@ B_589F2:
   JSL L_AEF1                                      ; 0589F9 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 0589FD BD A0 14 
   TAX                                             ; 058A00 AA 
-  STZ.W $175E,X                                   ; 058A01 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 058A01 9E 5E 17 
   ASL                                             ; 058A04 0A 
   ASL                                             ; 058A05 0A 
   TAY                                             ; 058A06 A8 
@@ -1281,13 +1281,13 @@ B_58A42:
   ASL                                             ; 058A62 0A 
   TAY                                             ; 058A63 A8 
   LDA.W D_58AF5,Y                                 ; 058A64 B9 F5 8A 
-  STA.W EntityV5,X                                   ; 058A67 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 058A67 9D 0C 09 
   LDA.W D_58AF6,Y                                 ; 058A6A B9 F6 8A 
-  STA.W EntityV6,X                                   ; 058A6D 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 058A6D 9D 7E 09 
   LDA.W D_58B05,Y                                 ; 058A70 B9 05 8B 
-  STA.W EntityV7,X                                   ; 058A73 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 058A73 9D F0 09 
   LDA.W D_58B06,Y                                 ; 058A76 B9 06 8B 
-  STA.W EntityV8,X                                   ; 058A79 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 058A79 9D 62 0A 
 B_58A7C:
   RTS                                             ; 058A7C 60 
 
@@ -1298,10 +1298,10 @@ B_58A7D:
   STA.W EntityV15,X                                   ; 058A83 9D 80 0D 
   LDA.B #$00                                      ; 058A86 A9 00 
   STA.W EntityV3,X                                   ; 058A88 9D 28 08 
-  STZ.W EntityV5,X                                   ; 058A8B 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058A8E 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058A91 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058A94 9E 62 0A 
+  STZ.W EntityXSubPxSpeed,X                                   ; 058A8B 9E 0C 09 
+  STZ.W EntityXPxSpeed,X                                   ; 058A8E 9E 7E 09 
+  STZ.W EntityYSubPxSpeed,X                                   ; 058A91 9E F0 09 
+  STZ.W EntityYPxSpeed,X                                   ; 058A94 9E 62 0A 
   RTS                                             ; 058A97 60 
 
 B_58A98:
@@ -1320,10 +1320,10 @@ B_58AA2:
   STA.W EntityV15,X                                   ; 058AAD 9D 80 0D 
   LDA.B #$00                                      ; 058AB0 A9 00 
   STA.W EntityV3,X                                   ; 058AB2 9D 28 08 
-  STZ.W EntityV5,X                                   ; 058AB5 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058AB8 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058ABB 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058ABE 9E 62 0A 
+  STZ.W EntityXSubPxSpeed,X                                   ; 058AB5 9E 0C 09 
+  STZ.W EntityXPxSpeed,X                                   ; 058AB8 9E 7E 09 
+  STZ.W EntityYSubPxSpeed,X                                   ; 058ABB 9E F0 09 
+  STZ.W EntityYPxSpeed,X                                   ; 058ABE 9E 62 0A 
   RTS                                             ; 058AC1 60 
 
 B_58AC2:
@@ -1333,7 +1333,7 @@ B_58AC2:
   JSL L_AEF1                                      ; 058AC9 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 058ACD BD A0 14 
   TAX                                             ; 058AD0 AA 
-  STZ.W $175E,X                                   ; 058AD1 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 058AD1 9E 5E 17 
   ASL                                             ; 058AD4 0A 
   ASL                                             ; 058AD5 0A 
   TAY                                             ; 058AD6 A8 
@@ -1494,10 +1494,10 @@ L_58CED:
   STA.W EntityV29,X                                   ; 058CF9 9D BC 13 
   LDA.B #$32                                      ; 058CFC A9 32 
   STA.W EntityV30,X                                   ; 058CFE 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 058D01 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058D04 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058D07 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058D0A 9E 62 0A 
+  STZ.W EntityXSubPxSpeed,X                                   ; 058D01 9E 0C 09 
+  STZ.W EntityXPxSpeed,X                                   ; 058D04 9E 7E 09 
+  STZ.W EntityYSubPxSpeed,X                                   ; 058D07 9E F0 09 
+  STZ.W EntityYPxSpeed,X                                   ; 058D0A 9E 62 0A 
   LDA.B #$04                                      ; 058D0D A9 04 
   STA.W EntityV28,X                                   ; 058D0F 9D 4A 13 
   STZ.W EntityV27,X                                   ; 058D12 9E D8 12 
@@ -1520,10 +1520,10 @@ L_58D25:
   STA.W EntityV29,X                                   ; 058D31 9D BC 13 
   LDA.B #$32                                      ; 058D34 A9 32 
   STA.W EntityV30,X                                   ; 058D36 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 058D39 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058D3C 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058D3F 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058D42 9E 62 0A 
+  STZ.W EntityXSubPxSpeed,X                                   ; 058D39 9E 0C 09 
+  STZ.W EntityXPxSpeed,X                                   ; 058D3C 9E 7E 09 
+  STZ.W EntityYSubPxSpeed,X                                   ; 058D3F 9E F0 09 
+  STZ.W EntityYPxSpeed,X                                   ; 058D42 9E 62 0A 
   LDA.B #$04                                      ; 058D45 A9 04 
   STA.W EntityV28,X                                   ; 058D47 9D 4A 13 
   STZ.W EntityV27,X                                   ; 058D4A 9E D8 12 
@@ -1546,10 +1546,10 @@ L_58D5D:
   STA.W EntityV29,X                                   ; 058D69 9D BC 13 
   LDA.B #$32                                      ; 058D6C A9 32 
   STA.W EntityV30,X                                   ; 058D6E 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 058D71 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058D74 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058D77 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058D7A 9E 62 0A 
+  STZ.W EntityXSubPxSpeed,X                                   ; 058D71 9E 0C 09 
+  STZ.W EntityXPxSpeed,X                                   ; 058D74 9E 7E 09 
+  STZ.W EntityYSubPxSpeed,X                                   ; 058D77 9E F0 09 
+  STZ.W EntityYPxSpeed,X                                   ; 058D7A 9E 62 0A 
   LDA.B #$04                                      ; 058D7D A9 04 
   STA.W EntityV28,X                                   ; 058D7F 9D 4A 13 
   STZ.W EntityV27,X                                   ; 058D82 9E D8 12 
@@ -1585,13 +1585,13 @@ L_58DBE:
   ASL                                             ; 058DD7 0A 
   TAY                                             ; 058DD8 A8 
   LDA.W D_58E09,Y                                 ; 058DD9 B9 09 8E 
-  STA.W EntityV5,X                                   ; 058DDC 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 058DDC 9D 0C 09 
   LDA.W D_58E0A,Y                                 ; 058DDF B9 0A 8E 
-  STA.W EntityV6,X                                   ; 058DE2 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 058DE2 9D 7E 09 
   LDA.W D_58E19,Y                                 ; 058DE5 B9 19 8E 
-  STA.W EntityV7,X                                   ; 058DE8 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 058DE8 9D F0 09 
   LDA.W D_58E1A,Y                                 ; 058DEB B9 1A 8E 
-  STA.W EntityV8,X                                   ; 058DEE 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 058DEE 9D 62 0A 
   LDA.B #$04                                      ; 058DF1 A9 04 
   STA.W EntityV28,X                                   ; 058DF3 9D 4A 13 
   STZ.W EntityV27,X                                   ; 058DF6 9E D8 12 
@@ -1820,10 +1820,10 @@ B_59183:
 D_5918B:
 .byte $00,$00,$01,$01,$00,$00                     ; 05918B DDDDD.   ??????
 
-  STZ.W EntityV5,X                                   ; 059190 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 059193 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 059196 9E F0 09 
-  STZ.W EntityV8,X                                   ; 059199 9E 62 0A 
+  STZ.W EntityXSubPxSpeed,X                                   ; 059190 9E 0C 09 
+  STZ.W EntityXPxSpeed,X                                   ; 059193 9E 7E 09 
+  STZ.W EntityYSubPxSpeed,X                                   ; 059196 9E F0 09 
+  STZ.W EntityYPxSpeed,X                                   ; 059199 9E 62 0A 
   LDA.B #$01                                      ; 05919C A9 01 
   STA.W EntityV28,X                                   ; 05919E 9D 4A 13 
   LDA.B #$FF                                      ; 0591A1 A9 FF 
@@ -2173,7 +2173,7 @@ B_598A4:
   JSL L_AEF1                                      ; 0598AD 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 0598B1 BD A0 14 
   TAX                                             ; 0598B4 AA 
-  STZ.W $175E,X                                   ; 0598B5 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 0598B5 9E 5E 17 
   ASL                                             ; 0598B8 0A 
   ASL                                             ; 0598B9 0A 
   TAY                                             ; 0598BA A8 
@@ -2226,7 +2226,7 @@ B_5990F:
   JSL L_AEF1                                      ; 059918 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 05991C BD A0 14 
   TAX                                             ; 05991F AA 
-  STZ.W $175E,X                                   ; 059920 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 059920 9E 5E 17 
   ASL                                             ; 059923 0A 
   ASL                                             ; 059924 0A 
   TAY                                             ; 059925 A8 
@@ -2295,7 +2295,7 @@ B_59996:
   JSL L_AEF1                                      ; 05999D 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 0599A1 BD A0 14 
   TAX                                             ; 0599A4 AA 
-  STZ.W $175E,X                                   ; 0599A5 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 0599A5 9E 5E 17 
   ASL                                             ; 0599A8 0A 
   ASL                                             ; 0599A9 0A 
   TAY                                             ; 0599AA A8 
@@ -2389,7 +2389,7 @@ B_59A71:
   JSL L_AEF1                                      ; 059A78 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 059A7C BD A0 14 
   TAX                                             ; 059A7F AA 
-  STZ.W $175E,X                                   ; 059A80 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 059A80 9E 5E 17 
   ASL                                             ; 059A83 0A 
   ASL                                             ; 059A84 0A 
   TAY                                             ; 059A85 A8 
@@ -2452,7 +2452,7 @@ B_59ADA:
   JSL L_AEF1                                      ; 059AFC 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 059B00 BD A0 14 
   TAX                                             ; 059B03 AA 
-  STZ.W $175E,X                                   ; 059B04 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 059B04 9E 5E 17 
   ASL                                             ; 059B07 0A 
   ASL                                             ; 059B08 0A 
   TAY                                             ; 059B09 A8 
@@ -2486,7 +2486,7 @@ B_59B2A:
   JSL L_AEF1                                      ; 059B33 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 059B37 BD A0 14 
   TAX                                             ; 059B3A AA 
-  STZ.W $175E,X                                   ; 059B3B 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 059B3B 9E 5E 17 
   ASL                                             ; 059B3E 0A 
   ASL                                             ; 059B3F 0A 
   TAY                                             ; 059B40 A8 
@@ -2581,23 +2581,23 @@ B_59BD3:
   PHA                                             ; 059BE0 48 
   PLB                                             ; 059BE1 AB 
   LDA.W D_384EE,Y                                 ; 059BE2 B9 EE 84 
-  STA.W EntityV5,X                                   ; 059BE5 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 059BE5 9D 0C 09 
   LDA.W D_384EF,Y                                 ; 059BE8 B9 EF 84 
-  STA.W EntityV6,X                                   ; 059BEB 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 059BEB 9D 7E 09 
   LDA.W D_3856E,Y                                 ; 059BEE B9 6E 85 
-  STA.W EntityV7,X                                   ; 059BF1 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 059BF1 9D F0 09 
   LDA.W D_3856F,Y                                 ; 059BF4 B9 6F 85 
-  STA.W EntityV8,X                                   ; 059BF7 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 059BF7 9D 62 0A 
   PLB                                             ; 059BFA AB 
   LDA.B #$42                                      ; 059BFB A9 42 
   STA.W EntityV29,X                                   ; 059BFD 9D BC 13 
   LDA.B #$23                                      ; 059C00 A9 23 
   STA.W EntityV30,X                                   ; 059C02 9D 2E 14 
-  JSL L_AECB                                      ; 059C05 22 CB AE 00 
+  JSL GetEmptyStateFlag                                      ; 059C05 22 CB AE 00 
   TYA                                             ; 059C09 98 
   STA.W EntityV31,X                                   ; 059C0A 9D A0 14 
   LDA.B #$01                                      ; 059C0D A9 01 
-  STA.W $175E,Y                                   ; 059C0F 99 5E 17 
+  STA.W StateFlags,Y                                   ; 059C0F 99 5E 17 
   JSL L_AEF1                                      ; 059C12 22 F1 AE 00 
   PHX                                             ; 059C16 DA 
   REP.B #P_Idx8Bit                                      ; 059C17 C2 10 
@@ -2652,13 +2652,13 @@ B_59C54:
   TYA                                             ; 059C74 98 
   STA.W EntityV31,X                                   ; 059C75 9D A0 14 
   LDA.B #$01                                      ; 059C78 A9 01 
-  STA.W $175E,Y                                   ; 059C7A 99 5E 17 
+  STA.W StateFlags,Y                                   ; 059C7A 99 5E 17 
   JSL L_AEF1                                      ; 059C7D 22 F1 AE 00 
   JSL L_AEAF                                      ; 059C81 22 AF AE 00 
   TYA                                             ; 059C85 98 
   STA.W EntityV21,X                                   ; 059C86 9D 2C 10 
   LDA.B #$01                                      ; 059C89 A9 01 
-  STA.W $175E,Y                                   ; 059C8B 99 5E 17 
+  STA.W StateFlags,Y                                   ; 059C8B 99 5E 17 
   JSL L_AEF1                                      ; 059C8E 22 F1 AE 00 
 B_59C92:
   LDA.B #$C8                                      ; 059C92 A9 C8 
@@ -2674,7 +2674,7 @@ L_59C9D:
   JSL L_AEF1                                      ; 059CA1 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 059CA5 BD A0 14 
   TAX                                             ; 059CA8 AA 
-  STZ.W $175E,X                                   ; 059CA9 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 059CA9 9E 5E 17 
   ASL                                             ; 059CAC 0A 
   ASL                                             ; 059CAD 0A 
   TAY                                             ; 059CAE A8 
@@ -2703,7 +2703,7 @@ B_59CC3:
   JSL L_AEF1                                      ; 059CCC 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 059CD0 BD A0 14 
   TAX                                             ; 059CD3 AA 
-  STZ.W $175E,X                                   ; 059CD4 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 059CD4 9E 5E 17 
   ASL                                             ; 059CD7 0A 
   ASL                                             ; 059CD8 0A 
   TAY                                             ; 059CD9 A8 
@@ -2757,7 +2757,7 @@ B_59D29:
   JSL L_AEF1                                      ; 059D32 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 059D36 BD A0 14 
   TAX                                             ; 059D39 AA 
-  STZ.W $175E,X                                   ; 059D3A 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 059D3A 9E 5E 17 
   ASL                                             ; 059D3D 0A 
   ASL                                             ; 059D3E 0A 
   TAY                                             ; 059D3F A8 
@@ -2824,13 +2824,13 @@ B_59D84:
   JSL L_18000                                     ; 059DB8 22 00 80 01 
   PLX                                             ; 059DBC FA 
   LDA.W $1AE5                                     ; 059DBD AD E5 1A 
-  STA.W EntityV5,X                                   ; 059DC0 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 059DC0 9D 0C 09 
   LDA.W $1AE6                                     ; 059DC3 AD E6 1A 
-  STA.W EntityV6,X                                   ; 059DC6 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 059DC6 9D 7E 09 
   LDA.W $1AE7                                     ; 059DC9 AD E7 1A 
-  STA.W EntityV7,X                                   ; 059DCC 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 059DCC 9D F0 09 
   LDA.W $1AE8                                     ; 059DCF AD E8 1A 
-  STA.W EntityV8,X                                   ; 059DD2 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 059DD2 9D 62 0A 
   JSL AdvanceRNG                                     ; 059DD5 22 95 CA 0E 
   AND.B #$3F                                      ; 059DD9 29 3F 
   CLC                                             ; 059DDB 18 
@@ -2886,13 +2886,13 @@ B_59DF9:
   JSL L_18000                                     ; 059E3D 22 00 80 01 
   PLX                                             ; 059E41 FA 
   LDA.W $1AE5                                     ; 059E42 AD E5 1A 
-  STA.W EntityV5,X                                   ; 059E45 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 059E45 9D 0C 09 
   LDA.W $1AE6                                     ; 059E48 AD E6 1A 
-  STA.W EntityV6,X                                   ; 059E4B 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 059E4B 9D 7E 09 
   LDA.W $1AE7                                     ; 059E4E AD E7 1A 
-  STA.W EntityV7,X                                   ; 059E51 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 059E51 9D F0 09 
   LDA.W $1AE8                                     ; 059E54 AD E8 1A 
-  STA.W EntityV8,X                                   ; 059E57 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 059E57 9D 62 0A 
   JSL AdvanceRNG                                     ; 059E5A 22 95 CA 0E 
   AND.B #$3F                                      ; 059E5E 29 3F 
   CLC                                             ; 059E60 18 
@@ -2950,13 +2950,13 @@ B_59EAB:
   JSL L_18000                                     ; 059EC7 22 00 80 01 
   PLX                                             ; 059ECB FA 
   LDA.W $1AE5                                     ; 059ECC AD E5 1A 
-  STA.W EntityV5,X                                   ; 059ECF 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 059ECF 9D 0C 09 
   LDA.W $1AE6                                     ; 059ED2 AD E6 1A 
-  STA.W EntityV6,X                                   ; 059ED5 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 059ED5 9D 7E 09 
   LDA.W $1AE7                                     ; 059ED8 AD E7 1A 
-  STA.W EntityV7,X                                   ; 059EDB 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 059EDB 9D F0 09 
   LDA.W $1AE8                                     ; 059EDE AD E8 1A 
-  STA.W EntityV8,X                                   ; 059EE1 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 059EE1 9D 62 0A 
   LDA.W CurrentRound                                     ; 059EE4 AD AB 05 
   CMP.B #$02                                      ; 059EE7 C9 02 
   BNE.B B_59EF2                                   ; 059EE9 D0 07 
@@ -3022,13 +3022,13 @@ D_59F2D:
   JSL L_18000                                     ; 059F6F 22 00 80 01 
   PLX                                             ; 059F73 FA 
   LDA.W $1AE5                                     ; 059F74 AD E5 1A 
-  STA.W EntityV5,X                                   ; 059F77 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 059F77 9D 0C 09 
   LDA.W $1AE6                                     ; 059F7A AD E6 1A 
-  STA.W EntityV6,X                                   ; 059F7D 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 059F7D 9D 7E 09 
   LDA.W $1AE7                                     ; 059F80 AD E7 1A 
-  STA.W EntityV7,X                                   ; 059F83 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 059F83 9D F0 09 
   LDA.W $1AE8                                     ; 059F86 AD E8 1A 
-  STA.W EntityV8,X                                   ; 059F89 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 059F89 9D 62 0A 
   LDA.B #$25                                      ; 059F8C A9 25 
   STA.B $A7                                       ; 059F8E 85 A7 
   LDA.B #$01                                      ; 059F90 A9 01 

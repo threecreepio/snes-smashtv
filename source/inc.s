@@ -25,16 +25,16 @@ EntityTypeId = EntityHeader + (MaxEntities *  1)             ; 744
 EntityV2     = EntityHeader + (MaxEntities *  2)             ; 7B6
 EntityV3     = EntityHeader + (MaxEntities *  3)             ; 828
 EntityV4     = EntityHeader + (MaxEntities *  4)             ; 89A
-EntityV5     = EntityHeader + (MaxEntities *  5)             ; 90C
-EntityV6     = EntityHeader + (MaxEntities *  6)             ; 97E
-EntityV7     = EntityHeader + (MaxEntities *  7)             ; 9F0
-EntityV8     = EntityHeader + (MaxEntities *  8)             ; A62
+EntityXSubPxSpeed     = EntityHeader + (MaxEntities *  5)             ; 90C
+EntityXPxSpeed     = EntityHeader + (MaxEntities *  6)             ; 97E
+EntityYSubPxSpeed     = EntityHeader + (MaxEntities *  7)             ; 9F0
+EntityYPxSpeed     = EntityHeader + (MaxEntities *  8)             ; A62
 EntityXSubPx = EntityHeader + (MaxEntities *  9)             ; AD4
 EntityXPx    = EntityHeader + (MaxEntities * 10)             ; B46
-EntityV11    = EntityHeader + (MaxEntities * 11)             ; BB8
+EntityXMovement    = EntityHeader + (MaxEntities * 11)             ; BB8
 EntityYSubPx = EntityHeader + (MaxEntities * 12)             ; C2A
 EntityYPx    = EntityHeader + (MaxEntities * 13)             ; C9C
-EntityV14    = EntityHeader + (MaxEntities * 14)             ; D0E
+EntityYMovement    = EntityHeader + (MaxEntities * 14)             ; D0E
 EntityV15    = EntityHeader + (MaxEntities * 15)             ; D80
 EntityV16    = EntityHeader + (MaxEntities * 16)             ; DF2
 EntityV17    = EntityHeader + (MaxEntities * 17)             ; E64
@@ -128,6 +128,8 @@ GameConfigContinues = $0204
 GameConfigLives = $0206
 SelectedDifficulty = $0208
 
+RazorShieldTimer2 = $1861
+RazorShieldTimer1 = $186B
 WeaponTypePickupAmmo    = $189E
 WeaponType1PickupAmmo   = $189F
 WeaponType2PickupAmmo   = $18A0
@@ -140,6 +142,7 @@ EquippedWeaponMagazines    = $1899
 EquippedWeaponMaxMagazines = $189B
 
 ActivePlayerEntity = $18C0
+StateFlags = $175E
 
 
 VRAMPalette = $1AF1

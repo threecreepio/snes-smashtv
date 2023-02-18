@@ -464,7 +464,7 @@ L_83CA:
   TYA                                             ; 008427 98 
   STA.W EntityV31,X                                   ; 008428 9D A0 14 
   LDA.B #$01                                      ; 00842B A9 01 
-  STA.W $175E,Y                                   ; 00842D 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00842D 99 5E 17 
   JSL L_AED8                                      ; 008430 22 D8 AE 00 
   LDA.B #$0B                                      ; 008434 A9 0B 
   STA.B $1C                                       ; 008436 85 1C 
@@ -522,7 +522,7 @@ L_8463:
   TYA                                             ; 0084AF 98 
   STA.W EntityV31,X                                   ; 0084B0 9D A0 14 
   LDA.B #$01                                      ; 0084B3 A9 01 
-  STA.W $175E,Y                                   ; 0084B5 99 5E 17 
+  STA.W StateFlags,Y                                   ; 0084B5 99 5E 17 
   JSL L_AED8                                      ; 0084B8 22 D8 AE 00 
   LDA.B #$05                                      ; 0084BC A9 05 
   STA.B $1C                                       ; 0084BE 85 1C 
@@ -1715,7 +1715,7 @@ B_907D:
   STZ.W $18B8,X                                   ; 009080 9E B8 18 
   STZ.W $18B6,X                                   ; 009083 9E B6 18 
   LDA.B #$01                                      ; 009086 A9 01 
-  STA.W EntityV8,X                                   ; 009088 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 009088 9D 62 0A 
   STA.W $18BA,X                                   ; 00908B 9D BA 18 
   DEX                                             ; 00908E CA 
   BPL.B B_907D                                    ; 00908F 10 EC 
@@ -1756,7 +1756,7 @@ B_90C5:
   LDX.B #$01                                      ; 0090EF A2 01 
   LDA.B #$FF                                      ; 0090F1 A9 FF 
 B_90F3:
-  STA.W EntityV8,X                                   ; 0090F3 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 0090F3 9D 62 0A 
   STA.W $18BA,X                                   ; 0090F6 9D BA 18 
   DEX                                             ; 0090F9 CA 
   BPL.B B_90F3                                    ; 0090FA 10 F7 
@@ -1770,7 +1770,7 @@ B_90FE:
   BPL.B B_90FE                                    ; 009108 10 F4 
   LDX.B #$01                                      ; 00910A A2 01 
 B_910C:
-  STZ.W EntityV8,X                                   ; 00910C 9E 62 0A 
+  STZ.W EntityYPxSpeed,X                                   ; 00910C 9E 62 0A 
   STZ.W $18BA,X                                   ; 00910F 9E BA 18 
   DEX                                             ; 009112 CA 
   BPL.B B_910C                                    ; 009113 10 F7 
@@ -1784,7 +1784,7 @@ B_910C:
   LDX.B #$01                                      ; 00912B A2 01 
   JSL L_ACE4                                      ; 00912D 22 E4 AC 00 
   JSR.W L_8A3A                                    ; 009131 20 3A 8A 
-  STZ.W EntityV8                                     ; 009134 9C 62 0A 
+  STZ.W EntityYPxSpeed                                     ; 009134 9C 62 0A 
   STZ.W $0A63                                     ; 009137 9C 63 0A 
   JSL Wait1Frame                                     ; 00913A 22 13 CA 0E 
   LDA.B #$50                                      ; 00913E A9 50 
@@ -1811,7 +1811,7 @@ B_9167:
   STZ.W $18B8,X                                   ; 00916A 9E B8 18 
   STZ.W $18BA,X                                   ; 00916D 9E BA 18 
   LDA.B #$FF                                      ; 009170 A9 FF 
-  STA.W EntityV6,X                                   ; 009172 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 009172 9D 7E 09 
   STA.W $18B6,X                                   ; 009175 9D B6 18 
   DEX                                             ; 009178 CA 
   BPL.B B_9167                                    ; 009179 10 EC 
@@ -1905,7 +1905,7 @@ B_924E:
   LDX.B #$01                                      ; 00924E A2 01 
   LDA.B #$01                                      ; 009250 A9 01 
 B_9252:
-  STA.W EntityV6,X                                   ; 009252 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 009252 9D 7E 09 
   STA.W $18B6,X                                   ; 009255 9D B6 18 
   DEX                                             ; 009258 CA 
   BPL.B B_9252                                    ; 009259 10 F7 
@@ -1930,7 +1930,7 @@ B_927E:
   BPL.B B_925D                                    ; 009280 10 DB 
   LDX.B #$01                                      ; 009282 A2 01 
 B_9284:
-  STZ.W EntityV6,X                                   ; 009284 9E 7E 09 
+  STZ.W EntityXPxSpeed,X                                   ; 009284 9E 7E 09 
   STZ.W $18B6,X                                   ; 009287 9E B6 18 
   DEX                                             ; 00928A CA 
   BPL.B B_9284                                    ; 00928B 10 F7 
@@ -2066,7 +2066,7 @@ B_93C2:
   STZ.W $18B8,X                                   ; 0093C5 9E B8 18 
   STZ.W $18B6,X                                   ; 0093C8 9E B6 18 
   LDA.B #$FF                                      ; 0093CB A9 FF 
-  STA.W EntityV8,X                                   ; 0093CD 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 0093CD 9D 62 0A 
   STA.W $18BA,X                                   ; 0093D0 9D BA 18 
   DEX                                             ; 0093D3 CA 
   BPL.B B_93C2                                    ; 0093D4 10 EC 
@@ -2118,7 +2118,7 @@ B_941F:
   LDX.B #$01                                      ; 009449 A2 01 
   LDA.B #$01                                      ; 00944B A9 01 
 B_944D:
-  STA.W EntityV8,X                                   ; 00944D 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00944D 9D 62 0A 
   STA.W $18BA,X                                   ; 009450 9D BA 18 
   DEX                                             ; 009453 CA 
   BPL.B B_944D                                    ; 009454 10 F7 
@@ -2132,7 +2132,7 @@ B_9458:
   BPL.B B_9458                                    ; 009462 10 F4 
   LDX.B #$01                                      ; 009464 A2 01 
 B_9466:
-  STZ.W EntityV8,X                                   ; 009466 9E 62 0A 
+  STZ.W EntityYPxSpeed,X                                   ; 009466 9E 62 0A 
   STZ.W $18BA,X                                   ; 009469 9E BA 18 
   DEX                                             ; 00946C CA 
   BPL.B B_9466                                    ; 00946D 10 F7 
@@ -2216,15 +2216,15 @@ B_94E4:
   STA.W EntityXPx,X                              ; 009513 9D 46 0B 
   LDA.W $196B,Y                                   ; 009516 B9 6B 19 
   STA.W EntityYPx,X                                   ; 009519 9D 9C 0C 
-  STZ.W EntityV11,X                                   ; 00951C 9E B8 0B 
-  STZ.W EntityV14,X                                   ; 00951F 9E 0E 0D 
+  STZ.W EntityXMovement,X                                   ; 00951C 9E B8 0B 
+  STZ.W EntityYMovement,X                                   ; 00951F 9E 0E 0D 
   PHY                                             ; 009522 5A 
   PHX                                             ; 009523 DA 
   LDY.W EntityV31,X                                   ; 009524 BC A0 14 
   JSL L_AEF1                                      ; 009527 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 00952B BD A0 14 
   TAX                                             ; 00952E AA 
-  STZ.W $175E,X                                   ; 00952F 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 00952F 9E 5E 17 
   ASL                                             ; 009532 0A 
   ASL                                             ; 009533 0A 
   TAY                                             ; 009534 A8 
@@ -2242,7 +2242,7 @@ B_9541:
   TYA                                             ; 009546 98 
   STA.W EntityV31,X                                   ; 009547 9D A0 14 
   LDA.B #$01                                      ; 00954A A9 01 
-  STA.W $175E,Y                                   ; 00954C 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00954C 99 5E 17 
   JSL L_AEF1                                      ; 00954F 22 F1 AE 00 
   JSR.W L_955B                                    ; 009553 20 5B 95 
   PLY                                             ; 009556 7A 
@@ -2275,7 +2275,7 @@ B_956A:
   JSL L_AEF1                                      ; 00957D 22 F1 AE 00 
   LDA.W EntityV31,X                                   ; 009581 BD A0 14 
   TAX                                             ; 009584 AA 
-  STZ.W $175E,X                                   ; 009585 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 009585 9E 5E 17 
   ASL                                             ; 009588 0A 
   ASL                                             ; 009589 0A 
   TAY                                             ; 00958A A8 
@@ -2461,7 +2461,7 @@ L_96B9:
   TYA                                             ; 0096F0 98 
   STA.W EntityV31,X                                   ; 0096F1 9D A0 14 
   LDA.B #$01                                      ; 0096F4 A9 01 
-  STA.W $175E,Y                                   ; 0096F6 99 5E 17 
+  STA.W StateFlags,Y                                   ; 0096F6 99 5E 17 
   JSL L_AEF1                                      ; 0096F9 22 F1 AE 00 
   LDA.B #$00                                      ; 0096FD A9 00 
   STA.B $1C                                       ; 0096FF 85 1C 
@@ -2489,7 +2489,7 @@ L_96B9:
   TYA                                             ; 00973C 98 
   STA.W EntityV31,X                                   ; 00973D 9D A0 14 
   LDA.B #$01                                      ; 009740 A9 01 
-  STA.W $175E,Y                                   ; 009742 99 5E 17 
+  STA.W StateFlags,Y                                   ; 009742 99 5E 17 
   JSL L_AEF1                                      ; 009745 22 F1 AE 00 
   LDA.B #$00                                      ; 009749 A9 00 
   STA.B $1C                                       ; 00974B 85 1C 
@@ -2519,7 +2519,7 @@ L_96B9:
   TYA                                             ; 00978B 98 
   STA.W EntityV31,X                                   ; 00978C 9D A0 14 
   LDA.B #$01                                      ; 00978F A9 01 
-  STA.W $175E,Y                                   ; 009791 99 5E 17 
+  STA.W StateFlags,Y                                   ; 009791 99 5E 17 
   JSL L_AEF1                                      ; 009794 22 F1 AE 00 
   LDA.B #$00                                      ; 009798 A9 00 
   STA.B $1C                                       ; 00979A 85 1C 
@@ -2732,13 +2732,13 @@ B_990C:
   TYA                                             ; 00993C 98 
   STA.W EntityV31,X                                   ; 00993D 9D A0 14 
   LDA.B #$01                                      ; 009940 A9 01 
-  STA.W $175E,Y                                   ; 009942 99 5E 17 
+  STA.W StateFlags,Y                                   ; 009942 99 5E 17 
   JSL L_AEF1                                      ; 009945 22 F1 AE 00 
   JSL L_AEAF                                      ; 009949 22 AF AE 00 
   TYA                                             ; 00994D 98 
   STA.W EntityV21,X                                   ; 00994E 9D 2C 10 
   LDA.B #$01                                      ; 009951 A9 01 
-  STA.W $175E,Y                                   ; 009953 99 5E 17 
+  STA.W StateFlags,Y                                   ; 009953 99 5E 17 
   JSL L_AEF1                                      ; 009956 22 F1 AE 00 
   RTS                                             ; 00995A 60 
 
@@ -3121,11 +3121,13 @@ B_9D50:
   BNE.B B_9D50                                    ; 009D7A D0 D4 
   LDA.B #$FF                                      ; 009D7C A9 FF 
   STA.W $19FD                                     ; 009D7E 8D FD 19 
+
+
 B_9D81:
   LDA.W $18F1                                     ; 009D81 AD F1 18 
-  BEQ.B B_9DE3                                    ; 009D84 F0 5D 
+  BEQ.B UpdateRazorShield                                    ; 009D84 F0 5D 
   DEC.W $186A                                     ; 009D86 CE 6A 18 
-  BNE.B B_9DE3                                    ; 009D89 D0 58 
+  BNE.B UpdateRazorShield                                    ; 009D89 D0 58 
   LDA.B #$02                                      ; 009D8B A9 02 
   STA.W $186A                                     ; 009D8D 8D 6A 18 
   LDA.W $1860                                     ; 009D90 AD 60 18 
@@ -3169,23 +3171,25 @@ B_9DB2:
   BNE.B B_9DB2                                    ; 009DDC D0 D4 
   LDA.B #$FF                                      ; 009DDE A9 FF 
   STA.W $1A0A                                     ; 009DE0 8D 0A 1A 
-B_9DE3:
+
+UpdateRazorShield:
+  @Tmp = $04
   LDA.W PlayerRazorShieldStatus                                     ; 009DE3 AD D1 05 
-  BEQ.B B_9E45                                    ; 009DE6 F0 5D 
-  DEC.W $186B                                     ; 009DE8 CE 6B 18 
-  BNE.B B_9E45                                    ; 009DEB D0 58 
+  BEQ.B @Done                                    ; 009DE6 F0 5D 
+  DEC.W RazorShieldTimer1                                     ; 009DE8 CE 6B 18 
+  BNE.B @Done                                    ; 009DEB D0 58 
   LDA.B #$03                                      ; 009DED A9 03 
-  STA.W $186B                                     ; 009DEF 8D 6B 18 
-  LDA.W $1861                                     ; 009DF2 AD 61 18 
+  STA.W RazorShieldTimer1                                     ; 009DEF 8D 6B 18 
+  LDA.W RazorShieldTimer2                                     ; 009DF2 AD 61 18 
   INC A
   CMP.B #$03                                      ; 009DF6 C9 03 
-  BCC.B B_9DFC                                    ; 009DF8 90 02 
+  BCC.B @SetShieldStatus                                    ; 009DF8 90 02 
   LDA.B #$00                                      ; 009DFA A9 00 
-B_9DFC:
-  STA.W $1861                                     ; 009DFC 8D 61 18 
+@SetShieldStatus:
+  STA.W RazorShieldTimer2                                     ; 009DFC 8D 61 18 
   LDA.B #$02                                      ; 009DFF A9 02 
-  STA.B $04                                       ; 009E01 85 04 
-  LDA.W $1861                                     ; 009E03 AD 61 18 
+  STA.B @Tmp                                       ; 009E01 85 04 
+  LDA.W RazorShieldTimer2                                     ; 009E03 AD 61 18 
   ASL                                             ; 009E06 0A 
   TAX                                             ; 009E07 AA 
   LDA.W D_A176,X                                  ; 009E08 BD 76 A1 
@@ -3193,7 +3197,7 @@ B_9DFC:
   LDA.W D_A177,X                                  ; 009E0D BD 77 A1 
   STA.B $07                                       ; 009E10 85 07 
   LDY.B #$00                                      ; 009E12 A0 00 
-B_9E14:
+@ProcessRazor:
   LDA.B #$01                                      ; 009E14 A9 01 
   STA.W $1A0B,Y                                   ; 009E16 99 0B 1A 
   LDA.B #$18                                      ; 009E19 A9 18 
@@ -3213,10 +3217,12 @@ B_9E14:
   CLC                                             ; 009E38 18 
   ADC.B #$06                                      ; 009E39 69 06 
   TAY                                             ; 009E3B A8 
-  DEC.B $04                                       ; 009E3C C6 04 
-  BNE.B B_9E14                                    ; 009E3E D0 D4 
+  DEC.B @Tmp                                       ; 009E3C C6 04 
+  BNE.B @ProcessRazor                                    ; 009E3E D0 D4 
   LDA.B #$FF                                      ; 009E40 A9 FF 
   STA.W $1A17                                     ; 009E42 8D 17 1A 
+@Done:
+
 B_9E45:
   LDA.W $18F0                                     ; 009E45 AD F0 18 
   BEQ.B B_9EA7                                    ; 009E48 F0 5D 
@@ -4871,7 +4877,7 @@ L_AE6F:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00AE70 E2 30 
   LDX.B #$7F                                      ; 00AE72 A2 7F 
 B_AE74:
-  STZ.W $175E,X                                   ; 00AE74 9E 5E 17 
+  STZ.W StateFlags,X                                   ; 00AE74 9E 5E 17 
   DEX                                             ; 00AE77 CA 
   BPL.B B_AE74                                    ; 00AE78 10 FA 
   STZ.W $1514                                     ; 00AE7A 9C 14 15 
@@ -4882,7 +4888,7 @@ B_AE74:
 L_AE82:
   LDY.B #$00                                      ; 00AE82 A0 00 
 B_AE84:
-  LDA.W $175E,Y                                   ; 00AE84 B9 5E 17 
+  LDA.W StateFlags,Y                                   ; 00AE84 B9 5E 17 
   BEQ.B B_AE90                                    ; 00AE87 F0 07 
   INY                                             ; 00AE89 C8 
   CPY.B #$80                                      ; 00AE8A C0 80 
@@ -4896,7 +4902,7 @@ B_AE90:
 L_AE91:
   LDY.B #$5B                                      ; 00AE91 A0 5B 
 B_AE93:
-  LDA.W $175E,Y                                   ; 00AE93 B9 5E 17 
+  LDA.W StateFlags,Y                                   ; 00AE93 B9 5E 17 
   BEQ.B B_AE9F                                    ; 00AE96 F0 07 
   INY                                             ; 00AE98 C8 
   CPY.B #$80                                      ; 00AE99 C0 80 
@@ -4914,7 +4920,7 @@ B_AE9F:
 L_AEAF:
   LDY.B #$7F                                      ; 00AEAF A0 7F 
 B_AEB1:
-  LDA.W $175E,Y                                   ; 00AEB1 B9 5E 17 
+  LDA.W StateFlags,Y                                   ; 00AEB1 B9 5E 17 
   BEQ.B B_AEBB                                    ; 00AEB4 F0 05 
   DEY                                             ; 00AEB6 88 
   BPL.B B_AEB1                                    ; 00AEB7 10 F8 
@@ -4927,7 +4933,7 @@ B_AEBB:
 L_AEBC:
   LDY.B #$08                                      ; 00AEBC A0 08 
 B_AEBE:
-  LDA.W $175E,Y                                   ; 00AEBE B9 5E 17 
+  LDA.W StateFlags,Y                                   ; 00AEBE B9 5E 17 
   BEQ.B B_AECA                                    ; 00AEC1 F0 07 
   INY                                             ; 00AEC3 C8 
   CPY.B #$80                                      ; 00AEC4 C0 80 
@@ -4938,18 +4944,16 @@ B_AEBE:
 B_AECA:
   RTL                                             ; 00AECA 6B 
 
-L_AECB:
-  LDY.B #$6F                                      ; 00AECB A0 6F 
-B_AECD:
-  LDA.W $175E,Y                                   ; 00AECD B9 5E 17 
-  BEQ.B B_AED7                                    ; 00AED0 F0 05 
-  DEY                                             ; 00AED2 88 
-  BPL.B B_AECD                                    ; 00AED3 10 F8 
-
-.byte $A9,$01                                     ; 00AED6 ..       ??
-
-B_AED7:
-  RTL                                             ; 00AED7 6B 
+GetEmptyStateFlag:
+  ldy #$6F                                        ; start with last state flag
+@CheckFlag:
+  lda StateFlags,Y                              ; get the state flag..
+  beq @Done                                       ; if it's empty, return that flag
+  dey                                             ; otherwise step to next flag
+  bpl @CheckFlag                                  ; and loop!
+  lda #$01                                        ; if we didn't find any, set A to 1. this isn't really ever checked.
+@Done:
+  rtl                                             ; we are done!
 
 L_AED8:
   PHX                                             ; 00AED8 DA 
@@ -5160,7 +5164,7 @@ D_B037:
   STA.W EntityV31,X                                   ; 00B05B 9D A0 14 
   TAY                                             ; 00B05E A8 
   LDA.B #$01                                      ; 00B05F A9 01 
-  STA.W $175E,Y                                   ; 00B061 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00B061 99 5E 17 
   STA.W $175F,Y                                   ; 00B064 99 5F 17 
   PHX                                             ; 00B067 DA 
   PHY                                             ; 00B068 5A 
@@ -5972,7 +5976,6 @@ L_B675:
   STA.W $188A,X                                   ; 00B6F8 9D 8A 18 
   RTS                                             ; 00B6FB 60 
 
-
 L_B6FC:
   LDY.B #$00                                      ; 00B6FC A0 00 
   LDA.W PlayerRazorShieldStatus                                     ; 00B6FE AD D1 05 
@@ -6186,13 +6189,13 @@ B_B8C2:
   ASL                                             ; 00B8C9 0A 
   TAY                                             ; 00B8CA A8 
   LDA.W D_B94F,Y                                  ; 00B8CB B9 4F B9 
-  STA.W EntityV5,X                                   ; 00B8CE 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00B8CE 9D 0C 09 
   LDA.W D_B950,Y                                  ; 00B8D1 B9 50 B9 
-  STA.W EntityV6,X                                   ; 00B8D4 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00B8D4 9D 7E 09 
   LDA.W D_B95F,Y                                  ; 00B8D7 B9 5F B9 
-  STA.W EntityV7,X                                   ; 00B8DA 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00B8DA 9D F0 09 
   LDA.W D_B960,Y                                  ; 00B8DD B9 60 B9 
-  STA.W EntityV8,X                                   ; 00B8E0 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00B8E0 9D 62 0A 
   LDA.B #$01                                      ; 00B8E3 A9 01 
   STA.W EntityHeader,X                                   ; 00B8E5 9D D2 06 
   LDA.B $08                                       ; 00B8E8 A5 08 
@@ -6203,11 +6206,11 @@ B_B8C2:
   LDA.B #$32                                      ; 00B8F3 A9 32 
   ORA.W D_B937,Y                                  ; 00B8F5 19 37 B9 
   STA.W EntityV30,X                                   ; 00B8F8 9D 2E 14 
-  JSL L_AECB                                      ; 00B8FB 22 CB AE 00 
+  JSL GetEmptyStateFlag                                      ; 00B8FB 22 CB AE 00 
   TYA                                             ; 00B8FF 98 
   STA.W EntityV31,X                                   ; 00B900 9D A0 14 
   LDA.B #$01                                      ; 00B903 A9 01 
-  STA.W $175E,Y                                   ; 00B905 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00B905 99 5E 17 
   JSL L_AEF1                                      ; 00B908 22 F1 AE 00 
   PHX                                             ; 00B90C DA 
   REP.B #$10                                      ; 00B90D C2 10 
@@ -6349,24 +6352,24 @@ B_BA23:
   ASL                                             ; 00BA28 0A 
   TAY                                             ; 00BA29 A8 
   LDA.W D_BA7B,Y                                  ; 00BA2A B9 7B BA 
-  STA.W EntityV5,X                                   ; 00BA2D 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00BA2D 9D 0C 09 
   LDA.W D_BA7C,Y                                  ; 00BA30 B9 7C BA 
-  STA.W EntityV6,X                                   ; 00BA33 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00BA33 9D 7E 09 
   LDA.W D_BA9B,Y                                  ; 00BA36 B9 9B BA 
-  STA.W EntityV7,X                                   ; 00BA39 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00BA39 9D F0 09 
   LDA.W D_BA9C,Y                                  ; 00BA3C B9 9C BA 
-  STA.W EntityV8,X                                   ; 00BA3F 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00BA3F 9D 62 0A 
   LDA.B #$01                                      ; 00BA42 A9 01 
   STA.W EntityHeader,X                                   ; 00BA44 9D D2 06 
   LDA.B #$06                                      ; 00BA47 A9 06 
   STA.W EntityV29,X                                   ; 00BA49 9D BC 13 
   LDA.B #$32                                      ; 00BA4C A9 32 
   STA.W EntityV30,X                                   ; 00BA4E 9D 2E 14 
-  JSL L_AECB                                      ; 00BA51 22 CB AE 00 
+  JSL GetEmptyStateFlag                                      ; 00BA51 22 CB AE 00 
   TYA                                             ; 00BA55 98 
   STA.W EntityV31,X                                   ; 00BA56 9D A0 14 
   LDA.B #$01                                      ; 00BA59 A9 01 
-  STA.W $175E,Y                                   ; 00BA5B 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00BA5B 99 5E 17 
   JSL L_AEF1                                      ; 00BA5E 22 F1 AE 00 
   RTS                                             ; 00BA62 60 
 
@@ -6467,13 +6470,13 @@ B_BB33:
   ASL                                             ; 00BB3A 0A 
   TAY                                             ; 00BB3B A8 
   LDA.W D_BBC3,Y                                  ; 00BB3C B9 C3 BB 
-  STA.W EntityV5,X                                   ; 00BB3F 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00BB3F 9D 0C 09 
   LDA.W D_BBC4,Y                                  ; 00BB42 B9 C4 BB 
-  STA.W EntityV6,X                                   ; 00BB45 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00BB45 9D 7E 09 
   LDA.W D_BBD3,Y                                  ; 00BB48 B9 D3 BB 
-  STA.W EntityV7,X                                   ; 00BB4B 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00BB4B 9D F0 09 
   LDA.W D_BBD4,Y                                  ; 00BB4E B9 D4 BB 
-  STA.W EntityV8,X                                   ; 00BB51 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00BB51 9D 62 0A 
   LDA.B #$01                                      ; 00BB54 A9 01 
   STA.W EntityHeader,X                                   ; 00BB56 9D D2 06 
   LDA.B $08                                       ; 00BB59 A5 08 
@@ -6484,11 +6487,11 @@ B_BB33:
   LDA.B #$34                                      ; 00BB64 A9 34 
   ORA.W D_BBAB,Y                                  ; 00BB66 19 AB BB 
   STA.W EntityV30,X                                   ; 00BB69 9D 2E 14 
-  JSL L_AECB                                      ; 00BB6C 22 CB AE 00 
+  JSL GetEmptyStateFlag                                      ; 00BB6C 22 CB AE 00 
   TYA                                             ; 00BB70 98 
   STA.W EntityV31,X                                   ; 00BB71 9D A0 14 
   LDA.B #$01                                      ; 00BB74 A9 01 
-  STA.W $175E,Y                                   ; 00BB76 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00BB76 99 5E 17 
   JSL L_AEF1                                      ; 00BB79 22 F1 AE 00 
   PHX                                             ; 00BB7D DA 
   REP.B #$10                                      ; 00BB7E C2 10 
@@ -6608,13 +6611,13 @@ B_BC5B:
   ASL                                             ; 00BC6F 0A 
   TAY                                             ; 00BC70 A8 
   LDA.W D_BCFA,Y                                  ; 00BC71 B9 FA BC 
-  STA.W EntityV5,X                                   ; 00BC74 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00BC74 9D 0C 09 
   LDA.W D_BCFB,Y                                  ; 00BC77 B9 FB BC 
-  STA.W EntityV6,X                                   ; 00BC7A 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00BC7A 9D 7E 09 
   LDA.W D_BD3A,Y                                  ; 00BC7D B9 3A BD 
-  STA.W EntityV7,X                                   ; 00BC80 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00BC80 9D F0 09 
   LDA.W D_BD3B,Y                                  ; 00BC83 B9 3B BD 
-  STA.W EntityV8,X                                   ; 00BC86 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00BC86 9D 62 0A 
   LDA.B #$01                                      ; 00BC89 A9 01 
   STA.W EntityHeader,X                                   ; 00BC8B 9D D2 06 
   LDA.B #$0E                                      ; 00BC8E A9 0E 
@@ -6632,11 +6635,11 @@ B_BC5B:
   ADC.B $04                                       ; 00BCAB 65 04 
   ADC.B #$06                                      ; 00BCAD 69 06 
   STA.W EntityV15,X                                   ; 00BCAF 9D 80 0D 
-  JSL L_AECB                                      ; 00BCB2 22 CB AE 00 
+  JSL GetEmptyStateFlag                                      ; 00BCB2 22 CB AE 00 
   TYA                                             ; 00BCB6 98 
   STA.W EntityV31,X                                   ; 00BCB7 9D A0 14 
   LDA.B #$01                                      ; 00BCBA A9 01 
-  STA.W $175E,Y                                   ; 00BCBC 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00BCBC 99 5E 17 
   JSL L_AEF1                                      ; 00BCBF 22 F1 AE 00 
   JSR.W L_BEE9                                    ; 00BCC3 20 E9 BE 
   LDX.B $09                                       ; 00BCC6 A6 09 
@@ -6769,22 +6772,22 @@ B_BE18:
   ASL                                             ; 00BE1F 0A 
   TAY                                             ; 00BE20 A8 
   LDA.W D_BEC9,Y                                  ; 00BE21 B9 C9 BE 
-  STA.W EntityV5,X                                   ; 00BE24 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00BE24 9D 0C 09 
   LDA.W D_BECA,Y                                  ; 00BE27 B9 CA BE 
-  STA.W EntityV6,X                                   ; 00BE2A 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00BE2A 9D 7E 09 
   LDA.W D_BED9,Y                                  ; 00BE2D B9 D9 BE 
-  STA.W EntityV7,X                                   ; 00BE30 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00BE30 9D F0 09 
   LDA.W D_BEDA,Y                                  ; 00BE33 B9 DA BE 
-  STA.W EntityV8,X                                   ; 00BE36 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00BE36 9D 62 0A 
   LDA.B #$6A                                      ; 00BE39 A9 6A 
   STA.W EntityV29,X                                   ; 00BE3B 9D BC 13 
   LDA.B #$34                                      ; 00BE3E A9 34 
   STA.W EntityV30,X                                   ; 00BE40 9D 2E 14 
-  JSL L_AECB                                      ; 00BE43 22 CB AE 00 
+  JSL GetEmptyStateFlag                                      ; 00BE43 22 CB AE 00 
   TYA                                             ; 00BE47 98 
   STA.W EntityV31,X                                   ; 00BE48 9D A0 14 
   LDA.B #$01                                      ; 00BE4B A9 01 
-  STA.W $175E,Y                                   ; 00BE4D 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00BE4D 99 5E 17 
   JSL L_AEF1                                      ; 00BE50 22 F1 AE 00 
   LDX.B $05                                       ; 00BE54 A6 05 
   JSL ClearEntitySlotData                                     ; 00BE56 22 94 80 03 
@@ -6805,11 +6808,11 @@ D_BE69:
   STA.W EntityV29,X                                   ; 00BE7A 9D BC 13 
   LDA.B #$32                                      ; 00BE7D A9 32 
   STA.W EntityV30,X                                   ; 00BE7F 9D 2E 14 
-  JSL L_AECB                                      ; 00BE82 22 CB AE 00 
+  JSL GetEmptyStateFlag                                      ; 00BE82 22 CB AE 00 
   TYA                                             ; 00BE86 98 
   STA.W EntityV31,X                                   ; 00BE87 9D A0 14 
   LDA.B #$01                                      ; 00BE8A A9 01 
-  STA.W $175E,Y                                   ; 00BE8C 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00BE8C 99 5E 17 
   JSL L_AEF1                                      ; 00BE8F 22 F1 AE 00 
   PHX                                             ; 00BE93 DA 
   REP.B #$10                                      ; 00BE94 C2 10 
@@ -7537,9 +7540,9 @@ B_C4AE:
   STA.W EntityYPx,X                                   ; 00C4DB 9D 9C 0C 
   LDY.W $06C7                                     ; 00C4DE AC C7 06 
   LDA.W D_C559,Y                                  ; 00C4E1 B9 59 C5 
-  STA.W EntityV11,X                                   ; 00C4E4 9D B8 0B 
+  STA.W EntityXMovement,X                                   ; 00C4E4 9D B8 0B 
   LDA.W D_C55C,Y                                  ; 00C4E7 B9 5C C5 
-  STA.W EntityV14,X                                   ; 00C4EA 9D 0E 0D 
+  STA.W EntityYMovement,X                                   ; 00C4EA 9D 0E 0D 
   JSL AdvanceRNG                                     ; 00C4ED 22 95 CA 0E 
   AND.B #$07                                      ; 00C4F1 29 07 
   ADC.B #$2C                                      ; 00C4F3 69 2C 
@@ -7560,7 +7563,7 @@ B_C4AE:
   TYA                                             ; 00C51B 98 
   STA.W EntityV31,X                                   ; 00C51C 9D A0 14 
   LDA.B #$01                                      ; 00C51F A9 01 
-  STA.W $175E,Y                                   ; 00C521 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00C521 99 5E 17 
   JSL L_AED8                                      ; 00C524 22 D8 AE 00 
   LDA.W EntityV31,X                                   ; 00C528 BD A0 14 
   ASL                                             ; 00C52B 0A 
@@ -7747,12 +7750,12 @@ D_C55F:
   JSL L_AEBC                                      ; 00C9FB 22 BC AE 00 
   STY.B $06                                       ; 00C9FF 84 06 
   LDA.B #$01                                      ; 00CA01 A9 01 
-  STA.W $175E,Y                                   ; 00CA03 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00CA03 99 5E 17 
   JSL L_AEBC                                      ; 00CA06 22 BC AE 00 
   STY.B $07                                       ; 00CA0A 84 07 
   LDY.B $06                                       ; 00CA0C A4 06 
   LDA.B #$00                                      ; 00CA0E A9 00 
-  STA.W $175E,Y                                   ; 00CA10 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00CA10 99 5E 17 
   JSL FindEmptyEntitySlot                                     ; 00CA13 22 F3 80 03 
   BEQ.B B_CA1C                                    ; 00CA17 F0 03 
 B_CA19:
@@ -7798,18 +7801,18 @@ B_CA6B:
   ASL                                             ; 00CA72 0A 
   TAY                                             ; 00CA73 A8 
   LDA.W D_CB29,Y                                  ; 00CA74 B9 29 CB 
-  STA.W EntityV5,X                                   ; 00CA77 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00CA77 9D 0C 09 
   LDA.W D_CB2A,Y                                  ; 00CA7A B9 2A CB 
-  STA.W EntityV6,X                                   ; 00CA7D 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00CA7D 9D 7E 09 
   LDA.W D_CB31,Y                                  ; 00CA80 B9 31 CB 
-  STA.W EntityV7,X                                   ; 00CA83 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00CA83 9D F0 09 
   LDA.W D_CB32,Y                                  ; 00CA86 B9 32 CB 
-  STA.W EntityV8,X                                   ; 00CA89 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00CA89 9D 62 0A 
   LDY.B $07                                       ; 00CA8C A4 07 
   TYA                                             ; 00CA8E 98 
   STA.W EntityV31,X                                   ; 00CA8F 9D A0 14 
   LDA.B #$01                                      ; 00CA92 A9 01 
-  STA.W $175E,Y                                   ; 00CA94 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00CA94 99 5E 17 
   JSL L_AED8                                      ; 00CA97 22 D8 AE 00 
   JSL FindEmptyEntitySlot                                     ; 00CA9B 22 F3 80 03 
   BEQ.B B_CAA4                                    ; 00CA9F F0 03 
@@ -7851,7 +7854,7 @@ B_CAA4:
   TYA                                             ; 00CAF3 98 
   STA.W EntityV31,X                                   ; 00CAF4 9D A0 14 
   LDA.B #$01                                      ; 00CAF7 A9 01 
-  STA.W $175E,Y                                   ; 00CAF9 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00CAF9 99 5E 17 
   JSL L_AED8                                      ; 00CAFC 22 D8 AE 00 
   LDY.B $08                                       ; 00CB00 A4 08 
   LDA.W D_CB1E,Y                                  ; 00CB02 B9 1E CB 
@@ -7935,13 +7938,13 @@ B_CBA0:
   ASL                                             ; 00CBA1 0A 
   TAY                                             ; 00CBA2 A8 
   LDA.W D_CC5F,Y                                  ; 00CBA3 B9 5F CC 
-  STA.W EntityV5,X                                   ; 00CBA6 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00CBA6 9D 0C 09 
   LDA.W D_CC60,Y                                  ; 00CBA9 B9 60 CC 
-  STA.W EntityV6,X                                   ; 00CBAC 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00CBAC 9D 7E 09 
   LDA.W D_CC67,Y                                  ; 00CBAF B9 67 CC 
-  STA.W EntityV7,X                                   ; 00CBB2 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00CBB2 9D F0 09 
   LDA.W D_CC68,Y                                  ; 00CBB5 B9 68 CC 
-  STA.W EntityV8,X                                   ; 00CBB8 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00CBB8 9D 62 0A 
   LDA.W EntityXPx,X                              ; 00CBBB BD 46 0B 
   STA.B $04                                       ; 00CBBE 85 04 
   LDA.W EntityYPx,X                                   ; 00CBC0 BD 9C 0C 
@@ -7951,7 +7954,7 @@ B_CBA0:
   TYA                                             ; 00CBCB 98 
   STA.W EntityV31,X                                   ; 00CBCC 9D A0 14 
   LDA.B #$01                                      ; 00CBCF A9 01 
-  STA.W $175E,Y                                   ; 00CBD1 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00CBD1 99 5E 17 
   JSL L_AEF1                                      ; 00CBD4 22 F1 AE 00 
   LDA.B #$01                                      ; 00CBD8 A9 01 
   STA.B $08                                       ; 00CBDA 85 08 
@@ -7992,18 +7995,18 @@ B_CBE5:
   ASL                                             ; 00CC29 0A 
   TAY                                             ; 00CC2A A8 
   LDA.W D_CC6F,Y                                  ; 00CC2B B9 6F CC 
-  STA.W EntityV5,X                                   ; 00CC2E 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00CC2E 9D 0C 09 
   LDA.W D_CC70,Y                                  ; 00CC31 B9 70 CC 
-  STA.W EntityV6,X                                   ; 00CC34 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00CC34 9D 7E 09 
   LDA.W D_CC8F,Y                                  ; 00CC37 B9 8F CC 
-  STA.W EntityV7,X                                   ; 00CC3A 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00CC3A 9D F0 09 
   LDA.W D_CC90,Y                                  ; 00CC3D B9 90 CC 
-  STA.W EntityV8,X                                   ; 00CC40 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00CC40 9D 62 0A 
   JSL L_AEBC                                      ; 00CC43 22 BC AE 00 
   TYA                                             ; 00CC47 98 
   STA.W EntityV31,X                                   ; 00CC48 9D A0 14 
   LDA.B #$01                                      ; 00CC4B A9 01 
-  STA.W $175E,Y                                   ; 00CC4D 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00CC4D 99 5E 17 
   JSL L_AEF1                                      ; 00CC50 22 F1 AE 00 
   INC.B $08                                       ; 00CC54 E6 08 
   LDA.B $08                                       ; 00CC56 A5 08 
@@ -8106,13 +8109,13 @@ B_CD23:
   ASL                                             ; 00CD3F 0A 
   TAY                                             ; 00CD40 A8 
   LDA.W D_CD83,Y                                  ; 00CD41 B9 83 CD 
-  STA.W EntityV5,X                                   ; 00CD44 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00CD44 9D 0C 09 
   LDA.W D_CD84,Y                                  ; 00CD47 B9 84 CD 
-  STA.W EntityV6,X                                   ; 00CD4A 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00CD4A 9D 7E 09 
   LDA.W D_CD8B,Y                                  ; 00CD4D B9 8B CD 
-  STA.W EntityV7,X                                   ; 00CD50 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00CD50 9D F0 09 
   LDA.W D_CD8C,Y                                  ; 00CD53 B9 8C CD 
-  STA.W EntityV8,X                                   ; 00CD56 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00CD56 9D 62 0A 
   LDA.W $1514                                     ; 00CD59 AD 14 15 
   ORA.W $1515                                     ; 00CD5C 0D 15 15 
   BEQ.B B_CD67                                    ; 00CD5F F0 06 
@@ -8124,7 +8127,7 @@ B_CD6B:
   TYA                                             ; 00CD6B 98 
   STA.W EntityV31,X                                   ; 00CD6C 9D A0 14 
   LDA.B #$01                                      ; 00CD6F A9 01 
-  STA.W $175E,Y                                   ; 00CD71 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00CD71 99 5E 17 
   JSL L_AEF1                                      ; 00CD74 22 F1 AE 00 
   LDA.B #$01                                      ; 00CD78 A9 01 
   RTS                                             ; 00CD7A 60 
@@ -8302,7 +8305,7 @@ B_D142:
   TYA                                             ; 00D167 98 
   STA.W EntityV31,X                                   ; 00D168 9D A0 14 
   LDA.B #$01                                      ; 00D16B A9 01 
-  STA.W $175E,Y                                   ; 00D16D 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00D16D 99 5E 17 
   JSL L_AEF1                                      ; 00D170 22 F1 AE 00 
   LDY.B #$00                                      ; 00D174 A0 00 
   LDA.B ($06),Y                                   ; 00D176 B1 06 
@@ -8313,9 +8316,9 @@ B_D142:
   TXY                                             ; 00D181 9B 
   LDX.W $06C7                                     ; 00D182 AE C7 06 
   LDA.L D_C559,X                                  ; 00D185 BF 59 C5 00 
-  STA.W EntityV11,Y                                   ; 00D189 99 B8 0B 
+  STA.W EntityXMovement,Y                                   ; 00D189 99 B8 0B 
   LDA.L D_C55C,X                                  ; 00D18C BF 5C C5 00 
-  STA.W EntityV14,Y                                   ; 00D190 99 0E 0D 
+  STA.W EntityYMovement,Y                                   ; 00D190 99 0E 0D 
   CLC                                             ; 00D193 18 
   LDA.B $06                                       ; 00D194 A5 06 
   ADC.B #$02                                      ; 00D196 69 02 
@@ -8391,12 +8394,12 @@ B_D19E:
   LDA.B #$01                                      ; 00D360 A9 01 
   LDY.B #$70                                      ; 00D362 A0 70 
   STY.W $1512                                     ; 00D364 8C 12 15 
-  STA.W $175E,Y                                   ; 00D367 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00D367 99 5E 17 
   STA.W $175F,Y                                   ; 00D36A 99 5F 17 
   LDA.B #$01                                      ; 00D36D A9 01 
   LDY.B #$72                                      ; 00D36F A0 72 
   STY.W $1513                                     ; 00D371 8C 13 15 
-  STA.W $175E,Y                                   ; 00D374 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00D374 99 5E 17 
   STA.W $175F,Y                                   ; 00D377 99 5F 17 
   LDA.B #$01                                      ; 00D37A A9 01 
   STA.W $1514                                     ; 00D37C 8D 14 15 
@@ -8472,7 +8475,7 @@ B_D3FF:
   TYA                                             ; 00D42D 98 
   STA.W EntityV31,X                                   ; 00D42E 9D A0 14 
   LDA.B #$01                                      ; 00D431 A9 01 
-  STA.W $175E,Y                                   ; 00D433 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00D433 99 5E 17 
   JSL L_AED8                                      ; 00D436 22 D8 AE 00 
   LDA.B #$E0                                      ; 00D43A A9 E0 
   STA.W EntityYPx,X                                   ; 00D43C 9D 9C 0C 
@@ -8504,17 +8507,17 @@ B_D3FF:
   LDA.B #$9C                                      ; 00D480 A9 9C 
   STA.W EntityYPx,X                                   ; 00D482 9D 9C 0C 
   LDA.B #$FF                                      ; 00D485 A9 FF 
-  STA.W EntityV14,X                                   ; 00D487 9D 0E 0D 
+  STA.W EntityYMovement,X                                   ; 00D487 9D 0E 0D 
   LDA.B #$80                                      ; 00D48A A9 80 
-  STA.W EntityV7,X                                   ; 00D48C 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00D48C 9D F0 09 
   LDA.B #$00                                      ; 00D48F A9 00 
-  STA.W EntityV8,X                                   ; 00D491 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00D491 9D 62 0A 
   JSL L_AE91                                      ; 00D494 22 91 AE 00 
   TYA                                             ; 00D498 98 
   STA.B $08                                       ; 00D499 85 08 
   STA.W EntityV31,X                                   ; 00D49B 9D A0 14 
   LDA.B #$01                                      ; 00D49E A9 01 
-  STA.W $175E,Y                                   ; 00D4A0 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00D4A0 99 5E 17 
   JSL L_AEF1                                      ; 00D4A3 22 F1 AE 00 
   LDX.B #$13                                      ; 00D4A7 A2 13 
 B_D4A9:
@@ -8525,7 +8528,7 @@ B_D4A9:
   STA.B $08                                       ; 00D4B1 85 08 
   STA.W $17DE,X                                   ; 00D4B3 9D DE 17 
   LDA.B #$01                                      ; 00D4B6 A9 01 
-  STA.W $175E,Y                                   ; 00D4B8 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00D4B8 99 5E 17 
   JSL L_AEF1                                      ; 00D4BB 22 F1 AE 00 
   PLX                                             ; 00D4BF FA 
   DEX                                             ; 00D4C0 CA 
@@ -8571,8 +8574,8 @@ L_D4FE:
   LDA.B #$00                                      ; 00D522 A9 00 
   STA.W EntityXPx,X                              ; 00D524 9D 46 0B 
   STA.W EntityYPx,X                                   ; 00D527 9D 9C 0C 
-  STA.W EntityV11,X                                   ; 00D52A 9D B8 0B 
-  STA.W EntityV14,X                                   ; 00D52D 9D 0E 0D 
+  STA.W EntityXMovement,X                                   ; 00D52A 9D B8 0B 
+  STA.W EntityYMovement,X                                   ; 00D52D 9D 0E 0D 
   JSL AdvanceRNG                                     ; 00D530 22 95 CA 0E 
   AND.B #$07                                      ; 00D534 29 07 
   ADC.B #$2C                                      ; 00D536 69 2C 
@@ -8593,7 +8596,7 @@ L_D4FE:
   TYA                                             ; 00D55E 98 
   STA.W EntityV31,X                                   ; 00D55F 9D A0 14 
   LDA.B #$01                                      ; 00D562 A9 01 
-  STA.W $175E,Y                                   ; 00D564 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00D564 99 5E 17 
   JSL L_AED8                                      ; 00D567 22 D8 AE 00 
   LDA.W EntityV31,X                                   ; 00D56B BD A0 14 
   ASL                                             ; 00D56E 0A 
@@ -8767,9 +8770,9 @@ L_D8D6:
   LDY.B #$02                                      ; 00D908 A0 02 
 B_D90A:
   LDA.W D_D92D,Y                                  ; 00D90A B9 2D D9 
-  STA.W EntityV5,X                                   ; 00D90D 9D 0C 09 
+  STA.W EntityXSubPxSpeed,X                                   ; 00D90D 9D 0C 09 
   LDA.W D_D92E,Y                                  ; 00D910 B9 2E D9 
-  STA.W EntityV6,X                                   ; 00D913 9D 7E 09 
+  STA.W EntityXPxSpeed,X                                   ; 00D913 9D 7E 09 
   LDY.B #$00                                      ; 00D916 A0 00 
   LDA.B $05                                       ; 00D918 A5 05 
   CMP.B #$80                                      ; 00D91A C9 80 
@@ -8777,9 +8780,9 @@ B_D90A:
   LDY.B #$02                                      ; 00D91E A0 02 
 B_D920:
   LDA.W D_D92D,Y                                  ; 00D920 B9 2D D9 
-  STA.W EntityV7,X                                   ; 00D923 9D F0 09 
+  STA.W EntityYSubPxSpeed,X                                   ; 00D923 9D F0 09 
   LDA.W D_D92E,Y                                  ; 00D926 B9 2E D9 
-  STA.W EntityV8,X                                   ; 00D929 9D 62 0A 
+  STA.W EntityYPxSpeed,X                                   ; 00D929 9D 62 0A 
   RTS                                             ; 00D92C 60 
 
 
@@ -8852,7 +8855,7 @@ B_D996:
   TYA                                             ; 00D9A5 98 
   STA.W EntityV31,X                                   ; 00D9A6 9D A0 14 
   LDA.B #$01                                      ; 00D9A9 A9 01 
-  STA.W $175E,Y                                   ; 00D9AB 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00D9AB 99 5E 17 
   JSL L_AEF1                                      ; 00D9AE 22 F1 AE 00 
   LDA.B #$08                                      ; 00D9B2 A9 08 
   STA.B $1C                                       ; 00D9B4 85 1C 
@@ -9026,7 +9029,7 @@ B_DB26:
   TYA                                             ; 00DB35 98 
   STA.W EntityV31,X                                   ; 00DB36 9D A0 14 
   LDA.B #$01                                      ; 00DB39 A9 01 
-  STA.W $175E,Y                                   ; 00DB3B 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00DB3B 99 5E 17 
   JSL L_AEF1                                      ; 00DB3E 22 F1 AE 00 
   LDA.B #$08                                      ; 00DB42 A9 08 
   STA.B $1C                                       ; 00DB44 85 1C 
@@ -9104,7 +9107,7 @@ SpawnNextDrop:
   lda (@SpawnNextDrop_RoomPtr),Y
   sta @SpawnNextDrop_DropTypeId
   beq @Bail
-  ; if we're spawning a shield, make sure there's none active
+  ; if we're spawning a razoe shield, make sure there's none active
   cmp #DropTableType_RazorShield
   bne @CheckOrb
   lda PlayerRazorShieldStatus
@@ -9210,7 +9213,7 @@ B_DC6A:
   TYA                                             ; 00DC79 98 
   STA.W EntityV31,X                                   ; 00DC7A 9D A0 14 
   LDA.B #$01                                      ; 00DC7D A9 01 
-  STA.W $175E,Y                                   ; 00DC7F 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00DC7F 99 5E 17 
   JSL L_AEF1                                      ; 00DC82 22 F1 AE 00 
   LDA.B #$08                                      ; 00DC86 A9 08 
   STA.B $1C                                       ; 00DC88 85 1C 
@@ -9449,14 +9452,14 @@ L_DFF6:
   STA.W EntityV30,X                                   ; 00E044 9D 2E 14 
   LDY.W $06C7                                     ; 00E047 AC C7 06 
   LDA.W D_C559,Y                                  ; 00E04A B9 59 C5 
-  STA.W EntityV11,X                                   ; 00E04D 9D B8 0B 
+  STA.W EntityXMovement,X                                   ; 00E04D 9D B8 0B 
   LDA.W D_C55C,Y                                  ; 00E050 B9 5C C5 
-  STA.W EntityV14,X                                   ; 00E053 9D 0E 0D 
+  STA.W EntityYMovement,X                                   ; 00E053 9D 0E 0D 
   JSL L_AEBC                                      ; 00E056 22 BC AE 00 
   TYA                                             ; 00E05A 98 
   STA.W EntityV31,X                                   ; 00E05B 9D A0 14 
   LDA.B #$01                                      ; 00E05E A9 01 
-  STA.W $175E,Y                                   ; 00E060 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00E060 99 5E 17 
   JSL L_AEF1                                      ; 00E063 22 F1 AE 00 
 B_E067:
   RTS                                             ; 00E067 60 
@@ -9645,14 +9648,14 @@ L_E15E:
   STA.W EntityV30,X                                   ; 00E1B4 9D 2E 14 
   LDY.W $06C7                                     ; 00E1B7 AC C7 06 
   LDA.W D_C559,Y                                  ; 00E1BA B9 59 C5 
-  STA.W EntityV11,X                                   ; 00E1BD 9D B8 0B 
+  STA.W EntityXMovement,X                                   ; 00E1BD 9D B8 0B 
   LDA.W D_C55C,Y                                  ; 00E1C0 B9 5C C5 
-  STA.W EntityV14,X                                   ; 00E1C3 9D 0E 0D 
+  STA.W EntityYMovement,X                                   ; 00E1C3 9D 0E 0D 
   JSL L_AEBC                                      ; 00E1C6 22 BC AE 00 
   TYA                                             ; 00E1CA 98 
   STA.W EntityV31,X                                   ; 00E1CB 9D A0 14 
   LDA.B #$01                                      ; 00E1CE A9 01 
-  STA.W $175E,Y                                   ; 00E1D0 99 5E 17 
+  STA.W StateFlags,Y                                   ; 00E1D0 99 5E 17 
   JSL L_AEF1                                      ; 00E1D3 22 F1 AE 00 
 B_E1D7:
   RTS                                             ; 00E1D7 60 

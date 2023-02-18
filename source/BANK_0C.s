@@ -4019,10 +4019,10 @@ L_CFBD2:
   STA.W EntityTypeId,X                                   ; 0CFBEB 9D 44 07 
   LDA.B #$8C                                      ; 0CFBEE A9 8C 
   STA.W EntityV15,X                                   ; 0CFBF0 9D 80 0D 
-  STZ.W EntityV5,X                                   ; 0CFBF3 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 0CFBF6 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 0CFBF9 9E F0 09 
-  STZ.W EntityV8,X                                   ; 0CFBFC 9E 62 0A 
+  STZ.W EntityXSubPxSpeed,X                                   ; 0CFBF3 9E 0C 09 
+  STZ.W EntityXPxSpeed,X                                   ; 0CFBF6 9E 7E 09 
+  STZ.W EntityYSubPxSpeed,X                                   ; 0CFBF9 9E F0 09 
+  STZ.W EntityYPxSpeed,X                                   ; 0CFBFC 9E 62 0A 
   LDX.W $068C                                     ; 0CFBFF AE 8C 06 
   LDA.B #$20                                      ; 0CFC02 A9 20 
   JSL L_3823C                                     ; 0CFC04 22 3C 82 03 
@@ -4035,10 +4035,10 @@ L_CFBD2:
   LDX.W $068B                                     ; 0CFC15 AE 8B 06 
   LDA.B #$B4                                      ; 0CFC18 A9 B4 
   STA.W EntityV15,X                                   ; 0CFC1A 9D 80 0D 
-  STZ.W EntityV5,X                                   ; 0CFC1D 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 0CFC20 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 0CFC23 9E F0 09 
-  STZ.W EntityV8,X                                   ; 0CFC26 9E 62 0A 
+  STZ.W EntityXSubPxSpeed,X                                   ; 0CFC1D 9E 0C 09 
+  STZ.W EntityXPxSpeed,X                                   ; 0CFC20 9E 7E 09 
+  STZ.W EntityYSubPxSpeed,X                                   ; 0CFC23 9E F0 09 
+  STZ.W EntityYPxSpeed,X                                   ; 0CFC26 9E 62 0A 
   LDX.W $068E                                     ; 0CFC29 AE 8E 06 
   LDA.B #$71                                      ; 0CFC2C A9 71 
   STA.W EntityTypeId,X                                   ; 0CFC2E 9D 44 07 
@@ -4151,7 +4151,7 @@ L_CFDAC:
   STA.W $0694                                     ; 0CFDAF 8D 94 06 
   LDA.W EntityYPx,X                                   ; 0CFDB2 BD 9C 0C 
   STA.W $0695                                     ; 0CFDB5 8D 95 06 
-  LDA.W EntityV14,X                                   ; 0CFDB8 BD 0E 0D 
+  LDA.W EntityYMovement,X                                   ; 0CFDB8 BD 0E 0D 
   STA.W $0696                                     ; 0CFDBB 8D 96 06 
   PHY                                             ; 0CFDBE 5A 
   LDA.W $1AB1                                     ; 0CFDBF AD B1 1A 
@@ -4167,7 +4167,7 @@ L_CFDAC:
   STA.W EntityYPx,Y                                   ; 0CFDD6 99 9C 0C 
   LDA.W $0696                                     ; 0CFDD9 AD 96 06 
   ADC.B #$00                                      ; 0CFDDC 69 00 
-  STA.W EntityV14,Y                                   ; 0CFDDE 99 0E 0D 
+  STA.W EntityYMovement,Y                                   ; 0CFDDE 99 0E 0D 
 B_CFDE1:
   LDA.W $1AB0                                     ; 0CFDE1 AD B0 1A 
   BEQ.B B_CFE03                                   ; 0CFDE4 F0 1D 
@@ -4182,7 +4182,7 @@ B_CFDE1:
   STA.W EntityYPx,Y                                   ; 0CFDF8 99 9C 0C 
   LDA.W $0696                                     ; 0CFDFB AD 96 06 
   ADC.B #$00                                      ; 0CFDFE 69 00 
-  STA.W EntityV14,Y                                   ; 0CFE00 99 0E 0D 
+  STA.W EntityYMovement,Y                                   ; 0CFE00 99 0E 0D 
 B_CFE03:
   LDA.W $0696                                     ; 0CFE03 AD 96 06 
   BNE.B B_CFE24                                   ; 0CFE06 D0 1C 
