@@ -2314,8 +2314,10 @@ StartEncounterEvilMC:
 .byte $28,$60
 
 StartEncounterCobras:
-.byte $20,$45,$C9,$A9,$80,$8D             ; 0EC6CB ........ (` E????
-.byte $AF,$05,$60
+  JSR L_EC945
+  LDA #$80
+  STA.W PrizeTimer
+  RTS
 
 StartEncounterScarface:
 .byte $A9,$80,$8D,$AF,$05             ; 0EC6D3 ........ ??`?????
@@ -4272,10 +4274,18 @@ B_EDB19:
   PLP                                             ; 0EDB19 28 
   RTL                                             ; 0EDB1A 6B 
 
-.byte $20,$39,$DC,$E2,$20,$AD,$54,$02             ; 0EDB1B ........  9?? ?T?
-.byte $8D,$0E,$21,$AD,$55,$02,$8D,$0E             ; 0EDB23 ........ ??!?U???
-.byte $21,$22,$75,$F1,$0E,$22,$4C,$CA             ; 0EDB2B ........ !"u??"L?
-.byte $0E,$6B,$20,$39,$DC,$22,$58,$DC             ; 0EDB33 ........ ?k 9?"X?
+CircuitWarpScreenNMI:
+  jsr L_EDC39
+  sep #P_Acc8Bit
+  lda $0254
+  sta BG1VOFS
+  lda $0255
+  sta BG1VOFS
+  jsl L_EF175
+  jsl ReadCurrentJoypadState
+  rtl 
+
+.byte $20,$39,$DC,$22,$58,$DC             ; 0EDB33 ........ ?k 9?"X?
 .byte $0E,$20,$83,$DC,$E2,$20,$AD,$54             ; 0EDB3B ........ ? ??? ?T
 .byte $02,$8D,$12,$21,$AD,$55,$02,$8D             ; 0EDB43 ........ ???!?U??
 .byte $12,$21,$A9,$80,$8D,$10,$21,$A9             ; 0EDB4B ........ ?!????!?
@@ -4452,37 +4462,99 @@ SetNMIAndClearPPU:
   RTL                                             ; 0EDD17 6B 
 
 RunCircuitWarpScreen:
-.byte $08,$C2,$30,$A2,$1B,$DB,$A0,$0E             ; 0EDD18 ........ ??0?????
-.byte $00,$22,$C1,$DC,$0E,$A2,$5F,$AD             ; 0EDD20 ........ ?"????_?
-.byte $A0,$05,$00,$22,$EF,$E8,$0E,$A9             ; 0EDD28 ........ ???"????
-.byte $43,$C0,$A2,$0C,$00,$22,$4C,$E9             ; 0EDD30 ........ C????"L?
-.byte $0E,$A9,$E4,$FF,$8D,$54,$02,$64             ; 0EDD38 ........ ?????T?d
-.byte $12,$A9,$03,$00,$A2,$42,$00,$A0             ; 0EDD40 ........ ?????B??
-.byte $5E,$00,$22,$64,$F1,$0E,$E2,$20             ; 0EDD48 ........ ^?"d??? 
-.byte $A9,$02,$8D,$2D,$21,$A9,$01,$8D             ; 0EDD50 ........ ???-!???
-.byte $31,$21,$A9,$02,$8D,$30,$21,$A9             ; 0EDD58 ........ 1!???0!?
-.byte $81,$8D,$00,$42,$C2,$20,$22,$1E             ; 0EDD60 ........ ???B? "?
-.byte $CA,$0E,$22,$13,$CA,$0E,$22,$6A             ; 0EDD68 ........ ??"???"j
-.byte $CA,$0E,$AD,$F0,$02,$0D,$F2,$02             ; 0EDD70 ........ ????????
-.byte $29,$00,$04,$F0,$20,$AD,$54,$02             ; 0EDD78 ........ )??? ?T?
-.byte $C9,$3C,$FF,$F0,$18,$A2,$0B,$00             ; 0EDD80 ........ ?<??????
-.byte $CE,$54,$02,$CE,$54,$02,$22,$13             ; 0EDD88 ........ ?T??T?"?
-.byte $CA,$0E,$CA,$D0,$F3,$CE,$54,$02             ; 0EDD90 ........ ??????T?
-.byte $CE,$54,$02,$E6,$12,$AD,$F0,$02             ; 0EDD98 ........ ?T??????
-.byte $0D,$F2,$02,$29,$00,$08,$F0,$20             ; 0EDDA0 ........ ???)??? 
-.byte $AD,$54,$02,$C9,$E4,$FF,$F0,$18             ; 0EDDA8 ........ ?T??????
-.byte $A2,$0B,$00,$EE,$54,$02,$EE,$54             ; 0EDDB0 ........ ????T??T
-.byte $02,$22,$13,$CA,$0E,$CA,$D0,$F3             ; 0EDDB8 ........ ?"??????
-.byte $EE,$54,$02,$EE,$54,$02,$C6,$12             ; 0EDDC0 ........ ?T??T???
-.byte $AD,$00,$03,$0D,$02,$03,$29,$C0             ; 0EDDC8 ........ ??????)?
-.byte $D0,$F0,$97,$E2,$30,$A6,$12,$BF             ; 0EDDD0 ........ ????0???
-.byte $EE,$DD,$0E,$8D,$AB,$05,$BF,$F6             ; 0EDDD8 ........ ????????
-.byte $DD,$0E,$8D,$AC,$05,$9C,$CB,$02             ; 0EDDE0 ........ ????????
-.byte $22,$32,$CA,$0E,$28,$6B,$00,$00             ; 0EDDE8 ........ "2??(k??
-.byte $01,$01,$02,$02,$02,$FF,$00,$09             ; 0EDDF0 ........ ????????
-.byte $00,$06,$00,$06,$14,$00,$08,$E2             ; 0EDDF8 ........ ????????
-.byte $30,$A2,$00,$AD,$A3,$18,$F0,$01             ; 0EDE00 ........ 0???????
-.byte $E8,$AD,$A4,$18,$F0,$01,$E8,$8E             ; 0EDE08 ........ ????????
+  @CircuitWarpCursorIdx = $12
+  @CircuitWarpCursorPx = $0254
+  php
+  rep #$30
+  ldx.w #CircuitWarpScreenNMI
+  ldy.w #$000E
+  jsl SetNMIAndClearPPU
+  ldx.w #$AD5F
+  ldy.w #$0005
+  jsl L_EE8EF
+  lda.w #$C043
+  ldx.w #$000C
+  jsl GfxSetPalette
+  lda.w #$FFE4                                    ; move cursor to starting position
+  sta @CircuitWarpCursorPx                        ;
+  stz.b @CircuitWarpCursorIdx                     ; clear selected index
+  lda #$0003
+  ldx #$0042
+  ldy #$005E
+  jsl L_EF164
+  sep #$20
+  lda #$02
+  sta TS
+  lda #$01
+  sta CGADSUB
+  lda #$02
+  sta CGWSEL
+  lda #$81
+  sta NMITIMEN
+  rep #$20
+  jsl FadeScreenIn
+@CircuitWarpScreenLoop:
+  jsl Wait1Frame
+  jsl UpdateJoypadState
+  lda JoyDown                                 ; get joypad held buttons
+  ora Joy2Down                                ;
+  and #$0400                                  ; are we holding the down button?
+  beq @CheckUpInput                           ; no - skip ahead
+  lda @CircuitWarpCursorPx                    ; yes - get position of menu cursor
+  cmp #$FF3C                                  ; have we reached the end of the list?
+  beq @CheckUpInput                           ; yes - skip ahead
+  ldx #$000B                                  ; no - set frames for animation
+@MoveCursorDown:
+  dec @CircuitWarpCursorPx                    ; move cursor a couple of pixels
+  dec @CircuitWarpCursorPx                    ;
+  jsl Wait1Frame                              ; then delay a frame
+  dex                                         ; reduce animation counter
+  bne @MoveCursorDown                         ; and loop until done
+  dec @CircuitWarpCursorPx                    ; move one more step
+  dec @CircuitWarpCursorPx                    ;
+  inc @CircuitWarpCursorIdx                   ; and store our new selection
+@CheckUpInput:
+  lda JoyDown                                 ; get joypad held buttons
+  ora Joy2Down                                ; 
+  and #$0800                                  ; are we holding the up button?
+  beq @CheckStartInput                        ; no - skip ahead
+  lda @CircuitWarpCursorPx                    ; yes - get position of menu cursor
+  cmp #$FFE4                                  ; have we reached the start of the list?
+  beq @CheckStartInput                        ; yes - skip ahead
+  ldx #$000B                                  ; no - set frames for animation
+@MoveCursorUp:
+  inc @CircuitWarpCursorPx                    ; move cursor a couple of pixels
+  inc @CircuitWarpCursorPx                    ;
+  jsl Wait1Frame                              ; then delay a frame
+  dex                                         ; reduce animation counter
+  bne @MoveCursorUp                           ; and loop until done
+  inc @CircuitWarpCursorPx                    ; move one more step
+  inc @CircuitWarpCursorPx                    ;
+  dec @CircuitWarpCursorIdx                   ; and store our new selection
+@CheckStartInput:
+  lda JoyPressed                              ; get pressed joypad buttons
+  ora Joy2Pressed                             ;
+  and #%1101000011000000                      ; and check against valid starting buttons
+  beq @CircuitWarpScreenLoop                  ; if none were pressed, loop back around
+  sep #P_Idx8Bit | P_Acc8Bit                  ; otherwise start heading into the game
+  ldx @CircuitWarpCursorIdx                   ; get currently selected index
+  lda.l CircuitWarpRounds,x                   ; and find the round the player has selected
+  sta CurrentRound                            ;
+  lda.l CircuitWarpRooms,x                    ; and the room that was selected
+  sta CurrentRoom                             ;
+  stz $02CB                                   ; and clear some memory value
+  jsl FadeScreenOut                           ; fade the screen out
+  plp                                         ; then restore processor state
+  rtl                                         ; and exit
+
+CircuitWarpRounds:
+.byte $00,$00,$01,$01,$02,$02,$02,$FF
+CircuitWarpRooms:
+.byte $00,$09,$00,$06,$00,$06,$14,$00
+
+.byte $08,$E2,$30,$A2,$00,$AD,$A3,$18
+.byte $F0,$01,$E8,$AD,$A4,$18,$F0,$01
+.byte $E8,$8E
 .byte $16,$02,$28,$60,$08,$C2,$30,$A2             ; 0EDE10 ........ ??(`??0?
 .byte $CC,$DB,$A0,$0E,$00,$22,$C1,$DC             ; 0EDE18 ........ ?????"??
 .byte $0E,$A2,$31,$DC,$A0,$0E,$00,$86             ; 0EDE20 ........ ??1?????
@@ -6333,14 +6405,14 @@ B_EF449:
   AND.W #$00FF                                    ; 0EF450 29 FF 00 
   BEQ.B B_EF478                                   ; 0EF453 F0 23 
   TAX                                             ; 0EF455 AA 
-  LDA.L D_EED7,X                                  ; 0EF456 BF D7 EE 00 
+  LDA.L PPUCharacterDataOffset,X                                  ; 0EF456 BF D7 EE 00 
   AND.W #$00FF                                    ; 0EF45A 29 FF 00 
   ASL                                             ; 0EF45D 0A 
   TAX                                             ; 0EF45E AA 
-  LDA.L D_F6EF,X                                  ; 0EF45F BF EF F6 00 
+  LDA.L PPUCharacterDataLow,X                                  ; 0EF45F BF EF F6 00 
   ORA.W #$2000                                    ; 0EF463 09 00 20 
   STA.W VMDATAL                                   ; 0EF466 8D 18 21 
-  LDA.L D_F72F,X                                  ; 0EF469 BF 2F F7 00 
+  LDA.L PPUCharacterDataHigh,X                                  ; 0EF469 BF 2F F7 00 
   ORA.W #$2000                                    ; 0EF46D 09 00 20 
   STA.W VMDATAL                                   ; 0EF470 8D 18 21 
   INC.B $06                                       ; 0EF473 E6 06 
