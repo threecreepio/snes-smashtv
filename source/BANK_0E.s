@@ -4464,73 +4464,73 @@ SetNMIAndClearPPU:
 RunCircuitWarpScreen:
   @CircuitWarpCursorIdx = $12
   @CircuitWarpCursorPx = $0254
-  php
-  rep #$30
-  ldx.w #CircuitWarpScreenNMI
-  ldy.w #$000E
-  jsl SetNMIAndClearPPU
-  ldx.w #$AD5F
-  ldy.w #$0005
-  jsl L_EE8EF
-  lda.w #$C043
-  ldx.w #$000C
-  jsl GfxSetPalette
+  php                                             ; store current state
+  rep #P_Idx8Bit | P_Acc8Bit                      ; set processor state
+  ldx.w #CircuitWarpScreenNMI                     ; prepare NMI handler
+  ldy.w #$000E                                    ; 
+  jsl SetNMIAndClearPPU                           ; and set new NMI handler
+  ldx.w #$AD5F                                    ;
+  ldy.w #$0005                                    ;
+  jsl L_EE8EF                                     ;
+  lda.w #$C043                                    ;
+  ldx.w #$000C                                    ;
+  jsl GfxSetPalette                               ; update gfx palette
   lda.w #$FFE4                                    ; move cursor to starting position
   sta @CircuitWarpCursorPx                        ;
   stz.b @CircuitWarpCursorIdx                     ; clear selected index
-  lda #$0003
-  ldx #$0042
-  ldy #$005E
-  jsl L_EF164
-  sep #$20
-  lda #$02
-  sta TS
-  lda #$01
-  sta CGADSUB
-  lda #$02
-  sta CGWSEL
-  lda #$81
-  sta NMITIMEN
-  rep #$20
-  jsl FadeScreenIn
+  lda #$0003                                      ;
+  ldx #$0042                                      ;
+  ldy #$005E                                      ;
+  jsl L_EF164                                     ;
+  sep #P_Acc8Bit                                  ; set accumulator to 8 bit
+  lda #$02                                        ; set screen destination register
+  sta TS                                          ;
+  lda #$01                                        ; setup color math registers
+  sta CGADSUB                                     ;
+  lda #$02                                        ;
+  sta CGWSEL                                      ;
+  lda #$81                                        ; and nmi register
+  sta NMITIMEN                                    ;
+  rep #P_Acc8Bit                                  ; then clear 8 bit accumulator setting
+  jsl FadeScreenIn                                ; and fade in the screen from black
 @CircuitWarpScreenLoop:
-  jsl Wait1Frame
-  jsl UpdateJoypadState
-  lda JoyDown                                 ; get joypad held buttons
-  ora Joy2Down                                ;
-  and #$0400                                  ; are we holding the down button?
-  beq @CheckUpInput                           ; no - skip ahead
-  lda @CircuitWarpCursorPx                    ; yes - get position of menu cursor
-  cmp #$FF3C                                  ; have we reached the end of the list?
-  beq @CheckUpInput                           ; yes - skip ahead
-  ldx #$000B                                  ; no - set frames for animation
+  jsl Wait1Frame                                  ; delay for a bit
+  jsl UpdateJoypadState                           ; and read the controller state
+  lda JoyDown                                     ; get joypad held buttons
+  ora Joy2Down                                    ;
+  and #$0400                                      ; are we holding the down button?
+  beq @CheckUpInput                               ; no - skip ahead
+  lda @CircuitWarpCursorPx                        ; yes - get position of menu cursor
+  cmp #$FF3C                                      ; have we reached the end of the list?
+  beq @CheckUpInput                               ; yes - skip ahead
+  ldx #$000B                                      ; no - set frames for animation
 @MoveCursorDown:
-  dec @CircuitWarpCursorPx                    ; move cursor a couple of pixels
-  dec @CircuitWarpCursorPx                    ;
-  jsl Wait1Frame                              ; then delay a frame
-  dex                                         ; reduce animation counter
-  bne @MoveCursorDown                         ; and loop until done
-  dec @CircuitWarpCursorPx                    ; move one more step
-  dec @CircuitWarpCursorPx                    ;
-  inc @CircuitWarpCursorIdx                   ; and store our new selection
+  dec @CircuitWarpCursorPx                        ; move cursor a couple of pixels
+  dec @CircuitWarpCursorPx                        ;
+  jsl Wait1Frame                                  ; then delay a frame
+  dex                                             ; reduce animation counter
+  bne @MoveCursorDown                             ; and loop until done
+  dec @CircuitWarpCursorPx                        ; move one more step
+  dec @CircuitWarpCursorPx                        ;
+  inc @CircuitWarpCursorIdx                       ; and store our new selection
 @CheckUpInput:
-  lda JoyDown                                 ; get joypad held buttons
-  ora Joy2Down                                ; 
-  and #$0800                                  ; are we holding the up button?
-  beq @CheckStartInput                        ; no - skip ahead
-  lda @CircuitWarpCursorPx                    ; yes - get position of menu cursor
-  cmp #$FFE4                                  ; have we reached the start of the list?
-  beq @CheckStartInput                        ; yes - skip ahead
-  ldx #$000B                                  ; no - set frames for animation
+  lda JoyDown                                     ; get joypad held buttons
+  ora Joy2Down                                    ; 
+  and #$0800                                      ; are we holding the up button?
+  beq @CheckStartInput                            ; no - skip ahead
+  lda @CircuitWarpCursorPx                        ; yes - get position of menu cursor
+  cmp #$FFE4                                      ; have we reached the start of the list?
+  beq @CheckStartInput                            ; yes - skip ahead
+  ldx #$000B                                      ; no - set frames for animation
 @MoveCursorUp:
-  inc @CircuitWarpCursorPx                    ; move cursor a couple of pixels
-  inc @CircuitWarpCursorPx                    ;
-  jsl Wait1Frame                              ; then delay a frame
-  dex                                         ; reduce animation counter
-  bne @MoveCursorUp                           ; and loop until done
-  inc @CircuitWarpCursorPx                    ; move one more step
-  inc @CircuitWarpCursorPx                    ;
-  dec @CircuitWarpCursorIdx                   ; and store our new selection
+  inc @CircuitWarpCursorPx                        ; move cursor a couple of pixels
+  inc @CircuitWarpCursorPx                        ;
+  jsl Wait1Frame                                  ; then delay a frame
+  dex                                             ; reduce animation counter
+  bne @MoveCursorUp                               ; and loop until done
+  inc @CircuitWarpCursorPx                        ; move one more step
+  inc @CircuitWarpCursorPx                        ;
+  dec @CircuitWarpCursorIdx                       ; and store our new selection
 @CheckStartInput:
   lda JoyPressed                              ; get pressed joypad buttons
   ora Joy2Pressed                             ;
