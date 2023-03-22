@@ -4419,16 +4419,9 @@ B_F851C:
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF5E ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF66 ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF6E ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF76 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF7E ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF8E ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF96 ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF9E ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFAE ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFB6 ........ ????????
-;.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFE6 ........ ????????
-;.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFEE ........ ????????
-;.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFF6 ........ ????????
 
 JDFixRoomAndRound:
   ldy CurrentRoom
@@ -4446,6 +4439,8 @@ JDFixRoomAndRound:
   sta CurrentRoom
   lda #1
   sta CurrentRound
+  lda #3
+  jsl SetupRoundAudio
   bne @Done
 
 @CheckRound1:
@@ -4456,6 +4451,8 @@ JDFixRoomAndRound:
   sta CurrentRoom
   lda #2
   sta CurrentRound
+  lda #4
+  jsl SetupRoundAudio
   bne @Done
 
 @CheckRound2:
