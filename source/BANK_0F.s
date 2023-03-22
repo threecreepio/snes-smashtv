@@ -4410,19 +4410,55 @@ B_F851C:
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF6E ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF76 ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF7E ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF86 ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF8E ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF96 ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF9E ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFA6 ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFAE ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFB6 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFBE ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFC6 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFCE ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFD6 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFDE ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFE6 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFEE ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFF6 ........ ????????
-.byte $FF,$FF                                     ; 0FFFFF ..       ??
+;.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFE6 ........ ????????
+;.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFEE ........ ????????
+;.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFFF6 ........ ????????
+
+JDFixRoomAndRound:
+  ldy CurrentRoom
+  lda CurrentRound
+  cmp #0
+  bne @CheckRound1
+  ; in round 0
+  cpy.b #0
+  bne @CheckR0R1
+  lda #10
+  sta CurrentRoom
+  bne @Done
+@CheckR0R1:
+  lda #7
+  sta CurrentRoom
+  lda #1
+  sta CurrentRound
+  bne @Done
+
+@CheckRound1:
+  cmp #1
+  bne @CheckRound2
+  ; in round 1
+  lda #7
+  sta CurrentRoom
+  lda #2
+  sta CurrentRound
+  bne @Done
+
+@CheckRound2:
+  ; in round 2
+  cpy.b #21
+  beq @CompleteGame
+  lda #21
+  sta CurrentRoom
+
+@Done:
+  JSL L_F81DA                                     ; 0084E6 22 DA 81 0F 
+  lda CurrentRoom
+  rtl
+@CompleteGame:
+  ldy.b #$ff
+  sty CurrentRoom
+  rtl
