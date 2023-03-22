@@ -5,6 +5,9 @@
 main.sfc: wla.link entry.o
 	./bin/wlalink wla.link $@
 
+patch.ips: main.sfc
+	python tools/ips.py create --output patch.ips original.sfc main.sfc
+
 integritycheck: main.sfc
 	radiff2 -x main.sfc "original.sfc" | head -n 100
 
