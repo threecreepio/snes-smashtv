@@ -5066,7 +5066,7 @@ B_EE493:
   STA.W $0258                                     ; 0EE50C 8D 58 02 
   STZ.W $0256                                     ; 0EE50F 9C 56 02 
   LDA.W #$0005                                    ; 0EE512 A9 05 00 
-  JSL L_F84EC                                     ; 0EE515 22 EC 84 0F 
+  JSL SetupRoundAudio                                     ; 0EE515 22 EC 84 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE519 E2 30 
   LDA.B #$08                                      ; 0EE51B A9 08 
   LDX.B #$3A                                      ; 0EE51D A2 3A 

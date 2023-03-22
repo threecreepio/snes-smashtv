@@ -110,7 +110,7 @@ GameScreenLoop:
 
 B_811F:
   LDA.B #$02                                      ; 00811F A9 02 
-  JSL L_F84EC                                     ; 008121 22 EC 84 0F 
+  JSL SetupRoundAudio                                     ; 008121 22 EC 84 0F 
   JSL RunTitleSplashScreen                                     ; 008125 22 50 E6 0D 
   JSL RunTitleTextCrawlScreen                                     ; 008129 22 C8 E7 0E 
   JSL L_E454                                      ; 00812D 22 54 E4 00 
@@ -137,7 +137,7 @@ ReturnToTitleMenu:
   LDX.W CurrentRound                                     ; 008163 AE AB 05 
   STX.W CurrentRound                                     ; 008166 8E AB 05 
   LDA.L D_81CD,X                                  ; 008169 BF CD 81 00 
-  JSL L_F84EC                                     ; 00816D 22 EC 84 0F 
+  JSL SetupRoundAudio                                     ; 00816D 22 EC 84 0F 
   JSR.W RunGameScreen                                    ; 008171 20 D7 84 
   LDA.W CurrentRound                                     ; 008174 AD AB 05 
   BMI.B B_81C2                                    ; 008177 30 49 

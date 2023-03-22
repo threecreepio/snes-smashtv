@@ -121,21 +121,32 @@ L_F81DA:
   SEP.B #P_Idx8Bit                                      ; 0F81EB E2 10 
   LDX.W CurrentRound                                     ; 0F81ED AE AB 05 
   BEQ.B B_F8224                                   ; 0F81F0 F0 32 
-
-.byte $CA,$F0,$1E,$C2,$30,$A2,$00,$40             ; 0F81F2 ........ ????0??@
-.byte $A9,$00,$80,$A0,$09,$00,$22,$C1             ; 0F81FA ........ ??????"?
-.byte $80,$05,$A2,$00,$80,$A9,$C9,$9C             ; 0F8202 ........ ????????
-.byte $A0,$0A,$00,$22,$C1,$80,$05,$80             ; 0F820A ........ ???"????
-.byte $20,$C2,$30,$A2,$00,$40,$A9,$00             ; 0F8212 ........  ?0??@??
-.byte $80,$A0,$0A,$00,$22,$C1,$80,$05             ; 0F821A ........ ????"???
-.byte $80,$0F                                     ; 0F8223 ..       ??
-
+  DEX 
+  BEQ B_F8213
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0F8224 C2 30 
+  LDX #$4000
+  LDA #$8000
+  LDY #$0009
+  JSL L_580C1
+  LDX #$8000
+  LDA #$9CC9
+  LDY #$000A
+  JSL L_580C1
+  BRA B_F8233
+B_F8213:
+  REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0F8224 C2 30 
+  LDX #$4000
+  LDA #$8000
+  LDY #$000A
+  JSL L_580C1
+  BRA B_F8233
 B_F8224:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0F8224 C2 30 
   LDX.W #$4000                                    ; 0F8226 A2 00 40 
   LDA.W #$8000                                    ; 0F8229 A9 00 80 
   LDY.W #$000B                                    ; 0F822C A0 0B 00 
   JSL L_580C1                                     ; 0F822F 22 C1 80 05 
+B_F8233:
   PLB                                             ; 0F8233 AB 
   PLP                                             ; 0F8234 28 
   RTL                                             ; 0F8235 6B 
@@ -466,7 +477,7 @@ B_F84EA:
   PLP                                             ; 0F84EA 28 
   RTL                                             ; 0F84EB 6B 
 
-L_F84EC:
+SetupRoundAudio:
   PHP                                             ; 0F84EC 08 
   REP.B #P_Idx8Bit                                      ; 0F84ED C2 10 
   SEP.B #P_Acc8Bit                                      ; 0F84EF E2 20 
