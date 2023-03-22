@@ -116,21 +116,19 @@ B_811F:
   JSL L_E454                                      ; 00812D 22 54 E4 00 
   JSL RunTitleHighscoreScreen                                     ; 008131 22 57 E2 0E 
 ReturnToTitleMenu:
-  STZ.W CurrentRound                                     ; 008135 9C AB 05 
-  STZ.W CurrentRoom                                     ; 008138 9C AC 05 
-  JSL L_E454                                      ; 00813B 22 54 E4 00 
-  SEP.B #P_Acc8Bit                                      ; 00813F E2 20 
-  STZ.W $02CB                                     ; 008141 9C CB 02 
-  STZ.W $052C                                     ; 008144 9C 2C 05 
-  JSL RunTitleMenuScreen                                     ; 008147 22 30 D7 0E 
-  LDA.W GameCircuitWarpActive                                     ; 00814B AD 0E 02 
-  BEQ.B B_8159                                    ; 00814E F0 09 
-
-  JSL RunCircuitWarpScreen
-  LDA CurrentRound
-  BMI RunGameCreditsScreen
-
-B_8159:
+  stz CurrentRound                                ; clear current round+room back to 0 for start of game
+  stz CurrentRoom                                 ;
+  JSL L_E454                                      ;
+  sep.b #P_Acc8Bit                                ; set the accumulator to 8 bit mode
+  stz $02CB                                       ; clear some title state
+  stz $052C                                       ;
+  jsl RunTitleMenuScreen                          ; and run the title screen until selection is made
+  lda GameCircuitWarpActive                       ; check if player activated the circuit warp
+  beq @ContinueGameStartup                        ; no - skip ahead
+  jsl RunCircuitWarpScreen                        ; run the circuit warp screen
+  lda CurrentRound                                ; get which round was selected
+  bmi RunGameCreditsScreen                        ; if high bit is set, player selected 'credits'
+@ContinueGameStartup:
   PEA.W $0000                                     ; 008159 F4 00 00 
   PLB                                             ; 00815C AB 
   PLB                                             ; 00815D AB 
@@ -328,7 +326,7 @@ B_82C5:
 .byte $03,$00,$00                                 ; 0082D7 ...      ???
 
 
-L_82D9:
+SetInitialGameState:
   PHP                                             ; 0082D9 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0082DA E2 30 
   LDA.B #$80                                      ; 0082DC A9 80 
@@ -544,27 +542,27 @@ L_84CC:
 
 
 RunGameScreen:
-  PHP                                             ; 0084D7 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0084D8 E2 30 
-  JSR.W L_82D9                                    ; 0084DA 20 D9 82 
-  LDA.B #$81                                      ; 0084DD A9 81 
-  STA.W NMITIMEN                                  ; 0084DF 8D 00 42 
-  JSL FadeScreenIn                                     ; 0084E2 22 1E CA 0E 
+  php                                             ; store entry processor state
+  sep.b #P_Idx8Bit | P_Acc8Bit                    ; set processor state
+  jsr SetInitialGameState                         ; clear out game state
+  lda #%10000001                                  ; enable nmi and joypad auto-read
+  sta NMITIMEN                                    ;
+  jsl FadeScreenIn                                ; fade in screen
   JSL L_F81DA                                     ; 0084E6 22 DA 81 0F 
-  LDX.B #$28                                      ; 0084EA A2 28 
-  JSL WaitXFrames                                     ; 0084EC 22 72 C9 0E 
-B_84F0:
-  JSL Wait1Frame                                     ; 0084F0 22 13 CA 0E 
-  JSL UpdateJoypadState                                     ; 0084F4 22 6A CA 0E 
+  ldx #40                                         ; delay for 40 frames
+  jsl WaitXFrames                                 ;
+@MainRoomLoop:
+  jsl Wait1Frame                                  ; wait for next frame
+  jsl UpdateJoypadState                           ; read joypads
   JSR.W L_E5ED                                    ; 0084F8 20 ED E5 
   JSR.W L_99AE                                    ; 0084FB 20 AE 99 
   JSR.W L_BF4E                                    ; 0084FE 20 4E BF 
   JSL L_9CB2                                      ; 008501 22 B2 9C 00 
-  JSL GameRunActiveEntities                                     ; 008505 22 1E 81 03 
-  LDA.W EntityTypeId                                     ; 008509 AD 44 07 
-  ORA.W EntityTypeId+1                                     ; 00850C 0D 45 07 
-  BNE.B B_84F0                                    ; 00850F D0 DF 
-  JSR.W L_914E                                    ; 008511 20 4E 91 
+  JSL GameRunActiveEntities                       ; process all active entities
+  lda EntityTypeId                                ; check if either player is active
+  ora EntityTypeId+1                              ; 
+  bne @MainRoomLoop                               ; yes - keep looping!
+  JSR.W L_914E                                    ; no - time to prepare the next room
   LDA.B #$01                                      ; 008514 A9 01 
   STA.W $05D9                                     ; 008516 8D D9 05 
   LDA.B #$01                                      ; 008519 A9 01 
