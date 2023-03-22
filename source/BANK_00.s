@@ -1822,11 +1822,17 @@ B_9167:
   JSR.W L_9568                                    ; 00918A 20 68 95 
   JSL L_AC62                                      ; 00918D 22 62 AC 00 
   JSR.W L_94E2                                    ; 009191 20 E2 94 
-  JSR.W LocateCurrentRoomOffset                                    ; 009194 20 B7 97 
-  INY                                             ; 009197 C8 
-  LDA.B ($04),Y                                   ; 009198 B1 04 
-  STA.W CurrentRoom                                     ; 00919A 8D AC 05 
+  JSL JDFixRoomAndRound
+  ;JSR.W LocateCurrentRoomOffset                                    ; 009194 20 B7 97 
+  ;INY                                             ; 009197 C8 
+  ;LDA.B ($04),Y                                   ; 009198 B1 04 
+  ;STA.W CurrentRoom                                     ; 00919A 8D AC 05 
   BPL.B B_91A3                                    ; 00919D 10 04 
+nop
+nop
+nop
+nop
+nop
 
 .byte $20,$47,$93,$60                             ; 0091A0 ....      G?`
 
@@ -2077,11 +2083,18 @@ B_93C2:
   JSR.W L_9568                                    ; 0093E5 20 68 95 
   JSL L_AC62                                      ; 0093E8 22 62 AC 00 
   JSR.W L_94E2                                    ; 0093EC 20 E2 94 
-  JSR.W LocateCurrentRoomOffset                                    ; 0093EF 20 B7 97 
-  INY                                             ; 0093F2 C8 
-  INY                                             ; 0093F3 C8 
-  LDA.B ($04),Y                                   ; 0093F4 B1 04 
-  STA.W CurrentRoom                                     ; 0093F6 8D AC 05 
+  jsl JDFixRoomAndRound
+  ;JSR.W LocateCurrentRoomOffset                                    ; 0093EF 20 B7 97 
+  ;INY                                             ; 0093F2 C8 
+  ;INY                                             ; 0093F3 C8 
+  ;LDA.B ($04),Y                                   ; 0093F4 B1 04 
+  ;STA.W CurrentRoom                                     ; 0093F6 8D AC 05 
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
   JSR.W L_828A                                    ; 0093F9 20 8A 82 
   JSR.W L_8BBC                                    ; 0093FC 20 BC 8B 
   LDA.B #$03                                      ; 0093FF A9 03 
@@ -4030,7 +4043,9 @@ B_A557:
   BPL.B B_A557                                    ; 00A561 10 F4 
   PLB                                             ; 00A563 AB 
   LDA.B #$80                                      ; 00A564 A9 80 
-  STA.W VMAIN                                     ; 00A566 8D 15 21 
+  bne @Ngh
+  nop
+  ;STA.W VMAIN                                     ; 00A566 8D 15 21 
   LDX.W #$4800                                    ; 00A569 A2 00 48 
   STX.W VMADDL                                    ; 00A56C 8E 16 21 
   LDX.W #$1801                                    ; 00A56F A2 01 18 
@@ -4043,6 +4058,7 @@ B_A557:
   STX.W DAS1L                                     ; 00A583 8E 15 43 
   LDA.B #$02                                      ; 00A586 A9 02 
   STA.W MDMAEN                                    ; 00A588 8D 0B 42 
+@Ngh:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A58B C2 30 
   LDX.W #$3BAE                                    ; 00A58D A2 AE 3B 
   LDA.W #$D6D5                                    ; 00A590 A9 D5 D6 
