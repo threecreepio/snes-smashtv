@@ -2436,7 +2436,7 @@ D_969B:
   LDX.B #$01                                      ; 00969B A2 01 
 B_969D:
   LDA.W EquippedWeaponType,X                                   ; 00969D BD 97 18 
-  CMP.B #$04                                      ; 0096A0 C9 04 
+  CMP.B #$FF                                      ; 0096A0 C9 04 
   BNE.B B_96B5                                    ; 0096A2 D0 11 
 
 .byte $9E,$97,$18,$9E,$B2,$18,$9E,$99             ; 0096A4 ........ ????????
