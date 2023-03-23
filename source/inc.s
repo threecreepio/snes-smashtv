@@ -22,6 +22,15 @@ RoomWaveUnk1            = $1933
 RoomWaveCurrentTimerLo  = $193A
 RoomWaveCurrentTimerHi  = $1941
 
+ObjStateSlot_Grenades = $18D1
+
+ObjState_Max = $03
+ObjStateType = $18C1
+ObjStateRefCount = $18C5
+ObjStateFlag = $18C9
+ObjStateFlag2 = $18CD
+
+
 ; entity data
 MaxEntities = $72
 Projectiles = $42
@@ -209,7 +218,9 @@ GameConfigContinues = $0204
 GameConfigLives = $0206
 SelectedDifficulty = $0208
 
-WeaponTypePickupAmmo    = $189E
+RazorShieldTimer2 = $1861
+RazorShieldTimer1 = $186B
+WeaponTypeMagazineAmmo    = $189E
 WeaponType1PickupAmmo   = $189F
 WeaponType2PickupAmmo   = $18A0
 WeaponType3PickupAmmo   = $18A1
@@ -546,3 +557,9 @@ WaveType_Unk13 = $13
 WaveType_Gifts = $14
 WaveType_Question = $15
 WaveType_GiftLadies = $16
+
+WeaponType_None        = $00
+WeaponType_Spreader    = $01
+WeaponType_Rockets     = $02
+WeaponType_Grenades    = $03
+WeaponType_Lobber      = $04

@@ -56,37 +56,35 @@ B_3805B:
 B_38063:
   RTL                                             ; 038063 6B 
 
-L_38064:
-  LDY.B #$03                                      ; 038064 A0 03 
-B_38066:
-  CMP.W $18C1,Y                                   ; 038066 D9 C1 18 
-  BEQ.B B_3807A                                   ; 038069 F0 0F 
-  DEY                                             ; 03806B 88 
-  BPL.B B_38066                                   ; 03806C 10 F8 
-  XBA                                             ; 03806E EB 
-  LDY.B #$03                                      ; 03806F A0 03 
-B_38071:
-  LDA.W $18C9,Y                                   ; 038071 B9 C9 18 
-  BEQ.B B_38084                                   ; 038074 F0 0E 
-  DEY                                             ; 038076 88 
-  BPL.B B_38071                                   ; 038077 10 F8 
-
-.byte $6B                                         ; 03807A .        k
-
-B_3807A:
-  LDA.W $18C5,Y                                   ; 03807A B9 C5 18 
-  INC A
-  STA.W $18C5,Y                                   ; 03807E 99 C5 18 
-  LDA.B #$00                                      ; 038081 A9 00 
-  RTL                                             ; 038083 6B 
-B_38084:
-  XBA                                             ; 038084 EB 
-  STA.W $18C1,Y                                   ; 038085 99 C1 18 
-  LDA.B #$01                                      ; 038088 A9 01 
-  STA.W $18C9,Y                                   ; 03808A 99 C9 18 
-  STA.W $18CD,Y                                   ; 03808D 99 CD 18 
-  STA.W $18C5,Y                                   ; 038090 99 C5 18 
-  RTL                                             ; 038093 6B 
+AddObjStateReference:
+  ldy #$03                                        ; max obj state value
+@ContinueC1:
+  cmp ObjStateType,y                              ; check if the type at this offset is same as A register
+  beq @AddRefCount                                ; yes - increase ref count
+  dey                                             ; no - check next index
+  bpl @ContinueC1                                 ; loop through each slot
+  xba                                             ; not found, time to check for an empty slot
+  ldy #ObjState_Max                                        ; max obj state value
+@ContinueC9:
+  lda ObjStateFlag,y                              ; get flag for slot
+  beq @ClaimSlot                                  ; if empty, claim that slot
+  dey                                             ; otherwise, step to next slot
+  bpl @ContinueC9                                 ; loop through each slot
+  rtl                                             ; no available slot found - bail out
+@AddRefCount:
+  lda ObjStateRefCount,y                          ; get current count
+  inc a                                           ; increase it by 1
+  sta ObjStateRefCount,y                          ; and update the ref count
+  lda #0                                          ; clear register
+  rtl                                             ; and we're done
+@ClaimSlot:
+  xba                                             ; copy x to a
+  sta ObjStateType,y                              ; and set the obj state type to that value
+  lda.b #$01                                      ; mark obj state as occupied
+  sta ObjStateFlag,y                              ;
+  sta ObjStateFlag2,y                                     ; also mark this!
+  sta ObjStateRefCount,y                          ; add 1 reference to slot
+  rtl                                             ; done!
 
 ClearEntitySlotData:
   php                                             ; store away processor state and switch to 8 bit mode
@@ -1336,7 +1334,7 @@ B_38DD3:
   BCS.B B_38E19                                   ; 038DE2 B0 35 
   PHX                                             ; 038DE4 DA 
   LDX.W $18D2                                     ; 038DE5 AE D2 18 
-  DEC.W $18C5,X                                   ; 038DE8 DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 038DE8 DE C5 18 
   BNE.B B_38DF3                                   ; 038DEB D0 06 
 
 .byte $9E,$C9,$18,$9E,$C1,$18                     ; 038DEE ......   ??????
@@ -1416,10 +1414,10 @@ B_38E7F:
   BCS.B B_38EC5                                   ; 038E8E B0 35 
   PHX                                             ; 038E90 DA 
   LDX.W $18D2                                     ; 038E91 AE D2 18 
-  DEC.W $18C5,X                                   ; 038E94 DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 038E94 DE C5 18 
   BNE.B B_38E9F                                   ; 038E97 D0 06 
-  STZ.W $18C9,X                                   ; 038E99 9E C9 18 
-  STZ.W $18C1,X                                   ; 038E9C 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 038E99 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 038E9C 9E C1 18 
 B_38E9F:
   PLX                                             ; 038E9F FA 
   STZ.W EntityHeader,X                                   ; 038EA0 9E D2 06 
@@ -1811,7 +1809,7 @@ B_3926F:
   LDA.W D_393F8,Y                                 ; 03928A B9 F8 93 
   BEQ.B B_392A6                                   ; 03928D F0 17 
   LDA.B #$06                                      ; 03928F A9 06 
-  JSL L_38064                                     ; 039291 22 64 80 03 
+  JSL AddObjStateReference                                     ; 039291 22 64 80 03 
   BMI.B B_392A6                                   ; 039295 30 0F 
   STY.W $18D4                                     ; 039297 8C D4 18 
   TYA                                             ; 03929A 98 
@@ -1823,7 +1821,7 @@ B_3926F:
   BRA.B B_392B9                                   ; 0392A4 80 13 
 B_392A6:
   LDA.B #$05                                      ; 0392A6 A9 05 
-  JSL L_38064                                     ; 0392A8 22 64 80 03 
+  JSL AddObjStateReference                                     ; 0392A8 22 64 80 03 
   BMI.B B_392CA                                   ; 0392AC 30 1C 
   STY.W $18D3                                     ; 0392AE 8C D3 18 
   TYA                                             ; 0392B1 98 
@@ -1858,7 +1856,7 @@ B_392D4:
   LDA.W D_393F8,Y                                 ; 0392E7 B9 F8 93 
   BEQ.B B_39303                                   ; 0392EA F0 17 
   LDA.B #$06                                      ; 0392EC A9 06 
-  JSL L_38064                                     ; 0392EE 22 64 80 03 
+  JSL AddObjStateReference                                     ; 0392EE 22 64 80 03 
   BMI.B B_39303                                   ; 0392F2 30 0F 
   STY.W $18D4                                     ; 0392F4 8C D4 18 
   TYA                                             ; 0392F7 98 
@@ -1870,7 +1868,7 @@ B_392D4:
   BRA.B B_39316                                   ; 039301 80 13 
 B_39303:
   LDA.B #$05                                      ; 039303 A9 05 
-  JSL L_38064                                     ; 039305 22 64 80 03 
+  JSL AddObjStateReference                                     ; 039305 22 64 80 03 
   BMI.B B_39325                                   ; 039309 30 1A 
   STY.W $18D3                                     ; 03930B 8C D3 18 
   TYA                                             ; 03930E 98 
@@ -4742,11 +4740,11 @@ B_3B90D:
   BNE.B B_3B930                                   ; 03B91E D0 10 
 B_3B920:
   PHX                                             ; 03B920 DA 
-  LDX.W $18D1                                     ; 03B921 AE D1 18 
-  DEC.W $18C5,X                                   ; 03B924 DE C5 18 
+  LDX.W ObjStateSlot_Grenades                                     ; 03B921 AE D1 18 
+  DEC.W ObjStateRefCount,X                                   ; 03B924 DE C5 18 
   BNE.B B_3B92F                                   ; 03B927 D0 06 
-  STZ.W $18C9,X                                   ; 03B929 9E C9 18 
-  STZ.W $18C1,X                                   ; 03B92C 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 03B929 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 03B92C 9E C1 18 
 B_3B92F:
   PLX                                             ; 03B92F FA 
 B_3B930:
@@ -5011,11 +5009,11 @@ B_3BB1C:
   BNE.B B_3BB31                                   ; 03BB2B D0 04 
   JSL L_ACB0                                      ; 03BB2D 22 B0 AC 00 
 B_3BB31:
-  LDX.W $18D1                                     ; 03BB31 AE D1 18 
-  DEC.W $18C5,X                                   ; 03BB34 DE C5 18 
+  LDX.W ObjStateSlot_Grenades                                     ; 03BB31 AE D1 18 
+  DEC.W ObjStateRefCount,X                                   ; 03BB34 DE C5 18 
   BNE.B B_3BB3F                                   ; 03BB37 D0 06 
-  STZ.W $18C9,X                                   ; 03BB39 9E C9 18 
-  STZ.W $18C1,X                                   ; 03BB3C 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 03BB39 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 03BB3C 9E C1 18 
 B_3BB3F:
   JSL AdvanceRNG                                     ; 03BB3F 22 95 CA 0E 
   AND.B #$3F                                      ; 03BB43 29 3F 
@@ -5631,10 +5629,10 @@ B_3C375:
   DEC.W ActiveEnemies                                     ; 03C375 CE C6 06 
   PHX                                             ; 03C378 DA 
   LDX.W $18DF                                     ; 03C379 AE DF 18 
-  DEC.W $18C5,X                                   ; 03C37C DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 03C37C DE C5 18 
   BNE.B B_3C387                                   ; 03C37F D0 06 
-  STZ.W $18C9,X                                   ; 03C381 9E C9 18 
-  STZ.W $18C1,X                                   ; 03C384 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 03C381 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 03C384 9E C1 18 
 B_3C387:
   PLX                                             ; 03C387 FA 
   LDA.B #EntityType_08                                      ; 03C388 A9 08 
@@ -8043,10 +8041,10 @@ B_3E695:
   STZ.W EntityHeader,X                                   ; 03E695 9E D2 06 
   PHX                                             ; 03E698 DA 
   LDX.W $06A1                                     ; 03E699 AE A1 06 
-  DEC.W $18C5,X                                   ; 03E69C DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 03E69C DE C5 18 
   BNE.B B_3E6A7                                   ; 03E69F D0 06 
-  STZ.W $18C9,X                                   ; 03E6A1 9E C9 18 
-  STZ.W $18C1,X                                   ; 03E6A4 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 03E6A1 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 03E6A4 9E C1 18 
 B_3E6A7:
   PLX                                             ; 03E6A7 FA 
   PHX                                             ; 03E6A8 DA 
@@ -8093,7 +8091,7 @@ B_3E6E7:
 .byte $A9,$15                                     ; 03E6F3 ..       ??
 
 B_3E6F4:
-  JSL L_38064                                     ; 03E6F4 22 64 80 03 
+  JSL AddObjStateReference                                     ; 03E6F4 22 64 80 03 
   BPL.B B_3E6FD                                   ; 03E6F8 10 03 
 
 .byte $4C,$7B,$E7                                 ; 03E6FB ...      L{?

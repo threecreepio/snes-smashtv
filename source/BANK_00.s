@@ -347,12 +347,12 @@ B_82EC:
   LDA.B #$FF                                      ; 008300 A9 FF 
   STA.W $05CC                                     ; 008302 8D CC 05 
   STA.W $05CD                                     ; 008305 8D CD 05 
-  LDX.B #$03                                      ; 008308 A2 03 
+  LDX.B #ObjState_Max                                      ; 008308 A2 03 
 B_830A:
-  STZ.W $18C9,X                                   ; 00830A 9E C9 18 
-  STZ.W $18C1,X                                   ; 00830D 9E C1 18 
-  STZ.W $18C5,X                                   ; 008310 9E C5 18 
-  STZ.W $18CD,X                                   ; 008313 9E CD 18 
+  STZ.W ObjStateFlag,X                                   ; 00830A 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 00830D 9E C1 18 
+  STZ.W ObjStateRefCount,X                                   ; 008310 9E C5 18 
+  STZ.W ObjStateFlag2,X                                   ; 008313 9E CD 18 
   DEX                                             ; 008316 CA 
   BPL.B B_830A                                    ; 008317 10 F1 
   JSR.W L_9961                                    ; 008319 20 61 99 
@@ -433,7 +433,7 @@ L_83CA:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0083D4 E2 30 
   JSL FindEmptyEntitySlot                                     ; 0083D6 22 F3 80 03 
   LDA.B #$0D                                      ; 0083DA A9 0D 
-  JSL L_38064                                     ; 0083DC 22 64 80 03 
+  JSL AddObjStateReference                                     ; 0083DC 22 64 80 03 
   STY.W $18D2                                     ; 0083E0 8C D2 18 
   JSL ClearEntitySlotData                                     ; 0083E3 22 94 80 03 
   LDA.B #$01                                      ; 0083E7 A9 01 
@@ -493,7 +493,7 @@ L_83CA:
 L_8463:
   JSL FindEmptyEntitySlot                                     ; 008463 22 F3 80 03 
   LDA.B #$0D                                      ; 008467 A9 0D 
-  JSL L_38064                                     ; 008469 22 64 80 03 
+  JSL AddObjStateReference                                     ; 008469 22 64 80 03 
   STY.W $18D2                                     ; 00846D 8C D2 18 
   JSL ClearEntitySlotData                                     ; 008470 22 94 80 03 
   LDA.B #$01                                      ; 008474 A9 01 
@@ -6416,7 +6416,7 @@ D_B960:
   JSL Audio_PlaySound                                     ; 00B995 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00B999 E2 30 
   PLX                                             ; 00B99B FA 
-  JSR.W L_BEE9                                    ; 00B99C 20 E9 BE 
+  JSR.W DecreaseEquippedWeaponAmmo                                    ; 00B99C 20 E9 BE 
   LDX.B $09                                       ; 00B99F A6 09 
   LDY.B $08                                       ; 00B9A1 A4 08 
   LDA.W D_BA63,Y                                  ; 00B9A3 B9 63 BA 
@@ -6647,7 +6647,7 @@ B_BB33:
   JSL Audio_PlaySound                                     ; 00BB85 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BB89 E2 30 
   PLX                                             ; 00BB8B FA 
-  JSR.W L_BEE9                                    ; 00BB8C 20 E9 BE 
+  JSR.W DecreaseEquippedWeaponAmmo                                    ; 00BB8C 20 E9 BE 
   LDX.B $09                                       ; 00BB8F A6 09 
   LDY.B $08                                       ; 00BB91 A4 08 
   LDA.W D_BB9B,Y                                  ; 00BB93 B9 9B BB 
@@ -6769,7 +6769,7 @@ B_BC5B:
   STA.W EntityHeader,X                                   ; 00BC8B 9D D2 06 
   LDA.B #$0E                                      ; 00BC8E A9 0E 
   STA.W EntityV29,X                                   ; 00BC90 9D BC 13 
-  LDA.W $18D1                                     ; 00BC93 AD D1 18 
+  LDA.W ObjStateSlot_Grenades                                     ; 00BC93 AD D1 18 
   ASL                                             ; 00BC96 0A 
   ORA.B #$38                                      ; 00BC97 09 38 
   STA.W EntityV30,X                                   ; 00BC99 9D 2E 14 
@@ -6788,7 +6788,7 @@ B_BC5B:
   LDA.B #$01                                      ; 00BCBA A9 01 
   STA.W $175E,Y                                   ; 00BCBC 99 5E 17 
   JSL L_AEF1                                      ; 00BCBF 22 F1 AE 00 
-  JSR.W L_BEE9                                    ; 00BCC3 20 E9 BE 
+  JSR.W DecreaseEquippedWeaponAmmo                                    ; 00BCC3 20 E9 BE 
   LDX.B $09                                       ; 00BCC6 A6 09 
   LDY.B $08                                       ; 00BCC8 A4 08 
   LDA.W D_BCD2,Y                                  ; 00BCCA B9 D2 BC 
@@ -6968,7 +6968,7 @@ D_BE69:
   JSL Audio_PlaySound                                     ; 00BE9B 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BE9F E2 30 
   PLX                                             ; 00BEA1 FA 
-  JSR.W L_BEE9                                    ; 00BEA2 20 E9 BE 
+  JSR.W DecreaseEquippedWeaponAmmo                                    ; 00BEA2 20 E9 BE 
   LDX.B $09                                       ; 00BEA5 A6 09 
   LDY.B $08                                       ; 00BEA7 A4 08 
   LDA.W D_BEB1,Y                                  ; 00BEA9 B9 B1 BE 
@@ -6994,55 +6994,55 @@ D_BEDA:
 .byte $FE,$96,$FE,$00,$00,$6A,$01                 ; 00BEE3 .DDDDDD  ?????j?
 
 
-L_BEE9:
-  LDX.B $09                                       ; 00BEE9 A6 09 
-  LDA.W EquippedWeaponType,X                                   ; 00BEEB BD 97 18 
-  BEQ.B B_BF22                                    ; 00BEEE F0 32 
-  DEC.W EquippedWeaponAmmo,X                        ; 00BEF0 DE 9D 18 
-  BNE.B B_BF23                                    ; 00BEF3 D0 2E 
-  LDY.W EquippedWeaponType,X                                   ; 00BEF5 BC 97 18 
-  LDA.W WeaponTypePickupAmmo,Y                                   ; 00BEF8 B9 9E 18 
-  STA.W EquippedWeaponAmmo,X                        ; 00BEFB 9D 9D 18 
-  DEC.W EquippedWeaponMagazines,X                                   ; 00BEFE DE 99 18 
-  BNE.B B_BF23                                    ; 00BF01 D0 20 
-  LDA.W EquippedWeaponType,X                                   ; 00BF03 BD 97 18 
-  CMP.B #$03                                      ; 00BF06 C9 03 
-  BNE.B B_BF1A                                    ; 00BF08 D0 10 
-  PHX                                             ; 00BF0A DA 
-  LDX.W $18D1                                     ; 00BF0B AE D1 18 
-  DEC.W $18C5,X                                   ; 00BF0E DE C5 18 
-  BNE.B B_BF19                                    ; 00BF11 D0 06 
-  STZ.W $18C9,X                                   ; 00BF13 9E C9 18 
-  STZ.W $18C1,X                                   ; 00BF16 9E C1 18 
-B_BF19:
-  PLX                                             ; 00BF19 FA 
-B_BF1A:
-  STZ.W EquippedWeaponType,X                                   ; 00BF1A 9E 97 18 
-  LDA.B #$09                                      ; 00BF1D A9 09 
-  STA.W $18B0,X                                   ; 00BF1F 9D B0 18 
-B_BF22:
-  RTS                                             ; 00BF22 60 
+DecreaseEquippedWeaponAmmo:
+  ldx.b $09                                       ; get current player index
+  lda EquippedWeaponType,x                        ; check player weapon
+  beq @Done                                       ; no weapon - continue
+  dec EquippedWeaponAmmo,x                        ; reduce ammo
+  bne @PlayFiringSound                            ; if there's ammo left, play a sound
+  ldy EquippedWeaponType,x                        ; out of ammo, check which weapon type is used
+  lda WeaponTypeMagazineAmmo,y                    ; get ammo in single magazine
+  sta EquippedWeaponAmmo,x                        ; and fill current magazine
+  dec EquippedWeaponMagazines,x                   ; decrement current number of magazines
+  bne @PlayFiringSound                            ; if there's ammo left, play a sound
+  lda EquippedWeaponType,x                        ; otherwise we're expiring, check weapon type
+  cmp #WeaponType_Grenades                        ; are we using grenades?
+  bne @ClearWeapon                                ; nope - just clear out weapon
+  phx                                             ; yep - store current player index on stack
+  ldx ObjStateSlot_Grenades                       ; get an index offset for grenade weapons
+  dec ObjStateRefCount,x                          ; and decrement some value. :)
+  bne @StillPending                               ; skip ahead if ObjStateRefCount value is still > 0
+  stz ObjStateFlag,x                              ; otherwise clear some grenade data.. yeah..
+  stz ObjStateType,x                              ; todo - what do these do
+@StillPending:
+  plx                                             ; restore player index
+@ClearWeapon:
+  stz EquippedWeaponType,x                        ; clear current weapon
+  lda #$09                                        ; todo - what does this do
+  sta $18B0,x                                     ; 
+@Done:
+  rts                                             ; done
 
-B_BF23:
-  LDA.W EquippedWeaponMagazines,X                                   ; 00BF23 BD 99 18 
-  CMP.B #$03                                      ; 00BF26 C9 03 
-  BNE.B B_BF4D                                    ; 00BF28 D0 23 
-  PHX                                             ; 00BF2A DA 
-  REP.B #$10                                      ; 00BF2B C2 10 
-  SEP.B #P_Acc8Bit                                      ; 00BF2D E2 20 
-  LDX.W #$0004                                    ; 00BF2F A2 04 00 
-  LDA.B #$0F                                      ; 00BF32 A9 0F 
-  JSL Audio_PlaySound                                     ; 00BF34 22 0F 83 0F 
-  LDA.B #$07                                      ; 00BF38 A9 07 
-  LDX.W #$FF13                                    ; 00BF3A A2 13 FF 
-  JSL Audio_PlaySound                                     ; 00BF3D 22 0F 83 0F 
-  LDX.W #$0001                                    ; 00BF41 A2 01 00 
-  LDA.B #$0F                                      ; 00BF44 A9 0F 
-  JSL Audio_PlaySound                                     ; 00BF46 22 0F 83 0F 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00BF4A E2 30 
-  PLX                                             ; 00BF4C FA 
-B_BF4D:
-  RTS                                             ; 00BF4D 60 
+@PlayFiringSound:
+  lda EquippedWeaponMagazines,x                   ; get how many magazines we have left
+  cmp #$03                                        ; do we have 3 remaining?
+  bne @Done2                                      ; no - skip to end
+  phx                                             ; yes - store player index on stack
+  rep #P_Idx8Bit                                  ; restore indexer mode
+  sep #P_Acc8Bit                                  ; set 8 bit accumulator
+  ldx #$0004                                      ; play some sounds!
+  lda #$0F                                        ; 
+  jsl Audio_F830F                                 ; 
+  lda #$07                                        ; and more sounds!
+  ldx #$FF13                                      ; 
+  jsl Audio_F830F                                 ; 
+  ldx #$0001                                      ; and some more sounds!
+  lda #$0F                                        ; 
+  jsl Audio_F830F                                 ; 
+  sep #P_Idx8Bit | P_Acc8Bit                      ; re-enable 8 bit modes
+  plx                                             ; and restore player index from stack
+@Done2:
+  rts                                             ; done
 
 
 L_BF4E:
@@ -7691,7 +7691,7 @@ B_C4AD:
 
 B_C4AE:
   LDA.B #$0E                                      ; 00C4AE A9 0E 
-  JSL L_38064                                     ; 00C4B0 22 64 80 03 
+  JSL AddObjStateReference                                     ; 00C4B0 22 64 80 03 
   BMI.B B_C4AD                                    ; 00C4B4 30 F7 
   STY.W $18E2                                     ; 00C4B6 8C E2 18 
   JSL ClearEntitySlotData                                     ; 00C4B9 22 94 80 03 
@@ -7934,7 +7934,7 @@ B_CA19:
 
 B_CA1C:
   LDA.B #$0E                                      ; 00CA1C A9 0E 
-  JSL L_38064                                     ; 00CA1E 22 64 80 03 
+  JSL AddObjStateReference                                     ; 00CA1E 22 64 80 03 
   BMI.B B_CA19                                    ; 00CA22 30 F5 
   STY.W $18E2                                     ; 00CA24 8C E2 18 
   STX.B $04                                       ; 00CA27 86 04 
@@ -7992,7 +7992,7 @@ B_CAA1:
 
 B_CAA4:
   LDA.B #$0E                                      ; 00CAA4 A9 0E 
-  JSL L_38064                                     ; 00CAA6 22 64 80 03 
+  JSL AddObjStateReference                                     ; 00CAA6 22 64 80 03 
   BMI.B B_CAA1                                    ; 00CAAA 30 F5 
   STY.W $18E2                                     ; 00CAAC 8C E2 18 
   JSL ClearEntitySlotData                                     ; 00CAAF 22 94 80 03 
@@ -8063,17 +8063,18 @@ D_CB32:
   STA.W $18F8                                     ; 00CB3E 8D F8 18 
   RTS                                             ; 00CB41 60 
 
+SpawnSwirlyEnemyWave:
   LDA.W $18EB                                     ; 00CB42 AD EB 18 
   CMP.W $18F9                                     ; 00CB45 CD F9 18 
   BCS.B B_CB58                                    ; 00CB48 B0 0E 
   JSL FindEmptyEntitySlot                                     ; 00CB4A 22 F3 80 03 
   BNE.B B_CB58                                    ; 00CB4E D0 08 
   LDA.B #$02                                      ; 00CB50 A9 02 
-  JSL L_38064                                     ; 00CB52 22 64 80 03 
+  JSL AddObjStateReference                                     ; 00CB52 22 64 80 03 
   BPL.B B_CB5B                                    ; 00CB56 10 03 
-
 B_CB58:
-.byte $A9,$00,$60                                 ; 00CB59 ...      ??`
+  LDA.B #$00
+  RTS
 
 B_CB5B:
   STY.W $18DF                                     ; 00CB5B 8C DF 18 
@@ -8138,7 +8139,7 @@ B_CBE5:
   INC.W ActiveEnemies                                     ; 00CBE5 EE C6 06 
   PHX                                             ; 00CBE8 DA 
   LDX.W $18DF                                     ; 00CBE9 AE DF 18 
-  INC.W $18C5,X                                   ; 00CBEC FE C5 18 
+  INC.W ObjStateRefCount,X                                   ; 00CBEC FE C5 18 
   PLX                                             ; 00CBEF FA 
   JSL ClearEntitySlotData                                     ; 00CBF0 22 94 80 03 
   LDA.B #$01                                      ; 00CBF4 A9 01 
@@ -8624,7 +8625,7 @@ B_D3A1:
 .byte $A9,$14                                     ; 00D3FE ..       ??
 
 B_D3FF:
-  JSL L_38064                                     ; 00D3FF 22 64 80 03 
+  JSL AddObjStateReference                                     ; 00D3FF 22 64 80 03 
   TYA                                             ; 00D403 98 
   ASL                                             ; 00D404 0A 
   ORA.B #$08                                      ; 00D405 09 08 
@@ -8661,7 +8662,7 @@ B_D3FF:
   LDX.W $068B                                     ; 00D457 AE 8B 06 
   JSL ClearEntitySlotData                                     ; 00D45A 22 94 80 03 
   LDA.B #$11                                      ; 00D45E A9 11 
-  JSL L_38064                                     ; 00D460 22 64 80 03 
+  JSL AddObjStateReference                                     ; 00D460 22 64 80 03 
   TYA                                             ; 00D464 98 
   ASL                                             ; 00D465 0A 
   ORA.B #$08                                      ; 00D466 09 08 
@@ -8729,7 +8730,7 @@ B_D4A9:
 
 L_D4FE:
   LDA.B #$0E                                      ; 00D4FE A9 0E 
-  JSL L_38064                                     ; 00D500 22 64 80 03 
+  JSL AddObjStateReference                                     ; 00D500 22 64 80 03 
   STY.W $18E2                                     ; 00D504 8C E2 18 
   JSL ClearEntitySlotData                                     ; 00D507 22 94 80 03 
   LDA.B #$01                                      ; 00D50B A9 01 
@@ -9277,7 +9278,7 @@ SpawnNextDrop:
   lda (@SpawnNextDrop_RoomPtr),Y
   sta @SpawnNextDrop_DropTypeId
   beq @Bail
-  ; if we're spawning a shield, make sure there's none active
+  ; if we're spawning a razor shield, make sure there's none active
   cmp #DropTableType_RazorShield
   bne @CheckOrb
   lda PlayerRazorShieldStatus
@@ -9307,9 +9308,9 @@ SpawnNextDrop:
   LDA.W D_DCF8,Y
   BNE.B B_DBFF
   LDA.B #$07
-  JSL L_38064
+  JSL AddObjStateReference
   BMI.B @Exit
-  STY.W $18D1
+  STY.W ObjStateSlot_Grenades
   TYA
   ASL
   ORA.B #$28
@@ -9782,7 +9783,7 @@ L_E15E:
   JSL FindEmptyEntitySlot                                     ; 00E15E 22 F3 80 03 
   BNE.B B_E1D7                                    ; 00E162 D0 73 
   LDA.B #$05                                      ; 00E164 A9 05 
-  JSL L_38064                                     ; 00E166 22 64 80 03 
+  JSL AddObjStateReference                                     ; 00E166 22 64 80 03 
   BMI.B B_E1D7                                    ; 00E16A 30 6B 
   STY.W $18D3                                     ; 00E16C 8C D3 18 
   TYA                                             ; 00E16F 98 
@@ -11267,15 +11268,15 @@ L_F666:
   LDA.B #$0D                                      ; 00F66A A9 0D 
   PHA                                             ; 00F66C 48 
   PLB                                             ; 00F66D AB 
-  LDX.B #$03                                      ; 00F66E A2 03 
+  LDX.B #ObjState_Max                                      ; 00F66E A2 03 
 B_F670:
-  LDA.W $18CD,X                                   ; 00F670 BD CD 18 
+  LDA.W ObjStateFlag2,X                                   ; 00F670 BD CD 18 
   BEQ.B B_F6A4                                    ; 00F673 F0 2F 
   PHX                                             ; 00F675 DA 
-  STZ.W $18CD,X                                   ; 00F676 9E CD 18 
+  STZ.W ObjStateFlag2,X                                   ; 00F676 9E CD 18 
   LDA.L D_F6AA,X                                  ; 00F679 BF AA F6 00 
   STA.W CGADD                                     ; 00F67D 8D 21 21 
-  LDA.W $18C1,X                                   ; 00F680 BD C1 18 
+  LDA.W ObjStateType,X                                   ; 00F680 BD C1 18 
   ASL                                             ; 00F683 0A 
   TAX                                             ; 00F684 AA 
   LDA.L D_F6AE,X                                  ; 00F685 BF AE F6 00 
