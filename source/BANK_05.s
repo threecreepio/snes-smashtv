@@ -1007,11 +1007,11 @@ L_58844:
   CMP.B #$03                                      ; 058872 C9 03 
   BNE.B B_58886                                   ; 058874 D0 10 
   PHX                                             ; 058876 DA 
-  LDX.W $18D1                                     ; 058877 AE D1 18 
-  DEC.W $18C5,X                                   ; 05887A DE C5 18 
+  LDX.W ObjStateSlot_Grenades                                     ; 058877 AE D1 18 
+  DEC.W ObjStateRefCount,X                                   ; 05887A DE C5 18 
   BNE.B B_58885                                   ; 05887D D0 06 
-  STZ.W $18C9,X                                   ; 05887F 9E C9 18 
-  STZ.W $18C1,X                                   ; 058882 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 05887F 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 058882 9E C1 18 
 B_58885:
   PLX                                             ; 058885 FA 
 B_58886:
@@ -1778,17 +1778,17 @@ PlayerHitEntityRoutinesHi:
   LDA.W EntityV22,X                                   ; 059133 BD 9E 10 
   BEQ.B B_59148                                   ; 059136 F0 10 
   LDX.W $18D4                                     ; 059138 AE D4 18 
-  DEC.W $18C5,X                                   ; 05913B DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 05913B DE C5 18 
   BNE.B B_59156                                   ; 05913E D0 16 
-  STZ.W $18C9,X                                   ; 059140 9E C9 18 
-  STZ.W $18C1,X                                   ; 059143 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 059140 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 059143 9E C1 18 
   BRA.B B_59156                                   ; 059146 80 0E 
 B_59148:
   LDX.W $18D3                                     ; 059148 AE D3 18 
-  DEC.W $18C5,X                                   ; 05914B DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 05914B DE C5 18 
   BNE.B B_59156                                   ; 05914E D0 06 
-  STZ.W $18C9,X                                   ; 059150 9E C9 18 
-  STZ.W $18C1,X                                   ; 059153 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 059150 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 059153 9E C1 18 
 B_59156:
   PLX                                             ; 059156 FA 
   STZ.B $A7                                       ; 059157 64 A7 
@@ -2210,7 +2210,7 @@ B_598E1:
   CLC                                             ; 0598FF 18 
   ADC.B #$40                                      ; 059900 69 40 
   STA.W DropTimer                   ; 059902 8D AE 05 
-  JSR.W L_599F9                                   ; 059905 20 F9 99 
+  JSR.W Audio_PlayPickupSound                                   ; 059905 20 F9 99 
   RTS                                             ; 059908 60 
 
   LDA.W $05D6                                     ; 059909 AD D6 05 
@@ -2245,11 +2245,11 @@ B_59932:
   CMP.B #$03                                      ; 059938 C9 03 
   BNE.B B_5994C                                   ; 05993A D0 10 
   PHX                                             ; 05993C DA 
-  LDX.W $18D1                                     ; 05993D AE D1 18 
-  DEC.W $18C5,X                                   ; 059940 DE C5 18 
+  LDX.W ObjStateSlot_Grenades                                     ; 05993D AE D1 18 
+  DEC.W ObjStateRefCount,X                                   ; 059940 DE C5 18 
   BNE.B B_5994B                                   ; 059943 D0 06 
-  STZ.W $18C9,X                                   ; 059945 9E C9 18 
-  STZ.W $18C1,X                                   ; 059948 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 059945 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 059948 9E C1 18 
 B_5994B:
   PLX                                             ; 05994B FA 
 B_5994C:
@@ -2267,7 +2267,7 @@ B_5994C:
   CLC                                             ; 05996A 18 
   ADC.B #$40                                      ; 05996B 69 40 
   STA.W DropTimer                   ; 05996D 8D AE 05 
-  JSR.W L_599F9                                   ; 059970 20 F9 99 
+  JSR.W Audio_PlayPickupSound                                   ; 059970 20 F9 99 
   RTS                                             ; 059973 60 
 
   LDA.W $05D6                                     ; 059974 AD D6 05 
@@ -2313,8 +2313,8 @@ B_599B7:
   LDA.W EquippedWeaponType,X                                   ; 0599BA BD 97 18 
   CMP.B #$03                                      ; 0599BD C9 03 
   BNE.B B_599D1                                   ; 0599BF D0 10 
-  LDX.W $18D1                                     ; 0599C1 AE D1 18 
-  DEC.W $18C5,X                                   ; 0599C4 DE C5 18 
+  LDX.W ObjStateSlot_Grenades                                     ; 0599C1 AE D1 18 
+  DEC.W ObjStateRefCount,X                                   ; 0599C4 DE C5 18 
   BNE.B B_599CF                                   ; 0599C7 D0 06 
 
 .byte $9E,$C9,$18,$9E,$C1,$18                     ; 0599CA ......   ??????
@@ -2336,11 +2336,11 @@ B_599D1:
   CLC                                             ; 0599EF 18 
   ADC.B #$40                                      ; 0599F0 69 40 
   STA.W DropTimer                   ; 0599F2 8D AE 05 
-  JSR.W L_599F9                                   ; 0599F5 20 F9 99 
+  JSR.W Audio_PlayPickupSound                                   ; 0599F5 20 F9 99 
   RTS                                             ; 0599F8 60 
 
 
-L_599F9:
+Audio_PlayPickupSound:
   PHX                                             ; 0599F9 DA 
   REP.B #P_Idx8Bit                                      ; 0599FA C2 10 
   LDX.W #$0004                                    ; 0599FC A2 04 00 
@@ -2426,7 +2426,7 @@ B_59AAC:
   CLC                                             ; 059ACA 18 
   ADC.B #$40                                      ; 059ACB 69 40 
   STA.W DropTimer                   ; 059ACD 8D AE 05 
-  JSR.W L_599F9                                   ; 059AD0 20 F9 99 
+  JSR.W Audio_PlayPickupSound                                   ; 059AD0 20 F9 99 
   RTS                                             ; 059AD3 60 
 
   LDA.W $05D6                                     ; 059AD4 AD D6 05 
@@ -2500,11 +2500,11 @@ B_59B4A:
 
 B_59B4D:
   PLX                                             ; 059B4D FA 
-  LDX.W $18D1                                     ; 059B4E AE D1 18 
-  DEC.W $18C5,X                                   ; 059B51 DE C5 18 
+  LDX.W ObjStateSlot_Grenades                                     ; 059B4E AE D1 18 
+  DEC.W ObjStateRefCount,X                                   ; 059B51 DE C5 18 
   BNE.B B_59B5C                                   ; 059B54 D0 06 
-  STZ.W $18C9,X                                   ; 059B56 9E C9 18 
-  STZ.W $18C1,X                                   ; 059B59 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 059B56 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 059B59 9E C1 18 
 B_59B5C:
   JSL AdvanceRNG                                     ; 059B5C 22 95 CA 0E 
   AND.B #$3F                                      ; 059B60 29 3F 
@@ -2622,7 +2622,7 @@ B_59C2E:
   CLC                                             ; 059C39 18 
   ADC.B #$40                                      ; 059C3A 69 40 
   STA.W DropTimer                   ; 059C3C 8D AE 05 
-  JSR.W L_599F9                                   ; 059C3F 20 F9 99 
+  JSR.W Audio_PlayPickupSound                                   ; 059C3F 20 F9 99 
   RTS                                             ; 059C42 60 
 
 
@@ -2771,11 +2771,11 @@ B_59D49:
 
 B_59D4C:
   PLX                                             ; 059D4C FA 
-  LDX.W $18D1                                     ; 059D4D AE D1 18 
-  DEC.W $18C5,X                                   ; 059D50 DE C5 18 
+  LDX.W ObjStateSlot_Grenades                                     ; 059D4D AE D1 18 
+  DEC.W ObjStateRefCount,X                                   ; 059D50 DE C5 18 
   BNE.B B_59D5B                                   ; 059D53 D0 06 
-  STZ.W $18C9,X                                   ; 059D55 9E C9 18 
-  STZ.W $18C1,X                                   ; 059D58 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 059D55 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 059D58 9E C1 18 
 B_59D5B:
   LDX.B $1E                                       ; 059D5B A6 1E 
   LDA.B #$FF                                      ; 059D5D A9 FF 
@@ -3078,7 +3078,7 @@ D_59FAC:
   DEC.W $06C6                                     ; 05A074 CE C6 06 
   PHX                                             ; 05A077 DA 
   LDX.W $18DF                                     ; 05A078 AE DF 18 
-  DEC.W $18C5,X                                   ; 05A07B DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 05A07B DE C5 18 
   BNE.B B_5A086                                   ; 05A07E D0 06 
 
 .byte $9E,$C9,$18,$9E,$C1,$18                     ; 05A081 ......   ??????
@@ -3148,7 +3148,7 @@ B_5A0FD:
   DEC.W $06C6                                     ; 05A0FF CE C6 06 
   PHX                                             ; 05A102 DA 
   LDX.W $18DF                                     ; 05A103 AE DF 18 
-  DEC.W $18C5,X                                   ; 05A106 DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 05A106 DE C5 18 
   BNE.B B_5A111                                   ; 05A109 D0 06 
 
 .byte $9E,$C9,$18,$9E,$C1,$18                     ; 05A10C ......   ??????
@@ -3195,7 +3195,7 @@ D_5A153:
   DEC.W $06C6                                     ; 05A15F CE C6 06 
   PHX                                             ; 05A162 DA 
   LDX.W $18DF                                     ; 05A163 AE DF 18 
-  DEC.W $18C5,X                                   ; 05A166 DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 05A166 DE C5 18 
   BNE.B B_5A171                                   ; 05A169 D0 06 
 
 .byte $9E,$C9,$18,$9E,$C1,$18                     ; 05A16C ......   ??????
@@ -3566,12 +3566,12 @@ B_5A608:
   DEC.W $18EA                                     ; 05A654 CE EA 18 
   LDX.W $18E2                                     ; 05A657 AE E2 18 
   SEC                                             ; 05A65A 38 
-  LDA.W $18C5,X                                   ; 05A65B BD C5 18 
+  LDA.W ObjStateRefCount,X                                   ; 05A65B BD C5 18 
   SBC.B #$02                                      ; 05A65E E9 02 
-  STA.W $18C5,X                                   ; 05A660 9D C5 18 
+  STA.W ObjStateRefCount,X                                   ; 05A660 9D C5 18 
   BNE.B D_5A66B                                   ; 05A663 D0 06 
-  STZ.W $18C9,X                                   ; 05A665 9E C9 18 
-  STZ.W $18C1,X                                   ; 05A668 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 05A665 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 05A668 9E C1 18 
 D_5A66B:
   JSR.W L_589AF                                   ; 05A66B 20 AF 89 
   RTS                                             ; 05A66E 60 
@@ -3625,10 +3625,10 @@ B_5A68E:
   JSL L_AFC2                                      ; 05A6C8 22 C2 AF 00 
   DEC.W $06C6                                     ; 05A6CC CE C6 06 
   LDX.W $18E2                                     ; 05A6CF AE E2 18 
-  DEC.W $18C5,X                                   ; 05A6D2 DE C5 18 
+  DEC.W ObjStateRefCount,X                                   ; 05A6D2 DE C5 18 
   BNE.B B_5A6DD                                   ; 05A6D5 D0 06 
-  STZ.W $18C9,X                                   ; 05A6D7 9E C9 18 
-  STZ.W $18C1,X                                   ; 05A6DA 9E C1 18 
+  STZ.W ObjStateFlag,X                                   ; 05A6D7 9E C9 18 
+  STZ.W ObjStateType,X                                   ; 05A6DA 9E C1 18 
 B_5A6DD:
   BRA.B B_5A705                                   ; 05A6DD 80 26 
 B_5A6DF:
