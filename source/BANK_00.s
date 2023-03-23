@@ -78,8 +78,8 @@ B_80BC:
   PEA.W $0000                                     ; 0080BC F4 00 00 
   PLB                                             ; 0080BF AB 
   PLB                                             ; 0080C0 AB 
-  JSL L_ECBAF                                     ; 0080C1 22 AF CB 0E 
-  JSL L_ECD12                                     ; 0080C5 22 12 CD 0E 
+  JSL RunAsciiAcclaimLogoSplash                                     ; 0080C1 22 AF CB 0E 
+  JSL RunBeamLogoSplash                                     ; 0080C5 22 12 CD 0E 
   SEP.B #P_Acc8Bit                                      ; 0080C9 E2 20 
   LDA.B #$0D                                      ; 0080CB A9 0D 
   LDX.W #$4040                                    ; 0080CD A2 40 40 

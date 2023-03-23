@@ -2875,7 +2875,7 @@ L_ECB94:
   STA.W HDMAEN                                    ; 0ECBAB 8D 0C 42 
   RTL                                             ; 0ECBAE 6B 
 
-L_ECBAF:
+RunAsciiAcclaimLogoSplash:
   PHP                                             ; 0ECBAF 08 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECBB0 C2 30 
   LDX.W #$CCF1                                    ; 0ECBB2 A2 F1 CC 
@@ -3019,7 +3019,7 @@ B_ECD01:
   STA.W BG2HOFS                                   ; 0ECD0E 8D 0F 21 
   RTL                                             ; 0ECD11 6B 
 
-L_ECD12:
+RunBeamLogoSplash:
   PHP                                             ; 0ECD12 08 
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0ECD13 C2 30 
   LDX.W #$CDCB                                    ; 0ECD15 A2 CB CD 
