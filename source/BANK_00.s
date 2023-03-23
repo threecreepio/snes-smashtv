@@ -47,7 +47,11 @@ V_STARTUP:
 B_806B:
   LDA.W $020A                                     ; 00806B AD 0A 02 
   BNE.B B_8074                                    ; 00806E D0 04 
-  JSL RunStartupSmashLogo                                      ; 008070 22 FE EF 00 
+  ;JSL RunStartupSmashLogo                                      ; 008070 22 FE EF 00 
+  nop
+  nop
+  nop
+  nop
 B_8074:
   REP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008074 C2 30 
   JSL L_F835A                                     ; 008076 22 5A 83 0F 
@@ -78,8 +82,16 @@ B_80BC:
   PEA.W $0000                                     ; 0080BC F4 00 00 
   PLB                                             ; 0080BF AB 
   PLB                                             ; 0080C0 AB 
-  JSL RunAsciiAcclaimLogoSplash                                     ; 0080C1 22 AF CB 0E 
-  JSL RunBeamLogoSplash                                     ; 0080C5 22 12 CD 0E 
+  ;JSL RunAsciiAcclaimLogoSplash                                     ; 0080C1 22 AF CB 0E 
+  ;JSL RunBeamLogoSplash                                     ; 0080C5 22 12 CD 0E 
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
   SEP.B #P_Acc8Bit                                      ; 0080C9 E2 20 
   LDA.B #$0D                                      ; 0080CB A9 0D 
   LDX.W #$4040                                    ; 0080CD A2 40 40 
