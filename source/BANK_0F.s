@@ -4417,56 +4417,47 @@ B_F851C:
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF4E ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF56 ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF5E ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF66 ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF6E ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF8E ........ ????????
-.byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF96 ........ ????????
 .byte $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF             ; 0FFF9E ........ ????????
 
+JDPrepBossRush:
+  jsl FadeScreenIn
+  lda #0
+  sta $18FE
+  rtl
+
 JDFixRoomAndRound:
-  ldy CurrentRoom
-  lda CurrentRound
-  cmp #0
-  bne @CheckRound1
-  ; in round 0
-  cpy.b #0
-  bne @CheckR0R1
-  lda #10
-  sta CurrentRoom
-  bne @Done
-@CheckR0R1:
-  lda #7
-  sta CurrentRoom
-  lda #1
+  inc $18FE
+  ldx $18FE
+  lda.l Rounds,x
   sta CurrentRound
-  lda #3
-  jsl SetupRoundAudio
-  bne @Done
-
-@CheckRound1:
-  cmp #1
-  bne @CheckRound2
-  ; in round 1
-  lda #7
+  lda.l Rooms,x
   sta CurrentRoom
-  lda #2
-  sta CurrentRound
-  lda #4
-  jsl SetupRoundAudio
-  bne @Done
-
-@CheckRound2:
-  ; in round 2
-  cpy.b #21
-  beq @CompleteGame
-  lda #21
-  sta CurrentRoom
-
-@Done:
-  JSL L_F81DA                                     ; 0084E6 22 DA 81 0F 
+  JSL L_F81DA
+  jsr StateClearing
+  ldy.b #0
   lda CurrentRoom
   rtl
-@CompleteGame:
-  ldy.b #$ff
-  sty CurrentRoom
-  rtl
+
+Rounds:
+.byte 0, 0,1,2, 2,$ff
+Rooms:
+.byte 0,10,7,7,21,$ff
+
+
+StateClearing:
+  ldy.b #0
+@Continue:
+  lda ObjStateFlag,y
+  beq @Next
+  lda ObjStateType,y
+  cmp #$7
+  beq @Next
+  lda #0
+  sta ObjStateType,y
+  sta ObjStateFlag,y
+@Next:
+  iny
+  cpy.b #ObjState_Max+1
+  bcc @Continue
+  clc
+  rts

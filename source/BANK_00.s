@@ -547,7 +547,8 @@ RunGameScreen:
   jsr SetInitialGameState                         ; clear out game state
   lda #%10000001                                  ; enable nmi and joypad auto-read
   sta NMITIMEN                                    ;
-  jsl FadeScreenIn                                ; fade in screen
+  jsl JDPrepBossRush
+  ;jsl FadeScreenIn                                ; fade in screen
   JSL L_F81DA                                     ; 0084E6 22 DA 81 0F 
   ldx #40                                         ; delay for 40 frames
   jsl WaitXFrames                                 ;
@@ -1726,9 +1727,15 @@ B_907D:
   JSR.W L_9568                                    ; 0090A0 20 68 95 
   JSL L_AC62                                      ; 0090A3 22 62 AC 00 
   JSR.W L_94E2                                    ; 0090A7 20 E2 94 
-  JSR.W LocateCurrentRoomOffset                                    ; 0090AA 20 B7 97 
-  LDA.B ($04),Y                                   ; 0090AD B1 04 
-  STA.W CurrentRoom                                     ; 0090AF 8D AC 05 
+  JSL JDFixRoomAndRound
+nop
+nop
+nop
+nop
+
+  ;JSR.W LocateCurrentRoomOffset                                    ; 0090AA 20 B7 97 
+  ;LDA.B ($04),Y                                   ; 0090AD B1 04 
+  ;STA.W CurrentRoom                                     ; 0090AF 8D AC 05 
   JSR.W L_828A                                    ; 0090B2 20 8A 82 
   JSR.W L_8BBC                                    ; 0090B5 20 BC 8B 
   JSL Wait1Frame                                     ; 0090B8 22 13 CA 0E 
