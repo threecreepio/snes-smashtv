@@ -1,4 +1,4 @@
 *.o
 *.o.dep
-/*.dbg
 /*.sfc
+/main.sym

@@ -3,7 +3,7 @@
 	(cd source && ../bin/wla-65816 -M ../$< > $@.dep)
 
 main.sfc: wla.link entry.o
-	./bin/wlalink wla.link $@
+	./bin/wlalink -S -A wla.link $@
 
 patch.ips: main.sfc
 	python tools/ips.py create --output patch.ips original.sfc main.sfc
