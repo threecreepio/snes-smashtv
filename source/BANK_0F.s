@@ -4434,14 +4434,21 @@ JDFixRoomAndRound:
   sta CurrentRoom
   JSL L_F81DA
   jsr StateClearing
+  ldx $18FE
+  lda.l RoundAudio,x
+  bmi @SkipMusicChange
+  jsl SetupRoundAudio
+@SkipMusicChange:
   ldy.b #0
   lda CurrentRoom
   rtl
 
+RoundAudio:
+.byte   0,$FF,$03,$04,$FF,$FF
 Rounds:
-.byte 0, 0,1,2, 2,$ff
+.byte   0,  0,  1,  2,  2,$FF
 Rooms:
-.byte 0,10,7,7,21,$ff
+.byte   0, 10,  7,  7, 21,$FF
 
 
 StateClearing:
