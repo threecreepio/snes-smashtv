@@ -88,8 +88,6 @@ Joy2Direct  = $02EA
 Joy2Down    = $02F2
 Joy2Pressed = $0302
 
-(BTN1_B|BTN1_Y|BTN1_START)<<8|(BTN0_A|BTN0_X)
-
 BTN1_R      = %00000001
 BTN1_L      = %00000010
 BTN1_D      = %00000100
