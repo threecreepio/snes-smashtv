@@ -4087,13 +4087,13 @@ B_DEEA5:
   LDA.B $05                                       ; 0DEED1 A5 05 
   STA.W EntityYPx,X                                   ; 0DEED3 9D 9C 0C 
   LDA.B $08                                       ; 0DEED6 A5 08 
-  STA.W EntityV5,X                                   ; 0DEED8 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 0DEED8 9D 0C 09 
   LDA.B $09                                       ; 0DEEDB A5 09 
-  STA.W EntityV6,X                                   ; 0DEEDD 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 0DEEDD 9D 7E 09 
   LDA.B $0A                                       ; 0DEEE0 A5 0A 
-  STA.W EntityV7,X                                   ; 0DEEE2 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 0DEEE2 9D F0 09 
   LDA.B $0B                                       ; 0DEEE5 A5 0B 
-  STA.W EntityV8,X                                   ; 0DEEE7 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 0DEEE7 9D 62 0A 
   JSL L_AEBC                                      ; 0DEEEA 22 BC AE 00 
   TYA                                             ; 0DEEEE 98 
   STA.W EntityV31,X                                   ; 0DEEEF 9D A0 14 
@@ -4148,13 +4148,13 @@ B_DEF28:
   LDA.B #$02                                      ; 0DEF54 A9 02 
   STA.W EntityV27,X                                   ; 0DEF56 9D D8 12 
   LDA.B $08                                       ; 0DEF59 A5 08 
-  STA.W EntityV5,X                                   ; 0DEF5B 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 0DEF5B 9D 0C 09 
   LDA.B $09                                       ; 0DEF5E A5 09 
-  STA.W EntityV6,X                                   ; 0DEF60 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 0DEF60 9D 7E 09 
   LDA.B $0A                                       ; 0DEF63 A5 0A 
-  STA.W EntityV7,X                                   ; 0DEF65 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 0DEF65 9D F0 09 
   LDA.B $0B                                       ; 0DEF68 A5 0B 
-  STA.W EntityV8,X                                   ; 0DEF6A 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 0DEF6A 9D 62 0A 
   JSL L_AEBC                                      ; 0DEF6D 22 BC AE 00 
   TYA                                             ; 0DEF71 98 
   STA.W EntityV31,X                                   ; 0DEF72 9D A0 14 
@@ -4242,7 +4242,7 @@ B_DEFFA:
   TAY                                             ; 0DF009 A8 
   LDA.W D_DF0F1,Y                                 ; 0DF00A B9 F1 F0 
   STA.W EntityV25,X                                   ; 0DF00D 9D F4 11 
-  LDA.W $069E                                     ; 0DF010 AD 9E 06 
+  LDA.W MutoidType                                     ; 0DF010 AD 9E 06 
   ASL                                             ; 0DF013 0A 
   ASL                                             ; 0DF014 0A 
   ASL                                             ; 0DF015 0A 

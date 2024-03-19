@@ -3972,23 +3972,23 @@ D_CE935:
 
 L_CFB81:
   PHX                                             ; 0CFB81 DA 
-  LDA.W $069E                                     ; 0CFB82 AD 9E 06 
+  LDA.W MutoidType                                     ; 0CFB82 AD 9E 06 
   ASL                                             ; 0CFB85 0A 
   ASL                                             ; 0CFB86 0A 
   ASL                                             ; 0CFB87 0A 
   CLC                                             ; 0CFB88 18 
-  ADC.W $069C                                     ; 0CFB89 6D 9C 06 
+  ADC.W MutoidCurrentForm                                     ; 0CFB89 6D 9C 06 
   ASL                                             ; 0CFB8C 0A 
   TAX                                             ; 0CFB8D AA 
   LDA.W XexzyMutoidHealth                         ; 0CFB8E AD 9A 06 
-  CMP.L D_CFBB2,X                                 ; 0CFB91 DF B2 FB 0C 
-  LDA.W $069B                                     ; 0CFB95 AD 9B 06 
-  SBC.L D_CFBB3,X                                 ; 0CFB98 FF B3 FB 0C 
+  CMP.L MutoidTransitionPoints,X                                 ; 0CFB91 DF B2 FB 0C 
+  LDA.W XexzyMutoidHealth+1                                     ; 0CFB95 AD 9B 06 
+  SBC.L MutoidTransitionPoints+1,X                                 ; 0CFB98 FF B3 FB 0C 
   BCC.B B_CFBB0                                   ; 0CFB9C 90 12 
   STZ.W XexzyMutoidHealth                         ; 0CFB9E 9C 9A 06 
-  STZ.W $069B                                     ; 0CFBA1 9C 9B 06 
-  INC.W $069C                                     ; 0CFBA4 EE 9C 06 
-  LDA.W $069C                                     ; 0CFBA7 AD 9C 06 
+  STZ.W XexzyMutoidHealth+1                                     ; 0CFBA1 9C 9B 06 
+  INC.W MutoidCurrentForm                                     ; 0CFBA4 EE 9C 06 
+  LDA.W MutoidCurrentForm                                     ; 0CFBA7 AD 9C 06 
   DEC A
   ASL                                             ; 0CFBAB 0A 
   TAX                                             ; 0CFBAC AA 
@@ -3997,13 +3997,24 @@ B_CFBB0:
   PLX                                             ; 0CFBB0 FA 
   RTL                                             ; 0CFBB1 6B 
 
-D_CFBB2:
-.byte $80                                         ; 0CFBB3 D        ?
-D_CFBB3:
-.byte $01,$90,$01,$90,$01,$90,$01,$90             ; 0CFBB3 DDDDDDDD ????????
-.byte $01,$50,$01,$00,$02,$FF,$FF,$00             ; 0CFBBB D....... ?P??????
-.byte $02,$20,$02,$20,$02,$20,$02,$20             ; 0CFBC3 ........ ? ? ? ? 
-.byte $02,$A0,$01,$80,$02,$FF,$FF                 ; 0CFBCC .......  ???????
+MutoidTransitionPoints:
+.byte $80,$01 ; mutoid man
+.byte $90,$01
+.byte $90,$01
+.byte $90,$01
+.byte $90,$01
+.byte $50,$01
+.byte $00,$02
+.byte $FF,$FF
+.byte $00,$02 ; evil mc
+.byte $20,$02
+.byte $20,$02
+.byte $20,$02
+.byte $20,$02
+.byte $A0,$01
+.byte $80,$02
+.byte $FF,$FF
+
 L_CFBD2:
 .byte $DE,$FB,$E2,$FB,$E6,$FB,$15,$FC             ; 0CFBD2 DDDDDDDD ????????
 .byte $5A,$FC,$89,$FC                             ; 0CFBDB ....     Z???
@@ -4019,10 +4030,10 @@ L_CFBD2:
   STA.W EntityTypeId,X                                   ; 0CFBEB 9D 44 07 
   LDA.B #$8C                                      ; 0CFBEE A9 8C 
   STA.W EntityV15,X                                   ; 0CFBF0 9D 80 0D 
-  STZ.W EntityV5,X                                   ; 0CFBF3 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 0CFBF6 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 0CFBF9 9E F0 09 
-  STZ.W EntityV8,X                                   ; 0CFBFC 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 0CFBF3 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 0CFBF6 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 0CFBF9 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 0CFBFC 9E 62 0A 
   LDX.W $068C                                     ; 0CFBFF AE 8C 06 
   LDA.B #$20                                      ; 0CFC02 A9 20 
   JSL L_3823C                                     ; 0CFC04 22 3C 82 03 
@@ -4035,10 +4046,10 @@ L_CFBD2:
   LDX.W $068B                                     ; 0CFC15 AE 8B 06 
   LDA.B #$B4                                      ; 0CFC18 A9 B4 
   STA.W EntityV15,X                                   ; 0CFC1A 9D 80 0D 
-  STZ.W EntityV5,X                                   ; 0CFC1D 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 0CFC20 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 0CFC23 9E F0 09 
-  STZ.W EntityV8,X                                   ; 0CFC26 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 0CFC1D 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 0CFC20 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 0CFC23 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 0CFC26 9E 62 0A 
   LDX.W $068E                                     ; 0CFC29 AE 8E 06 
   LDA.B #$71                                      ; 0CFC2C A9 71 
   STA.W EntityTypeId,X                                   ; 0CFC2E 9D 44 07 
@@ -4097,7 +4108,7 @@ B_CFCDD:
   PHA                                             ; 0CFCEB 48 
   JSL IncreasePlayerScore                                      ; 0CFCEC 22 6D E4 00 
   PLA                                             ; 0CFCF0 68 
-  LDY.W $069E                                     ; 0CFCF1 AC 9E 06 
+  LDY.W MutoidType                                     ; 0CFCF1 AC 9E 06 
   BEQ.B B_CFCFA                                   ; 0CFCF4 F0 04 
 
 .byte $22,$6D,$E4,$00                             ; 0CFCF7 ....     "m??

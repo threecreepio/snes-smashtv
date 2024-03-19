@@ -11,10 +11,10 @@ ClearAllEntities:
   stz EntityTypeId,X                              ; 
   stz EntityV2,X                                  ; 
   stz EntityV3,X                                  ; 
-  stz EntityV5,X                                  ; 
-  stz EntityV6,X                                  ; 
-  stz EntityV7,X                                  ; 
-  stz EntityV8,X                                  ; 
+  stz EntityXSubSpeed,X                                  ; 
+  stz EntityXSpeed,X                                  ; 
+  stz EntityYSubSpeed,X                                  ; 
+  stz EntityYSpeed,X                                  ; 
   stz EntityXSubPx,X                              ; 
   stz EntityXPx,X                                 ; 
   stz EntityV11,X                                 ; 
@@ -91,10 +91,10 @@ B_38084:
 ClearEntitySlotData:
   php                                             ; store away processor state and switch to 8 bit mode
   sep #P_Idx8Bit | P_Acc8Bit                      ;
-  stz EntityV5,X                                  ; clear out a bunch of entity data
-  stz EntityV6,X                                  ; ...
-  stz EntityV7,X                                  ; ...
-  stz EntityV8,X                                  ; ...
+  stz EntityXSubSpeed,X                                  ; clear out a bunch of entity data
+  stz EntityXSpeed,X                                  ; ...
+  stz EntityYSubSpeed,X                                  ; ...
+  stz EntityYSpeed,X                                  ; ...
   stz EntityXSubPx,X                              ; ...
   stz EntityYSubPx,X                              ; ...
   stz EntityV2,X                                  ; ...
@@ -160,80 +160,80 @@ FindEmptyEntitySlot2:
 
 
 GameRunActiveEntities:
-  PHP                                             ; 03811E 08 
-  PHB                                             ; 03811F 8B 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 038120 E2 30 
-  LDA.B #$03                                      ; 038122 A9 03 
-  PHA                                             ; 038124 48 
-  PLB                                             ; 038125 AB 
-  JSR.W L_38148                                   ; 038126 20 48 81 
-  LDX.B #$71                                      ; 038129 A2 71 
-B_3812B:
-  LDA.W EntityHeader,X                                   ; 03812B BD D2 06 
-  BEQ.B AdvanceToNextEntity2                                   ; 03812E F0 12 
-  LDY.W EntityTypeId,X                                   ; 038130 BC 44 07 
-  LDA.W EntityHandlersHi,Y                                 ; 038133 B9 8E 87 
-  STA.B $04                                       ; 038136 85 04 
-  LDA.W EntityHandlersLo,Y                                 ; 038138 B9 38 88 
-  STA.B $05                                       ; 03813B 85 05 
-  PHX                                             ; 03813D DA 
-  JMP.W ($0004)                                   ; 03813E 6C 04 00 
+  php                                             ; store entrance state
+  phb                                             ;
+  sep #P_Idx8Bit | P_Acc8Bit                      ; use 8 bit mode
+  lda #$03                                        ; switch to data bank 3
+  pha                                             ;
+  plb                                             ;
+  jsr CommonEntityProcessing                      ; run common processing code
+  ldx #MaxEntities-1                              ; prepare to loop through each entity
+ProcessNextEntity:
+  lda EntityHeader,x                              ; is entity active?
+  beq AdvanceToNextEntity2                        ; no - skip to next
+  ldy EntityTypeId,x                              ; yes - get entity handler
+  lda EntityHandlersHi,y                          ;
+  sta $04                                         ;
+  lda EntityHandlersLo,y                          ;
+  sta $05                                         ;
+  phx                                             ; store object offset
+  jmp ($0004)                                     ; and run entity handler
 AdvanceToNextEntity:
-  PLX                                             ; 038141 FA 
+  plx                                             ; restore object offset
 AdvanceToNextEntity2:
-  DEX                                             ; 038142 CA 
-  BPL.B B_3812B                                   ; 038143 10 E6 
-  PLB                                             ; 038145 AB 
-  PLP                                             ; 038146 28 
-  RTL                                             ; 038147 6B 
+  dex                                             ; step to next entity to check
+  bpl ProcessNextEntity                           ; and run if there are more entity left to check
+  plb                                             ; restore entrance state
+  plp                                             ;
+  rtl                                             ; done!
 
-L_38148:
-  PHP                                             ; 038148 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 038149 E2 30 
-  LDX.B #$71                                      ; 03814B A2 71 
-B_3814D:
-  LDA.W EntityHeader,X                                   ; 03814D BD D2 06 
-  BEQ.B B_38190                                   ; 038150 F0 3E 
-  CLC                                             ; 038152 18 
-  LDA.W EntityV5,X                                   ; 038153 BD 0C 09 
-  ADC.W EntityXSubPx,X                                   ; 038156 7D D4 0A 
-  STA.W EntityXSubPx,X                                   ; 038159 9D D4 0A 
-  LDY.B #$00                                      ; 03815C A0 00 
-  LDA.W EntityV6,X                                   ; 03815E BD 7E 09 
-  BPL.B B_38164                                   ; 038161 10 01 
-  DEY                                             ; 038163 88 
-B_38164:
-  ADC.W EntityXPx,X                              ; 038164 7D 46 0B 
-  STA.W EntityXPx,X                              ; 038167 9D 46 0B 
-  TYA                                             ; 03816A 98 
+CommonEntityProcessing:
+  php                                             ; store entrance state
+  sep #P_Idx8Bit | P_Acc8Bit                      ; switch to 8 bit mode
+  ldx #MaxEntities-1                              ; and start looping through each entity
+@ProcessEntity:
+  lda EntityHeader,x                              ; is the entity active?
+  beq @NextEntity                                 ; no - skip to next entity
+  clc                                             ; yes - start running common code
+  lda EntityXSubSpeed,x                           ; deal with X movement
+  adc EntityXSubPx,x                              ;
+  sta EntityXSubPx,x                              ;
+  ldy #$00                                        ; default to right movement
+  lda EntityXSpeed,x                              ; get full px movement speed
+  bpl @AddX                                       ;
+  dey                                             ; invert y to match sign
+@AddX:
+  adc EntityXPx,x                                 ; then add full pixel movement value + carry
+  sta EntityXPx,x                                 ;
+  tya                                             ; 03816A 98 
   ADC.W EntityV11,X                                   ; 03816B 7D B8 0B 
   STA.W EntityV11,X                                   ; 03816E 9D B8 0B 
-  CLC                                             ; 038171 18 
-  LDA.W EntityV7,X                                   ; 038172 BD F0 09 
-  ADC.W EntityYSubPx,X                                   ; 038175 7D 2A 0C 
-  STA.W EntityYSubPx,X                                   ; 038178 9D 2A 0C 
-  LDY.B #$00                                      ; 03817B A0 00 
-  LDA.W EntityV8,X                                   ; 03817D BD 62 0A 
-  BPL.B B_38183                                   ; 038180 10 01 
-  DEY                                             ; 038182 88 
-B_38183:
-  ADC.W EntityYPx,X                                   ; 038183 7D 9C 0C 
-  STA.W EntityYPx,X                                   ; 038186 9D 9C 0C 
-  TYA                                             ; 038189 98 
-  ADC.W EntityV14,X                                   ; 03818A 7D 0E 0D 
-  STA.W EntityV14,X                                   ; 03818D 9D 0E 0D 
-B_38190:
-  DEX                                             ; 038190 CA 
-  BPL.B B_3814D                                   ; 038191 10 BA 
-  PLP                                             ; 038193 28 
-  RTS                                             ; 038194 60 
+  clc                                             ;
+  lda EntityYSubSpeed,x                           ; deal with Y movement
+  adc EntityYSubPx,x                              ;
+  sta EntityYSubPx,x                              ;
+  ldy #$00                                        ; default to up movement
+  lda EntityYSpeed,x                              ; get full px movement speed
+  bpl @AddY                                       ;
+  dey                                             ; invert y to match sign
+@AddY:
+  adc EntityYPx,x                                 ; then add full pixel movement value + carry
+  sta EntityYPx,x                                 ;
+  tya                                             ; 038189 98 
+  ADC.W EntityV14,X                               ; 03818A 7D 0E 0D 
+  STA.W EntityV14,X                               ; 03818D 9D 0E 0D 
+@NextEntity:
+  dex                                             ; step to next entity
+  bpl @ProcessEntity                              ; and loop back until done
+  plp                                             ; restore entrance state
+  rts                                             ; done!
 
 
 L_38195:
   STA.B $04                                       ; 038195 85 04 
-  LDA.W EntityV6,X                                   ; 038197 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 038197 BD 7E 09 
   BMI.B B_381C6                                   ; 03819A 30 2A 
-  ORA.W EntityV5,X                                   ; 03819C 1D 0C 09 
+  ORA.W EntityXSubSpeed,X                                   ; 03819C 1D 0C 09 
   BEQ.B B_381E9                                   ; 03819F F0 48 
   SEC                                             ; 0381A1 38 
   LDA.B #$EE                                      ; 0381A2 A9 EE 
@@ -259,9 +259,9 @@ B_381C6:
 .byte $09                                         ; 0381E9 .        ?
 
 B_381E9:
-  LDA.W EntityV8,X                                   ; 0381E9 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 0381E9 BD 62 0A 
   BMI.B B_38218                                   ; 0381EC 30 2A 
-  ORA.W EntityV7,X                                   ; 0381EE 1D F0 09 
+  ORA.W EntityYSubSpeed,X                                   ; 0381EE 1D F0 09 
   BEQ.B B_3823B                                   ; 0381F1 F0 48 
   SEC                                             ; 0381F3 38 
   LDA.B #$DC                                      ; 0381F4 A9 DC 
@@ -269,15 +269,15 @@ B_381E9:
   CMP.W EntityYPx,X                                   ; 0381F8 DD 9C 0C 
   BCS.B B_3823B                                   ; 0381FB B0 3E 
   STA.W EntityYPx,X                                   ; 0381FD 9D 9C 0C 
-  LDA.W EntityV8,X                                   ; 038200 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 038200 BD 62 0A 
   BMI.B B_3823B                                   ; 038203 30 36 
   SEC                                             ; 038205 38 
   LDA.B #$00                                      ; 038206 A9 00 
-  SBC.W EntityV7,X                                   ; 038208 FD F0 09 
-  STA.W EntityV7,X                                   ; 03820B 9D F0 09 
+  SBC.W EntityYSubSpeed,X                                   ; 038208 FD F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03820B 9D F0 09 
   LDA.B #$00                                      ; 03820E A9 00 
-  SBC.W EntityV8,X                                   ; 038210 FD 62 0A 
-  STA.W EntityV8,X                                   ; 038213 9D 62 0A 
+  SBC.W EntityYSpeed,X                                   ; 038210 FD 62 0A 
+  STA.W EntityYSpeed,X                                   ; 038213 9D 62 0A 
   BRA.B B_3823B                                   ; 038216 80 23 
 B_38218:
   CLC                                             ; 038218 18 
@@ -286,15 +286,15 @@ B_38218:
   CMP.W EntityYPx,X                                   ; 03821D DD 9C 0C 
   BCC.B B_3823B                                   ; 038220 90 19 
   STA.W EntityYPx,X                                   ; 038222 9D 9C 0C 
-  LDA.W EntityV8,X                                   ; 038225 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 038225 BD 62 0A 
   BPL.B B_3823B                                   ; 038228 10 11 
   SEC                                             ; 03822A 38 
   LDA.B #$00                                      ; 03822B A9 00 
-  SBC.W EntityV7,X                                   ; 03822D FD F0 09 
-  STA.W EntityV7,X                                   ; 038230 9D F0 09 
+  SBC.W EntityYSubSpeed,X                                   ; 03822D FD F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 038230 9D F0 09 
   LDA.B #$00                                      ; 038233 A9 00 
-  SBC.W EntityV8,X                                   ; 038235 FD 62 0A 
-  STA.W EntityV8,X                                   ; 038238 9D 62 0A 
+  SBC.W EntityYSpeed,X                                   ; 038235 FD 62 0A 
+  STA.W EntityYSpeed,X                                   ; 038238 9D 62 0A 
 B_3823B:
   RTS                                             ; 03823B 60 
 
@@ -530,28 +530,177 @@ D_386FF:
 .byte $FF,$AD,$FF,$CE,$FF,$F0,$FF                 ; 038788 DDDDDDD  ???????
 
 EntityHandlersHi:
-.byte <$88E2,<$88E5,<$89B6,<$8A0E,<$8A11,<$8B6B,<$8BC3,<$8C18
-.byte <$8C42,<$8C9A,<$8CF2,<$8D08,<$8D98,<$8E5F,<$8F81,<$8FEF
-.byte <$9014,<$90A0,<$90F8,<$914D,<$922D,<$9484,<$952C,<$97C2
-.byte <$98DD,<$9A2E,<$9CF4,<$9E54,<$A046,<$A112,<$A1D3,<$A314
-.byte <$A44E,<$A561,<$A601,<$A783,<$A8BD,<$A97F,<$AA4D,<$AAF8
-.byte <$A314,<$ABB3,<$ACF4,<$91C0,<$AE09,<$AEEA,<$B01A,<$B087
-.byte <$B20E,<$B2C0,<$B341,<$B341,<$B341,<$B413,<$B4F1,<$B5B0
-.byte <$B66D,<$B719,<$B771,<$B846,<$B8CA,<$B8CA,<$B8CA,<$B8CA
-.byte <$B8CA,<$B8CA,<$B8CA,<$B8CA,<$B8CA,<$B8CA,<$B8CA,<$B96F
-.byte <$BA04,<$BACE,<$BB5D,<$BBCE,<$BC66,<$BCDF,<$BD76,<$BE60
-.byte <$BF35,<$C056,<$C0CC,<$C151,<$C158,<$C233,<$C36D,<$C416
-.byte <$C472,<$C4F6,<$C574,<$C7AC,<$C854,<$CA45,<$CAD3,<$CB61
-.byte <$CBCE,<$CBD1,<$CBD4,<$CBD7,<$CCFB,<$CEE9,<$D053,<$D1A4
-.byte <$D1A7,<$D23A,<$D299,<$D32A,<$D3FA,<$D426,<$D60B,<$D65A
-.byte <$D71C,<$D75D,<$D7BA,<$D7F9,<$D835,<$D873,<$D8DA,<$D9B1
-.byte <$DC29,<$DC5C,<$DCA7,<$DD53,<$DDFA,<$DE31,<$DE93,<$DEAF
-.byte <$DF5E,<$DF61,<$E52C,<$E574,<$E5DB,<$E623,<$E644,<$E665
-.byte <$E668,<$E66B,<$E66E,<$E671,<$E87B,<$EA7B,<$B341,<$EAF9
-.byte <$EAFC,<$EB6C,<$EBF6,<$EC6E,<$ECC8,<$ED73,<$F112,<$F22D
-.byte <$F25A,<$F2B8,<$F322,<$F3A0,<$F3C9,<$F450,<$F4CF,<$F534
-.byte <$F5C9,<$F60F,<$F628,<$F62B,<$F62E,<$F631,<$F634,<$F6C8
-.byte <$F77E,<$F856
+.byte <$88E2     ; 00 - 
+.byte <$88E5     ; 01 - 
+.byte <$89B6     ; 02 - 
+.byte <$8A0E     ; 03 - 
+.byte <$8A11     ; 04 - 
+.byte <$8B6B     ; 05 - 
+.byte <$8BC3     ; 06 - 
+.byte <$8C18     ; 07 - 
+.byte <$8C42     ; 08 - 
+.byte <$8C9A     ; 09 - 
+.byte <$8CF2     ; 0A - 
+.byte <$8D08     ; 0B - 
+.byte <$8D98     ; 0C - 
+.byte <$8E5F     ; 0D - 
+.byte <$8F81     ; 0E - 
+.byte <$8FEF     ; 0F - 
+.byte <$9014     ; 10 - 
+.byte <$90A0     ; 11 - 
+.byte <$90F8     ; 12 - 
+.byte <$914D     ; 13 - 
+.byte <$922D     ; 14 - 
+.byte <$9484     ; 15 - 
+.byte <$952C     ; 16 - 
+.byte <$97C2     ; 17 - 
+.byte <$98DD     ; 18 - 
+.byte <$9A2E     ; 19 - 
+.byte <$9CF4     ; 1A - 
+.byte <$9E54     ; 1B - 
+.byte <$A046     ; 1C - 
+.byte <$A112     ; 1D - 
+.byte <$A1D3     ; 1E - 
+.byte <$A314     ; 1F - 
+.byte <$A44E     ; 20 - 
+.byte <$A561     ; 21 - 
+.byte <$A601     ; 22 - 
+.byte <$A783     ; 23 - 
+.byte <$A8BD     ; 24 - 
+.byte <$A97F     ; 25 - 
+.byte <$AA4D     ; 26 - 
+.byte <$AAF8     ; 27 - 
+.byte <$A314     ; 28 - 
+.byte <$ABB3     ; 29 - 
+.byte <$ACF4     ; 2A - 
+.byte <$91C0     ; 2B - 
+.byte <$AE09     ; 2C - 
+.byte <$AEEA     ; 2D - 
+.byte <$B01A     ; 2E - 
+.byte <$B087     ; 2F - 
+.byte <$B20E     ; 30 - 
+.byte <$B2C0     ; 31 - 
+.byte <$B341     ; 32 - 
+.byte <$B341     ; 33 - 
+.byte <$B341     ; 34 - 
+.byte <$B413     ; 35 - 
+.byte <$B4F1     ; 36 - 
+.byte <$B5B0     ; 37 - 
+.byte <$B66D     ; 38 - 
+.byte <$B719     ; 39 - 
+.byte <$B771     ; 3A - 
+.byte <$B846     ; 3B - 
+.byte <$B8CA     ; 3C - 
+.byte <$B8CA     ; 3D - 
+.byte <$B8CA     ; 3E - 
+.byte <$B8CA     ; 3F - 
+.byte <$B8CA     ; 40 - 
+.byte <$B8CA     ; 41 - 
+.byte <$B8CA     ; 42 - 
+.byte <$B8CA     ; 43 - 
+.byte <$B8CA     ; 44 - 
+.byte <$B8CA     ; 45 - 
+.byte <$B8CA     ; 46 - 
+.byte <$B96F     ; 47 - 
+.byte <$BA04     ; 48 - 
+.byte <$BACE     ; 49 - 
+.byte <$BB5D     ; 4A - 
+.byte <$BBCE     ; 4B - 
+.byte <$BC66     ; 4C - 
+.byte <$BCDF     ; 4D - 
+.byte <$BD76     ; 4E - 
+.byte <$BE60     ; 4F - 
+.byte <$BF35     ; 50 - 
+.byte <$C056     ; 51 - 
+.byte <$C0CC     ; 52 - 
+.byte <$C151     ; 53 - 
+.byte <EntityHandler_SwirlyHead     ; 54 - Swirly Head
+.byte <ENtityHandler_SwirlyBody     ; 55 - Swirly Body
+.byte <$C36D     ; 56 - 
+.byte <$C416     ; 57 - 
+.byte <$C472     ; 58 - 
+.byte <$C4F6     ; 59 - 
+.byte <$C574     ; 5A - 
+.byte <$C7AC     ; 5B - 
+.byte <$C854     ; 5C - 
+.byte <$CA45     ; 5D - 
+.byte <$CAD3     ; 5E - 
+.byte <$CB61     ; 5F - 
+.byte <$CBCE     ; 60 - 
+.byte <$CBD1     ; 61 - 
+.byte <$CBD4     ; 62 - 
+.byte <$CBD7     ; 63 - 
+.byte <$CCFB     ; 64 - 
+.byte <$CEE9     ; 65 - 
+.byte <$D053     ; 66 - 
+.byte <$D1A4     ; 67 - 
+.byte <$D1A7     ; 68 - 
+.byte <$D23A     ; 69 - 
+.byte <$D299     ; 6A - 
+.byte <$D32A     ; 6B - 
+.byte <$D3FA     ; 6C - 
+.byte <$D426     ; 6D - 
+.byte <$D60B     ; 6E - 
+.byte <EntityHandler_MutoidManHead     ; 6F - 
+.byte <EntityHandler_MutoidHead_FireLaser     ; 70 - 
+.byte <EntityHandler_MutoidHead_Damage     ; 71 - 
+.byte <$D7BA     ; 72 - 
+.byte <EntityHandler_MutoidMan73     ; 73 - 
+.byte <EntityHandler_MutoidMan74     ; 74 - 
+.byte <$D873     ; 75 - 
+.byte <EntityHandler_MutoidLaser76     ; 76 - 
+.byte <EntityHandler_MutoidLaser77     ; 77 - 
+.byte <$DC29     ; 78 - 
+.byte <EntityHandler_MutoidBody_Still     ; 79 - 
+.byte <EntityHandler_MutoidBody_Vertical     ; 7A - 
+.byte <EntityHandler_MutoidBody_Horizontal     ; 7B - 
+.byte <$DDFA     ; 7C - 
+.byte <EntityHandler_MutoidBody_Explode     ; 7D - 
+.byte <$DE93     ; 7E - 
+.byte <$DEAF     ; 7F - 
+.byte <$DF5E     ; 80 - 
+.byte <$DF61     ; 81 - 
+.byte <EntityHandler_MutoidMan_LeftArmExplode     ; 82 - 
+.byte <EntityHandler_MutoidMan_RightArmDamage     ; 83 - 
+.byte <EntityHandler_MutoidMan_RightArmExplode     ; 84 - 
+.byte <EntityHandler_MutoidMan_LeftArmGone     ; 85 - 
+.byte <EntityHandler_MutoidMan_RightArmGone     ; 86 - 
+.byte <$E665     ; 87 - 
+.byte <$E668     ; 88 - 
+.byte <$E66B     ; 89 - 
+.byte <$E66E     ; 8A - 
+.byte <$E671     ; 8B - 
+.byte <$E87B     ; 8C - 
+.byte <$EA7B     ; 8D - 
+.byte <$B341     ; 8E - 
+.byte <$EAF9     ; 8F - 
+.byte <$EAFC     ; 90 - 
+.byte <$EB6C     ; 91 - 
+.byte <EntityHandler_WallGun     ; 92 - 
+.byte <$EC6E     ; 93 - 
+.byte <$ECC8     ; 94 - 
+.byte <$ED73     ; 95 - 
+.byte <$F112     ; 96 - 
+.byte <$F22D     ; 97 - 
+.byte <$F25A     ; 98 - 
+.byte <$F2B8     ; 99 - 
+.byte <$F322     ; 9A - 
+.byte <$F3A0     ; 9B - 
+.byte <$F3C9     ; 9C - 
+.byte <$F450     ; 9D - 
+.byte <$F4CF     ; 9E - 
+.byte <$F534     ; 9F - 
+.byte <$F5C9     ; A0 - 
+.byte <$F60F     ; A1 - 
+.byte <$F628     ; A2 - 
+.byte <$F62B     ; A3 - 
+.byte <$F62E     ; A4 - 
+.byte <$F631     ; A5 - 
+.byte <$F634     ; A6 - 
+.byte <$F6C8     ; A7 - 
+.byte <$F77E     ; A8 - 
+.byte <$F856     ; A9 - 
+
 EntityHandlersLo:
 .byte >$88E2,>$88E5,>$89B6,>$8A0E,>$8A11,>$8B6B,>$8BC3,>$8C18
 .byte >$8C42,>$8C9A,>$8CF2,>$8D08,>$8D98,>$8E5F,>$8F81,>$8FEF
@@ -577,6 +726,7 @@ EntityHandlersLo:
 .byte >$F77E,>$F856
 
   JMP.W AdvanceToNextEntity                                   ; 0388E2 4C 41 81 
+
   DEC.W EntityV15,X                                   ; 0388E5 DE 80 0D 
   BNE.B B_38947                                   ; 0388E8 D0 5D 
   LDA.W EntityV20,X                                   ; 0388EA BD BA 0F 
@@ -616,15 +766,15 @@ B_388FA:
   ASL                                             ; 038936 0A 
   TAY                                             ; 038937 A8 
   LDA.W D_38996,Y                                 ; 038938 B9 96 89 
-  STA.W EntityV6,X                                   ; 03893B 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03893B 9D 7E 09 
   LDA.W D_38997,Y                                 ; 03893E B9 97 89 
-  STA.W EntityV8,X                                   ; 038941 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 038941 9D 62 0A 
   INC.W EntityV20,X                                   ; 038944 FE BA 0F 
 B_38947:
   JMP.W AdvanceToNextEntity                                   ; 038947 4C 41 81 
 B_3894A:
   STZ.W $052C                                     ; 03894A 9C 2C 05 
-  STZ.W EntityV6,X                                   ; 03894D 9E 7E 09 
+  STZ.W EntityXSpeed,X                                   ; 03894D 9E 7E 09 
   STZ.W EntityTypeId,X                                   ; 038950 9E 44 07 
   JMP.W AdvanceToNextEntity                                   ; 038953 4C 41 81 
 
@@ -1445,9 +1595,9 @@ B_38FE8:
   STA.B $07                                       ; 03900B 85 07 
   JSL L_AF42                                      ; 03900D 22 42 AF 00 
   JMP.W AdvanceToNextEntity                                   ; 039011 4C 41 81 
-  LDA.W EntityV6,X                                   ; 039014 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 039014 BD 7E 09 
   BMI.B B_3902B                                   ; 039017 30 12 
-  ORA.W EntityV5,X                                   ; 039019 1D 0C 09 
+  ORA.W EntityXSubSpeed,X                                   ; 039019 1D 0C 09 
   BEQ.B B_39038                                   ; 03901C F0 1A 
   LDA.B #$EE                                      ; 03901E A9 EE 
   CMP.W EntityXPx,X                              ; 039020 DD 46 0B 
@@ -1461,9 +1611,9 @@ B_3902B:
   STA.W EntityXPx,X                              ; 039032 9D 46 0B 
   JMP.W D_39079                                   ; 039035 4C 79 90 
 B_39038:
-  LDA.W EntityV8,X                                   ; 039038 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 039038 BD 62 0A 
   BMI.B B_3904F                                   ; 03903B 30 12 
-  ORA.W EntityV7,X                                   ; 03903D 1D F0 09 
+  ORA.W EntityYSubSpeed,X                                   ; 03903D 1D F0 09 
   BEQ.B B_3905C                                   ; 039040 F0 1A 
   LDA.B #$DC                                      ; 039042 A9 DC 
   CMP.W EntityYPx,X                                   ; 039044 DD 9C 0C 
@@ -1814,13 +1964,13 @@ B_393A1:
   ADC.B $0D                                       ; 0393B5 65 0D 
   TAY                                             ; 0393B7 A8 
   LDA.W D_39464,Y                                 ; 0393B8 B9 64 94 
-  STA.W EntityV5,X                                   ; 0393BB 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 0393BB 9D 0C 09 
   LDA.W D_39465,Y                                 ; 0393BE B9 65 94 
-  STA.W EntityV6,X                                   ; 0393C1 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 0393C1 9D 7E 09 
   LDA.W D_39474,Y                                 ; 0393C4 B9 74 94 
-  STA.W EntityV7,X                                   ; 0393C7 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 0393C7 9D F0 09 
   LDA.W D_39475,Y                                 ; 0393CA B9 75 94 
-  STA.W EntityV8,X                                   ; 0393CD 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 0393CD 9D 62 0A 
   LDY.B $06                                       ; 0393D0 A4 06 
   LDA.W D_39438,Y                                 ; 0393D2 B9 38 94 
   STA.W EntityV23,X                                   ; 0393D5 9D 10 11 
@@ -1933,13 +2083,13 @@ B_394B5:
   ADC.B $04                                       ; 0394F9 65 04 
   TAY                                             ; 0394FB A8 
   LDA.W D_396E2,Y                                 ; 0394FC B9 E2 96 
-  STA.W EntityV5,X                                   ; 0394FF 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 0394FF 9D 0C 09 
   LDA.W D_396E3,Y                                 ; 039502 B9 E3 96 
-  STA.W EntityV6,X                                   ; 039505 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 039505 9D 7E 09 
   LDA.W D_39732,Y                                 ; 039508 B9 32 97 
-  STA.W EntityV7,X                                   ; 03950B 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03950B 9D F0 09 
   LDA.W D_39733,Y                                 ; 03950E B9 33 97 
-  STA.W EntityV8,X                                   ; 039511 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 039511 9D 62 0A 
   LDA.B #$16                                      ; 039514 A9 16 
   STA.W EntityTypeId,X                                   ; 039516 9D 44 07 
 B_39519:
@@ -1952,9 +2102,9 @@ D_39524:
 
   DEC.W EntityV15,X                                   ; 03952C DE 80 0D 
   BEQ.B B_3956A                                   ; 03952F F0 39 
-  LDA.W EntityV6,X                                   ; 039531 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 039531 BD 7E 09 
   BMI.B B_39545                                   ; 039534 30 0F 
-  ORA.W EntityV5,X                                   ; 039536 1D 0C 09 
+  ORA.W EntityXSubSpeed,X                                   ; 039536 1D 0C 09 
   BEQ.B B_3954C                                   ; 039539 F0 11 
   LDA.W EntityXPx,X                              ; 03953B BD 46 0B 
   CMP.B #$E7                                      ; 03953E C9 E7 
@@ -1965,9 +2115,9 @@ B_39545:
   CMP.B #$19                                      ; 039548 C9 19 
   BCC.B B_3956A                                   ; 03954A 90 1E 
 B_3954C:
-  LDA.W EntityV8,X                                   ; 03954C BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03954C BD 62 0A 
   BMI.B B_39560                                   ; 03954F 30 0F 
-  ORA.W EntityV7,X                                   ; 039551 1D F0 09 
+  ORA.W EntityYSubSpeed,X                                   ; 039551 1D F0 09 
   BEQ.B B_39567                                   ; 039554 F0 11 
   LDA.W EntityYPx,X                                   ; 039556 BD 9C 0C 
   CMP.B #$D4                                      ; 039559 C9 D4 
@@ -2073,13 +2223,13 @@ B_39600:
   ADC.B $04                                       ; 039626 65 04 
   TAY                                             ; 039628 A8 
   LDA.W D_396E2,Y                                 ; 039629 B9 E2 96 
-  STA.W EntityV5,X                                   ; 03962C 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03962C 9D 0C 09 
   LDA.W D_396E3,Y                                 ; 03962F B9 E3 96 
-  STA.W EntityV6,X                                   ; 039632 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 039632 9D 7E 09 
   LDA.W D_39732,Y                                 ; 039635 B9 32 97 
-  STA.W EntityV7,X                                   ; 039638 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 039638 9D F0 09 
   LDA.W D_39733,Y                                 ; 03963B B9 33 97 
-  STA.W EntityV8,X                                   ; 03963E 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03963E 9D 62 0A 
 D_39641:
   SEC                                             ; 039641 38 
   LDA.W EntityXPx,X                              ; 039642 BD 46 0B 
@@ -2584,9 +2734,9 @@ B_3A07D:
   LDA.W D_3A10A,Y                                 ; 03A081 B9 0A A1 
   STA.W EntityV29,X                                   ; 03A084 9D BC 13 
 B_3A087:
-  LDA.W EntityV6,X                                   ; 03A087 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03A087 BD 7E 09 
   BMI.B B_3A0A0                                   ; 03A08A 30 14 
-  ORA.W EntityV5,X                                   ; 03A08C 1D 0C 09 
+  ORA.W EntityXSubSpeed,X                                   ; 03A08C 1D 0C 09 
   BEQ.B B_3A0AF                                   ; 03A08F F0 1E 
   LDA.B #$F7                                      ; 03A091 A9 F7 
   CMP.W EntityXPx,X                              ; 03A093 DD 46 0B 
@@ -2602,9 +2752,9 @@ B_3A0A0:
   LDY.B #$03                                      ; 03A0AA A0 03 
   JMP.W D_3A0E5                                   ; 03A0AC 4C E5 A0 
 B_3A0AF:
-  LDA.W EntityV8,X                                   ; 03A0AF BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03A0AF BD 62 0A 
   BMI.B B_3A0C8                                   ; 03A0B2 30 14 
-  ORA.W EntityV7,X                                   ; 03A0B4 1D F0 09 
+  ORA.W EntityYSubSpeed,X                                   ; 03A0B4 1D F0 09 
   BEQ.B B_3A0D6                                   ; 03A0B7 F0 1D 
   LDA.B #$E8                                      ; 03A0B9 A9 E8 
   CMP.W EntityYPx,X                                   ; 03A0BB DD 9C 0C 
@@ -2716,13 +2866,13 @@ B_3A181:
   ASL                                             ; 03A189 0A 
   TAY                                             ; 03A18A A8 
   LDA.W D_384EE,Y                                 ; 03A18B B9 EE 84 
-  STA.W EntityV5,X                                   ; 03A18E 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03A18E 9D 0C 09 
   LDA.W D_384EF,Y                                 ; 03A191 B9 EF 84 
-  STA.W EntityV6,X                                   ; 03A194 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03A194 9D 7E 09 
   LDA.W D_3856E,Y                                 ; 03A197 B9 6E 85 
-  STA.W EntityV7,X                                   ; 03A19A 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03A19A 9D F0 09 
   LDA.W D_3856F,Y                                 ; 03A19D B9 6F 85 
-  STA.W EntityV8,X                                   ; 03A1A0 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03A1A0 9D 62 0A 
   LDA.B #$E6                                      ; 03A1A3 A9 E6 
   STA.W EntityV29,X                                   ; 03A1A5 9D BC 13 
   LDA.B #$32                                      ; 03A1A8 A9 32 
@@ -3152,11 +3302,11 @@ B_3A1D0:
   ASL                                             ; 03AE29 0A 
   TAY                                             ; 03AE2A A8 
   LDA.W D_3AEE6,Y                                 ; 03AE2B B9 E6 AE 
-  STA.W EntityV7,X                                   ; 03AE2E 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03AE2E 9D F0 09 
   LDA.W D_3AEE7,Y                                 ; 03AE31 B9 E7 AE 
-  STA.W EntityV8,X                                   ; 03AE34 9D 62 0A 
-  STZ.W EntityV5,X                                   ; 03AE37 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03AE3A 9E 7E 09 
+  STA.W EntityYSpeed,X                                   ; 03AE34 9D 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03AE37 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03AE3A 9E 7E 09 
   JMP.W D_3AE62                                   ; 03AE3D 4C 62 AE 
 B_3AE40:
   JSL AdvanceRNG                                     ; 03AE40 22 95 CA 0E 
@@ -3168,11 +3318,11 @@ B_3AE40:
   ASL                                             ; 03AE4E 0A 
   TAY                                             ; 03AE4F A8 
   LDA.W D_3AEE6,Y                                 ; 03AE50 B9 E6 AE 
-  STA.W EntityV5,X                                   ; 03AE53 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03AE53 9D 0C 09 
   LDA.W D_3AEE7,Y                                 ; 03AE56 B9 E7 AE 
-  STA.W EntityV6,X                                   ; 03AE59 9D 7E 09 
-  STZ.W EntityV7,X                                   ; 03AE5C 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03AE5F 9E 62 0A 
+  STA.W EntityXSpeed,X                                   ; 03AE59 9D 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03AE5C 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03AE5F 9E 62 0A 
 D_3AE62:
   LDA.B #$2D                                      ; 03AE62 A9 2D 
   STA.W EntityTypeId,X                                   ; 03AE64 9D 44 07 
@@ -3320,13 +3470,13 @@ D_3AF5A:
   ASL                                             ; 03AF6F 0A 
   TAY                                             ; 03AF70 A8 
   LDA.W D_3AFEA,Y                                 ; 03AF71 B9 EA AF 
-  STA.W EntityV5,X                                   ; 03AF74 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03AF74 9D 0C 09 
   LDA.W D_3AFEB,Y                                 ; 03AF77 B9 EB AF 
-  STA.W EntityV6,X                                   ; 03AF7A 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03AF7A 9D 7E 09 
   LDA.W D_3AFF2,Y                                 ; 03AF7D B9 F2 AF 
-  STA.W EntityV7,X                                   ; 03AF80 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03AF80 9D F0 09 
   LDA.W D_3AFF3,Y                                 ; 03AF83 B9 F3 AF 
-  STA.W EntityV8,X                                   ; 03AF86 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03AF86 9D 62 0A 
 B_3AF89:
   LDA.B $D2                                       ; 03AF89 A5 D2 
   AND.B #$07                                      ; 03AF8B 29 07 
@@ -3343,10 +3493,10 @@ B_3AF89:
   LDA.W EntityV2,X                                   ; 03AFA7 BD B6 07 
   ORA.W D_3AFDE,Y                                 ; 03AFAA 19 DE AF 
   STA.W EntityV30,X                                   ; 03AFAD 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 03AFB0 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03AFB3 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03AFB6 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03AFB9 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03AFB0 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03AFB3 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03AFB6 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03AFB9 9E 62 0A 
 B_3AFBC:
   LDA.B #$08                                      ; 03AFBC A9 08 
   STA.B $1C                                       ; 03AFBE 85 1C 
@@ -3540,10 +3690,10 @@ B_3B100:
   STA.W EntityV29,X                                   ; 03B112 9D BC 13 
   LDA.B #$22                                      ; 03B115 A9 22 
   STA.W EntityV30,X                                   ; 03B117 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 03B11A 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03B11D 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03B120 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03B123 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03B11A 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03B11D 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03B120 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03B123 9E 62 0A 
   LDA.B #$04                                      ; 03B126 A9 04 
   STA.W EntityV28,X                                   ; 03B128 9D 4A 13 
   STZ.W EntityV27,X                                   ; 03B12B 9E D8 12 
@@ -3580,13 +3730,13 @@ B_3B145:
   ASL                                             ; 03B171 0A 
   TAY                                             ; 03B172 A8 
   LDA.W D_3B1EE,Y                                 ; 03B173 B9 EE B1 
-  STA.W EntityV5,X                                   ; 03B176 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03B176 9D 0C 09 
   LDA.W D_3B1EF,Y                                 ; 03B179 B9 EF B1 
-  STA.W EntityV6,X                                   ; 03B17C 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03B17C 9D 7E 09 
   LDA.W D_3B1FE,Y                                 ; 03B17F B9 FE B1 
-  STA.W EntityV7,X                                   ; 03B182 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03B182 9D F0 09 
   LDA.W D_3B1FF,Y                                 ; 03B185 B9 FF B1 
-  STA.W EntityV8,X                                   ; 03B188 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03B188 9D 62 0A 
   JSL L_AEBC                                      ; 03B18B 22 BC AE 00 
   TYA                                             ; 03B18F 98 
   STA.W EntityV31,X                                   ; 03B190 9D A0 14 
@@ -3671,13 +3821,13 @@ D_3B1FF:
   ASL                                             ; 03B22C 0A 
   TAY                                             ; 03B22D A8 
   LDA.W D_3B2B0,Y                                 ; 03B22E B9 B0 B2 
-  STA.W EntityV5,X                                   ; 03B231 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03B231 9D 0C 09 
   LDA.W D_3B2B1,Y                                 ; 03B234 B9 B1 B2 
-  STA.W EntityV6,X                                   ; 03B237 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03B237 9D 7E 09 
   LDA.W D_3B2B8,Y                                 ; 03B23A B9 B8 B2 
-  STA.W EntityV7,X                                   ; 03B23D 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03B23D 9D F0 09 
   LDA.W D_3B2B9,Y                                 ; 03B240 B9 B9 B2 
-  STA.W EntityV8,X                                   ; 03B243 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03B243 9D 62 0A 
 B_3B246:
   SEC                                             ; 03B246 38 
   LDA.W EntityXPx,X                              ; 03B247 BD 46 0B 
@@ -3823,9 +3973,9 @@ B_3B32F:
   STA.B $1D                                       ; 03B338 85 1D 
   JSL L_AFC2                                      ; 03B33A 22 C2 AF 00 
   JMP.W AdvanceToNextEntity                                   ; 03B33E 4C 41 81 
-  LDA.W EntityV6,X                                   ; 03B341 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03B341 BD 7E 09 
   BMI.B B_3B35A                                   ; 03B344 30 14 
-  ORA.W EntityV5,X                                   ; 03B346 1D 0C 09 
+  ORA.W EntityXSubSpeed,X                                   ; 03B346 1D 0C 09 
   BEQ.B B_3B369                                   ; 03B349 F0 1E 
   LDA.B #$EE                                      ; 03B34B A9 EE 
   CMP.W EntityXPx,X                              ; 03B34D DD 46 0B 
@@ -3841,9 +3991,9 @@ B_3B35A:
   LDY.B #$03                                      ; 03B364 A0 03 
   JMP.W D_3B3D3                                   ; 03B366 4C D3 B3 
 B_3B369:
-  LDA.W EntityV8,X                                   ; 03B369 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03B369 BD 62 0A 
   BMI.B B_3B382                                   ; 03B36C 30 14 
-  ORA.W EntityV7,X                                   ; 03B36E 1D F0 09 
+  ORA.W EntityYSubSpeed,X                                   ; 03B36E 1D F0 09 
   BEQ.B B_3B390                                   ; 03B371 F0 1D 
   LDA.B #$DC                                      ; 03B373 A9 DC 
   CMP.W EntityYPx,X                                   ; 03B375 DD 9C 0C 
@@ -3907,10 +4057,10 @@ D_3B3D3:
   LDA.B #$32                                      ; 03B3D9 A9 32 
   ORA.W D_3B40F,Y                                 ; 03B3DB 19 0F B4 
   STA.W EntityV30,X                                   ; 03B3DE 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 03B3E1 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03B3E4 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03B3E7 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03B3EA 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03B3E1 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03B3E4 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03B3E7 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03B3EA 9E 62 0A 
   LDA.B #$07                                      ; 03B3ED A9 07 
   STA.W EntityTypeId,X                                   ; 03B3EF 9D 44 07 
   LDA.B #$00                                      ; 03B3F2 A9 00 
@@ -3929,9 +4079,9 @@ D_3B40B:
 D_3B40F:
 .byte $01,$81,$01,$41                             ; 03B410 DDDD     ???A
 
-  LDA.W EntityV6,X                                   ; 03B413 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03B413 BD 7E 09 
   BMI.B B_3B42A                                   ; 03B416 30 12 
-  ORA.W EntityV5,X                                   ; 03B418 1D 0C 09 
+  ORA.W EntityXSubSpeed,X                                   ; 03B418 1D 0C 09 
   BEQ.B B_3B437                                   ; 03B41B F0 1A 
   LDA.B #$EE                                      ; 03B41D A9 EE 
   CMP.W EntityXPx,X                              ; 03B41F DD 46 0B 
@@ -3945,9 +4095,9 @@ B_3B42A:
   STA.W EntityXPx,X                              ; 03B431 9D 46 0B 
   JMP.W D_3B4A3                                   ; 03B434 4C A3 B4 
 B_3B437:
-  LDA.W EntityV8,X                                   ; 03B437 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03B437 BD 62 0A 
   BMI.B B_3B44E                                   ; 03B43A 30 12 
-  ORA.W EntityV7,X                                   ; 03B43C 1D F0 09 
+  ORA.W EntityYSubSpeed,X                                   ; 03B43C 1D F0 09 
   BEQ.B B_3B45B                                   ; 03B43F F0 1A 
   LDA.B #$DC                                      ; 03B441 A9 DC 
   CMP.W EntityYPx,X                                   ; 03B443 DD 9C 0C 
@@ -4015,10 +4165,10 @@ D_3B4A3:
   STA.W EntityV29,X                                   ; 03B4AF 9D BC 13 
   LDA.B #$32                                      ; 03B4B2 A9 32 
   STA.W EntityV30,X                                   ; 03B4B4 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 03B4B7 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03B4BA 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03B4BD 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03B4C0 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03B4B7 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03B4BA 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03B4BD 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03B4C0 9E 62 0A 
   LDA.B #$04                                      ; 03B4C3 A9 04 
   STA.W EntityV28,X                                   ; 03B4C5 9D 4A 13 
   STZ.W EntityV27,X                                   ; 03B4C8 9E D8 12 
@@ -4067,13 +4217,13 @@ B_3B506:
   ASL                                             ; 03B52F 0A 
   TAY                                             ; 03B530 A8 
   LDA.W D_384EE,Y                                 ; 03B531 B9 EE 84 
-  STA.W EntityV5,X                                   ; 03B534 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03B534 9D 0C 09 
   LDA.W D_384EF,Y                                 ; 03B537 B9 EF 84 
-  STA.W EntityV6,X                                   ; 03B53A 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03B53A 9D 7E 09 
   LDA.W D_3856E,Y                                 ; 03B53D B9 6E 85 
-  STA.W EntityV7,X                                   ; 03B540 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03B540 9D F0 09 
   LDA.W D_3856F,Y                                 ; 03B543 B9 6F 85 
-  STA.W EntityV8,X                                   ; 03B546 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03B546 9D 62 0A 
   LDA.W EntityV15,X                                   ; 03B549 BD 80 0D 
   TAY                                             ; 03B54C A8 
   INY                                             ; 03B54D C8 
@@ -4136,9 +4286,9 @@ B_3B596:
 D_3B5A8:
 .byte $02,$01,$00,$07,$06,$05,$04,$03             ; 03B5A8 DDDDDDDD ????????
 
-  LDA.W EntityV6,X                                   ; 03B5B0 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03B5B0 BD 7E 09 
   BMI.B B_3B5C7                                   ; 03B5B3 30 12 
-  ORA.W EntityV5,X                                   ; 03B5B5 1D 0C 09 
+  ORA.W EntityXSubSpeed,X                                   ; 03B5B5 1D 0C 09 
   BEQ.B B_3B5D4                                   ; 03B5B8 F0 1A 
   LDA.B #$EE                                      ; 03B5BA A9 EE 
   CMP.W EntityXPx,X                              ; 03B5BC DD 46 0B 
@@ -4152,9 +4302,9 @@ B_3B5C7:
   STA.W EntityXPx,X                              ; 03B5CE 9D 46 0B 
   JMP.W D_3B63A                                   ; 03B5D1 4C 3A B6 
 B_3B5D4:
-  LDA.W EntityV8,X                                   ; 03B5D4 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03B5D4 BD 62 0A 
   BMI.B B_3B5EB                                   ; 03B5D7 30 12 
-  ORA.W EntityV7,X                                   ; 03B5D9 1D F0 09 
+  ORA.W EntityYSubSpeed,X                                   ; 03B5D9 1D F0 09 
   BEQ.B B_3B5F7                                   ; 03B5DC F0 19 
   LDA.B #$DC                                      ; 03B5DE A9 DC 
   CMP.W EntityYPx,X                                   ; 03B5E0 DD 9C 0C 
@@ -4219,10 +4369,10 @@ D_3B63A:
   STA.W EntityV29,X                                   ; 03B646 9D BC 13 
   LDA.B #$32                                      ; 03B649 A9 32 
   STA.W EntityV30,X                                   ; 03B64B 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 03B64E 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03B651 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03B654 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03B657 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03B64E 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03B651 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03B654 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03B657 9E 62 0A 
   LDA.B #$04                                      ; 03B65A A9 04 
   STA.W EntityV28,X                                   ; 03B65C 9D 4A 13 
   STZ.W EntityV27,X                                   ; 03B65F 9E D8 12 
@@ -4258,13 +4408,13 @@ B_3B684:
   ASL                                             ; 03B6AD 0A 
   TAY                                             ; 03B6AE A8 
   LDA.W D_3866E,Y                                 ; 03B6AF B9 6E 86 
-  STA.W EntityV5,X                                   ; 03B6B2 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03B6B2 9D 0C 09 
   LDA.W D_3866F,Y                                 ; 03B6B5 B9 6F 86 
-  STA.W EntityV6,X                                   ; 03B6B8 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03B6B8 9D 7E 09 
   LDA.W D_386FE,Y                                 ; 03B6BB B9 FE 86 
-  STA.W EntityV7,X                                   ; 03B6BE 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03B6BE 9D F0 09 
   LDA.W D_386FF,Y                                 ; 03B6C1 B9 FF 86 
-  STA.W EntityV8,X                                   ; 03B6C4 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03B6C4 9D 62 0A 
   LDA.W EntityV15,X                                   ; 03B6C7 BD 80 0D 
   TAY                                             ; 03B6CA A8 
   INY                                             ; 03B6CB C8 
@@ -4472,10 +4622,10 @@ D_3B81E:
   STA.W EntityV29,X                                   ; 03B85C 9D BC 13 
   LDA.B #$32                                      ; 03B85F A9 32 
   STA.W EntityV30,X                                   ; 03B861 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 03B864 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03B867 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03B86A 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03B86D 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03B864 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03B867 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03B86A 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03B86D 9E 62 0A 
   LDA.B #$04                                      ; 03B870 A9 04 
   STA.W EntityV28,X                                   ; 03B872 9D 4A 13 
   STZ.W EntityV27,X                                   ; 03B875 9E D8 12 
@@ -4615,7 +4765,7 @@ D_3B961:
 .byte $06,$06,$06,$06,$06,$30                     ; 03B96A DDDDDD   ?????0
 
   LDA.B #$FF                                      ; 03B96F A9 FF 
-  STA.W $05AF                                     ; 03B971 8D AF 05 
+  STA.W PrizeTimer                                     ; 03B971 8D AF 05 
   LDA.W $05DF                                     ; 03B974 AD DF 05 
   BNE.B B_3B9B7                                   ; 03B977 D0 3E 
   DEC.W EntityV28,X                                   ; 03B979 DE 4A 13 
@@ -4671,7 +4821,7 @@ B_3B9D5:
 
 B_3B9D8:
   PLX                                             ; 03B9D8 FA 
-  LDA.W CurrentRound                                     ; 03B9D9 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 03B9D9 AD AB 05 
   CMP.B #$02                                      ; 03B9DC C9 02 
   BNE.B B_3B9E7                                   ; 03B9DE D0 07 
 
@@ -4682,14 +4832,14 @@ B_3B9E7:
   AND.B #$3F                                      ; 03B9EB 29 3F 
   CLC                                             ; 03B9ED 18 
   ADC.B #$40                                      ; 03B9EE 69 40 
-  STA.W $05AF                                     ; 03B9F0 8D AF 05 
+  STA.W PrizeTimer                                     ; 03B9F0 8D AF 05 
   JMP.W AdvanceToNextEntity                                   ; 03B9F3 4C 41 81 
 
 D_3B9F6:
 .byte $06,$06,$06,$06,$06,$06,$06,$06             ; 03B9F6 DDDDDDDD ????????
 .byte $06,$06,$06,$06,$06,$30                     ; 03B9FF DDDDDD   ?????0
 
-  LDA.W EntityV8,X                                   ; 03BA04 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03BA04 BD 62 0A 
   BMI.B B_3BA15                                   ; 03BA07 30 0C 
 
 .byte $1D,$F0,$09,$F0,$10,$BD,$9C,$0C             ; 03BA09 ........ ????????
@@ -4795,7 +4945,7 @@ D_3BABE:
 .byte $00,$01,$02,$00,$01,$02,$00,$01             ; 03BABE D..DDDDD ????????
 .byte $02,$00,$01,$02,$00,$01,$02,$00             ; 03BAC6 ..D..DDD ????????
 
-  LDA.W EntityV8,X                                   ; 03BACE BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03BACE BD 62 0A 
   BMI.B B_3BADF                                   ; 03BAD1 30 0C 
 
 .byte $1D,$F0,$09,$F0,$10,$BD,$9C,$0C             ; 03BAD3 ........ ????????
@@ -4863,7 +5013,7 @@ B_3BB3F:
   SEP.B #P_Idx8Bit                                      ; 03BB57 E2 10 
   PLX                                             ; 03BB59 FA 
   JMP.W AdvanceToNextEntity                                   ; 03BB5A 4C 41 81 
-  LDA.W EntityV8,X                                   ; 03BB5D BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03BB5D BD 62 0A 
   BMI.B B_3BB6E                                   ; 03BB60 30 0C 
 
 .byte $1D,$F0,$09,$F0,$10,$BD,$9C,$0C             ; 03BB62 ........ ????????
@@ -4978,7 +5128,7 @@ B_3BCA9:
 .byte $06,$06,$06,$06,$06,$06,$06,$06             ; 03BCD1 ........ ????????
 .byte $06,$06,$06,$06,$06,$30                     ; 03BCDA ......   ?????0
 
-  LDA.W EntityV8,X                                   ; 03BCDF BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03BCDF BD 62 0A 
   BMI.B B_3BCF0                                   ; 03BCE2 30 0C 
 
 .byte $1D,$F0,$09,$F0,$10,$BD,$9C,$0C             ; 03BCE4 ........ ????????
@@ -5174,6 +5324,7 @@ D_3BD71:
 .byte $1D,$22,$C2,$AF,$00,$4C,$41,$81             ; 03C149 ........ ?"???LA?
 .byte $22,$4E,$F7,$0C,$4C,$41,$81                 ; 03C152 .......  "N??LA?
 
+EntityHandler_SwirlyHead:
   LDA.B #$08                                      ; 03C158 A9 08 
   JSR.W L_38195                                   ; 03C15A 20 95 81 
   LDY.W EntityV20,X                                   ; 03C15D BC BA 0F 
@@ -5181,40 +5332,40 @@ D_3BD71:
   CMP.W EntityXPx,Y                              ; 03C163 D9 46 0B 
   BCS.B B_3C179                                   ; 03C166 B0 11 
   CLC                                             ; 03C168 18 
-  LDA.W EntityV5,X                                   ; 03C169 BD 0C 09 
+  LDA.W EntityXSubSpeed,X                                   ; 03C169 BD 0C 09 
   ADC.B #$02                                      ; 03C16C 69 02 
-  STA.W EntityV5,X                                   ; 03C16E 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03C16E 9D 0C 09 
   BCC.B B_3C187                                   ; 03C171 90 14 
-  INC.W EntityV6,X                                   ; 03C173 FE 7E 09 
+  INC.W EntityXSpeed,X                                   ; 03C173 FE 7E 09 
   JMP.W B_3C187                                   ; 03C176 4C 87 C1 
 B_3C179:
   SEC                                             ; 03C179 38 
-  LDA.W EntityV5,X                                   ; 03C17A BD 0C 09 
+  LDA.W EntityXSubSpeed,X                                   ; 03C17A BD 0C 09 
   SBC.B #$02                                      ; 03C17D E9 02 
-  STA.W EntityV5,X                                   ; 03C17F 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03C17F 9D 0C 09 
   BCS.B B_3C187                                   ; 03C182 B0 03 
-  DEC.W EntityV6,X                                   ; 03C184 DE 7E 09 
+  DEC.W EntityXSpeed,X                                   ; 03C184 DE 7E 09 
 B_3C187:
   LDA.W EntityYPx,X                                   ; 03C187 BD 9C 0C 
   CMP.W EntityYPx,Y                                   ; 03C18A D9 9C 0C 
   BCS.B B_3C1A0                                   ; 03C18D B0 11 
   CLC                                             ; 03C18F 18 
-  LDA.W EntityV7,X                                   ; 03C190 BD F0 09 
+  LDA.W EntityYSubSpeed,X                                   ; 03C190 BD F0 09 
   ADC.B #$02                                      ; 03C193 69 02 
-  STA.W EntityV7,X                                   ; 03C195 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03C195 9D F0 09 
   BCC.B B_3C1AE                                   ; 03C198 90 14 
 
 .byte $FE,$62,$0A,$4C,$AE,$C1                     ; 03C19B ......   ?b?L??
 
 B_3C1A0:
   SEC                                             ; 03C1A0 38 
-  LDA.W EntityV7,X                                   ; 03C1A1 BD F0 09 
+  LDA.W EntityYSubSpeed,X                                   ; 03C1A1 BD F0 09 
   SBC.B #$02                                      ; 03C1A4 E9 02 
-  STA.W EntityV7,X                                   ; 03C1A6 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03C1A6 9D F0 09 
   BCS.B B_3C1AE                                   ; 03C1A9 B0 03 
-  DEC.W EntityV8,X                                   ; 03C1AB DE 62 0A 
+  DEC.W EntityYSpeed,X                                   ; 03C1AB DE 62 0A 
 B_3C1AE:
-  LDA.W EntityV6,X                                   ; 03C1AE BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03C1AE BD 7E 09 
   BPL.B B_3C1C3                                   ; 03C1B1 10 10 
   CMP.B #$FE                                      ; 03C1B3 C9 FE 
   BEQ.B B_3C1B9                                   ; 03C1B5 F0 02 
@@ -5231,7 +5382,7 @@ B_3C1C3:
 .byte $A9,$01,$9D,$7E,$09,$9E,$0C,$09             ; 03C1C7 ........ ???~????
 
 B_3C1CF:
-  LDA.W EntityV8,X                                   ; 03C1CF BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03C1CF BD 62 0A 
   BPL.B B_3C1E4                                   ; 03C1D2 10 10 
   CMP.B #$FE                                      ; 03C1D4 C9 FE 
   BEQ.B B_3C1DA                                   ; 03C1D6 F0 02 
@@ -5240,15 +5391,15 @@ B_3C1CF:
 
 B_3C1DA:
   LDA.B #$FF                                      ; 03C1DA A9 FF 
-  STA.W EntityV8,X                                   ; 03C1DC 9D 62 0A 
-  STZ.W EntityV7,X                                   ; 03C1DF 9E F0 09 
+  STA.W EntityYSpeed,X                                   ; 03C1DC 9D 62 0A 
+  STZ.W EntityYSubSpeed,X                                   ; 03C1DF 9E F0 09 
   BRA.B B_3C1F0                                   ; 03C1E2 80 0C 
 B_3C1E4:
   CMP.B #$01                                      ; 03C1E4 C9 01 
   BCC.B B_3C1F0                                   ; 03C1E6 90 08 
   LDA.B #$01                                      ; 03C1E8 A9 01 
-  STA.W EntityV8,X                                   ; 03C1EA 9D 62 0A 
-  STZ.W EntityV7,X                                   ; 03C1ED 9E F0 09 
+  STA.W EntityYSpeed,X                                   ; 03C1EA 9D 62 0A 
+  STZ.W EntityYSubSpeed,X                                   ; 03C1ED 9E F0 09 
 B_3C1F0:
   SEC                                             ; 03C1F0 38 
   LDA.W EntityXPx,X                              ; 03C1F1 BD 46 0B 
@@ -5290,9 +5441,11 @@ B_3C221:
   STA.B $1D                                       ; 03C22A 85 1D 
   JSL L_AFC2                                      ; 03C22C 22 C2 AF 00 
   JMP.W AdvanceToNextEntity                                   ; 03C230 4C 41 81 
+
+ENtityHandler_SwirlyBody
   LDA.B #$04                                      ; 03C233 A9 04 
   JSR.W L_38195                                   ; 03C235 20 95 81 
-  LDA.W EntityV6,X                                   ; 03C238 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03C238 BD 7E 09 
   BPL.B B_3C24D                                   ; 03C23B 10 10 
   CMP.B #$FD                                      ; 03C23D C9 FD 
   BEQ.B B_3C243                                   ; 03C23F F0 02 
@@ -5309,7 +5462,7 @@ B_3C24D:
 .byte $A9,$02,$9D,$7E,$09,$9E,$0C,$09             ; 03C251 ........ ???~????
 
 B_3C259:
-  LDA.W EntityV8,X                                   ; 03C259 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03C259 BD 62 0A 
   BPL.B B_3C26E                                   ; 03C25C 10 10 
   CMP.B #$FD                                      ; 03C25E C9 FD 
   BEQ.B B_3C264                                   ; 03C260 F0 02 
@@ -5323,8 +5476,8 @@ B_3C26E:
   CMP.B #$02                                      ; 03C26E C9 02 
   BCC.B B_3C27A                                   ; 03C270 90 08 
   LDA.B #$02                                      ; 03C272 A9 02 
-  STA.W EntityV8,X                                   ; 03C274 9D 62 0A 
-  STZ.W EntityV7,X                                   ; 03C277 9E F0 09 
+  STA.W EntityYSpeed,X                                   ; 03C274 9D 62 0A 
+  STZ.W EntityYSubSpeed,X                                   ; 03C277 9E F0 09 
 B_3C27A:
   SEC                                             ; 03C27A 38 
   LDA.W EntityXPx,X                              ; 03C27B BD 46 0B 
@@ -5410,19 +5563,19 @@ B_3C2D7:
   CMP.B $06                                       ; 03C309 C5 06 
   BCS.B B_3C32C                                   ; 03C30B B0 1F 
   CLC                                             ; 03C30D 18 
-  LDA.W EntityV5,X                                   ; 03C30E BD 0C 09 
+  LDA.W EntityXSubSpeed,X                                   ; 03C30E BD 0C 09 
   ADC.B $04                                       ; 03C311 65 04 
-  STA.W EntityV5,X                                   ; 03C313 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03C313 9D 0C 09 
   BCC.B B_3C32C                                   ; 03C316 90 14 
-  INC.W EntityV6,X                                   ; 03C318 FE 7E 09 
+  INC.W EntityXSpeed,X                                   ; 03C318 FE 7E 09 
   JMP.W B_3C32C                                   ; 03C31B 4C 2C C3 
 B_3C31E:
   SEC                                             ; 03C31E 38 
-  LDA.W EntityV5,X                                   ; 03C31F BD 0C 09 
+  LDA.W EntityXSubSpeed,X                                   ; 03C31F BD 0C 09 
   SBC.B $04                                       ; 03C322 E5 04 
-  STA.W EntityV5,X                                   ; 03C324 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03C324 9D 0C 09 
   BCS.B B_3C32C                                   ; 03C327 B0 03 
-  DEC.W EntityV6,X                                   ; 03C329 DE 7E 09 
+  DEC.W EntityXSpeed,X                                   ; 03C329 DE 7E 09 
 B_3C32C:
   LDA.W EntityYPx,X                                   ; 03C32C BD 9C 0C 
   CMP.B $09                                       ; 03C32F C5 09 
@@ -5430,19 +5583,19 @@ B_3C32C:
   CMP.B $08                                       ; 03C333 C5 08 
   BCS.B B_3C356                                   ; 03C335 B0 1F 
   CLC                                             ; 03C337 18 
-  LDA.W EntityV7,X                                   ; 03C338 BD F0 09 
+  LDA.W EntityYSubSpeed,X                                   ; 03C338 BD F0 09 
   ADC.B $05                                       ; 03C33B 65 05 
-  STA.W EntityV7,X                                   ; 03C33D 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03C33D 9D F0 09 
   BCC.B B_3C356                                   ; 03C340 90 14 
-  INC.W EntityV8,X                                   ; 03C342 FE 62 0A 
+  INC.W EntityYSpeed,X                                   ; 03C342 FE 62 0A 
   JMP.W B_3C356                                   ; 03C345 4C 56 C3 
 B_3C348:
   SEC                                             ; 03C348 38 
-  LDA.W EntityV7,X                                   ; 03C349 BD F0 09 
+  LDA.W EntityYSubSpeed,X                                   ; 03C349 BD F0 09 
   SBC.B $05                                       ; 03C34C E5 05 
-  STA.W EntityV7,X                                   ; 03C34E 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03C34E 9D F0 09 
   BCS.B B_3C356                                   ; 03C351 B0 03 
-  DEC.W EntityV8,X                                   ; 03C353 DE 62 0A 
+  DEC.W EntityYSpeed,X                                   ; 03C353 DE 62 0A 
 B_3C356:
   LDA.B #$08                                      ; 03C356 A9 08 
   STA.B $1C                                       ; 03C358 85 1C 
@@ -5475,10 +5628,10 @@ B_3C387:
   STA.W EntityV29,X                                   ; 03C394 9D BC 13 
   LDA.B #$32                                      ; 03C397 A9 32 
   STA.W EntityV30,X                                   ; 03C399 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 03C39C 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03C39F 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03C3A2 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03C3A5 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03C39C 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03C39F 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03C3A2 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03C3A5 9E 62 0A 
   LDA.B #$04                                      ; 03C3A8 A9 04 
   STA.W EntityV28,X                                   ; 03C3AA 9D 4A 13 
   STZ.W EntityV27,X                                   ; 03C3AD 9E D8 12 
@@ -6154,6 +6307,8 @@ B_3D653:
   STA.W XexzyTorsoY,Y                             ; 03D653 99 09 03 
   PLX                                             ; 03D656 FA 
   JMP.W AdvanceToNextEntity                                   ; 03D657 4C 41 81 
+
+EntityHandler_MutoidManHead:
   LDA.W $0694                                     ; 03D65A AD 94 06 
   STA.W EntityXPx,X                              ; 03D65D 9D 46 0B 
   LDA.W $069D                                     ; 03D660 AD 9D 06 
@@ -6175,7 +6330,7 @@ B_3D674:
   AND.B #$40                                      ; 03D68D 29 40 
   BEQ.B B_3D6FA                                   ; 03D68F F0 69 
   JSL AdvanceRNG                                     ; 03D691 22 95 CA 0E 
-  LDY.W $069C                                     ; 03D695 AC 9C 06 
+  LDY.W MutoidCurrentForm                                     ; 03D695 AC 9C 06 
   CMP.W D_3D704,Y                                 ; 03D698 D9 04 D7 
   BCS.B B_3D6BE                                   ; 03D69B B0 21 
   LDA.B #$72                                      ; 03D69D A9 72 
@@ -6234,6 +6389,7 @@ D_3D70C:
 .byte $0E,$0F,$10,$0E,$0F,$10,$0E,$0F             ; 03D70C DDDDDDDD ????????
 .byte $1A,$1B,$1C,$10,$0E,$0F,$11,$11             ; 03D714 DDDDDDDD ????????
 
+EntityHandler_MutoidHead_FireLaser:
   LDA.W $0694                                     ; 03D71C AD 94 06 
   STA.W EntityXPx,X                              ; 03D71F 9D 46 0B 
   LDA.W $0695                                     ; 03D722 AD 95 06 
@@ -6260,6 +6416,8 @@ B_3D74E:
   STA.B $1D                                       ; 03D754 85 1D 
   JSL L_AFC2                                      ; 03D756 22 C2 AF 00 
   JMP.W AdvanceToNextEntity                                   ; 03D75A 4C 41 81 
+
+EntityHandler_MutoidHead_Damage:
   LDA.B #$20                                      ; 03D75D A9 20 
   STA.W $0699                                     ; 03D75F 8D 99 06 
   LDA.W $0694                                     ; 03D762 AD 94 06 
@@ -6320,11 +6478,13 @@ B_3D7DC:
   JSR.W L_3DB9D                                   ; 03D7EF 20 9D DB 
   JSL L_DEDA8                                     ; 03D7F2 22 A8 ED 0D 
   JMP.W AdvanceToNextEntity                                   ; 03D7F6 4C 41 81 
+
+EntityHandler_MutoidMan73:
   LDA.W $0694                                     ; 03D7F9 AD 94 06 
   STA.W EntityXPx,X                              ; 03D7FC 9D 46 0B 
   LDA.W $0695                                     ; 03D7FF AD 95 06 
   STA.W EntityYPx,X                                   ; 03D802 9D 9C 0C 
-  LDA.W $069C                                     ; 03D805 AD 9C 06 
+  LDA.W MutoidCurrentForm                                     ; 03D805 AD 9C 06 
   BEQ.B B_3D814                                   ; 03D808 F0 0A 
   LDA.B #$75                                      ; 03D80A A9 75 
   STA.W EntityTypeId,X                                   ; 03D80C 9D 44 07 
@@ -6346,11 +6506,13 @@ B_3D82E:
   JSL L_DF118                                     ; 03D82E 22 18 F1 0D 
 B_3D832:
   JMP.W AdvanceToNextEntity                                   ; 03D832 4C 41 81 
+
+EntityHandler_MutoidMan74:
   LDA.W $0694                                     ; 03D835 AD 94 06 
   STA.W EntityXPx,X                              ; 03D838 9D 46 0B 
   LDA.W $0695                                     ; 03D83B AD 95 06 
   STA.W EntityYPx,X                                   ; 03D83E 9D 9C 0C 
-  LDA.W $069C                                     ; 03D841 AD 9C 06 
+  LDA.W MutoidCurrentForm                                     ; 03D841 AD 9C 06 
   CMP.B #$02                                      ; 03D844 C9 02 
   BCC.B B_3D852                                   ; 03D846 90 0A 
   LDA.B #$83                                      ; 03D848 A9 83 
@@ -6418,6 +6580,8 @@ B_3D8D3:
   JSL L_DF118                                     ; 03D8D3 22 18 F1 0D 
 B_3D8D7:
   JMP.W AdvanceToNextEntity                                   ; 03D8D7 4C 41 81 
+
+EntityHandler_MutoidLaser76:
   LDA.W EntityYPx,X                                   ; 03D8DA BD 9C 0C 
   CMP.B #$E6                                      ; 03D8DD C9 E6 
   BCC.B B_3D8E4                                   ; 03D8DF 90 03 
@@ -6480,10 +6644,10 @@ B_3D935:
   STA.W EntityV30,X                                   ; 03D93F 9D 2E 14 
   LDA.B #$04                                      ; 03D942 A9 04 
   STA.W EntityV15,X                                   ; 03D944 9D 80 0D 
-  STZ.W EntityV5,X                                   ; 03D947 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03D94A 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03D94D 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03D950 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03D947 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03D94A 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03D94D 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03D950 9E 62 0A 
   JSL AdvanceRNG                                     ; 03D953 22 95 CA 0E 
   AND.B #$07                                      ; 03D957 29 07 
   TAY                                             ; 03D959 A8 
@@ -6529,6 +6693,7 @@ B_3D9A2:
 D_3D9A9:
 .byte $00,$01,$02,$00,$00,$FF,$FE,$00             ; 03D9A9 DDDDDDDD ????????
 
+EntityHandler_MutoidLaser77:
   SEC                                             ; 03D9B1 38 
   LDA.W EntityXPx,X                              ; 03D9B2 BD 46 0B 
   SBC.B #$02                                      ; 03D9B5 E9 02 
@@ -6674,7 +6839,7 @@ D_3DABC:
 
 L_3DAC4:
   PHX                                             ; 03DAC4 DA 
-  LDA.W $069E                                     ; 03DAC5 AD 9E 06 
+  LDA.W MutoidType                                     ; 03DAC5 AD 9E 06 
   ASL                                             ; 03DAC8 0A 
   ASL                                             ; 03DAC9 0A 
   ASL                                             ; 03DACA 0A 
@@ -6717,13 +6882,13 @@ B_3DAEB:
   LDA.B $05                                       ; 03DB1D A5 05 
   STA.W EntityYPx,X                                   ; 03DB1F 9D 9C 0C 
   LDA.W $0690                                     ; 03DB22 AD 90 06 
-  STA.W EntityV5,X                                   ; 03DB25 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03DB25 9D 0C 09 
   LDA.W $0691                                     ; 03DB28 AD 91 06 
-  STA.W EntityV6,X                                   ; 03DB2B 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03DB2B 9D 7E 09 
   LDA.W $0692                                     ; 03DB2E AD 92 06 
-  STA.W EntityV7,X                                   ; 03DB31 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03DB31 9D F0 09 
   LDA.W $0693                                     ; 03DB34 AD 93 06 
-  STA.W EntityV8,X                                   ; 03DB37 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03DB37 9D 62 0A 
   JSL L_AEBC                                      ; 03DB3A 22 BC AE 00 
   TYA                                             ; 03DB3E 98 
   STA.W EntityV31,X                                   ; 03DB3F 9D A0 14 
@@ -6767,7 +6932,7 @@ L_3DB9D:
   AND.B #$BF                                      ; 03DBA4 29 BF 
   ORA.W D_3DBDF,Y                                 ; 03DBA6 19 DF DB 
   STA.W EntityV30,X                                   ; 03DBA9 9D 2E 14 
-  LDA.W $069E                                     ; 03DBAC AD 9E 06 
+  LDA.W MutoidType                                     ; 03DBAC AD 9E 06 
   ASL                                             ; 03DBAF 0A 
   ASL                                             ; 03DBB0 0A 
   ASL                                             ; 03DBB1 0A 
@@ -6824,13 +6989,14 @@ B_3DC41:
   BCC.B B_3DC50                                   ; 03DC46 90 08 
   LDA.B #$79                                      ; 03DC48 A9 79 
   STA.W EntityTypeId,X                                   ; 03DC4A 9D 44 07 
-  STZ.W EntityV7,X                                   ; 03DC4D 9E F0 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03DC4D 9E F0 09 
 B_3DC50:
   JSR.W L_3DFBF                                   ; 03DC50 20 BF DF 
   JSR.W L_3E180                                   ; 03DC53 20 80 E1 
   JSR.W L_3E132                                   ; 03DC56 20 32 E1 
   JMP.W AdvanceToNextEntity                                   ; 03DC59 4C 41 81 
 
+EntityHandler_MutoidBody_Still:
   JSL L_CFB81                                     ; 03DC5C 22 81 FB 0C 
   DEC.W EntityV15,X                                   ; 03DC60 DE 80 0D 
   BNE.B B_3DC81                                   ; 03DC63 D0 1C 
@@ -6858,8 +7024,9 @@ D_3DC97:
 .byte $01,$00,$00,$01,$00,$01,$00,$00             ; 03DC97 DDDDDDDD ????????
 .byte $00,$00,$01,$00,$01,$00,$00,$01             ; 03DC9F DDDDDDDD ????????
 
+EntityHandler_MutoidBody_Vertical:
   JSL L_CFB81                                     ; 03DCA7 22 81 FB 0C 
-  LDA.W EntityV8,X                                   ; 03DCAB BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03DCAB BD 62 0A 
   BPL.B B_3DCD6                                   ; 03DCAE 10 26 
   LDA.B #$2E                                      ; 03DCB0 A9 2E 
   CMP.W EntityYPx,X                                   ; 03DCB2 DD 9C 0C 
@@ -6869,13 +7036,13 @@ D_3DC97:
   AND.B #$01                                      ; 03DCBE 29 01 
   BEQ.B B_3DCCE                                   ; 03DCC0 F0 0C 
   LDA.B #$40                                      ; 03DCC2 A9 40 
-  STA.W EntityV7,X                                   ; 03DCC4 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03DCC4 9D F0 09 
   LDA.B #$00                                      ; 03DCC7 A9 00 
-  STA.W EntityV8,X                                   ; 03DCC9 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03DCC9 9D 62 0A 
   BRA.B B_3DCFA                                   ; 03DCCC 80 2C 
 B_3DCCE:
-  STZ.W EntityV7,X                                   ; 03DCCE 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03DCD1 9E 62 0A 
+  STZ.W EntityYSubSpeed,X                                   ; 03DCCE 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03DCD1 9E 62 0A 
 B_3DCD4:
   BRA.B B_3DCFA                                   ; 03DCD4 80 24 
 B_3DCD6:
@@ -6887,21 +7054,21 @@ B_3DCD6:
   AND.B #$01                                      ; 03DCE4 29 01 
   BEQ.B B_3DCF4                                   ; 03DCE6 F0 0C 
   LDA.B #$C0                                      ; 03DCE8 A9 C0 
-  STA.W EntityV7,X                                   ; 03DCEA 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03DCEA 9D F0 09 
   LDA.B #$FF                                      ; 03DCED A9 FF 
-  STA.W EntityV8,X                                   ; 03DCEF 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03DCEF 9D 62 0A 
   BRA.B B_3DCFA                                   ; 03DCF2 80 06 
 B_3DCF4:
-  STZ.W EntityV7,X                                   ; 03DCF4 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03DCF7 9E 62 0A 
+  STZ.W EntityYSubSpeed,X                                   ; 03DCF4 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03DCF7 9E 62 0A 
 B_3DCFA:
   DEC.W EntityV15,X                                   ; 03DCFA DE 80 0D 
   BNE.B B_3DD21                                   ; 03DCFD D0 22 
   LDA.B #$79                                      ; 03DCFF A9 79 
   STA.W EntityTypeId,X                                   ; 03DD01 9D 44 07 
-  STZ.W EntityV7,X                                   ; 03DD04 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03DD07 9E 62 0A 
-  LDA.W $069C                                     ; 03DD0A AD 9C 06 
+  STZ.W EntityYSubSpeed,X                                   ; 03DD04 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03DD07 9E 62 0A 
+  LDA.W MutoidCurrentForm                                     ; 03DD0A AD 9C 06 
   ASL                                             ; 03DD0D 0A 
   ASL                                             ; 03DD0E 0A 
   STA.B $04                                       ; 03DD0F 85 04 
@@ -6927,6 +7094,7 @@ D_3DD37:
 .byte $A8,$58,$48,$28,$98,$50,$40,$20             ; 03DD47 DDDD.... ?XH(?P@ 
 .byte $88,$40,$30,$20                             ; 03DD50 ....     ?@0 
 
+EntityHandler_MutoidBody_Horizontal:
   JSL L_CFB81                                     ; 03DD53 22 81 FB 0C 
   LDA.W EntityXPx,X                              ; 03DD57 BD 46 0B 
   AND.B #$07                                      ; 03DD5A 29 07 
@@ -6934,7 +7102,7 @@ D_3DD37:
   LDA.W EntityV21,X                                   ; 03DD5D BD 2C 10 
   ADC.W D_3DDF2,Y                                 ; 03DD60 79 F2 DD 
   STA.W EntityYPx,X                                   ; 03DD63 9D 9C 0C 
-  LDA.W EntityV6,X                                   ; 03DD66 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03DD66 BD 7E 09 
   BPL.B B_3DD91                                   ; 03DD69 10 26 
   LDA.B #$44                                      ; 03DD6B A9 44 
   CMP.W EntityXPx,X                              ; 03DD6D DD 46 0B 
@@ -6944,13 +7112,13 @@ D_3DD37:
   AND.B #$01                                      ; 03DD79 29 01 
   BEQ.B B_3DD89                                   ; 03DD7B F0 0C 
   LDA.B #$40                                      ; 03DD7D A9 40 
-  STA.W EntityV5,X                                   ; 03DD7F 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03DD7F 9D 0C 09 
   LDA.B #$00                                      ; 03DD82 A9 00 
-  STA.W EntityV6,X                                   ; 03DD84 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03DD84 9D 7E 09 
   BRA.B B_3DDB5                                   ; 03DD87 80 2C 
 B_3DD89:
-  STZ.W EntityV5,X                                   ; 03DD89 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03DD8C 9E 7E 09 
+  STZ.W EntityXSubSpeed,X                                   ; 03DD89 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03DD8C 9E 7E 09 
   BRA.B B_3DDB5                                   ; 03DD8F 80 24 
 B_3DD91:
   LDA.B #$BC                                      ; 03DD91 A9 BC 
@@ -6961,21 +7129,21 @@ B_3DD91:
   AND.B #$01                                      ; 03DD9F 29 01 
   BEQ.B B_3DDAF                                   ; 03DDA1 F0 0C 
   LDA.B #$C0                                      ; 03DDA3 A9 C0 
-  STA.W EntityV5,X                                   ; 03DDA5 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03DDA5 9D 0C 09 
   LDA.B #$FF                                      ; 03DDA8 A9 FF 
-  STA.W EntityV6,X                                   ; 03DDAA 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03DDAA 9D 7E 09 
   BRA.B B_3DDB5                                   ; 03DDAD 80 06 
 B_3DDAF:
-  STZ.W EntityV5,X                                   ; 03DDAF 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03DDB2 9E 7E 09 
+  STZ.W EntityXSubSpeed,X                                   ; 03DDAF 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03DDB2 9E 7E 09 
 B_3DDB5:
   DEC.W EntityV15,X                                   ; 03DDB5 DE 80 0D 
   BNE.B B_3DDDC                                   ; 03DDB8 D0 22 
   LDA.B #$79                                      ; 03DDBA A9 79 
   STA.W EntityTypeId,X                                   ; 03DDBC 9D 44 07 
-  STZ.W EntityV5,X                                   ; 03DDBF 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03DDC2 9E 7E 09 
-  LDA.W $069C                                     ; 03DDC5 AD 9C 06 
+  STZ.W EntityXSubSpeed,X                                   ; 03DDBF 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03DDC2 9E 7E 09 
+  LDA.W MutoidCurrentForm                                     ; 03DDC5 AD 9C 06 
   ASL                                             ; 03DDC8 0A 
   ASL                                             ; 03DDC9 0A 
   STA.B $04                                       ; 03DDCA 85 04 
@@ -7022,6 +7190,7 @@ B_3DE25:
   JSR.W L_3E132                                   ; 03DE2B 20 32 E1 
   JMP.W AdvanceToNextEntity                                   ; 03DE2E 4C 41 81 
 
+EntityHandler_MutoidBody_Explode:
 .byte $A9,$20,$8D,$99,$06,$DE,$80,$0D             ; 03DE31 ........ ? ??????
 .byte $D0,$19,$A9,$79,$9D,$44,$07,$A9             ; 03DE39 ........ ???y?D??
 .byte $01,$9D,$80,$0D,$DA,$C2,$10,$A2             ; 03DE41 ........ ????????
@@ -7345,7 +7514,7 @@ L_3E180:
 
 L_3E1A7:
   PHX                                             ; 03E1A7 DA 
-  LDA.W $069C                                     ; 03E1A8 AD 9C 06 
+  LDA.W MutoidCurrentForm                                     ; 03E1A8 AD 9C 06 
   BEQ.B B_3E1CE                                   ; 03E1AB F0 21 
   CMP.B #$02                                      ; 03E1AD C9 02 
   BCS.B B_3E1CC                                   ; 03E1AF B0 1B 
@@ -7405,7 +7574,7 @@ L_3E21C:
   TAY                                             ; 03E22D A8 
   LDA.W D_3E2E2,Y                                 ; 03E22E B9 E2 E2 
   STA.W EntityV15,X                                   ; 03E231 9D 80 0D 
-  LDA.W $069C                                     ; 03E234 AD 9C 06 
+  LDA.W MutoidCurrentForm                                     ; 03E234 AD 9C 06 
   ASL                                             ; 03E237 0A 
   ASL                                             ; 03E238 0A 
   ASL                                             ; 03E239 0A 
@@ -7416,7 +7585,7 @@ L_3E21C:
   ASL                                             ; 03E243 0A 
   ADC.B $04                                       ; 03E244 65 04 
   TAY                                             ; 03E246 A8 
-  LDA.W $069E                                     ; 03E247 AD 9E 06 
+  LDA.W MutoidType                                     ; 03E247 AD 9E 06 
   BEQ.B B_3E24E                                   ; 03E24A F0 02 
 
 .byte $A9,$40                                     ; 03E24D ..       ?@
@@ -7424,10 +7593,10 @@ L_3E21C:
 B_3E24E:
   CLC                                             ; 03E24E 18 
   ADC.W D_3E2EA,Y                                 ; 03E24F 79 EA E2 
-  STA.W EntityV5,X                                   ; 03E252 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03E252 9D 0C 09 
   LDA.W D_3E2EB,Y                                 ; 03E255 B9 EB E2 
   ADC.B #$00                                      ; 03E258 69 00 
-  STA.W EntityV6,X                                   ; 03E25A 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03E25A 9D 7E 09 
   LDA.W EntityXPx,X                              ; 03E25D BD 46 0B 
   CMP.B #$60                                      ; 03E260 C9 60 
   BCC.B B_3E281                                   ; 03E262 90 1D 
@@ -7439,11 +7608,11 @@ B_3E24E:
 B_3E270:
   SEC                                             ; 03E270 38 
   LDA.B #$00                                      ; 03E271 A9 00 
-  SBC.W EntityV5,X                                   ; 03E273 FD 0C 09 
-  STA.W EntityV5,X                                   ; 03E276 9D 0C 09 
+  SBC.W EntityXSubSpeed,X                                   ; 03E273 FD 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03E276 9D 0C 09 
   LDA.B #$00                                      ; 03E279 A9 00 
-  SBC.W EntityV6,X                                   ; 03E27B FD 7E 09 
-  STA.W EntityV6,X                                   ; 03E27E 9D 7E 09 
+  SBC.W EntityXSpeed,X                                   ; 03E27B FD 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03E27E 9D 7E 09 
 B_3E281:
   RTS                                             ; 03E281 60 
 
@@ -7456,7 +7625,7 @@ L_3E282:
   TAY                                             ; 03E28D A8 
   LDA.W D_3E2E2,Y                                 ; 03E28E B9 E2 E2 
   STA.W EntityV15,X                                   ; 03E291 9D 80 0D 
-  LDA.W $069C                                     ; 03E294 AD 9C 06 
+  LDA.W MutoidCurrentForm                                     ; 03E294 AD 9C 06 
   ASL                                             ; 03E297 0A 
   ASL                                             ; 03E298 0A 
   ASL                                             ; 03E299 0A 
@@ -7467,7 +7636,7 @@ L_3E282:
   ASL                                             ; 03E2A3 0A 
   ADC.B $04                                       ; 03E2A4 65 04 
   TAY                                             ; 03E2A6 A8 
-  LDA.W $069E                                     ; 03E2A7 AD 9E 06 
+  LDA.W MutoidType                                     ; 03E2A7 AD 9E 06 
   BEQ.B B_3E2AE                                   ; 03E2AA F0 02 
 
 .byte $A9,$40                                     ; 03E2AD ..       ?@
@@ -7475,10 +7644,10 @@ L_3E282:
 B_3E2AE:
   CLC                                             ; 03E2AE 18 
   ADC.W D_3E2EA,Y                                 ; 03E2AF 79 EA E2 
-  STA.W EntityV7,X                                   ; 03E2B2 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E2B2 9D F0 09 
   LDA.W D_3E2EB,Y                                 ; 03E2B5 B9 EB E2 
   ADC.B #$00                                      ; 03E2B8 69 00 
-  STA.W EntityV8,X                                   ; 03E2BA 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03E2BA 9D 62 0A 
   LDA.W EntityYPx,X                                   ; 03E2BD BD 9C 0C 
   CMP.B #$60                                      ; 03E2C0 C9 60 
   BCC.B B_3E2E1                                   ; 03E2C2 90 1D 
@@ -7490,11 +7659,11 @@ B_3E2AE:
 B_3E2D0:
   SEC                                             ; 03E2D0 38 
   LDA.B #$00                                      ; 03E2D1 A9 00 
-  SBC.W EntityV7,X                                   ; 03E2D3 FD F0 09 
-  STA.W EntityV7,X                                   ; 03E2D6 9D F0 09 
+  SBC.W EntityYSubSpeed,X                                   ; 03E2D3 FD F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E2D6 9D F0 09 
   LDA.B #$00                                      ; 03E2D9 A9 00 
-  SBC.W EntityV8,X                                   ; 03E2DB FD 62 0A 
-  STA.W EntityV8,X                                   ; 03E2DE 9D 62 0A 
+  SBC.W EntityYSpeed,X                                   ; 03E2DB FD 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03E2DE 9D 62 0A 
 B_3E2E1:
   RTS                                             ; 03E2E1 60 
 
@@ -7570,15 +7739,15 @@ B_3E385:
   STA.W EntityV27,X                                   ; 03E3B3 9D D8 12 
   LDY.B $06                                       ; 03E3B6 A4 06 
   LDA.W D_3E406,Y                                 ; 03E3B8 B9 06 E4 
-  STA.W EntityV6,X                                   ; 03E3BB 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03E3BB 9D 7E 09 
   JSL AdvanceRNG                                     ; 03E3BE 22 95 CA 0E 
   AND.B #$0F                                      ; 03E3C2 29 0F 
   ASL                                             ; 03E3C4 0A 
   TAY                                             ; 03E3C5 A8 
   LDA.W D_3E408,Y                                 ; 03E3C6 B9 08 E4 
-  STA.W EntityV7,X                                   ; 03E3C9 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E3C9 9D F0 09 
   LDA.W D_3E409,Y                                 ; 03E3CC B9 09 E4 
-  STA.W EntityV8,X                                   ; 03E3CF 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03E3CF 9D 62 0A 
   JSL L_AEBC                                      ; 03E3D2 22 BC AE 00 
   TYA                                             ; 03E3D6 98 
   STA.W EntityV31,X                                   ; 03E3D7 9D A0 14 
@@ -7650,6 +7819,7 @@ D_3E432:
 .byte $0C,$F4,$10,$F0,$14,$EC,$18,$E8             ; 03E522 ........ ????????
 .byte $1C,$E4                                     ; 03E52B ..       ??
 
+EntityHandler_MutoidMan_LeftArmExplode:
   LDA.W $0694                                     ; 03E52C AD 94 06 
   STA.W EntityXPx,X                              ; 03E52F 9D 46 0B 
   LDA.W $0695                                     ; 03E532 AD 95 06 
@@ -7682,6 +7852,8 @@ B_3E55F:
   JSL L_DF118                                     ; 03E56D 22 18 F1 0D 
 B_3E571:
   JMP.W AdvanceToNextEntity                                   ; 03E571 4C 41 81 
+
+EntityHandler_MutoidMan_RightArmDamage:
   LDA.W EntityHeader,X                                   ; 03E574 BD D2 06 
   AND.B #$40                                      ; 03E577 29 40 
   BEQ.B B_3E59F                                   ; 03E579 F0 24 
@@ -7727,6 +7899,8 @@ B_3E5D4:
   JSL L_DF1CA                                     ; 03E5D4 22 CA F1 0D 
 B_3E5D8:
   JMP.W AdvanceToNextEntity                                   ; 03E5D8 4C 41 81 
+
+EntityHandler_MutoidMan_RightArmExplode:
   LDA.W $0694                                     ; 03E5DB AD 94 06 
   STA.W EntityXPx,X                              ; 03E5DE 9D 46 0B 
   LDA.W $0695                                     ; 03E5E1 AD 95 06 
@@ -7759,6 +7933,8 @@ B_3E60E:
   JSL L_DF1CA                                     ; 03E61C 22 CA F1 0D 
 B_3E620:
   JMP.W AdvanceToNextEntity                                   ; 03E620 4C 41 81 
+
+EntityHandler_MutoidMan_LeftArmGone:
   LDA.W $0694                                     ; 03E623 AD 94 06 
   STA.W EntityXPx,X                              ; 03E626 9D 46 0B 
   LDA.W $0695                                     ; 03E629 AD 95 06 
@@ -7772,6 +7948,8 @@ B_3E620:
   JSL L_DF118                                     ; 03E63D 22 18 F1 0D 
 B_3E641:
   JMP.W AdvanceToNextEntity                                   ; 03E641 4C 41 81 
+
+EntityHandler_MutoidMan_RightArmGone
   LDA.W $0694                                     ; 03E644 AD 94 06 
   STA.W EntityXPx,X                              ; 03E647 9D 46 0B 
   LDA.W $0695                                     ; 03E64A AD 95 06 
@@ -7789,7 +7967,7 @@ B_3E662:
 .byte $4C,$41,$81,$4C,$41,$81,$4C,$41             ; 03E665 ........ LA?LA?LA
 .byte $81,$4C,$41,$81                             ; 03E66E ....     ?LA?
 
-  LDA.W EntityV6,X                                   ; 03E671 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03E671 BD 7E 09 
   BPL.B B_3E67F                                   ; 03E674 10 09 
   LDA.W EntityXPx,X                              ; 03E676 BD 46 0B 
   CMP.B #$10                                      ; 03E679 C9 10 
@@ -7854,7 +8032,7 @@ L_3E6CA:
 B_3E6E7:
   JSL ClearEntitySlotData                                     ; 03E6E7 22 94 80 03 
   LDA.B #$13                                      ; 03E6EB A9 13 
-  LDY.W $069E                                     ; 03E6ED AC 9E 06 
+  LDY.W MutoidType                                     ; 03E6ED AC 9E 06 
   BEQ.B B_3E6F4                                   ; 03E6F0 F0 02 
 
 .byte $A9,$15                                     ; 03E6F3 ..       ??
@@ -7891,15 +8069,15 @@ B_3E6FD:
   STA.W EntityYPx,X                                   ; 03E732 9D 9C 0C 
   LDY.B $06                                       ; 03E735 A4 06 
   LDA.W D_3E781,Y                                 ; 03E737 B9 81 E7 
-  STA.W EntityV6,X                                   ; 03E73A 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03E73A 9D 7E 09 
   JSL AdvanceRNG                                     ; 03E73D 22 95 CA 0E 
   AND.B #$07                                      ; 03E741 29 07 
   ASL                                             ; 03E743 0A 
   TAY                                             ; 03E744 A8 
   LDA.W D_3E783,Y                                 ; 03E745 B9 83 E7 
-  STA.W EntityV7,X                                   ; 03E748 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E748 9D F0 09 
   LDA.W D_3E784,Y                                 ; 03E74B B9 84 E7 
-  STA.W EntityV8,X                                   ; 03E74E 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03E74E 9D 62 0A 
   JSL L_AEBC                                      ; 03E751 22 BC AE 00 
   TYA                                             ; 03E755 98 
   STA.W EntityV31,X                                   ; 03E756 9D A0 14 
@@ -7985,15 +8163,15 @@ B_3E7CE:
   STA.W EntityV27,X                                   ; 03E7FC 9D D8 12 
   LDY.B $06                                       ; 03E7FF A4 06 
   LDA.W D_3E84F,Y                                 ; 03E801 B9 4F E8 
-  STA.W EntityV6,X                                   ; 03E804 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03E804 9D 7E 09 
   JSL AdvanceRNG                                     ; 03E807 22 95 CA 0E 
   AND.B #$0F                                      ; 03E80B 29 0F 
   ASL                                             ; 03E80D 0A 
   TAY                                             ; 03E80E A8 
   LDA.W D_3E851,Y                                 ; 03E80F B9 51 E8 
-  STA.W EntityV7,X                                   ; 03E812 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E812 9D F0 09 
   LDA.W D_3E852,Y                                 ; 03E815 B9 52 E8 
-  STA.W EntityV8,X                                   ; 03E818 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03E818 9D 62 0A 
   JSL L_AEBC                                      ; 03E81B 22 BC AE 00 
   TYA                                             ; 03E81F 98 
   STA.W EntityV31,X                                   ; 03E820 9D A0 14 
@@ -8045,10 +8223,10 @@ D_3E873:
   STA.W EntityV16,X                                   ; 03E895 9D F2 0D 
   LDA.B #$8D                                      ; 03E898 A9 8D 
   STA.W EntityTypeId,X                                   ; 03E89A 9D 44 07 
-  STZ.W EntityV5,X                                   ; 03E89D 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03E8A0 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03E8A3 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03E8A6 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03E89D 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03E8A0 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03E8A3 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03E8A6 9E 62 0A 
   JMP.W D_3EA39                                   ; 03E8A9 4C 39 EA 
 B_3E8AC:
   LDA.W EntityV25,X                                   ; 03E8AC BD F4 11 
@@ -8060,27 +8238,27 @@ B_3E8AC:
   DEY                                             ; 03E8B6 88 
   BEQ.B B_3E8E9                                   ; 03E8B7 F0 30 
   SEC                                             ; 03E8B9 38 
-  LDA.W EntityV5,X                                   ; 03E8BA BD 0C 09 
+  LDA.W EntityXSubSpeed,X                                   ; 03E8BA BD 0C 09 
   SBC.B #$06                                      ; 03E8BD E9 06 
-  STA.W EntityV5,X                                   ; 03E8BF 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03E8BF 9D 0C 09 
   BCS.B B_3E8C7                                   ; 03E8C2 B0 03 
-  DEC.W EntityV6,X                                   ; 03E8C4 DE 7E 09 
+  DEC.W EntityXSpeed,X                                   ; 03E8C4 DE 7E 09 
 B_3E8C7:
   BRA.B B_3E8F7                                   ; 03E8C7 80 2E 
 B_3E8C9:
   SEC                                             ; 03E8C9 38 
-  LDA.W EntityV7,X                                   ; 03E8CA BD F0 09 
+  LDA.W EntityYSubSpeed,X                                   ; 03E8CA BD F0 09 
   SBC.B #$06                                      ; 03E8CD E9 06 
-  STA.W EntityV7,X                                   ; 03E8CF 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E8CF 9D F0 09 
   BCS.B B_3E8D7                                   ; 03E8D2 B0 03 
-  DEC.W EntityV8,X                                   ; 03E8D4 DE 62 0A 
+  DEC.W EntityYSpeed,X                                   ; 03E8D4 DE 62 0A 
 B_3E8D7:
   BRA.B B_3E8F7                                   ; 03E8D7 80 1E 
 B_3E8D9:
   CLC                                             ; 03E8D9 18 
-  LDA.W EntityV5,X                                   ; 03E8DA BD 0C 09 
+  LDA.W EntityXSubSpeed,X                                   ; 03E8DA BD 0C 09 
   ADC.B #$06                                      ; 03E8DD 69 06 
-  STA.W EntityV5,X                                   ; 03E8DF 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03E8DF 9D 0C 09 
   BCC.B B_3E8E7                                   ; 03E8E2 90 03 
 
 .byte $FE,$7E,$09                                 ; 03E8E5 ...      ?~?
@@ -8089,17 +8267,17 @@ B_3E8E7:
   BRA.B B_3E8F7                                   ; 03E8E7 80 0E 
 B_3E8E9:
   CLC                                             ; 03E8E9 18 
-  LDA.W EntityV7,X                                   ; 03E8EA BD F0 09 
+  LDA.W EntityYSubSpeed,X                                   ; 03E8EA BD F0 09 
   ADC.B #$06                                      ; 03E8ED 69 06 
-  STA.W EntityV7,X                                   ; 03E8EF 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E8EF 9D F0 09 
   BCC.B B_3E8F7                                   ; 03E8F2 90 03 
 
 .byte $FE,$62,$0A                                 ; 03E8F5 ...      ?b?
 
 B_3E8F7:
-  LDA.W EntityV5,X                                   ; 03E8F7 BD 0C 09 
+  LDA.W EntityXSubSpeed,X                                   ; 03E8F7 BD 0C 09 
   STA.B $04                                       ; 03E8FA 85 04 
-  LDA.W EntityV6,X                                   ; 03E8FC BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03E8FC BD 7E 09 
   STA.B $05                                       ; 03E8FF 85 05 
   BPL.B B_3E929                                   ; 03E901 10 26 
   ORA.B $04                                       ; 03E903 05 04 
@@ -8115,10 +8293,10 @@ B_3E8F7:
   SEC                                             ; 03E918 38 
   LDA.B #$00                                      ; 03E919 A9 00 
   SBC.B #$C0                                      ; 03E91B E9 C0 
-  STA.W EntityV5,X                                   ; 03E91D 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03E91D 9D 0C 09 
   LDA.B #$00                                      ; 03E920 A9 00 
   SBC.B #$00                                      ; 03E922 E9 00 
-  STA.W EntityV6,X                                   ; 03E924 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03E924 9D 7E 09 
   BRA.B B_3E940                                   ; 03E927 80 17 
 B_3E929:
   REP.B #P_Acc8Bit                                      ; 03E929 C2 20 
@@ -8127,15 +8305,15 @@ B_3E929:
   BCC.B B_3E93E                                   ; 03E930 90 0C 
   SEP.B #P_Acc8Bit                                      ; 03E932 E2 20 
   LDA.B #$C0                                      ; 03E934 A9 C0 
-  STA.W EntityV5,X                                   ; 03E936 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03E936 9D 0C 09 
   LDA.B #$00                                      ; 03E939 A9 00 
-  STA.W EntityV6,X                                   ; 03E93B 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03E93B 9D 7E 09 
 B_3E93E:
   SEP.B #P_Acc8Bit                                      ; 03E93E E2 20 
 B_3E940:
-  LDA.W EntityV7,X                                   ; 03E940 BD F0 09 
+  LDA.W EntityYSubSpeed,X                                   ; 03E940 BD F0 09 
   STA.B $04                                       ; 03E943 85 04 
-  LDA.W EntityV8,X                                   ; 03E945 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03E945 BD 62 0A 
   STA.B $05                                       ; 03E948 85 05 
   BPL.B B_3E972                                   ; 03E94A 10 26 
   ORA.B $04                                       ; 03E94C 05 04 
@@ -8151,10 +8329,10 @@ B_3E940:
   SEC                                             ; 03E961 38 
   LDA.B #$00                                      ; 03E962 A9 00 
   SBC.B #$C0                                      ; 03E964 E9 C0 
-  STA.W EntityV7,X                                   ; 03E966 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E966 9D F0 09 
   LDA.B #$00                                      ; 03E969 A9 00 
   SBC.B #$00                                      ; 03E96B E9 00 
-  STA.W EntityV8,X                                   ; 03E96D 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03E96D 9D 62 0A 
   BRA.B B_3E989                                   ; 03E970 80 17 
 B_3E972:
   REP.B #P_Acc8Bit                                      ; 03E972 C2 20 
@@ -8163,15 +8341,15 @@ B_3E972:
   BCC.B B_3E987                                   ; 03E979 90 0C 
   SEP.B #P_Acc8Bit                                      ; 03E97B E2 20 
   LDA.B #$C0                                      ; 03E97D A9 C0 
-  STA.W EntityV7,X                                   ; 03E97F 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03E97F 9D F0 09 
   LDA.B #$00                                      ; 03E982 A9 00 
-  STA.W EntityV8,X                                   ; 03E984 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03E984 9D 62 0A 
 B_3E987:
   SEP.B #P_Acc8Bit                                      ; 03E987 E2 20 
 B_3E989:
-  LDA.W EntityV6,X                                   ; 03E989 BD 7E 09 
+  LDA.W EntityXSpeed,X                                   ; 03E989 BD 7E 09 
   BMI.B B_3E9BB                                   ; 03E98C 30 2D 
-  ORA.W EntityV5,X                                   ; 03E98E 1D 0C 09 
+  ORA.W EntityXSubSpeed,X                                   ; 03E98E 1D 0C 09 
   BEQ.B B_3E9E1                                   ; 03E991 F0 4E 
   LDA.B #$E4                                      ; 03E993 A9 E4 
   CMP.W EntityXPx,X                              ; 03E995 DD 46 0B 
@@ -8194,9 +8372,9 @@ B_3E9BB:
 .byte $F2,$0D,$A9,$8D,$9D,$44,$07                 ; 03E9DB .......  ?????D?
 
 B_3E9E1:
-  LDA.W EntityV8,X                                   ; 03E9E1 BD 62 0A 
+  LDA.W EntityYSpeed,X                                   ; 03E9E1 BD 62 0A 
   BMI.B B_3EA13                                   ; 03E9E4 30 2D 
-  ORA.W EntityV7,X                                   ; 03E9E6 1D F0 09 
+  ORA.W EntityYSubSpeed,X                                   ; 03E9E6 1D F0 09 
   BEQ.B D_3EA39                                   ; 03E9E9 F0 4E 
   LDA.B #$D2                                      ; 03E9EB A9 D2 
   CMP.W EntityYPx,X                                   ; 03E9ED DD 9C 0C 
@@ -8214,9 +8392,9 @@ B_3EA13:
   BCC.B D_3EA39                                   ; 03EA18 90 1F 
   STA.W EntityYPx,X                                   ; 03EA1A 9D 9C 0C 
   LDA.B #$30                                      ; 03EA1D A9 30 
-  STA.W EntityV7,X                                   ; 03EA1F 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03EA1F 9D F0 09 
   LDA.B #$00                                      ; 03EA22 A9 00 
-  STA.W EntityV8,X                                   ; 03EA24 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03EA24 9D 62 0A 
   STZ.W EntityV21,X                                   ; 03EA27 9E 2C 10 
   LDA.B #$04                                      ; 03EA2A A9 04 
   STA.W EntityV15,X                                   ; 03EA2C 9D 80 0D 
@@ -8267,10 +8445,10 @@ D_3EA77:
 
   DEC.W EntityV16,X                                   ; 03EA7B DE F2 0D 
   BNE.B B_3EABF                                   ; 03EA7E D0 3F 
-  STZ.W EntityV5,X                                   ; 03EA80 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 03EA83 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 03EA86 9E F0 09 
-  STZ.W EntityV8,X                                   ; 03EA89 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 03EA80 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 03EA83 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 03EA86 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 03EA89 9E 62 0A 
   LDA.B #$09                                      ; 03EA8C A9 09 
   STA.W EntityV16,X                                   ; 03EA8E 9D F2 0D 
   LDA.W EntityV21,X                                   ; 03EA91 BD 2C 10 
@@ -8472,6 +8650,7 @@ B_3EBE5:
 D_3EBEE:
 .byte $01,$02,$02,$03,$03,$04,$03,$05             ; 03EBEE DDD.DDDD ????????
 
+EntityHandler_WallGun:
   LDA.B FrameCounter                              ; 03EBF6 A5 CF 
   AND.B #$03                                      ; 03EBF8 29 03 
   BNE.B B_3EC2C                                   ; 03EBFA D0 30 
@@ -8855,13 +9034,13 @@ B_3EF2F:
   ASL                                             ; 03EF58 0A 
   TAY                                             ; 03EF59 A8 
   LDA.W D_3EFF2,Y                                 ; 03EF5A B9 F2 EF 
-  STA.W EntityV5,X                                   ; 03EF5D 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 03EF5D 9D 0C 09 
   LDA.W D_3EFF3,Y                                 ; 03EF60 B9 F3 EF 
-  STA.W EntityV6,X                                   ; 03EF63 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 03EF63 9D 7E 09 
   LDA.W D_3F012,Y                                 ; 03EF66 B9 12 F0 
-  STA.W EntityV7,X                                   ; 03EF69 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 03EF69 9D F0 09 
   LDA.W D_3F013,Y                                 ; 03EF6C B9 13 F0 
-  STA.W EntityV8,X                                   ; 03EF6F 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 03EF6F 9D 62 0A 
   JSL L_AEBC                                      ; 03EF72 22 BC AE 00 
   TYA                                             ; 03EF76 98 
   STA.W EntityV31,X                                   ; 03EF77 9D A0 14 

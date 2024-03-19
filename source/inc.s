@@ -1,18 +1,21 @@
-CurrentRound = $5AB
+CurrentCircuit = $5AB
 CurrentRoom = $5AC
 HighscoreList  = $201E
 HighscoreListL = $7E201E
 
 
 RoomWavesRemaining      = $1900
+RoomWavePauseTimer      = $1901                             ; used when grabbing a nuke, delays all spawns until 0
 RoomWaveType            = $1902
-RoomWaveMaxOnScreenLo   = $1909
-RoomWaveMaxOnScreenHi   = $1910
-RoomWaveTimer           = $1925
+RoomWaveRemainsLo   = $1909
+RoomWaveRemainsHi   = $1910
+RoomWaveUnk0            = $1917
+RoomWaveVariantRate     = $191E
+RoomNextWaveTimerLo     = $1925
 RoomNextWaveTimerHi     = $192C
+RoomWaveUnk1            = $1933
 RoomWaveCurrentTimerLo  = $193A
 RoomWaveCurrentTimerHi  = $1941
-RoomWaveVariantRate     = $1917
 
 ; entity data
 MaxEntities = $72
@@ -22,10 +25,10 @@ EntityTypeId = EntityHeader + (MaxEntities *  1)             ; 744
 EntityV2     = EntityHeader + (MaxEntities *  2)             ; 7B6
 EntityV3     = EntityHeader + (MaxEntities *  3)             ; 828
 EntityV4     = EntityHeader + (MaxEntities *  4)             ; 89A
-EntityV5     = EntityHeader + (MaxEntities *  5)             ; 90C
-EntityV6     = EntityHeader + (MaxEntities *  6)             ; 97E
-EntityV7     = EntityHeader + (MaxEntities *  7)             ; 9F0
-EntityV8     = EntityHeader + (MaxEntities *  8)             ; A62
+EntityXSubSpeed     = EntityHeader + (MaxEntities *  5)             ; 90C
+EntityXSpeed     = EntityHeader + (MaxEntities *  6)             ; 97E
+EntityYSubSpeed     = EntityHeader + (MaxEntities *  7)             ; 9F0
+EntityYSpeed     = EntityHeader + (MaxEntities *  8)             ; A62
 EntityXSubPx = EntityHeader + (MaxEntities *  9)             ; AD4
 EntityXPx    = EntityHeader + (MaxEntities * 10)             ; B46
 EntityV11    = EntityHeader + (MaxEntities * 11)             ; BB8
@@ -154,7 +157,13 @@ XexzyItemY = $505
 RNG0 = $5A8
 RNG1 = $5A9
 DropTimer = $5AE
+PrizeTimer = $5AF
+
 XexzyMutoidHealth = $69A
+;XexzyMutoidHealth = $69B
+MutoidCurrentForm = $69C
+MutoidType = $69E ; mutoid / evil mc
+
 XexzyWalkAnimation = $1886
 INIDISP = $2100
 OBSEL = $2101

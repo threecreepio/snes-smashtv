@@ -2255,30 +2255,30 @@ D_EBE78:
 CheckForEncounterRoom:
   php
   sep #P_Idx8Bit | P_Acc8Bit
-  ldx CurrentRound
-  beq @Round0
+  ldx CurrentCircuit
+  beq @Circuit1
   dex
-  beq @Round1
+  beq @Circuit2
   lda CurrentRoom
   ; if we are in room #7 in round #3, encounter the cobras
   cmp #$07
-  beq @Round2_Cobras
+  beq @Circuit3_Cobras
   ; if we are in room #21 in round #3, encounter the evil mc
   cmp #$15
   bne @NoEncounterFound
   jsr StartEncounterEvilMC
   jmp @EncounterStarted
-@Round2_Cobras:
+@Circuit3_Cobras:
   jsr StartEncounterCobras
   jmp @EncounterStarted
-@Round1:
+@Circuit2:
   ; if we are in room #7 in round #2, encounter scarface
   lda CurrentRoom
   cmp #$07
   bne @NoEncounterFound
   jsr StartEncounterScarface
   jmp @EncounterStarted
-@Round0:
+@Circuit1:
   ; if we are in room #10 in round #1, encounter mutoid man
   lda CurrentRoom
   cmp #$0A
@@ -2328,9 +2328,9 @@ StartEncounterScarface:
 StartEncounterMutoidMan:
   PHP                                             ; 0EC6F5 08 
   SEP.B #P_Acc8Bit                                      ; 0EC6F6 E2 20 
-  STZ.W $069E                                     ; 0EC6F8 9C 9E 06 
+  STZ.W MutoidType                                     ; 0EC6F8 9C 9E 06 
   LDA.B #$80                                      ; 0EC6FB A9 80 
-  STA.W $05AF                                     ; 0EC6FD 8D AF 05 
+  STA.W PrizeTimer                                     ; 0EC6FD 8D AF 05 
   JSR.W L_EC945                                   ; 0EC700 20 45 C9 
   JSR.W L_EC765                                   ; 0EC703 20 65 C7 
   REP.B #P_Acc8Bit                                      ; 0EC706 C2 20 

@@ -2,35 +2,29 @@
 .ORG 0
 
 V_STARTUP:
-  sei
-  ; set a little starting register state
-  stz NMITIMEN
-  stz HDMAEN
-  stz MDMAEN
-  stz APUIO0
-  stz APUIO1
-  stz APUIO2
-  stz APUIO3
-  clc
-  xce
-  cld
-  ; switch to data bank 0
-  lda #0
-  pha
-  plb
-  rep #P_Idx8Bit | P_Acc8Bit
-  ; disable screen
-  lda.w #$80
-  sta INIDISP
-  ; set page register to 0
-  lda.w #$00
-  tcd
-  ; clear stack
-  lda.w #$01FF
-  tcs
-  ; initialize out some game state
-  stz DemoRunning
-  sep #P_Idx8Bit | P_Acc8Bit                                      ; 008030 E2 30 
+  sei                                             ; set starting state
+  stz NMITIMEN                                    ;
+  stz HDMAEN                                      ;
+  stz MDMAEN                                      ;
+  stz APUIO0                                      ;
+  stz APUIO1                                      ;
+  stz APUIO2                                      ;
+  stz APUIO3                                      ;
+  clc                                             ;
+  xce                                             ;
+  cld                                             ;
+  lda #0                                          ; switch to data bank 0
+  pha                                             ; 
+  plb                                             ; 
+  rep #P_Idx8Bit | P_Acc8Bit                      ; 
+  lda.w #$80                                      ; disable screen
+  sta INIDISP                                     ;
+  lda.w #$00                                      ; set page register to 0
+  tcd                                             ; 
+  lda.w #$01FF                                    ; clear stack
+  tcs                                             ;
+  stz DemoRunning                                 ; initialize out some game state
+  sep #P_Idx8Bit | P_Acc8Bit                      ; 008030 E2 30 
   stz $02CB
   stz $052C
   JSR.W L_8232                                    ; 008038 20 32 82 
@@ -102,7 +96,7 @@ GameScreenLoop:
   PLB                                             ; 0080E9 AB 
   PLB                                             ; 0080EA AB 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0080EB E2 30 
-  STZ.W CurrentRound                                     ; 0080ED 9C AB 05 
+  STZ.W CurrentCircuit                                     ; 0080ED 9C AB 05 
   STZ.W CurrentRoom                                     ; 0080F0 9C AC 05 
   STZ.W TurboModeActive                                     ; 0080F3 9C 2E 05 
   LDA.W $052F                                     ; 0080F6 AD 2F 05 
@@ -122,7 +116,7 @@ B_811F:
   JSL L_E454                                      ; 00812D 22 54 E4 00 
   JSL RunTitleHighscoreScreen                                     ; 008131 22 57 E2 0E 
 ReturnToTitleMenu:
-  STZ.W CurrentRound                                     ; 008135 9C AB 05 
+  STZ.W CurrentCircuit                                     ; 008135 9C AB 05 
   STZ.W CurrentRoom                                     ; 008138 9C AC 05 
   JSL L_E454                                      ; 00813B 22 54 E4 00 
   SEP.B #P_Acc8Bit                                      ; 00813F E2 20 
@@ -142,12 +136,12 @@ B_8159:
   PLB                                             ; 00815D AB 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00815E E2 30 
   JSR.W L_81D0                                    ; 008160 20 D0 81 
-  LDX.W CurrentRound                                     ; 008163 AE AB 05 
-  STX.W CurrentRound                                     ; 008166 8E AB 05 
+  LDX.W CurrentCircuit                                     ; 008163 AE AB 05 
+  STX.W CurrentCircuit                                     ; 008166 8E AB 05 
   LDA.L D_81CD,X                                  ; 008169 BF CD 81 00 
   JSL L_F84EC                                     ; 00816D 22 EC 84 0F 
   JSR.W RunGameScreen                                    ; 008171 20 D7 84 
-  LDA.W CurrentRound                                     ; 008174 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 008174 AD AB 05 
   BMI.B B_81C2                                    ; 008177 30 49 
 
 ; probably code to deal with winning the game?
@@ -318,7 +312,7 @@ L_828A:
   JSR.W PrepareRoom                                    ; 0082AC 20 7B C1 
   JSR.W L_97D3                                    ; 0082AF 20 D3 97 
   JSR.W L_A8D5                                    ; 0082B2 20 D5 A8 
-  LDA.W CurrentRound                                     ; 0082B5 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 0082B5 AD AB 05 
   CMP.B #$01                                      ; 0082B8 C9 01 
   BNE.B B_82C5                                    ; 0082BA D0 09 
 
@@ -375,7 +369,7 @@ B_8329:
   STZ.W DropTimer                   ; 00832E 9C AE 05 
   JSL AdvanceRNG                                     ; 008331 22 95 CA 0E 
   AND.B #$7F                                      ; 008335 29 7F 
-  STA.W $05AF                                     ; 008337 8D AF 05 
+  STA.W PrizeTimer                                     ; 008337 8D AF 05 
   STZ.W $06CD                                     ; 00833A 9C CD 06 
   STZ.W $06CE                                     ; 00833D 9C CE 06 
   STZ.W $06D0                                     ; 008340 9C D0 06 
@@ -413,7 +407,7 @@ B_8329:
   JSL L_EF822                                     ; 00839D 22 22 F8 0E 
   JSR.W L_BF4E                                    ; 0083A1 20 4E BF 
   JSL L_AF0E                                      ; 0083A4 22 0E AF 00 
-  LDA.W CurrentRound                                     ; 0083A8 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 0083A8 AD AB 05 
   ASL                                             ; 0083AB 0A 
   TAX                                             ; 0083AC AA 
   REP.B #P_Acc8Bit                                      ; 0083AD C2 20 
@@ -722,7 +716,7 @@ B_8645:
   JSL L_ACE4                                      ; 008651 22 E4 AC 00 
   JSR.W L_A2A8                                    ; 008655 20 A8 A2 
   JSR.W L_A3AB                                    ; 008658 20 AB A3 
-  LDA.W CurrentRound                                     ; 00865B AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00865B AD AB 05 
   BMI.B B_8627                                    ; 00865E 30 C7 
   JMP.W B_851E                                    ; 008660 4C 1E 85 
 
@@ -731,7 +725,7 @@ L_8663:
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008664 E2 30 
   JSR.W L_8B8A                                    ; 008666 20 8A 8B 
   JSL Wait1Frame                                     ; 008669 22 13 CA 0E 
-  LDA.W CurrentRound                                     ; 00866D AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00866D AD AB 05 
   ASL                                             ; 008670 0A 
   TAX                                             ; 008671 AA 
   STZ.W $1A86                                     ; 008672 9C 86 1A 
@@ -751,7 +745,7 @@ L_8663:
   JSL Wait1Frame                                     ; 00869A 22 13 CA 0E 
   JSR.W L_9013                                    ; 00869E 20 13 90 
   JSR.W L_8F93                                    ; 0086A1 20 93 8F 
-  LDA.W CurrentRound                                     ; 0086A4 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 0086A4 AD AB 05 
   ASL                                             ; 0086A7 0A 
   TAX                                             ; 0086A8 AA 
   REP.B #P_Acc8Bit                                      ; 0086A9 C2 20 
@@ -917,7 +911,7 @@ L_8833:
   PEA.W $0000                                     ; 008837 F4 00 00 
   PLB                                             ; 00883A AB 
   PLB                                             ; 00883B AB 
-  LDA.W CurrentRound                                     ; 00883C AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00883C AD AB 05 
   ASL                                             ; 00883F 0A 
   TAY                                             ; 008840 A8 
   LDA.W D_88E3,Y                                  ; 008841 B9 E3 88 
@@ -1206,7 +1200,7 @@ B_8AC4:
   JSL Wait1Frame                                     ; 008AF7 22 13 CA 0E 
   JSL CheckForEncounterRoom                                     ; 008AFB 22 19 C6 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008AFF E2 30 
-  LDX.W CurrentRound                                     ; 008B01 AE AB 05 
+  LDX.W CurrentCircuit                                     ; 008B01 AE AB 05 
   BEQ.B B_8B1B                                    ; 008B04 F0 15 
 
 .byte $CA,$F0,$09,$AD,$AC,$05,$C9,$15             ; 008B06 ........ ????????
@@ -1292,7 +1286,7 @@ L_8BBC:
   LDA.B #$00                                      ; 008BC0 A9 00 
   PHA                                             ; 008BC2 48 
   PLB                                             ; 008BC3 AB 
-  LDX.W CurrentRound                                     ; 008BC4 AE AB 05 
+  LDX.W CurrentCircuit                                     ; 008BC4 AE AB 05 
   LDA.W D_8DF2,X                                  ; 008BC7 BD F2 8D 
   STA.B $04                                       ; 008BCA 85 04 
   LDA.W D_8DF5,X                                  ; 008BCC BD F5 8D 
@@ -1333,7 +1327,7 @@ B_8BF8:
   PLB                                             ; 008C1A AB 
   PLB                                             ; 008C1B AB 
   SEP.B #P_Acc8Bit                                      ; 008C1C E2 20 
-  LDA.W CurrentRound                                     ; 008C1E AD AB 05 
+  LDA.W CurrentCircuit                                     ; 008C1E AD AB 05 
   CMP.B #$02                                      ; 008C21 C9 02 
   BNE.B B_8C2C                                    ; 008C23 D0 07 
 
@@ -1721,7 +1715,7 @@ B_907D:
   STZ.W $18B8,X                                   ; 009080 9E B8 18 
   STZ.W $18B6,X                                   ; 009083 9E B6 18 
   LDA.B #$01                                      ; 009086 A9 01 
-  STA.W EntityV8,X                                   ; 009088 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 009088 9D 62 0A 
   STA.W $18BA,X                                   ; 00908B 9D BA 18 
   DEX                                             ; 00908E CA 
   BPL.B B_907D                                    ; 00908F 10 EC 
@@ -1762,7 +1756,7 @@ B_90C5:
   LDX.B #$01                                      ; 0090EF A2 01 
   LDA.B #$FF                                      ; 0090F1 A9 FF 
 B_90F3:
-  STA.W EntityV8,X                                   ; 0090F3 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 0090F3 9D 62 0A 
   STA.W $18BA,X                                   ; 0090F6 9D BA 18 
   DEX                                             ; 0090F9 CA 
   BPL.B B_90F3                                    ; 0090FA 10 F7 
@@ -1776,7 +1770,7 @@ B_90FE:
   BPL.B B_90FE                                    ; 009108 10 F4 
   LDX.B #$01                                      ; 00910A A2 01 
 B_910C:
-  STZ.W EntityV8,X                                   ; 00910C 9E 62 0A 
+  STZ.W EntityYSpeed,X                                   ; 00910C 9E 62 0A 
   STZ.W $18BA,X                                   ; 00910F 9E BA 18 
   DEX                                             ; 009112 CA 
   BPL.B B_910C                                    ; 009113 10 F7 
@@ -1790,7 +1784,7 @@ B_910C:
   LDX.B #$01                                      ; 00912B A2 01 
   JSL L_ACE4                                      ; 00912D 22 E4 AC 00 
   JSR.W L_8A3A                                    ; 009131 20 3A 8A 
-  STZ.W EntityV8                                     ; 009134 9C 62 0A 
+  STZ.W EntityYSpeed                                     ; 009134 9C 62 0A 
   STZ.W $0A63                                     ; 009137 9C 63 0A 
   JSL Wait1Frame                                     ; 00913A 22 13 CA 0E 
   LDA.B #$50                                      ; 00913E A9 50 
@@ -1817,7 +1811,7 @@ B_9167:
   STZ.W $18B8,X                                   ; 00916A 9E B8 18 
   STZ.W $18BA,X                                   ; 00916D 9E BA 18 
   LDA.B #$FF                                      ; 009170 A9 FF 
-  STA.W EntityV6,X                                   ; 009172 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 009172 9D 7E 09 
   STA.W $18B6,X                                   ; 009175 9D B6 18 
   DEX                                             ; 009178 CA 
   BPL.B B_9167                                    ; 009179 10 EC 
@@ -1844,7 +1838,7 @@ B_91A3:
   LDA.B #$07                                      ; 0091A8 A9 07 
   STA.W CurrentRoom                                     ; 0091AA 8D AC 05 
 B_91AD:
-  LDA.W CurrentRound                                     ; 0091AD AD AB 05 
+  LDA.W CurrentCircuit                                     ; 0091AD AD AB 05 
   CMP.B #$02                                      ; 0091B0 C9 02 
   BNE.B B_91C7                                    ; 0091B2 D0 13 
 
@@ -1911,7 +1905,7 @@ B_924E:
   LDX.B #$01                                      ; 00924E A2 01 
   LDA.B #$01                                      ; 009250 A9 01 
 B_9252:
-  STA.W EntityV6,X                                   ; 009252 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 009252 9D 7E 09 
   STA.W $18B6,X                                   ; 009255 9D B6 18 
   DEX                                             ; 009258 CA 
   BPL.B B_9252                                    ; 009259 10 F7 
@@ -1936,7 +1930,7 @@ B_927E:
   BPL.B B_925D                                    ; 009280 10 DB 
   LDX.B #$01                                      ; 009282 A2 01 
 B_9284:
-  STZ.W EntityV6,X                                   ; 009284 9E 7E 09 
+  STZ.W EntityXSpeed,X                                   ; 009284 9E 7E 09 
   STZ.W $18B6,X                                   ; 009287 9E B6 18 
   DEX                                             ; 00928A CA 
   BPL.B B_9284                                    ; 00928B 10 F7 
@@ -1978,7 +1972,7 @@ B_92D9:
   LDA.B #$01                                      ; 0092E5 A9 01 
   STA.W $05D9                                     ; 0092E7 8D D9 05 
   JSR.W L_8A3A                                    ; 0092EA 20 3A 8A 
-  LDA.W CurrentRound                                     ; 0092ED AD AB 05 
+  LDA.W CurrentCircuit                                     ; 0092ED AD AB 05 
   CMP.B #$02                                      ; 0092F0 C9 02 
   BNE.B B_92FE                                    ; 0092F2 D0 0A 
 
@@ -2072,7 +2066,7 @@ B_93C2:
   STZ.W $18B8,X                                   ; 0093C5 9E B8 18 
   STZ.W $18B6,X                                   ; 0093C8 9E B6 18 
   LDA.B #$FF                                      ; 0093CB A9 FF 
-  STA.W EntityV8,X                                   ; 0093CD 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 0093CD 9D 62 0A 
   STA.W $18BA,X                                   ; 0093D0 9D BA 18 
   DEX                                             ; 0093D3 CA 
   BPL.B B_93C2                                    ; 0093D4 10 EC 
@@ -2124,7 +2118,7 @@ B_941F:
   LDX.B #$01                                      ; 009449 A2 01 
   LDA.B #$01                                      ; 00944B A9 01 
 B_944D:
-  STA.W EntityV8,X                                   ; 00944D 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00944D 9D 62 0A 
   STA.W $18BA,X                                   ; 009450 9D BA 18 
   DEX                                             ; 009453 CA 
   BPL.B B_944D                                    ; 009454 10 F7 
@@ -2138,7 +2132,7 @@ B_9458:
   BPL.B B_9458                                    ; 009462 10 F4 
   LDX.B #$01                                      ; 009464 A2 01 
 B_9466:
-  STZ.W EntityV8,X                                   ; 009466 9E 62 0A 
+  STZ.W EntityYSpeed,X                                   ; 009466 9E 62 0A 
   STZ.W $18BA,X                                   ; 009469 9E BA 18 
   DEX                                             ; 00946C CA 
   BPL.B B_9466                                    ; 00946D 10 F7 
@@ -2381,7 +2375,7 @@ B_9625:
   AND.B #$02                                      ; 009628 29 02 
   BNE.B B_9643                                    ; 00962A D0 17 
   LDA.W CurrentRoom                                     ; 00962C AD AC 05 
-  LDY.W CurrentRound                                     ; 00962F AC AB 05 
+  LDY.W CurrentCircuit                                     ; 00962F AC AB 05 
   BEQ.B B_963A                                    ; 009632 F0 06 
 
 .byte $C9,$12,$F0,$0B,$80,$04                     ; 009635 ......   ??????
@@ -2562,10 +2556,10 @@ LocateCurrentRoomOffset:
   adc $04
   tay
   ; find offset to the room list for the round
-  ldx CurrentRound
-  lda.w RoundRoomIndexesLo,X
+  ldx CurrentCircuit
+  lda.w CircuitRoomIndexesLo,X
   sta $04
-  lda.w RoundRoomIndexesHi,X
+  lda.w CircuitRoomIndexesHi,X
   sta $05
   rts
 
@@ -2664,7 +2658,7 @@ B_9889:
   PHX                                             ; 009897 DA 
   JSL L_ED607                                     ; 009898 22 07 D6 0E 
   LDA.B #$FF                                      ; 00989C A9 FF 
-  STA.W CurrentRound                                     ; 00989E 8D AB 05 
+  STA.W CurrentCircuit                                     ; 00989E 8D AB 05 
   PLX                                             ; 0098A1 FA 
 B_98A2:
   RTS                                             ; 0098A2 60 
@@ -3693,7 +3687,7 @@ D_A249:
 L_A250:
   PHP                                             ; 00A250 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A251 E2 30 
-  LDA.W $1901                                     ; 00A253 AD 01 19 
+  LDA.W RoomWavePauseTimer                                     ; 00A253 AD 01 19 
   BNE.B B_A262                                    ; 00A256 D0 0A 
   LDA.W $05E3                                     ; 00A258 AD E3 05 
   BEQ.B B_A262                                    ; 00A25B F0 05 
@@ -4291,7 +4285,7 @@ D_A7D5:
 L_A8D5:
   PHP                                             ; 00A8D5 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00A8D6 E2 30 
-  LDA.W CurrentRound                                     ; 00A8D8 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00A8D8 AD AB 05 
   ASL                                             ; 00A8DB 0A 
   TAY                                             ; 00A8DC A8 
   LDA.W D_AA3B,Y                                  ; 00A8DD B9 3B AA 
@@ -4370,13 +4364,13 @@ D_AA3C:
 .byte $06,$02,$05,$05                             ; 00AA75 ....     ????
 
 
-RoundRoomIndexesLo:
-.byte <Round1RoomIndexes,<Round2RoomIndexes,<Round3RoomIndexes
-RoundRoomIndexesHi:
-.byte >Round1RoomIndexes,>Round2RoomIndexes,>Round3RoomIndexes
+CircuitRoomIndexesLo:
+.byte <Circuit1RoomIndexes,<Circuit2RoomIndexes,<Circuit3RoomIndexes
+CircuitRoomIndexesHi:
+.byte >Circuit1RoomIndexes,>Circuit2RoomIndexes,>Circuit3RoomIndexes
 
 
-Round1RoomIndexes:
+Circuit1RoomIndexes:
 ;       S   E   N   W
 .byte $00,$01,$00,$00
 .byte $03,$00,$00,$04
@@ -4388,7 +4382,7 @@ Round1RoomIndexes:
 .byte $0A,$00,$00,$FF
 .byte $00,$09,$00,$04
 
-Round2RoomIndexes:
+Circuit2RoomIndexes:
 .byte $00             ; 00AA9B DDDDDDD. ????????
 .byte $01,$00,$08,$02,$0D,$09,$03,$0E             ; 00AAA3 ........ ????????
 .byte $04,$00,$0F,$0B,$00,$00,$00,$00             ; 00AAAB ........ ????????
@@ -4398,7 +4392,7 @@ Round2RoomIndexes:
 .byte $00,$00,$0F,$00,$00,$00,$11,$06             ; 00AACB ........ ????????
 .byte $00,$00,$00,$12,$00,$10,$0A,$00             ; 00AAD3 ........ ????????
 
-Round3RoomIndexes:
+Circuit3RoomIndexes:
 .byte $00,$01,$00,$08,$02,$0D,$09,$03             ; 00AADB ........ ????????
 .byte $0E,$04,$00,$0F,$0B,$00,$00,$00             ; 00AAE3 ........ ????????
 .byte $00,$06,$00,$07,$00,$00,$13,$00             ; 00AAEB ........ ????????
@@ -4466,7 +4460,7 @@ L_AB65:
   LDX.B $05                                       ; 00AB71 A6 05 
   LDA.L D_ABFE,X                                  ; 00AB73 BF FE AB 00 
   STA.B $08                                       ; 00AB77 85 08 
-  LDA.W CurrentRound                                     ; 00AB79 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00AB79 AD AB 05 
   ASL                                             ; 00AB7C 0A 
   ASL                                             ; 00AB7D 0A 
   ASL                                             ; 00AB7E 0A 
@@ -4509,7 +4503,7 @@ B_ABA7:
   LDA.B #$09                                      ; 00ABBD A9 09 
   PHA                                             ; 00ABBF 48 
   PLB                                             ; 00ABC0 AB 
-  LDA.W CurrentRound                                     ; 00ABC1 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00ABC1 AD AB 05 
   ASL                                             ; 00ABC4 0A 
   ASL                                             ; 00ABC5 0A 
   CLC                                             ; 00ABC6 18 
@@ -6192,13 +6186,13 @@ B_B8C2:
   ASL                                             ; 00B8C9 0A 
   TAY                                             ; 00B8CA A8 
   LDA.W D_B94F,Y                                  ; 00B8CB B9 4F B9 
-  STA.W EntityV5,X                                   ; 00B8CE 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00B8CE 9D 0C 09 
   LDA.W D_B950,Y                                  ; 00B8D1 B9 50 B9 
-  STA.W EntityV6,X                                   ; 00B8D4 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00B8D4 9D 7E 09 
   LDA.W D_B95F,Y                                  ; 00B8D7 B9 5F B9 
-  STA.W EntityV7,X                                   ; 00B8DA 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00B8DA 9D F0 09 
   LDA.W D_B960,Y                                  ; 00B8DD B9 60 B9 
-  STA.W EntityV8,X                                   ; 00B8E0 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00B8E0 9D 62 0A 
   LDA.B #$01                                      ; 00B8E3 A9 01 
   STA.W EntityHeader,X                                   ; 00B8E5 9D D2 06 
   LDA.B $08                                       ; 00B8E8 A5 08 
@@ -6355,13 +6349,13 @@ B_BA23:
   ASL                                             ; 00BA28 0A 
   TAY                                             ; 00BA29 A8 
   LDA.W D_BA7B,Y                                  ; 00BA2A B9 7B BA 
-  STA.W EntityV5,X                                   ; 00BA2D 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00BA2D 9D 0C 09 
   LDA.W D_BA7C,Y                                  ; 00BA30 B9 7C BA 
-  STA.W EntityV6,X                                   ; 00BA33 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00BA33 9D 7E 09 
   LDA.W D_BA9B,Y                                  ; 00BA36 B9 9B BA 
-  STA.W EntityV7,X                                   ; 00BA39 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00BA39 9D F0 09 
   LDA.W D_BA9C,Y                                  ; 00BA3C B9 9C BA 
-  STA.W EntityV8,X                                   ; 00BA3F 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00BA3F 9D 62 0A 
   LDA.B #$01                                      ; 00BA42 A9 01 
   STA.W EntityHeader,X                                   ; 00BA44 9D D2 06 
   LDA.B #$06                                      ; 00BA47 A9 06 
@@ -6473,13 +6467,13 @@ B_BB33:
   ASL                                             ; 00BB3A 0A 
   TAY                                             ; 00BB3B A8 
   LDA.W D_BBC3,Y                                  ; 00BB3C B9 C3 BB 
-  STA.W EntityV5,X                                   ; 00BB3F 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00BB3F 9D 0C 09 
   LDA.W D_BBC4,Y                                  ; 00BB42 B9 C4 BB 
-  STA.W EntityV6,X                                   ; 00BB45 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00BB45 9D 7E 09 
   LDA.W D_BBD3,Y                                  ; 00BB48 B9 D3 BB 
-  STA.W EntityV7,X                                   ; 00BB4B 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00BB4B 9D F0 09 
   LDA.W D_BBD4,Y                                  ; 00BB4E B9 D4 BB 
-  STA.W EntityV8,X                                   ; 00BB51 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00BB51 9D 62 0A 
   LDA.B #$01                                      ; 00BB54 A9 01 
   STA.W EntityHeader,X                                   ; 00BB56 9D D2 06 
   LDA.B $08                                       ; 00BB59 A5 08 
@@ -6614,13 +6608,13 @@ B_BC5B:
   ASL                                             ; 00BC6F 0A 
   TAY                                             ; 00BC70 A8 
   LDA.W D_BCFA,Y                                  ; 00BC71 B9 FA BC 
-  STA.W EntityV5,X                                   ; 00BC74 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00BC74 9D 0C 09 
   LDA.W D_BCFB,Y                                  ; 00BC77 B9 FB BC 
-  STA.W EntityV6,X                                   ; 00BC7A 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00BC7A 9D 7E 09 
   LDA.W D_BD3A,Y                                  ; 00BC7D B9 3A BD 
-  STA.W EntityV7,X                                   ; 00BC80 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00BC80 9D F0 09 
   LDA.W D_BD3B,Y                                  ; 00BC83 B9 3B BD 
-  STA.W EntityV8,X                                   ; 00BC86 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00BC86 9D 62 0A 
   LDA.B #$01                                      ; 00BC89 A9 01 
   STA.W EntityHeader,X                                   ; 00BC8B 9D D2 06 
   LDA.B #$0E                                      ; 00BC8E A9 0E 
@@ -6775,13 +6769,13 @@ B_BE18:
   ASL                                             ; 00BE1F 0A 
   TAY                                             ; 00BE20 A8 
   LDA.W D_BEC9,Y                                  ; 00BE21 B9 C9 BE 
-  STA.W EntityV5,X                                   ; 00BE24 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00BE24 9D 0C 09 
   LDA.W D_BECA,Y                                  ; 00BE27 B9 CA BE 
-  STA.W EntityV6,X                                   ; 00BE2A 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00BE2A 9D 7E 09 
   LDA.W D_BED9,Y                                  ; 00BE2D B9 D9 BE 
-  STA.W EntityV7,X                                   ; 00BE30 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00BE30 9D F0 09 
   LDA.W D_BEDA,Y                                  ; 00BE33 B9 DA BE 
-  STA.W EntityV8,X                                   ; 00BE36 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00BE36 9D 62 0A 
   LDA.B #$6A                                      ; 00BE39 A9 6A 
   STA.W EntityV29,X                                   ; 00BE3B 9D BC 13 
   LDA.B #$34                                      ; 00BE3E A9 34 
@@ -7170,7 +7164,7 @@ PrepareRoom:
   STZ.W $18EF                                     ; 00C1AB 9C EF 18 
   STZ.W $18F0                                     ; 00C1AE 9C F0 18 
   STZ.W $18F1                                     ; 00C1B1 9C F1 18 
-  STZ.W $1901                                     ; 00C1B4 9C 01 19 
+  STZ.W RoomWavePauseTimer                                     ; 00C1B4 9C 01 19 
   STZ.W RoomWavesRemaining                                     ; 00C1B7 9C 00 19 
   STZ.W $06C6                                     ; 00C1BA 9C C6 06 
   LDX.B #$06                                      ; 00C1BD A2 06 
@@ -7193,12 +7187,12 @@ B_C1E0:
   LDA.B #$02                                      ; 00C1E0 A9 02 
   PHA                                             ; 00C1E2 48 
   PLB                                             ; 00C1E3 AB 
-  LDA.W CurrentRound                                     ; 00C1E4 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00C1E4 AD AB 05 
   ASL                                             ; 00C1E7 0A 
   TAX                                             ; 00C1E8 AA 
-  LDA.W EntityWavesRounds,X                                  ; 00C1E9 BD F0 B5 
+  LDA.W EntityWavesCircuits,X                                  ; 00C1E9 BD F0 B5 
   STA.B $04                                       ; 00C1EC 85 04 
-  LDA.W EntityWavesRounds+1,X                                  ; 00C1EE BD F1 B5 
+  LDA.W EntityWavesCircuits+1,X                                  ; 00C1EE BD F1 B5 
   STA.B $05                                       ; 00C1F1 85 05 
   LDA.W CurrentRoom                                     ; 00C1F3 AD AC 05 
   ASL                                             ; 00C1F6 0A 
@@ -7211,7 +7205,7 @@ B_C1E0:
   LDY.B #$00                                      ; 00C201 A0 00 
   LDA.B ($12),Y                                   ; 00C203 B1 12 
   STA.B $10                                       ; 00C205 85 10 
-B_C207:
+SetupNextWave:
   INC.W RoomWavesRemaining                                     ; 00C207 EE 00 19 
   LDX.B $10                                       ; 00C20A A6 10 
   INY                                             ; 00C20C C8 
@@ -7219,25 +7213,25 @@ B_C207:
   STA.W RoomWaveType,X                                   ; 00C20F 9D 02 19 
   INY                                             ; 00C212 C8 
   LDA.B ($12),Y                                   ; 00C213 B1 12 
-  STA.W RoomWaveMaxOnScreenLo,X                                   ; 00C215 9D 09 19 
+  STA.W RoomWaveRemainsLo,X                                   ; 00C215 9D 09 19 
   INY                                             ; 00C218 C8 
   LDA.B ($12),Y                                   ; 00C219 B1 12 
-  STA.W RoomWaveMaxOnScreenHi,X                                   ; 00C21B 9D 10 19 
+  STA.W RoomWaveRemainsHi,X                                   ; 00C21B 9D 10 19 
   INY                                             ; 00C21E C8 
   LDA.B ($12),Y                                   ; 00C21F B1 12 
-  STA.W RoomWaveVariantRate,X                                   ; 00C221 9D 17 19 
+  STA.W RoomWaveUnk0,X                                   ; 00C221 9D 17 19 
   INY                                             ; 00C224 C8 
   LDA.B ($12),Y                                   ; 00C225 B1 12 
-  STA.W $191E,X                                   ; 00C227 9D 1E 19 
+  STA.W RoomWaveVariantRate,X                                   ; 00C227 9D 1E 19 
   INY                                             ; 00C22A C8 
   LDA.B ($12),Y                                   ; 00C22B B1 12 
-  STA.W RoomWaveTimer,X                                   ; 00C22D 9D 25 19 
+  STA.W RoomNextWaveTimerLo,X                                   ; 00C22D 9D 25 19 
   INY                                             ; 00C230 C8 
   LDA.B ($12),Y                                   ; 00C231 B1 12 
   STA.W RoomNextWaveTimerHi,X                                   ; 00C233 9D 2C 19 
   INY                                             ; 00C236 C8 
   LDA.B ($12),Y                                   ; 00C237 B1 12 
-  STA.W $1933,X                                   ; 00C239 9D 33 19 
+  STA.W RoomWaveUnk1,X                                   ; 00C239 9D 33 19 
   INY                                             ; 00C23C C8 
   LDA.B ($12),Y                                   ; 00C23D B1 12 
   STA.W RoomWaveCurrentTimerLo,X                                   ; 00C23F 9D 3A 19 
@@ -7245,10 +7239,10 @@ B_C207:
   LDA.B ($12),Y                                   ; 00C243 B1 12 
   STA.W RoomWaveCurrentTimerHi,X                                   ; 00C245 9D 41 19 
   STY.B $11                                       ; 00C248 84 11 
-  JSR.W L_C367                                    ; 00C24A 20 67 C3 
+  JSR.W InitRoomWave                                    ; 00C24A 20 67 C3 
   LDY.B $11                                       ; 00C24D A4 11 
   DEC.B $10                                       ; 00C24F C6 10 
-  BPL.B B_C207                                    ; 00C251 10 B4 
+  BPL.B SetupNextWave                                    ; 00C251 10 B4 
   INY                                             ; 00C253 C8 
   LDA.B ($12),Y                                   ; 00C254 B1 12 
   STA.W $18FF                                     ; 00C256 8D FF 18 
@@ -7304,9 +7298,9 @@ L_C2B5:
   PHP                                             ; 00C2B5 08 
   PHB                                             ; 00C2B6 8B 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00C2B7 E2 30 
-  LDA.W $1901                                     ; 00C2B9 AD 01 19 
+  LDA.W RoomWavePauseTimer                                     ; 00C2B9 AD 01 19 
   BEQ.B B_C2C4                                    ; 00C2BC F0 06 
-  DEC.W $1901                                     ; 00C2BE CE 01 19 
+  DEC.W RoomWavePauseTimer                                     ; 00C2BE CE 01 19 
   PLB                                             ; 00C2C1 AB 
   PLP                                             ; 00C2C2 28 
   RTS                                             ; 00C2C3 60 
@@ -7335,7 +7329,7 @@ B_C2D8:
   LDA.W RoomWaveCurrentTimerLo,Y                                   ; 00C2EE B9 3A 19 
   ORA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2F1 19 41 19 
   BNE.B B_C32B                                    ; 00C2F4 D0 35 
-  LDA.W RoomWaveTimer,Y                                   ; 00C2F6 B9 25 19 
+  LDA.W RoomNextWaveTimerLo,Y                                   ; 00C2F6 B9 25 19 
   STA.W RoomWaveCurrentTimerLo,Y                                   ; 00C2F9 99 3A 19 
   LDA.W RoomNextWaveTimerHi,Y                                   ; 00C2FC B9 2C 19 
   STA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2FF 99 41 19 
@@ -7344,14 +7338,14 @@ B_C2D8:
   STA.B $04                                       ; 00C307 85 04 
   LDY.B $10                                       ; 00C309 A4 10 
   SEC                                             ; 00C30B 38 
-  LDA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C30C B9 09 19 
+  LDA.W RoomWaveRemainsLo,Y                                   ; 00C30C B9 09 19 
   SBC.B $04                                       ; 00C30F E5 04 
-  STA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C311 99 09 19 
-  LDA.W RoomWaveMaxOnScreenHi,Y                     ; 00C314 B9 10 19 
+  STA.W RoomWaveRemainsLo,Y                                   ; 00C311 99 09 19 
+  LDA.W RoomWaveRemainsHi,Y                     ; 00C314 B9 10 19 
   SBC.B #$00                                      ; 00C317 E9 00 
-  STA.W RoomWaveMaxOnScreenHi,Y                                   ; 00C319 99 10 19 
+  STA.W RoomWaveRemainsHi,Y                                   ; 00C319 99 10 19 
   BMI.B B_C323                                    ; 00C31C 30 05 
-  ORA.W RoomWaveMaxOnScreenLo,Y                                   ; 00C31E 19 09 19 
+  ORA.W RoomWaveRemainsLo,Y                                   ; 00C31E 19 09 19 
   BNE.B B_C32B                                    ; 00C321 D0 08 
 B_C323:
   LDA.B #$00                                      ; 00C323 A9 00 
@@ -7379,7 +7373,7 @@ L_C331:
 .byte $BF,$D8,$37,$D9,$D8,$D9                     ; 00C362 DDDD..   ??7???
 
 
-L_C367:
+InitRoomWave:
   LDA.W RoomWaveType,X                                   ; 00C367 BD 02 19 
   ASL                                             ; 00C36A 0A 
   TAX                                             ; 00C36B AA 
@@ -7446,7 +7440,7 @@ B_C40E:
   LDA.B #$00                                      ; 00C413 A9 00 
   STA.W EntityV3,X                                   ; 00C415 9D 28 08 
   LDY.B $10                                       ; 00C418 A4 10 
-  LDA.W $191E,Y                                   ; 00C41A B9 1E 19 
+  LDA.W RoomWaveVariantRate,Y                                   ; 00C41A B9 1E 19 
   STA.W EntityV22,X                                   ; 00C41D 9D 9E 10 
   JSL AdvanceRNG                                     ; 00C420 22 95 CA 0E 
   AND.B #$03                                      ; 00C424 29 03 
@@ -7464,7 +7458,7 @@ B_C435:
   RTS                                             ; 00C437 60 
 
   LDX.B $10                                       ; 00C438 A6 10 
-  LDA.W RoomWaveVariantRate,X                                   ; 00C43A BD 17 19 
+  LDA.W RoomWaveUnk0,X                                   ; 00C43A BD 17 19 
   STA.W $18F2                                     ; 00C43D 8D F2 18 
   REP.B #P_Acc8Bit                                      ; 00C440 C2 20 
   LDA.W #$B000                                    ; 00C442 A9 00 B0 
@@ -7501,7 +7495,7 @@ B_C435:
   LDX.B $10                                       ; 00C488 A6 10 
   DEC.W RoomWavesRemaining                                     ; 00C48A CE 00 19 
   STZ.W RoomWaveType,X                                   ; 00C48D 9E 02 19 
-  LDA.W RoomWaveMaxOnScreenLo,X                                   ; 00C490 BD 09 19 
+  LDA.W RoomWaveRemainsLo,X                                   ; 00C490 BD 09 19 
   CMP.B #$01                                      ; 00C493 C9 01 
   BEQ.B B_C49E                                    ; 00C495 F0 07 
   LDA.B #$B4                                      ; 00C497 A9 B4 
@@ -7804,13 +7798,13 @@ B_CA6B:
   ASL                                             ; 00CA72 0A 
   TAY                                             ; 00CA73 A8 
   LDA.W D_CB29,Y                                  ; 00CA74 B9 29 CB 
-  STA.W EntityV5,X                                   ; 00CA77 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00CA77 9D 0C 09 
   LDA.W D_CB2A,Y                                  ; 00CA7A B9 2A CB 
-  STA.W EntityV6,X                                   ; 00CA7D 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00CA7D 9D 7E 09 
   LDA.W D_CB31,Y                                  ; 00CA80 B9 31 CB 
-  STA.W EntityV7,X                                   ; 00CA83 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00CA83 9D F0 09 
   LDA.W D_CB32,Y                                  ; 00CA86 B9 32 CB 
-  STA.W EntityV8,X                                   ; 00CA89 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00CA89 9D 62 0A 
   LDY.B $07                                       ; 00CA8C A4 07 
   TYA                                             ; 00CA8E 98 
   STA.W EntityV31,X                                   ; 00CA8F 9D A0 14 
@@ -7892,7 +7886,7 @@ D_CB32:
 .byte $00,$00,$00,$60,$FF,$00,$00                 ; 00CB33 D..DDDD  ???`???
 
   LDX.B $10                                       ; 00CB39 A6 10 
-  LDA.W RoomWaveVariantRate,X                                   ; 00CB3B BD 17 19 
+  LDA.W RoomWaveUnk0,X                                   ; 00CB3B BD 17 19 
   STA.W $18F8                                     ; 00CB3E 8D F8 18 
   RTS                                             ; 00CB41 60 
 
@@ -7941,13 +7935,13 @@ B_CBA0:
   ASL                                             ; 00CBA1 0A 
   TAY                                             ; 00CBA2 A8 
   LDA.W D_CC5F,Y                                  ; 00CBA3 B9 5F CC 
-  STA.W EntityV5,X                                   ; 00CBA6 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00CBA6 9D 0C 09 
   LDA.W D_CC60,Y                                  ; 00CBA9 B9 60 CC 
-  STA.W EntityV6,X                                   ; 00CBAC 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00CBAC 9D 7E 09 
   LDA.W D_CC67,Y                                  ; 00CBAF B9 67 CC 
-  STA.W EntityV7,X                                   ; 00CBB2 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00CBB2 9D F0 09 
   LDA.W D_CC68,Y                                  ; 00CBB5 B9 68 CC 
-  STA.W EntityV8,X                                   ; 00CBB8 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00CBB8 9D 62 0A 
   LDA.W EntityXPx,X                              ; 00CBBB BD 46 0B 
   STA.B $04                                       ; 00CBBE 85 04 
   LDA.W EntityYPx,X                                   ; 00CBC0 BD 9C 0C 
@@ -7998,13 +7992,13 @@ B_CBE5:
   ASL                                             ; 00CC29 0A 
   TAY                                             ; 00CC2A A8 
   LDA.W D_CC6F,Y                                  ; 00CC2B B9 6F CC 
-  STA.W EntityV5,X                                   ; 00CC2E 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00CC2E 9D 0C 09 
   LDA.W D_CC70,Y                                  ; 00CC31 B9 70 CC 
-  STA.W EntityV6,X                                   ; 00CC34 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00CC34 9D 7E 09 
   LDA.W D_CC8F,Y                                  ; 00CC37 B9 8F CC 
-  STA.W EntityV7,X                                   ; 00CC3A 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00CC3A 9D F0 09 
   LDA.W D_CC90,Y                                  ; 00CC3D B9 90 CC 
-  STA.W EntityV8,X                                   ; 00CC40 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00CC40 9D 62 0A 
   JSL L_AEBC                                      ; 00CC43 22 BC AE 00 
   TYA                                             ; 00CC47 98 
   STA.W EntityV31,X                                   ; 00CC48 9D A0 14 
@@ -8043,7 +8037,7 @@ D_CC90:
 .byte $00,$C0,$00,$10,$00,$40,$FF                 ; 00CCA9 DDDDDDD  ?????@?
 
   LDX.B $10                                       ; 00CCAF A6 10 
-  LDA.W RoomWaveVariantRate,X                                   ; 00CCB1 BD 17 19 
+  LDA.W RoomWaveUnk0,X                                   ; 00CCB1 BD 17 19 
   STA.W $18F9                                     ; 00CCB4 8D F9 18 
   RTS                                             ; 00CCB7 60 
 
@@ -8069,7 +8063,7 @@ B_CCC9:
   LDA.B #$20                                      ; 00CCE2 A9 20 
   STA.W EntityV21,X                                   ; 00CCE4 9D 2C 10 
   LDY.B $10                                       ; 00CCE7 A4 10 
-  LDA.W $191E,Y                                   ; 00CCE9 B9 1E 19 
+  LDA.W RoomWaveVariantRate,Y                                   ; 00CCE9 B9 1E 19 
   STA.B $04                                       ; 00CCEC 85 04 
   BEQ.B B_CCF3                                    ; 00CCEE F0 03 
 
@@ -8112,13 +8106,13 @@ B_CD23:
   ASL                                             ; 00CD3F 0A 
   TAY                                             ; 00CD40 A8 
   LDA.W D_CD83,Y                                  ; 00CD41 B9 83 CD 
-  STA.W EntityV5,X                                   ; 00CD44 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00CD44 9D 0C 09 
   LDA.W D_CD84,Y                                  ; 00CD47 B9 84 CD 
-  STA.W EntityV6,X                                   ; 00CD4A 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00CD4A 9D 7E 09 
   LDA.W D_CD8B,Y                                  ; 00CD4D B9 8B CD 
-  STA.W EntityV7,X                                   ; 00CD50 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00CD50 9D F0 09 
   LDA.W D_CD8C,Y                                  ; 00CD53 B9 8C CD 
-  STA.W EntityV8,X                                   ; 00CD56 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00CD56 9D 62 0A 
   LDA.W $1514                                     ; 00CD59 AD 14 15 
   ORA.W $1515                                     ; 00CD5C 0D 15 15 
   BEQ.B B_CD67                                    ; 00CD5F F0 06 
@@ -8152,7 +8146,7 @@ D_CD93:
 .byte $50,$32,$1E,$32                             ; 00CD94 DDDD     P2?2
 
   LDX.B $10                                       ; 00CD97 A6 10 
-  LDA.W RoomWaveVariantRate,X                                   ; 00CD99 BD 17 19 
+  LDA.W RoomWaveUnk0,X                                   ; 00CD99 BD 17 19 
   STA.W $18FA                                     ; 00CD9C 8D FA 18 
   JSR.W L_DFA7                                    ; 00CD9F 20 A7 DF 
   RTS                                             ; 00CDA2 60 
@@ -8272,7 +8266,7 @@ D_CD93:
 
   RTS                                             ; 00D11B 60 
 
-  LDA.W CurrentRound                                     ; 00D11C AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00D11C AD AB 05 
   ASL                                             ; 00D11F 0A 
   TAX                                             ; 00D120 AA 
   LDA.W D_C29C,X                                  ; 00D121 BD 9C C2 
@@ -8288,7 +8282,7 @@ D_CD93:
   LDA.B ($04),Y                                   ; 00D135 B1 04 
   STA.B $07                                       ; 00D137 85 07 
   LDX.B $10                                       ; 00D139 A6 10 
-  LDA.W RoomWaveMaxOnScreenLo,X                                   ; 00D13B BD 09 19 
+  LDA.W RoomWaveRemainsLo,X                                   ; 00D13B BD 09 19 
   STZ.B $04                                       ; 00D13E 64 04 
   STA.B $05                                       ; 00D140 85 05 
 B_D142:
@@ -8411,12 +8405,12 @@ B_D19E:
   STA.W $05DE                                     ; 00D384 8D DE 05 
   STZ.W $0699                                     ; 00D387 9C 99 06 
   STZ.W XexzyMutoidHealth                         ; 00D38A 9C 9A 06 
-  STZ.W $069B                                     ; 00D38D 9C 9B 06 
-  STZ.W $069C                                     ; 00D390 9C 9C 06 
+  STZ.W XexzyMutoidHealth+1                                     ; 00D38D 9C 9B 06 
+  STZ.W MutoidCurrentForm                                     ; 00D390 9C 9C 06 
   LDA.B #$01                                      ; 00D393 A9 01 
   STA.W $1AAF                                     ; 00D395 8D AF 1A 
   LDA.B #$14                                      ; 00D398 A9 14 
-  LDX.W $069E                                     ; 00D39A AE 9E 06 
+  LDX.W MutoidType                                     ; 00D39A AE 9E 06 
   BEQ.B B_D3A1                                    ; 00D39D F0 02 
 
 .byte $A9,$1A                                     ; 00D3A0 ..       ??
@@ -8451,7 +8445,7 @@ B_D3A1:
   LDX.W $068E                                     ; 00D3EF AE 8E 06 
   JSL ClearEntitySlotData                                     ; 00D3F2 22 94 80 03 
   LDA.B #$12                                      ; 00D3F6 A9 12 
-  LDY.W $069E                                     ; 00D3F8 AC 9E 06 
+  LDY.W MutoidType                                     ; 00D3F8 AC 9E 06 
   BEQ.B B_D3FF                                    ; 00D3FB F0 02 
 
 .byte $A9,$14                                     ; 00D3FE ..       ??
@@ -8512,9 +8506,9 @@ B_D3FF:
   LDA.B #$FF                                      ; 00D485 A9 FF 
   STA.W EntityV14,X                                   ; 00D487 9D 0E 0D 
   LDA.B #$80                                      ; 00D48A A9 80 
-  STA.W EntityV7,X                                   ; 00D48C 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00D48C 9D F0 09 
   LDA.B #$00                                      ; 00D48F A9 00 
-  STA.W EntityV8,X                                   ; 00D491 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00D491 9D 62 0A 
   JSL L_AE91                                      ; 00D494 22 91 AE 00 
   TYA                                             ; 00D498 98 
   STA.B $08                                       ; 00D499 85 08 
@@ -8773,9 +8767,9 @@ L_D8D6:
   LDY.B #$02                                      ; 00D908 A0 02 
 B_D90A:
   LDA.W D_D92D,Y                                  ; 00D90A B9 2D D9 
-  STA.W EntityV5,X                                   ; 00D90D 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 00D90D 9D 0C 09 
   LDA.W D_D92E,Y                                  ; 00D910 B9 2E D9 
-  STA.W EntityV6,X                                   ; 00D913 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 00D913 9D 7E 09 
   LDY.B #$00                                      ; 00D916 A0 00 
   LDA.B $05                                       ; 00D918 A5 05 
   CMP.B #$80                                      ; 00D91A C9 80 
@@ -8783,9 +8777,9 @@ B_D90A:
   LDY.B #$02                                      ; 00D91E A0 02 
 B_D920:
   LDA.W D_D92D,Y                                  ; 00D920 B9 2D D9 
-  STA.W EntityV7,X                                   ; 00D923 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 00D923 9D F0 09 
   LDA.W D_D92E,Y                                  ; 00D926 B9 2E D9 
-  STA.W EntityV8,X                                   ; 00D929 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 00D929 9D 62 0A 
   RTS                                             ; 00D92C 60 
 
 
@@ -8795,7 +8789,7 @@ D_D92E:
 .byte $01,$80,$FE                                 ; 00D92F DDD      ???
 
   LDA.B #$FF                                      ; 00D931 A9 FF 
-  STA.W $05AF                                     ; 00D933 8D AF 05 
+  STA.W PrizeTimer                                     ; 00D933 8D AF 05 
   RTS                                             ; 00D936 60 
 
   JSL FindEmptyEntitySlot                                     ; 00D937 22 F3 80 03 
@@ -8900,11 +8894,11 @@ L_DA43:
   LDA.B $D2                                       ; 00DA43 A5 D2 
   AND.B #$01                                      ; 00DA45 29 01 
   BNE.B B_DA54                                    ; 00DA47 D0 0B 
-  LDX.W $05AF                                     ; 00DA49 AE AF 05 
+  LDX.W PrizeTimer                                     ; 00DA49 AE AF 05 
   BEQ.B B_DA55                                    ; 00DA4C F0 07 
   BMI.B B_DA54                                    ; 00DA4E 30 04 
   DEX                                             ; 00DA50 CA 
-  STX.W $05AF                                     ; 00DA51 8E AF 05 
+  STX.W PrizeTimer                                     ; 00DA51 8E AF 05 
 B_DA54:
   RTS                                             ; 00DA54 60 
 
@@ -9044,7 +9038,7 @@ B_DB26:
   SBC.B #$08                                      ; 00DB52 E9 08 
   STA.W EntityV20,X                                   ; 00DB54 9D BA 0F 
   LDA.B #$FF                                      ; 00DB57 A9 FF 
-  STA.W $05AF                                     ; 00DB59 8D AF 05 
+  STA.W PrizeTimer                                     ; 00DB59 8D AF 05 
   PLB                                             ; 00DB5C AB 
   RTL                                             ; 00DB5D 6B 
 
@@ -9057,7 +9051,7 @@ D_DB6E:
 
 
 SpawnNextDrop:
-  @SpawnNextDrop_RoundPtr = $4
+  @SpawnNextDrop_CircuitPtr = $4
   @SpawnNextDrop_RoomPtr = $6
   @SpawnNextDrop_DropTypeId = $7
   ; if $D2 is set, we cannot drop
@@ -9080,21 +9074,21 @@ SpawnNextDrop:
   pha
   plb
   ; get round pointer based on current round
-  lda CurrentRound
+  lda CurrentCircuit
   asl
   tax
-  lda.w DropTableRounds,X
-  sta @SpawnNextDrop_RoundPtr
-  lda.w DropTableRounds+1,X
-  sta @SpawnNextDrop_RoundPtr+1
+  lda.w DropTableCircuits,X
+  sta @SpawnNextDrop_CircuitPtr
+  lda.w DropTableCircuits+1,X
+  sta @SpawnNextDrop_CircuitPtr+1
   ; get room pointer based on current room
   lda CurrentRoom
   asl
   tay
-  lda (@SpawnNextDrop_RoundPtr),Y
+  lda (@SpawnNextDrop_CircuitPtr),Y
   sta @SpawnNextDrop_RoomPtr
   iny
-  lda (@SpawnNextDrop_RoundPtr),Y
+  lda (@SpawnNextDrop_CircuitPtr),Y
   sta @SpawnNextDrop_RoomPtr+1
   ; multiply the next rng value by 20, and get the high byte
   jsl AdvanceRNG
@@ -9374,7 +9368,7 @@ MapSpawnYPx:
 
 L_DFA7:
   LDX.B $10                                       ; 00DFA7 A6 10 
-  LDA.W $1933,X                                   ; 00DFA9 BD 33 19 
+  LDA.W RoomWaveUnk1,X                                   ; 00DFA9 BD 33 19 
   BNE.B B_DFAF                                    ; 00DFAC D0 01 
   RTS                                             ; 00DFAE 60 
 
@@ -9384,12 +9378,12 @@ B_DFAF:
   LDA.B #$00                                      ; 00DFB2 A9 00 
   PHA                                             ; 00DFB4 48 
   PLB                                             ; 00DFB5 AB 
-  LDA.W CurrentRound                                     ; 00DFB6 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00DFB6 AD AB 05 
   ASL                                             ; 00DFB9 0A 
   TAY                                             ; 00DFBA A8 
-  LDA.W D_E070,Y                                  ; 00DFBB B9 70 E0 
+  LDA.W RoomWaveStartingPatternsCircuits,Y                                  ; 00DFBB B9 70 E0 
   STA.B $04                                       ; 00DFBE 85 04 
-  LDA.W D_E071,Y                                  ; 00DFC0 B9 71 E0 
+  LDA.W RoomWaveStartingPatternsCircuits+1,Y                                  ; 00DFC0 B9 71 E0 
   STA.B $05                                       ; 00DFC3 85 05 
   LDA.W CurrentRoom                                     ; 00DFC5 AD AC 05 
   ASL                                             ; 00DFC8 0A 
@@ -9472,34 +9466,100 @@ D_E068:
 .byte $EC,$EA,$E8,$EA                             ; 00E069 D.DD     ????
 D_E06C:
 .byte $00,$40,$00,$00                             ; 00E06D D.DD     ?@??
-D_E070:
-.byte $76                                         ; 00E071 D        v
-D_E071:
-.byte $E0,$8A,$E0,$AC,$E0,$00,$00,$00             ; 00E071 D....... ????????
-.byte $00,$DC,$E0,$00,$00,$E2,$E0,$00             ; 00E079 ........ ????????
-.byte $00,$F7,$E0,$DC,$E0,$F7,$E0,$F7             ; 00E081 .DDDD..D ????????
-.byte $E0,$00,$00,$00,$00,$00,$E1,$00             ; 00E089 D....... ????????
-.byte $00,$00,$00,$00,$E1,$00,$00,$00             ; 00E091 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E099 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E0A1 ........ ????????
-.byte $00,$00,$E1,$00,$00,$00,$00,$00             ; 00E0A9 ........ ????????
-.byte $00,$DC,$E0,$03,$E1,$00,$00,$00             ; 00E0B1 ........ ????????
-.byte $00,$00,$00,$00,$00,$03,$E1,$00             ; 00E0B9 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00E0C1 ........ ????????
-.byte $00,$00,$00,$00,$00,$00,$00,$03             ; 00E0C9 ........ ????????
-.byte $E1,$00,$00,$03,$E1,$00,$00,$00             ; 00E0D1 ........ ????????
-.byte $00,$03,$E1,$31,$33,$03,$E2,$3A             ; 00E0D9 ...DDDDD ???13??:
-.byte $00,$31,$33,$03,$E2,$3A,$00,$3C             ; 00E0E1 D....... ?13??:?<
-.byte $46,$03,$BE,$50,$02,$48,$96,$02             ; 00E0E9 ........ F??P?H??
-.byte $19,$D0,$02,$E6,$D0,$02,$31,$33             ; 00E0F1 ......DD ??????13
-.byte $03,$E2,$3A,$00,$19,$D0,$02,$31             ; 00E0F9 DDDDDDD. ??:????1
-.byte $33,$03,$31,$33,$03,$E2,$3A,$00             ; 00E101 ........ 3?13??:?
-.byte $19,$D0,$02,$E6,$D0,$02                     ; 00E10A ......   ??????
+
+RoomWaveStartingPatternsCircuits:
+.addr RoomWaveStartingPatternsCircuit1
+.addr RoomWaveStartingPatternsCircuit2
+.addr RoomWaveStartingPatternsCircuit3
+
+RoomWaveStartingPatternsCircuit1:
+.addr $0000                                       ; 
+.addr $0000                                       ; ARENA 1         
+.addr RoomWaveStartingPatterns0                   ; COLLECT 10 KEYS!     
+.addr $0000                                       ; COLLECT POWERUPS!    
+.addr RoomWaveStartingPatterns1                   ; MEET MR. SHRAPNEL    
+.addr $0000                                       ; BONUS PRIZES!      
+.addr RoomWaveStartingPatterns2                   ; EAT MY SHRAPNEL     
+.addr RoomWaveStartingPatterns0                   ; TOTAL CARNAGE      
+.addr RoomWaveStartingPatterns2                   ; CROWD CONTROL      
+.addr RoomWaveStartingPatterns2                   ; TANK TROUBLE       
+
+RoomWaveStartingPatternsCircuit2:
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns3
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns3
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns3
+
+RoomWaveStartingPatternsCircuit3:
+.addr $0000
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns0
+.addr RoomWaveStartingPatterns4
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns4
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns4
+.addr $0000
+.addr RoomWaveStartingPatterns4
+.addr $0000
+.addr $0000
+.addr RoomWaveStartingPatterns4
+
+RoomWaveStartingPatterns0:
+.byte $31,$33,$03
+.byte $E2,$3A,$00
+
+RoomWaveStartingPatterns1:
+.byte $31,$33,$03
+.byte $E2,$3A,$00
+.byte $3C,$46,$03
+.byte $BE,$50,$02
+.byte $48,$96,$02
+.byte $19,$D0,$02
+.byte $E6,$D0,$02
+
+RoomWaveStartingPatterns2:
+.byte $31,$33,$03
+.byte $E2,$3A,$00
+.byte $19,$D0,$02
+
+RoomWaveStartingPatterns3:
+.byte $31,$33,$03
+
+RoomWaveStartingPatterns4:
+.byte $31,$33,$03
+.byte $E2,$3A,$00
+.byte $19,$D0,$02
+.byte $E6,$D0,$02
 
 
 L_E10F:
   LDX.B $10                                       ; 00E10F A6 10 
-  LDA.W $1933,X                                   ; 00E111 BD 33 19 
+  LDA.W RoomWaveUnk1,X                                   ; 00E111 BD 33 19 
   BNE.B B_E117                                    ; 00E114 D0 01 
   RTS                                             ; 00E116 60 
 
@@ -9509,7 +9569,7 @@ B_E117:
   LDA.B #$00                                      ; 00E11A A9 00 
   PHA                                             ; 00E11C 48 
   PLB                                             ; 00E11D AB 
-  LDA.W CurrentRound                                     ; 00E11E AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00E11E AD AB 05 
   ASL                                             ; 00E121 0A 
   TAY                                             ; 00E122 A8 
   LDA.W D_E1E8,Y                                  ; 00E123 B9 E8 E1 
@@ -10042,12 +10102,12 @@ B_E88D:
   LDA.B #$00                                      ; 00E88E A9 00 
   PHA                                             ; 00E890 48 
   PLB                                             ; 00E891 AB 
-  LDA.W CurrentRound                                     ; 00E892 AD AB 05 
+  LDA.W CurrentCircuit                                     ; 00E892 AD AB 05 
   ASL                                             ; 00E895 0A 
   TAX                                             ; 00E896 AA 
-  LDA.W RoundRoomNames,X                                  ; 00E897 BD 89 E9 
+  LDA.W CircuitRoomNames,X                                  ; 00E897 BD 89 E9 
   STA.B $04                                       ; 00E89A 85 04 
-  LDA.W RoundRoomNames+1,X                                  ; 00E89C BD 8A E9 
+  LDA.W CircuitRoomNames+1,X                                  ; 00E89C BD 8A E9 
   STA.B $05                                       ; 00E89F 85 05 
   LDA.W CurrentRoom                                     ; 00E8A1 AD AC 05 
   DEC A
@@ -10168,12 +10228,12 @@ B_E97B:
   RTS                                             ; 00E988 60 
 
 
-RoundRoomNames:
-.addr Round1RoomNames
-.addr Round2RoomNames
-.addr Round3RoomNames
+CircuitRoomNames:
+.addr Circuit1RoomNames
+.addr Circuit2RoomNames
+.addr Circuit3RoomNames
 
-Round1RoomNames:
+Circuit1RoomNames:
 .byte "          ARENA 1         "
 .byte "     COLLECT 10 KEYS!     "
 .byte "     COLLECT POWERUPS!    "
@@ -10185,7 +10245,7 @@ Round1RoomNames:
 .byte "       TANK TROUBLE       "
 .byte "        MUTOID MAN!       "
 .byte "     SECRET ROOM #1!      "
-Round2RoomNames:
+Circuit2RoomNames:
 .byte "           ORBS!          "
 .byte "       MEET MY TWIN       "
 .byte "        SMASH 'EM         "
@@ -10204,7 +10264,7 @@ Round2RoomNames:
 .byte "      CHUNKS GALORE!      "
 .byte "     THESE ARE FAST!      "
 .byte "   BUFFALO HERD NEARBY!   "
-Round3RoomNames:
+Circuit3RoomNames:
 .byte "          NO DICE         "
 .byte "       TEMPLE ALERT       "
 .byte "      SCORPION FEVER      "

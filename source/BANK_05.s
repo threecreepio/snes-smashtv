@@ -1281,13 +1281,13 @@ B_58A42:
   ASL                                             ; 058A62 0A 
   TAY                                             ; 058A63 A8 
   LDA.W D_58AF5,Y                                 ; 058A64 B9 F5 8A 
-  STA.W EntityV5,X                                   ; 058A67 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 058A67 9D 0C 09 
   LDA.W D_58AF6,Y                                 ; 058A6A B9 F6 8A 
-  STA.W EntityV6,X                                   ; 058A6D 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 058A6D 9D 7E 09 
   LDA.W D_58B05,Y                                 ; 058A70 B9 05 8B 
-  STA.W EntityV7,X                                   ; 058A73 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 058A73 9D F0 09 
   LDA.W D_58B06,Y                                 ; 058A76 B9 06 8B 
-  STA.W EntityV8,X                                   ; 058A79 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 058A79 9D 62 0A 
 B_58A7C:
   RTS                                             ; 058A7C 60 
 
@@ -1298,10 +1298,10 @@ B_58A7D:
   STA.W EntityV15,X                                   ; 058A83 9D 80 0D 
   LDA.B #$00                                      ; 058A86 A9 00 
   STA.W EntityV3,X                                   ; 058A88 9D 28 08 
-  STZ.W EntityV5,X                                   ; 058A8B 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058A8E 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058A91 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058A94 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 058A8B 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 058A8E 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 058A91 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 058A94 9E 62 0A 
   RTS                                             ; 058A97 60 
 
 B_58A98:
@@ -1320,10 +1320,10 @@ B_58AA2:
   STA.W EntityV15,X                                   ; 058AAD 9D 80 0D 
   LDA.B #$00                                      ; 058AB0 A9 00 
   STA.W EntityV3,X                                   ; 058AB2 9D 28 08 
-  STZ.W EntityV5,X                                   ; 058AB5 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058AB8 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058ABB 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058ABE 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 058AB5 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 058AB8 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 058ABB 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 058ABE 9E 62 0A 
   RTS                                             ; 058AC1 60 
 
 B_58AC2:
@@ -1494,10 +1494,10 @@ L_58CED:
   STA.W EntityV29,X                                   ; 058CF9 9D BC 13 
   LDA.B #$32                                      ; 058CFC A9 32 
   STA.W EntityV30,X                                   ; 058CFE 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 058D01 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058D04 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058D07 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058D0A 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 058D01 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 058D04 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 058D07 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 058D0A 9E 62 0A 
   LDA.B #$04                                      ; 058D0D A9 04 
   STA.W EntityV28,X                                   ; 058D0F 9D 4A 13 
   STZ.W EntityV27,X                                   ; 058D12 9E D8 12 
@@ -1520,10 +1520,10 @@ L_58D25:
   STA.W EntityV29,X                                   ; 058D31 9D BC 13 
   LDA.B #$32                                      ; 058D34 A9 32 
   STA.W EntityV30,X                                   ; 058D36 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 058D39 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058D3C 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058D3F 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058D42 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 058D39 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 058D3C 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 058D3F 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 058D42 9E 62 0A 
   LDA.B #$04                                      ; 058D45 A9 04 
   STA.W EntityV28,X                                   ; 058D47 9D 4A 13 
   STZ.W EntityV27,X                                   ; 058D4A 9E D8 12 
@@ -1546,10 +1546,10 @@ L_58D5D:
   STA.W EntityV29,X                                   ; 058D69 9D BC 13 
   LDA.B #$32                                      ; 058D6C A9 32 
   STA.W EntityV30,X                                   ; 058D6E 9D 2E 14 
-  STZ.W EntityV5,X                                   ; 058D71 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 058D74 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 058D77 9E F0 09 
-  STZ.W EntityV8,X                                   ; 058D7A 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 058D71 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 058D74 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 058D77 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 058D7A 9E 62 0A 
   LDA.B #$04                                      ; 058D7D A9 04 
   STA.W EntityV28,X                                   ; 058D7F 9D 4A 13 
   STZ.W EntityV27,X                                   ; 058D82 9E D8 12 
@@ -1585,13 +1585,13 @@ L_58DBE:
   ASL                                             ; 058DD7 0A 
   TAY                                             ; 058DD8 A8 
   LDA.W D_58E09,Y                                 ; 058DD9 B9 09 8E 
-  STA.W EntityV5,X                                   ; 058DDC 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 058DDC 9D 0C 09 
   LDA.W D_58E0A,Y                                 ; 058DDF B9 0A 8E 
-  STA.W EntityV6,X                                   ; 058DE2 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 058DE2 9D 7E 09 
   LDA.W D_58E19,Y                                 ; 058DE5 B9 19 8E 
-  STA.W EntityV7,X                                   ; 058DE8 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 058DE8 9D F0 09 
   LDA.W D_58E1A,Y                                 ; 058DEB B9 1A 8E 
-  STA.W EntityV8,X                                   ; 058DEE 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 058DEE 9D 62 0A 
   LDA.B #$04                                      ; 058DF1 A9 04 
   STA.W EntityV28,X                                   ; 058DF3 9D 4A 13 
   STZ.W EntityV27,X                                   ; 058DF6 9E D8 12 
@@ -1820,10 +1820,10 @@ B_59183:
 D_5918B:
 .byte $00,$00,$01,$01,$00,$00                     ; 05918B DDDDD.   ??????
 
-  STZ.W EntityV5,X                                   ; 059190 9E 0C 09 
-  STZ.W EntityV6,X                                   ; 059193 9E 7E 09 
-  STZ.W EntityV7,X                                   ; 059196 9E F0 09 
-  STZ.W EntityV8,X                                   ; 059199 9E 62 0A 
+  STZ.W EntityXSubSpeed,X                                   ; 059190 9E 0C 09 
+  STZ.W EntityXSpeed,X                                   ; 059193 9E 7E 09 
+  STZ.W EntityYSubSpeed,X                                   ; 059196 9E F0 09 
+  STZ.W EntityYSpeed,X                                   ; 059199 9E 62 0A 
   LDA.B #$01                                      ; 05919C A9 01 
   STA.W EntityV28,X                                   ; 05919E 9D 4A 13 
   LDA.B #$FF                                      ; 0591A1 A9 FF 
@@ -2277,7 +2277,7 @@ B_5994C:
 
 B_5997A:
   STZ.B $41,X                                     ; 05997A 74 41 
-  LDY.W CurrentRound                                     ; 05997C AC AB 05 
+  LDY.W CurrentCircuit                                     ; 05997C AC AB 05 
   BEQ.B B_5998F                                   ; 05997F F0 0E 
 
 .byte $88,$F0,$02,$80,$10,$AD,$AC,$05             ; 059981 ........ ????????
@@ -2371,7 +2371,7 @@ L_599F9:
 .byte $8D,$AE,$05,$20,$F9,$99,$60                 ; 059A51 .......  ??? ??`
 
 B_59A57:
-  LDY.W CurrentRound                                     ; 059A57 AC AB 05 
+  LDY.W CurrentCircuit                                     ; 059A57 AC AB 05 
   BEQ.B B_59A6A                                   ; 059A5A F0 0E 
 
 .byte $88,$F0,$02,$80,$10,$AD,$AC,$05             ; 059A5C ........ ????????
@@ -2581,13 +2581,13 @@ B_59BD3:
   PHA                                             ; 059BE0 48 
   PLB                                             ; 059BE1 AB 
   LDA.W D_384EE,Y                                 ; 059BE2 B9 EE 84 
-  STA.W EntityV5,X                                   ; 059BE5 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 059BE5 9D 0C 09 
   LDA.W D_384EF,Y                                 ; 059BE8 B9 EF 84 
-  STA.W EntityV6,X                                   ; 059BEB 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 059BEB 9D 7E 09 
   LDA.W D_3856E,Y                                 ; 059BEE B9 6E 85 
-  STA.W EntityV7,X                                   ; 059BF1 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 059BF1 9D F0 09 
   LDA.W D_3856F,Y                                 ; 059BF4 B9 6F 85 
-  STA.W EntityV8,X                                   ; 059BF7 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 059BF7 9D 62 0A 
   PLB                                             ; 059BFA AB 
   LDA.B #$42                                      ; 059BFB A9 42 
   STA.W EntityV29,X                                   ; 059BFD 9D BC 13 
@@ -2725,7 +2725,7 @@ B_59CE6:
   LDA.B #$19                                      ; 059CF3 A9 19 
   STA.W $05D7                                     ; 059CF5 8D D7 05 
   LDA.B #$64                                      ; 059CF8 A9 64 
-  STA.W $1901                                     ; 059CFA 8D 01 19 
+  STA.W RoomWavePauseTimer                                     ; 059CFA 8D 01 19 
   LDX.B $1E                                       ; 059CFD A6 1E 
   INX                                             ; 059CFF E8 
   STX.W $05D6                                     ; 059D00 8E D6 05 
@@ -2824,13 +2824,13 @@ B_59D84:
   JSL L_18000                                     ; 059DB8 22 00 80 01 
   PLX                                             ; 059DBC FA 
   LDA.W $1AE5                                     ; 059DBD AD E5 1A 
-  STA.W EntityV5,X                                   ; 059DC0 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 059DC0 9D 0C 09 
   LDA.W $1AE6                                     ; 059DC3 AD E6 1A 
-  STA.W EntityV6,X                                   ; 059DC6 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 059DC6 9D 7E 09 
   LDA.W $1AE7                                     ; 059DC9 AD E7 1A 
-  STA.W EntityV7,X                                   ; 059DCC 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 059DCC 9D F0 09 
   LDA.W $1AE8                                     ; 059DCF AD E8 1A 
-  STA.W EntityV8,X                                   ; 059DD2 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 059DD2 9D 62 0A 
   JSL AdvanceRNG                                     ; 059DD5 22 95 CA 0E 
   AND.B #$3F                                      ; 059DD9 29 3F 
   CLC                                             ; 059DDB 18 
@@ -2886,13 +2886,13 @@ B_59DF9:
   JSL L_18000                                     ; 059E3D 22 00 80 01 
   PLX                                             ; 059E41 FA 
   LDA.W $1AE5                                     ; 059E42 AD E5 1A 
-  STA.W EntityV5,X                                   ; 059E45 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 059E45 9D 0C 09 
   LDA.W $1AE6                                     ; 059E48 AD E6 1A 
-  STA.W EntityV6,X                                   ; 059E4B 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 059E4B 9D 7E 09 
   LDA.W $1AE7                                     ; 059E4E AD E7 1A 
-  STA.W EntityV7,X                                   ; 059E51 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 059E51 9D F0 09 
   LDA.W $1AE8                                     ; 059E54 AD E8 1A 
-  STA.W EntityV8,X                                   ; 059E57 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 059E57 9D 62 0A 
   JSL AdvanceRNG                                     ; 059E5A 22 95 CA 0E 
   AND.B #$3F                                      ; 059E5E 29 3F 
   CLC                                             ; 059E60 18 
@@ -2950,14 +2950,14 @@ B_59EAB:
   JSL L_18000                                     ; 059EC7 22 00 80 01 
   PLX                                             ; 059ECB FA 
   LDA.W $1AE5                                     ; 059ECC AD E5 1A 
-  STA.W EntityV5,X                                   ; 059ECF 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 059ECF 9D 0C 09 
   LDA.W $1AE6                                     ; 059ED2 AD E6 1A 
-  STA.W EntityV6,X                                   ; 059ED5 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 059ED5 9D 7E 09 
   LDA.W $1AE7                                     ; 059ED8 AD E7 1A 
-  STA.W EntityV7,X                                   ; 059EDB 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 059EDB 9D F0 09 
   LDA.W $1AE8                                     ; 059EDE AD E8 1A 
-  STA.W EntityV8,X                                   ; 059EE1 9D 62 0A 
-  LDA.W CurrentRound                                     ; 059EE4 AD AB 05 
+  STA.W EntityYSpeed,X                                   ; 059EE1 9D 62 0A 
+  LDA.W CurrentCircuit                                     ; 059EE4 AD AB 05 
   CMP.B #$02                                      ; 059EE7 C9 02 
   BNE.B B_59EF2                                   ; 059EE9 D0 07 
 
@@ -2968,7 +2968,7 @@ B_59EF2:
   AND.B #$3F                                      ; 059EF6 29 3F 
   CLC                                             ; 059EF8 18 
   ADC.B #$40                                      ; 059EF9 69 40 
-  STA.W $05AF                                     ; 059EFB 8D AF 05 
+  STA.W PrizeTimer                                     ; 059EFB 8D AF 05 
   LDA.B #$FF                                      ; 059EFE A9 FF 
   XBA                                             ; 059F00 EB 
   LDA.W EntityV23,X                                   ; 059F01 BD 10 11 
@@ -3022,13 +3022,13 @@ D_59F2D:
   JSL L_18000                                     ; 059F6F 22 00 80 01 
   PLX                                             ; 059F73 FA 
   LDA.W $1AE5                                     ; 059F74 AD E5 1A 
-  STA.W EntityV5,X                                   ; 059F77 9D 0C 09 
+  STA.W EntityXSubSpeed,X                                   ; 059F77 9D 0C 09 
   LDA.W $1AE6                                     ; 059F7A AD E6 1A 
-  STA.W EntityV6,X                                   ; 059F7D 9D 7E 09 
+  STA.W EntityXSpeed,X                                   ; 059F7D 9D 7E 09 
   LDA.W $1AE7                                     ; 059F80 AD E7 1A 
-  STA.W EntityV7,X                                   ; 059F83 9D F0 09 
+  STA.W EntityYSubSpeed,X                                   ; 059F83 9D F0 09 
   LDA.W $1AE8                                     ; 059F86 AD E8 1A 
-  STA.W EntityV8,X                                   ; 059F89 9D 62 0A 
+  STA.W EntityYSpeed,X                                   ; 059F89 9D 62 0A 
   LDA.B #$25                                      ; 059F8C A9 25 
   STA.B $A7                                       ; 059F8E 85 A7 
   LDA.B #$01                                      ; 059F90 A9 01 
@@ -3307,9 +3307,9 @@ L_5A43B:
   CLC                                             ; 05A43B 18 
   ADC.W XexzyMutoidHealth                         ; 05A43C 6D 9A 06 
   STA.W XexzyMutoidHealth                         ; 05A43F 8D 9A 06 
-  LDA.W $069B                                     ; 05A442 AD 9B 06 
+  LDA.W XexzyMutoidHealth+1                                     ; 05A442 AD 9B 06 
   ADC.B #$00                                      ; 05A445 69 00 
-  STA.W $069B                                     ; 05A447 8D 9B 06 
+  STA.W XexzyMutoidHealth+1                                     ; 05A447 8D 9B 06 
   JSL AdvanceRNG                                     ; 05A44A 22 95 CA 0E 
   CMP.B #$10                                      ; 05A44E C9 10 
   BCS.B B_5A46C                                   ; 05A450 B0 1A 
@@ -3373,7 +3373,7 @@ B_5A4B2:
   PHA                                             ; 05A4E1 48 
   JSL IncreasePlayerScore                                      ; 05A4E2 22 6D E4 00 
   PLA                                             ; 05A4E6 68 
-  LDY.W $069E                                     ; 05A4E7 AC 9E 06 
+  LDY.W MutoidType                                     ; 05A4E7 AC 9E 06 
   BEQ.B B_5A4F0                                   ; 05A4EA F0 04 
 
 .byte $22,$6D,$E4,$00                             ; 05A4ED ....     "m??
@@ -3399,7 +3399,7 @@ B_5A4F0:
   PHA                                             ; 05A511 48 
   JSL IncreasePlayerScore                                      ; 05A512 22 6D E4 00 
   PLA                                             ; 05A516 68 
-  LDY.W $069E                                     ; 05A517 AC 9E 06 
+  LDY.W MutoidType                                     ; 05A517 AC 9E 06 
   BEQ.B B_5A520                                   ; 05A51A F0 04 
 
 .byte $22,$6D,$E4,$00                             ; 05A51D ....     "m??
@@ -3437,7 +3437,7 @@ B_5A520:
   PHA                                             ; 05A552 48 
   JSL IncreasePlayerScore                                      ; 05A553 22 6D E4 00 
   PLA                                             ; 05A557 68 
-  LDY.W $069E                                     ; 05A558 AC 9E 06 
+  LDY.W MutoidType                                     ; 05A558 AC 9E 06 
   BEQ.B B_5A561                                   ; 05A55B F0 04 
 
 .byte $22,$6D,$E4,$00                             ; 05A55E ....     "m??

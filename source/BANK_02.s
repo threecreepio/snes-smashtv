@@ -1730,95 +1730,126 @@
 .byte $A8,$FF,$67,$2A,$8F,$FC,$C2,$09             ; 02B5E8 DDDDDDDD ??g*????
 
 
-EntityWavesRounds:
-.addr EntityWavesRound0                            ;
-.addr EntityWavesRound1                            ; 
-.addr EntityWavesRound2                            ; 
+EntityWavesCircuits:
+.addr EntityWavesCircuit1                            ;
+.addr EntityWavesCircuit2                            ; 
+.addr EntityWavesCircuit3                            ; 
 
-EntityWavesRound0:
+EntityWavesCircuit1:
 .addr $0000
-.addr EntityWavesRound0Room00                      ;          ARENA 1         
-.addr EntityWavesRound0Room01                      ;     COLLECT 10 KEYS!     
-.addr EntityWavesRound0Room02                      ;     COLLECT POWERUPS!    
-.addr EntityWavesRound0Room03                      ;     MEET MR. SHRAPNEL    
-.addr EntityWavesRound0Room04                      ;       BONUS PRIZES!      
-.addr EntityWavesRound0Room05                      ;      EAT MY SHRAPNEL     
-.addr EntityWavesRound0Room06                      ;       TOTAL CARNAGE      
-.addr EntityWavesRound0Room07                      ;       CROWD CONTROL      
-.addr EntityWavesRound0Room08                      ;       TANK TROUBLE       
-.addr EntityWavesRound0Room09                      ;        MUTOID MAN!       
-.addr EntityWavesRound0Room10                      ;      SECRET ROOM #1!      
+.addr EntityWavesCircuit1Room00                      ;          ARENA 1         
+.addr EntityWavesCircuit1Room01                      ;     COLLECT 10 KEYS!     
+.addr EntityWavesCircuit1Room02                      ;     COLLECT POWERUPS!    
+.addr EntityWavesCircuit1Room03                      ;     MEET MR. SHRAPNEL    
+.addr EntityWavesCircuit1Room04                      ;       BONUS PRIZES!      
+.addr EntityWavesCircuit1Room05                      ;      EAT MY SHRAPNEL     
+.addr EntityWavesCircuit1Room06                      ;       TOTAL CARNAGE      
+.addr EntityWavesCircuit1Room07                      ;       CROWD CONTROL      
+.addr EntityWavesCircuit1Room08                      ;       TANK TROUBLE       
+.addr EntityWavesCircuit1Room09                      ;        MUTOID MAN!       
+.addr EntityWavesCircuit1Room10                      ;      SECRET ROOM #1!      
 
-EntityWavesRound1:
+EntityWavesCircuit2:
 .addr $0000
-.addr EntityWavesRound1Room00                      ;            ORBS!          
-.addr EntityWavesRound1Room01                      ;        MEET MY TWIN       
-.addr EntityWavesRound1Room02                      ;         SMASH 'EM         
-.addr EntityWavesRound1Room03                      ;    FIRE POWER IS NEEDED!  
-.addr EntityWavesRound1Room04                      ;       SLAUGHTER 'EM       
-.addr EntityWavesRound1Room05                      ;      LAZER DEATH ZONE     
-.addr EntityWavesRound1Room06                      ;       MEET SCARFACE!      
-.addr EntityWavesRound1Room07                      ;        ROWDY DROIDS       
-.addr EntityWavesRound1Room08                      ;        VACUUM CLEAN       
-.addr EntityWavesRound1Room09                      ;       SECRET ROOM #2!     
-.addr EntityWavesRound1Room10                      ;         METAL DEATH       
-.addr EntityWavesRound1Room11                      ;       WATCH YOUR STEP     
-.addr EntityWavesRound1Room12                      ;         FILM AT 11        
-.addr EntityWavesRound1Room13                      ;          DEFEND ME        
-.addr EntityWavesRound1Room14                      ;       TURTLES NEARBY      
-.addr EntityWavesRound1Room15                      ;       CHUNKS GALORE!      
-.addr EntityWavesRound1Room16                      ;      THESE ARE FAST!      
-.addr EntityWavesRound1Room17                      ;    BUFFALO HERD NEARBY!   
+.addr EntityWavesCircuit2Room00                      ;            ORBS!          
+.addr EntityWavesCircuit2Room01                      ;        MEET MY TWIN       
+.addr EntityWavesCircuit2Room02                      ;         SMASH 'EM         
+.addr EntityWavesCircuit2Room03                      ;    FIRE POWER IS NEEDED!  
+.addr EntityWavesCircuit2Room04                      ;       SLAUGHTER 'EM       
+.addr EntityWavesCircuit2Room05                      ;      LAZER DEATH ZONE     
+.addr EntityWavesCircuit2Room06                      ;       MEET SCARFACE!      
+.addr EntityWavesCircuit2Room07                      ;        ROWDY DROIDS       
+.addr EntityWavesCircuit2Room08                      ;        VACUUM CLEAN       
+.addr EntityWavesCircuit2Room09                      ;       SECRET ROOM #2!     
+.addr EntityWavesCircuit2Room10                      ;         METAL DEATH       
+.addr EntityWavesCircuit2Room11                      ;       WATCH YOUR STEP     
+.addr EntityWavesCircuit2Room12                      ;         FILM AT 11        
+.addr EntityWavesCircuit2Room13                      ;          DEFEND ME        
+.addr EntityWavesCircuit2Room14                      ;       TURTLES NEARBY      
+.addr EntityWavesCircuit2Room15                      ;       CHUNKS GALORE!      
+.addr EntityWavesCircuit2Room16                      ;      THESE ARE FAST!      
+.addr EntityWavesCircuit2Room17                      ;    BUFFALO HERD NEARBY!   
 
-EntityWavesRound2:
+EntityWavesCircuit3:
 .addr $0000
-.addr EntityWavesRound2Room00                      ;           NO DICE         
-.addr EntityWavesRound2Room01                      ;        TEMPLE ALERT       
-.addr EntityWavesRound2Room02                      ;       SCORPION FEVER      
-.addr EntityWavesRound2Room03                      ;      COBRA JUST AHEAD!    
-.addr EntityWavesRound2Room04                      ;        WALLS OF PAIN      
-.addr EntityWavesRound2Room05                      ;         LAST ARENA?       
-.addr EntityWavesRound2Room06                      ;        COBRA DEATH!       
-.addr EntityWavesRound2Room07                      ;       TURTLES BEWARE!     
-.addr EntityWavesRound2Room08                      ;     EXTRA SAUCE ACTION!   
-.addr EntityWavesRound2Room09                      ;       SECRET ROOM #3!     
-.addr EntityWavesRound2Room10                      ;    SECRET ROOMS NEARBY!   
-.addr EntityWavesRound2Room11                      ;      ENJOY MY WEALTH      
-.addr EntityWavesRound2Room12                      ;    NO TURTLES ALLOWED!    
-.addr EntityWavesRound2Room13                      ;    TURTLE CHUNKS NEEDED   
-.addr EntityWavesRound2Room14                      ;    DYNAMITE COBRA BOSS    
-.addr EntityWavesRound2Room15                      ;    USE THE BUFFALO GUN    
-.addr EntityWavesRound2Room16                      ;   WITNESS TOTAL CARNAGE   
-.addr EntityWavesRound2Room17                      ;    SECRET ROOMS NEARBY!   
-.addr EntityWavesRound2Room18                      ;     ALMOST ENOUGH KEYS    
-.addr EntityWavesRound2Room19                      ;   YOU HAVE ENOUGH KEYS!   
-.addr EntityWavesRound2Room20                      ;      EAT MY EYEBALLS!     
-.addr EntityWavesRound2Room21                      ;       PLEASURE DOME!      
-.addr EntityWavesRound2Room19                      ;      NOT ENOUGH KEYS!     
+.addr EntityWavesCircuit3Room00                      ;           NO DICE         
+.addr EntityWavesCircuit3Room01                      ;        TEMPLE ALERT       
+.addr EntityWavesCircuit3Room02                      ;       SCORPION FEVER      
+.addr EntityWavesCircuit3Room03                      ;      COBRA JUST AHEAD!    
+.addr EntityWavesCircuit3Room04                      ;        WALLS OF PAIN      
+.addr EntityWavesCircuit3Room05                      ;         LAST ARENA?       
+.addr EntityWavesCircuit3Room06                      ;        COBRA DEATH!       
+.addr EntityWavesCircuit3Room07                      ;       TURTLES BEWARE!     
+.addr EntityWavesCircuit3Room08                      ;     EXTRA SAUCE ACTION!   
+.addr EntityWavesCircuit3Room09                      ;       SECRET ROOM #3!     
+.addr EntityWavesCircuit3Room10                      ;    SECRET ROOMS NEARBY!   
+.addr EntityWavesCircuit3Room11                      ;      ENJOY MY WEALTH      
+.addr EntityWavesCircuit3Room12                      ;    NO TURTLES ALLOWED!    
+.addr EntityWavesCircuit3Room13                      ;    TURTLE CHUNKS NEEDED   
+.addr EntityWavesCircuit3Room14                      ;    DYNAMITE COBRA BOSS    
+.addr EntityWavesCircuit3Room15                      ;    USE THE BUFFALO GUN    
+.addr EntityWavesCircuit3Room16                      ;   WITNESS TOTAL CARNAGE   
+.addr EntityWavesCircuit3Room17                      ;    SECRET ROOMS NEARBY!   
+.addr EntityWavesCircuit3Room18                      ;     ALMOST ENOUGH KEYS    
+.addr EntityWavesCircuit3Room19                      ;   YOU HAVE ENOUGH KEYS!   
+.addr EntityWavesCircuit3Room20                      ;      EAT MY EYEBALLS!     
+.addr EntityWavesCircuit3Room21                      ;       PLEASURE DOME!      
+.addr EntityWavesCircuit3Room19                      ;      NOT ENOUGH KEYS!     
 
 
 ; each rooms spawn waves is defined as:
 ; u8 - number of spawns in this room
 ; followed by a list of 10 bytes per spawn:
-;    u8 - spawn wave type
-;    u8 - quantity of spawns
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
-;    u8 - todo
+;    u8  - spawn wave type
+;    u16 - number of waves
+;    u8  - average wave size
+;    u8  - variant rate, if there are two enemies that can spawn for a group, how often the alternate spawns
+;    u16 - delay between waves
+;    u8  - todo
+;    u8  - todo
+;    u8  - todo
+;    u8  - todo
 ; u8 - todo closing value
 
-EntityWavesRound0Room00:
+WaveType_Null = $00
+WaveType_Dude = $01
+WaveType_WallGunner = $02
+WaveType_RoboBallSnake = $03
+WaveType_FatRobos = $04
+WaveType_TreeSnakes = $05
+WaveType_SnakeMen = $06
+WaveType_UFO = $07
+WaveType_Tank = $08
+WaveType_Swirly = $09
+WaveType_MrShrapnel = $0A
+WaveType_RoboBall = $0B
+WaveType_FatUFO = $0C
+WaveType_Unk0D = $0D
+WaveType_Centipede = $0E
+WaveType_Mine = $0F
+WaveType_BossCobras = $10
+WaveType_BossMutoidMan = $11
+WaveType_BossScarface = $12
+WaveType_Unk13 = $13
+WaveType_Gifts = $14
+WaveType_Question = $15
+WaveType_GiftLadies = $16
+
+EntityWavesCircuit1Room00:
 .byte $01                                         ; 2 spawn waves
-.byte $01,$64,$00,$09,$00,$12,$00,$04,$5A,$00     ; wave 0
+
+.byte WaveType_Dude
+.word 100
+.byte 9
+.byte 0
+.word 18
+
+.byte $04,$5A,$00     ; wave 0
+;.byte $01,$64,$00,$09,$00,$12,$00,$04,$5A,$00     ; wave 0
 .byte $08,$05,$00,$01,$00,$0E,$01,$00,$78,$0F     ; wave 1
 .byte $01                                         ; end of room
 
-EntityWavesRound0Room01:
+EntityWavesCircuit1Room01:
 .byte $04                                         ; 5 spawn waves
 .byte $01,$2C,$01,$0A,$02,$18,$00,$10,$03,$00     ; wave 0
 .byte $0A,$0F,$00,$02,$00,$0E,$01,$02,$5A,$00     ; wave 1
@@ -1827,7 +1858,7 @@ EntityWavesRound0Room01:
 .byte $08,$05,$00,$01,$00,$0E,$01,$00,$28,$14     ; end of room
 .byte $02
 
-EntityWavesRound0Room02:
+EntityWavesCircuit1Room02:
 .byte $03                                         ; 4 spawn waves
 .byte $01,$C3,$00,$0A,$01,$03,$00,$00,$03,$00     ; wave 0
 .byte $0A,$06,$00,$02,$00,$E0,$01,$00,$96,$00     ; wave 1
@@ -1835,7 +1866,7 @@ EntityWavesRound0Room02:
 .byte $08,$05,$00,$01,$00,$A4,$01,$00,$A4,$10     ; wave 3
 .byte $02                                         ; end of room
 
-EntityWavesRound0Room03:
+EntityWavesCircuit1Room03:
 .byte $04                                         ; 5 spawn waves
 .byte $01,$19,$00,$04,$03,$03,$00,$00,$ce,$04     ; wave 0
 .byte $0a,$1e,$00,$08,$01,$0f,$00,$07,$78,$00     ; wave 1
@@ -1844,7 +1875,7 @@ EntityWavesRound0Room03:
 .byte $02,$02,$00,$01,$00,$00,$00,$02,$03,$00     ; wave 4
 .byte $01                                         ; end of room
 
-EntityWavesRound0Room04:
+EntityWavesCircuit1Room04:
 .byte $04                                         ; 5 spawn waves
 .byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
 .byte $01,$c7,$01,$0c,$06,$0c,$00,$00,$68,$01     ; wave 1
@@ -1853,7 +1884,7 @@ EntityWavesRound0Room04:
 .byte $08,$02,$00,$01,$00,$a4,$01,$00,$18,$15     ; wave 4
 .byte $02                                         ; end of room
 
-EntityWavesRound0Room05:
+EntityWavesCircuit1Room05:
 .byte $04                                         ; 5 spawn waves
 .byte $01,$41,$00,$04,$03,$03,$00,$10,$ef,$01     ; wave 0
 .byte $09,$01,$00,$01,$00,$3a,$02,$00,$b4,$00     ; wave 1
@@ -1862,7 +1893,7 @@ EntityWavesRound0Room05:
 .byte $08,$05,$00,$02,$00,$d0,$02,$00,$4c,$0e     ; wave 4
 .byte $01                                         ; end of room
 
-EntityWavesRound0Room06:
+EntityWavesCircuit1Room06:
 .byte $04                                         ; 5 spawn waves
 .byte $01,$8b,$01,$0c,$03,$03,$00,$10,$5a,$00     ; wave 0
 .byte $09,$01,$00,$01,$00,$ee,$02,$00,$3c,$0f     ; wave 1
@@ -1871,7 +1902,7 @@ EntityWavesRound0Room06:
 .byte $08,$05,$00,$01,$00,$a4,$01,$00,$fc,$12     ; wave 4
 .byte $03                                         ; end of room
 
-EntityWavesRound0Room07:
+EntityWavesCircuit1Room07:
 .byte $05                                         ; 6 spawn waves
 .byte $01,$27,$01,$0d,$04,$03,$00,$00,$e0,$01     ; wave 0
 .byte $09,$01,$00,$01,$00,$dc,$05,$00,$03,$00     ; wave 1
@@ -1881,7 +1912,7 @@ EntityWavesRound0Room07:
 .byte $08,$0d,$00,$01,$00,$78,$00,$00,$34,$08     ; wave 5
 .byte $01                                         ; end of room
 
-EntityWavesRound0Room08:
+EntityWavesCircuit1Room08:
 .byte $04                                         ; 5 spawn waves
 .byte $01,$45,$01,$0e,$04,$03,$00,$00,$03,$00     ; wave 0
 .byte $02,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 1
@@ -1890,7 +1921,7 @@ EntityWavesRound0Room08:
 .byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 4
 .byte $02                                         ; end of room
 
-EntityWavesRound0Room09:
+EntityWavesCircuit1Room09:
 .byte $03                                         ; 4 spawn waves
 .byte $11,$01,$00,$01,$00,$00,$00,$01,$03,$00     ; wave 0
 .byte $0f,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 1
@@ -1898,24 +1929,24 @@ EntityWavesRound0Room09:
 .byte $0a,$23,$00,$03,$00,$a4,$01,$00,$b8,$0b     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound0Room10:
+EntityWavesCircuit1Room10:
 .byte $01                                         ; 2 spawn waves
 .byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
 .byte $15,$01,$00,$01,$00,$00,$00,$00,$1c,$02     ; wave 1
 .byte $00                                         ; end of room
 
-EntityWavesRound1Room00:
+EntityWavesCircuit2Room00:
 .byte $00                                         ; 1 spawn waves
 .byte $07,$62,$00,$0a,$00,$1e,$00,$01,$03,$00     ; wave 0
 .byte $00                                         ; end of room
 
-EntityWavesRound1Room01:
+EntityWavesCircuit2Room01:
 .byte $01                                         ; 2 spawn waves
 .byte $0d,$7c,$01,$0f,$03,$03,$00,$00,$03,$00     ; wave 0
 .byte $0a,$01,$00,$01,$00,$0e,$01,$01,$dc,$05     ; wave 1
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room02:
+EntityWavesCircuit2Room02:
 .byte $03                                         ; 4 spawn waves
 .byte $0d,$0e,$01,$0f,$05,$0f,$00,$03,$f6,$09     ; wave 0
 .byte $09,$02,$00,$01,$00,$f0,$00,$00,$03,$00     ; wave 1
@@ -1923,7 +1954,7 @@ EntityWavesRound1Room02:
 .byte $03,$0f,$00,$01,$00,$1e,$00,$00,$c2,$01     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room03:
+EntityWavesCircuit2Room03:
 .byte $03                                         ; 4 spawn waves
 .byte $09,$01,$00,$01,$00,$d2,$00,$00,$03,$00     ; wave 0
 .byte $04,$f0,$00,$0f,$04,$03,$00,$00,$60,$09     ; wave 1
@@ -1931,7 +1962,7 @@ EntityWavesRound1Room03:
 .byte $0b,$3c,$00,$04,$00,$2d,$00,$00,$03,$00     ; wave 3
 .byte $00                                         ; end of room
 
-EntityWavesRound1Room04:
+EntityWavesCircuit2Room04:
 .byte $05                                         ; 6 spawn waves
 .byte $0d,$4a,$01,$10,$07,$03,$00,$00,$08,$07     ; wave 0
 .byte $0b,$28,$00,$07,$00,$18,$00,$00,$1f,$02     ; wave 1
@@ -1941,7 +1972,7 @@ EntityWavesRound1Room04:
 .byte $08,$06,$00,$01,$00,$b4,$00,$01,$10,$0e     ; wave 5
 .byte $02                                         ; end of room
 
-EntityWavesRound1Room05:
+EntityWavesCircuit2Room05:
 .byte $03                                         ; 4 spawn waves
 .byte $07,$5a,$00,$0e,$00,$18,$00,$01,$b0,$04     ; wave 0
 .byte $0c,$23,$00,$09,$00,$2d,$00,$00,$03,$00     ; wave 1
@@ -1949,39 +1980,39 @@ EntityWavesRound1Room05:
 .byte $08,$17,$00,$02,$00,$96,$00,$01,$03,$00     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room06:
+EntityWavesCircuit2Room06:
 .byte $01                                         ; 2 spawn waves
 .byte $12,$01,$00,$01,$00,$00,$00,$01,$03,$00     ; wave 0
 .byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 1
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room07:
+EntityWavesCircuit2Room07:
 .byte $02                                         ; 3 spawn waves
 .byte $0d,$b4,$00,$0e,$03,$03,$00,$00,$60,$09     ; wave 0
 .byte $03,$10,$00,$02,$00,$1e,$00,$00,$1e,$00     ; wave 1
 .byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 2
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room08:
+EntityWavesCircuit2Room08:
 .byte $02                                         ; 3 spawn waves
 .byte $04,$22,$01,$10,$05,$03,$00,$00,$86,$01     ; wave 0
 .byte $09,$04,$00,$02,$00,$f0,$00,$00,$03,$00     ; wave 1
 .byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 2
 .byte $00                                         ; end of room
 
-EntityWavesRound1Room09:
+EntityWavesCircuit2Room09:
 .byte $01                                         ; 2 spawn waves
 .byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
 .byte $15,$01,$00,$01,$00,$00,$00,$00,$1c,$02     ; wave 1
 .byte $00                                         ; end of room
 
-EntityWavesRound1Room10:
+EntityWavesCircuit2Room10:
 .byte $01                                         ; 2 spawn waves
 .byte $0d,$68,$01,$10,$05,$03,$00,$00,$6e,$0a     ; wave 0
 .byte $03,$10,$00,$03,$00,$1e,$00,$00,$03,$00     ; wave 1
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room11:
+EntityWavesCircuit2Room11:
 .byte $03                                         ; 4 spawn waves
 .byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
 .byte $0d,$26,$02,$11,$04,$03,$00,$00,$c2,$01     ; wave 1
@@ -1989,14 +2020,14 @@ EntityWavesRound1Room11:
 .byte $0a,$11,$00,$02,$00,$d2,$00,$00,$dc,$05     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room12:
+EntityWavesCircuit2Room12:
 .byte $02                                         ; 3 spawn waves
 .byte $0c,$18,$00,$05,$00,$12,$00,$00,$1e,$00     ; wave 0
 .byte $0d,$5e,$01,$12,$04,$0f,$00,$00,$a2,$03     ; wave 1
 .byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 2
 .byte $00                                         ; end of room
 
-EntityWavesRound1Room13:
+EntityWavesCircuit2Room13:
 .byte $05                                         ; 6 spawn waves
 .byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
 .byte $0d,$7c,$01,$0c,$05,$0c,$00,$00,$c2,$01     ; wave 1
@@ -2006,14 +2037,14 @@ EntityWavesRound1Room13:
 .byte $08,$03,$00,$01,$00,$3a,$02,$00,$8c,$0a     ; wave 5
 .byte $02                                         ; end of room
 
-EntityWavesRound1Room14:
+EntityWavesCircuit2Room14:
 .byte $02                                         ; 3 spawn waves
 .byte $07,$5a,$00,$0c,$00,$18,$00,$01,$03,$00     ; wave 0
 .byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 1
 .byte $08,$08,$00,$03,$00,$3a,$02,$01,$03,$00     ; wave 2
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room15:
+EntityWavesCircuit2Room15:
 .byte $05                                         ; 6 spawn waves
 .byte $04,$5e,$01,$11,$05,$03,$00,$00,$70,$08     ; wave 0
 .byte $0b,$28,$00,$04,$00,$15,$00,$00,$1f,$02     ; wave 1
@@ -2023,12 +2054,12 @@ EntityWavesRound1Room15:
 .byte $08,$08,$00,$01,$00,$b4,$00,$01,$10,$0e     ; wave 5
 .byte $02                                         ; end of room
 
-EntityWavesRound1Room16:
+EntityWavesCircuit2Room16:
 .byte $00                                         ; 1 spawn waves
 .byte $0d,$26,$02,$14,$07,$03,$00,$00,$03,$00     ; wave 0
 .byte $01                                         ; end of room
 
-EntityWavesRound1Room17:
+EntityWavesCircuit2Room17:
 .byte $04                                         ; 5 spawn waves
 .byte $04,$b2,$02,$12,$05,$03,$00,$00,$10,$0e     ; wave 0
 .byte $0f,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 1
@@ -2037,7 +2068,7 @@ EntityWavesRound1Room17:
 .byte $0c,$05,$00,$05,$00,$1e,$00,$00,$c6,$0c     ; wave 4
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room00:
+EntityWavesCircuit3Room00:
 .byte $03                                         ; 4 spawn waves
 .byte $06,$0c,$00,$06,$02,$03,$00,$08,$8c,$0a     ; wave 0
 .byte $05,$0f,$00,$1e,$00,$48,$03,$00,$b0,$04     ; wave 1
@@ -2045,7 +2076,7 @@ EntityWavesRound2Room00:
 .byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room01:
+EntityWavesCircuit3Room01:
 .byte $04                                         ; 5 spawn waves
 .byte $06,$3b,$01,$10,$02,$18,$00,$03,$1a,$04     ; wave 0
 .byte $05,$4f,$01,$19,$02,$f0,$00,$00,$03,$00     ; wave 1
@@ -2054,7 +2085,7 @@ EntityWavesRound2Room01:
 .byte $08,$03,$00,$01,$00,$2c,$01,$00,$94,$11     ; wave 4
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room02:
+EntityWavesCircuit3Room02:
 .byte $04                                         ; 5 spawn waves
 .byte $01,$bc,$02,$0e,$07,$03,$00,$05,$03,$00     ; wave 0
 .byte $0a,$05,$00,$02,$00,$fe,$01,$02,$9c,$18     ; wave 1
@@ -2063,20 +2094,20 @@ EntityWavesRound2Room02:
 .byte $08,$03,$00,$01,$00,$2c,$01,$00,$20,$1c     ; wave 4
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room03:
+EntityWavesCircuit3Room03:
 .byte $02                                         ; 3 spawn waves
 .byte $06,$8a,$02,$12,$07,$03,$00,$05,$03,$00     ; wave 0
 .byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 1
 .byte $0a,$11,$00,$02,$01,$d2,$00,$04,$dc,$05     ; wave 2
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room04:
+EntityWavesCircuit3Room04:
 .byte $01                                         ; 2 spawn waves
 .byte $0d,$90,$01,$19,$06,$0c,$00,$00,$03,$00     ; wave 0
 .byte $0f,$08,$00,$08,$00,$00,$00,$08,$03,$00     ; wave 1
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room05:
+EntityWavesCircuit3Room05:
 .byte $03                                         ; 4 spawn waves
 .byte $01,$10,$04,$12,$06,$03,$00,$01,$60,$09     ; wave 0
 .byte $09,$0d,$00,$02,$00,$d2,$00,$00,$03,$00     ; wave 1
@@ -2084,19 +2115,19 @@ EntityWavesRound2Room05:
 .byte $0e,$22,$00,$02,$00,$b0,$04,$00,$1c,$02     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room06:
+EntityWavesCircuit3Room06:
 .byte $00                                         ; 1 spawn waves
 .byte $10,$01,$00,$08,$00,$08,$07,$00,$03,$00     ; wave 0
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room07:
+EntityWavesCircuit3Room07:
 .byte $02                                         ; 3 spawn waves
 .byte $01,$bc,$02,$0d,$05,$06,$00,$05,$03,$00     ; wave 0
 .byte $05,$43,$03,$14,$04,$f0,$00,$00,$3c,$00     ; wave 1
 .byte $0f,$06,$00,$06,$00,$00,$00,$06,$03,$00     ; wave 2
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room08:
+EntityWavesCircuit3Room08:
 .byte $03                                         ; 4 spawn waves
 .byte $01,$8a,$02,$0e,$06,$03,$00,$00,$10,$0e     ; wave 0
 .byte $0a,$11,$00,$02,$00,$fe,$01,$04,$dc,$05     ; wave 1
@@ -2104,20 +2135,20 @@ EntityWavesRound2Room08:
 .byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 3
 .byte $02                                         ; end of room
 
-EntityWavesRound2Room09:
+EntityWavesCircuit3Room09:
 .byte $01                                         ; 2 spawn waves
 .byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
 .byte $15,$01,$00,$01,$00,$00,$00,$00,$1c,$02     ; wave 1
 .byte $00                                         ; end of room
 
-EntityWavesRound2Room10:
+EntityWavesCircuit3Room10:
 .byte $02                                         ; 3 spawn waves
 .byte $01,$09,$00,$08,$02,$03,$00,$05,$e4,$0c     ; wave 0
 .byte $08,$55,$00,$03,$00,$2d,$00,$01,$03,$00     ; wave 1
 .byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 2
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room11:
+EntityWavesCircuit3Room11:
 .byte $05                                         ; 6 spawn waves
 .byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
 .byte $01,$58,$02,$12,$06,$03,$00,$00,$1a,$04     ; wave 1
@@ -2127,7 +2158,7 @@ EntityWavesRound2Room11:
 .byte $09,$05,$00,$01,$00,$48,$03,$00,$34,$08     ; wave 5
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room12:
+EntityWavesCircuit3Room12:
 .byte $05                                         ; 6 spawn waves
 .byte $06,$90,$01,$10,$02,$03,$00,$0a,$03,$00     ; wave 0
 .byte $05,$17,$02,$17,$04,$f0,$00,$00,$96,$00     ; wave 1
@@ -2137,7 +2168,7 @@ EntityWavesRound2Room12:
 .byte $0e,$05,$00,$01,$00,$96,$00,$00,$1c,$02     ; wave 5
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room13:
+EntityWavesCircuit3Room13:
 .byte $04                                         ; 5 spawn waves
 .byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
 .byte $06,$2b,$02,$10,$05,$03,$00,$00,$c2,$01     ; wave 1
@@ -2146,7 +2177,7 @@ EntityWavesRound2Room13:
 .byte $0f,$06,$00,$06,$00,$00,$00,$06,$03,$00     ; wave 4
 .byte $02                                         ; end of room
 
-EntityWavesRound2Room14:
+EntityWavesCircuit3Room14:
 .byte $03                                         ; 4 spawn waves
 .byte $04,$84,$03,$0e,$04,$03,$00,$00,$3c,$0f     ; wave 0
 .byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 1
@@ -2154,14 +2185,14 @@ EntityWavesRound2Room14:
 .byte $05,$13,$0b,$0f,$00,$63,$00,$00,$03,$00     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room15:
+EntityWavesCircuit3Room15:
 .byte $02                                         ; 3 spawn waves
 .byte $04,$88,$09,$14,$04,$03,$00,$00,$03,$00     ; wave 0
 .byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 1
 .byte $09,$0d,$00,$01,$00,$1c,$02,$00,$8c,$0a     ; wave 2
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room16:
+EntityWavesCircuit3Room16:
 .byte $03                                         ; 4 spawn waves
 .byte $01,$8a,$02,$12,$05,$03,$00,$01,$b8,$0b     ; wave 0
 .byte $05,$13,$0b,$0f,$00,$4b,$00,$00,$03,$00     ; wave 1
@@ -2169,7 +2200,7 @@ EntityWavesRound2Room16:
 .byte $0f,$06,$00,$06,$00,$00,$00,$06,$03,$00     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room17:
+EntityWavesCircuit3Room17:
 .byte $04                                         ; 5 spawn waves
 .byte $01,$ee,$02,$11,$05,$09,$00,$05,$03,$00     ; wave 0
 .byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 1
@@ -2178,7 +2209,7 @@ EntityWavesRound2Room17:
 .byte $09,$0f,$00,$01,$00,$1c,$02,$00,$18,$15     ; wave 4
 .byte $02                                         ; end of room
 
-EntityWavesRound2Room18:
+EntityWavesCircuit3Room18:
 .byte $04                                         ; 5 spawn waves
 .byte $07,$f0,$00,$08,$00,$18,$00,$01,$b0,$04     ; wave 0
 .byte $0c,$23,$00,$05,$00,$2d,$00,$00,$03,$00     ; wave 1
@@ -2187,7 +2218,7 @@ EntityWavesRound2Room18:
 .byte $0a,$0d,$00,$02,$00,$03,$00,$00,$10,$0e     ; wave 4
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room19:
+EntityWavesCircuit3Room19:
 .byte $04                                         ; 5 spawn waves
 .byte $01,$ec,$09,$13,$06,$09,$00,$05,$f0,$00     ; wave 0
 .byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 1
@@ -2196,7 +2227,7 @@ EntityWavesRound2Room19:
 .byte $09,$02,$00,$01,$00,$1c,$02,$00,$9c,$18     ; wave 4
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room20:
+EntityWavesCircuit3Room20:
 .byte $03                                         ; 4 spawn waves
 .byte $11,$01,$00,$01,$00,$00,$00,$01,$03,$00     ; wave 0
 .byte $0f,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 1
@@ -2204,7 +2235,7 @@ EntityWavesRound2Room20:
 .byte $0a,$23,$00,$03,$00,$a4,$01,$00,$b8,$0b     ; wave 3
 .byte $01                                         ; end of room
 
-EntityWavesRound2Room21:
+EntityWavesCircuit3Room21:
 .byte $02                                         ; 3 spawn waves
 .byte $01,$0f,$00,$05,$06,$03,$00,$00,$8c,$0a     ; wave 0
 .byte $16,$0a,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 1
@@ -2213,75 +2244,75 @@ EntityWavesRound2Room21:
 
 
 
-DropTableRounds:
-.word DropTableRound0
-.word DropTableRound1
-.word DropTableRound2
+DropTableCircuits:
+.word DropTableCircuit1
+.word DropTableCircuit2
+.word DropTableCircuit3
 
-DropTableRound0:
+DropTableCircuit1:
 .word $0000
-.word DropTableRound0Room00
-.word DropTableRound0Room01
-.word DropTableRound0Room02
-.word DropTableRound0Room03
-.word DropTableRound0Room04
-.word DropTableRound0Room05
-.word DropTableRound0Room06
-.word DropTableRound0Room07
-.word DropTableRound0Room08
-.word DropTableRound0Room09
-.word DropTableRound0Room10
+.word DropTableCircuit1Room00
+.word DropTableCircuit1Room01
+.word DropTableCircuit1Room02
+.word DropTableCircuit1Room03
+.word DropTableCircuit1Room04
+.word DropTableCircuit1Room05
+.word DropTableCircuit1Room06
+.word DropTableCircuit1Room07
+.word DropTableCircuit1Room08
+.word DropTableCircuit1Room09
+.word DropTableCircuit1Room10
 
-DropTableRound1:
+DropTableCircuit2:
 .word $0000
-.word DropTableRound1Room00
-.word DropTableRound1Room01
-.word DropTableRound1Room02
-.word DropTableRound1Room03
-.word DropTableRound1Room04
-.word DropTableRound1Room05
-.word DropTableRound1Room06
-.word DropTableRound1Room07
-.word DropTableRound1Room08
-.word DropTableRound1Room09
-.word DropTableRound1Room10
-.word DropTableRound1Room11
-.word DropTableRound1Room12
-.word DropTableRound1Room13
-.word DropTableRound1Room14
-.word DropTableRound1Room15
-.word DropTableRound1Room16
-.word DropTableRound1Room17
-.word DropTableRound1Room18
+.word DropTableCircuit2Room00
+.word DropTableCircuit2Room01
+.word DropTableCircuit2Room02
+.word DropTableCircuit2Room03
+.word DropTableCircuit2Room04
+.word DropTableCircuit2Room05
+.word DropTableCircuit2Room06
+.word DropTableCircuit2Room07
+.word DropTableCircuit2Room08
+.word DropTableCircuit2Room09
+.word DropTableCircuit2Room10
+.word DropTableCircuit2Room11
+.word DropTableCircuit2Room12
+.word DropTableCircuit2Room13
+.word DropTableCircuit2Room14
+.word DropTableCircuit2Room15
+.word DropTableCircuit2Room16
+.word DropTableCircuit2Room17
+.word DropTableCircuit2Room18
 
-DropTableRound2:
+DropTableCircuit3:
 .word $0000
-.word DropTableRound2Room00
-.word DropTableRound2Room01
-.word DropTableRound2Room02
-.word DropTableRound2Room03
-.word DropTableRound2Room04
-.word DropTableRound2Room05
-.word DropTableRound2Room06
-.word DropTableRound2Room07
-.word DropTableRound2Room08
-.word DropTableRound2Room09
-.word DropTableRound2Room10
-.word DropTableRound2Room11
-.word DropTableRound2Room12
-.word DropTableRound2Room13
-.word DropTableRound2Room14
-.word DropTableRound2Room15
-.word DropTableRound2Room16
-.word DropTableRound2Room17
-.word DropTableRound2Room18
-.word DropTableRound2Room19
-.word DropTableRound2Room20
-.word DropTableRound2Room21
-.word DropTableRound2Room22
+.word DropTableCircuit3Room00
+.word DropTableCircuit3Room01
+.word DropTableCircuit3Room02
+.word DropTableCircuit3Room03
+.word DropTableCircuit3Room04
+.word DropTableCircuit3Room05
+.word DropTableCircuit3Room06
+.word DropTableCircuit3Room07
+.word DropTableCircuit3Room08
+.word DropTableCircuit3Room09
+.word DropTableCircuit3Room10
+.word DropTableCircuit3Room11
+.word DropTableCircuit3Room12
+.word DropTableCircuit3Room13
+.word DropTableCircuit3Room14
+.word DropTableCircuit3Room15
+.word DropTableCircuit3Room16
+.word DropTableCircuit3Room17
+.word DropTableCircuit3Room18
+.word DropTableCircuit3Room19
+.word DropTableCircuit3Room20
+.word DropTableCircuit3Room21
+.word DropTableCircuit3Room22
 
 ; ARENA 1
-DropTableRound0Room00:
+DropTableCircuit1Room00:
 .byte DropTableType_RazorShield
 .byte DropTableType_RazorShield
 .byte DropTableType_RazorShield
@@ -2304,7 +2335,7 @@ DropTableRound0Room00:
 .byte DropTableType_Nuke
 
 ; COLLECT 10 KEYS!
-DropTableRound0Room01:
+DropTableCircuit1Room01:
 .byte DropTableType_RazorShield
 .byte DropTableType_RazorShield
 .byte DropTableType_RazorShield
@@ -2327,7 +2358,7 @@ DropTableRound0Room01:
 .byte DropTableType_Nuke
 
 ; COLLECT POWERUPS!
-DropTableRound0Room02:
+DropTableCircuit1Room02:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2350,7 +2381,7 @@ DropTableRound0Room02:
 .byte DropTableType_Nuke
 
 ; MEET MR. SHRAPNEL
-DropTableRound0Room03:
+DropTableCircuit1Room03:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2373,7 +2404,7 @@ DropTableRound0Room03:
 .byte DropTableType_Nuke
 
 ; BONUS PRIZES!
-DropTableRound0Room04:
+DropTableCircuit1Room04:
 .byte DropTableType_Orb
 .byte DropTableType_Grenades
 .byte DropTableType_Grenades
@@ -2396,7 +2427,7 @@ DropTableRound0Room04:
 .byte DropTableType_Nuke
 
 ; EAT MY SHRAPNEL
-DropTableRound0Room05:
+DropTableCircuit1Room05:
 .byte DropTableType_RazorShield
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
@@ -2419,7 +2450,7 @@ DropTableRound0Room05:
 .byte DropTableType_Nuke
 
 ; TOTAL CARNAGE
-DropTableRound0Room06:
+DropTableCircuit1Room06:
 .byte DropTableType_Orb
 .byte DropTableType_Orb
 .byte DropTableType_RazorShield
@@ -2442,7 +2473,7 @@ DropTableRound0Room06:
 .byte DropTableType_Spreader
 
 ; CROWD CONTROL
-DropTableRound0Room07:
+DropTableCircuit1Room07:
 .byte DropTableType_Orb
 .byte DropTableType_Grenades
 .byte DropTableType_Spreader
@@ -2465,7 +2496,7 @@ DropTableRound0Room07:
 .byte DropTableType_Nuke
 
 ; TANK TROUBLE
-DropTableRound0Room08:
+DropTableCircuit1Room08:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2487,9 +2518,9 @@ DropTableRound0Room08:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room20:
+DropTableCircuit3Room20:
 ; MUTOID MAN
-DropTableRound0Room09:
+DropTableCircuit1Room09:
 .byte DropTableType_Grenades
 .byte DropTableType_Grenades
 .byte DropTableType_Grenades
@@ -2512,7 +2543,7 @@ DropTableRound0Room09:
 .byte DropTableType_Shoe
 
 ; SECRET ROOM #1
-DropTableRound0Room10:
+DropTableCircuit1Room10:
 .byte DropTableType_None
 .byte DropTableType_None
 .byte DropTableType_None
@@ -2534,7 +2565,7 @@ DropTableRound0Room10:
 .byte DropTableType_None
 .byte DropTableType_None
 
-DropTableRound1Room00:
+DropTableCircuit2Room00:
 .byte DropTableType_Grenades
 .byte DropTableType_Grenades
 .byte DropTableType_Grenades
@@ -2556,7 +2587,7 @@ DropTableRound1Room00:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room01:
+DropTableCircuit2Room01:
 .byte DropTableType_RazorShield
 .byte DropTableType_RazorShield
 .byte DropTableType_RazorShield
@@ -2578,7 +2609,7 @@ DropTableRound1Room01:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room02:
+DropTableCircuit2Room02:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2600,7 +2631,7 @@ DropTableRound1Room02:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room03:
+DropTableCircuit2Room03:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2622,7 +2653,7 @@ DropTableRound1Room03:
 .byte DropTableType_Shoe
 .byte DropTableType_Nuke
 
-DropTableRound1Room04:
+DropTableCircuit2Room04:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2644,7 +2675,7 @@ DropTableRound1Room04:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room05:
+DropTableCircuit2Room05:
 .byte DropTableType_RazorShield
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
@@ -2667,7 +2698,7 @@ DropTableRound1Room05:
 .byte DropTableType_Shoe
 .byte DropTableType_Nuke
 
-DropTableRound1Room06:
+DropTableCircuit2Room06:
 .byte DropTableType_Orb
 .byte DropTableType_Grenades
 .byte DropTableType_Grenades
@@ -2689,7 +2720,7 @@ DropTableRound1Room06:
 .byte DropTableType_Shoe
 .byte DropTableType_Shoe
 
-DropTableRound1Room07:
+DropTableCircuit2Room07:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2711,7 +2742,7 @@ DropTableRound1Room07:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room08:
+DropTableCircuit2Room08:
 .byte DropTableType_None
 .byte DropTableType_None
 .byte DropTableType_RazorShield
@@ -2733,7 +2764,7 @@ DropTableRound1Room08:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room09:
+DropTableCircuit2Room09:
 .byte DropTableType_None
 .byte DropTableType_None
 .byte DropTableType_None
@@ -2755,7 +2786,7 @@ DropTableRound1Room09:
 .byte DropTableType_None
 .byte DropTableType_None
 
-DropTableRound1Room10:
+DropTableCircuit2Room10:
 .byte DropTableType_None
 .byte DropTableType_None
 .byte DropTableType_RazorShield
@@ -2777,7 +2808,7 @@ DropTableRound1Room10:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room11:
+DropTableCircuit2Room11:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2799,7 +2830,7 @@ DropTableRound1Room11:
 .byte DropTableType_Shoe
 .byte DropTableType_Nuke
 
-DropTableRound1Room12:
+DropTableCircuit2Room12:
 .byte DropTableType_None
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
@@ -2821,7 +2852,7 @@ DropTableRound1Room12:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room13:
+DropTableCircuit2Room13:
 .byte DropTableType_None
 .byte DropTableType_None
 .byte DropTableType_Grenades
@@ -2843,8 +2874,8 @@ DropTableRound1Room13:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room14:
-DropTableRound1Room15:
+DropTableCircuit2Room14:
+DropTableCircuit2Room15:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2866,7 +2897,7 @@ DropTableRound1Room15:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room16:
+DropTableCircuit2Room16:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2888,7 +2919,7 @@ DropTableRound1Room16:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room17:
+DropTableCircuit2Room17:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2910,7 +2941,7 @@ DropTableRound1Room17:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound1Room18:
+DropTableCircuit2Room18:
 .byte DropTableType_None
 .byte DropTableType_None
 .byte DropTableType_RazorShield
@@ -2932,7 +2963,7 @@ DropTableRound1Room18:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room00:
+DropTableCircuit3Room00:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2954,7 +2985,7 @@ DropTableRound2Room00:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room01:
+DropTableCircuit3Room01:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -2975,7 +3006,7 @@ DropTableRound2Room01:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room02:
+DropTableCircuit3Room02:
 .byte DropTableType_None
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
@@ -2997,7 +3028,7 @@ DropTableRound2Room02:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room03:
+DropTableCircuit3Room03:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -3019,71 +3050,7 @@ DropTableRound2Room03:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room04:
-.byte DropTableType_RazorShield
-.byte DropTableType_Orb
-.byte DropTableType_Orb
-.byte DropTableType_Grenades
-.byte DropTableType_Spreader
-.byte DropTableType_Spreader
-.byte DropTableType_Spreader
-.byte DropTableType_ExtraLife
-.byte DropTableType_Shield
-.byte DropTableType_Shield
-.byte DropTableType_Shield
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Nuke
-.byte DropTableType_Nuke
-
-DropTableRound2Room05:
-.byte DropTableType_RazorShield
-.byte DropTableType_Orb
-.byte DropTableType_Orb
-.byte DropTableType_Grenades
-.byte DropTableType_Spreader
-.byte DropTableType_Spreader
-.byte DropTableType_ExtraLife
-.byte DropTableType_Shield
-.byte DropTableType_Shield
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Nuke
-
-DropTableRound2Room06:
-.byte DropTableType_Orb
-.byte DropTableType_Orb
-.byte DropTableType_Orb
-.byte DropTableType_Grenades
-.byte DropTableType_Grenades
-.byte DropTableType_Grenades
-.byte DropTableType_Grenades
-.byte DropTableType_Grenades
-.byte DropTableType_Grenades
-.byte DropTableType_Spreader
-.byte DropTableType_Spreader
-.byte DropTableType_Spreader
-.byte DropTableType_Rockets
-.byte DropTableType_Shield
-.byte DropTableType_Shield
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Shoe
-
-DropTableRound2Room07:
+DropTableCircuit3Room04:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -3105,7 +3072,49 @@ DropTableRound2Room07:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room08:
+DropTableCircuit3Room05:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+
+DropTableCircuit3Room06:
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Rockets
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+
+DropTableCircuit3Room07:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -3127,74 +3136,7 @@ DropTableRound2Room08:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room09:
-DropTableRound2Room21:
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-.byte DropTableType_None
-
-DropTableRound2Room10:
-.byte DropTableType_RazorShield
-.byte DropTableType_RazorShield
-.byte DropTableType_Orb
-.byte DropTableType_Orb
-.byte DropTableType_Orb
-.byte DropTableType_Grenades
-.byte DropTableType_Grenades
-.byte DropTableType_Grenades
-.byte DropTableType_Spreader
-.byte DropTableType_Spreader
-.byte DropTableType_Shield
-.byte DropTableType_Shield
-.byte DropTableType_Shield
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Nuke
-.byte DropTableType_Nuke
-.byte DropTableType_Nuke
-
-DropTableRound2Room11:
-.byte DropTableType_RazorShield
-.byte DropTableType_Orb
-.byte DropTableType_Grenades
-.byte DropTableType_Spreader
-.byte DropTableType_Spreader
-.byte DropTableType_Spreader
-.byte DropTableType_ExtraLife
-.byte DropTableType_ExtraLife
-.byte DropTableType_ExtraLife
-.byte DropTableType_Shield
-.byte DropTableType_Shield
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Rockets
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Shoe
-.byte DropTableType_Nuke
-.byte DropTableType_Nuke
-
-DropTableRound2Room12:
+DropTableCircuit3Room08:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -3216,7 +3158,53 @@ DropTableRound2Room12:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room13:
+DropTableCircuit3Room09:
+DropTableCircuit3Room21:
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+.byte DropTableType_None
+
+DropTableCircuit3Room10:
+.byte DropTableType_RazorShield
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableCircuit3Room11:
+.byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Grenades
 .byte DropTableType_Spreader
@@ -3225,7 +3213,6 @@ DropTableRound2Room13:
 .byte DropTableType_ExtraLife
 .byte DropTableType_ExtraLife
 .byte DropTableType_ExtraLife
-.byte DropTableType_Shield
 .byte DropTableType_Shield
 .byte DropTableType_Shield
 .byte DropTableType_Rockets
@@ -3238,7 +3225,7 @@ DropTableRound2Room13:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room14:
+DropTableCircuit3Room12:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -3260,7 +3247,29 @@ DropTableRound2Room14:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room15:
+DropTableCircuit3Room13:
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableCircuit3Room14:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -3282,7 +3291,29 @@ DropTableRound2Room15:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room16:
+DropTableCircuit3Room15:
+.byte DropTableType_RazorShield
+.byte DropTableType_Orb
+.byte DropTableType_Orb
+.byte DropTableType_Grenades
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_Spreader
+.byte DropTableType_ExtraLife
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Shield
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Rockets
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Shoe
+.byte DropTableType_Nuke
+.byte DropTableType_Nuke
+
+DropTableCircuit3Room16:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Grenades
@@ -3304,7 +3335,7 @@ DropTableRound2Room16:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room17:
+DropTableCircuit3Room17:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
@@ -3326,9 +3357,9 @@ DropTableRound2Room17:
 .byte DropTableType_Nuke
 .byte DropTableType_Nuke
 
-DropTableRound2Room18:
-DropTableRound2Room19:
-DropTableRound2Room22:
+DropTableCircuit3Room18:
+DropTableCircuit3Room19:
+DropTableCircuit3Room22:
 .byte DropTableType_RazorShield
 .byte DropTableType_Orb
 .byte DropTableType_Orb
