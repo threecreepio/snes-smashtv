@@ -1797,19 +1797,17 @@ EntityWavesCircuit3:
 .addr EntityWavesCircuit3Room19                      ;      NOT ENOUGH KEYS!     
 
 
-; each rooms spawn waves is defined as:
-; u8 - number of spawns in this room
-; followed by a list of 10 bytes per spawn:
+; each rooms spawn waves in groups, defined as:
+; u8 - number of wave groups in this room
+; followed by a list of spawns:
 ;    u8  - spawn wave type
 ;    u16 - number of waves
 ;    u8  - average wave size
 ;    u8  - variant rate, if there are two enemies that can spawn for a group, how often the alternate spawns
 ;    u16 - delay between waves
-;    u8  - todo
-;    u8  - todo
-;    u8  - todo
-;    u8  - todo
-; u8 - todo closing value
+;    u8  - room entrance pattern
+;    u16 - delay before first wave
+; u8 - number of required waves (always in the order they are listed, so, 1 means the first wave is required. 0 means all.)
 
 WaveType_Null = $00
 WaveType_Dude = $01
@@ -1835,413 +1833,1821 @@ WaveType_Gifts = $14
 WaveType_Question = $15
 WaveType_GiftLadies = $16
 
-EntityWavesCircuit1Room00:
-.byte $01                                         ; 2 spawn waves
+EntityWavesCircuit1Room00:          ; # ARENA 1
+.byte 1                             ; number of wave groups
 
-.byte WaveType_Dude
-.word 100
-.byte 9
-.byte 0
-.word 18
+.byte WaveType_Dude                 ; * spawn wave
+.word 100                           ; total units
+.byte 9                             ; units per wave
+.byte 0                             ; variant rate
+.word 18                            ; delay between waves
+.byte 4                             ; entrance pattern
+.word 90                            ; delay before first wave
 
-.byte $04,$5A,$00     ; wave 0
-;.byte $01,$64,$00,$09,$00,$12,$00,$04,$5A,$00     ; wave 0
-.byte $08,$05,$00,$01,$00,$0E,$01,$00,$78,$0F     ; wave 1
-.byte $01                                         ; end of room
+.byte WaveType_Tank                 ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3960                          ; delay before first wave
 
-EntityWavesCircuit1Room01:
-.byte $04                                         ; 5 spawn waves
-.byte $01,$2C,$01,$0A,$02,$18,$00,$10,$03,$00     ; wave 0
-.byte $0A,$0F,$00,$02,$00,$0E,$01,$02,$5A,$00     ; wave 1
-.byte $0F,$05,$00,$04,$00,$00,$00,$05,$03,$00     ; wave 2
-.byte $02,$01,$00,$01,$00,$00,$00,$01,$03,$00     ; wave 3
-.byte $08,$05,$00,$01,$00,$0E,$01,$00,$28,$14     ; end of room
-.byte $02
+.byte 1                             ; number of required waves to end room
 
-EntityWavesCircuit1Room02:
-.byte $03                                         ; 4 spawn waves
-.byte $01,$C3,$00,$0A,$01,$03,$00,$00,$03,$00     ; wave 0
-.byte $0A,$06,$00,$02,$00,$E0,$01,$00,$96,$00     ; wave 1
-.byte $0F,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 2
-.byte $08,$05,$00,$01,$00,$A4,$01,$00,$A4,$10     ; wave 3
-.byte $02                                         ; end of room
+EntityWavesCircuit1Room01:          ; # COLLECT 10 KEYS!
+.byte 4                             ; number of wave groups
 
-EntityWavesCircuit1Room03:
-.byte $04                                         ; 5 spawn waves
-.byte $01,$19,$00,$04,$03,$03,$00,$00,$ce,$04     ; wave 0
-.byte $0a,$1e,$00,$08,$01,$0f,$00,$07,$78,$00     ; wave 1
-.byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 2
-.byte $08,$05,$00,$01,$00,$0e,$01,$00,$28,$14     ; wave 3
-.byte $02,$02,$00,$01,$00,$00,$00,$02,$03,$00     ; wave 4
-.byte $01                                         ; end of room
+.byte WaveType_Dude                 ; * spawn wave
+.word 300                           ; total units
+.byte 10                            ; units per wave
+.byte 2                             ; variant rate
+.word 24                            ; delay between waves
+.byte 16                            ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit1Room04:
-.byte $04                                         ; 5 spawn waves
-.byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
-.byte $01,$c7,$01,$0c,$06,$0c,$00,$00,$68,$01     ; wave 1
-.byte $0a,$19,$00,$03,$00,$f0,$00,$00,$b0,$04     ; wave 2
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 3
-.byte $08,$02,$00,$01,$00,$a4,$01,$00,$18,$15     ; wave 4
-.byte $02                                         ; end of room
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 15                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 2                             ; entrance pattern
+.word 90                            ; delay before first wave
 
-EntityWavesCircuit1Room05:
-.byte $04                                         ; 5 spawn waves
-.byte $01,$41,$00,$04,$03,$03,$00,$10,$ef,$01     ; wave 0
-.byte $09,$01,$00,$01,$00,$3a,$02,$00,$b4,$00     ; wave 1
-.byte $0a,$0f,$00,$04,$00,$87,$00,$03,$d2,$00     ; wave 2
-.byte $0f,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 3
-.byte $08,$05,$00,$02,$00,$d0,$02,$00,$4c,$0e     ; wave 4
-.byte $01                                         ; end of room
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit1Room06:
-.byte $04                                         ; 5 spawn waves
-.byte $01,$8b,$01,$0c,$03,$03,$00,$10,$5a,$00     ; wave 0
-.byte $09,$01,$00,$01,$00,$ee,$02,$00,$3c,$0f     ; wave 1
-.byte $0a,$0d,$00,$03,$00,$59,$01,$02,$03,$00     ; wave 2
-.byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 3
-.byte $08,$05,$00,$01,$00,$a4,$01,$00,$fc,$12     ; wave 4
-.byte $03                                         ; end of room
+.byte WaveType_WallGunner           ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit1Room07:
-.byte $05                                         ; 6 spawn waves
-.byte $01,$27,$01,$0d,$04,$03,$00,$00,$e0,$01     ; wave 0
-.byte $09,$01,$00,$01,$00,$dc,$05,$00,$03,$00     ; wave 1
-.byte $0a,$0a,$00,$02,$00,$1e,$00,$03,$03,$00     ; wave 2
-.byte $02,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 3
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 4
-.byte $08,$0d,$00,$01,$00,$78,$00,$00,$34,$08     ; wave 5
-.byte $01                                         ; end of room
+.byte WaveType_Tank                 ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 5160                          ; delay before first wave
 
-EntityWavesCircuit1Room08:
-.byte $04                                         ; 5 spawn waves
-.byte $01,$45,$01,$0e,$04,$03,$00,$00,$03,$00     ; wave 0
-.byte $02,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 1
-.byte $08,$1b,$00,$01,$00,$e0,$01,$00,$58,$02     ; wave 2
-.byte $0a,$12,$00,$02,$00,$03,$00,$03,$84,$03     ; wave 3
-.byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 4
-.byte $02                                         ; end of room
+.byte 2                             ; number of required waves to end room
 
-EntityWavesCircuit1Room09:
-.byte $03                                         ; 4 spawn waves
-.byte $11,$01,$00,$01,$00,$00,$00,$01,$03,$00     ; wave 0
-.byte $0f,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 1
-.byte $09,$01,$00,$01,$00,$87,$00,$00,$3c,$00     ; wave 2
-.byte $0a,$23,$00,$03,$00,$a4,$01,$00,$b8,$0b     ; wave 3
-.byte $01                                         ; end of room
+EntityWavesCircuit1Room02:          ; # COLLECT POWERUPS!
+.byte 3                             ; number of wave groups
 
-EntityWavesCircuit1Room10:
-.byte $01                                         ; 2 spawn waves
-.byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
-.byte $15,$01,$00,$01,$00,$00,$00,$00,$1c,$02     ; wave 1
-.byte $00                                         ; end of room
+.byte WaveType_Dude                 ; * spawn wave
+.word 195                           ; total units
+.byte 10                            ; units per wave
+.byte 1                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit2Room00:
-.byte $00                                         ; 1 spawn waves
-.byte $07,$62,$00,$0a,$00,$1e,$00,$01,$03,$00     ; wave 0
-.byte $00                                         ; end of room
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 6                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 480                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 150                           ; delay before first wave
 
-EntityWavesCircuit2Room01:
-.byte $01                                         ; 2 spawn waves
-.byte $0d,$7c,$01,$0f,$03,$03,$00,$00,$03,$00     ; wave 0
-.byte $0a,$01,$00,$01,$00,$0e,$01,$01,$dc,$05     ; wave 1
-.byte $01                                         ; end of room
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit2Room02:
-.byte $03                                         ; 4 spawn waves
-.byte $0d,$0e,$01,$0f,$05,$0f,$00,$03,$f6,$09     ; wave 0
-.byte $09,$02,$00,$01,$00,$f0,$00,$00,$03,$00     ; wave 1
-.byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 2
-.byte $03,$0f,$00,$01,$00,$1e,$00,$00,$c2,$01     ; wave 3
-.byte $01                                         ; end of room
+.byte WaveType_Tank                 ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 420                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 4260                          ; delay before first wave
 
-EntityWavesCircuit2Room03:
-.byte $03                                         ; 4 spawn waves
-.byte $09,$01,$00,$01,$00,$d2,$00,$00,$03,$00     ; wave 0
-.byte $04,$f0,$00,$0f,$04,$03,$00,$00,$60,$09     ; wave 1
-.byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 2
-.byte $0b,$3c,$00,$04,$00,$2d,$00,$00,$03,$00     ; wave 3
-.byte $00                                         ; end of room
+.byte 2                             ; number of required waves to end room
 
-EntityWavesCircuit2Room04:
-.byte $05                                         ; 6 spawn waves
-.byte $0d,$4a,$01,$10,$07,$03,$00,$00,$08,$07     ; wave 0
-.byte $0b,$28,$00,$07,$00,$18,$00,$00,$1f,$02     ; wave 1
-.byte $0a,$0a,$00,$02,$00,$3a,$02,$01,$dc,$05     ; wave 2
-.byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 3
-.byte $09,$04,$00,$01,$00,$e1,$00,$00,$03,$00     ; wave 4
-.byte $08,$06,$00,$01,$00,$b4,$00,$01,$10,$0e     ; wave 5
-.byte $02                                         ; end of room
+EntityWavesCircuit1Room03:          ; # MEET MR. SHRAPNEL
+.byte 4                             ; number of wave groups
 
-EntityWavesCircuit2Room05:
-.byte $03                                         ; 4 spawn waves
-.byte $07,$5a,$00,$0e,$00,$18,$00,$01,$b0,$04     ; wave 0
-.byte $0c,$23,$00,$09,$00,$2d,$00,$00,$03,$00     ; wave 1
-.byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 2
-.byte $08,$17,$00,$02,$00,$96,$00,$01,$03,$00     ; wave 3
-.byte $01                                         ; end of room
+.byte WaveType_Dude                 ; * spawn wave
+.word 25                            ; total units
+.byte 4                             ; units per wave
+.byte 3                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1230                          ; delay before first wave
 
-EntityWavesCircuit2Room06:
-.byte $01                                         ; 2 spawn waves
-.byte $12,$01,$00,$01,$00,$00,$00,$01,$03,$00     ; wave 0
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 1
-.byte $01                                         ; end of room
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 30                            ; total units
+.byte 8                             ; units per wave
+.byte 1                             ; variant rate
+.word 15                            ; delay between waves
+.byte 7                             ; entrance pattern
+.word 120                           ; delay before first wave
 
-EntityWavesCircuit2Room07:
-.byte $02                                         ; 3 spawn waves
-.byte $0d,$b4,$00,$0e,$03,$03,$00,$00,$60,$09     ; wave 0
-.byte $03,$10,$00,$02,$00,$1e,$00,$00,$1e,$00     ; wave 1
-.byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 2
-.byte $01                                         ; end of room
+.byte WaveType_Mine                 ; * spawn wave
+.word 4                             ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 4                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit2Room08:
-.byte $02                                         ; 3 spawn waves
-.byte $04,$22,$01,$10,$05,$03,$00,$00,$86,$01     ; wave 0
-.byte $09,$04,$00,$02,$00,$f0,$00,$00,$03,$00     ; wave 1
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 2
-.byte $00                                         ; end of room
+.byte WaveType_Tank                 ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 5160                          ; delay before first wave
 
-EntityWavesCircuit2Room09:
-.byte $01                                         ; 2 spawn waves
-.byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
-.byte $15,$01,$00,$01,$00,$00,$00,$00,$1c,$02     ; wave 1
-.byte $00                                         ; end of room
+.byte WaveType_WallGunner           ; * spawn wave
+.word 2                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 2                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit2Room10:
-.byte $01                                         ; 2 spawn waves
-.byte $0d,$68,$01,$10,$05,$03,$00,$00,$6e,$0a     ; wave 0
-.byte $03,$10,$00,$03,$00,$1e,$00,$00,$03,$00     ; wave 1
-.byte $01                                         ; end of room
+.byte 1                             ; number of required waves to end room
 
-EntityWavesCircuit2Room11:
-.byte $03                                         ; 4 spawn waves
-.byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
-.byte $0d,$26,$02,$11,$04,$03,$00,$00,$c2,$01     ; wave 1
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 2
-.byte $0a,$11,$00,$02,$00,$d2,$00,$00,$dc,$05     ; wave 3
-.byte $01                                         ; end of room
+EntityWavesCircuit1Room04:          ; # BONUS PRIZES!
+.byte 4                             ; number of wave groups
 
-EntityWavesCircuit2Room12:
-.byte $02                                         ; 3 spawn waves
-.byte $0c,$18,$00,$05,$00,$12,$00,$00,$1e,$00     ; wave 0
-.byte $0d,$5e,$01,$12,$04,$0f,$00,$00,$a2,$03     ; wave 1
-.byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 2
-.byte $00                                         ; end of room
+.byte WaveType_Gifts                ; * spawn wave
+.word 2                             ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit2Room13:
-.byte $05                                         ; 6 spawn waves
-.byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
-.byte $0d,$7c,$01,$0c,$05,$0c,$00,$00,$c2,$01     ; wave 1
-.byte $03,$03,$00,$01,$00,$1c,$02,$00,$dc,$05     ; wave 2
-.byte $0a,$09,$00,$03,$00,$1e,$00,$00,$b8,$0b     ; wave 3
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 4
-.byte $08,$03,$00,$01,$00,$3a,$02,$00,$8c,$0a     ; wave 5
-.byte $02                                         ; end of room
+.byte WaveType_Dude                 ; * spawn wave
+.word 455                           ; total units
+.byte 12                            ; units per wave
+.byte 6                             ; variant rate
+.word 12                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 360                           ; delay before first wave
 
-EntityWavesCircuit2Room14:
-.byte $02                                         ; 3 spawn waves
-.byte $07,$5a,$00,$0c,$00,$18,$00,$01,$03,$00     ; wave 0
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 1
-.byte $08,$08,$00,$03,$00,$3a,$02,$01,$03,$00     ; wave 2
-.byte $01                                         ; end of room
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 25                            ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 240                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1200                          ; delay before first wave
 
-EntityWavesCircuit2Room15:
-.byte $05                                         ; 6 spawn waves
-.byte $04,$5e,$01,$11,$05,$03,$00,$00,$70,$08     ; wave 0
-.byte $0b,$28,$00,$04,$00,$15,$00,$00,$1f,$02     ; wave 1
-.byte $0a,$0a,$00,$02,$00,$3a,$02,$01,$dc,$05     ; wave 2
-.byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 3
-.byte $09,$04,$00,$01,$00,$e1,$00,$00,$03,$00     ; wave 4
-.byte $08,$08,$00,$01,$00,$b4,$00,$01,$10,$0e     ; wave 5
-.byte $02                                         ; end of room
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit2Room16:
-.byte $00                                         ; 1 spawn waves
-.byte $0d,$26,$02,$14,$07,$03,$00,$00,$03,$00     ; wave 0
-.byte $01                                         ; end of room
+.byte WaveType_Tank                 ; * spawn wave
+.word 2                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 420                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 5400                          ; delay before first wave
 
-EntityWavesCircuit2Room17:
-.byte $04                                         ; 5 spawn waves
-.byte $04,$b2,$02,$12,$05,$03,$00,$00,$10,$0e     ; wave 0
-.byte $0f,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 1
-.byte $09,$09,$00,$01,$00,$f0,$00,$00,$03,$00     ; wave 2
-.byte $03,$0f,$00,$02,$00,$1e,$00,$00,$18,$06     ; wave 3
-.byte $0c,$05,$00,$05,$00,$1e,$00,$00,$c6,$0c     ; wave 4
-.byte $01                                         ; end of room
+.byte 2                             ; number of required waves to end room
 
-EntityWavesCircuit3Room00:
-.byte $03                                         ; 4 spawn waves
-.byte $06,$0c,$00,$06,$02,$03,$00,$08,$8c,$0a     ; wave 0
-.byte $05,$0f,$00,$1e,$00,$48,$03,$00,$b0,$04     ; wave 1
-.byte $08,$1e,$00,$03,$00,$39,$00,$00,$03,$00     ; wave 2
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 3
-.byte $01                                         ; end of room
+EntityWavesCircuit1Room05:          ; # EAT MY SHRAPNEL
+.byte 4                             ; number of wave groups
 
-EntityWavesCircuit3Room01:
-.byte $04                                         ; 5 spawn waves
-.byte $06,$3b,$01,$10,$02,$18,$00,$03,$1a,$04     ; wave 0
-.byte $05,$4f,$01,$19,$02,$f0,$00,$00,$03,$00     ; wave 1
-.byte $0e,$06,$00,$01,$00,$96,$00,$00,$96,$00     ; wave 2
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 3
-.byte $08,$03,$00,$01,$00,$2c,$01,$00,$94,$11     ; wave 4
-.byte $01                                         ; end of room
+.byte WaveType_Dude                 ; * spawn wave
+.word 65                            ; total units
+.byte 4                             ; units per wave
+.byte 3                             ; variant rate
+.word 3                             ; delay between waves
+.byte 16                            ; entrance pattern
+.word 495                           ; delay before first wave
 
-EntityWavesCircuit3Room02:
-.byte $04                                         ; 5 spawn waves
-.byte $01,$bc,$02,$0e,$07,$03,$00,$05,$03,$00     ; wave 0
-.byte $0a,$05,$00,$02,$00,$fe,$01,$02,$9c,$18     ; wave 1
-.byte $05,$eb,$00,$19,$01,$66,$03,$00,$03,$00     ; wave 2
-.byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 3
-.byte $08,$03,$00,$01,$00,$2c,$01,$00,$20,$1c     ; wave 4
-.byte $01                                         ; end of room
+.byte WaveType_Swirly               ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 570                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 180                           ; delay before first wave
 
-EntityWavesCircuit3Room03:
-.byte $02                                         ; 3 spawn waves
-.byte $06,$8a,$02,$12,$07,$03,$00,$05,$03,$00     ; wave 0
-.byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 1
-.byte $0a,$11,$00,$02,$01,$d2,$00,$04,$dc,$05     ; wave 2
-.byte $01                                         ; end of room
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 15                            ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 135                           ; delay between waves
+.byte 3                             ; entrance pattern
+.word 210                           ; delay before first wave
 
-EntityWavesCircuit3Room04:
-.byte $01                                         ; 2 spawn waves
-.byte $0d,$90,$01,$19,$06,$0c,$00,$00,$03,$00     ; wave 0
-.byte $0f,$08,$00,$08,$00,$00,$00,$08,$03,$00     ; wave 1
-.byte $01                                         ; end of room
+.byte WaveType_Mine                 ; * spawn wave
+.word 2                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 2                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit3Room05:
-.byte $03                                         ; 4 spawn waves
-.byte $01,$10,$04,$12,$06,$03,$00,$01,$60,$09     ; wave 0
-.byte $09,$0d,$00,$02,$00,$d2,$00,$00,$03,$00     ; wave 1
-.byte $0f,$0e,$00,$0e,$00,$00,$00,$0e,$03,$00     ; wave 2
-.byte $0e,$22,$00,$02,$00,$b0,$04,$00,$1c,$02     ; wave 3
-.byte $01                                         ; end of room
+.byte WaveType_Tank                 ; * spawn wave
+.word 5                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 720                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3660                          ; delay before first wave
 
-EntityWavesCircuit3Room06:
-.byte $00                                         ; 1 spawn waves
-.byte $10,$01,$00,$08,$00,$08,$07,$00,$03,$00     ; wave 0
-.byte $01                                         ; end of room
+.byte 1                             ; number of required waves to end room
 
-EntityWavesCircuit3Room07:
-.byte $02                                         ; 3 spawn waves
-.byte $01,$bc,$02,$0d,$05,$06,$00,$05,$03,$00     ; wave 0
-.byte $05,$43,$03,$14,$04,$f0,$00,$00,$3c,$00     ; wave 1
-.byte $0f,$06,$00,$06,$00,$00,$00,$06,$03,$00     ; wave 2
-.byte $01                                         ; end of room
+EntityWavesCircuit1Room06:          ; # TOTAL CARNAGE
+.byte 4                             ; number of wave groups
 
-EntityWavesCircuit3Room08:
-.byte $03                                         ; 4 spawn waves
-.byte $01,$8a,$02,$0e,$06,$03,$00,$00,$10,$0e     ; wave 0
-.byte $0a,$11,$00,$02,$00,$fe,$01,$04,$dc,$05     ; wave 1
-.byte $05,$13,$0b,$14,$00,$4b,$00,$00,$96,$00     ; wave 2
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 3
-.byte $02                                         ; end of room
+.byte WaveType_Dude                 ; * spawn wave
+.word 395                           ; total units
+.byte 12                            ; units per wave
+.byte 3                             ; variant rate
+.word 3                             ; delay between waves
+.byte 16                            ; entrance pattern
+.word 90                            ; delay before first wave
 
-EntityWavesCircuit3Room09:
-.byte $01                                         ; 2 spawn waves
-.byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
-.byte $15,$01,$00,$01,$00,$00,$00,$00,$1c,$02     ; wave 1
-.byte $00                                         ; end of room
+.byte WaveType_Swirly               ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 750                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3900                          ; delay before first wave
 
-EntityWavesCircuit3Room10:
-.byte $02                                         ; 3 spawn waves
-.byte $01,$09,$00,$08,$02,$03,$00,$05,$e4,$0c     ; wave 0
-.byte $08,$55,$00,$03,$00,$2d,$00,$01,$03,$00     ; wave 1
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 2
-.byte $01                                         ; end of room
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 13                            ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 345                           ; delay between waves
+.byte 2                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit3Room11:
-.byte $05                                         ; 6 spawn waves
-.byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
-.byte $01,$58,$02,$12,$06,$03,$00,$00,$1a,$04     ; wave 1
-.byte $0f,$06,$00,$06,$00,$00,$00,$06,$03,$00     ; wave 2
-.byte $0a,$08,$00,$02,$00,$03,$00,$00,$68,$10     ; wave 3
-.byte $03,$04,$00,$02,$00,$96,$00,$00,$1c,$02     ; wave 4
-.byte $09,$05,$00,$01,$00,$48,$03,$00,$34,$08     ; wave 5
-.byte $01                                         ; end of room
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit3Room12:
-.byte $05                                         ; 6 spawn waves
-.byte $06,$90,$01,$10,$02,$03,$00,$0a,$03,$00     ; wave 0
-.byte $05,$17,$02,$17,$04,$f0,$00,$00,$96,$00     ; wave 1
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 2
-.byte $09,$01,$00,$01,$00,$f0,$00,$00,$34,$08     ; wave 3
-.byte $0a,$09,$00,$02,$00,$03,$00,$00,$68,$10     ; wave 4
-.byte $0e,$05,$00,$01,$00,$96,$00,$00,$1c,$02     ; wave 5
-.byte $01                                         ; end of room
+.byte WaveType_Tank                 ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 420                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 4860                          ; delay before first wave
 
-EntityWavesCircuit3Room13:
-.byte $04                                         ; 5 spawn waves
-.byte $14,$02,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 0
-.byte $06,$2b,$02,$10,$05,$03,$00,$00,$c2,$01     ; wave 1
-.byte $0a,$11,$00,$02,$00,$fe,$01,$00,$b0,$04     ; wave 2
-.byte $08,$0a,$00,$01,$00,$2c,$01,$00,$94,$11     ; wave 3
-.byte $0f,$06,$00,$06,$00,$00,$00,$06,$03,$00     ; wave 4
-.byte $02                                         ; end of room
+.byte 3                             ; number of required waves to end room
 
-EntityWavesCircuit3Room14:
-.byte $03                                         ; 4 spawn waves
-.byte $04,$84,$03,$0e,$04,$03,$00,$00,$3c,$0f     ; wave 0
-.byte $0f,$04,$00,$04,$00,$00,$00,$04,$03,$00     ; wave 1
-.byte $0e,$05,$00,$01,$00,$1c,$02,$00,$1c,$02     ; wave 2
-.byte $05,$13,$0b,$0f,$00,$63,$00,$00,$03,$00     ; wave 3
-.byte $01                                         ; end of room
+EntityWavesCircuit1Room07:          ; # CROWD CONTROL
+.byte 5                             ; number of wave groups
 
-EntityWavesCircuit3Room15:
-.byte $02                                         ; 3 spawn waves
-.byte $04,$88,$09,$14,$04,$03,$00,$00,$03,$00     ; wave 0
-.byte $0f,$05,$00,$05,$00,$00,$00,$05,$03,$00     ; wave 1
-.byte $09,$0d,$00,$01,$00,$1c,$02,$00,$8c,$0a     ; wave 2
-.byte $01                                         ; end of room
+.byte WaveType_Dude                 ; * spawn wave
+.word 295                           ; total units
+.byte 13                            ; units per wave
+.byte 4                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 480                           ; delay before first wave
 
-EntityWavesCircuit3Room16:
-.byte $03                                         ; 4 spawn waves
-.byte $01,$8a,$02,$12,$05,$03,$00,$01,$b8,$0b     ; wave 0
-.byte $05,$13,$0b,$0f,$00,$4b,$00,$00,$03,$00     ; wave 1
-.byte $0e,$05,$00,$01,$00,$58,$02,$00,$1c,$02     ; wave 2
-.byte $0f,$06,$00,$06,$00,$00,$00,$06,$03,$00     ; wave 3
-.byte $01                                         ; end of room
+.byte WaveType_Swirly               ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 1500                          ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit3Room17:
-.byte $04                                         ; 5 spawn waves
-.byte $01,$ee,$02,$11,$05,$09,$00,$05,$03,$00     ; wave 0
-.byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 1
-.byte $0e,$0f,$00,$02,$00,$96,$00,$00,$1c,$02     ; wave 2
-.byte $0a,$1b,$00,$02,$00,$f0,$00,$04,$dc,$05     ; wave 3
-.byte $09,$0f,$00,$01,$00,$1c,$02,$00,$18,$15     ; wave 4
-.byte $02                                         ; end of room
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 10                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit3Room18:
-.byte $04                                         ; 5 spawn waves
-.byte $07,$f0,$00,$08,$00,$18,$00,$01,$b0,$04     ; wave 0
-.byte $0c,$23,$00,$05,$00,$2d,$00,$00,$03,$00     ; wave 1
-.byte $0f,$08,$00,$08,$00,$00,$00,$08,$03,$00     ; wave 2
-.byte $08,$0a,$00,$01,$00,$1c,$02,$01,$2c,$01     ; wave 3
-.byte $0a,$0d,$00,$02,$00,$03,$00,$00,$10,$0e     ; wave 4
-.byte $01                                         ; end of room
+.byte WaveType_WallGunner           ; * spawn wave
+.word 2                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 2                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit3Room19:
-.byte $04                                         ; 5 spawn waves
-.byte $01,$ec,$09,$13,$06,$09,$00,$05,$f0,$00     ; wave 0
-.byte $0f,$03,$00,$03,$00,$00,$00,$03,$03,$00     ; wave 1
-.byte $03,$02,$00,$01,$00,$1e,$00,$00,$1e,$00     ; wave 2
-.byte $0a,$1b,$00,$02,$00,$1c,$02,$04,$8c,$0a     ; wave 3
-.byte $09,$02,$00,$01,$00,$1c,$02,$00,$9c,$18     ; wave 4
-.byte $01                                         ; end of room
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
 
-EntityWavesCircuit3Room20:
-.byte $03                                         ; 4 spawn waves
-.byte $11,$01,$00,$01,$00,$00,$00,$01,$03,$00     ; wave 0
-.byte $0f,$02,$00,$02,$00,$00,$00,$02,$03,$00     ; wave 1
-.byte $09,$01,$00,$01,$00,$87,$00,$00,$3c,$00     ; wave 2
-.byte $0a,$23,$00,$03,$00,$a4,$01,$00,$b8,$0b     ; wave 3
-.byte $01                                         ; end of room
+.byte WaveType_Tank                 ; * spawn wave
+.word 13                            ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 120                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2100                          ; delay before first wave
 
-EntityWavesCircuit3Room21:
-.byte $02                                         ; 3 spawn waves
-.byte $01,$0f,$00,$05,$06,$03,$00,$00,$8c,$0a     ; wave 0
-.byte $16,$0a,$00,$00,$00,$0e,$01,$00,$03,$00     ; wave 1
-.byte $15,$01,$00,$01,$00,$00,$00,$00,$6e,$0a     ; wave 2
-.byte $00                                         ; end of room
+.byte 1                             ; number of required waves to end room
 
+EntityWavesCircuit1Room08:          ; # TANK TROUBLE
+.byte 4                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 325                           ; total units
+.byte 14                            ; units per wave
+.byte 4                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_WallGunner           ; * spawn wave
+.word 2                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 2                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 27                            ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 480                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 600                           ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 18                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 3                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 900                           ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 4                             ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 4                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 2                             ; number of required waves to end room
+
+EntityWavesCircuit1Room09:          ; # MUTOID MAN!
+.byte 3                             ; number of wave groups
+
+.byte WaveType_BossMutoidMan        ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 2                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 2                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 135                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 60                            ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 35                            ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 420                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3000                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit1Room10:          ; # SECRET ROOM #1!
+.byte 1                             ; number of wave groups
+
+.byte WaveType_Gifts                ; * spawn wave
+.word 2                             ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Question             ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte 0                             ; number of required waves to end room
+
+EntityWavesCircuit2Room00:          ; # ORBS!
+.byte 0                             ; number of wave groups
+
+.byte WaveType_UFO                  ; * spawn wave
+.word 98                            ; total units
+.byte 10                            ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 0                             ; number of required waves to end room
+
+EntityWavesCircuit2Room01:          ; # MEET MY TWIN
+.byte 1                             ; number of wave groups
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 380                           ; total units
+.byte 15                            ; units per wave
+.byte 3                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 1                             ; entrance pattern
+.word 1500                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room02:          ; # SMASH 'EM
+.byte 3                             ; number of wave groups
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 270                           ; total units
+.byte 15                            ; units per wave
+.byte 5                             ; variant rate
+.word 15                            ; delay between waves
+.byte 3                             ; entrance pattern
+.word 2550                          ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 2                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 240                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_RoboBallSnake        ; * spawn wave
+.word 15                            ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 450                           ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room03:          ; # FIRE POWER IS NEEDED!
+.byte 3                             ; number of wave groups
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 210                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_FatRobos             ; * spawn wave
+.word 240                           ; total units
+.byte 15                            ; units per wave
+.byte 4                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2400                          ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 4                             ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 4                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_RoboBall             ; * spawn wave
+.word 60                            ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 45                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 0                             ; number of required waves to end room
+
+EntityWavesCircuit2Room04:          ; # SLAUGHTER 'EM
+.byte 5                             ; number of wave groups
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 330                           ; total units
+.byte 16                            ; units per wave
+.byte 7                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1800                          ; delay before first wave
+
+.byte WaveType_RoboBall             ; * spawn wave
+.word 40                            ; total units
+.byte 7                             ; units per wave
+.byte 0                             ; variant rate
+.word 24                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 543                           ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 10                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 570                           ; delay between waves
+.byte 1                             ; entrance pattern
+.word 1500                          ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 4                             ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 4                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 4                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 225                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 6                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 180                           ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3600                          ; delay before first wave
+
+.byte 2                             ; number of required waves to end room
+
+EntityWavesCircuit2Room05:          ; # LAZER DEATH ZONE
+.byte 3                             ; number of wave groups
+
+.byte WaveType_UFO                  ; * spawn wave
+.word 90                            ; total units
+.byte 14                            ; units per wave
+.byte 0                             ; variant rate
+.word 24                            ; delay between waves
+.byte 1                             ; entrance pattern
+.word 1200                          ; delay before first wave
+
+.byte WaveType_FatUFO               ; * spawn wave
+.word 35                            ; total units
+.byte 9                             ; units per wave
+.byte 0                             ; variant rate
+.word 45                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 4                             ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 4                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 23                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 150                           ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room06:          ; # MEET SCARFACE!
+.byte 1                             ; number of wave groups
+
+.byte WaveType_BossScarface         ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room07:          ; # ROWDY DROIDS
+.byte 2                             ; number of wave groups
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 180                           ; total units
+.byte 14                            ; units per wave
+.byte 3                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2400                          ; delay before first wave
+
+.byte WaveType_RoboBallSnake        ; * spawn wave
+.word 16                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 30                            ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room08:          ; # VACUUM CLEAN
+.byte 2                             ; number of wave groups
+
+.byte WaveType_FatRobos             ; * spawn wave
+.word 290                           ; total units
+.byte 16                            ; units per wave
+.byte 5                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 390                           ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 4                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 240                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 0                             ; number of required waves to end room
+
+EntityWavesCircuit2Room09:          ; # SECRET ROOM #2!
+.byte 1                             ; number of wave groups
+
+.byte WaveType_Gifts                ; * spawn wave
+.word 2                             ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Question             ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte 0                             ; number of required waves to end room
+
+EntityWavesCircuit2Room10:          ; # METAL DEATH
+.byte 1                             ; number of wave groups
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 360                           ; total units
+.byte 16                            ; units per wave
+.byte 5                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2670                          ; delay before first wave
+
+.byte WaveType_RoboBallSnake        ; * spawn wave
+.word 16                            ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room11:          ; # WATCH YOUR STEP
+.byte 3                             ; number of wave groups
+
+.byte WaveType_Gifts                ; * spawn wave
+.word 2                             ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 550                           ; total units
+.byte 17                            ; units per wave
+.byte 4                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 450                           ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 17                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 210                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1500                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room12:          ; # FILM AT 11
+.byte 2                             ; number of wave groups
+
+.byte WaveType_FatUFO               ; * spawn wave
+.word 24                            ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 18                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 30                            ; delay before first wave
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 350                           ; total units
+.byte 18                            ; units per wave
+.byte 4                             ; variant rate
+.word 15                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 930                           ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 0                             ; number of required waves to end room
+
+EntityWavesCircuit2Room13:          ; # DEFEND ME
+.byte 5                             ; number of wave groups
+
+.byte WaveType_Gifts                ; * spawn wave
+.word 2                             ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 380                           ; total units
+.byte 12                            ; units per wave
+.byte 5                             ; variant rate
+.word 12                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 450                           ; delay before first wave
+
+.byte WaveType_RoboBallSnake        ; * spawn wave
+.word 3                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 540                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1500                          ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 9                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3000                          ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 3                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 570                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2700                          ; delay before first wave
+
+.byte 2                             ; number of required waves to end room
+
+EntityWavesCircuit2Room14:          ; # TURTLES NEARBY
+.byte 2                             ; number of wave groups
+
+.byte WaveType_UFO                  ; * spawn wave
+.word 90                            ; total units
+.byte 12                            ; units per wave
+.byte 0                             ; variant rate
+.word 24                            ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 8                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 570                           ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room15:          ; # CHUNKS GALORE!
+.byte 5                             ; number of wave groups
+
+.byte WaveType_FatRobos             ; * spawn wave
+.word 350                           ; total units
+.byte 17                            ; units per wave
+.byte 5                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2160                          ; delay before first wave
+
+.byte WaveType_RoboBall             ; * spawn wave
+.word 40                            ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 21                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 543                           ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 10                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 570                           ; delay between waves
+.byte 1                             ; entrance pattern
+.word 1500                          ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 4                             ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 4                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 4                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 225                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 8                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 180                           ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3600                          ; delay before first wave
+
+.byte 2                             ; number of required waves to end room
+
+EntityWavesCircuit2Room16:          ; # THESE ARE FAST!
+.byte 0                             ; number of wave groups
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 550                           ; total units
+.byte 20                            ; units per wave
+.byte 7                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit2Room17:          ; # BUFFALO HERD NEARBY!
+.byte 4                             ; number of wave groups
+
+.byte WaveType_FatRobos             ; * spawn wave
+.word 690                           ; total units
+.byte 18                            ; units per wave
+.byte 5                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3600                          ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 2                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 2                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 9                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 240                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_RoboBallSnake        ; * spawn wave
+.word 15                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1560                          ; delay before first wave
+
+.byte WaveType_FatUFO               ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3270                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room00:          ; # NO DICE
+.byte 3                             ; number of wave groups
+
+.byte WaveType_SnakeMen             ; * spawn wave
+.word 12                            ; total units
+.byte 6                             ; units per wave
+.byte 2                             ; variant rate
+.word 3                             ; delay between waves
+.byte 8                             ; entrance pattern
+.word 2700                          ; delay before first wave
+
+.byte WaveType_TreeSnakes           ; * spawn wave
+.word 15                            ; total units
+.byte 30                            ; units per wave
+.byte 0                             ; variant rate
+.word 840                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1200                          ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 30                            ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 57                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room01:          ; # TEMPLE ALERT
+.byte 4                             ; number of wave groups
+
+.byte WaveType_SnakeMen             ; * spawn wave
+.word 315                           ; total units
+.byte 16                            ; units per wave
+.byte 2                             ; variant rate
+.word 24                            ; delay between waves
+.byte 3                             ; entrance pattern
+.word 1050                          ; delay before first wave
+
+.byte WaveType_TreeSnakes           ; * spawn wave
+.word 335                           ; total units
+.byte 25                            ; units per wave
+.byte 2                             ; variant rate
+.word 240                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Centipede            ; * spawn wave
+.word 6                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 150                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 150                           ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 3                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 300                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 4500                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room02:          ; # SCORPION FEVER
+.byte 4                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 700                           ; total units
+.byte 14                            ; units per wave
+.byte 7                             ; variant rate
+.word 3                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 5                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 510                           ; delay between waves
+.byte 2                             ; entrance pattern
+.word 6300                          ; delay before first wave
+
+.byte WaveType_TreeSnakes           ; * spawn wave
+.word 235                           ; total units
+.byte 25                            ; units per wave
+.byte 1                             ; variant rate
+.word 870                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 3                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 300                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 7200                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room03:          ; # COBRA JUST AHEAD!
+.byte 2                             ; number of wave groups
+
+.byte WaveType_SnakeMen             ; * spawn wave
+.word 650                           ; total units
+.byte 18                            ; units per wave
+.byte 7                             ; variant rate
+.word 3                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 17                            ; total units
+.byte 2                             ; units per wave
+.byte 1                             ; variant rate
+.word 210                           ; delay between waves
+.byte 4                             ; entrance pattern
+.word 1500                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room04:          ; # WALLS OF PAIN
+.byte 1                             ; number of wave groups
+
+.byte WaveType_Unk0D                ; * spawn wave
+.word 400                           ; total units
+.byte 25                            ; units per wave
+.byte 6                             ; variant rate
+.word 12                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 8                             ; total units
+.byte 8                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 8                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room05:          ; # LAST ARENA?
+.byte 3                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 1040                          ; total units
+.byte 18                            ; units per wave
+.byte 6                             ; variant rate
+.word 3                             ; delay between waves
+.byte 1                             ; entrance pattern
+.word 2400                          ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 13                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 210                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 14                            ; total units
+.byte 14                            ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 14                            ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Centipede            ; * spawn wave
+.word 34                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 1200                          ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room06:          ; # COBRA DEATH!
+.byte 0                             ; number of wave groups
+
+.byte WaveType_BossCobras           ; * spawn wave
+.word 1                             ; total units
+.byte 8                             ; units per wave
+.byte 0                             ; variant rate
+.word 1800                          ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room07:          ; # TURTLES BEWARE!
+.byte 2                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 700                           ; total units
+.byte 13                            ; units per wave
+.byte 5                             ; variant rate
+.word 6                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_TreeSnakes           ; * spawn wave
+.word 835                           ; total units
+.byte 20                            ; units per wave
+.byte 4                             ; variant rate
+.word 240                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 60                            ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 6                             ; total units
+.byte 6                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 6                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room08:          ; # EXTRA SAUCE ACTION!
+.byte 3                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 650                           ; total units
+.byte 14                            ; units per wave
+.byte 6                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3600                          ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 17                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 510                           ; delay between waves
+.byte 4                             ; entrance pattern
+.word 1500                          ; delay before first wave
+
+.byte WaveType_TreeSnakes           ; * spawn wave
+.word 2835                          ; total units
+.byte 20                            ; units per wave
+.byte 0                             ; variant rate
+.word 75                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 150                           ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 2                             ; number of required waves to end room
+
+EntityWavesCircuit3Room09:          ; # SECRET ROOM #3!
+.byte 1                             ; number of wave groups
+
+.byte WaveType_Gifts                ; * spawn wave
+.word 2                             ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Question             ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte 0                             ; number of required waves to end room
+
+EntityWavesCircuit3Room10:          ; # SECRET ROOMS NEARBY!
+.byte 2                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 9                             ; total units
+.byte 8                             ; units per wave
+.byte 2                             ; variant rate
+.word 3                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3300                          ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 85                            ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 45                            ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room11:          ; # ENJOY MY WEALTH
+.byte 5                             ; number of wave groups
+
+.byte WaveType_Gifts                ; * spawn wave
+.word 2                             ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 600                           ; total units
+.byte 18                            ; units per wave
+.byte 6                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1050                          ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 6                             ; total units
+.byte 6                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 6                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 8                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 4200                          ; delay before first wave
+
+.byte WaveType_RoboBallSnake        ; * spawn wave
+.word 4                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 150                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 840                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2100                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room12:          ; # NO TURTLES ALLOWED!
+.byte 5                             ; number of wave groups
+
+.byte WaveType_SnakeMen             ; * spawn wave
+.word 400                           ; total units
+.byte 16                            ; units per wave
+.byte 2                             ; variant rate
+.word 3                             ; delay between waves
+.byte 10                            ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_TreeSnakes           ; * spawn wave
+.word 535                           ; total units
+.byte 23                            ; units per wave
+.byte 4                             ; variant rate
+.word 240                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 150                           ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 240                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2100                          ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 9                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 4200                          ; delay before first wave
+
+.byte WaveType_Centipede            ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 150                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room13:          ; # TURTLE CHUNKS NEEDED
+.byte 4                             ; number of wave groups
+
+.byte WaveType_Gifts                ; * spawn wave
+.word 2                             ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_SnakeMen             ; * spawn wave
+.word 555                           ; total units
+.byte 16                            ; units per wave
+.byte 5                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 450                           ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 17                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 510                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 1200                          ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 10                            ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 300                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 4500                          ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 6                             ; total units
+.byte 6                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 6                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 2                             ; number of required waves to end room
+
+EntityWavesCircuit3Room14:          ; # DYNAMITE COBRA BOSS
+.byte 3                             ; number of wave groups
+
+.byte WaveType_FatRobos             ; * spawn wave
+.word 900                           ; total units
+.byte 14                            ; units per wave
+.byte 4                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3900                          ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 4                             ; total units
+.byte 4                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 4                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Centipede            ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 540                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte WaveType_TreeSnakes           ; * spawn wave
+.word 2835                          ; total units
+.byte 15                            ; units per wave
+.byte 0                             ; variant rate
+.word 99                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room15:          ; # USE THE BUFFALO GUN
+.byte 2                             ; number of wave groups
+
+.byte WaveType_FatRobos             ; * spawn wave
+.word 2440                          ; total units
+.byte 20                            ; units per wave
+.byte 4                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 5                             ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 13                            ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 540                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2700                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room16:          ; # WITNESS TOTAL CARNAGE
+.byte 3                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 650                           ; total units
+.byte 18                            ; units per wave
+.byte 5                             ; variant rate
+.word 3                             ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3000                          ; delay before first wave
+
+.byte WaveType_TreeSnakes           ; * spawn wave
+.word 2835                          ; total units
+.byte 15                            ; units per wave
+.byte 0                             ; variant rate
+.word 75                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Centipede            ; * spawn wave
+.word 5                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 600                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 6                             ; total units
+.byte 6                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 6                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room17:          ; # SECRET ROOMS NEARBY!
+.byte 4                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 750                           ; total units
+.byte 17                            ; units per wave
+.byte 5                             ; variant rate
+.word 9                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Centipede            ; * spawn wave
+.word 15                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 150                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 540                           ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 27                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 240                           ; delay between waves
+.byte 4                             ; entrance pattern
+.word 1500                          ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 15                            ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 540                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 5400                          ; delay before first wave
+
+.byte 2                             ; number of required waves to end room
+
+EntityWavesCircuit3Room18:          ; # ALMOST ENOUGH KEYS
+.byte 4                             ; number of wave groups
+
+.byte WaveType_UFO                  ; * spawn wave
+.word 240                           ; total units
+.byte 8                             ; units per wave
+.byte 0                             ; variant rate
+.word 24                            ; delay between waves
+.byte 1                             ; entrance pattern
+.word 1200                          ; delay before first wave
+
+.byte WaveType_FatUFO               ; * spawn wave
+.word 35                            ; total units
+.byte 5                             ; units per wave
+.byte 0                             ; variant rate
+.word 45                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 8                             ; total units
+.byte 8                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 8                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Tank                 ; * spawn wave
+.word 10                            ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 540                           ; delay between waves
+.byte 1                             ; entrance pattern
+.word 300                           ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 13                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3600                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room19:          ; # YOU HAVE ENOUGH KEYS!
+.byte 4                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 2540                          ; total units
+.byte 19                            ; units per wave
+.byte 6                             ; variant rate
+.word 9                             ; delay between waves
+.byte 5                             ; entrance pattern
+.word 240                           ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 3                             ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 3                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_RoboBallSnake        ; * spawn wave
+.word 2                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 30                            ; delay between waves
+.byte 0                             ; entrance pattern
+.word 30                            ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 27                            ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 540                           ; delay between waves
+.byte 4                             ; entrance pattern
+.word 2700                          ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 2                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 540                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 6300                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room20:          ; # EAT MY EYEBALLS!
+EntityWavesCircuit3Room22:          ; # NOT ENOUGH KEYS!
+.byte 3                             ; number of wave groups
+
+.byte WaveType_BossMutoidMan        ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 1                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Mine                 ; * spawn wave
+.word 2                             ; total units
+.byte 2                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 2                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Swirly               ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 135                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 60                            ; delay before first wave
+
+.byte WaveType_MrShrapnel           ; * spawn wave
+.word 35                            ; total units
+.byte 3                             ; units per wave
+.byte 0                             ; variant rate
+.word 420                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3000                          ; delay before first wave
+
+.byte 1                             ; number of required waves to end room
+
+EntityWavesCircuit3Room21:          ; # PLEASURE DOME!
+.byte 2                             ; number of wave groups
+
+.byte WaveType_Dude                 ; * spawn wave
+.word 15                            ; total units
+.byte 5                             ; units per wave
+.byte 6                             ; variant rate
+.word 3                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2700                          ; delay before first wave
+
+.byte WaveType_GiftLadies           ; * spawn wave
+.word 10                            ; total units
+.byte 0                             ; units per wave
+.byte 0                             ; variant rate
+.word 270                           ; delay between waves
+.byte 0                             ; entrance pattern
+.word 3                             ; delay before first wave
+
+.byte WaveType_Question             ; * spawn wave
+.word 1                             ; total units
+.byte 1                             ; units per wave
+.byte 0                             ; variant rate
+.word 0                             ; delay between waves
+.byte 0                             ; entrance pattern
+.word 2670                          ; delay before first wave
+
+.byte 0                             ; number of required waves to end room
 
 
 DropTableCircuits:

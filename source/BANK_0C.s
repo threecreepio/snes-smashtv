@@ -4026,7 +4026,7 @@ L_CFBD2:
   RTS                                             ; 0CFBE5 60 
 
   LDX.W $068B                                     ; 0CFBE6 AE 8B 06 
-  LDA.B #$7C                                      ; 0CFBE9 A9 7C 
+  LDA.B #EntityType_7C                                      ; 0CFBE9 A9 7C 
   STA.W EntityTypeId,X                                   ; 0CFBEB 9D 44 07 
   LDA.B #$8C                                      ; 0CFBEE A9 8C 
   STA.W EntityV15,X                                   ; 0CFBF0 9D 80 0D 
@@ -4051,7 +4051,7 @@ L_CFBD2:
   STZ.W EntityYSubSpeed,X                                   ; 0CFC23 9E F0 09 
   STZ.W EntityYSpeed,X                                   ; 0CFC26 9E 62 0A 
   LDX.W $068E                                     ; 0CFC29 AE 8E 06 
-  LDA.B #$71                                      ; 0CFC2C A9 71 
+  LDA.B #EntityType_71                                      ; 0CFC2C A9 71 
   STA.W EntityTypeId,X                                   ; 0CFC2E 9D 44 07 
   LDA.B #$01                                      ; 0CFC31 A9 01 
   STA.W EntityV15,X                                   ; 0CFC33 9D 80 0D 

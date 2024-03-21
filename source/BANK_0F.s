@@ -466,7 +466,7 @@ B_F84EA:
   PLP                                             ; 0F84EA 28 
   RTL                                             ; 0F84EB 6B 
 
-L_F84EC:
+SoundEngine_PlayMusic:
   PHP                                             ; 0F84EC 08 
   REP.B #P_Idx8Bit                                      ; 0F84ED C2 10 
   SEP.B #P_Acc8Bit                                      ; 0F84EF E2 20 

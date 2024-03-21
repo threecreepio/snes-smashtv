@@ -110,7 +110,7 @@ GameScreenLoop:
 
 B_811F:
   LDA.B #$02                                      ; 00811F A9 02 
-  JSL L_F84EC                                     ; 008121 22 EC 84 0F 
+  JSL SoundEngine_PlayMusic                                     ; 008121 22 EC 84 0F 
   JSL RunTitleSplashScreen                                     ; 008125 22 50 E6 0D 
   JSL RunTitleTextCrawlScreen                                     ; 008129 22 C8 E7 0E 
   JSL L_E454                                      ; 00812D 22 54 E4 00 
@@ -138,8 +138,8 @@ B_8159:
   JSR.W L_81D0                                    ; 008160 20 D0 81 
   LDX.W CurrentCircuit                                     ; 008163 AE AB 05 
   STX.W CurrentCircuit                                     ; 008166 8E AB 05 
-  LDA.L D_81CD,X                                  ; 008169 BF CD 81 00 
-  JSL L_F84EC                                     ; 00816D 22 EC 84 0F 
+  LDA.L CircuitSoundtracks,X                                  ; 008169 BF CD 81 00 
+  JSL SoundEngine_PlayMusic                                     ; 00816D 22 EC 84 0F 
   JSR.W RunGameScreen                                    ; 008171 20 D7 84 
   LDA.W CurrentCircuit                                     ; 008174 AD AB 05 
   BMI.B B_81C2                                    ; 008177 30 49 
@@ -164,7 +164,7 @@ B_81C2:
   JSL RunTitleHighscoreScreen                                     ; 0081C6 22 57 E2 0E 
   JMP.W GameScreenLoop                                    ; 0081CA 4C E6 80 
 
-D_81CD:
+CircuitSoundtracks:
 .byte $01,$03,$04                                 ; 0081CE D..      ???
 
 
@@ -422,7 +422,9 @@ B_8329:
 
 
 D_83C4:
-.byte $15,$CE,$B5,$D6,$B5,$DF                     ; 0083C5 DD....   ??????
+.byte $15,$CE
+.byte $B5,$D6
+.byte $B5,$DF
 
 
 L_83CA:
@@ -438,7 +440,7 @@ L_83CA:
   JSL ClearEntitySlotData                                     ; 0083E3 22 94 80 03 
   LDA.B #$01                                      ; 0083E7 A9 01 
   STA.W EntityHeader,X                                   ; 0083E9 9D D2 06 
-  LDA.B #$0C                                      ; 0083EC A9 0C 
+  LDA.B #EntityType_0C                                      ; 0083EC A9 0C 
   STA.W EntityTypeId,X                                   ; 0083EE 9D 44 07 
   LDA.B #$00                                      ; 0083F1 A9 00 
   STA.W EntityV3,X                                   ; 0083F3 9D 28 08 
@@ -498,7 +500,7 @@ L_8463:
   JSL ClearEntitySlotData                                     ; 008470 22 94 80 03 
   LDA.B #$01                                      ; 008474 A9 01 
   STA.W EntityHeader,X                                   ; 008476 9D D2 06 
-  LDA.B #$0D                                      ; 008479 A9 0D 
+  LDA.B #EntityType_0D                                      ; 008479 A9 0D 
   STA.W EntityTypeId,X                                   ; 00847B 9D 44 07 
   LDA.B #$00                                      ; 00847E A9 00 
   STA.W EntityV3,X                                   ; 008480 9D 28 08 
@@ -897,14 +899,17 @@ B_87F6:
 
 
 D_8827:
-.byte $D8,$BF,$AB,$C1,$8B,$C3                     ; 008828 DD....   ??????
+.byte $D8,$BF
+.byte $AB,$C1
+.byte $8B,$C3
+
 D_882D:
 .byte $72                                         ; 00882E D        r
 D_882E:
 .byte $C5,$F2,$C5,$72,$C6                         ; 00882F D....    ???r?
 
 
-L_8833:
+PlayMCDialog:
   PHP                                             ; 008833 08 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008834 E2 30 
   PHB                                             ; 008836 8B 
@@ -914,9 +919,9 @@ L_8833:
   LDA.W CurrentCircuit                                     ; 00883C AD AB 05 
   ASL                                             ; 00883F 0A 
   TAY                                             ; 008840 A8 
-  LDA.W D_88E3,Y                                  ; 008841 B9 E3 88 
+  LDA.W MCDialog,Y                                  ; 008841 B9 E3 88 
   STA.B $04                                       ; 008844 85 04 
-  LDA.W D_88E4,Y                                  ; 008846 B9 E4 88 
+  LDA.W MCDialog+1,Y                                  ; 008846 B9 E4 88 
   STA.B $05                                       ; 008849 85 05 
   LDY.W CurrentRoom                                     ; 00884B AC AC 05 
   LDA.B ($04),Y                                   ; 00884E B1 04 
@@ -989,17 +994,77 @@ B_88AD:
   RTS                                             ; 0088E2 60 
 
 
-D_88E3:
-.byte $E9                                         ; 0088E4 D        ?
-D_88E4:
-.byte $88,$F5,$88,$08,$89,$00,$FF,$FF             ; 0088E4 D.....D. ????????
-.byte $01,$FF,$03,$FF,$FF,$FF,$FF,$00             ; 0088EC D..DD.DD ????????
-.byte $00,$00,$FF,$FF,$FF,$FF,$FF,$FF             ; 0088F4 D....... ????????
-.byte $02,$FF,$00,$00,$FF,$03,$FF,$03             ; 0088FC ........ ????????
-.byte $FF,$FF,$FF,$FF,$00,$FF,$FF,$FF             ; 008904 ........ ????????
-.byte $FF,$FF,$FF,$03,$FF,$03,$00,$FF             ; 00890C ........ ????????
-.byte $03,$FF,$03,$FF,$FF,$FF,$FF,$FF             ; 008914 ........ ????????
-.byte $FF,$01,$03,$FF                             ; 00891D ....     ????
+MCDialog:
+.addr MCDialogCircuit1
+.addr MCDialogCircuit2
+.addr MCDialogCircuit3
+
+MCMessage_IdBuyThatForADollar = $00
+MCMessage_GoodLuckYoullNeedIt = $01
+MCMessage_TotalCarnageILoveIt = $02
+MCMessage_BigMoneyBigPrizesILoveIt = $03
+MCMessage_None = $FF
+
+MCDialogCircuit1:
+.byte $00
+.byte MCMessage_None                              ;          ARENA 1         
+.byte MCMessage_None                              ;     COLLECT 10 KEYS!     
+.byte MCMessage_GoodLuckYoullNeedIt               ;     COLLECT POWERUPS!    
+.byte MCMessage_None                              ;     MEET MR. SHRAPNEL    
+.byte MCMessage_BigMoneyBigPrizesILoveIt          ;       BONUS PRIZES!      
+.byte MCMessage_None                              ;      EAT MY SHRAPNEL     
+.byte MCMessage_None                              ;       TOTAL CARNAGE      
+.byte MCMessage_None                              ;       CROWD CONTROL      
+.byte MCMessage_None                              ;       TANK TROUBLE       
+.byte MCMessage_IdBuyThatForADollar               ;        MUTOID MAN!       
+.byte MCMessage_IdBuyThatForADollar               ;      SECRET ROOM #1!     
+
+MCDialogCircuit2:
+.byte $00
+.byte MCMessage_None                              ;            ORBS!          
+.byte MCMessage_None                              ;        MEET MY TWIN       
+.byte MCMessage_None                              ;         SMASH 'EM         
+.byte MCMessage_None                              ;    FIRE POWER IS NEEDED!  
+.byte MCMessage_None                              ;       SLAUGHTER 'EM       
+.byte MCMessage_None                              ;      LAZER DEATH ZONE     
+.byte MCMessage_TotalCarnageILoveIt               ;       MEET SCARFACE!      
+.byte MCMessage_None                              ;        ROWDY DROIDS       
+.byte MCMessage_IdBuyThatForADollar               ;        VACUUM CLEAN       
+.byte MCMessage_IdBuyThatForADollar               ;       SECRET ROOM #2!     
+.byte MCMessage_None                              ;         METAL DEATH       
+.byte MCMessage_BigMoneyBigPrizesILoveIt          ;       WATCH YOUR STEP     
+.byte MCMessage_None                              ;         FILM AT 11        
+.byte MCMessage_BigMoneyBigPrizesILoveIt          ;          DEFEND ME        
+.byte MCMessage_None                              ;       TURTLES NEARBY      
+.byte MCMessage_None                              ;       CHUNKS GALORE!      
+.byte MCMessage_None                              ;      THESE ARE FAST!      
+.byte MCMessage_None                              ;    BUFFALO HERD NEARBY!   
+
+MCDialogCircuit3:
+.byte $00
+.byte MCMessage_None                              ;           NO DICE         
+.byte MCMessage_None                              ;        TEMPLE ALERT       
+.byte MCMessage_None                              ;       SCORPION FEVER      
+.byte MCMessage_None                              ;      COBRA JUST AHEAD!    
+.byte MCMessage_None                              ;        WALLS OF PAIN      
+.byte MCMessage_None                              ;         LAST ARENA?       
+.byte MCMessage_BigMoneyBigPrizesILoveIt          ;        COBRA DEATH!       
+.byte MCMessage_None                              ;       TURTLES BEWARE!     
+.byte MCMessage_BigMoneyBigPrizesILoveIt          ;     EXTRA SAUCE ACTION!   
+.byte MCMessage_IdBuyThatForADollar               ;       SECRET ROOM #3!     
+.byte MCMessage_None                              ;    SECRET ROOMS NEARBY!   
+.byte MCMessage_BigMoneyBigPrizesILoveIt          ;      ENJOY MY WEALTH      
+.byte MCMessage_None                              ;    NO TURTLES ALLOWED!    
+.byte MCMessage_BigMoneyBigPrizesILoveIt          ;    TURTLE CHUNKS NEEDED   
+.byte MCMessage_None                              ;    DYNAMITE COBRA BOSS    
+.byte MCMessage_None                              ;    USE THE BUFFALO GUN    
+.byte MCMessage_None                              ;   WITNESS TOTAL CARNAGE   
+.byte MCMessage_None                              ;    SECRET ROOMS NEARBY!   
+.byte MCMessage_None                              ;     ALMOST ENOUGH KEYS    
+.byte MCMessage_None                              ;   YOU HAVE ENOUGH KEYS!   
+.byte MCMessage_GoodLuckYoullNeedIt               ;      EAT MY EYEBALLS!     
+.byte MCMessage_BigMoneyBigPrizesILoveIt          ;       PLEASURE DOME!      
+.byte MCMessage_None                              ;      NOT ENOUGH KEYS!     
 
 
 L_8920:
@@ -1196,7 +1261,7 @@ B_8AC4:
   STZ.W $06CA                                     ; 008AEA 9C CA 06 
   STZ.W $06CB                                     ; 008AED 9C CB 06 
   JSL Wait1Frame                                     ; 008AF0 22 13 CA 0E 
-  JSR.W L_8833                                    ; 008AF4 20 33 88 
+  JSR.W PlayMCDialog                                    ; 008AF4 20 33 88 
   JSL Wait1Frame                                     ; 008AF7 22 13 CA 0E 
   JSL CheckForEncounterRoom                                     ; 008AFB 22 19 C6 0E 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 008AFF E2 30 
@@ -1287,9 +1352,9 @@ L_8BBC:
   PHA                                             ; 008BC2 48 
   PLB                                             ; 008BC3 AB 
   LDX.W CurrentCircuit                                     ; 008BC4 AE AB 05 
-  LDA.W D_8DF2,X                                  ; 008BC7 BD F2 8D 
+  LDA.W RoomAppearanceCircuitsLo,X                                  ; 008BC7 BD F2 8D 
   STA.B $04                                       ; 008BCA 85 04 
-  LDA.W D_8DF5,X                                  ; 008BCC BD F5 8D 
+  LDA.W RoomAppearanceCircuitsHi,X                                  ; 008BCC BD F5 8D 
   STA.B $05                                       ; 008BCF 85 05 
   LDY.W CurrentRoom                                     ; 008BD1 AC AC 05 
   LDA.B ($04),Y                                   ; 008BD4 B1 04 
@@ -1525,17 +1590,78 @@ D_8DD0:
 .byte $01,$01,$01,$01,$02,$02,$02,$02             ; 008DE0 ........ ????????
 .byte $00,$00,$00,$00,$00,$00,$02,$02             ; 008DE8 ........ ????????
 .byte $02,$02                                     ; 008DF1 ..       ??
-D_8DF2:
-.byte $F8,$04,$17                                 ; 008DF3 D..      ???
-D_8DF5:
-.byte $8D,$8E,$8E,$00,$00,$02,$00,$01             ; 008DF5 D...D.D. ????????
-.byte $05,$00,$00,$01,$01,$03,$05,$00             ; 008DFD .DD.DDD. ????????
-.byte $0B,$0D,$10,$12,$0A,$0C,$11,$0F             ; 008E05 ........ ????????
-.byte $10,$05,$13,$05,$0F,$05,$10,$0A             ; 008E0D ........ ????????
-.byte $0E,$10,$00,$14,$15,$17,$16,$20             ; 008E15 ........ ??????? 
-.byte $1E,$21,$15,$14,$05,$1F,$05,$15             ; 008E1D ........ ?!??????
-.byte $05,$14,$1F,$14,$16,$05,$05,$06             ; 008E25 ........ ????????
-.byte $05,$05                                     ; 008E2E ..       ??
+
+RoomAppearanceCircuitsLo:
+.byte <RoomAppearanceCircuit1
+.byte <RoomAppearanceCircuit2
+.byte <RoomAppearanceCircuit3
+
+RoomAppearanceCircuitsHi:
+.byte >RoomAppearanceCircuit1
+.byte >RoomAppearanceCircuit2
+.byte >RoomAppearanceCircuit3
+
+RoomAppearanceCircuit1:
+.byte $00
+.byte $00                                         ; ARENA 1         
+.byte $02                                         ; COLLECT 10 KEYS!     
+.byte $00                                         ; COLLECT POWERUPS!    
+.byte $01                                         ; MEET MR. SHRAPNEL    
+.byte $05                                         ; BONUS PRIZES!      
+.byte $00                                         ; EAT MY SHRAPNEL     
+.byte $00                                         ; TOTAL CARNAGE      
+.byte $01                                         ; CROWD CONTROL      
+.byte $01                                         ; TANK TROUBLE       
+.byte $03                                         ; MUTOID MAN!       
+.byte $05                                         ; SECRET ROOM #1!       
+
+RoomAppearanceCircuit2:
+.byte $00
+.byte $0B                                         ; ORBS!          
+.byte $0D                                         ; MEET MY TWIN       
+.byte $10                                         ; SMASH 'EM         
+.byte $12                                         ; FIRE POWER IS NEEDED!  
+.byte $0A                                         ; SLAUGHTER 'EM       
+.byte $0C                                         ; LAZER DEATH ZONE     
+.byte $11                                         ; MEET SCARFACE!      
+.byte $0F                                         ; ROWDY DROIDS       
+.byte $10                                         ; VACUUM CLEAN       
+.byte $05                                         ; SECRET ROOM #2!     
+.byte $13                                         ; METAL DEATH       
+.byte $05                                         ; WATCH YOUR STEP     
+.byte $0F                                         ; FILM AT 11        
+.byte $05                                         ; DEFEND ME        
+.byte $10                                         ; TURTLES NEARBY      
+.byte $0A                                         ; CHUNKS GALORE!      
+.byte $0E                                         ; THESE ARE FAST!      
+.byte $10                                         ; BUFFALO HERD NEARBY!   
+
+RoomAppearanceCircuit3:
+.byte $00
+.byte $14                                         ; NO DICE         
+.byte $15                                         ; TEMPLE ALERT       
+.byte $17                                         ; SCORPION FEVER      
+.byte $16                                         ; COBRA JUST AHEAD!    
+.byte $20                                         ; WALLS OF PAIN      
+.byte $1E                                         ; LAST ARENA?       
+.byte $21                                         ; COBRA DEATH!       
+.byte $15                                         ; TURTLES BEWARE!     
+.byte $14                                         ; EXTRA SAUCE ACTION!   
+.byte $05                                         ; SECRET ROOM #3!     
+.byte $1F                                         ; SECRET ROOMS NEARBY!   
+.byte $05                                         ; ENJOY MY WEALTH      
+.byte $15                                         ; NO TURTLES ALLOWED!    
+.byte $05                                         ; TURTLE CHUNKS NEEDED   
+.byte $14                                         ; DYNAMITE COBRA BOSS    
+.byte $1F                                         ; USE THE BUFFALO GUN    
+.byte $14                                         ; WITNESS TOTAL CARNAGE   
+.byte $16                                         ; SECRET ROOMS NEARBY!   
+.byte $05                                         ; ALMOST ENOUGH KEYS    
+.byte $05                                         ; YOU HAVE ENOUGH KEYS!   
+.byte $06                                         ; EAT MY EYEBALLS!     
+.byte $05                                         ; PLEASURE DOME!      
+.byte $05                                         ; NOT ENOUGH KEYS!     
+
 D_8E2F:
 .byte $9C,$81,$18,$87,$9F,$8C,$1A,$92             ; 008E2F DDDD..DD ????????
 .byte $00,$00,$75,$EC,$65,$F0,$00,$00             ; 008E37 ..DD.... ??u?e???
@@ -1546,6 +1672,7 @@ D_8E2F:
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 008E5F ........ ????????
 .byte $00,$00,$00,$00,$80,$D8,$FF,$DC             ; 008E67 ........ ????????
 .byte $6F,$E1,$E6,$E5                             ; 008E70 ....     o???
+
 D_8E73:
 .byte $01,$00,$01,$00,$01,$00,$01,$00             ; 008E73 DDDD..DD ????????
 .byte $00,$00,$01,$00,$01,$00,$00,$00             ; 008E7B ..DD.... ????????
@@ -1728,7 +1855,7 @@ B_907D:
   JSR.W L_9568                                    ; 0090A0 20 68 95 
   JSL L_AC62                                      ; 0090A3 22 62 AC 00 
   JSR.W L_94E2                                    ; 0090A7 20 E2 94 
-  JSR.W LocateCurrentRoomOffset                                    ; 0090AA 20 B7 97 
+  JSR.W LocateCurrentRoomExits                                    ; 0090AA 20 B7 97 
   LDA.B ($04),Y                                   ; 0090AD B1 04 
   STA.W CurrentRoom                                     ; 0090AF 8D AC 05 
   JSR.W L_828A                                    ; 0090B2 20 8A 82 
@@ -1824,7 +1951,7 @@ B_9167:
   JSR.W L_9568                                    ; 00918A 20 68 95 
   JSL L_AC62                                      ; 00918D 22 62 AC 00 
   JSR.W L_94E2                                    ; 009191 20 E2 94 
-  JSR.W LocateCurrentRoomOffset                                    ; 009194 20 B7 97 
+  JSR.W LocateCurrentRoomExits                                    ; 009194 20 B7 97 
   INY                                             ; 009197 C8 
   LDA.B ($04),Y                                   ; 009198 B1 04 
   STA.W CurrentRoom                                     ; 00919A 8D AC 05 
@@ -2079,7 +2206,7 @@ B_93C2:
   JSR.W L_9568                                    ; 0093E5 20 68 95 
   JSL L_AC62                                      ; 0093E8 22 62 AC 00 
   JSR.W L_94E2                                    ; 0093EC 20 E2 94 
-  JSR.W LocateCurrentRoomOffset                                    ; 0093EF 20 B7 97 
+  JSR.W LocateCurrentRoomExits                                    ; 0093EF 20 B7 97 
   INY                                             ; 0093F2 C8 
   INY                                             ; 0093F3 C8 
   LDA.B ($04),Y                                   ; 0093F4 B1 04 
@@ -2202,7 +2329,7 @@ B_94E4:
   JSL ClearEntitySlotData                                     ; 0094ED 22 94 80 03 
   LDA.B #$01                                      ; 0094F1 A9 01 
   STA.W EntityHeader,X                                   ; 0094F3 9D D2 06 
-  LDA.B #$0E                                      ; 0094F6 A9 0E 
+  LDA.B #EntityType_0E                                      ; 0094F6 A9 0E 
   STA.W EntityTypeId,X                                   ; 0094F8 9D 44 07 
   LDA.B #$00                                      ; 0094FB A9 00 
   STA.W EntityV3,X                                   ; 0094FD 9D 28 08 
@@ -2446,7 +2573,7 @@ L_96B9:
   STA.W EntityHeader,X                                   ; 0096C5 9D D2 06 
   LDA.B #$00                                      ; 0096C8 A9 00 
   STA.W EntityV3,X                                   ; 0096CA 9D 28 08 
-  LDA.B #$03                                      ; 0096CD A9 03 
+  LDA.B #EntityType_03                                      ; 0096CD A9 03 
   STA.W EntityTypeId,X                                   ; 0096CF 9D 44 07 
   LDY.B $04                                       ; 0096D2 A4 04 
   LDA.W D_97AB,Y                                  ; 0096D4 B9 AB 97 
@@ -2474,7 +2601,7 @@ L_96B9:
   STA.W EntityHeader,X                                   ; 009713 9D D2 06 
   LDA.B #$00                                      ; 009716 A9 00 
   STA.W EntityV3,X                                   ; 009718 9D 28 08 
-  LDA.B #$03                                      ; 00971B A9 03 
+  LDA.B #EntityType_03                                      ; 00971B A9 03 
   STA.W EntityTypeId,X                                   ; 00971D 9D 44 07 
   LDY.B $04                                       ; 009720 A4 04 
   LDA.B #$64                                      ; 009722 A9 64 
@@ -2502,7 +2629,7 @@ L_96B9:
   STA.W EntityHeader,X                                   ; 00975F 9D D2 06 
   LDA.B #$00                                      ; 009762 A9 00 
   STA.W EntityV3,X                                   ; 009764 9D 28 08 
-  LDA.B #$03                                      ; 009767 A9 03 
+  LDA.B #EntityType_03                                      ; 009767 A9 03 
   STA.W EntityTypeId,X                                   ; 009769 9D 44 07 
   LDY.B $04                                       ; 00976C A4 04 
   LDA.B #$66                                      ; 00976E A9 66 
@@ -2543,23 +2670,20 @@ D_97B4:
 .byte $25,$7D,$CC                                 ; 0097B5 DDD      %}?
 
 
-LocateCurrentRoomOffset:
-  ; switch to data bank 0
-  lda #$00
+LocateCurrentRoomExits:
+  lda #$00                                     ; switch to data bank 0
   pha
   plb
-  ; find offset in round to current room
-  lda CurrentRoom
+  lda CurrentRoom                              ; find offset in circuit to current room
   sta $04
   asl
   clc
   adc $04
   tay
-  ; find offset to the room list for the round
-  ldx CurrentCircuit
-  lda.w CircuitRoomIndexesLo,X
+  ldx CurrentCircuit                           ; find offset to the room list for the circuit
+  lda.w CircuitRoomExitsLo,X
   sta $04
-  lda.w CircuitRoomIndexesHi,X
+  lda.w CircuitRoomExitsHi,X
   sta $05
   rts
 
@@ -2568,7 +2692,7 @@ L_97D3:
   PHB                                             ; 0097D3 8B 
   LDA.B #$00                                      ; 0097D4 A9 00 
   STA.W $05D5                                     ; 0097D6 8D D5 05 
-  JSR.W LocateCurrentRoomOffset                                    ; 0097D9 20 B7 97 
+  JSR.W LocateCurrentRoomExits                                    ; 0097D9 20 B7 97 
   LDA.B ($04),Y                                   ; 0097DC B1 04 
   BNE.B B_97E8                                    ; 0097DE D0 08 
   LDA.B #$01                                      ; 0097E0 A9 01 
@@ -2713,7 +2837,7 @@ B_990C:
   JSL ClearEntitySlotData                                     ; 00990C 22 94 80 03 
   LDA.B #$01                                      ; 009910 A9 01 
   STA.W EntityHeader,X                                   ; 009912 9D D2 06 
-  LDA.B #$04                                      ; 009915 A9 04 
+  LDA.B #EntityType_04                                      ; 009915 A9 04 
   STA.W EntityTypeId,X                                   ; 009917 9D 44 07 
   LDA.B #$00                                      ; 00991A A9 00 
   STA.W EntityV3,X                                   ; 00991C 9D 28 08 
@@ -4364,44 +4488,72 @@ D_AA3C:
 .byte $06,$02,$05,$05                             ; 00AA75 ....     ????
 
 
-CircuitRoomIndexesLo:
-.byte <Circuit1RoomIndexes,<Circuit2RoomIndexes,<Circuit3RoomIndexes
-CircuitRoomIndexesHi:
-.byte >Circuit1RoomIndexes,>Circuit2RoomIndexes,>Circuit3RoomIndexes
+CircuitRoomExitsLo:
+.byte <Circuit1RoomExits,<Circuit2RoomExits,<Circuit3RoomExits
+CircuitRoomExitsHi:
+.byte >Circuit1RoomExits,>Circuit2RoomExits,>Circuit3RoomExits
 
 
-Circuit1RoomIndexes:
-;       S   E   N   W
-.byte $00,$01,$00,$00
-.byte $03,$00,$00,$04
-.byte $00,$02,$00,$06
-.byte $00,$05,$08,$00
-.byte $00,$09,$00,$07
-.byte $00,$08,$0B,$00
-.byte $00,$09,$00,$00
-.byte $0A,$00,$00,$FF
-.byte $00,$09,$00,$04
+Circuit1RoomExits:
+.byte $00,$01,$00
+.byte $00,$03,$00                   ; 01 - ARENA 1         
+.byte $00,$04,$00                   ; 02 - COLLECT 10 KEYS!     
+.byte $02,$00,$06                   ; 03 - COLLECT POWERUPS!    
+.byte $00,$05,$08                   ; 04 - MEET MR. SHRAPNEL    
+.byte $00,$00,$09                   ; 05 - BONUS PRIZES!      
+.byte $00,$07,$00                   ; 06 - EAT MY SHRAPNEL     
+.byte $08,$0B,$00                   ; 07 - TOTAL CARNAGE      
+.byte $00,$09,$00                   ; 08 - CROWD CONTROL      
+.byte $00,$0A,$00                   ; 09 - TANK TROUBLE       
+.byte $00,$FF,$00                   ; 0A - MUTOID MAN!       
+.byte $09,$00,$04                   ; 0B - SECRET ROOM #1!     
 
-Circuit2RoomIndexes:
-.byte $00             ; 00AA9B DDDDDDD. ????????
-.byte $01,$00,$08,$02,$0D,$09,$03,$0E             ; 00AAA3 ........ ????????
-.byte $04,$00,$0F,$0B,$00,$00,$00,$00             ; 00AAAB ........ ????????
-.byte $06,$00,$07,$00,$00,$FF,$00,$00             ; 00AAB3 ........ ????????
-.byte $09,$00,$00,$04,$00,$10,$07,$0B             ; 00AABB ........ ????????
-.byte $00,$0C,$00,$00,$00,$05,$00,$0E             ; 00AAC3 ........ ????????
-.byte $00,$00,$0F,$00,$00,$00,$11,$06             ; 00AACB ........ ????????
-.byte $00,$00,$00,$12,$00,$10,$0A,$00             ; 00AAD3 ........ ????????
+Circuit2RoomExits:
+.byte $00,$01,$00
+.byte $08,$02,$0D                   ; 01 - ORBS!          
+.byte $09,$03,$0E                   ; 02 - MEET MY TWIN       
+.byte $04,$00,$0F                   ; 03 - SMASH 'EM         
+.byte $0B,$00,$00                   ; 04 - FIRE POWER IS NEEDED!  
+.byte $00,$00,$06                   ; 05 - SLAUGHTER 'EM       
+.byte $00,$07,$00                   ; 06 - LAZER DEATH ZONE     
+.byte $00,$FF,$00                   ; 07 - MEET SCARFACE!      
+.byte $00,$09,$00                   ; 08 - ROWDY DROIDS       
+.byte $00,$04,$00                   ; 09 - VACUUM CLEAN       
+.byte $10,$07,$0B                   ; 0A - SECRET ROOM #2!     
+.byte $00,$0C,$00                   ; 0B - METAL DEATH       
+.byte $00,$00,$05                   ; 0C - WATCH YOUR STEP     
+.byte $00,$0E,$00                   ; 0D - FILM AT 11        
+.byte $00,$0F,$00                   ; 0E - DEFEND ME        
+.byte $00,$00,$11                   ; 0F - TURTLES NEARBY      
+.byte $06,$00,$00                   ; 10 - CHUNKS GALORE!      
+.byte $00,$12,$00                   ; 11 - THESE ARE FAST!      
+.byte $10,$0A,$00                   ; 12 - BUFFALO HERD NEARBY!   
 
-Circuit3RoomIndexes:
-.byte $00,$01,$00,$08,$02,$0D,$09,$03             ; 00AADB ........ ????????
-.byte $0E,$04,$00,$0F,$0B,$00,$00,$00             ; 00AAE3 ........ ????????
-.byte $00,$06,$00,$07,$00,$00,$13,$00             ; 00AAEB ........ ????????
-.byte $00,$09,$00,$00,$04,$00,$10,$07             ; 00AAF3 ........ ????????
-.byte $0B,$00,$0C,$00,$00,$00,$05,$00             ; 00AAFB ........ ????????
-.byte $0E,$00,$00,$0F,$00,$00,$00,$11             ; 00AB03 ........ ????????
-.byte $06,$00,$00,$00,$12,$00,$10,$0A             ; 00AB0B ........ ????????
-.byte $00,$00,$14,$00,$00,$15,$16,$00             ; 00AB13 ........ ????????
-.byte $FF,$00,$00,$15,$00,$00,$15,$00             ; 00AB1B ........ ????????
+Circuit3RoomExits:
+.byte $00,$01,$00
+.byte $08,$02,$0D                   ; 01 - NO DICE         
+.byte $09,$03,$0E                   ; 02 - TEMPLE ALERT       
+.byte $04,$00,$0F                   ; 03 - SCORPION FEVER      
+.byte $0B,$00,$00                   ; 04 - COBRA JUST AHEAD!    
+.byte $00,$00,$06                   ; 05 - WALLS OF PAIN      
+.byte $00,$07,$00                   ; 06 - LAST ARENA?       
+.byte $00,$13,$00                   ; 07 - COBRA DEATH!       
+.byte $00,$09,$00                   ; 08 - TURTLES BEWARE!     
+.byte $00,$04,$00                   ; 09 - EXTRA SAUCE ACTION!   
+.byte $10,$07,$0B                   ; 0A - SECRET ROOM #3!     
+.byte $00,$0C,$00                   ; 0B - SECRET ROOMS NEARBY!   
+.byte $00,$00,$05                   ; 0C - ENJOY MY WEALTH      
+.byte $00,$0E,$00                   ; 0D - NO TURTLES ALLOWED!    
+.byte $00,$0F,$00                   ; 0E - TURTLE CHUNKS NEEDED   
+.byte $00,$00,$11                   ; 0F - DYNAMITE COBRA BOSS    
+.byte $06,$00,$00                   ; 10 - USE THE BUFFALO GUN    
+.byte $00,$12,$00                   ; 11 - WITNESS TOTAL CARNAGE   
+.byte $10,$0A,$00                   ; 12 - SECRET ROOMS NEARBY!   
+.byte $00,$14,$00                   ; 13 - ALMOST ENOUGH KEYS    
+.byte $00,$15,$16                   ; 14 - YOU HAVE ENOUGH KEYS!   
+.byte $00,$FF,$00                   ; 15 - EAT MY EYEBALLS!     
+.byte $00,$15,$00                   ; 16 - PLEASURE DOME!      
+.byte $00,$15,$00                   ; 17 - NOT ENOUGH KEYS!     
 
 
 L_AB23:
@@ -6120,7 +6272,7 @@ B_B853:
   JSL ClearEntitySlotData                                     ; 00B853 22 94 80 03 
   LDA.B $09                                       ; 00B857 A5 09 
   STA.W EntityV20,X                                   ; 00B859 9D BA 0F 
-  LDA.B #$32                                      ; 00B85C A9 32 
+  LDA.B #EntityType_32                                      ; 00B85C A9 32 
   STA.W EntityTypeId,X                                   ; 00B85E 9D 44 07 
   LDA.B #$02                                      ; 00B861 A9 02 
   STA.W EntityV3,X                                   ; 00B863 9D 28 08 
@@ -6284,7 +6436,7 @@ B_B9B4:
   JSL ClearEntitySlotData                                     ; 00B9B4 22 94 80 03 
   LDA.B $09                                       ; 00B9B8 A5 09 
   STA.W EntityV20,X                                   ; 00B9BA 9D BA 0F 
-  LDA.B #$33                                      ; 00B9BD A9 33 
+  LDA.B #EntityType_33                                      ; 00B9BD A9 33 
   STA.W EntityTypeId,X                                   ; 00B9BF 9D 44 07 
   LDA.B #$02                                      ; 00B9C2 A9 02 
   STA.W EntityV3,X                                   ; 00B9C4 9D 28 08 
@@ -6401,7 +6553,7 @@ B_BAC4:
   JSL ClearEntitySlotData                                     ; 00BAC4 22 94 80 03 
   LDA.B $09                                       ; 00BAC8 A5 09 
   STA.W EntityV20,X                                   ; 00BACA 9D BA 0F 
-  LDA.B #$34                                      ; 00BACD A9 34 
+  LDA.B #EntityType_34                                      ; 00BACD A9 34 
   STA.W EntityTypeId,X                                   ; 00BACF 9D 44 07 
   LDA.B #$02                                      ; 00BAD2 A9 02 
   STA.W EntityV3,X                                   ; 00BAD4 9D 28 08 
@@ -6535,7 +6687,7 @@ B_BBEC:
   JSL ClearEntitySlotData                                     ; 00BBEC 22 94 80 03 
   LDA.B $09                                       ; 00BBF0 A5 09 
   STA.W EntityV20,X                                   ; 00BBF2 9D BA 0F 
-  LDA.B #$35                                      ; 00BBF5 A9 35 
+  LDA.B #EntityType_35                                      ; 00BBF5 A9 35 
   STA.W EntityTypeId,X                                   ; 00BBF7 9D 44 07 
   LDA.B #$02                                      ; 00BBFA A9 02 
   STA.W EntityV3,X                                   ; 00BBFC 9D 28 08 
@@ -6701,7 +6853,7 @@ B_BD98:
   STA.W EntityV20,X                                   ; 00BDA5 9D BA 0F 
   LDA.B $08                                       ; 00BDA8 A5 08 
   STA.W EntityV21,X                                   ; 00BDAA 9D 2C 10 
-  LDA.B #$3B                                      ; 00BDAD A9 3B 
+  LDA.B #EntityType_3B                                      ; 00BDAD A9 3B 
   STA.W EntityTypeId,X                                   ; 00BDAF 9D 44 07 
   LDA.B #$00                                      ; 00BDB2 A9 00 
   STA.W EntityV3,X                                   ; 00BDB4 9D 28 08 
@@ -6788,7 +6940,7 @@ B_BE18:
   JSL L_AEF1                                      ; 00BE50 22 F1 AE 00 
   LDX.B $05                                       ; 00BE54 A6 05 
   JSL ClearEntitySlotData                                     ; 00BE56 22 94 80 03 
-  LDA.B #$3A                                      ; 00BE5A A9 3A 
+  LDA.B #EntityType_3A                                      ; 00BE5A A9 3A 
   STA.W EntityTypeId,X                                   ; 00BE5C 9D 44 07 
   LDA.B $04                                       ; 00BE5F A5 04 
   STA.W EntityV20,X                                   ; 00BE61 9D BA 0F 
@@ -7277,6 +7429,7 @@ L_C26C:
 .byte $A3,$C2,$A3,$C2,$A3,$C2,$B4,$C2             ; 00C285 DDDDDD.. ????????
 .byte $B4,$C2,$B4,$C2,$A3,$C2,$B4,$C2             ; 00C28D ......DD ????????
 .byte $B4,$C2,$B4,$C2,$B4,$C2,$B4                 ; 00C296 ..DD...  ???????
+
 D_C29C:
 .byte $C2                                         ; 00C29D .        ?
 D_C29D:
@@ -7435,7 +7588,7 @@ D_C3D4:
   STA.W $05E4                                     ; 00C408 8D E4 05 
   STA.W $05E3                                     ; 00C40B 8D E3 05 
 B_C40E:
-  LDA.B #$14                                      ; 00C40E A9 14 
+  LDA.B #EntityType_14                                      ; 00C40E A9 14 
   STA.W EntityTypeId,X                                   ; 00C410 9D 44 07 
   LDA.B #$00                                      ; 00C413 A9 00 
   STA.W EntityV3,X                                   ; 00C415 9D 28 08 
@@ -7524,7 +7677,7 @@ B_C4AE:
   JSL ClearEntitySlotData                                     ; 00C4B9 22 94 80 03 
   LDA.B #$01                                      ; 00C4BD A9 01 
   STA.W EntityHeader,X                                   ; 00C4BF 9D D2 06 
-  LDA.B #$92                                      ; 00C4C2 A9 92 
+  LDA.B #EntityType_92                                      ; 00C4C2 A9 92 
   STA.W EntityTypeId,X                                   ; 00C4C4 9D 44 07 
   LDA.B #$0C                                      ; 00C4C7 A9 0C 
   STA.W EntityV3,X                                   ; 00C4C9 9D 28 08 
@@ -7770,7 +7923,7 @@ B_CA1C:
   JSL ClearEntitySlotData                                     ; 00CA2F 22 94 80 03 
   LDA.B #$01                                      ; 00CA33 A9 01 
   STA.W EntityHeader,X                                   ; 00CA35 9D D2 06 
-  LDA.B #$8C                                      ; 00CA38 A9 8C 
+  LDA.B #EntityType_8C                                      ; 00CA38 A9 8C 
   STA.W EntityTypeId,X                                   ; 00CA3A 9D 44 07 
   LDA.B #$0C                                      ; 00CA3D A9 0C 
   STA.W EntityV3,X                                   ; 00CA3F 9D 28 08 
@@ -7825,7 +7978,7 @@ B_CAA4:
   JSL ClearEntitySlotData                                     ; 00CAAF 22 94 80 03 
   LDA.B #$01                                      ; 00CAB3 A9 01 
   STA.W EntityHeader,X                                   ; 00CAB5 9D D2 06 
-  LDA.B #$95                                      ; 00CAB8 A9 95 
+  LDA.B #EntityType_95                                      ; 00CAB8 A9 95 
   STA.W EntityTypeId,X                                   ; 00CABA 9D 44 07 
   LDA.B #$00                                      ; 00CABD A9 00 
   STA.W EntityV3,X                                   ; 00CABF 9D 28 08 
@@ -7909,7 +8062,7 @@ B_CB5B:
   JSL ClearEntitySlotData                                     ; 00CB64 22 94 80 03 
   LDA.B #$01                                      ; 00CB68 A9 01 
   STA.W EntityHeader,X                                   ; 00CB6A 9D D2 06 
-  LDA.B #$54                                      ; 00CB6D A9 54 
+  LDA.B #EntityType_54                                      ; 00CB6D A9 54 
   STA.W EntityTypeId,X                                   ; 00CB6F 9D 44 07 
   LDA.B #$0C                                      ; 00CB72 A9 0C 
   STA.W EntityV3,X                                   ; 00CB74 9D 28 08 
@@ -7970,7 +8123,7 @@ B_CBE5:
   JSL ClearEntitySlotData                                     ; 00CBF0 22 94 80 03 
   LDA.B #$01                                      ; 00CBF4 A9 01 
   STA.W EntityHeader,X                                   ; 00CBF6 9D D2 06 
-  LDA.B #$55                                      ; 00CBF9 A9 55 
+  LDA.B #EntityType_55                                      ; 00CBF9 A9 55 
   STA.W EntityTypeId,X                                   ; 00CBFB 9D 44 07 
   LDA.B #$0C                                      ; 00CBFE A9 0C 
   STA.W EntityV3,X                                   ; 00CC00 9D 28 08 
@@ -8056,7 +8209,7 @@ B_CCC9:
   JSL ClearEntitySlotData                                     ; 00CCCF 22 94 80 03 
   LDA.B #$01                                      ; 00CCD3 A9 01 
   STA.W EntityHeader,X                                   ; 00CCD5 9D D2 06 
-  LDA.B #$2C                                      ; 00CCD8 A9 2C 
+  LDA.B #EntityType_2C                                      ; 00CCD8 A9 2C 
   STA.W EntityTypeId,X                                   ; 00CCDA 9D 44 07 
   LDA.B #$0C                                      ; 00CCDD A9 0C 
   STA.W EntityV3,X                                   ; 00CCDF 9D 28 08 
@@ -8290,7 +8443,7 @@ B_D142:
   JSL ClearEntitySlotData                                     ; 00D146 22 94 80 03 
   LDA.B #$01                                      ; 00D14A A9 01 
   STA.W EntityHeader,X                                   ; 00D14C 9D D2 06 
-  LDA.B #$0F                                      ; 00D14F A9 0F 
+  LDA.B #EntityType_0F                                      ; 00D14F A9 0F 
   STA.W EntityTypeId,X                                   ; 00D151 9D 44 07 
   LDA.B #$00                                      ; 00D154 A9 00 
   STA.W EntityV3,X                                   ; 00D156 9D 28 08 
@@ -8460,7 +8613,7 @@ B_D3FF:
   STA.W EntityV30,X                                   ; 00D40C 9D 2E 14 
   LDA.B #$C4                                      ; 00D40F A9 C4 
   STA.W EntityV29,X                                   ; 00D411 9D BC 13 
-  LDA.B #$6F                                      ; 00D414 A9 6F 
+  LDA.B #EntityType_6F                                      ; 00D414 A9 6F 
   STA.W EntityTypeId,X                                   ; 00D416 9D 44 07 
   LDA.B #$00                                      ; 00D419 A9 00 
   STA.W EntityV3,X                                   ; 00D41B 9D 28 08 
@@ -8495,7 +8648,7 @@ B_D3FF:
   STA.W EntityV2,X                                   ; 00D468 9D B6 07 
   STA.W $0697                                     ; 00D46B 8D 97 06 
   STA.W $0698                                     ; 00D46E 8D 98 06 
-  LDA.B #$78                                      ; 00D471 A9 78 
+  LDA.B #EntityType_78                                      ; 00D471 A9 78 
   STA.W EntityTypeId,X                                   ; 00D473 9D 44 07 
   LDA.B #$30                                      ; 00D476 A9 30 
   STA.W EntityV3,X                                   ; 00D478 9D 28 08 
@@ -8532,7 +8685,7 @@ B_D4A9:
   BNE.B B_D4A9                                    ; 00D4C1 D0 E6 
   LDX.W $068C                                     ; 00D4C3 AE 8C 06 
   JSL ClearEntitySlotData                                     ; 00D4C6 22 94 80 03 
-  LDA.B #$73                                      ; 00D4CA A9 73 
+  LDA.B #EntityType_73                                      ; 00D4CA A9 73 
   STA.W EntityTypeId,X                                   ; 00D4CC 9D 44 07 
   LDA.B #$30                                      ; 00D4CF A9 30 
   STA.W EntityV3,X                                   ; 00D4D1 9D 28 08 
@@ -8542,7 +8695,7 @@ B_D4A9:
   JSL L_3823C                                     ; 00D4DB 22 3C 82 03 
   LDX.W $068D                                     ; 00D4DF AE 8D 06 
   JSL ClearEntitySlotData                                     ; 00D4E2 22 94 80 03 
-  LDA.B #$74                                      ; 00D4E6 A9 74 
+  LDA.B #EntityType_74                                      ; 00D4E6 A9 74 
   STA.W EntityTypeId,X                                   ; 00D4E8 9D 44 07 
   LDA.B #$30                                      ; 00D4EB A9 30 
   STA.W EntityV3,X                                   ; 00D4ED 9D 28 08 
@@ -8561,7 +8714,7 @@ L_D4FE:
   JSL ClearEntitySlotData                                     ; 00D507 22 94 80 03 
   LDA.B #$01                                      ; 00D50B A9 01 
   STA.W EntityHeader,X                                   ; 00D50D 9D D2 06 
-  LDA.B #$92                                      ; 00D510 A9 92 
+  LDA.B #EntityType_92                                      ; 00D510 A9 92 
   STA.W EntityTypeId,X                                   ; 00D512 9D 44 07 
   LDA.B #$04                                      ; 00D515 A9 04 
   STA.W EntityV3,X                                   ; 00D517 9D 28 08 
@@ -8747,7 +8900,7 @@ L_D8D6:
   JSL ClearEntitySlotData                                     ; 00D8D6 22 94 80 03 
   LDA.B #$01                                      ; 00D8DA A9 01 
   STA.W EntityHeader,X                                   ; 00D8DC 9D D2 06 
-  LDA.B #$0B                                      ; 00D8DF A9 0B 
+  LDA.B #EntityType_0B                                      ; 00D8DF A9 0B 
   STA.W EntityTypeId,X                                   ; 00D8E1 9D 44 07 
   LDA.B #$00                                      ; 00D8E4 A9 00 
   STA.W EntityV3,X                                   ; 00D8E6 9D 28 08 
@@ -8796,7 +8949,7 @@ D_D92E:
   JSL ClearEntitySlotData                                     ; 00D93B 22 94 80 03 
   LDA.B #$01                                      ; 00D93F A9 01 
   STA.W EntityHeader,X                                   ; 00D941 9D D2 06 
-  LDA.B #$4C                                      ; 00D944 A9 4C 
+  LDA.B #EntityType_4C                                      ; 00D944 A9 4C 
   STA.W EntityTypeId,X                                   ; 00D946 9D 44 07 
   INC.W $06C6                                     ; 00D949 EE C6 06 
   LDA.B #$08                                      ; 00D94C A9 08 
@@ -8951,7 +9104,7 @@ L_DAA1:
   JSL ClearEntitySlotData                                     ; 00DAA2 22 94 80 03 
   LDA.B #$01                                      ; 00DAA6 A9 01 
   STA.W EntityHeader,X                                   ; 00DAA8 9D D2 06 
-  LDA.B #$47                                      ; 00DAAB A9 47 
+  LDA.B #EntityType_47                                      ; 00DAAB A9 47 
   STA.W EntityTypeId,X                                   ; 00DAAD 9D 44 07 
   LDA.B #$00                                      ; 00DAB0 A9 00 
   PHA                                             ; 00DAB2 48 
@@ -9422,7 +9575,7 @@ L_DFF6:
   JSL ClearEntitySlotData                                     ; 00E002 22 94 80 03 
   LDA.B #$01                                      ; 00E006 A9 01 
   STA.W EntityHeader,X                                   ; 00E008 9D D2 06 
-  LDA.B #$30                                      ; 00E00B A9 30 
+  LDA.B #EntityType_30                                      ; 00E00B A9 30 
   STA.W EntityTypeId,X                                   ; 00E00D 9D 44 07 
   LDA.B #$0C                                      ; 00E010 A9 0C 
   STA.W EntityV3,X                                   ; 00E012 9D 28 08 
@@ -9574,7 +9727,7 @@ B_E117:
   TAY                                             ; 00E122 A8 
   LDA.W D_E1E8,Y                                  ; 00E123 B9 E8 E1 
   STA.B $04                                       ; 00E126 85 04 
-  LDA.W D_E1E9,Y                                  ; 00E128 B9 E9 E1 
+  LDA.W D_E1E8+1,Y                                  ; 00E128 B9 E9 E1 
   STA.B $05                                       ; 00E12B 85 05 
   LDA.W CurrentRoom                                     ; 00E12D AD AC 05 
   ASL                                             ; 00E130 0A 
@@ -9623,7 +9776,7 @@ L_E15E:
   STA.W EntityHeader,X                                   ; 00E181 9D D2 06 
   LDA.B $04                                       ; 00E184 A5 04 
   STA.W EntityV2,X                                   ; 00E186 9D B6 07 
-  LDA.B #$2B                                      ; 00E189 A9 2B 
+  LDA.B #EntityType_2B                                      ; 00E189 A9 2B 
   STA.W EntityTypeId,X                                   ; 00E18B 9D 44 07 
   LDA.B #$FA                                      ; 00E18E A9 FA 
   STA.W EntityV15,X                                   ; 00E190 9D 80 0D 
@@ -9662,12 +9815,23 @@ D_E1D8:
 .byte $C4,$C6,$C8,$CA,$CC,$CA,$C8,$C6             ; 00E1D8 DDDDDDDD ????????
 D_E1E0:
 .byte $00,$00,$00,$00,$00,$40,$40,$40             ; 00E1E0 DDDDDDDD ?????@@@
+
+
 D_E1E8:
-.byte $EE                                         ; 00E1E9 D        ?
-D_E1E9:
-.byte $E1,$FE,$E1,$00,$E2,$00,$00,$30             ; 00E1E9 D......D ???????0
-.byte $E2,$3C,$E2,$00,$00,$00,$00,$00             ; 00E1F1 D....... ?<??????
-.byte $00,$6C,$E2,$9C,$E2,$00,$00,$00             ; 00E1F9 .DDDD... ?l??????
+.addr D_E1E8_Circuit1
+.addr D_E1E8_Circuit2
+.addr D_E1E8_Circuit3
+
+D_E1E8_Circuit1:
+.byte $00,$00,$30
+.byte $E2,$3C,$E2,$00,$00,$00,$00,$00
+.byte $00,$6C,$E2,$9C,$E2
+
+D_E1E8_Circuit2:
+.byte $00,$00
+
+D_E1E8_Circuit3:
+.byte $00             ; 00E1F9 .DDDD... ?l??????
 .byte $00,$00,$00,$00,$00,$CC,$E2,$00             ; 00E201 ........ ????????
 .byte $00,$00,$00,$EA,$E2,$00,$00,$CC             ; 00E209 ........ ????????
 .byte $E2,$00,$00,$00,$00,$DB,$E2,$00             ; 00E211 ........ ????????

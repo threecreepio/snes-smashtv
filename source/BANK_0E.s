@@ -2250,7 +2250,7 @@ D_EBE78:
 
 
 ; -
-; Checks the round + room indexes to figure out if we're entering
+; Checks the circuit + room indexes to figure out if we're entering
 ; a boss fight, and runs the startup code for that room.
 CheckForEncounterRoom:
   php
@@ -2260,11 +2260,11 @@ CheckForEncounterRoom:
   dex
   beq @Circuit2
   lda CurrentRoom
-  ; if we are in room #7 in round #3, encounter the cobras
-  cmp #$07
+  ; if we are in room #7 in circuit #3, encounter the cobras
+  cmp #7
   beq @Circuit3_Cobras
-  ; if we are in room #21 in round #3, encounter the evil mc
-  cmp #$15
+  ; if we are in room #21 in circuit #3, encounter the evil mc
+  cmp #21
   bne @NoEncounterFound
   jsr StartEncounterEvilMC
   jmp @EncounterStarted
@@ -2272,16 +2272,16 @@ CheckForEncounterRoom:
   jsr StartEncounterCobras
   jmp @EncounterStarted
 @Circuit2:
-  ; if we are in room #7 in round #2, encounter scarface
+  ; if we are in room #7 in circuit #2, encounter scarface
   lda CurrentRoom
-  cmp #$07
+  cmp #7
   bne @NoEncounterFound
   jsr StartEncounterScarface
   jmp @EncounterStarted
 @Circuit1:
-  ; if we are in room #10 in round #1, encounter mutoid man
+  ; if we are in room #10 in circuit #1, encounter mutoid man
   lda CurrentRoom
-  cmp #$0A
+  cmp #10
   bne @NoEncounterFound
   jsr StartEncounterMutoidMan
   jmp @EncounterStarted
@@ -4994,7 +4994,7 @@ B_EE493:
   STA.W $0258                                     ; 0EE50C 8D 58 02 
   STZ.W $0256                                     ; 0EE50F 9C 56 02 
   LDA.W #$0005                                    ; 0EE512 A9 05 00 
-  JSL L_F84EC                                     ; 0EE515 22 EC 84 0F 
+  JSL SoundEngine_PlayMusic                                     ; 0EE515 22 EC 84 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 0EE519 E2 30 
   LDA.B #$08                                      ; 0EE51B A9 08 
   LDX.B #$3A                                      ; 0EE51D A2 3A 

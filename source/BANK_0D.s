@@ -4070,7 +4070,7 @@ B_DEEA5:
   JSL ClearEntitySlotData                                     ; 0DEEA5 22 94 80 03 
   LDA.B #$01                                      ; 0DEEA9 A9 01 
   STA.W EntityHeader,X                                   ; 0DEEAB 9D D2 06 
-  LDA.B #$6E                                      ; 0DEEAE A9 6E 
+  LDA.B #EntityType_6E                                      ; 0DEEAE A9 6E 
   STA.W EntityTypeId,X                                   ; 0DEEB0 9D 44 07 
   LDA.B #$00                                      ; 0DEEB3 A9 00 
   STA.W EntityV3,X                                   ; 0DEEB5 9D 28 08 
@@ -4131,7 +4131,7 @@ B_DEF28:
   JSL ClearEntitySlotData                                     ; 0DEF28 22 94 80 03 
   LDA.B #$01                                      ; 0DEF2C A9 01 
   STA.W EntityHeader,X                                   ; 0DEF2E 9D D2 06 
-  LDA.B #$1C                                      ; 0DEF31 A9 1C 
+  LDA.B #EntityType_1C                                      ; 0DEF31 A9 1C 
   STA.W EntityTypeId,X                                   ; 0DEF33 9D 44 07 
   LDA.B #$00                                      ; 0DEF36 A9 00 
   STA.W EntityV3,X                                   ; 0DEF38 9D 28 08 
