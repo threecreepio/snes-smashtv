@@ -1802,43 +1802,19 @@ EntityWavesCircuit3:
 ; followed by a list of spawns:
 ;    u8  - spawn wave type
 ;    u16 - number of waves
-;    u8  - average wave size
+;    u8  - low water mark for active units
 ;    u8  - variant rate, if there are two enemies that can spawn for a group, how often the alternate spawns
 ;    u16 - delay between waves
 ;    u8  - room entrance pattern
 ;    u16 - delay before first wave
 ; u8 - number of required waves (always in the order they are listed, so, 1 means the first wave is required. 0 means all.)
 
-WaveType_Null = $00
-WaveType_Dude = $01
-WaveType_WallGunner = $02
-WaveType_RoboBallSnake = $03
-WaveType_FatRobos = $04
-WaveType_TreeSnakes = $05
-WaveType_SnakeMen = $06
-WaveType_UFO = $07
-WaveType_Tank = $08
-WaveType_Swirly = $09
-WaveType_MrShrapnel = $0A
-WaveType_RoboBall = $0B
-WaveType_FatUFO = $0C
-WaveType_Unk0D = $0D
-WaveType_Centipede = $0E
-WaveType_Mine = $0F
-WaveType_BossCobras = $10
-WaveType_BossMutoidMan = $11
-WaveType_BossScarface = $12
-WaveType_Unk13 = $13
-WaveType_Gifts = $14
-WaveType_Question = $15
-WaveType_GiftLadies = $16
-
 EntityWavesCircuit1Room00:          ; # ARENA 1
 .byte 1                             ; number of wave groups
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 100                           ; total units
-.byte 9                             ; units per wave
+.byte 9                             ; low water mark
 .byte 0                             ; variant rate
 .word 18                            ; delay between waves
 .byte 4                             ; entrance pattern
@@ -1846,7 +1822,7 @@ EntityWavesCircuit1Room00:          ; # ARENA 1
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -1859,7 +1835,7 @@ EntityWavesCircuit1Room01:          ; # COLLECT 10 KEYS!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 300                           ; total units
-.byte 10                            ; units per wave
+.byte 10                            ; low water mark
 .byte 2                             ; variant rate
 .word 24                            ; delay between waves
 .byte 16                            ; entrance pattern
@@ -1867,7 +1843,7 @@ EntityWavesCircuit1Room01:          ; # COLLECT 10 KEYS!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 15                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 2                             ; entrance pattern
@@ -1875,7 +1851,7 @@ EntityWavesCircuit1Room01:          ; # COLLECT 10 KEYS!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -1883,7 +1859,7 @@ EntityWavesCircuit1Room01:          ; # COLLECT 10 KEYS!
 
 .byte WaveType_WallGunner           ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 1                             ; entrance pattern
@@ -1891,7 +1867,7 @@ EntityWavesCircuit1Room01:          ; # COLLECT 10 KEYS!
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -1904,7 +1880,7 @@ EntityWavesCircuit1Room02:          ; # COLLECT POWERUPS!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 195                           ; total units
-.byte 10                            ; units per wave
+.byte 10                            ; low water mark
 .byte 1                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -1912,7 +1888,7 @@ EntityWavesCircuit1Room02:          ; # COLLECT POWERUPS!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 6                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 480                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -1920,7 +1896,7 @@ EntityWavesCircuit1Room02:          ; # COLLECT POWERUPS!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -1928,7 +1904,7 @@ EntityWavesCircuit1Room02:          ; # COLLECT POWERUPS!
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 420                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -1941,7 +1917,7 @@ EntityWavesCircuit1Room03:          ; # MEET MR. SHRAPNEL
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 25                            ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 3                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -1949,7 +1925,7 @@ EntityWavesCircuit1Room03:          ; # MEET MR. SHRAPNEL
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 30                            ; total units
-.byte 8                             ; units per wave
+.byte 8                             ; low water mark
 .byte 1                             ; variant rate
 .word 15                            ; delay between waves
 .byte 7                             ; entrance pattern
@@ -1957,7 +1933,7 @@ EntityWavesCircuit1Room03:          ; # MEET MR. SHRAPNEL
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 4                             ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 4                             ; entrance pattern
@@ -1965,7 +1941,7 @@ EntityWavesCircuit1Room03:          ; # MEET MR. SHRAPNEL
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -1973,7 +1949,7 @@ EntityWavesCircuit1Room03:          ; # MEET MR. SHRAPNEL
 
 .byte WaveType_WallGunner           ; * spawn wave
 .word 2                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 2                             ; entrance pattern
@@ -1986,7 +1962,7 @@ EntityWavesCircuit1Room04:          ; # BONUS PRIZES!
 
 .byte WaveType_Gifts                ; * spawn wave
 .word 2                             ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -1994,7 +1970,7 @@ EntityWavesCircuit1Room04:          ; # BONUS PRIZES!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 455                           ; total units
-.byte 12                            ; units per wave
+.byte 12                            ; low water mark
 .byte 6                             ; variant rate
 .word 12                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2002,7 +1978,7 @@ EntityWavesCircuit1Room04:          ; # BONUS PRIZES!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 25                            ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 240                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2010,7 +1986,7 @@ EntityWavesCircuit1Room04:          ; # BONUS PRIZES!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2018,7 +1994,7 @@ EntityWavesCircuit1Room04:          ; # BONUS PRIZES!
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 2                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 420                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2031,7 +2007,7 @@ EntityWavesCircuit1Room05:          ; # EAT MY SHRAPNEL
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 65                            ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 3                             ; variant rate
 .word 3                             ; delay between waves
 .byte 16                            ; entrance pattern
@@ -2039,7 +2015,7 @@ EntityWavesCircuit1Room05:          ; # EAT MY SHRAPNEL
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 570                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2047,7 +2023,7 @@ EntityWavesCircuit1Room05:          ; # EAT MY SHRAPNEL
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 15                            ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 135                           ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2055,7 +2031,7 @@ EntityWavesCircuit1Room05:          ; # EAT MY SHRAPNEL
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 2                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 2                             ; entrance pattern
@@ -2063,7 +2039,7 @@ EntityWavesCircuit1Room05:          ; # EAT MY SHRAPNEL
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 5                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 720                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2076,7 +2052,7 @@ EntityWavesCircuit1Room06:          ; # TOTAL CARNAGE
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 395                           ; total units
-.byte 12                            ; units per wave
+.byte 12                            ; low water mark
 .byte 3                             ; variant rate
 .word 3                             ; delay between waves
 .byte 16                            ; entrance pattern
@@ -2084,7 +2060,7 @@ EntityWavesCircuit1Room06:          ; # TOTAL CARNAGE
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 750                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2092,7 +2068,7 @@ EntityWavesCircuit1Room06:          ; # TOTAL CARNAGE
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 13                            ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 345                           ; delay between waves
 .byte 2                             ; entrance pattern
@@ -2100,7 +2076,7 @@ EntityWavesCircuit1Room06:          ; # TOTAL CARNAGE
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2108,7 +2084,7 @@ EntityWavesCircuit1Room06:          ; # TOTAL CARNAGE
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 420                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2121,7 +2097,7 @@ EntityWavesCircuit1Room07:          ; # CROWD CONTROL
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 295                           ; total units
-.byte 13                            ; units per wave
+.byte 13                            ; low water mark
 .byte 4                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2129,7 +2105,7 @@ EntityWavesCircuit1Room07:          ; # CROWD CONTROL
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 1500                          ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2137,7 +2113,7 @@ EntityWavesCircuit1Room07:          ; # CROWD CONTROL
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 10                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2145,7 +2121,7 @@ EntityWavesCircuit1Room07:          ; # CROWD CONTROL
 
 .byte WaveType_WallGunner           ; * spawn wave
 .word 2                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 2                             ; entrance pattern
@@ -2153,7 +2129,7 @@ EntityWavesCircuit1Room07:          ; # CROWD CONTROL
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2161,7 +2137,7 @@ EntityWavesCircuit1Room07:          ; # CROWD CONTROL
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 13                            ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 120                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2174,7 +2150,7 @@ EntityWavesCircuit1Room08:          ; # TANK TROUBLE
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 325                           ; total units
-.byte 14                            ; units per wave
+.byte 14                            ; low water mark
 .byte 4                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2182,7 +2158,7 @@ EntityWavesCircuit1Room08:          ; # TANK TROUBLE
 
 .byte WaveType_WallGunner           ; * spawn wave
 .word 2                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 2                             ; entrance pattern
@@ -2190,7 +2166,7 @@ EntityWavesCircuit1Room08:          ; # TANK TROUBLE
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 27                            ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 480                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2198,7 +2174,7 @@ EntityWavesCircuit1Room08:          ; # TANK TROUBLE
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 18                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 3                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2206,7 +2182,7 @@ EntityWavesCircuit1Room08:          ; # TANK TROUBLE
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 4                             ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 4                             ; entrance pattern
@@ -2219,7 +2195,7 @@ EntityWavesCircuit1Room09:          ; # MUTOID MAN!
 
 .byte WaveType_BossMutoidMan        ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2227,7 +2203,7 @@ EntityWavesCircuit1Room09:          ; # MUTOID MAN!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 2                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 2                             ; entrance pattern
@@ -2235,7 +2211,7 @@ EntityWavesCircuit1Room09:          ; # MUTOID MAN!
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 135                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2243,7 +2219,7 @@ EntityWavesCircuit1Room09:          ; # MUTOID MAN!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 35                            ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 420                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2256,7 +2232,7 @@ EntityWavesCircuit1Room10:          ; # SECRET ROOM #1!
 
 .byte WaveType_Gifts                ; * spawn wave
 .word 2                             ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2264,7 +2240,7 @@ EntityWavesCircuit1Room10:          ; # SECRET ROOM #1!
 
 .byte WaveType_Question             ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2277,7 +2253,7 @@ EntityWavesCircuit2Room00:          ; # ORBS!
 
 .byte WaveType_UFO                  ; * spawn wave
 .word 98                            ; total units
-.byte 10                            ; units per wave
+.byte 10                            ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2290,7 +2266,7 @@ EntityWavesCircuit2Room01:          ; # MEET MY TWIN
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 380                           ; total units
-.byte 15                            ; units per wave
+.byte 15                            ; low water mark
 .byte 3                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2298,7 +2274,7 @@ EntityWavesCircuit2Room01:          ; # MEET MY TWIN
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2311,7 +2287,7 @@ EntityWavesCircuit2Room02:          ; # SMASH 'EM
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 270                           ; total units
-.byte 15                            ; units per wave
+.byte 15                            ; low water mark
 .byte 5                             ; variant rate
 .word 15                            ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2319,7 +2295,7 @@ EntityWavesCircuit2Room02:          ; # SMASH 'EM
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 2                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 240                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2327,7 +2303,7 @@ EntityWavesCircuit2Room02:          ; # SMASH 'EM
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2335,7 +2311,7 @@ EntityWavesCircuit2Room02:          ; # SMASH 'EM
 
 .byte WaveType_RoboBallSnake        ; * spawn wave
 .word 15                            ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2348,7 +2324,7 @@ EntityWavesCircuit2Room03:          ; # FIRE POWER IS NEEDED!
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 210                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2356,7 +2332,7 @@ EntityWavesCircuit2Room03:          ; # FIRE POWER IS NEEDED!
 
 .byte WaveType_FatRobos             ; * spawn wave
 .word 240                           ; total units
-.byte 15                            ; units per wave
+.byte 15                            ; low water mark
 .byte 4                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2364,7 +2340,7 @@ EntityWavesCircuit2Room03:          ; # FIRE POWER IS NEEDED!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 4                             ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 4                             ; entrance pattern
@@ -2372,7 +2348,7 @@ EntityWavesCircuit2Room03:          ; # FIRE POWER IS NEEDED!
 
 .byte WaveType_RoboBall             ; * spawn wave
 .word 60                            ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 45                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2385,7 +2361,7 @@ EntityWavesCircuit2Room04:          ; # SLAUGHTER 'EM
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 330                           ; total units
-.byte 16                            ; units per wave
+.byte 16                            ; low water mark
 .byte 7                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2393,7 +2369,7 @@ EntityWavesCircuit2Room04:          ; # SLAUGHTER 'EM
 
 .byte WaveType_RoboBall             ; * spawn wave
 .word 40                            ; total units
-.byte 7                             ; units per wave
+.byte 7                             ; low water mark
 .byte 0                             ; variant rate
 .word 24                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2401,7 +2377,7 @@ EntityWavesCircuit2Room04:          ; # SLAUGHTER 'EM
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 10                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 570                           ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2409,7 +2385,7 @@ EntityWavesCircuit2Room04:          ; # SLAUGHTER 'EM
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 4                             ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 4                             ; entrance pattern
@@ -2417,7 +2393,7 @@ EntityWavesCircuit2Room04:          ; # SLAUGHTER 'EM
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 4                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 225                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2425,7 +2401,7 @@ EntityWavesCircuit2Room04:          ; # SLAUGHTER 'EM
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 6                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 180                           ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2438,7 +2414,7 @@ EntityWavesCircuit2Room05:          ; # LAZER DEATH ZONE
 
 .byte WaveType_UFO                  ; * spawn wave
 .word 90                            ; total units
-.byte 14                            ; units per wave
+.byte 14                            ; low water mark
 .byte 0                             ; variant rate
 .word 24                            ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2446,7 +2422,7 @@ EntityWavesCircuit2Room05:          ; # LAZER DEATH ZONE
 
 .byte WaveType_FatUFO               ; * spawn wave
 .word 35                            ; total units
-.byte 9                             ; units per wave
+.byte 9                             ; low water mark
 .byte 0                             ; variant rate
 .word 45                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2454,7 +2430,7 @@ EntityWavesCircuit2Room05:          ; # LAZER DEATH ZONE
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 4                             ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 4                             ; entrance pattern
@@ -2462,7 +2438,7 @@ EntityWavesCircuit2Room05:          ; # LAZER DEATH ZONE
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 23                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 150                           ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2475,7 +2451,7 @@ EntityWavesCircuit2Room06:          ; # MEET SCARFACE!
 
 .byte WaveType_BossScarface         ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2483,7 +2459,7 @@ EntityWavesCircuit2Room06:          ; # MEET SCARFACE!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2496,7 +2472,7 @@ EntityWavesCircuit2Room07:          ; # ROWDY DROIDS
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 180                           ; total units
-.byte 14                            ; units per wave
+.byte 14                            ; low water mark
 .byte 3                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2504,7 +2480,7 @@ EntityWavesCircuit2Room07:          ; # ROWDY DROIDS
 
 .byte WaveType_RoboBallSnake        ; * spawn wave
 .word 16                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2512,7 +2488,7 @@ EntityWavesCircuit2Room07:          ; # ROWDY DROIDS
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2525,7 +2501,7 @@ EntityWavesCircuit2Room08:          ; # VACUUM CLEAN
 
 .byte WaveType_FatRobos             ; * spawn wave
 .word 290                           ; total units
-.byte 16                            ; units per wave
+.byte 16                            ; low water mark
 .byte 5                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2533,7 +2509,7 @@ EntityWavesCircuit2Room08:          ; # VACUUM CLEAN
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 4                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 240                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2541,7 +2517,7 @@ EntityWavesCircuit2Room08:          ; # VACUUM CLEAN
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2554,7 +2530,7 @@ EntityWavesCircuit2Room09:          ; # SECRET ROOM #2!
 
 .byte WaveType_Gifts                ; * spawn wave
 .word 2                             ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2562,7 +2538,7 @@ EntityWavesCircuit2Room09:          ; # SECRET ROOM #2!
 
 .byte WaveType_Question             ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2575,7 +2551,7 @@ EntityWavesCircuit2Room10:          ; # METAL DEATH
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 360                           ; total units
-.byte 16                            ; units per wave
+.byte 16                            ; low water mark
 .byte 5                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2583,7 +2559,7 @@ EntityWavesCircuit2Room10:          ; # METAL DEATH
 
 .byte WaveType_RoboBallSnake        ; * spawn wave
 .word 16                            ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2596,7 +2572,7 @@ EntityWavesCircuit2Room11:          ; # WATCH YOUR STEP
 
 .byte WaveType_Gifts                ; * spawn wave
 .word 2                             ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2604,7 +2580,7 @@ EntityWavesCircuit2Room11:          ; # WATCH YOUR STEP
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 550                           ; total units
-.byte 17                            ; units per wave
+.byte 17                            ; low water mark
 .byte 4                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2612,7 +2588,7 @@ EntityWavesCircuit2Room11:          ; # WATCH YOUR STEP
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2620,7 +2596,7 @@ EntityWavesCircuit2Room11:          ; # WATCH YOUR STEP
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 17                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 210                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2633,7 +2609,7 @@ EntityWavesCircuit2Room12:          ; # FILM AT 11
 
 .byte WaveType_FatUFO               ; * spawn wave
 .word 24                            ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 18                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2641,7 +2617,7 @@ EntityWavesCircuit2Room12:          ; # FILM AT 11
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 350                           ; total units
-.byte 18                            ; units per wave
+.byte 18                            ; low water mark
 .byte 4                             ; variant rate
 .word 15                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2649,7 +2625,7 @@ EntityWavesCircuit2Room12:          ; # FILM AT 11
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2662,7 +2638,7 @@ EntityWavesCircuit2Room13:          ; # DEFEND ME
 
 .byte WaveType_Gifts                ; * spawn wave
 .word 2                             ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2670,7 +2646,7 @@ EntityWavesCircuit2Room13:          ; # DEFEND ME
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 380                           ; total units
-.byte 12                            ; units per wave
+.byte 12                            ; low water mark
 .byte 5                             ; variant rate
 .word 12                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2678,7 +2654,7 @@ EntityWavesCircuit2Room13:          ; # DEFEND ME
 
 .byte WaveType_RoboBallSnake        ; * spawn wave
 .word 3                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 540                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2686,7 +2662,7 @@ EntityWavesCircuit2Room13:          ; # DEFEND ME
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 9                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2694,7 +2670,7 @@ EntityWavesCircuit2Room13:          ; # DEFEND ME
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2702,7 +2678,7 @@ EntityWavesCircuit2Room13:          ; # DEFEND ME
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 3                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 570                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2715,7 +2691,7 @@ EntityWavesCircuit2Room14:          ; # TURTLES NEARBY
 
 .byte WaveType_UFO                  ; * spawn wave
 .word 90                            ; total units
-.byte 12                            ; units per wave
+.byte 12                            ; low water mark
 .byte 0                             ; variant rate
 .word 24                            ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2723,7 +2699,7 @@ EntityWavesCircuit2Room14:          ; # TURTLES NEARBY
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2731,7 +2707,7 @@ EntityWavesCircuit2Room14:          ; # TURTLES NEARBY
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 8                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 570                           ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2744,7 +2720,7 @@ EntityWavesCircuit2Room15:          ; # CHUNKS GALORE!
 
 .byte WaveType_FatRobos             ; * spawn wave
 .word 350                           ; total units
-.byte 17                            ; units per wave
+.byte 17                            ; low water mark
 .byte 5                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2752,7 +2728,7 @@ EntityWavesCircuit2Room15:          ; # CHUNKS GALORE!
 
 .byte WaveType_RoboBall             ; * spawn wave
 .word 40                            ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 21                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2760,7 +2736,7 @@ EntityWavesCircuit2Room15:          ; # CHUNKS GALORE!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 10                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 570                           ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2768,7 +2744,7 @@ EntityWavesCircuit2Room15:          ; # CHUNKS GALORE!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 4                             ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 4                             ; entrance pattern
@@ -2776,7 +2752,7 @@ EntityWavesCircuit2Room15:          ; # CHUNKS GALORE!
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 4                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 225                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2784,7 +2760,7 @@ EntityWavesCircuit2Room15:          ; # CHUNKS GALORE!
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 8                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 180                           ; delay between waves
 .byte 1                             ; entrance pattern
@@ -2797,7 +2773,7 @@ EntityWavesCircuit2Room16:          ; # THESE ARE FAST!
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 550                           ; total units
-.byte 20                            ; units per wave
+.byte 20                            ; low water mark
 .byte 7                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2810,7 +2786,7 @@ EntityWavesCircuit2Room17:          ; # BUFFALO HERD NEARBY!
 
 .byte WaveType_FatRobos             ; * spawn wave
 .word 690                           ; total units
-.byte 18                            ; units per wave
+.byte 18                            ; low water mark
 .byte 5                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2818,7 +2794,7 @@ EntityWavesCircuit2Room17:          ; # BUFFALO HERD NEARBY!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 2                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 2                             ; entrance pattern
@@ -2826,7 +2802,7 @@ EntityWavesCircuit2Room17:          ; # BUFFALO HERD NEARBY!
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 9                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 240                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2834,7 +2810,7 @@ EntityWavesCircuit2Room17:          ; # BUFFALO HERD NEARBY!
 
 .byte WaveType_RoboBallSnake        ; * spawn wave
 .word 15                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2842,7 +2818,7 @@ EntityWavesCircuit2Room17:          ; # BUFFALO HERD NEARBY!
 
 .byte WaveType_FatUFO               ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2855,7 +2831,7 @@ EntityWavesCircuit3Room00:          ; # NO DICE
 
 .byte WaveType_SnakeMen             ; * spawn wave
 .word 12                            ; total units
-.byte 6                             ; units per wave
+.byte 6                             ; low water mark
 .byte 2                             ; variant rate
 .word 3                             ; delay between waves
 .byte 8                             ; entrance pattern
@@ -2863,7 +2839,7 @@ EntityWavesCircuit3Room00:          ; # NO DICE
 
 .byte WaveType_TreeSnakes           ; * spawn wave
 .word 15                            ; total units
-.byte 30                            ; units per wave
+.byte 30                            ; low water mark
 .byte 0                             ; variant rate
 .word 840                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2871,7 +2847,7 @@ EntityWavesCircuit3Room00:          ; # NO DICE
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 30                            ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 57                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2879,7 +2855,7 @@ EntityWavesCircuit3Room00:          ; # NO DICE
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2892,7 +2868,7 @@ EntityWavesCircuit3Room01:          ; # TEMPLE ALERT
 
 .byte WaveType_SnakeMen             ; * spawn wave
 .word 315                           ; total units
-.byte 16                            ; units per wave
+.byte 16                            ; low water mark
 .byte 2                             ; variant rate
 .word 24                            ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2900,7 +2876,7 @@ EntityWavesCircuit3Room01:          ; # TEMPLE ALERT
 
 .byte WaveType_TreeSnakes           ; * spawn wave
 .word 335                           ; total units
-.byte 25                            ; units per wave
+.byte 25                            ; low water mark
 .byte 2                             ; variant rate
 .word 240                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2908,7 +2884,7 @@ EntityWavesCircuit3Room01:          ; # TEMPLE ALERT
 
 .byte WaveType_Centipede            ; * spawn wave
 .word 6                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 150                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2916,7 +2892,7 @@ EntityWavesCircuit3Room01:          ; # TEMPLE ALERT
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2924,7 +2900,7 @@ EntityWavesCircuit3Room01:          ; # TEMPLE ALERT
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 3                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 300                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2937,7 +2913,7 @@ EntityWavesCircuit3Room02:          ; # SCORPION FEVER
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 700                           ; total units
-.byte 14                            ; units per wave
+.byte 14                            ; low water mark
 .byte 7                             ; variant rate
 .word 3                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2945,7 +2921,7 @@ EntityWavesCircuit3Room02:          ; # SCORPION FEVER
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 5                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 510                           ; delay between waves
 .byte 2                             ; entrance pattern
@@ -2953,7 +2929,7 @@ EntityWavesCircuit3Room02:          ; # SCORPION FEVER
 
 .byte WaveType_TreeSnakes           ; * spawn wave
 .word 235                           ; total units
-.byte 25                            ; units per wave
+.byte 25                            ; low water mark
 .byte 1                             ; variant rate
 .word 870                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2961,7 +2937,7 @@ EntityWavesCircuit3Room02:          ; # SCORPION FEVER
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2969,7 +2945,7 @@ EntityWavesCircuit3Room02:          ; # SCORPION FEVER
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 3                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 300                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -2982,7 +2958,7 @@ EntityWavesCircuit3Room03:          ; # COBRA JUST AHEAD!
 
 .byte WaveType_SnakeMen             ; * spawn wave
 .word 650                           ; total units
-.byte 18                            ; units per wave
+.byte 18                            ; low water mark
 .byte 7                             ; variant rate
 .word 3                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -2990,7 +2966,7 @@ EntityWavesCircuit3Room03:          ; # COBRA JUST AHEAD!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -2998,7 +2974,7 @@ EntityWavesCircuit3Room03:          ; # COBRA JUST AHEAD!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 17                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 1                             ; variant rate
 .word 210                           ; delay between waves
 .byte 4                             ; entrance pattern
@@ -3011,7 +2987,7 @@ EntityWavesCircuit3Room04:          ; # WALLS OF PAIN
 
 .byte WaveType_Unk0D                ; * spawn wave
 .word 400                           ; total units
-.byte 25                            ; units per wave
+.byte 25                            ; low water mark
 .byte 6                             ; variant rate
 .word 12                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3019,7 +2995,7 @@ EntityWavesCircuit3Room04:          ; # WALLS OF PAIN
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 8                             ; total units
-.byte 8                             ; units per wave
+.byte 8                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 8                             ; entrance pattern
@@ -3032,7 +3008,7 @@ EntityWavesCircuit3Room05:          ; # LAST ARENA?
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 1040                          ; total units
-.byte 18                            ; units per wave
+.byte 18                            ; low water mark
 .byte 6                             ; variant rate
 .word 3                             ; delay between waves
 .byte 1                             ; entrance pattern
@@ -3040,7 +3016,7 @@ EntityWavesCircuit3Room05:          ; # LAST ARENA?
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 13                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 210                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3048,7 +3024,7 @@ EntityWavesCircuit3Room05:          ; # LAST ARENA?
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 14                            ; total units
-.byte 14                            ; units per wave
+.byte 14                            ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 14                            ; entrance pattern
@@ -3056,7 +3032,7 @@ EntityWavesCircuit3Room05:          ; # LAST ARENA?
 
 .byte WaveType_Centipede            ; * spawn wave
 .word 34                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 1200                          ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3069,7 +3045,7 @@ EntityWavesCircuit3Room06:          ; # COBRA DEATH!
 
 .byte WaveType_BossCobras           ; * spawn wave
 .word 1                             ; total units
-.byte 8                             ; units per wave
+.byte 8                             ; low water mark
 .byte 0                             ; variant rate
 .word 1800                          ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3082,7 +3058,7 @@ EntityWavesCircuit3Room07:          ; # TURTLES BEWARE!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 700                           ; total units
-.byte 13                            ; units per wave
+.byte 13                            ; low water mark
 .byte 5                             ; variant rate
 .word 6                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -3090,7 +3066,7 @@ EntityWavesCircuit3Room07:          ; # TURTLES BEWARE!
 
 .byte WaveType_TreeSnakes           ; * spawn wave
 .word 835                           ; total units
-.byte 20                            ; units per wave
+.byte 20                            ; low water mark
 .byte 4                             ; variant rate
 .word 240                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3098,7 +3074,7 @@ EntityWavesCircuit3Room07:          ; # TURTLES BEWARE!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 6                             ; total units
-.byte 6                             ; units per wave
+.byte 6                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 6                             ; entrance pattern
@@ -3111,7 +3087,7 @@ EntityWavesCircuit3Room08:          ; # EXTRA SAUCE ACTION!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 650                           ; total units
-.byte 14                            ; units per wave
+.byte 14                            ; low water mark
 .byte 6                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3119,7 +3095,7 @@ EntityWavesCircuit3Room08:          ; # EXTRA SAUCE ACTION!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 17                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 510                           ; delay between waves
 .byte 4                             ; entrance pattern
@@ -3127,7 +3103,7 @@ EntityWavesCircuit3Room08:          ; # EXTRA SAUCE ACTION!
 
 .byte WaveType_TreeSnakes           ; * spawn wave
 .word 2835                          ; total units
-.byte 20                            ; units per wave
+.byte 20                            ; low water mark
 .byte 0                             ; variant rate
 .word 75                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3135,7 +3111,7 @@ EntityWavesCircuit3Room08:          ; # EXTRA SAUCE ACTION!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -3148,7 +3124,7 @@ EntityWavesCircuit3Room09:          ; # SECRET ROOM #3!
 
 .byte WaveType_Gifts                ; * spawn wave
 .word 2                             ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3156,7 +3132,7 @@ EntityWavesCircuit3Room09:          ; # SECRET ROOM #3!
 
 .byte WaveType_Question             ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3169,7 +3145,7 @@ EntityWavesCircuit3Room10:          ; # SECRET ROOMS NEARBY!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 9                             ; total units
-.byte 8                             ; units per wave
+.byte 8                             ; low water mark
 .byte 2                             ; variant rate
 .word 3                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -3177,7 +3153,7 @@ EntityWavesCircuit3Room10:          ; # SECRET ROOMS NEARBY!
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 85                            ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 45                            ; delay between waves
 .byte 1                             ; entrance pattern
@@ -3185,7 +3161,7 @@ EntityWavesCircuit3Room10:          ; # SECRET ROOMS NEARBY!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -3198,7 +3174,7 @@ EntityWavesCircuit3Room11:          ; # ENJOY MY WEALTH
 
 .byte WaveType_Gifts                ; * spawn wave
 .word 2                             ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3206,7 +3182,7 @@ EntityWavesCircuit3Room11:          ; # ENJOY MY WEALTH
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 600                           ; total units
-.byte 18                            ; units per wave
+.byte 18                            ; low water mark
 .byte 6                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3214,7 +3190,7 @@ EntityWavesCircuit3Room11:          ; # ENJOY MY WEALTH
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 6                             ; total units
-.byte 6                             ; units per wave
+.byte 6                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 6                             ; entrance pattern
@@ -3222,7 +3198,7 @@ EntityWavesCircuit3Room11:          ; # ENJOY MY WEALTH
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 8                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3230,7 +3206,7 @@ EntityWavesCircuit3Room11:          ; # ENJOY MY WEALTH
 
 .byte WaveType_RoboBallSnake        ; * spawn wave
 .word 4                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 150                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3238,7 +3214,7 @@ EntityWavesCircuit3Room11:          ; # ENJOY MY WEALTH
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 840                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3251,7 +3227,7 @@ EntityWavesCircuit3Room12:          ; # NO TURTLES ALLOWED!
 
 .byte WaveType_SnakeMen             ; * spawn wave
 .word 400                           ; total units
-.byte 16                            ; units per wave
+.byte 16                            ; low water mark
 .byte 2                             ; variant rate
 .word 3                             ; delay between waves
 .byte 10                            ; entrance pattern
@@ -3259,7 +3235,7 @@ EntityWavesCircuit3Room12:          ; # NO TURTLES ALLOWED!
 
 .byte WaveType_TreeSnakes           ; * spawn wave
 .word 535                           ; total units
-.byte 23                            ; units per wave
+.byte 23                            ; low water mark
 .byte 4                             ; variant rate
 .word 240                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3267,7 +3243,7 @@ EntityWavesCircuit3Room12:          ; # NO TURTLES ALLOWED!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -3275,7 +3251,7 @@ EntityWavesCircuit3Room12:          ; # NO TURTLES ALLOWED!
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 240                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3283,7 +3259,7 @@ EntityWavesCircuit3Room12:          ; # NO TURTLES ALLOWED!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 9                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3291,7 +3267,7 @@ EntityWavesCircuit3Room12:          ; # NO TURTLES ALLOWED!
 
 .byte WaveType_Centipede            ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 150                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3304,7 +3280,7 @@ EntityWavesCircuit3Room13:          ; # TURTLE CHUNKS NEEDED
 
 .byte WaveType_Gifts                ; * spawn wave
 .word 2                             ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3312,7 +3288,7 @@ EntityWavesCircuit3Room13:          ; # TURTLE CHUNKS NEEDED
 
 .byte WaveType_SnakeMen             ; * spawn wave
 .word 555                           ; total units
-.byte 16                            ; units per wave
+.byte 16                            ; low water mark
 .byte 5                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3320,7 +3296,7 @@ EntityWavesCircuit3Room13:          ; # TURTLE CHUNKS NEEDED
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 17                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 510                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3328,7 +3304,7 @@ EntityWavesCircuit3Room13:          ; # TURTLE CHUNKS NEEDED
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 10                            ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 300                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3336,7 +3312,7 @@ EntityWavesCircuit3Room13:          ; # TURTLE CHUNKS NEEDED
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 6                             ; total units
-.byte 6                             ; units per wave
+.byte 6                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 6                             ; entrance pattern
@@ -3349,7 +3325,7 @@ EntityWavesCircuit3Room14:          ; # DYNAMITE COBRA BOSS
 
 .byte WaveType_FatRobos             ; * spawn wave
 .word 900                           ; total units
-.byte 14                            ; units per wave
+.byte 14                            ; low water mark
 .byte 4                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3357,7 +3333,7 @@ EntityWavesCircuit3Room14:          ; # DYNAMITE COBRA BOSS
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 4                             ; total units
-.byte 4                             ; units per wave
+.byte 4                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 4                             ; entrance pattern
@@ -3365,7 +3341,7 @@ EntityWavesCircuit3Room14:          ; # DYNAMITE COBRA BOSS
 
 .byte WaveType_Centipede            ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 540                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3373,7 +3349,7 @@ EntityWavesCircuit3Room14:          ; # DYNAMITE COBRA BOSS
 
 .byte WaveType_TreeSnakes           ; * spawn wave
 .word 2835                          ; total units
-.byte 15                            ; units per wave
+.byte 15                            ; low water mark
 .byte 0                             ; variant rate
 .word 99                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3386,7 +3362,7 @@ EntityWavesCircuit3Room15:          ; # USE THE BUFFALO GUN
 
 .byte WaveType_FatRobos             ; * spawn wave
 .word 2440                          ; total units
-.byte 20                            ; units per wave
+.byte 20                            ; low water mark
 .byte 4                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3394,7 +3370,7 @@ EntityWavesCircuit3Room15:          ; # USE THE BUFFALO GUN
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 5                             ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -3402,7 +3378,7 @@ EntityWavesCircuit3Room15:          ; # USE THE BUFFALO GUN
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 13                            ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 540                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3415,7 +3391,7 @@ EntityWavesCircuit3Room16:          ; # WITNESS TOTAL CARNAGE
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 650                           ; total units
-.byte 18                            ; units per wave
+.byte 18                            ; low water mark
 .byte 5                             ; variant rate
 .word 3                             ; delay between waves
 .byte 1                             ; entrance pattern
@@ -3423,7 +3399,7 @@ EntityWavesCircuit3Room16:          ; # WITNESS TOTAL CARNAGE
 
 .byte WaveType_TreeSnakes           ; * spawn wave
 .word 2835                          ; total units
-.byte 15                            ; units per wave
+.byte 15                            ; low water mark
 .byte 0                             ; variant rate
 .word 75                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3431,7 +3407,7 @@ EntityWavesCircuit3Room16:          ; # WITNESS TOTAL CARNAGE
 
 .byte WaveType_Centipede            ; * spawn wave
 .word 5                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 600                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3439,7 +3415,7 @@ EntityWavesCircuit3Room16:          ; # WITNESS TOTAL CARNAGE
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 6                             ; total units
-.byte 6                             ; units per wave
+.byte 6                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 6                             ; entrance pattern
@@ -3452,7 +3428,7 @@ EntityWavesCircuit3Room17:          ; # SECRET ROOMS NEARBY!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 750                           ; total units
-.byte 17                            ; units per wave
+.byte 17                            ; low water mark
 .byte 5                             ; variant rate
 .word 9                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -3460,7 +3436,7 @@ EntityWavesCircuit3Room17:          ; # SECRET ROOMS NEARBY!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -3468,7 +3444,7 @@ EntityWavesCircuit3Room17:          ; # SECRET ROOMS NEARBY!
 
 .byte WaveType_Centipede            ; * spawn wave
 .word 15                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 150                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3476,7 +3452,7 @@ EntityWavesCircuit3Room17:          ; # SECRET ROOMS NEARBY!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 27                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 240                           ; delay between waves
 .byte 4                             ; entrance pattern
@@ -3484,7 +3460,7 @@ EntityWavesCircuit3Room17:          ; # SECRET ROOMS NEARBY!
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 15                            ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 540                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3497,7 +3473,7 @@ EntityWavesCircuit3Room18:          ; # ALMOST ENOUGH KEYS
 
 .byte WaveType_UFO                  ; * spawn wave
 .word 240                           ; total units
-.byte 8                             ; units per wave
+.byte 8                             ; low water mark
 .byte 0                             ; variant rate
 .word 24                            ; delay between waves
 .byte 1                             ; entrance pattern
@@ -3505,7 +3481,7 @@ EntityWavesCircuit3Room18:          ; # ALMOST ENOUGH KEYS
 
 .byte WaveType_FatUFO               ; * spawn wave
 .word 35                            ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 0                             ; variant rate
 .word 45                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3513,7 +3489,7 @@ EntityWavesCircuit3Room18:          ; # ALMOST ENOUGH KEYS
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 8                             ; total units
-.byte 8                             ; units per wave
+.byte 8                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 8                             ; entrance pattern
@@ -3521,7 +3497,7 @@ EntityWavesCircuit3Room18:          ; # ALMOST ENOUGH KEYS
 
 .byte WaveType_Tank                 ; * spawn wave
 .word 10                            ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 540                           ; delay between waves
 .byte 1                             ; entrance pattern
@@ -3529,7 +3505,7 @@ EntityWavesCircuit3Room18:          ; # ALMOST ENOUGH KEYS
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 13                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3542,7 +3518,7 @@ EntityWavesCircuit3Room19:          ; # YOU HAVE ENOUGH KEYS!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 2540                          ; total units
-.byte 19                            ; units per wave
+.byte 19                            ; low water mark
 .byte 6                             ; variant rate
 .word 9                             ; delay between waves
 .byte 5                             ; entrance pattern
@@ -3550,7 +3526,7 @@ EntityWavesCircuit3Room19:          ; # YOU HAVE ENOUGH KEYS!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 3                             ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 3                             ; entrance pattern
@@ -3558,7 +3534,7 @@ EntityWavesCircuit3Room19:          ; # YOU HAVE ENOUGH KEYS!
 
 .byte WaveType_RoboBallSnake        ; * spawn wave
 .word 2                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 30                            ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3566,7 +3542,7 @@ EntityWavesCircuit3Room19:          ; # YOU HAVE ENOUGH KEYS!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 27                            ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 540                           ; delay between waves
 .byte 4                             ; entrance pattern
@@ -3574,7 +3550,7 @@ EntityWavesCircuit3Room19:          ; # YOU HAVE ENOUGH KEYS!
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 2                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 540                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3588,7 +3564,7 @@ EntityWavesCircuit3Room22:          ; # NOT ENOUGH KEYS!
 
 .byte WaveType_BossMutoidMan        ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 1                             ; entrance pattern
@@ -3596,7 +3572,7 @@ EntityWavesCircuit3Room22:          ; # NOT ENOUGH KEYS!
 
 .byte WaveType_Mine                 ; * spawn wave
 .word 2                             ; total units
-.byte 2                             ; units per wave
+.byte 2                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 2                             ; entrance pattern
@@ -3604,7 +3580,7 @@ EntityWavesCircuit3Room22:          ; # NOT ENOUGH KEYS!
 
 .byte WaveType_Swirly               ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 135                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3612,7 +3588,7 @@ EntityWavesCircuit3Room22:          ; # NOT ENOUGH KEYS!
 
 .byte WaveType_MrShrapnel           ; * spawn wave
 .word 35                            ; total units
-.byte 3                             ; units per wave
+.byte 3                             ; low water mark
 .byte 0                             ; variant rate
 .word 420                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3625,7 +3601,7 @@ EntityWavesCircuit3Room21:          ; # PLEASURE DOME!
 
 .byte WaveType_Dude                 ; * spawn wave
 .word 15                            ; total units
-.byte 5                             ; units per wave
+.byte 5                             ; low water mark
 .byte 6                             ; variant rate
 .word 3                             ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3633,7 +3609,7 @@ EntityWavesCircuit3Room21:          ; # PLEASURE DOME!
 
 .byte WaveType_GiftLadies           ; * spawn wave
 .word 10                            ; total units
-.byte 0                             ; units per wave
+.byte 0                             ; low water mark
 .byte 0                             ; variant rate
 .word 270                           ; delay between waves
 .byte 0                             ; entrance pattern
@@ -3641,7 +3617,7 @@ EntityWavesCircuit3Room21:          ; # PLEASURE DOME!
 
 .byte WaveType_Question             ; * spawn wave
 .word 1                             ; total units
-.byte 1                             ; units per wave
+.byte 1                             ; low water mark
 .byte 0                             ; variant rate
 .word 0                             ; delay between waves
 .byte 0                             ; entrance pattern

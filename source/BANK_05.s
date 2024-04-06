@@ -1772,8 +1772,8 @@ PlayerHitEntityRoutinesHi:
   JSR.W GetSwirlProjectileDamage                                   ; 059125 20 90 8B 
   BEQ.B B_59179                                   ; 059128 F0 4F 
   STZ.B $41,X                                     ; 05912A 74 41 
-  DEC.W $18E4                                     ; 05912C CE E4 18 
-  DEC.W $06C6                                     ; 05912F CE C6 06 
+  DEC.W EnemyDudesSpawned                                     ; 05912C CE E4 18 
+  DEC.W ActiveEnemies                                     ; 05912F CE C6 06 
   PHX                                             ; 059132 DA 
   LDA.W EntityV22,X                                   ; 059133 BD 9E 10 
   BEQ.B B_59148                                   ; 059136 F0 10 
@@ -2068,7 +2068,7 @@ B_597DA:
 D_597E0:
   STZ.B $41,X                                     ; 0597E0 74 41 
   DEC.W $18EC                                     ; 0597E2 CE EC 18 
-  DEC.W $06C6                                     ; 0597E5 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 0597E5 CE C6 06 
   JSR.W L_58CED                                   ; 0597E8 20 ED 8C 
 B_597EB:
   JSR.W L_58926                                   ; 0597EB 20 26 89 
@@ -2144,14 +2144,14 @@ B_59860:
   CMP.B #$37                                      ; 059873 C9 37 
   BNE.B B_5987D                                   ; 059875 D0 06 
 B_59877:
-  DEC.W $06C6                                     ; 059877 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 059877 CE C6 06 
   JSR.W L_58D25                                   ; 05987A 20 25 8D 
 B_5987D:
   RTS                                             ; 05987D 60 
 
   LDA.B #$2A                                      ; 05987E A9 2A 
   JSR.W L_58844                                   ; 059880 20 44 88 
-  DEC.W $06C6                                     ; 059883 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 059883 CE C6 06 
   JSR.W L_58D25                                   ; 059886 20 25 8D 
   RTS                                             ; 059889 60 
 
@@ -3075,7 +3075,7 @@ D_59FAC:
   BEQ.B B_5A0DF                                   ; 05A06D F0 70 
   STZ.B $41,X                                     ; 05A06F 74 41 
   DEC.W $18EB                                     ; 05A071 CE EB 18 
-  DEC.W $06C6                                     ; 05A074 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 05A074 CE C6 06 
   PHX                                             ; 05A077 DA 
   LDX.W $18DF                                     ; 05A078 AE DF 18 
   DEC.W $18C5,X                                   ; 05A07B DE C5 18 
@@ -3145,7 +3145,7 @@ B_5A0DF:
 
 B_5A0FD:
   STZ.B $41,X                                     ; 05A0FD 74 41 
-  DEC.W $06C6                                     ; 05A0FF CE C6 06 
+  DEC.W ActiveEnemies                                     ; 05A0FF CE C6 06 
   PHX                                             ; 05A102 DA 
   LDX.W $18DF                                     ; 05A103 AE DF 18 
   DEC.W $18C5,X                                   ; 05A106 DE C5 18 
@@ -3192,7 +3192,7 @@ D_5A153:
   JSR.W GetSwirlProjectileDamage                                   ; 05A158 20 90 8B 
   BEQ.B B_5A188                                   ; 05A15B F0 2B 
   STZ.B $41,X                                     ; 05A15D 74 41 
-  DEC.W $06C6                                     ; 05A15F CE C6 06 
+  DEC.W ActiveEnemies                                     ; 05A15F CE C6 06 
   PHX                                             ; 05A162 DA 
   LDX.W $18DF                                     ; 05A163 AE DF 18 
   DEC.W $18C5,X                                   ; 05A166 DE C5 18 
@@ -3562,7 +3562,7 @@ B_5A608:
   LDA.B #$08                                      ; 05A649 A9 08 
   STA.B $1D                                       ; 05A64B 85 1D 
   JSL L_AFC2                                      ; 05A64D 22 C2 AF 00 
-  DEC.W $06C6                                     ; 05A651 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 05A651 CE C6 06 
   DEC.W $18EA                                     ; 05A654 CE EA 18 
   LDX.W $18E2                                     ; 05A657 AE E2 18 
   SEC                                             ; 05A65A 38 
@@ -3623,7 +3623,7 @@ B_5A68E:
   LDA.B #$08                                      ; 05A6C4 A9 08 
   STA.B $1D                                       ; 05A6C6 85 1D 
   JSL L_AFC2                                      ; 05A6C8 22 C2 AF 00 
-  DEC.W $06C6                                     ; 05A6CC CE C6 06 
+  DEC.W ActiveEnemies                                     ; 05A6CC CE C6 06 
   LDX.W $18E2                                     ; 05A6CF AE E2 18 
   DEC.W $18C5,X                                   ; 05A6D2 DE C5 18 
   BNE.B B_5A6DD                                   ; 05A6D5 D0 06 

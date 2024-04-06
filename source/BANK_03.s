@@ -1832,8 +1832,8 @@ B_392A6:
   STA.B $0A                                       ; 0392B5 85 0A 
   STZ.B $0E                                       ; 0392B7 64 0E 
 B_392B9:
-  INC.W $06C6                                     ; 0392B9 EE C6 06 
-  INC.W $18E4                                     ; 0392BC EE E4 18 
+  INC.W ActiveEnemies                                     ; 0392B9 EE C6 06 
+  INC.W EnemyDudesSpawned                                     ; 0392BC EE E4 18 
   JSL ClearEntitySlotData                                     ; 0392BF 22 94 80 03 
   JSR.W L_3932D                                   ; 0392C3 20 2D 93 
   DEC.B $07                                       ; 0392C6 C6 07 
@@ -1881,9 +1881,9 @@ B_39303:
 B_39316:
   JSR.W L_3932D                                   ; 039316 20 2D 93 
   SEC                                             ; 039319 38 
-  LDA.W $18E4                                     ; 03931A AD E4 18 
+  LDA.W EnemyDudesSpawned                                     ; 03931A AD E4 18 
   SBC.B #$05                                      ; 03931D E9 05 
-  STA.W $18E4                                     ; 03931F 8D E4 18 
+  STA.W EnemyDudesSpawned                                     ; 03931F 8D E4 18 
   JMP.W AdvanceToNextEntity                                   ; 039322 4C 41 81 
 
 B_39325:
@@ -3681,7 +3681,7 @@ B_3B0FD:
   JMP.W AdvanceToNextEntity                                   ; 03B0FD 4C 41 81 
 B_3B100:
   DEC.W $18EC                                     ; 03B100 CE EC 18 
-  DEC.W $06C6                                     ; 03B103 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 03B103 CE C6 06 
   LDA.B #EntityType_09                                      ; 03B106 A9 09 
   STA.W EntityTypeId,X                                   ; 03B108 9D 44 07 
   LDA.B #$00                                      ; 03B10B A9 00 
@@ -3710,7 +3710,7 @@ D_3B13A:
 .byte $4C,$41,$81                                 ; 03B143 ...      LA?
 
 B_3B145:
-  INC.W $06C6                                     ; 03B145 EE C6 06 
+  INC.W ActiveEnemies                                     ; 03B145 EE C6 06 
   JSL ClearEntitySlotData                                     ; 03B148 22 94 80 03 
   LDA.B #$01                                      ; 03B14C A9 01 
   STA.W EntityHeader,X                                   ; 03B14E 9D D2 06 
@@ -3910,7 +3910,7 @@ D_3B2B9:
   CMP.B #$D4                                      ; 03B2D2 C9 D4 
   BCC.B B_3B2FE                                   ; 03B2D4 90 28 
 B_3B2D6:
-  DEC.W $06C6                                     ; 03B2D6 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 03B2D6 CE C6 06 
   STZ.W EntityHeader,X                                   ; 03B2D9 9E D2 06 
   PHX                                             ; 03B2DC DA 
   LDY.W EntityV31,X                                   ; 03B2DD BC A0 14 
@@ -5146,7 +5146,7 @@ B_3BCF0:
   JSL L_AFC2                                      ; 03BD01 22 C2 AF 00 
   JMP.W AdvanceToNextEntity                                   ; 03BD05 4C 41 81 
 B_3BD08:
-  DEC.W $06C6                                     ; 03BD08 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 03BD08 CE C6 06 
   LDA.W EntityV20,X                                   ; 03BD0B BD BA 0F 
   PHA                                             ; 03BD0E 48 
   STZ.W EntityHeader,X                                   ; 03BD0F 9E D2 06 
@@ -5611,7 +5611,7 @@ D_3C365:
   BEQ.B B_3C375                                   ; 03C370 F0 03 
   JMP.W D_3C3CE                                   ; 03C372 4C CE C3 
 B_3C375:
-  DEC.W $06C6                                     ; 03C375 CE C6 06 
+  DEC.W ActiveEnemies                                     ; 03C375 CE C6 06 
   PHX                                             ; 03C378 DA 
   LDX.W $18DF                                     ; 03C379 AE DF 18 
   DEC.W $18C5,X                                   ; 03C37C DE C5 18 

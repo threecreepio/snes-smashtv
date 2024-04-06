@@ -644,7 +644,7 @@ B_859B:
 
 B_85B5:
   LDA.W RoomWavesRemaining                                     ; 0085B5 AD 00 19 
-  ORA.W $06C6                                     ; 0085B8 0D C6 06 
+  ORA.W ActiveEnemies                                     ; 0085B8 0D C6 06 
   BNE.B B_85DB                                    ; 0085BB D0 1E 
   LDA.W $05D3                                     ; 0085BD AD D3 05 
   BNE.B B_85C7                                    ; 0085C0 D0 05 
@@ -3390,7 +3390,7 @@ B_9E76:
   LDA.B #$FF                                      ; 009EA2 A9 FF 
   STA.W $19E3                                     ; 009EA4 8D E3 19 
 B_9EA7:
-  LDA.W $18E4                                     ; 009EA7 AD E4 18 
+  LDA.W EnemyDudesSpawned                                     ; 009EA7 AD E4 18 
   BEQ.B B_9F04                                    ; 009EAA F0 58 
   DEC.W $186D                                     ; 009EAC CE 6D 18 
   BNE.B B_9F04                                    ; 009EAF D0 53 
@@ -7302,7 +7302,7 @@ PrepareRoom:
   STA.W $05AA                                     ; 00C181 8D AA 05 
   STZ.W $05D2                                     ; 00C184 9C D2 05 
   STZ.W PlayerRazorShieldStatus                                     ; 00C187 9C D1 05 
-  STZ.W $18E4                                     ; 00C18A 9C E4 18 
+  STZ.W EnemyDudesSpawned                                     ; 00C18A 9C E4 18 
   STZ.W $18E5                                     ; 00C18D 9C E5 18 
   STZ.W $18E6                                     ; 00C190 9C E6 18 
   STZ.W $18E7                                     ; 00C193 9C E7 18 
@@ -7318,7 +7318,7 @@ PrepareRoom:
   STZ.W $18F1                                     ; 00C1B1 9C F1 18 
   STZ.W RoomWavePauseTimer                                     ; 00C1B4 9C 01 19 
   STZ.W RoomWavesRemaining                                     ; 00C1B7 9C 00 19 
-  STZ.W $06C6                                     ; 00C1BA 9C C6 06 
+  STZ.W ActiveEnemies                                     ; 00C1BA 9C C6 06 
   LDX.B #$06                                      ; 00C1BD A2 06 
 B_C1BF:
   STZ.W RoomWaveType,X                                   ; 00C1BF 9E 02 19 
@@ -7371,7 +7371,7 @@ SetupNextWave:
   STA.W RoomWaveRemainsHi,X                                   ; 00C21B 9D 10 19 
   INY                                             ; 00C21E C8 
   LDA.B ($12),Y                                   ; 00C21F B1 12 
-  STA.W RoomWaveUnk0,X                                   ; 00C221 9D 17 19 
+  STA.W RoomWaveActiveTarget,X                                   ; 00C221 9D 17 19 
   INY                                             ; 00C224 C8 
   LDA.B ($12),Y                                   ; 00C225 B1 12 
   STA.W RoomWaveVariantRate,X                                   ; 00C227 9D 1E 19 
@@ -7487,7 +7487,7 @@ B_C2D8:
   LDA.W RoomNextWaveTimerHi,Y                                   ; 00C2FC B9 2C 19 
   STA.W RoomWaveCurrentTimerHi,Y                                   ; 00C2FF 99 41 19 
   STY.B $10                                       ; 00C302 84 10 
-  JSR.W L_C331                                    ; 00C304 20 31 C3 
+  JSR.W SpawnRoomWave                                    ; 00C304 20 31 C3 
   STA.B $04                                       ; 00C307 85 04 
   LDY.B $10                                       ; 00C309 A4 10 
   SEC                                             ; 00C30B 38 
@@ -7512,18 +7512,35 @@ B_C32B:
   RTS                                             ; 00C330 60 
 
 
-L_C331:
+SpawnRoomWave:
   LDA.W RoomWaveType,Y                                   ; 00C331 B9 02 19 
   ASL                                             ; 00C334 0A 
   TAX                                             ; 00C335 AA 
   JMP.W ($C339,X)                                 ; 00C336 7C 39 C3 
 
-.byte $D8,$C3,$DA,$C3,$82,$C4,$62,$C5             ; 00C339 ..DD.... ??????b?
-.byte $92,$C6,$26,$C7,$37,$C8,$DF,$C8             ; 00C341 ........ ??&?7???
-.byte $F3,$C9,$42,$CB,$B8,$CC,$A3,$CD             ; 00C349 DDDDDD.. ??B?????
-.byte $55,$CE,$07,$CF,$EB,$CF,$1B,$D1             ; 00C351 ......DD U???????
-.byte $A5,$D1,$5D,$D3,$A0,$D5,$BD,$D8             ; 00C359 ..DD.... ??]?????
-.byte $BF,$D8,$37,$D9,$D8,$D9                     ; 00C362 DDDD..   ??7???
+.addr SpawnWave_C3D8
+.addr SpawnWave_C3DA
+.addr $C482
+.addr $C562
+.addr $C692
+.addr $C726
+.addr $C837
+.addr $C8DF
+.addr $C9F3
+.addr $CB42
+.addr $CCB8
+.addr $CDA3
+.addr $CE55
+.addr $CF07
+.addr $CFEB
+.addr $D11B
+.addr $D1A5
+.addr $D35D
+.addr $D5A0
+.addr $D8BD
+.addr $D8BF
+.addr $D937
+.addr $D9D8
 
 
 InitRoomWave:
@@ -7565,18 +7582,24 @@ D_C3C0:
 D_C3D0:
 .byte $80,$FA,$80,$04                             ; 00C3D1 DDDD     ????
 D_C3D4:
-.byte $06,$80,$E0,$80,$60,$60                     ; 00C3D5 DDDD..   ????``
+.byte $06,$80,$E0,$80
 
-  LDA.W $18E4                                     ; 00C3DA AD E4 18 
+SpawnWave_C3D8:
+  rts
+  rts
+
+
+SpawnWave_C3DA:
+  LDA.W EnemyDudesSpawned                                     ; 00C3DA AD E4 18 
   CMP.W $18F2                                     ; 00C3DD CD F2 18 
   BCS.B B_C435                                    ; 00C3E0 B0 53 
   JSL FindEmptyEntitySlot                                     ; 00C3E2 22 F3 80 03 
   BNE.B B_C435                                    ; 00C3E6 D0 4D 
-  INC.W $06C6                                     ; 00C3E8 EE C6 06 
+  INC.W ActiveEnemies                                     ; 00C3E8 EE C6 06 
   CLC                                             ; 00C3EB 18 
-  LDA.W $18E4                                     ; 00C3EC AD E4 18 
+  LDA.W EnemyDudesSpawned                                     ; 00C3EC AD E4 18 
   ADC.B #$06                                      ; 00C3EF 69 06 
-  STA.W $18E4                                     ; 00C3F1 8D E4 18 
+  STA.W EnemyDudesSpawned                                     ; 00C3F1 8D E4 18 
   JSL ClearEntitySlotData                                     ; 00C3F4 22 94 80 03 
   LDA.B #$01                                      ; 00C3F8 A9 01 
   STA.W EntityHeader,X                                   ; 00C3FA 9D D2 06 
@@ -7588,7 +7611,7 @@ D_C3D4:
   STA.W $05E4                                     ; 00C408 8D E4 05 
   STA.W $05E3                                     ; 00C40B 8D E3 05 
 B_C40E:
-  LDA.B #EntityType_14                                      ; 00C40E A9 14 
+  LDA.B #EntityType_Dude                                      ; 00C40E A9 14 
   STA.W EntityTypeId,X                                   ; 00C410 9D 44 07 
   LDA.B #$00                                      ; 00C413 A9 00 
   STA.W EntityV3,X                                   ; 00C415 9D 28 08 
@@ -7611,7 +7634,7 @@ B_C435:
   RTS                                             ; 00C437 60 
 
   LDX.B $10                                       ; 00C438 A6 10 
-  LDA.W RoomWaveUnk0,X                                   ; 00C43A BD 17 19 
+  LDA.W RoomWaveActiveTarget,X                                   ; 00C43A BD 17 19 
   STA.W $18F2                                     ; 00C43D 8D F2 18 
   REP.B #P_Acc8Bit                                      ; 00C440 C2 20 
   LDA.W #$B000                                    ; 00C442 A9 00 B0 
@@ -7683,7 +7706,7 @@ B_C4AE:
   STA.W EntityV3,X                                   ; 00C4C9 9D 28 08 
   LDA.B #$10                                      ; 00C4CC A9 10 
   STA.W EntityV19,X                                   ; 00C4CE 9D 48 0F 
-  INC.W $06C6                                     ; 00C4D1 EE C6 06 
+  INC.W ActiveEnemies                                     ; 00C4D1 EE C6 06 
   LDA.B $06                                       ; 00C4D4 A5 06 
   STA.W EntityXPx,X                              ; 00C4D6 9D 46 0B 
   LDA.B #$1D                                      ; 00C4D9 A9 1D 
@@ -7918,7 +7941,7 @@ B_CA1C:
   BMI.B B_CA19                                    ; 00CA22 30 F5 
   STY.W $18E2                                     ; 00CA24 8C E2 18 
   STX.B $04                                       ; 00CA27 86 04 
-  INC.W $06C6                                     ; 00CA29 EE C6 06 
+  INC.W ActiveEnemies                                     ; 00CA29 EE C6 06 
   INC.W $18EA                                     ; 00CA2C EE EA 18 
   JSL ClearEntitySlotData                                     ; 00CA2F 22 94 80 03 
   LDA.B #$01                                      ; 00CA33 A9 01 
@@ -8039,7 +8062,7 @@ D_CB32:
 .byte $00,$00,$00,$60,$FF,$00,$00                 ; 00CB33 D..DDDD  ???`???
 
   LDX.B $10                                       ; 00CB39 A6 10 
-  LDA.W RoomWaveUnk0,X                                   ; 00CB3B BD 17 19 
+  LDA.W RoomWaveActiveTarget,X                                   ; 00CB3B BD 17 19 
   STA.W $18F8                                     ; 00CB3E 8D F8 18 
   RTS                                             ; 00CB41 60 
 
@@ -8057,7 +8080,7 @@ B_CB58:
 
 B_CB5B:
   STY.W $18DF                                     ; 00CB5B 8C DF 18 
-  INC.W $06C6                                     ; 00CB5E EE C6 06 
+  INC.W ActiveEnemies                                     ; 00CB5E EE C6 06 
   INC.W $18EB                                     ; 00CB61 EE EB 18 
   JSL ClearEntitySlotData                                     ; 00CB64 22 94 80 03 
   LDA.B #$01                                      ; 00CB68 A9 01 
@@ -8115,7 +8138,7 @@ B_CBDC:
 .byte $A9,$01,$60                                 ; 00CBE3 ...      ??`
 
 B_CBE5:
-  INC.W $06C6                                     ; 00CBE5 EE C6 06 
+  INC.W ActiveEnemies                                     ; 00CBE5 EE C6 06 
   PHX                                             ; 00CBE8 DA 
   LDX.W $18DF                                     ; 00CBE9 AE DF 18 
   INC.W $18C5,X                                   ; 00CBEC FE C5 18 
@@ -8190,7 +8213,7 @@ D_CC90:
 .byte $00,$C0,$00,$10,$00,$40,$FF                 ; 00CCA9 DDDDDDD  ?????@?
 
   LDX.B $10                                       ; 00CCAF A6 10 
-  LDA.W RoomWaveUnk0,X                                   ; 00CCB1 BD 17 19 
+  LDA.W RoomWaveActiveTarget,X                                   ; 00CCB1 BD 17 19 
   STA.W $18F9                                     ; 00CCB4 8D F9 18 
   RTS                                             ; 00CCB7 60 
 
@@ -8204,7 +8227,7 @@ B_CCC6:
   RTS                                             ; 00CCC8 60 
 
 B_CCC9:
-  INC.W $06C6                                     ; 00CCC9 EE C6 06 
+  INC.W ActiveEnemies                                     ; 00CCC9 EE C6 06 
   INC.W $18EC                                     ; 00CCCC EE EC 18 
   JSL ClearEntitySlotData                                     ; 00CCCF 22 94 80 03 
   LDA.B #$01                                      ; 00CCD3 A9 01 
@@ -8299,7 +8322,7 @@ D_CD93:
 .byte $50,$32,$1E,$32                             ; 00CD94 DDDD     P2?2
 
   LDX.B $10                                       ; 00CD97 A6 10 
-  LDA.W RoomWaveUnk0,X                                   ; 00CD99 BD 17 19 
+  LDA.W RoomWaveActiveTarget,X                                   ; 00CD99 BD 17 19 
   STA.W $18FA                                     ; 00CD9C 8D FA 18 
   JSR.W L_DFA7                                    ; 00CD9F 20 A7 DF 
   RTS                                             ; 00CDA2 60 
@@ -8570,7 +8593,7 @@ B_D19E:
 
 B_D3A1:
   STA.W $069D                                     ; 00D3A1 8D 9D 06 
-  INC.W $06C6                                     ; 00D3A4 EE C6 06 
+  INC.W ActiveEnemies                                     ; 00D3A4 EE C6 06 
   JSL FindEmptyEntitySlot                                     ; 00D3A7 22 F3 80 03 
   STX.W $068D                                     ; 00D3AB 8E 8D 06 
   LDA.B #$01                                      ; 00D3AE A9 01 
@@ -8720,7 +8743,7 @@ L_D4FE:
   STA.W EntityV3,X                                   ; 00D517 9D 28 08 
   LDA.B #$20                                      ; 00D51A A9 20 
   STA.W EntityV19,X                                   ; 00D51C 9D 48 0F 
-  INC.W $06C6                                     ; 00D51F EE C6 06 
+  INC.W ActiveEnemies                                     ; 00D51F EE C6 06 
   LDA.B #$00                                      ; 00D522 A9 00 
   STA.W EntityXPx,X                              ; 00D524 9D 46 0B 
   STA.W EntityYPx,X                                   ; 00D527 9D 9C 0C 
@@ -8951,7 +8974,7 @@ D_D92E:
   STA.W EntityHeader,X                                   ; 00D941 9D D2 06 
   LDA.B #EntityType_4C                                      ; 00D944 A9 4C 
   STA.W EntityTypeId,X                                   ; 00D946 9D 44 07 
-  INC.W $06C6                                     ; 00D949 EE C6 06 
+  INC.W ActiveEnemies                                     ; 00D949 EE C6 06 
   LDA.B #$08                                      ; 00D94C A9 08 
   STA.W EntityV3,X                                   ; 00D94E 9D 28 08 
   LDA.B #$4E                                      ; 00D951 A9 4E 
@@ -9570,7 +9593,7 @@ B_DFD7:
 L_DFF6:
   JSL FindEmptyEntitySlot                                     ; 00DFF6 22 F3 80 03 
   BNE.B B_E067                                    ; 00DFFA D0 6B 
-  INC.W $06C6                                     ; 00DFFC EE C6 06 
+  INC.W ActiveEnemies                                     ; 00DFFC EE C6 06 
   INC.W $18EC                                     ; 00DFFF EE EC 18 
   JSL ClearEntitySlotData                                     ; 00E002 22 94 80 03 
   LDA.B #$01                                      ; 00E006 A9 01 
@@ -9769,8 +9792,8 @@ L_E15E:
   ASL                                             ; 00E170 0A 
   ORA.B #$28                                      ; 00E171 09 28 
   STA.B $04                                       ; 00E173 85 04 
-  INC.W $06C6                                     ; 00E175 EE C6 06 
-  INC.W $18E4                                     ; 00E178 EE E4 18 
+  INC.W ActiveEnemies                                     ; 00E175 EE C6 06 
+  INC.W EnemyDudesSpawned                                     ; 00E178 EE E4 18 
   JSL ClearEntitySlotData                                     ; 00E17B 22 94 80 03 
   LDA.B #$01                                      ; 00E17F A9 01 
   STA.W EntityHeader,X                                   ; 00E181 9D D2 06 

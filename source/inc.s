@@ -3,13 +3,14 @@ CurrentRoom = $5AC
 HighscoreList  = $201E
 HighscoreListL = $7E201E
 
+ActiveEnemies = $06C6
 
 RoomWavesRemaining      = $1900
 RoomWavePauseTimer      = $1901                             ; used when grabbing a nuke, delays all spawns until 0
 RoomWaveType            = $1902
 RoomWaveRemainsLo   = $1909
 RoomWaveRemainsHi   = $1910
-RoomWaveUnk0            = $1917
+RoomWaveActiveTarget            = $1917
 RoomWaveVariantRate     = $191E
 RoomNextWaveTimerLo     = $1925
 RoomNextWaveTimerHi     = $192C
@@ -72,7 +73,7 @@ EntityType_0D = $0D
 EntityType_0E = $0E
 EntityType_0F = $0F
 EntityType_10 = $10
-EntityType_14 = $14
+EntityType_Dude = $14
 EntityType_15 = $15
 EntityType_16 = $16
 EntityType_17 = $17
@@ -217,6 +218,8 @@ EquippedWeaponMaxMagazines = $189B
 
 ActivePlayerEntity = $18C0
 
+
+EnemyDudesSpawned = $18E4
 
 VRAMPalette = $1AF1
 
@@ -515,3 +518,26 @@ DropTableType_Shoe        = $09
 DropTableType_ExtraLife   = $0A
 DropTableType_Key         = $0B
 
+WaveType_Null = $00
+WaveType_Dude = $01
+WaveType_WallGunner = $02
+WaveType_RoboBallSnake = $03
+WaveType_FatRobos = $04
+WaveType_TreeSnakes = $05
+WaveType_SnakeMen = $06
+WaveType_UFO = $07
+WaveType_Tank = $08
+WaveType_Swirly = $09
+WaveType_MrShrapnel = $0A
+WaveType_RoboBall = $0B
+WaveType_FatUFO = $0C
+WaveType_Unk0D = $0D
+WaveType_Centipede = $0E
+WaveType_Mine = $0F
+WaveType_BossCobras = $10
+WaveType_BossMutoidMan = $11
+WaveType_BossScarface = $12
+WaveType_Unk13 = $13
+WaveType_Gifts = $14
+WaveType_Question = $15
+WaveType_GiftLadies = $16
