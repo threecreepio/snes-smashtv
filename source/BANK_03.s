@@ -105,7 +105,7 @@ ClearEntitySlotData:
   stz EntityV25,X                                 ; ...
   stz EntityV15,X                                 ; ...
   stz EntityV16,X                                 ; ...
-  stz EntityV17,X                                 ; ...
+  stz EntityMovementTimer,X                                 ; ...
   stz EntityV20,X                                 ; ...
   stz EntityV21,X                                 ; ...
   stz EntityV22,X                                 ; ...
@@ -1746,7 +1746,7 @@ B_391F1:
   LDA.B #$01                                      ; 0391FE A9 01 
   STA.W EntityV15,X                                   ; 039200 9D 80 0D 
   LDA.B #$1E                                      ; 039203 A9 1E 
-  STA.W EntityV17,X                                   ; 039205 9D 64 0E 
+  STA.W EntityMovementTimer,X                                   ; 039205 9D 64 0E 
 B_39208:
   SEC                                             ; 039208 38 
   LDA.W EntityXPx,X                              ; 039209 BD 46 0B 
@@ -1906,7 +1906,7 @@ L_3932D:
   ADC.B #$32                                      ; 03934C 69 32 
   STA.W EntityV15,X                                   ; 03934E 9D 80 0D 
   LDA.B #$1E                                      ; 039351 A9 1E 
-  STA.W EntityV17,X                                   ; 039353 9D 64 0E 
+  STA.W EntityMovementTimer,X                                   ; 039353 9D 64 0E 
   LDA.B $06                                       ; 039356 A5 06 
   ASL                                             ; 039358 0A 
   ASL                                             ; 039359 0A 
@@ -2130,11 +2130,15 @@ B_39560:
 B_39567:
   JMP.W D_39641                                   ; 039567 4C 41 96 
 B_3956A:
-  DEC.W EntityV17,X                                   ; 03956A DE 64 0E 
+  DEC.W EntityMovementTimer,X                                   ; 03956A DE 64 0E 
   BNE.B B_3957F                                   ; 03956D D0 10 
-
-.byte $A9,$0F,$9D,$64,$0E,$BD,$82,$11             ; 03956F ........ ???d????
-.byte $C9,$04,$F0,$04,$1A,$9D,$82,$11             ; 039577 ........ ????????
+  LDA.B #$0F
+  STA.W EntityMovementTimer,X
+  LDA.W EntityV24,X
+  CMP.B #$04
+  BEQ.B B_3957F
+  INC A
+  STA.W EntityV26,X
 
 B_3957F:
   STZ.B $06                                       ; 03957F 64 06 
