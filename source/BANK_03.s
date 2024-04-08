@@ -103,7 +103,7 @@ ClearEntitySlotData:
   stz EntityV29,X                                 ; ...
   stz EntityV30,X                                 ; ...
   stz EntityV25,X                                 ; ...
-  stz EntityV15,X                                 ; ...
+  stz EntityTimer15,X                                 ; ...
   stz EntityV16,X                                 ; ...
   stz EntityMovementTimer,X                                 ; ...
   stz EntityV20,X                                 ; ...
@@ -727,7 +727,7 @@ EntityHandlersLo:
 
   JMP.W AdvanceToNextEntity                                   ; 0388E2 4C 41 81 
 
-  DEC.W EntityV15,X                                   ; 0388E5 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 0388E5 DE 80 0D 
   BNE.B B_38947                                   ; 0388E8 D0 5D 
   LDA.W EntityV20,X                                   ; 0388EA BD BA 0F 
   STA.B $06                                       ; 0388ED 85 06 
@@ -740,7 +740,7 @@ B_388FA:
   TAY                                             ; 0388FA A8 
   LDA.W D_38986,Y                                 ; 0388FB B9 86 89 
   BEQ.B B_3894A                                   ; 0388FE F0 4A 
-  STA.W EntityV15,X                                   ; 038900 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 038900 9D 80 0D 
   LDA.W D_38966,Y                                 ; 038903 B9 66 89 
   STA.W $1888,X                                   ; 038906 9D 88 18 
   STA.W $188A,X                                   ; 038909 9D 8A 18 
@@ -845,12 +845,12 @@ D_38A06:
   LDY.W EntityV20,X                                   ; 038A11 BC BA 0F 
   LDA.W $18A5,Y                                   ; 038A14 B9 A5 18 
   BNE.B B_38A2D                                   ; 038A17 D0 14 
-  LDA.W EntityV15,X                                   ; 038A19 BD 80 0D 
+  LDA.W EntityTimer15,X                                   ; 038A19 BD 80 0D 
   BNE.B B_38A88                                   ; 038A1C D0 6A 
   LDA.W EntityV16,X                                   ; 038A1E BD F2 0D 
   BEQ.B B_38A2D                                   ; 038A21 F0 0A 
   LDA.B #$A0                                      ; 038A23 A9 A0 
-  STA.W EntityV15,X                                   ; 038A25 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 038A25 9D 80 0D 
   STZ.W EntityV16,X                                   ; 038A28 9E F2 0D 
   BRA.B B_38A88                                   ; 038A2B 80 5B 
 B_38A2D:
@@ -905,7 +905,7 @@ B_38A74:
   JSR.W L_38B2E                                   ; 038A82 20 2E 8B 
   JMP.W AdvanceToNextEntity                                   ; 038A85 4C 41 81 
 B_38A88:
-  DEC.W EntityV15,X                                   ; 038A88 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 038A88 DE 80 0D 
   LDY.W EntityV16,X                                   ; 038A8B BC F2 0D 
   LDA.W D_38B63,Y                                 ; 038A8E B9 63 8B 
   STA.B $04                                       ; 038A91 85 04 
@@ -1112,7 +1112,7 @@ B_38C04:
 D_38C13:
 .byte $20,$22,$24,$22,$20                         ; 038C14 .DDDD     "$" 
 
-  DEC.W EntityV15,X                                   ; 038C18 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 038C18 DE 80 0D 
   BNE.B B_38C3F                                   ; 038C1B D0 22 
   STZ.W EntityHeader,X                                   ; 038C1D 9E D2 06 
   PHX                                             ; 038C20 DA 
@@ -1227,7 +1227,7 @@ D_38CEA:
   STA.B $04                                       ; 038D0B 85 04 
   LDA.W EntityYPx,X                                   ; 038D0D BD 9C 0C 
   STA.B $05                                       ; 038D10 85 05 
-  LDA.W EntityV15,X                                   ; 038D12 BD 80 0D 
+  LDA.W EntityTimer15,X                                   ; 038D12 BD 80 0D 
   STA.B $07                                       ; 038D15 85 07 
   LDA.W EntityV20,X                                   ; 038D17 BD BA 0F 
   STA.B $06                                       ; 038D1A 85 06 
@@ -1272,7 +1272,7 @@ B_38D50:
   STZ.W EntityV23,X                                   ; 038D65 9E 10 11 
 B_38D68:
   PLX                                             ; 038D68 FA 
-  DEC.W EntityV15,X                                   ; 038D69 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 038D69 DE 80 0D 
   BPL.B B_38D71                                   ; 038D6C 10 03 
   STZ.W EntityHeader,X                                   ; 038D6E 9E D2 06 
 B_38D71:
@@ -1298,7 +1298,7 @@ B_38D8F:
 D_38D90:
 .byte $00,$04,$08,$0C,$10,$14,$18,$1C             ; 038D90 DDDDDDDD ????????
 
-  DEC.W EntityV15,X                                   ; 038D98 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 038D98 DE 80 0D 
   BNE.B B_38DD3                                   ; 038D9B D0 36 
   LDA.W EntityV25,X                                   ; 038D9D BD F4 11 
   INC A
@@ -1307,12 +1307,12 @@ D_38D90:
   ORA.B #$04                                      ; 038DA4 09 04 
   STA.W EntityV25,X                                   ; 038DA6 9D F4 11 
   LDA.W D_38E5B,Y                                 ; 038DA9 B9 5B 8E 
-  STA.W EntityV15,X                                   ; 038DAC 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 038DAC 9D 80 0D 
   CPY.B #$02                                      ; 038DAF C0 02 
   BNE.B B_38DCF                                   ; 038DB1 D0 1C 
   LDA.W EntityV16,X                                   ; 038DB3 BD F2 0D 
   BNE.B B_38DBD                                   ; 038DB6 D0 05 
-  STZ.W EntityV15,X                                   ; 038DB8 9E 80 0D 
+  STZ.W EntityTimer15,X                                   ; 038DB8 9E 80 0D 
   BRA.B B_38DCF                                   ; 038DBB 80 12 
 B_38DBD:
   DEC.W EntityV16,X                                   ; 038DBD DE F2 0D 
@@ -1392,10 +1392,10 @@ B_38E42:
 D_38E5B:
 .byte $0A,$05,$14,$05                             ; 038E5C DDDD     ????
 
-  DEC.W EntityV15,X                                   ; 038E5F DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 038E5F DE 80 0D 
   BNE.B B_38E7F                                   ; 038E62 D0 1B 
   LDA.B #$28                                      ; 038E64 A9 28 
-  STA.W EntityV15,X                                   ; 038E66 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 038E66 9D 80 0D 
   LDA.W EntityV25,X                                   ; 038E69 BD F4 11 
   STA.B $04                                       ; 038E6C 85 04 
 B_38E6E:
@@ -1739,12 +1739,12 @@ B_391E4:
 
 B_391F1:
   STA.W EntityV35,X                                   ; 0391F1 9D 6C 16 
-  DEC.W EntityV15,X                                   ; 0391F4 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 0391F4 DE 80 0D 
   BNE.B B_39208                                   ; 0391F7 D0 0F 
   LDA.B #EntityType_16                                      ; 0391F9 A9 16 
   STA.W EntityTypeId,X                                   ; 0391FB 9D 44 07 
   LDA.B #$01                                      ; 0391FE A9 01 
-  STA.W EntityV15,X                                   ; 039200 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 039200 9D 80 0D 
   LDA.B #$1E                                      ; 039203 A9 1E 
   STA.W EntityMovementTimer,X                                   ; 039205 9D 64 0E 
 B_39208:
@@ -1764,9 +1764,9 @@ B_39208:
   STA.B $07                                       ; 039224 85 07 
   JSL L_AF42                                      ; 039226 22 42 AF 00 
   JMP.W AdvanceToNextEntity                                   ; 03922A 4C 41 81 
-  LDA.W EntityV15,X                                   ; 03922D BD 80 0D 
+  LDA.W EntityTimer15,X                                   ; 03922D BD 80 0D 
   BEQ.B B_39238                                   ; 039230 F0 06 
-  DEC.W EntityV15,X                                   ; 039232 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 039232 DE 80 0D 
   JMP.W AdvanceToNextEntity                                   ; 039235 4C 41 81 
 B_39238:
   LDA.W EntityV22,X                                   ; 039238 BD 9E 10 
@@ -1774,7 +1774,7 @@ B_39238:
   LDA.B #$02                                      ; 03923D A9 02 
   STA.B $07                                       ; 03923F 85 07 
   LDA.B #$20                                      ; 039241 A9 20 
-  STA.W EntityV15,X                                   ; 039243 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 039243 9D 80 0D 
   LDA.W EntityXPx,X                              ; 039246 BD 46 0B 
   STA.B $04                                       ; 039249 85 04 
   LDA.W EntityYPx,X                                   ; 03924B BD 9C 0C 
@@ -1904,7 +1904,7 @@ L_3932D:
   AND.B #$3F                                      ; 039349 29 3F 
   CLC                                             ; 03934B 18 
   ADC.B #$32                                      ; 03934C 69 32 
-  STA.W EntityV15,X                                   ; 03934E 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03934E 9D 80 0D 
   LDA.B #$1E                                      ; 039351 A9 1E 
   STA.W EntityMovementTimer,X                                   ; 039353 9D 64 0E 
   LDA.B $06                                       ; 039356 A5 06 
@@ -2055,13 +2055,13 @@ B_394B5:
   LDA.B #$0A                                      ; 0394BC A9 0A 
   STA.B $1D                                       ; 0394BE 85 1D 
   JSL L_AFC2                                      ; 0394C0 22 C2 AF 00 
-  DEC.W EntityV15,X                                   ; 0394C4 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 0394C4 DE 80 0D 
   BNE.B B_39519                                   ; 0394C7 D0 50 
   JSL AdvanceRNG                                     ; 0394C9 22 95 CA 0E 
   AND.B #$3F                                      ; 0394CD 29 3F 
   CLC                                             ; 0394CF 18 
   ADC.B #$20                                      ; 0394D0 69 20 
-  STA.W EntityV15,X                                   ; 0394D2 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 0394D2 9D 80 0D 
   JSL AdvanceRNG                                     ; 0394D5 22 95 CA 0E 
   AND.B #$07                                      ; 0394D9 29 07 
   TAY                                             ; 0394DB A8 
@@ -2100,7 +2100,7 @@ D_3951C:
 D_39524:
 .byte $00,$00,$00,$00,$00,$40,$40,$40             ; 039524 DDDDDDDD ?????@@@
 
-  DEC.W EntityV15,X                                   ; 03952C DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03952C DE 80 0D 
   BEQ.B B_3956A                                   ; 03952F F0 39 
   LDA.W EntityXSpeed,X                                   ; 039531 BD 7E 09 
   BMI.B B_39545                                   ; 039534 30 0F 
@@ -2138,7 +2138,7 @@ B_3956A:
   CMP.B #$04
   BEQ.B B_3957F
   INC A
-  STA.W EntityV26,X
+  STA.W EntityV24,X
 
 B_3957F:
   STZ.B $06                                       ; 03957F 64 06 
@@ -2146,7 +2146,7 @@ B_3957F:
   AND.B #$20                                      ; 039585 29 20 
   CLC                                             ; 039587 18 
   ADC.B #$10                                      ; 039588 69 10 
-  STA.W EntityV15,X                                   ; 03958A 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03958A 9D 80 0D 
   LDY.W EntityV20,X                                   ; 03958D BC BA 0F 
   LDA.W EntityXPx,Y                              ; 039590 B9 46 0B 
   STA.B $04                                       ; 039593 85 04 
@@ -2203,7 +2203,7 @@ D_395F4:
   LDY.B $06                                       ; 0395F4 A4 06 
   BNE.B B_39600                                   ; 0395F6 D0 08 
   LDA.B #$01                                      ; 0395F8 A9 01 
-  STA.W EntityV15,X                                   ; 0395FA 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 0395FA 9D 80 0D 
   JMP.W D_39641                                   ; 0395FD 4C 41 96 
 B_39600:
   LDA.W D_396C7,Y                                 ; 039600 B9 C7 96 
@@ -2393,7 +2393,7 @@ B_397F3:
   LDA.B #EntityType_16                                      ; 039805 A9 16 
   STA.W EntityTypeId,X                                   ; 039807 9D 44 07 
   LDA.B #$01                                      ; 03980A A9 01 
-  STA.W EntityV15,X                                   ; 03980C 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03980C 9D 80 0D 
   JMP.W AdvanceToNextEntity                                   ; 03980F 4C 41 81 
 B_39812:
   LDY.W EntityV27,X                                   ; 039812 BC D8 12 
@@ -2804,9 +2804,9 @@ B_3A106:
 D_3A10A:
 .byte $20,$22,$24,$26,$28,$2A,$2C,$2E             ; 03A10A .DDDDDDD  "$&(*,.
 
-  LDA.W EntityV15,X                                   ; 03A112 BD 80 0D 
+  LDA.W EntityTimer15,X                                   ; 03A112 BD 80 0D 
   BEQ.B B_3A11D                                   ; 03A115 F0 06 
-  DEC.W EntityV15,X                                   ; 03A117 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03A117 DE 80 0D 
 B_3A11A:
   JMP.W AdvanceToNextEntity                                   ; 03A11A 4C 41 81 
 B_3A11D:
@@ -2866,7 +2866,7 @@ B_3A174:
 B_3A181:
   STA.W EntityV35,X                                   ; 03A181 9D 6C 16 
   LDA.B #$00                                      ; 03A184 A9 00 
-  STA.W EntityV15,X                                   ; 03A186 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03A186 9D 80 0D 
   ASL                                             ; 03A189 0A 
   TAY                                             ; 03A18A A8 
   LDA.W D_384EE,Y                                 ; 03A18B B9 EE 84 
@@ -2890,7 +2890,7 @@ B_3A181:
   INC.W PlayerRazorShieldStatus                                     ; 03A1BE EE D1 05 
   LDX.B $04                                       ; 03A1C1 A6 04 
   LDA.B #$0C                                      ; 03A1C3 A9 0C 
-  STA.W EntityV15,X                                   ; 03A1C5 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03A1C5 9D 80 0D 
   DEC.W EntityV20,X                                   ; 03A1C8 DE BA 0F 
   BNE.B B_3A1D0                                   ; 03A1CB D0 03 
   STZ.W EntityHeader,X                                   ; 03A1CD 9E D2 06 
@@ -3292,7 +3292,7 @@ B_3A1D0:
   LDA.B $D2                                       ; 03AE09 A5 D2 
   AND.B #$01                                      ; 03AE0B 29 01 
   BNE.B B_3AE88                                   ; 03AE0D D0 79 
-  DEC.W EntityV15,X                                   ; 03AE0F DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03AE0F DE 80 0D 
   BNE.B B_3AE88                                   ; 03AE12 D0 74 
   LDA.W EntityV20,X                                   ; 03AE14 BD BA 0F 
   AND.B #$01                                      ; 03AE17 29 01 
@@ -3333,7 +3333,7 @@ D_3AE62:
   JSL AdvanceRNG                                     ; 03AE67 22 95 CA 0E 
   AND.W EntityV22,X                                   ; 03AE6B 3D 9E 10 
   ADC.W EntityV21,X                                   ; 03AE6E 7D 2C 10 
-  STA.W EntityV15,X                                   ; 03AE71 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03AE71 9D 80 0D 
   LDY.W EntityV20,X                                   ; 03AE74 BC BA 0F 
   LDA.W D_3AEDE,Y                                 ; 03AE77 B9 DE AE 
   STA.W EntityV29,X                                   ; 03AE7A 9D BC 13 
@@ -3485,12 +3485,12 @@ B_3AF89:
   LDA.B $D2                                       ; 03AF89 A5 D2 
   AND.B #$07                                      ; 03AF8B 29 07 
   BNE.B B_3AFBC                                   ; 03AF8D D0 2D 
-  DEC.W EntityV15,X                                   ; 03AF8F DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03AF8F DE 80 0D 
   BNE.B B_3AFBC                                   ; 03AF92 D0 28 
   LDA.B #EntityType_2E                                      ; 03AF94 A9 2E 
   STA.W EntityTypeId,X                                   ; 03AF96 9D 44 07 
   LDA.B #$3C                                      ; 03AF99 A9 3C 
-  STA.W EntityV15,X                                   ; 03AF9B 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03AF9B 9D 80 0D 
   LDY.W EntityV20,X                                   ; 03AF9E BC BA 0F 
   LDA.W D_3AFDA,Y                                 ; 03AFA1 B9 DA AF 
   STA.W EntityV29,X                                   ; 03AFA4 9D BC 13 
@@ -3558,12 +3558,12 @@ B_3B014:
   STA.W EntityV20,X                                   ; 03B016 9D BA 0F 
   RTS                                             ; 03B019 60 
 
-  DEC.W EntityV15,X                                   ; 03B01A DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03B01A DE 80 0D 
   BNE.B B_3B035                                   ; 03B01D D0 16 
   LDA.B #EntityType_2F                                      ; 03B01F A9 2F 
   STA.W EntityTypeId,X                                   ; 03B021 9D 44 07 
   LDA.B #$3C                                      ; 03B024 A9 3C 
-  STA.W EntityV15,X                                   ; 03B026 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03B026 9D 80 0D 
   LDA.W EntityXPx,X                              ; 03B029 BD 46 0B 
   STA.W EntityV20,X                                   ; 03B02C 9D BA 0F 
   LDA.W EntityYPx,X                                   ; 03B02F BD 9C 0C 
@@ -3654,7 +3654,7 @@ B_3B0AB:
 
 B_3B0B8:
   STA.W EntityV35,X                                   ; 03B0B8 9D 6C 16 
-  DEC.W EntityV15,X                                   ; 03B0BB DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03B0BB DE 80 0D 
   BEQ.B B_3B100                                   ; 03B0BE F0 40 
   JSL AdvanceRNG                                     ; 03B0C0 22 95 CA 0E 
   AND.B #$03                                      ; 03B0C4 29 03 
@@ -3810,7 +3810,7 @@ D_3B1FF:
 .byte $FE,$F0,$FE,$00,$00,$10,$01,$80             ; 03B1FF DDDDDDDD ????????
 .byte $01,$10,$01,$00,$00,$F0,$FE                 ; 03B208 DDDDDDD  ???????
 
-  DEC.W EntityV15,X                                   ; 03B20E DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03B20E DE 80 0D 
   BNE.B B_3B246                                   ; 03B211 D0 33 
   LDA.B #EntityType_2C                                      ; 03B213 A9 2C 
   STA.W EntityTypeId,X                                   ; 03B215 9D 44 07 
@@ -3818,7 +3818,7 @@ D_3B1FF:
   AND.B #$1F                                      ; 03B21C 29 1F 
   CLC                                             ; 03B21E 18 
   ADC.B #$0A                                      ; 03B21F 69 0A 
-  STA.W EntityV15,X                                   ; 03B221 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03B221 9D 80 0D 
   LDA.B #$3F                                      ; 03B224 A9 3F 
   STA.W EntityV22,X                                   ; 03B226 9D 9E 10 
   LDA.W EntityV20,X                                   ; 03B229 BD BA 0F 
@@ -4070,7 +4070,7 @@ D_3B3D3:
   LDA.B #$00                                      ; 03B3F2 A9 00 
   STA.W EntityV3,X                                   ; 03B3F4 9D 28 08 
   LDA.B #$06                                      ; 03B3F7 A9 06 
-  STA.W EntityV15,X                                   ; 03B3F9 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03B3F9 9D 80 0D 
   LDA.B #$08                                      ; 03B3FC A9 08 
   STA.B $1C                                       ; 03B3FE 85 1C 
   LDA.B #$08                                      ; 03B400 A9 08 
@@ -4116,7 +4116,7 @@ B_3B44E:
   STA.W EntityYPx,X                                   ; 03B455 9D 9C 0C 
   JMP.W D_3B4A3                                   ; 03B458 4C A3 B4 
 B_3B45B:
-  DEC.W EntityV15,X                                   ; 03B45B DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03B45B DE 80 0D 
   BEQ.B D_3B4A3                                   ; 03B45E F0 43 
   SEC                                             ; 03B460 38 
   LDA.W EntityXPx,X                              ; 03B461 BD 46 0B 
@@ -4217,7 +4217,7 @@ B_3B506:
   LDA.W EntityYPx,X                                   ; 03B523 BD 9C 0C 
   ADC.W $18BA,Y                                   ; 03B526 79 BA 18 
   STA.W EntityYPx,X                                   ; 03B529 9D 9C 0C 
-  LDA.W EntityV15,X                                   ; 03B52C BD 80 0D 
+  LDA.W EntityTimer15,X                                   ; 03B52C BD 80 0D 
   ASL                                             ; 03B52F 0A 
   TAY                                             ; 03B530 A8 
   LDA.W D_384EE,Y                                 ; 03B531 B9 EE 84 
@@ -4228,7 +4228,7 @@ B_3B506:
   STA.W EntityYSubSpeed,X                                   ; 03B540 9D F0 09 
   LDA.W D_3856F,Y                                 ; 03B543 B9 6F 85 
   STA.W EntityYSpeed,X                                   ; 03B546 9D 62 0A 
-  LDA.W EntityV15,X                                   ; 03B549 BD 80 0D 
+  LDA.W EntityTimer15,X                                   ; 03B549 BD 80 0D 
   TAY                                             ; 03B54C A8 
   INY                                             ; 03B54D C8 
   CPY.B #$40                                      ; 03B54E C0 40 
@@ -4236,8 +4236,8 @@ B_3B506:
   LDY.B #$00                                      ; 03B552 A0 00 
 B_3B554:
   TYA                                             ; 03B554 98 
-  STA.W EntityV15,X                                   ; 03B555 9D 80 0D 
-  LDA.W EntityV15,X                                   ; 03B558 BD 80 0D 
+  STA.W EntityTimer15,X                                   ; 03B555 9D 80 0D 
+  LDA.W EntityTimer15,X                                   ; 03B558 BD 80 0D 
   LSR                                             ; 03B55B 4A 
   LSR                                             ; 03B55C 4A 
   LSR                                             ; 03B55D 4A 
@@ -4408,7 +4408,7 @@ B_3B684:
   LDA.W EntityYPx,X                                   ; 03B6A1 BD 9C 0C 
   ADC.W $18BA,Y                                   ; 03B6A4 79 BA 18 
   STA.W EntityYPx,X                                   ; 03B6A7 9D 9C 0C 
-  LDA.W EntityV15,X                                   ; 03B6AA BD 80 0D 
+  LDA.W EntityTimer15,X                                   ; 03B6AA BD 80 0D 
   ASL                                             ; 03B6AD 0A 
   TAY                                             ; 03B6AE A8 
   LDA.W D_3866E,Y                                 ; 03B6AF B9 6E 86 
@@ -4419,7 +4419,7 @@ B_3B684:
   STA.W EntityYSubSpeed,X                                   ; 03B6BE 9D F0 09 
   LDA.W D_386FF,Y                                 ; 03B6C1 B9 FF 86 
   STA.W EntityYSpeed,X                                   ; 03B6C4 9D 62 0A 
-  LDA.W EntityV15,X                                   ; 03B6C7 BD 80 0D 
+  LDA.W EntityTimer15,X                                   ; 03B6C7 BD 80 0D 
   TAY                                             ; 03B6CA A8 
   INY                                             ; 03B6CB C8 
   CPY.B #$48                                      ; 03B6CC C0 48 
@@ -4427,7 +4427,7 @@ B_3B684:
   LDY.B #$00                                      ; 03B6D0 A0 00 
 B_3B6D2:
   TYA                                             ; 03B6D2 98 
-  STA.W EntityV15,X                                   ; 03B6D3 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03B6D3 9D 80 0D 
   SEC                                             ; 03B6D6 38 
   LDA.W EntityXPx,X                              ; 03B6D7 BD 46 0B 
   SBC.B #$03                                      ; 03B6DA E9 03 
@@ -4529,7 +4529,7 @@ D_3B769:
   BCC.B B_3B792                                   ; 03B78D 90 03 
   INC.W EntityV24,X                                   ; 03B78F FE 82 11 
 B_3B792:
-  LDY.W EntityV15,X                                   ; 03B792 BC 80 0D 
+  LDY.W EntityTimer15,X                                   ; 03B792 BC 80 0D 
   LDY.W EntityV20,X                                   ; 03B795 BC BA 0F 
   LDA.W EntityXPx,Y                              ; 03B798 B9 46 0B 
   STA.W EntityXPx,X                              ; 03B79B 9D 46 0B 
@@ -4537,7 +4537,7 @@ B_3B792:
   LDA.W EntityYPx,Y                                   ; 03B79F B9 9C 0C 
   ADC.W EntityV22,X                                   ; 03B7A2 7D 9E 10 
   STA.W EntityYPx,X                                   ; 03B7A5 9D 9C 0C 
-  DEC.W EntityV15,X                                   ; 03B7A8 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03B7A8 DE 80 0D 
   BNE.B B_3B7D2                                   ; 03B7AB D0 25 
   STZ.W EntityHeader,X                                   ; 03B7AD 9E D2 06 
   PHX                                             ; 03B7B0 DA 
@@ -4561,7 +4561,7 @@ B_3B7CE:
   PLX                                             ; 03B7CE FA 
   JMP.W AdvanceToNextEntity                                   ; 03B7CF 4C 41 81 
 B_3B7D2:
-  LDY.W EntityV15,X                                   ; 03B7D2 BC 80 0D 
+  LDY.W EntityTimer15,X                                   ; 03B7D2 BC 80 0D 
   LDA.W D_3B81E,Y                                 ; 03B7D5 B9 1E B8 
   STA.W EntityV29,X                                   ; 03B7D8 9D BC 13 
   SEC                                             ; 03B7DB 38 
@@ -4616,7 +4616,7 @@ D_3B81E:
 
   LDA.B #$01                                      ; 03B846 A9 01 
   JSR.W L_38195                                   ; 03B848 20 95 81 
-  DEC.W EntityV15,X                                   ; 03B84B DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03B84B DE 80 0D 
   BNE.B B_3B8BB                                   ; 03B84E D0 6B 
   LDA.B #EntityType_39                                      ; 03B850 A9 39 
   STA.W EntityTypeId,X                                   ; 03B852 9D 44 07 
@@ -5519,12 +5519,12 @@ B_3C29E:
 
 B_3C2AB:
   STA.W EntityV35,X                                   ; 03C2AB 9D 6C 16 
-  DEC.W EntityV15,X                                   ; 03C2AE DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03C2AE DE 80 0D 
   BNE.B B_3C2D7                                   ; 03C2B1 D0 24 
   JSL AdvanceRNG                                     ; 03C2B3 22 95 CA 0E 
   AND.B #$1F                                      ; 03C2B7 29 1F 
   INC A
-  STA.W EntityV15,X                                   ; 03C2BA 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03C2BA 9D 80 0D 
   JSL AdvanceRNG                                     ; 03C2BD 22 95 CA 0E 
   AND.B #$07                                      ; 03C2C1 29 07 
   TAY                                             ; 03C2C3 A8 
@@ -5611,7 +5611,7 @@ B_3C356:
 D_3C365:
 .byte $0D,$0E,$0F,$10,$12,$14,$16,$18             ; 03C365 DDDDDDDD ????????
 
-  DEC.W EntityV15,X                                   ; 03C36D DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03C36D DE 80 0D 
   BEQ.B B_3C375                                   ; 03C370 F0 03 
   JMP.W D_3C3CE                                   ; 03C372 4C CE C3 
 B_3C375:
@@ -6343,7 +6343,7 @@ B_3D674:
   AND.B #$01                                      ; 03D6A6 29 01 
   STA.W EntityV20,X                                   ; 03D6A8 9D BA 0F 
   LDA.B #$01                                      ; 03D6AB A9 01 
-  STA.W EntityV15,X                                   ; 03D6AD 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D6AD 9D 80 0D 
   JSL AdvanceRNG                                     ; 03D6B0 22 95 CA 0E 
   AND.B #$03                                      ; 03D6B4 29 03 
   CLC                                             ; 03D6B6 18 
@@ -6407,10 +6407,10 @@ EntityHandler_MutoidHead_FireLaser:
   LDA.B #$01                                      ; 03D737 A9 01 
   STA.W EntityV16,X                                   ; 03D739 9D F2 0D 
   JSR.W L_3DAC4                                   ; 03D73C 20 C4 DA 
-  DEC.W EntityV15,X                                   ; 03D73F DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03D73F DE 80 0D 
   BNE.B B_3D74E                                   ; 03D742 D0 0A 
   LDA.B #$1E                                      ; 03D744 A9 1E 
-  STA.W EntityV15,X                                   ; 03D746 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D746 9D 80 0D 
   LDA.B #EntityType_72                                      ; 03D749 A9 72 
   STA.W EntityTypeId,X                                   ; 03D74B 9D 44 07 
 B_3D74E:
@@ -6431,10 +6431,10 @@ EntityHandler_MutoidHead_Damage:
   SBC.W $069D                                     ; 03D76C ED 9D 06 
   STA.W EntityYPx,X                                   ; 03D76F 9D 9C 0C 
   STZ.W EntityV14,X                                   ; 03D772 9E 0E 0D 
-  DEC.W EntityV15,X                                   ; 03D775 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03D775 DE 80 0D 
   BNE.B B_3D78B                                   ; 03D778 D0 11 
   LDA.B #$02                                      ; 03D77A A9 02 
-  STA.W EntityV15,X                                   ; 03D77C 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D77C 9D 80 0D 
   JSL L_DEE00                                     ; 03D77F 22 00 EE 0D 
   DEC.W EntityV16,X                                   ; 03D783 DE F2 0D 
   BNE.B B_3D78B                                   ; 03D786 D0 03 
@@ -6457,7 +6457,7 @@ D_3D7AA:
 .byte $0E,$0F,$10,$0E,$0F,$10,$0E,$0F             ; 03D7AA ........ ????????
 .byte $1A,$1B,$1C,$10,$0E,$0F,$11,$11             ; 03D7B2 .....DD. ????????
 
-  DEC.W EntityV15,X                                   ; 03D7BA DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03D7BA DE 80 0D 
   BNE.B B_3D7DC                                   ; 03D7BD D0 1D 
   DEC.W EntityV16,X                                   ; 03D7BF DE F2 0D 
   BNE.B B_3D7CB                                   ; 03D7C2 D0 07 
@@ -6467,7 +6467,7 @@ D_3D7AA:
 B_3D7CB:
   JSL L_DEFA8                                     ; 03D7CB 22 A8 EF 0D 
   LDA.B #$09                                      ; 03D7CF A9 09 
-  STA.W EntityV15,X                                   ; 03D7D1 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D7D1 9D 80 0D 
   STZ.W EntityV16,X                                   ; 03D7D4 9E F2 0D 
   LDA.B #EntityType_70                                      ; 03D7D7 A9 70 
   STA.W EntityTypeId,X                                   ; 03D7D9 9D 44 07 
@@ -6493,7 +6493,7 @@ EntityHandler_MutoidMan73:
   LDA.B #EntityType_75                                      ; 03D80A A9 75 
   STA.W EntityTypeId,X                                   ; 03D80C 9D 44 07 
   LDA.B #$01                                      ; 03D80F A9 01 
-  STA.W EntityV15,X                                   ; 03D811 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D811 9D 80 0D 
 B_3D814:
   LDA.W EntityV25,X                                   ; 03D814 BD F4 11 
   PHA                                             ; 03D817 48 
@@ -6522,7 +6522,7 @@ EntityHandler_MutoidMan74:
   LDA.B #EntityType_83                                      ; 03D848 A9 83 
   STA.W EntityTypeId,X                                   ; 03D84A 9D 44 07 
   LDA.B #$01                                      ; 03D84D A9 01 
-  STA.W EntityV15,X                                   ; 03D84F 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D84F 9D 80 0D 
 B_3D852:
   LDA.W EntityV25,X                                   ; 03D852 BD F4 11 
   PHA                                             ; 03D855 48 
@@ -6548,7 +6548,7 @@ B_3D870:
   LDA.B #EntityType_82                                      ; 03D881 A9 82 
   STA.W EntityTypeId,X                                   ; 03D883 9D 44 07 
   LDA.B #$01                                      ; 03D886 A9 01 
-  STA.W EntityV15,X                                   ; 03D888 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D888 9D 80 0D 
   LDA.B #$04                                      ; 03D88B A9 04 
   STA.W EntityV16,X                                   ; 03D88D 9D F2 0D 
   LDA.B #$1F                                      ; 03D890 A9 1F 
@@ -6558,10 +6558,10 @@ B_3D898:
   LDA.B #$1E                                      ; 03D898 A9 1E 
   JSL L_3823C                                     ; 03D89A 22 3C 82 03 
 B_3D89E:
-  DEC.W EntityV15,X                                   ; 03D89E DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03D89E DE 80 0D 
   BNE.B B_3D8AD                                   ; 03D8A1 D0 0A 
   LDA.B #$07                                      ; 03D8A3 A9 07 
-  STA.W EntityV15,X                                   ; 03D8A5 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D8A5 9D 80 0D 
   LDY.B #$00                                      ; 03D8A8 A0 00 
   JSR.W L_3DA1E                                   ; 03D8AA 20 1E DA 
 B_3D8AD:
@@ -6600,7 +6600,7 @@ B_3D8EE:
   BCS.B B_3D8F5                                   ; 03D8F0 B0 03 
   JMP.W D_3D984                                   ; 03D8F2 4C 84 D9 
 B_3D8F5:
-  DEC.W EntityV15,X                                   ; 03D8F5 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03D8F5 DE 80 0D 
   BNE.B B_3D975                                   ; 03D8F8 D0 7B 
   LDA.B #EntityType_77                                      ; 03D8FA A9 77 
   STA.W EntityTypeId,X                                   ; 03D8FC 9D 44 07 
@@ -6647,7 +6647,7 @@ B_3D935:
   LDA.B #$32                                      ; 03D93D A9 32 
   STA.W EntityV30,X                                   ; 03D93F 9D 2E 14 
   LDA.B #$04                                      ; 03D942 A9 04 
-  STA.W EntityV15,X                                   ; 03D944 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03D944 9D 80 0D 
   STZ.W EntityXSubSpeed,X                                   ; 03D947 9E 0C 09 
   STZ.W EntityXSpeed,X                                   ; 03D94A 9E 7E 09 
   STZ.W EntityYSubSpeed,X                                   ; 03D94D 9E F0 09 
@@ -6734,7 +6734,7 @@ B_3D9D5:
 
 B_3D9E2:
   STA.W EntityV35,X                                   ; 03D9E2 9D 6C 16 
-  DEC.W EntityV15,X                                   ; 03D9E5 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03D9E5 DE 80 0D 
   BEQ.B B_3D9F9                                   ; 03D9E8 F0 0F 
   LDA.B #$08                                      ; 03D9EA A9 08 
   STA.B $1C                                       ; 03D9EC 85 1C 
@@ -6880,7 +6880,7 @@ B_3DAEB:
   STA.W EntityV3,X                                   ; 03DB0C 9D 28 08 
   LDY.W $068F                                     ; 03DB0F AC 8F 06 
   LDA.W D_3DB68,Y                                 ; 03DB12 B9 68 DB 
-  STA.W EntityV15,X                                   ; 03DB15 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03DB15 9D 80 0D 
   LDA.B $04                                       ; 03DB18 A5 04 
   STA.W EntityXPx,X                              ; 03DB1A 9D 46 0B 
   LDA.B $05                                       ; 03DB1D A5 05 
@@ -6991,7 +6991,7 @@ B_3DC41:
   LDA.W $0695                                     ; 03DC41 AD 95 06 
   CMP.B #$60                                      ; 03DC44 C9 60 
   BCC.B B_3DC50                                   ; 03DC46 90 08 
-  LDA.B #EntityType_79                                      ; 03DC48 A9 79 
+  LDA.B #EntityType_MutoidManStill                                      ; 03DC48 A9 79 
   STA.W EntityTypeId,X                                   ; 03DC4A 9D 44 07 
   STZ.W EntityYSubSpeed,X                                   ; 03DC4D 9E F0 09 
 B_3DC50:
@@ -7002,7 +7002,7 @@ B_3DC50:
 
 EntityHandler_MutoidBody_Still:
   JSL L_CFB81                                     ; 03DC5C 22 81 FB 0C 
-  DEC.W EntityV15,X                                   ; 03DC60 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03DC60 DE 80 0D 
   BNE.B B_3DC81                                   ; 03DC63 D0 1C 
   JSL AdvanceRNG                                     ; 03DC65 22 95 CA 0E 
   AND.B #$0F                                      ; 03DC69 29 0F 
@@ -7066,9 +7066,9 @@ B_3DCF4:
   STZ.W EntityYSubSpeed,X                                   ; 03DCF4 9E F0 09 
   STZ.W EntityYSpeed,X                                   ; 03DCF7 9E 62 0A 
 B_3DCFA:
-  DEC.W EntityV15,X                                   ; 03DCFA DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03DCFA DE 80 0D 
   BNE.B B_3DD21                                   ; 03DCFD D0 22 
-  LDA.B #EntityType_79                                      ; 03DCFF A9 79 
+  LDA.B #EntityType_MutoidManStill                                      ; 03DCFF A9 79 
   STA.W EntityTypeId,X                                   ; 03DD01 9D 44 07 
   STZ.W EntityYSubSpeed,X                                   ; 03DD04 9E F0 09 
   STZ.W EntityYSpeed,X                                   ; 03DD07 9E 62 0A 
@@ -7081,8 +7081,8 @@ B_3DCFA:
   CLC                                             ; 03DD17 18 
   ADC.B $04                                       ; 03DD18 65 04 
   TAY                                             ; 03DD1A A8 
-  LDA.W D_3DD37,Y                                 ; 03DD1B B9 37 DD 
-  STA.W EntityV15,X                                   ; 03DD1E 9D 80 0D 
+  LDA.W MutoidManMovementDelayTimers,Y                                 ; 03DD1B B9 37 DD 
+  STA.W EntityTimer15,X                                   ; 03DD1E 9D 80 0D 
 B_3DD21:
   JSR.W L_3E1A7                                   ; 03DD21 20 A7 E1 
   JSR.W L_3DF64                                   ; 03DD24 20 64 DF 
@@ -7092,11 +7092,41 @@ B_3DD21:
   JSR.W L_3E132                                   ; 03DD31 20 32 E1 
   JMP.W AdvanceToNextEntity                                   ; 03DD34 4C 41 81 
 
-D_3DD37:
-.byte $E8,$B0,$A8,$40,$E8,$A0,$88,$40             ; 03DD37 D...DDDD ???@???@
-.byte $C8,$80,$68,$38,$B8,$60,$48,$30             ; 03DD3F DDD.DDDD ??h8?`H0
-.byte $A8,$58,$48,$28,$98,$50,$40,$20             ; 03DD47 DDDD.... ?XH(?P@ 
-.byte $88,$40,$30,$20                             ; 03DD50 ....     ?@0 
+MutoidManMovementDelayTimers:
+.byte 232                                         ; form 1
+.byte 176
+.byte 168
+.byte 64
+
+.byte 232                                         ; form 2
+.byte 160
+.byte 136
+.byte 64
+
+.byte 200                                         ; form 3
+.byte 128
+.byte 104
+.byte 56
+
+.byte 184                                         ; form 4
+.byte 96
+.byte 72
+.byte 48
+
+.byte 168                                         ; form 5
+.byte 88
+.byte 72
+.byte 40
+
+.byte 152                                         ; form 6
+.byte 80
+.byte 64
+.byte 32
+
+.byte 136                                         ; form 7
+.byte 64
+.byte 48
+.byte 32
 
 EntityHandler_MutoidBody_Horizontal:
   JSL L_CFB81                                     ; 03DD53 22 81 FB 0C 
@@ -7141,9 +7171,9 @@ B_3DDAF:
   STZ.W EntityXSubSpeed,X                                   ; 03DDAF 9E 0C 09 
   STZ.W EntityXSpeed,X                                   ; 03DDB2 9E 7E 09 
 B_3DDB5:
-  DEC.W EntityV15,X                                   ; 03DDB5 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03DDB5 DE 80 0D 
   BNE.B B_3DDDC                                   ; 03DDB8 D0 22 
-  LDA.B #EntityType_79                                      ; 03DDBA A9 79 
+  LDA.B #EntityType_MutoidManStill                                      ; 03DDBA A9 79 
   STA.W EntityTypeId,X                                   ; 03DDBC 9D 44 07 
   STZ.W EntityXSubSpeed,X                                   ; 03DDBF 9E 0C 09 
   STZ.W EntityXSpeed,X                                   ; 03DDC2 9E 7E 09 
@@ -7156,8 +7186,8 @@ B_3DDB5:
   CLC                                             ; 03DDD2 18 
   ADC.B $04                                       ; 03DDD3 65 04 
   TAY                                             ; 03DDD5 A8 
-  LDA.W D_3DD37,Y                                 ; 03DDD6 B9 37 DD 
-  STA.W EntityV15,X                                   ; 03DDD9 9D 80 0D 
+  LDA.W MutoidManMovementDelayTimers,Y                                 ; 03DDD6 B9 37 DD 
+  STA.W EntityTimer15,X                                   ; 03DDD9 9D 80 0D 
 B_3DDDC:
   JSR.W L_3E1A7                                   ; 03DDDC 20 A7 E1 
   JSR.W L_3DF64                                   ; 03DDDF 20 64 DF 
@@ -7172,12 +7202,12 @@ D_3DDF2:
 
   LDA.B #$20                                      ; 03DDFA A9 20 
   STA.W $0699                                     ; 03DDFC 8D 99 06 
-  DEC.W EntityV15,X                                   ; 03DDFF DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03DDFF DE 80 0D 
   BNE.B B_3DE0E                                   ; 03DE02 D0 0A 
-  LDA.B #EntityType_79                                      ; 03DE04 A9 79 
+  LDA.B #EntityType_MutoidManStill                                      ; 03DE04 A9 79 
   STA.W EntityTypeId,X                                   ; 03DE06 9D 44 07 
   LDA.B #$01                                      ; 03DE09 A9 01 
-  STA.W EntityV15,X                                   ; 03DE0B 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03DE0B 9D 80 0D 
 B_3DE0E:
   JSR.W L_3DF64                                   ; 03DE0E 20 64 DF 
   JSL L_CFDAC                                     ; 03DE11 22 AC FD 0C 
@@ -7569,15 +7599,15 @@ D_3E20C:
 
 
 L_3E21C:
-  LDA.B #EntityType_7B                                      ; 03E21C A9 7B 
+  LDA.B #EntityType_MutoidManHorizontal                                      ; 03E21C A9 7B 
   STA.W EntityTypeId,X                                   ; 03E21E 9D 44 07 
   LDA.W EntityYPx,X                                   ; 03E221 BD 9C 0C 
   STA.W EntityV21,X                                   ; 03E224 9D 2C 10 
   JSL AdvanceRNG                                     ; 03E227 22 95 CA 0E 
   AND.B #$07                                      ; 03E22B 29 07 
   TAY                                             ; 03E22D A8 
-  LDA.W D_3E2E2,Y                                 ; 03E22E B9 E2 E2 
-  STA.W EntityV15,X                                   ; 03E231 9D 80 0D 
+  LDA.W MutoidManDirectionChangeTimers,Y                                 ; 03E22E B9 E2 E2 
+  STA.W EntityTimer15,X                                   ; 03E231 9D 80 0D 
   LDA.W MutoidCurrentForm                                     ; 03E234 AD 9C 06 
   ASL                                             ; 03E237 0A 
   ASL                                             ; 03E238 0A 
@@ -7622,13 +7652,13 @@ B_3E281:
 
 
 L_3E282:
-  LDA.B #EntityType_7A                                      ; 03E282 A9 7A 
+  LDA.B #EntityType_MutoidManVertical                                      ; 03E282 A9 7A 
   STA.W EntityTypeId,X                                   ; 03E284 9D 44 07 
   JSL AdvanceRNG                                     ; 03E287 22 95 CA 0E 
   AND.B #$07                                      ; 03E28B 29 07 
   TAY                                             ; 03E28D A8 
-  LDA.W D_3E2E2,Y                                 ; 03E28E B9 E2 E2 
-  STA.W EntityV15,X                                   ; 03E291 9D 80 0D 
+  LDA.W MutoidManDirectionChangeTimers,Y                                 ; 03E28E B9 E2 E2 
+  STA.W EntityTimer15,X                                   ; 03E291 9D 80 0D 
   LDA.W MutoidCurrentForm                                     ; 03E294 AD 9C 06 
   ASL                                             ; 03E297 0A 
   ASL                                             ; 03E298 0A 
@@ -7672,8 +7702,16 @@ B_3E2E1:
   RTS                                             ; 03E2E1 60 
 
 
-D_3E2E2:
-.byte $B4,$A0,$8C,$78,$6E,$64,$5A,$1E             ; 03E2E2 DDDDDDDD ???xndZ?
+MutoidManDirectionChangeTimers:
+.byte 180
+.byte 160
+.byte 140
+.byte 120
+.byte 110
+.byte 100
+.byte 90
+.byte 30
+
 D_3E2EA:
 .byte $C0                                         ; 03E2EB .        ?
 D_3E2EB:
@@ -7834,10 +7872,10 @@ EntityHandler_MutoidMan_LeftArmExplode:
   LDY.B #$00                                      ; 03E53E A0 00 
   JSR.W L_3E793                                   ; 03E540 20 93 E7 
 B_3E543:
-  DEC.W EntityV15,X                                   ; 03E543 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03E543 DE 80 0D 
   BNE.B B_3E55F                                   ; 03E546 D0 17 
   LDA.B #$24                                      ; 03E548 A9 24 
-  STA.W EntityV15,X                                   ; 03E54A 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03E54A 9D 80 0D 
   DEC.W EntityV16,X                                   ; 03E54D DE F2 0D 
   BNE.B B_3E55A                                   ; 03E550 D0 08 
   LDA.B #EntityType_85                                      ; 03E552 A9 85 
@@ -7867,7 +7905,7 @@ EntityHandler_MutoidMan_RightArmDamage:
   LDA.B #EntityType_84                                      ; 03E582 A9 84 
   STA.W EntityTypeId,X                                   ; 03E584 9D 44 07 
   LDA.B #$01                                      ; 03E587 A9 01 
-  STA.W EntityV15,X                                   ; 03E589 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03E589 9D 80 0D 
   LDA.B #$04                                      ; 03E58C A9 04 
   STA.W EntityV16,X                                   ; 03E58E 9D F2 0D 
   LDA.B #$1F                                      ; 03E591 A9 1F 
@@ -7877,10 +7915,10 @@ B_3E599:
   LDA.B #$1E                                      ; 03E599 A9 1E 
   JSL L_3823C                                     ; 03E59B 22 3C 82 03 
 B_3E59F:
-  DEC.W EntityV15,X                                   ; 03E59F DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03E59F DE 80 0D 
   BNE.B B_3E5AE                                   ; 03E5A2 D0 0A 
   LDA.B #$07                                      ; 03E5A4 A9 07 
-  STA.W EntityV15,X                                   ; 03E5A6 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03E5A6 9D 80 0D 
   LDY.B #$01                                      ; 03E5A9 A0 01 
   JSR.W L_3DA1E                                   ; 03E5AB 20 1E DA 
 B_3E5AE:
@@ -7915,10 +7953,10 @@ EntityHandler_MutoidMan_RightArmExplode:
   LDY.B #$01                                      ; 03E5ED A0 01 
   JSR.W L_3E793                                   ; 03E5EF 20 93 E7 
 B_3E5F2:
-  DEC.W EntityV15,X                                   ; 03E5F2 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03E5F2 DE 80 0D 
   BNE.B B_3E60E                                   ; 03E5F5 D0 17 
   LDA.B #$24                                      ; 03E5F7 A9 24 
-  STA.W EntityV15,X                                   ; 03E5F9 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03E5F9 9D 80 0D 
   DEC.W EntityV16,X                                   ; 03E5FC DE F2 0D 
   BNE.B B_3E609                                   ; 03E5FF D0 08 
   LDA.B #EntityType_86                                      ; 03E601 A9 86 
@@ -8214,7 +8252,7 @@ D_3E871:
 D_3E873:
 .byte $00,$FE,$02,$FD,$03,$FC,$04,$00             ; 03E873 DDDDDDDD ????????
 
-  DEC.W EntityV15,X                                   ; 03E87B DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03E87B DE 80 0D 
   BNE.B B_3E8AC                                   ; 03E87E D0 2C 
   JSL AdvanceRNG                                     ; 03E880 22 95 CA 0E 
   AND.B #$03                                      ; 03E884 29 03 
@@ -8222,7 +8260,7 @@ D_3E873:
   LDA.W D_3EA73,Y                                 ; 03E887 B9 73 EA 
   STA.W EntityV21,X                                   ; 03E88A 9D 2C 10 
   LDA.W D_3EA77,Y                                 ; 03E88D B9 77 EA 
-  STA.W EntityV15,X                                   ; 03E890 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03E890 9D 80 0D 
   LDA.B #$1E                                      ; 03E893 A9 1E 
   STA.W EntityV16,X                                   ; 03E895 9D F2 0D 
   LDA.B #$8D                                      ; 03E898 A9 8D 
@@ -8401,7 +8439,7 @@ B_3EA13:
   STA.W EntityYSpeed,X                                   ; 03EA24 9D 62 0A 
   STZ.W EntityV21,X                                   ; 03EA27 9E 2C 10 
   LDA.B #$04                                      ; 03EA2A A9 04 
-  STA.W EntityV15,X                                   ; 03EA2C 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03EA2C 9D 80 0D 
   LDA.B #$32                                      ; 03EA2F A9 32 
   STA.W EntityV16,X                                   ; 03EA31 9D F2 0D 
   LDA.B #$8D                                      ; 03EA34 A9 8D 
@@ -8468,14 +8506,14 @@ B_3EAA1:
   AND.B #$07                                      ; 03EAA5 29 07 
   STA.W EntityV25,X                                   ; 03EAA7 9D F4 11 
 B_3EAAA:
-  DEC.W EntityV15,X                                   ; 03EAAA DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03EAAA DE 80 0D 
   BNE.B B_3EABF                                   ; 03EAAD D0 10 
   LDA.B #$8C                                      ; 03EAAF A9 8C 
   STA.W EntityTypeId,X                                   ; 03EAB1 9D 44 07 
   JSL AdvanceRNG                                     ; 03EAB4 22 95 CA 0E 
   AND.B #$3F                                      ; 03EAB8 29 3F 
   ADC.B #$5A                                      ; 03EABA 69 5A 
-  STA.W EntityV15,X                                   ; 03EABC 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03EABC 9D 80 0D 
 B_3EABF:
   SEC                                             ; 03EABF 38 
   LDA.W EntityXPx,X                              ; 03EAC0 BD 46 0B 
@@ -8518,13 +8556,13 @@ B_3EAF0:
 
 .byte $4C,$41,$81                                 ; 03EAFA ...      LA?
 
-  DEC.W EntityV15,X                                   ; 03EAFC DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03EAFC DE 80 0D 
   BNE.B B_3EB32                                   ; 03EAFF D0 31 
   JSL AdvanceRNG                                     ; 03EB01 22 95 CA 0E 
   AND.B #$01                                      ; 03EB05 29 01 
   CLC                                             ; 03EB07 18 
   ADC.B #$05                                      ; 03EB08 69 05 
-  STA.W EntityV15,X                                   ; 03EB0A 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03EB0A 9D 80 0D 
   DEC.W EntityV16,X                                   ; 03EB0D DE F2 0D 
   BNE.B B_3EB22                                   ; 03EB10 D0 10 
   LDA.B #EntityType_92                                      ; 03EB12 A9 92 
@@ -8532,7 +8570,7 @@ B_3EAF0:
   JSL AdvanceRNG                                     ; 03EB17 22 95 CA 0E 
   AND.B #$0F                                      ; 03EB1B 29 0F 
   ADC.B #$10                                      ; 03EB1D 69 10 
-  STA.W EntityV15,X                                   ; 03EB1F 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03EB1F 9D 80 0D 
 B_3EB22:
   LDA.W EntityV25,X                                   ; 03EB22 BD F4 11 
   ORA.B #$10                                      ; 03EB25 09 10 
@@ -8579,10 +8617,10 @@ B_3EB63:
   STA.W EntityV35,X                                   ; 03EB63 9D 6C 16 
   JSR.W L_3EDA3                                   ; 03EB66 20 A3 ED 
   JMP.W AdvanceToNextEntity                                   ; 03EB69 4C 41 81 
-  DEC.W EntityV15,X                                   ; 03EB6C DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03EB6C DE 80 0D 
   BNE.B B_3EBB4                                   ; 03EB6F D0 43 
   LDA.B #$08                                      ; 03EB71 A9 08 
-  STA.W EntityV15,X                                   ; 03EB73 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03EB73 9D 80 0D 
   LDA.W EntityV25,X                                   ; 03EB76 BD F4 11 
   CMP.W EntityV22,X                                   ; 03EB79 DD 9E 10 
   BEQ.B B_3EB96                                   ; 03EB7C F0 18 
@@ -8602,7 +8640,7 @@ B_3EB96:
   LDA.B #EntityType_90                                      ; 03EB96 A9 90 
   STA.W EntityTypeId,X                                   ; 03EB98 9D 44 07 
   LDA.B #$01                                      ; 03EB9B A9 01 
-  STA.W EntityV15,X                                   ; 03EB9D 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03EB9D 9D 80 0D 
   JSL AdvanceRNG                                     ; 03EBA0 22 95 CA 0E 
   AND.B #$07                                      ; 03EBA4 29 07 
   TAY                                             ; 03EBA6 A8 
@@ -8658,7 +8696,7 @@ EntityHandler_WallGun:
   LDA.B FrameCounter                              ; 03EBF6 A5 CF 
   AND.B #$03                                      ; 03EBF8 29 03 
   BNE.B B_3EC2C                                   ; 03EBFA D0 30 
-  DEC.W EntityV15,X                                   ; 03EBFC DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03EBFC DE 80 0D 
   BNE.B B_3EC2C                                   ; 03EBFF D0 2B 
   JSL AdvanceRNG                                     ; 03EC01 22 95 CA 0E 
   AND.B #$03                                      ; 03EC05 29 03 
@@ -8678,7 +8716,7 @@ B_3EC1F:
   LDA.B #EntityType_91                                      ; 03EC22 A9 91 
   STA.W EntityTypeId,X                                   ; 03EC24 9D 44 07 
   LDA.B #$01                                      ; 03EC27 A9 01 
-  STA.W EntityV15,X                                   ; 03EC29 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03EC29 9D 80 0D 
 B_3EC2C:
   SEC                                             ; 03EC2C 38 
   LDA.W EntityXPx,X                              ; 03EC2D BD 46 0B 
@@ -8718,10 +8756,10 @@ B_3EC5D:
 D_3EC66:
 .byte $05,$06,$07,$08,$09,$0A,$0B,$08             ; 03EC66 .DDD..DD ????????
 
-  DEC.W EntityV15,X                                   ; 03EC6E DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03EC6E DE 80 0D 
   BNE.B B_3ECB3                                   ; 03EC71 D0 40 
   LDA.B #$06                                      ; 03EC73 A9 06 
-  STA.W EntityV15,X                                   ; 03EC75 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03EC75 9D 80 0D 
   LDA.W EntityV21,X                                   ; 03EC78 BD 2C 10 
   CLC                                             ; 03EC7B 18 
   ADC.W EntityV25,X                                   ; 03EC7C 7D F4 11 
@@ -8745,7 +8783,7 @@ B_3ECA3:
   JSL AdvanceRNG                                     ; 03ECA8 22 95 CA 0E 
   AND.B #$0F                                      ; 03ECAC 29 0F 
   ADC.B #$10                                      ; 03ECAE 69 10 
-  STA.W EntityV15,X                                   ; 03ECB0 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03ECB0 9D 80 0D 
 B_3ECB3:
   LDY.W EntityV20,X                                   ; 03ECB3 BC BA 0F 
   LDA.W EntityXPx,Y                              ; 03ECB6 B9 46 0B 
@@ -8754,13 +8792,13 @@ B_3ECB3:
   STA.W EntityYPx,X                                   ; 03ECBF 9D 9C 0C 
   JSR.W L_3EDA3                                   ; 03ECC2 20 A3 ED 
   JMP.W AdvanceToNextEntity                                   ; 03ECC5 4C 41 81 
-  DEC.W EntityV15,X                                   ; 03ECC8 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03ECC8 DE 80 0D 
   BNE.B B_3ED2D                                   ; 03ECCB D0 60 
   JSL AdvanceRNG                                     ; 03ECCD 22 95 CA 0E 
   AND.B #$01                                      ; 03ECD1 29 01 
   CLC                                             ; 03ECD3 18 
   ADC.B #$06                                      ; 03ECD4 69 06 
-  STA.W EntityV15,X                                   ; 03ECD6 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03ECD6 9D 80 0D 
   LDA.W EntityV26,X                                   ; 03ECD9 BD 66 12 
   ASL                                             ; 03ECDC 0A 
   TAY                                             ; 03ECDD A8 
@@ -8776,7 +8814,7 @@ B_3ECB3:
   LDA.B #EntityType_93                                      ; 03ECF3 A9 93 
   STA.W EntityTypeId,X                                   ; 03ECF5 9D 44 07 
   LDA.B #$3C                                      ; 03ECF8 A9 3C 
-  STA.W EntityV15,X                                   ; 03ECFA 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03ECFA 9D 80 0D 
   LDA.B #$10                                      ; 03ECFD A9 10 
   STA.W EntityV16,X                                   ; 03ECFF 9D F2 0D 
   JSL AdvanceRNG                                     ; 03ED02 22 95 CA 0E 
@@ -8819,12 +8857,12 @@ D_3ED45:
 .byte $81,$01,$02,$01,$80,$01,$00,$01             ; 03ED65 D....DDD ????????
 .byte $82,$00,$00,$02,$02,$82                     ; 03ED6E DDDDDD   ??????
 
-  DEC.W EntityV15,X                                   ; 03ED73 DE 80 0D 
+  DEC.W EntityTimer15,X                                   ; 03ED73 DE 80 0D 
   BNE.B B_3ED8E                                   ; 03ED76 D0 16 
   LDA.B #EntityType_94                                      ; 03ED78 A9 94 
   STA.W EntityTypeId,X                                   ; 03ED7A 9D 44 07 
   LDA.B #$01                                      ; 03ED7D A9 01 
-  STA.W EntityV15,X                                   ; 03ED7F 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 03ED7F 9D 80 0D 
   JSL AdvanceRNG                                     ; 03ED82 22 95 CA 0E 
   AND.B #$07                                      ; 03ED86 29 07 
   STA.W EntityV26,X                                   ; 03ED88 9D 66 12 

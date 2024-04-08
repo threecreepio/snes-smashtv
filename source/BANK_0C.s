@@ -4029,7 +4029,7 @@ L_CFBD2:
   LDA.B #EntityType_7C                                      ; 0CFBE9 A9 7C 
   STA.W EntityTypeId,X                                   ; 0CFBEB 9D 44 07 
   LDA.B #$8C                                      ; 0CFBEE A9 8C 
-  STA.W EntityV15,X                                   ; 0CFBF0 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 0CFBF0 9D 80 0D 
   STZ.W EntityXSubSpeed,X                                   ; 0CFBF3 9E 0C 09 
   STZ.W EntityXSpeed,X                                   ; 0CFBF6 9E 7E 09 
   STZ.W EntityYSubSpeed,X                                   ; 0CFBF9 9E F0 09 
@@ -4045,7 +4045,7 @@ L_CFBD2:
 
   LDX.W $068B                                     ; 0CFC15 AE 8B 06 
   LDA.B #$B4                                      ; 0CFC18 A9 B4 
-  STA.W EntityV15,X                                   ; 0CFC1A 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 0CFC1A 9D 80 0D 
   STZ.W EntityXSubSpeed,X                                   ; 0CFC1D 9E 0C 09 
   STZ.W EntityXSpeed,X                                   ; 0CFC20 9E 7E 09 
   STZ.W EntityYSubSpeed,X                                   ; 0CFC23 9E F0 09 
@@ -4054,7 +4054,7 @@ L_CFBD2:
   LDA.B #EntityType_71                                      ; 0CFC2C A9 71 
   STA.W EntityTypeId,X                                   ; 0CFC2E 9D 44 07 
   LDA.B #$01                                      ; 0CFC31 A9 01 
-  STA.W EntityV15,X                                   ; 0CFC33 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 0CFC33 9D 80 0D 
   LDA.B #$78                                      ; 0CFC36 A9 78 
   STA.W EntityV16,X                                   ; 0CFC38 9D F2 0D 
   LDA.W EntityV31,X                                   ; 0CFC3B BD A0 14 

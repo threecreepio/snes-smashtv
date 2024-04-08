@@ -3,6 +3,8 @@ CurrentRoom = $5AC
 HighscoreList  = $201E
 HighscoreListL = $7E201E
 
+EnemyLastUsedDoor = $05AA 
+
 ActiveEnemies = $06C6
 
 RoomWavesRemaining      = $1900
@@ -36,7 +38,7 @@ EntityV11    = EntityHeader + (MaxEntities * 11)             ; BB8
 EntityYSubPx = EntityHeader + (MaxEntities * 12)             ; C2A
 EntityYPx    = EntityHeader + (MaxEntities * 13)             ; C9C
 EntityV14    = EntityHeader + (MaxEntities * 14)             ; D0E
-EntityV15    = EntityHeader + (MaxEntities * 15)             ; D80
+EntityTimer15    = EntityHeader + (MaxEntities * 15)             ; D80
 EntityV16    = EntityHeader + (MaxEntities * 16)             ; DF2
 EntityMovementTimer    = EntityHeader + (MaxEntities * 17)             ; E64
 EntityV18    = EntityHeader + (MaxEntities * 18)             ; ED6
@@ -116,9 +118,9 @@ EntityType_75 = $75
 EntityType_76 = $76
 EntityType_77 = $77
 EntityType_78 = $78
-EntityType_79 = $79
-EntityType_7A = $7A
-EntityType_7B = $7B
+EntityType_MutoidManStill = $79
+EntityType_MutoidManVertical = $7A
+EntityType_MutoidManHorizontal = $7B
 EntityType_7C = $7C
 EntityType_82 = $82
 EntityType_83 = $83

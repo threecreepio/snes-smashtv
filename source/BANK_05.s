@@ -1079,7 +1079,7 @@ B_588EF:
   CMP.B #$35                                      ; 0588EF C9 35 
   BNE.B B_588F9                                   ; 0588F1 D0 06 
   LDA.B #$01                                      ; 0588F3 A9 01 
-  STA.W EntityV15,X                                   ; 0588F5 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 0588F5 9D 80 0D 
   RTS                                             ; 0588F8 60 
 
 B_588F9:
@@ -1149,7 +1149,7 @@ B_58978:
   CMP.B #$35                                      ; 058978 C9 35 
   BNE.B B_58982                                   ; 05897A D0 06 
   LDA.B #$01                                      ; 05897C A9 01 
-  STA.W EntityV15,X                                   ; 05897E 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 05897E 9D 80 0D 
   RTS                                             ; 058981 60 
 
 B_58982:
@@ -1207,7 +1207,7 @@ B_589DE:
   CMP.B #$35                                      ; 0589DE C9 35 
   BNE.B B_589E8                                   ; 0589E0 D0 06 
   LDA.B #$01                                      ; 0589E2 A9 01 
-  STA.W EntityV15,X                                   ; 0589E4 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 0589E4 9D 80 0D 
   RTS                                             ; 0589E7 60 
 
 B_589E8:
@@ -1295,7 +1295,7 @@ B_58A7D:
   CMP.B #$35                                      ; 058A7D C9 35 
   BNE.B B_58A98                                   ; 058A7F D0 17 
   LDA.B #$01                                      ; 058A81 A9 01 
-  STA.W EntityV15,X                                   ; 058A83 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 058A83 9D 80 0D 
   LDA.B #$00                                      ; 058A86 A9 00 
   STA.W EntityV3,X                                   ; 058A88 9D 28 08 
   STZ.W EntityXSubSpeed,X                                   ; 058A8B 9E 0C 09 
@@ -1317,7 +1317,7 @@ B_58AA2:
   LDA.B #EntityType_35                                      ; 058AA6 A9 35 
   STA.W EntityTypeId,X                                   ; 058AA8 9D 44 07 
   LDA.B #$01                                      ; 058AAB A9 01 
-  STA.W EntityV15,X                                   ; 058AAD 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 058AAD 9D 80 0D 
   LDA.B #$00                                      ; 058AB0 A9 00 
   STA.W EntityV3,X                                   ; 058AB2 9D 28 08 
   STZ.W EntityXSubSpeed,X                                   ; 058AB5 9E 0C 09 
@@ -2444,7 +2444,7 @@ B_59ADA:
   STA.W $05D0                                     ; 059AE8 8D D0 05 
   LDA.B #$05                                      ; 059AEB A9 05 
   STA.W EntityV20,X                                   ; 059AED 9D BA 0F 
-  STZ.W EntityV15,X                                   ; 059AF0 9E 80 0D 
+  STZ.W EntityTimer15,X                                   ; 059AF0 9E 80 0D 
   LDA.B #$E6                                      ; 059AF3 A9 E6 
   STA.W EntityV29,X                                   ; 059AF5 9D BC 13 
   PHX                                             ; 059AF8 DA 
@@ -2573,7 +2573,7 @@ B_59BC6:
 B_59BD3:
   STA.W EntityV35,X                                   ; 059BD3 9D 6C 16 
   LDA.B #$00                                      ; 059BD6 A9 00 
-  STA.W EntityV15,X                                   ; 059BD8 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 059BD8 9D 80 0D 
   ASL                                             ; 059BDB 0A 
   TAY                                             ; 059BDC A8 
   PHB                                             ; 059BDD 8B 
@@ -2662,7 +2662,7 @@ B_59C54:
   JSL L_AEF1                                      ; 059C8E 22 F1 AE 00 
 B_59C92:
   LDA.B #$C8                                      ; 059C92 A9 C8 
-  STA.W EntityV15,X                                   ; 059C94 9D 80 0D 
+  STA.W EntityTimer15,X                                   ; 059C94 9D 80 0D 
   LDA.B #$01                                      ; 059C97 A9 01 
   STA.W EntityV16,X                                   ; 059C99 9D F2 0D 
   RTS                                             ; 059C9C 60 
@@ -3123,7 +3123,7 @@ B_5A0B9:
   JSL AdvanceRNG                                     ; 05A0CC 22 95 CA 0E 
   AND.B #$1F                                      ; 05A0D0 29 1F 
   ADC.B #$20                                      ; 05A0D2 69 20 
-  STA.W EntityV15+2,X                                   ; 05A0D4 9D 82 0D 
+  STA.W EntityTimer15+2,X                                   ; 05A0D4 9D 82 0D 
   LDA.B #$56                                      ; 05A0D7 A9 56 
   STA.W EntityTypeId+2,X                                   ; 05A0D9 9D 46 07 
 B_5A0DC:
