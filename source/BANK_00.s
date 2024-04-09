@@ -7519,7 +7519,7 @@ SpawnRoomWave:
   JMP.W ($C339,X)                                 ; 00C336 7C 39 C3 
 
 .addr SpawnWave_C3D8
-.addr SpawnWave_C3DA
+.addr SpawnWave_Dude
 .addr $C482
 .addr $C562
 .addr $C692
@@ -7557,31 +7557,31 @@ InitRoomWave:
 .byte $31,$D9,$D7,$D9,$E7,$D9                     ; 00C398 DDDD..   1?????
 
 
-L_C39D:
-  JSL AdvanceRNG                                     ; 00C39D 22 95 CA 0E 
-  AND.B #$0F                                      ; 00C3A1 29 0F 
-  TAY                                             ; 00C3A3 A8 
-  LDA.W DoorSelectin,Y                                  ; 00C3A4 B9 C0 C3 
-  CMP.W EnemyLastUsedDoor                                     ; 00C3A7 CD AA 05 
-  BNE.B @Place                                    ; 00C3AA D0 03 
-  INC A
-  AND.B #$03                                      ; 00C3AD 29 03 
+PlaceEntityAtRandomDoor:
+  jsl AdvanceRNG                                  ; advance rng to select a door
+  and #$0F                                        ; keep bits for the number of doors available
+  tay                                             ;
+  lda SpawnDoorIndex,y                            ; fetch selected door number
+  cmp EnemyLastUsedDoor                           ; is this the same door that we picked last time?
+  bne @Place                                      ; no - skip ahead
+  inc a                                           ; yes - rotate clockwise 1 step
+  and #$03                                        ;
 @Place:
-  STA.W EnemyLastUsedDoor                                     ; 00C3AF 8D AA 05 
-  TAY                                             ; 00C3B2 A8 
-  LDA.W D_C3D0,Y                                  ; 00C3B3 B9 D0 C3 
-  STA.W EntityXPx,X                              ; 00C3B6 9D 46 0B 
-  LDA.W D_C3D4,Y                                  ; 00C3B9 B9 D4 C3 
-  STA.W EntityYPx,X                                   ; 00C3BC 9D 9C 0C 
-  RTS                                             ; 00C3BF 60 
+  sta EnemyLastUsedDoor                           ; store door so we don't reuse it next time
+  tay                                             ;
+  lda SpawnDoorXPositions,y                       ;
+  Sta EntityXPx,x                                 ;
+  lda SpawnDoorYPositions,y                       ;
+  sta EntityYPx,x                                 ;
+  rts                                             ; done!
 
 
-DoorSelectin:
+SpawnDoorIndex:
 .byte $00,$00,$01,$01,$02,$02,$00,$03             ; 00C3C0 DDDDDDDD ????????
 .byte $00,$00,$02,$01,$02,$02,$03,$03             ; 00C3C8 DDDDDDDD ????????
-D_C3D0:
+SpawnDoorXPositions:
 .byte $80,$FA,$80,$04                             ; 00C3D1 DDDD     ????
-D_C3D4:
+SpawnDoorYPositions:
 .byte $06,$80,$E0,$80
 
 SpawnWave_C3D8:
@@ -7589,53 +7589,52 @@ SpawnWave_C3D8:
   rts
 
 
-SpawnWave_C3DA:
-  LDA.W EnemyDudesSpawned                                     ; 00C3DA AD E4 18 
-  CMP.W $18F2                                     ; 00C3DD CD F2 18 
-  BCS.B B_C435                                    ; 00C3E0 B0 53 
-  JSL FindEmptyEntitySlot                                     ; 00C3E2 22 F3 80 03 
-  BNE.B B_C435                                    ; 00C3E6 D0 4D 
-  INC.W ActiveEnemies                                     ; 00C3E8 EE C6 06 
-  CLC                                             ; 00C3EB 18 
-  LDA.W EnemyDudesSpawned                                     ; 00C3EC AD E4 18 
-  ADC.B #$06                                      ; 00C3EF 69 06 
-  STA.W EnemyDudesSpawned                                     ; 00C3F1 8D E4 18 
-  JSL ClearEntitySlotData                                     ; 00C3F4 22 94 80 03 
-  LDA.B #$01                                      ; 00C3F8 A9 01 
-  STA.W EntityHeader,X                                   ; 00C3FA 9D D2 06 
-  JSR.W L_C39D                                    ; 00C3FD 20 9D C3 
-  TYA                                             ; 00C400 98 
-  STA.W EntityV21,X                                   ; 00C401 9D 2C 10 
-  BNE.B B_C40E                                    ; 00C404 D0 08 
+SpawnWave_Dude:
+  lda EnemyDudesSpawned                           ; check how many dudes are on screen
+  cmp MaxDudesOnScreen                            ; are there too many?
+  bcs @DudesDone                                  ; yep - bail
+  jsl FindEmptyEntitySlot                         ; otherwise find a slot to spawn our dude
+  bne @DudesDone                                  ; if there are no slots, we can make no dudes.
+  inc ActiveEnemies                               ; advance active waves on screen
+  clc                                             ;
+  lda EnemyDudesSpawned                           ; and advance the dude counter by 6
+  adc #$06                                        ;
+  sta EnemyDudesSpawned                           ;
+  jsl ClearEntitySlotData                         ; prepare the slot for our dude
+  lda #$01                                        ; mark as active
+  sta EntityHeader,x                              ;
+  jsr PlaceEntityAtRandomDoor                     ; move to entrance door
+  tya                                             ;
+  sta EntityV21,x                                 ; mark unit with which door it entered through
+  BNE.B @B_C40E                                    ; 00C404 D0 08 
   LDA.B #$01                                      ; 00C406 A9 01 
   STA.W $05E4                                     ; 00C408 8D E4 05 
   STA.W $05E3                                     ; 00C40B 8D E3 05 
-B_C40E:
-  LDA.B #EntityType_Dude                                      ; 00C40E A9 14 
-  STA.W EntityTypeId,X                                   ; 00C410 9D 44 07 
-  LDA.B #$00                                      ; 00C413 A9 00 
-  STA.W EntityV3,X                                   ; 00C415 9D 28 08 
-  LDY.B $10                                       ; 00C418 A4 10 
-  LDA.W RoomWaveVariantRate,Y                                   ; 00C41A B9 1E 19 
-  STA.W EntityV22,X                                   ; 00C41D 9D 9E 10 
-  JSL AdvanceRNG                                     ; 00C420 22 95 CA 0E 
-  AND.B #$03                                      ; 00C424 29 03 
-  BNE.B B_C431                                    ; 00C426 D0 09 
-  JSL AdvanceRNG                                     ; 00C428 22 95 CA 0E 
-  AND.B #$07                                      ; 00C42C 29 07 
-  CLC                                             ; 00C42E 18 
-  ADC.B #$04                                      ; 00C42F 69 04 
-B_C431:
-  STA.W EntityV20,X                                   ; 00C431 9D BA 0F 
-  RTS                                             ; 00C434 60 
-
-B_C435:
-  LDA.B #$00                                      ; 00C435 A9 00 
-  RTS                                             ; 00C437 60 
+@B_C40E:
+  lda #EntityType_Dude                            ; let our new dude know he's a dude
+  sta EntityTypeId,x                              ;
+  lda #$00                                        ;
+  sta EntityV3,x                                  ;
+  ldy CurrentActiveWave                           ; get the index of the wave
+  lda RoomWaveVariantRate,y                       ; and get the variant rate from that wave
+  sta EntityV22,x                                 ; store that rate on the entity
+  jsl AdvanceRNG                                  ; step rng!
+  and #$03                                        ; is one of the two low bits set?
+  bne @B_C431                                   ; yes - skip ahead
+  jsl AdvanceRNG                                  ; otherwise get a new random value between 4 and 11
+  and #$07                                        ;
+  clc                                             ;
+  adc #$04                                        ;
+@B_C431:
+  sta EntityV20,x                                 ; todo - what is this?
+  rts                                             ;
+@DudesDone:
+  lda #$00                                        ; we're done with the dude!
+  rts                                             ;
 
   LDX.B $10                                       ; 00C438 A6 10 
   LDA.W RoomWaveActiveTarget,X                                   ; 00C43A BD 17 19 
-  STA.W $18F2                                     ; 00C43D 8D F2 18 
+  STA.W MaxDudesOnScreen                                     ; 00C43D 8D F2 18 
   REP.B #P_Acc8Bit                                      ; 00C440 C2 20 
   LDA.W #$B000                                    ; 00C442 A9 00 B0 
   STA.W $1ACA                                     ; 00C445 8D CA 1A 
@@ -7960,7 +7959,7 @@ B_CA1C:
   STA.W EntityTimer15,X                                   ; 00CA53 9D 80 0D 
   LDA.B #$FF                                      ; 00CA56 A9 FF 
   STA.W EntityV20,X                                   ; 00CA58 9D BA 0F 
-  JSR.W L_C39D                                    ; 00CA5B 20 9D C3 
+  JSR.W PlaceEntityAtRandomDoor                                    ; 00CA5B 20 9D C3 
   STY.B $08                                       ; 00CA5E 84 08 
   TYA                                             ; 00CA60 98 
   BNE.B B_CA6B                                    ; 00CA61 D0 08 
@@ -8100,7 +8099,7 @@ B_CB5B:
   JSL AdvanceRNG                                     ; 00CB89 22 95 CA 0E 
   AND.B #$01                                      ; 00CB8D 29 01 
   STA.W EntityV20,X                                   ; 00CB8F 9D BA 0F 
-  JSR.W L_C39D                                    ; 00CB92 20 9D C3 
+  JSR.W PlaceEntityAtRandomDoor                                    ; 00CB92 20 9D C3 
   TYA                                             ; 00CB95 98 
   BNE.B B_CBA0                                    ; 00CB96 D0 08 
   LDA.B #$01                                      ; 00CB98 A9 01 
@@ -8255,7 +8254,7 @@ B_CCF3:
 .byte $9C,$0C,$A0,$00,$80,$03                     ; 00CD06 ......   ??????
 
 B_CD0B:
-  JSR.W L_C39D                                    ; 00CD0B 20 9D C3 
+  JSR.W PlaceEntityAtRandomDoor                                    ; 00CD0B 20 9D C3 
   TYA                                             ; 00CD0E 98 
   BNE.B B_CD19                                    ; 00CD0F D0 08 
   LDA.B #$01                                      ; 00CD11 A9 01 

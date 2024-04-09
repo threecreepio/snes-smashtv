@@ -2,6 +2,9 @@ CurrentCircuit = $5AB
 CurrentRoom = $5AC
 HighscoreList  = $201E
 HighscoreListL = $7E201E
+MaxDudesOnScreen = $18F2
+
+CurrentActiveWave = $10
 
 EnemyLastUsedDoor = $05AA 
 
