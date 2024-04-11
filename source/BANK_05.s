@@ -3311,27 +3311,32 @@ MutoidManApplyDamage:
   adc #$00                                        ;
   sta MutoidManFormHPDeficit+1                    ;
   jsl AdvanceRNG                                  ; roll rng!
-  cmp #$10                                      ; 05A44E C9 10 
-  BCS.B B_5A46C                                   ; 05A450 B0 1A 
-  PHX                                             ; 05A452 DA 
-  REP.B #P_Idx8Bit                                      ; 05A453 C2 10 
-  LDA.B #$00                                      ; 05A455 A9 00 
-  XBA                                             ; 05A457 EB 
-  JSL AdvanceRNG                                     ; 05A458 22 95 CA 0E 
-  AND.B #$03                                      ; 05A45C 29 03 
-  ASL                                             ; 05A45E 0A 
-  TAY                                             ; 05A45F A8 
-  LDX.W D_5A46D,Y                                 ; 05A460 BE 6D A4 
-  LDA.B #$07                                      ; 05A463 A9 07 
-  SEP.B #P_Idx8Bit                                      ; 05A469 E2 10 
-  PLX                                             ; 05A46B FA 
-B_5A46C:
-  RTS                                             ; 05A46C 60 
-
-
-D_5A46D:
-.byte $25,$FF,$2B,$FF,$2B,$FF,$2B,$FF             ; 05A46D DDDDDDDD %?+?+?+?
+  cmp #$10                                        ; did we roll a value >= 16?
+  bcs @Done                                       ; yep - skip ahead
+  phx                                             ; no - we'll play a random sound effect
+  rep #P_Idx8Bit                                  ; use 16 bit indexer
+  lda #$00                                        ; clear register
+  xba                                             ;
+  jsl AdvanceRNG                                  ; get a new random value
+  and #%11                                        ; only using 0-3 range
+  asl a                                           ; multiply value by 2 for offset
+  tay                                             ;
+  ldx.w MutoidManFormChangeSound,y                ; select random sound
+  lda #$07                                        ;
   jsl Audio_PlaySound                             ; and play it!
+  sep #P_Idx8Bit                                  ; re-set 8 bit indexer
+  plx                                             ; and restore original X
+@Done:
+  RTS                                             ; done!
+
+
+MutoidManFormChangeSound:
+.byte $25,$FF ; mutoid man random sound
+.byte $2B,$FF ; mutoid man random sound
+.byte $2B,$FF ; mutoid man random sound
+.byte $2B,$FF ; mutoid man random sound
+
+
 .byte $18,$6D,$B1,$06,$8D,$B1,$06,$90             ; 05A475 ........ ?m??????
 .byte $0D,$9C,$B1,$06,$AD,$B0,$06,$C9             ; 05A47D ........ ????????
 .byte $07,$F0,$03,$EE,$B0,$06,$48,$22             ; 05A485 ........ ??????H"
