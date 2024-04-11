@@ -4135,7 +4135,7 @@ L_CFD26:
   REP.B #P_Idx8Bit                                      ; 0CFD2F C2 10 
   LDX.W #$FF2B                                    ; 0CFD31 A2 2B FF 
   LDA.B #$07                                      ; 0CFD34 A9 07 
-  JSL Audio_F830F                                     ; 0CFD36 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 0CFD36 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 0CFD3A E2 10 
   PLX                                             ; 0CFD3C FA 
 B_CFD3D:

@@ -211,7 +211,7 @@ Audio_F82AD:
   RTS                                             ; 0F830E 60 
 
 
-Audio_F830F:
+Audio_PlaySound:
   PHP                                             ; 0F830F 08 
   SEP.B #P_Acc8Bit                                      ; 0F8310 E2 20 
   XBA                                             ; 0F8312 EB 
@@ -282,7 +282,7 @@ L_F836D:
   STA.B $F7                                    ; 0F838F 85 F7 
   SEP.B #P_Acc8Bit                                      ; 0F8391 E2 20 
   LDA.B #$01                                      ; 0F8393 A9 01 
-  JSL Audio_F830F                                     ; 0F8395 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 0F8395 22 0F 83 0F 
   REP.B #P_Acc8Bit                                      ; 0F8399 C2 20 
   INY                                             ; 0F839B C8 
   INY                                             ; 0F839C C8 
@@ -411,7 +411,7 @@ B_F843C:
   SEP.B #P_Acc8Bit                                      ; 0F845A E2 20 
   LDA.B #$10                                      ; 0F845C A9 10 
   LDX.B $FD                                     ; 0F845E A6 FD 
-  JSL Audio_F830F                                     ; 0F8460 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 0F8460 22 0F 83 0F 
   LDA.B $FB                                  ; 0F8464 A5 FB 
   JSR.W Audio_F832C                                   ; 0F8466 20 2C 83 
   LDA.B $FC                                  ; 0F8469 A5 FC 
@@ -448,7 +448,7 @@ L_F84BE:
   PHA                                             ; 0F84C3 48 
   LDA.B #$04                                      ; 0F84C4 A9 04 
   LDX.W #$0000                                    ; 0F84C6 A2 00 00 
-  JSL Audio_F830F                                     ; 0F84C9 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 0F84C9 22 0F 83 0F 
   PLA                                             ; 0F84CD 68 
   BEQ.B B_F84EA                                   ; 0F84CE F0 1A 
   REP.B #P_Acc8Bit                                      ; 0F84D0 C2 20 
@@ -461,7 +461,7 @@ L_F84BE:
   PLX                                             ; 0F84E1 FA 
   SEP.B #P_Acc8Bit                                      ; 0F84E2 E2 20 
   LDA.B #$04                                      ; 0F84E4 A9 04 
-  JSL Audio_F830F                                     ; 0F84E6 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 0F84E6 22 0F 83 0F 
 B_F84EA:
   PLP                                             ; 0F84EA 28 
   RTL                                             ; 0F84EB 6B 
@@ -473,7 +473,7 @@ SoundEngine_PlayMusic:
   PHA                                             ; 0F84F1 48 
   LDA.B #$04                                      ; 0F84F2 A9 04 
   LDX.W #$0000                                    ; 0F84F4 A2 00 00 
-  JSL Audio_F830F                                     ; 0F84F7 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 0F84F7 22 0F 83 0F 
   PLA                                             ; 0F84FB 68 
   BEQ.B B_F851C                                   ; 0F84FC F0 1E 
   REP.B #P_Acc8Bit                                      ; 0F84FE C2 20 
@@ -488,7 +488,7 @@ SoundEngine_PlayMusic:
   TAX                                             ; 0F8513 AA 
   SEP.B #P_Acc8Bit                                      ; 0F8514 E2 20 
   LDA.B #$04                                      ; 0F8516 A9 04 
-  JSL Audio_F830F                                     ; 0F8518 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 0F8518 22 0F 83 0F 
 B_F851C:
   PLP                                             ; 0F851C 28 
   RTL                                             ; 0F851D 6B 

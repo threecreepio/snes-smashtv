@@ -1026,7 +1026,7 @@ B_58886:
   TAY                                             ; 058892 A8 
   LDX.W D_588A7,Y                                 ; 058893 BE A7 88 
   LDA.B #$07                                      ; 058896 A9 07 
-  JSL Audio_F830F                                     ; 058898 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 058898 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 05889C E2 30 
   PLX                                             ; 05889E FA 
   LDA.B $04                                       ; 05889F A5 04 
@@ -1505,7 +1505,7 @@ L_58CED:
   REP.B #P_Idx8Bit                                      ; 058D16 C2 10 
   LDA.B #$07                                      ; 058D18 A9 07 
   LDX.W #$FF06                                    ; 058D1A A2 06 FF 
-  JSL Audio_F830F                                     ; 058D1D 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 058D1D 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 058D21 E2 30 
   PLX                                             ; 058D23 FA 
   RTS                                             ; 058D24 60 
@@ -1531,7 +1531,7 @@ L_58D25:
   REP.B #P_Idx8Bit                                      ; 058D4E C2 10 
   LDA.B #$07                                      ; 058D50 A9 07 
   LDX.W #$FF06                                    ; 058D52 A2 06 FF 
-  JSL Audio_F830F                                     ; 058D55 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 058D55 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 058D59 E2 30 
   PLX                                             ; 058D5B FA 
   RTS                                             ; 058D5C 60 
@@ -1557,7 +1557,7 @@ L_58D5D:
   REP.B #P_Idx8Bit                                      ; 058D86 C2 10 
   LDA.B #$07                                      ; 058D88 A9 07 
   LDX.W #$FF06                                    ; 058D8A A2 06 FF 
-  JSL Audio_F830F                                     ; 058D8D 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 058D8D 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 058D91 E2 30 
   PLX                                             ; 058D93 FA 
   RTS                                             ; 058D94 60 
@@ -1599,7 +1599,7 @@ L_58DBE:
   REP.B #P_Idx8Bit                                      ; 058DFA C2 10 
   LDA.B #$07                                      ; 058DFC A9 07 
   LDX.W #$FF06                                    ; 058DFE A2 06 FF 
-  JSL Audio_F830F                                     ; 058E01 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 058E01 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 058E05 E2 30 
   PLX                                             ; 058E07 FA 
   RTS                                             ; 058E08 60 
@@ -2111,7 +2111,7 @@ B_59819:
   REP.B #P_Idx8Bit                                      ; 059834 C2 10 
   TAX                                             ; 059836 AA 
   LDA.B #$07                                      ; 059837 A9 07 
-  JSL Audio_F830F                                     ; 059839 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059839 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 05983D E2 30 
   PLX                                             ; 05983F FA 
 B_59840:
@@ -2345,13 +2345,13 @@ L_599F9:
   REP.B #P_Idx8Bit                                      ; 0599FA C2 10 
   LDX.W #$0004                                    ; 0599FC A2 04 00 
   LDA.B #$0F                                      ; 0599FF A9 0F 
-  JSL Audio_F830F                                     ; 059A01 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059A01 22 0F 83 0F 
   LDA.B #$07                                      ; 059A05 A9 07 
   LDX.W #$8815                                    ; 059A07 A2 15 88 
-  JSL Audio_F830F                                     ; 059A0A 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059A0A 22 0F 83 0F 
   LDX.W $05E0                                     ; 059A0E AE E0 05 
   LDA.B #$0F                                      ; 059A11 A9 0F 
-  JSL Audio_F830F                                     ; 059A13 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059A13 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 059A17 E2 10 
   PLX                                             ; 059A19 FA 
   RTS                                             ; 059A1A 60 
@@ -2604,7 +2604,7 @@ B_59BD3:
   SEP.B #P_Acc8Bit                                      ; 059C19 E2 20 
   LDA.B #$07                                      ; 059C1B A9 07 
   LDX.W #$FF10                                    ; 059C1D A2 10 FF 
-  JSL Audio_F830F                                     ; 059C20 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059C20 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 059C24 E2 30 
   PLX                                             ; 059C26 FA 
   RTS                                             ; 059C27 60 
@@ -2738,7 +2738,7 @@ B_59CE6:
   REP.B #P_Idx8Bit                                      ; 059D10 C2 10 
   LDA.B #$07                                      ; 059D12 A9 07 
   LDX.W #$FF0E                                    ; 059D14 A2 0E FF 
-  JSL Audio_F830F                                     ; 059D17 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059D17 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 059D1B E2 30 
   JSL L_3803B                                     ; 059D1D 22 3B 80 03 
   PLX                                             ; 059D21 FA 
@@ -2789,7 +2789,7 @@ B_59D5B:
   REP.B #P_Idx8Bit                                      ; 059D6F C2 10 
   LDA.B #$07                                      ; 059D71 A9 07 
   LDX.W #$FF10                                    ; 059D73 A2 10 FF 
-  JSL Audio_F830F                                     ; 059D76 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059D76 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 059D7A E2 30 
   PLX                                             ; 059D7C FA 
   RTS                                             ; 059D7D 60 
@@ -2840,7 +2840,7 @@ B_59D84:
   REP.B #P_Idx8Bit                                      ; 059DE2 C2 10 
   LDA.B #$07                                      ; 059DE4 A9 07 
   LDX.W #$FF12                                    ; 059DE6 A2 12 FF 
-  JSL Audio_F830F                                     ; 059DE9 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059DE9 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 059DED E2 30 
   PLX                                             ; 059DEF FA 
   RTS                                             ; 059DF0 60 
@@ -2902,7 +2902,7 @@ B_59DF9:
   REP.B #P_Idx8Bit                                      ; 059E67 C2 10 
   LDA.B #$07                                      ; 059E69 A9 07 
   LDX.W #$FF16                                    ; 059E6B A2 16 FF 
-  JSL Audio_F830F                                     ; 059E6E 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059E6E 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 059E72 E2 30 
   PLX                                             ; 059E74 FA 
   RTS                                             ; 059E75 60 
@@ -2986,7 +2986,7 @@ B_59EF2:
   SEP.B #P_Acc8Bit                                      ; 059F18 E2 20 
   TAX                                             ; 059F1A AA 
   LDA.B #$07                                      ; 059F1B A9 07 
-  JSL Audio_F830F                                     ; 059F1D 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059F1D 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 059F21 E2 30 
   PLX                                             ; 059F23 FA 
   RTS                                             ; 059F24 60 
@@ -3040,7 +3040,7 @@ D_59F2D:
   REP.B #P_Idx8Bit                                      ; 059F9E C2 10 
   LDA.B #$07                                      ; 059FA0 A9 07 
   LDX.W #$FF0F                                    ; 059FA2 A2 0F FF 
-  JSL Audio_F830F                                     ; 059FA5 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 059FA5 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 059FA9 E2 10 
   RTS                                             ; 059FAB 60 
 
@@ -3323,7 +3323,6 @@ MutoidManApplyDamage:
   TAY                                             ; 05A45F A8 
   LDX.W D_5A46D,Y                                 ; 05A460 BE 6D A4 
   LDA.B #$07                                      ; 05A463 A9 07 
-  JSL Audio_F830F                                     ; 05A465 22 0F 83 0F 
   SEP.B #P_Idx8Bit                                      ; 05A469 E2 10 
   PLX                                             ; 05A46B FA 
 B_5A46C:
@@ -3332,6 +3331,7 @@ B_5A46C:
 
 D_5A46D:
 .byte $25,$FF,$2B,$FF,$2B,$FF,$2B,$FF             ; 05A46D DDDDDDDD %?+?+?+?
+  jsl Audio_PlaySound                             ; and play it!
 .byte $18,$6D,$B1,$06,$8D,$B1,$06,$90             ; 05A475 ........ ?m??????
 .byte $0D,$9C,$B1,$06,$AD,$B0,$06,$C9             ; 05A47D ........ ????????
 .byte $07,$F0,$03,$EE,$B0,$06,$48,$22             ; 05A485 ........ ??????H"
@@ -3647,7 +3647,7 @@ B_5A6DF:
   REP.B #P_Idx8Bit                                      ; 05A6F9 C2 10 
   TAX                                             ; 05A6FB AA 
   LDA.B #$07                                      ; 05A6FC A9 07 
-  JSL Audio_F830F                                     ; 05A6FE 22 0F 83 0F 
+  JSL Audio_PlaySound                                     ; 05A6FE 22 0F 83 0F 
   SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 05A702 E2 30 
   PLX                                             ; 05A704 FA 
 B_5A705:
