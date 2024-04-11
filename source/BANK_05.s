@@ -1402,7 +1402,7 @@ B_58B9F:
 
 .byte $01,$01                                     ; 058BA3 DD       ??
 
-D_58BA4:
+MutoidManProjectileDamage
 .byte $08,$02,$01,$01,$00,$08                     ; 058BA5 DDD.D.   ??????
 
 
@@ -1428,7 +1428,7 @@ GetMutoidManProjectileDamage:
   LDY.B $1E                                       ; 058BC9 A4 1E 
   LDA.W EntityTypeId+Projectiles,Y                                   ; 058BCB B9 86 07 
   TAY                                             ; 058BCE A8 
-  LDA.W D_58BA4,Y                                 ; 058BCF B9 A4 8B 
+  LDA.W MutoidManProjectileDamage,Y                                 ; 058BCF B9 A4 8B 
   RTS                                             ; 058BD2 60 
 
 B_58BD3:
@@ -3303,15 +3303,15 @@ B_5A188:
 .byte $60,$60,$60,$60,$60,$60,$60                 ; 05A435 .......  ```````
 
 
-L_5A43B:
-  CLC                                             ; 05A43B 18 
-  ADC.W XexzyMutoidHealth                         ; 05A43C 6D 9A 06 
-  STA.W XexzyMutoidHealth                         ; 05A43F 8D 9A 06 
-  LDA.W XexzyMutoidHealth+1                                     ; 05A442 AD 9B 06 
-  ADC.B #$00                                      ; 05A445 69 00 
-  STA.W XexzyMutoidHealth+1                                     ; 05A447 8D 9B 06 
-  JSL AdvanceRNG                                     ; 05A44A 22 95 CA 0E 
-  CMP.B #$10                                      ; 05A44E C9 10 
+MutoidManApplyDamage:
+  clc                                             ;
+  adc MutoidManFormHPDeficit                      ; add damage value to mutoid man health
+  Sta MutoidManFormHPDeficit                      ;
+  lda MutoidManFormHPDeficit+1                    ;
+  adc #$00                                        ;
+  sta MutoidManFormHPDeficit+1                    ;
+  jsl AdvanceRNG                                  ; roll rng!
+  cmp #$10                                      ; 05A44E C9 10 
   BCS.B B_5A46C                                   ; 05A450 B0 1A 
   PHX                                             ; 05A452 DA 
   REP.B #P_Idx8Bit                                      ; 05A453 C2 10 
@@ -3360,7 +3360,7 @@ B_5A4B2:
 
   JSR.W GetMutoidManProjectileDamage                                   ; 05A4C5 20 C4 8B 
   BEQ.B B_5A4F0                                   ; 05A4C8 F0 26 
-  JSR.W L_5A43B                                   ; 05A4CA 20 3B A4 
+  JSR.W MutoidManApplyDamage                                   ; 05A4CA 20 3B A4 
   LDA.B #$19                                      ; 05A4CD A9 19 
   STA.W $0699                                     ; 05A4CF 8D 99 06 
   LDA.B #$50                                      ; 05A4D2 A9 50 
@@ -3386,7 +3386,7 @@ B_5A4F0:
 
   JSR.W GetMutoidManProjectileDamage                                   ; 05A4F5 20 C4 8B 
   BEQ.B B_5A520                                   ; 05A4F8 F0 26 
-  JSR.W L_5A43B                                   ; 05A4FA 20 3B A4 
+  JSR.W MutoidManApplyDamage                                   ; 05A4FA 20 3B A4 
   LDA.B #$19                                      ; 05A4FD A9 19 
   STA.W $0699                                     ; 05A4FF 8D 99 06 
   LDA.B #$50                                      ; 05A502 A9 50 
@@ -3423,7 +3423,7 @@ B_5A520:
   BNE.B B_5A565                                   ; 05A531 D0 32 
   JSR.W GetMutoidManProjectileDamage                                   ; 05A533 20 C4 8B 
   BEQ.B B_5A561                                   ; 05A536 F0 29 
-  JSR.W L_5A43B                                   ; 05A538 20 3B A4 
+  JSR.W MutoidManApplyDamage                                   ; 05A538 20 3B A4 
   LDA.B #$1E                                      ; 05A53B A9 1E 
   STA.W $0699                                     ; 05A53D 8D 99 06 
   JSR.W L_5A4A5                                   ; 05A540 20 A5 A4 

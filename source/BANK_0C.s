@@ -3980,13 +3980,13 @@ L_CFB81:
   ADC.W MutoidCurrentForm                                     ; 0CFB89 6D 9C 06 
   ASL                                             ; 0CFB8C 0A 
   TAX                                             ; 0CFB8D AA 
-  LDA.W XexzyMutoidHealth                         ; 0CFB8E AD 9A 06 
+  LDA.W MutoidManFormHPDeficit                         ; 0CFB8E AD 9A 06 
   CMP.L MutoidTransitionPoints,X                                 ; 0CFB91 DF B2 FB 0C 
-  LDA.W XexzyMutoidHealth+1                                     ; 0CFB95 AD 9B 06 
+  LDA.W MutoidManFormHPDeficit+1                                     ; 0CFB95 AD 9B 06 
   SBC.L MutoidTransitionPoints+1,X                                 ; 0CFB98 FF B3 FB 0C 
   BCC.B B_CFBB0                                   ; 0CFB9C 90 12 
-  STZ.W XexzyMutoidHealth                         ; 0CFB9E 9C 9A 06 
-  STZ.W XexzyMutoidHealth+1                                     ; 0CFBA1 9C 9B 06 
+  STZ.W MutoidManFormHPDeficit                         ; 0CFB9E 9C 9A 06 
+  STZ.W MutoidManFormHPDeficit+1                                     ; 0CFBA1 9C 9B 06 
   INC.W MutoidCurrentForm                                     ; 0CFBA4 EE 9C 06 
   LDA.W MutoidCurrentForm                                     ; 0CFBA7 AD 9C 06 
   DEC A

@@ -243,8 +243,8 @@ RNG1 = $5A9
 DropTimer = $5AE
 PrizeTimer = $5AF
 
-XexzyMutoidHealth = $69A
-;XexzyMutoidHealth = $69B
+MutoidManFormHPDeficit = $69A
+;MutoidManFormHPDeficit = $69B
 MutoidCurrentForm = $69C
 MutoidType = $69E ; mutoid / evil mc
 

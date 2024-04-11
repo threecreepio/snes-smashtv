@@ -8579,8 +8579,8 @@ B_D19E:
   LDA.B #$01                                      ; 00D382 A9 01 
   STA.W $05DE                                     ; 00D384 8D DE 05 
   STZ.W $0699                                     ; 00D387 9C 99 06 
-  STZ.W XexzyMutoidHealth                         ; 00D38A 9C 9A 06 
-  STZ.W XexzyMutoidHealth+1                                     ; 00D38D 9C 9B 06 
+  STZ.W MutoidManFormHPDeficit                         ; 00D38A 9C 9A 06 
+  STZ.W MutoidManFormHPDeficit+1                                     ; 00D38D 9C 9B 06 
   STZ.W MutoidCurrentForm                                     ; 00D390 9C 9C 06 
   LDA.B #$01                                      ; 00D393 A9 01 
   STA.W $1AAF                                     ; 00D395 8D AF 1A 

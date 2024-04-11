@@ -13,7 +13,7 @@ CF      FrameCounter
 5A9     RNG1
 6D4     XexzyWeaponOnFloorMaybe
 189D    XexzyAmmoCounter
-69A     XexzyMutoidHealth
+69A     MutoidManFormHPDeficit
 97      PlayerCurrentScore
 1886    XexzyWalkAnimation
 30D     XexzyLegY

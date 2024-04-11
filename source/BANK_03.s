@@ -7017,7 +7017,7 @@ B_3DC7A:
   JSL L_CFD26                                     ; 03DC7D 22 26 FD 0C 
 B_3DC81:
   JSR.W L_3E1A7                                   ; 03DC81 20 A7 E1 
-  JSR.W L_3DF64                                   ; 03DC84 20 64 DF 
+  JSR.W MutoidManChangeDirection                                   ; 03DC84 20 64 DF 
   JSL L_CFDAC                                     ; 03DC87 22 AC FD 0C 
   JSR.W L_3DFBF                                   ; 03DC8B 20 BF DF 
   JSR.W L_3E180                                   ; 03DC8E 20 80 E1 
@@ -7085,7 +7085,7 @@ B_3DCFA:
   STA.W EntityTimer15,X                                   ; 03DD1E 9D 80 0D 
 B_3DD21:
   JSR.W L_3E1A7                                   ; 03DD21 20 A7 E1 
-  JSR.W L_3DF64                                   ; 03DD24 20 64 DF 
+  JSR.W MutoidManChangeDirection                                   ; 03DD24 20 64 DF 
   JSL L_CFDAC                                     ; 03DD27 22 AC FD 0C 
   JSR.W L_3DFBF                                   ; 03DD2B 20 BF DF 
   JSR.W L_3E180                                   ; 03DD2E 20 80 E1 
@@ -7190,7 +7190,7 @@ B_3DDB5:
   STA.W EntityTimer15,X                                   ; 03DDD9 9D 80 0D 
 B_3DDDC:
   JSR.W L_3E1A7                                   ; 03DDDC 20 A7 E1 
-  JSR.W L_3DF64                                   ; 03DDDF 20 64 DF 
+  JSR.W MutoidManChangeDirection                                   ; 03DDDF 20 64 DF 
   JSL L_CFDAC                                     ; 03DDE2 22 AC FD 0C 
   JSR.W L_3DFBF                                   ; 03DDE6 20 BF DF 
   JSR.W L_3E180                                   ; 03DDE9 20 80 E1 
@@ -7209,7 +7209,7 @@ D_3DDF2:
   LDA.B #$01                                      ; 03DE09 A9 01 
   STA.W EntityTimer15,X                                   ; 03DE0B 9D 80 0D 
 B_3DE0E:
-  JSR.W L_3DF64                                   ; 03DE0E 20 64 DF 
+  JSR.W MutoidManChangeDirection                                   ; 03DE0E 20 64 DF 
   JSL L_CFDAC                                     ; 03DE11 22 AC FD 0C 
   LDA.B $D2                                       ; 03DE15 A5 D2 
   AND.B #$01                                      ; 03DE17 29 01 
@@ -7266,7 +7266,7 @@ EntityHandler_MutoidBody_Explode:
 .byte $4C,$41,$81                                 ; 03DF62 ...      LA?
 
 
-L_3DF64:
+MutoidManChangeDirection:
   LDA.W $0699                                     ; 03DF64 AD 99 06 
   BEQ.B B_3DFB6                                   ; 03DF67 F0 4D 
   DEC.W $0699                                     ; 03DF69 CE 99 06 
@@ -7275,14 +7275,14 @@ L_3DF64:
   TAY                                             ; 03DF72 A8 
   CLC                                             ; 03DF73 18 
   LDA.W EntityXPx,X                              ; 03DF74 BD 46 0B 
-  ADC.W D_3DFB7,Y                                 ; 03DF77 79 B7 DF 
+  ADC.W MutoidManRandomDirections,Y                                 ; 03DF77 79 B7 DF 
   STA.W EntityXPx,X                              ; 03DF7A 9D 46 0B 
   JSL AdvanceRNG                                     ; 03DF7D 22 95 CA 0E 
   AND.B #$07                                      ; 03DF81 29 07 
   TAY                                             ; 03DF83 A8 
   CLC                                             ; 03DF84 18 
   LDA.W EntityYPx,X                                   ; 03DF85 BD 9C 0C 
-  ADC.W D_3DFB7,Y                                 ; 03DF88 79 B7 DF 
+  ADC.W MutoidManRandomDirections,Y                                 ; 03DF88 79 B7 DF 
   STA.W EntityYPx,X                                   ; 03DF8B 9D 9C 0C 
   LDA.B #$2E                                      ; 03DF8E A9 2E 
   CMP.W EntityYPx,X                                   ; 03DF90 DD 9C 0C 
@@ -7309,7 +7309,7 @@ B_3DFB6:
   RTS                                             ; 03DFB6 60 
 
 
-D_3DFB7:
+MutoidManRandomDirections:
 .byte $00,$01,$02,$00,$00,$FF,$FE,$00             ; 03DFB7 DDDDDDDD ????????
 
 
