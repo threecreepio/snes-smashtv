@@ -7032,13 +7032,13 @@ DecreaseEquippedWeaponAmmo:
   sep #P_Acc8Bit                                  ; set 8 bit accumulator
   ldx #$0004                                      ; play some sounds!
   lda #$0F                                        ; 
-  jsl Audio_F830F                                 ; 
+  jsl Audio_PlaySound                             ; 
   lda #$07                                        ; and more sounds!
   ldx #$FF13                                      ; 
-  jsl Audio_F830F                                 ; 
+  jsl Audio_PlaySound                             ; 
   ldx #$0001                                      ; and some more sounds!
   lda #$0F                                        ; 
-  jsl Audio_F830F                                 ; 
+  jsl Audio_PlaySound                             ; 
   sep #P_Idx8Bit | P_Acc8Bit                      ; re-enable 8 bit modes
   plx                                             ; and restore player index from stack
 @Done2:
