@@ -1402,7 +1402,7 @@ B_58B9F:
 
 .byte $01,$01                                     ; 058BA3 DD       ??
 
-MutoidManProjectileDamage
+MutoidManProjectileDamage:
 .byte $08,$02,$01,$01,$00,$08                     ; 058BA5 DDD.D.   ??????
 
 

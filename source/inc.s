@@ -2,7 +2,6 @@ CurrentCircuit = $5AB
 CurrentRoom = $5AC
 HighscoreList  = $201E
 HighscoreListL = $7E201E
-MaxDudesOnScreen = $18F2
 
 CurrentActiveWave = $10
 
@@ -224,6 +223,7 @@ EquippedWeaponMaxMagazines = $189B
 ActivePlayerEntity = $18C0
 
 
+MaxDudesOnScreen = $18F2
 EnemyDudesSpawned = $18E4
 
 VRAMPalette = $1AF1
