@@ -127,7 +127,7 @@ ReturnToTitleMenu:
   BEQ.B B_8159                                    ; 00814E F0 09 
 
   JSL RunCircuitWarpScreen
-  LDA $05AB
+  LDA CurrentCircuit
   BMI RunGameCreditsScreen
 
 B_8159:
@@ -1861,7 +1861,7 @@ B_907D:
   JSR.W L_828A                                    ; 0090B2 20 8A 82 
   JSR.W L_8BBC                                    ; 0090B5 20 BC 8B 
   JSL Wait1Frame                                     ; 0090B8 22 13 CA 0E 
-  JSR.W L_E883                                    ; 0090BC 20 83 E8 
+  JSR.W DrawNextRoomName                                    ; 0090BC 20 83 E8 
   LDX.B #$01                                      ; 0090BF A2 01 
   JSL L_ACE4                                      ; 0090C1 22 E4 AC 00 
 B_90C5:
@@ -1988,7 +1988,7 @@ B_91C7:
   JSR.W L_8BBC                                    ; 0091E3 20 BC 8B 
   JSL Wait1Frame                                     ; 0091E6 22 13 CA 0E 
   JSL UpdateJoypadState                                     ; 0091EA 22 6A CA 0E 
-  JSR.W L_E883                                    ; 0091EE 20 83 E8 
+  JSR.W DrawNextRoomName                                    ; 0091EE 20 83 E8 
   LDX.B #$01                                      ; 0091F1 A2 01 
   JSL L_ACE4                                      ; 0091F3 22 E4 AC 00 
 B_91F7:
@@ -2218,7 +2218,7 @@ B_93C2:
   LDA.B #$64                                      ; 009404 A9 64 
   STA.W $05E3                                     ; 009406 8D E3 05 
   JSL Wait1Frame                                     ; 009409 22 13 CA 0E 
-  JSR.W L_E883                                    ; 00940D 20 83 E8 
+  JSR.W DrawNextRoomName                                    ; 00940D 20 83 E8 
   LDX.B #$00                                      ; 009410 A2 00 
   LDA.W $06C9                                     ; 009412 AD C9 06 
   ORA.W $06CB                                     ; 009415 0D CB 06 
@@ -9270,10 +9270,10 @@ SpawnNextDrop:
   sta WRMPYA
   lda #$14
   sta WRMPYB
-  nop ; nope!
-  nop ; nope!
-  nop ; nope!
-  nop ; nope!
+  nop ; delay for multiply result
+  nop ;
+  nop ;
+  nop ;
   ldy RDMPYH
   ; get the item at the randomized offset, and store it as the entity id to spawn
   lda (@SpawnNextDrop_RoomPtr),Y
@@ -10276,96 +10276,96 @@ D_E6E0:
 .byte $2D,$00,$00                                 ; 00E881 ...      -??
 
 
-L_E883:
-  PHP                                             ; 00E883 08 
-  SEP.B #P_Idx8Bit | P_Acc8Bit                                      ; 00E884 E2 30 
-  LDA.W CurrentRoom                                     ; 00E886 AD AC 05 
-  BPL.B B_E88D                                    ; 00E889 10 02 
-  plp
-  rts
-B_E88D:
-  PHB                                             ; 00E88D 8B 
-  LDA.B #$00                                      ; 00E88E A9 00 
-  PHA                                             ; 00E890 48 
-  PLB                                             ; 00E891 AB 
-  LDA.W CurrentCircuit                                     ; 00E892 AD AB 05 
-  ASL                                             ; 00E895 0A 
-  TAX                                             ; 00E896 AA 
-  LDA.W CircuitRoomNames,X                                  ; 00E897 BD 89 E9 
-  STA.B $04                                       ; 00E89A 85 04 
-  LDA.W CircuitRoomNames+1,X                                  ; 00E89C BD 8A E9 
-  STA.B $05                                       ; 00E89F 85 05 
-  LDA.W CurrentRoom                                     ; 00E8A1 AD AC 05 
-  DEC A
-  STA.W WRMPYA                                    ; 00E8A5 8D 02 42 
-  LDA.B #$1A                                      ; 00E8A8 A9 1A 
-  STA.W WRMPYB                                    ; 00E8AA 8D 03 42 
-  NOP                                             ; 00E8AD EA 
-  NOP                                             ; 00E8AE EA 
-  NOP                                             ; 00E8AF EA 
-  NOP                                             ; 00E8B0 EA 
-  CLC                                             ; 00E8B1 18 
-  LDA.B $04                                       ; 00E8B2 A5 04 
-  ADC.W RDMPYL                                    ; 00E8B4 6D 16 42 
-  STA.B $04                                       ; 00E8B7 85 04 
-  LDA.B $05                                       ; 00E8B9 A5 05 
-  ADC.W RDMPYH                                    ; 00E8BB 6D 17 42 
-  STA.B $05                                       ; 00E8BE 85 05 
-  LDA.B #$A3                                      ; 00E8C0 A9 A3 
-  STA.B $06                                       ; 00E8C2 85 06 
-  LDA.B #$5D                                      ; 00E8C4 A9 5D 
-  STA.B $07                                       ; 00E8C6 85 07 
-  LDA.B #$80                                      ; 00E8C8 A9 80 
-  STA.W VMAIN                                     ; 00E8CA 8D 15 21 
-  LDA.B $06                                       ; 00E8CD A5 06 
-  STA.W VMADDL                                    ; 00E8CF 8D 16 21 
-  LDA.B $07                                       ; 00E8D2 A5 07 
-  STA.W VMADDH                                    ; 00E8D4 8D 17 21 
-  LDY.B #$00                                      ; 00E8D7 A0 00 
-B_E8D9:
-  LDA.B ($04),Y                                   ; 00E8D9 B1 04 
-  TAX                                             ; 00E8DB AA 
-  LDA.W D_EED7,X                                  ; 00E8DC BD D7 EE 
-  ASL                                             ; 00E8DF 0A 
-  TAX                                             ; 00E8E0 AA 
-  LDA.L D_F6EF,X                                  ; 00E8E1 BF EF F6 00 
-  STA.W VMDATAL                                   ; 00E8E5 8D 18 21 
-  LDA.L D_F6F0,X                                  ; 00E8E8 BF F0 F6 00 
-  ORA.B #$20                                      ; 00E8EC 09 20 
-  STA.W VMDATAH                                   ; 00E8EE 8D 19 21 
-  INY                                             ; 00E8F1 C8 
-  CPY.B #$1A                                      ; 00E8F2 C0 1A 
-  BNE.B B_E8D9                                    ; 00E8F4 D0 E3 
-  CLC                                             ; 00E8F6 18 
-  LDA.B $06                                       ; 00E8F7 A5 06 
-  ADC.B #$20                                      ; 00E8F9 69 20 
-  STA.W VMADDL                                    ; 00E8FB 8D 16 21 
-  LDA.B $07                                       ; 00E8FE A5 07 
-  ADC.B #$00                                      ; 00E900 69 00 
-  STA.W VMADDH                                    ; 00E902 8D 17 21 
-  LDY.B #$00                                      ; 00E905 A0 00 
-B_E907:
-  LDA.B ($04),Y                                   ; 00E907 B1 04 
-  TAX                                             ; 00E909 AA 
-  CLC                                             ; 00E90A 18 
-  LDA.W D_EED7,X                                  ; 00E90B BD D7 EE 
-  ASL                                             ; 00E90E 0A 
-  TAX                                             ; 00E90F AA 
-  LDA.L D_F72F,X                                  ; 00E910 BF 2F F7 00 
-  STA.W VMDATAL                                   ; 00E914 8D 18 21 
-  LDA.L D_F730,X                                  ; 00E917 BF 30 F7 00 
-  ORA.B #$20                                      ; 00E91B 09 20 
-  STA.W VMDATAH                                   ; 00E91D 8D 19 21 
-  INY                                             ; 00E920 C8 
-  CPY.B #$1A                                      ; 00E921 C0 1A 
-  BNE.B B_E907                                    ; 00E923 D0 E2 
-  LDX.B #$00                                      ; 00E925 A2 00 
+DrawNextRoomName:
+  php                                             ; store state
+  sep #P_Idx8Bit | P_Acc8Bit                      ; set processor status
+  lda CurrentRoom                                 ; get currently active room
+  bpl @Continue                                   ; skip ahead if we're not in the starting room
+  plp                                             ; otherwise just restore state and exit
+  rts                                             ;
+@Continue:
+  phb                                             ; store current data bank
+  lda #0                                          ; load 0 to be used as new data bank
+  pha                                             ; push that 0 to the stack
+  plb                                             ; and load new data bank
+  lda CurrentCircuit                              ; get current round
+  asl a                                           ; double it up
+  tax                                             ; and prepare to use as index offset
+  lda.w CircuitRoomNames+0,x                      ; copy base pointer to room names
+  sta $04                                         ;
+  lda.w CircuitRoomNames+1,x                      ;
+  sta $05                                         ;
+  lda CurrentRoom                                 ; get currently active room again
+  dec a                                           ; reduce it by 1 (no data for 'entrance' room)
+  sta WRMPYA                                      ; store as multiply operator A
+  lda #26                                         ; and use 26 as multiply operator B (length of each room name)
+  sta WRMPYB                                      ;
+  nop                                             ; delay until multiply result ready
+  nop                                             ;
+  nop                                             ;
+  nop                                             ;
+  clc                                             ; clear carry bit
+  lda $04                                         ; add multiply result to round room name offset
+  adc RDMPYL                                      ; 
+  sta $04                                         ; 
+  lda $05                                         ; 
+  adc RDMPYH                                      ; 
+  sta $05                                         ; 
+  lda #$A3                                        ; set vram addr for where to copy the room name
+  sta $06                                         ; 
+  lda #$5D                                        ; 
+  sta $07                                         ; 
+  lda #%10000000                                  ; set video increment mode
+  sta VMAIN                                       ;
+  lda $06                                         ; move vram addr to correct location
+  sta VMADDL                                      ;
+  lda $07                                         ;
+  sta VMADDH                                      ;
+  ldy #0                                          ; begin loop
+@CopyCharacter0:
+  lda ($04),y                                     ; get next character
+  tax                                             ; and use as indexing
+  lda.w PPUCharacterDataOffset,x                  ; get offset to ppu data for the character
+  asl a                                           ;
+  tax                                             ;
+  lda.l PPUCharacterDataLow,x                     ; copy first part of character data to vram
+  sta VMDATAL                                     ;
+  lda.l PPUCharacterDataLow+1,x                   ; get second part of character data
+  ora #%00100000                                  ; and set a bit
+  sta VMDATAH                                     ; store in vram
+  iny                                             ; advance loop
+  cpy #26                                         ; check if we're finished looping
+  bne @CopyCharacter0                             ; otherwise keep looping
+  clc                                             ;
+  lda $06                                         ; advance vram to next area
+  adc #$20                                        ;
+  sta VMADDL                                      ;
+  lda $07                                         ;
+  adc #0                                          ;
+  sta VMADDH                                      ;
+  ldy #0                                          ; begin loop
+@CopyCharacter1:
+  lda ($04),y                                     ; get next character
+  tax                                             ; and use as indexing
+  clc                                             ; clear carry
+  lda.w PPUCharacterDataOffset,x                  ; get offset to ppu data for the character
+  asl a                                           ;
+  tax                                             ;
+  lda.l PPUCharacterDataHigh,x                    ; copy first part of character data to vram
+  sta VMDATAL                                     ;
+  lda.l PPUCharacterDataHigh+1,x                  ; get second part of character data
+  ora #%00100000                                  ; and set a bit
+  sta VMDATAH                                     ; store in vram
+  iny                                             ; advance loop
+  cpy #26                                         ; check if we're finished looping
+  bne @CopyCharacter1                             ; otherwise keep looping
+  ldx #0                                          ; clear X
   JSL L_EF072                                     ; 00E927 22 72 F0 0E 
-  LDA.B #$07                                      ; 00E92B A9 07 
-  STA.W $02C2                                     ; 00E92D 8D C2 02 
-  PLB                                             ; 00E930 AB 
-  PLP                                             ; 00E931 28 
-  RTS                                             ; 00E932 60 
+  lda #7                                          ; set some value
+  sta $02C2                                       ;
+  plb                                             ; restore state
+  plp                                             ;
+  rts                                             ; and exit!
 
 
 L_E933:
@@ -10475,7 +10475,7 @@ Circuit3RoomNames:
 .byte "      PLEASURE DOME!      "
 .byte "     NOT ENOUGH KEYS!     "
 
-D_EED7:
+PPUCharacterDataOffset:
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00EED7 ........ ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00EEDF ........ ????????
 .byte $00,$00,$00,$00,$00,$00,$00,$00             ; 00EEE7 ........ ????????
@@ -11326,7 +11326,7 @@ B_F6E2:
   STA.W TMW                                       ; 00F6EB 8D 2E 21 
   RTL                                             ; 00F6EE 6B 
 
-D_F6EF:
+PPUCharacterDataLow:
 .byte $00                                         ; 00F6F0 D        ?
 D_F6F0:
 .byte $00,$01,$04,$02,$04,$03,$04,$04             ; 00F6F0 DDDDDDDD ????????
@@ -11337,7 +11337,7 @@ D_F6F0:
 .byte $04,$11,$04,$12,$04,$13,$04,$14             ; 00F718 DDD..DD. ????????
 .byte $04,$15,$04,$16,$04,$17,$04,$18             ; 00F720 .DD..DD. ????????
 .byte $04,$00,$00,$00,$00,$19,$04                 ; 00F729 .......  ???????
-D_F72F:
+PPUCharacterDataHigh:
 .byte $00                                         ; 00F730 D        ?
 D_F730:
 .byte $00,$1A,$04,$1B,$04,$03,$84,$04             ; 00F730 DDDDDDDD ????????
